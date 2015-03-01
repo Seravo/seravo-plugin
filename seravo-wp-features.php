@@ -15,7 +15,7 @@ function _seravo_notification() {
     set_transient( 'seravo_notification', $notification, HOUR_IN_SECONDS );
   }
 
-  if (!empty($notification)) {
+  if (!empty(trim($notification))) {
   ?>
     <div class="updated fade">
       <p><?php echo $notification; ?></p>
