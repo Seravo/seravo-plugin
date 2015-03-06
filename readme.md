@@ -1,3 +1,3 @@
-# Seravo Wordpress Features Plugin
+# WP-Palvelu Plugin
 
-This plugin enables some Wordpress-palvelu specific features
+This plugin enables some Wordpress-palvelu specific must-use features
