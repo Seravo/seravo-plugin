@@ -1,8 +1,8 @@
 {
-  "name": "seravo/seravo-wp-features",
+  "name": "seravo/wp-palvelu-plugin",
   "type": "wordpress-mu-plugin",
   "license": "MIT",
-  "description": "Wordpress Mu-Plugin containing features for wordpress instances of wp-palvelu.",
+  "description": "Wordpress Mu-Plugin for wordpress instances in wp-palvelu.",
   "homepage": "http://seravo.fi",
   "authors": [
     {

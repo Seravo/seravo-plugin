@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: Seravo WP-palvelu
- * Plugin URI: https://github.com/Seravo/Seravo-Wordpress-Features
+ * Plugin Name: WP-Palvelu Plugin
+ * Plugin URI: https://github.com/Seravo/WP-Palvelu-Plugin
  * Description: Enables some Wordpress-palvelu specific features
  * Author: Seravo Oy
  * Version: 1.0
