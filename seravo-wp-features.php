@@ -4,6 +4,7 @@
  * Plugin URI: https://github.com/Seravo/Seravo-Wordpress-Features
  * Description: Enables some Wordpress-palvelu specific features
  * Author: Seravo Oy
+ * Version: 1.0
  */
 
 /*
