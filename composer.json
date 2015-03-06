@@ -1,0 +1,22 @@
+{
+  "name": "seravo/seravo-wp-features",
+  "type": "wordpress-mu-plugin",
+  "license": "MIT",
+  "description": "Wordpress Mu-Plugin containing features for wordpress instances of wp-palvelu.",
+  "homepage": "http://seravo.fi",
+  "authors": [
+    {
+      "name": "Onni Hakala",
+      "email": "onni@seravo.fi",
+      "homepage": "https://github.com/onnimonni"
+    },
+    {
+      "name": "Antti Kuosmanen",
+      "email": "antti@seravo.fi",
+      "homepage": "https://github.com/anttiviljami"
+    }
+  ],
+  "keywords": [
+    "wordpress", "wp", "wp-palvelu"
+  ]
+}
