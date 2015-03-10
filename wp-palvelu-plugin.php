@@ -53,3 +53,13 @@ function _seravo_hide_update_data($update_data, $titles='') {
     'title' => ''
   );
 }
+
+/*
+ * Return better http status code (401 unauthorized) after failed login.
+ * Then failed login attempts (brute forcing) can be noticed in access.log
+ * WP core ticket: https://core.trac.wordpress.org/ticket/25446
+ */
+add_action( 'wp_login_failed', '_seravo_login_failed_http_code' );
+function _seravo_login_failed_http_code() {
+    status_header( 401 );
+}
