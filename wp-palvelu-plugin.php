@@ -1,44 +1,47 @@
 <?php
 /**
- * Plugin Name: WP-Palvelu Plugin
- * Plugin URI: https://github.com/Seravo/WP-Palvelu-Plugin
+ * Plugin Name: WP-palvelu Plugin
+ * Plugin URI: https://github.com/Seravo/wp-palvelu-plugin
  * Description: Enables some Wordpress-palvelu specific features
  * Author: Seravo Oy
  * Version: 1.0
  */
 
-/*
- * This is used to add notifications
+/**
+ * This is used to add notifications for users
  */
 add_action('admin_notices', '_seravo_notification');
 function _seravo_notification() {
 
   // get notification
-  if ( false === ( $notification = get_transient( 'seravo_notification' ) ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] == 'no-cache' ) ) {
-    $notification = file_get_contents('https://wp-palvelu.seravo.fi/ilmoitus/');
+  if ( false === ( $response = get_transient( 'seravo_notification' ) ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] == 'no-cache' ) ) {
+    $response = json_decode( file_get_contents('https://wp-palvelu.seravo.fi/ilmoitus/') );
+    set_transient( 'seravo_notification', $response, HOUR_IN_SECONDS );
     // allow some html tags but strip most
-    $notification = strip_tags( trim($notification),"<br><br/><a><b><i>" );
-    set_transient( 'seravo_notification', $notification, HOUR_IN_SECONDS );
+    $message = $response->message;
+    $message = strip_tags( trim($message),"<br><br/><a><b><i>" );
+    // control alert type
+    $type = $response->type;
   }
-  if (!empty($notification) ) {
+  if (!empty($message) ) {
   ?>
-    <div class="updated fade">
-      <p><?php echo $notification; ?></p>
+    <div class="<?php esc_attr_e($type) ?> notice is-dismissible">
+      <p><?php echo esc_html($message); ?> <button type="button" class="notice-dismiss"></button></p>
     </div>
   <?php
   }
 }
 
-/*
- * Hide all core update nagging. We will handle updates for the clients.
+/**
+ * Removes core update nags
  */
 add_action('admin_menu','_seravo_hide_update_nag');
 function _seravo_hide_update_nag() {
   remove_action( 'admin_notices', 'update_nag', 3 );
 }
 
-/*
- * Hide red dots from nagging. We will handle updates for the clients.
+/**
+ * Removes update bubbles
  */
 add_filter('wp_get_update_data', '_seravo_hide_update_data');
 function _seravo_hide_update_data($update_data, $titles='') {
@@ -54,7 +57,7 @@ function _seravo_hide_update_data($update_data, $titles='') {
   );
 }
 
-/*
+/**
  * Return better http status code (401 unauthorized) after failed login.
  * Then failed login attempts (brute forcing) can be noticed in access.log
  * WP core ticket: https://core.trac.wordpress.org/ticket/25446
@@ -63,3 +66,4 @@ add_action( 'wp_login_failed', '_seravo_login_failed_http_code' );
 function _seravo_login_failed_http_code() {
     status_header( 401 );
 }
+
