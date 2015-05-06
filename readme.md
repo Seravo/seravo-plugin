@@ -1,7 +1,7 @@
-# WP-Palvelu Plugin
+# WP-palvelu Must-use Plugin
 
-This plugin enables some [WP-palvelu](http://wp-palvelu.fi/) specific must-use features.
+This plugin enables [WP-palvelu](http://wp-palvelu.fi/) features and customisations.
 
 * Shows notifications from WP-Palvelu
-* Hides Update nagging since that is handled by WP-Palvelu
 * Returns 401 (unauthorized) http status code after failed login.
+* Hides Update nagging since that is handled by WP-Palvelu
