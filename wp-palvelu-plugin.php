@@ -18,10 +18,16 @@ function _seravo_notification() {
     $response = json_decode( file_get_contents('https://wp-palvelu.seravo.fi/ilmoitus/') );
     set_transient( 'seravo_notification', $response, HOUR_IN_SECONDS );
     // allow some html tags but strip most
-    $message = $response->message;
-    $message = strip_tags( trim($message),"<br><br/><a><b><i>" );
+    $message = '';
+    if( isset($response->message) ) {
+      $message = $response->message;
+      $message = strip_tags( trim($message),"<br><br/><a><b><i>" );
+    }
     // control alert type
-    $type = $response->type;
+    $type = '';
+    if( isset($response->type) ) {
+      $type = $response->type;
+    }
   }
   if (!empty($message) ) {
   ?>
