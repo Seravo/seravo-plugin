@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: WP-palvelu Plugin
+ * Plugin Name: WP-palvelu.fi Plugin
  * Plugin URI: https://github.com/Seravo/wp-palvelu-plugin
- * Description: Enables some Wordpress-palvelu specific features
+ * Description: Enables some WordPress-palvelu specific features
  * Author: Seravo Oy
  * Version: 1.0.2
  */

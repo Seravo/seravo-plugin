@@ -2,8 +2,8 @@
   "name": "seravo/wp-palvelu-plugin",
   "type": "wordpress-muplugin",
   "license": "MIT",
-  "description": "Wordpress Mu-Plugin for wordpress instances in wp-palvelu.",
-  "homepage": "http://seravo.fi",
+  "description": "Must-use plugin for WordPress instances in WP-palvelu.fi",
+  "homepage": "http://wp-palvelu.fi/",
   "authors": [
     {
       "name": "Onni Hakala",
