@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/Seravo/wp-palvelu-plugin
  * Description: Enables some WordPress-palvelu specific features
  * Author: Seravo Oy
- * Version: 1.0.2
+ * Version: 1.0.3
  */
 
 /**
@@ -14,29 +14,30 @@ add_action('admin_notices', '_seravo_notification');
 function _seravo_notification() {
 
   // get notification
-  if ( false === ( $response = get_transient( 'seravo_notification' ) ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] == 'no-cache' ) ) {
+  if ( false === ( $response = get_transient( 'seravo_notification' ) ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] == 'no-cache' ) ) { 
     $response = json_decode( file_get_contents('https://wp-palvelu.seravo.fi/ilmoitus/') );
     set_transient( 'seravo_notification', $response, HOUR_IN_SECONDS );
     // allow some html tags but strip most
-    $message = '';
-    if( isset($response->message) ) {
+    $message = ''; 
+    if( isset($response->message) ) { 
       $message = $response->message;
-      $message = strip_tags( trim($message),"<br><br/><a><b><i>" );
-    }
+      $message = strip_tags( trim($message),"<br><br/><a><b><strong><i>" );
+    }   
     // control alert type
-    $type = '';
-    if( isset($response->type) ) {
+    $type = ''; 
+    if( isset($response->type) ) { 
       $type = $response->type;
-    }
+    }   
   }
-  if (!empty($message) ) {
-  ?>
+  if (!empty($message) ) { 
+  ?>  
     <div class="<?php esc_attr_e($type) ?> notice is-dismissible">
-      <p><?php echo esc_html($message); ?> <button type="button" class="notice-dismiss"></button></p>
+      <p><?php echo $message; ?> <button type="button" class="notice-dismiss"></button></p>
     </div>
   <?php
   }
 }
+
 
 /**
  * Removes core update nags
