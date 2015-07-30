@@ -15,7 +15,7 @@ function _seravo_notification() {
 
   // get notification
   if ( false === ( $response = get_transient( 'seravo_notification' ) ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] == 'no-cache' ) ) { 
-    $response = json_decode( file_get_contents('https://wp-palvelu.seravo.fi/ilmoitus/') );
+    $response = json_decode( file_get_contents('https://wp-palvelu.fi/ilmoitus/') );
     set_transient( 'seravo_notification', $response, HOUR_IN_SECONDS );
     // allow some html tags but strip most
     $message = ''; 
