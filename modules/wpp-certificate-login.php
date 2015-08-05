@@ -20,7 +20,7 @@ Author URI: http://wp-palvelu.fi
  * define('HTTPS_CLIENT_CERTIFICATE_DOMAIN','your-secured-subdomain.example.com'
  */
 
-class ClientCertificateAuthenticationPlugin {
+class WPPalveluClientCertificatePlugin {
   private static $_single; // Let's make this a singleton.
 
   public function __construct() {
@@ -211,5 +211,5 @@ class ClientCertificateAuthenticationPlugin {
 }
 
 // Load the plugin hooks, etc.
-$client_certificate_authentication_plugin = new ClientCertificateAuthenticationPlugin();
+$client_certificate_authentication_plugin = new WPPalveluClientCertificatePlugin();
 ?>
