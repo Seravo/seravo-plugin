@@ -19,3 +19,7 @@ require_once(dirname( __FILE__ ) . '/modules/helpers.php');
  */
 require_once(dirname( __FILE__ ) . '/modules/wpp-certificate-login.php');
 
+/*
+ * Add a cache purge button to the WP adminbar
+ */
+require_once(dirname( __FILE__ ) . '/modules/purge.php');
