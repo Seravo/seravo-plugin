@@ -1,11 +1,9 @@
 <?php
-/*
-Plugin Name: WP-Palvelu plugin SSL-Client Certificate Login
-Version: 1.0
-Description: Authenticating with a SSL Client Certificate by using the email address.
-Author: Onni Hakala / Seravo Oy
-Author URI: http://wp-palvelu.fi
-*/
+/**
+ * Plugin Name: WP-Palvelu plugin SSL-Client Certificate Login
+ * Version: 1.0
+ * Description: Authenticating with a SSL Client Certificate by using the email address.
+ */
 
 /*
  * Your web server (nginx) needs to add:

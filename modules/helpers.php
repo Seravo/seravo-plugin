@@ -1,7 +1,8 @@
 <?php
 /*
- * README
- * This module contains custom helpers and small fixes
+ * Plugin name: WP-palvelu Helpers
+ * Description: Contains custom helpers and small fixes
+ * Version: 1.1
  */
 
 namespace WPPalvelu;
