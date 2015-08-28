@@ -15,32 +15,52 @@
  * add_filter('wpp_use_client_certificate_login', '__return_false');
  *
  */
+namespace WPPalvelu;
 
-/*
- * This is a master switch to disable all modules.
- * To disable this plugin use:
- */
-if(apply_filters('wpp_disable_modules',false)) {
-  return;
+Class Loader {
+  private static $_single; // Let's make this a singleton.
+
+  public function __construct() {
+    if (isset(self::$_single)) { return; }
+    self::$_single       = $this; // Singleton set.
+
+    /*
+     * It is important to load plugins in init hook so that themes and plugins can override the functionality
+     * Use smaller priority so that all plugins and themes are run first.
+     */
+    add_action('init', array($this,'load_all_modules'), 20);
+  }
+
+  public function load_all_modules() {
+    /*
+     * This is a master switch to disable all modules.
+     * To disable this plugin use:
+     */
+    if(apply_filters('wpp_disable_modules',false)) {
+      return;
+    }
+
+    /*
+     * Helpers for hiding useless notifications and small fixes in logging
+     */
+    if(apply_filters('wpp_use_helpers',true)) {
+      require_once(dirname( __FILE__ ) . '/modules/helpers.php');
+    }
+
+    /*
+     * Enable ssl certificate login through /wpp-login endpoint
+     */
+    if(apply_filters('wpp_use_client_certificate_login',true)) {
+      require_once(dirname( __FILE__ ) . '/modules/wpp-certificate-login.php');
+    }
+
+    /*
+     * Add a cache purge button to the WP adminbar
+     */
+    if(apply_filters('wpp_use_cache_purge',true)) {
+      require_once(dirname( __FILE__ ) . '/modules/cache-purge.php');
+    }
+  }
 }
 
-/*
- * Helpers for hiding useless notifications and small fixes in logging
- */
-if(apply_filters('wpp_use_helpers',true)) {
-  require_once(dirname( __FILE__ ) . '/modules/helpers.php');
-}
-
-/*
- * Enable ssl certificate login through /wpp-login endpoint
- */
-if(apply_filters('wpp_use_client_certificate_login',true)) {
-  require_once(dirname( __FILE__ ) . '/modules/wpp-certificate-login.php');
-}
-
-/*
- * Add a cache purge button to the WP adminbar and to WP-CLI
- */
-if(apply_filters('wpp_use_cache_purge',true)) {
-  require_once(dirname( __FILE__ ) . '/modules/cache-purge.php');
-}
+new Loader();
