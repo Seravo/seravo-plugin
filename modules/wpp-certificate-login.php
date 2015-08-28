@@ -206,5 +206,5 @@ if (!class_exists('ClientCertificateLogin')) {
   }
 
   // Load the plugin hooks, etc.
-  $client_certificate_authentication_plugin = new ClientCertificateLogin();
+  new ClientCertificateLogin();
 } // end if class_exists('ClientCertificateLogin')
