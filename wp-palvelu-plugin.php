@@ -58,8 +58,8 @@ Class Loader {
     /*
      * Add a cache purge button to the WP adminbar
      */
-    if(apply_filters('wpp_use_cache_purge',true)) {
-      require_once(dirname( __FILE__ ) . '/modules/cache-purge.php');
+    if(apply_filters('wpp_use_purge_cache',true)) {
+      require_once(dirname( __FILE__ ) . '/modules/purge-cache.php');
     }
   }
 }
