@@ -28,7 +28,7 @@ if (!class_exists('ClientCertificateLogin')) {
     }
 
     /*
-     * Checks conditions and logs in with client certs if possible
+     * Checks conditions and logins with client certs if possible
      */
     public function client_certificate_login() {
 
