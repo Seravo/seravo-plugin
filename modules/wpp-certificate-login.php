@@ -13,58 +13,54 @@ Author URI: http://wp-palvelu.fi
  *   - HTTP_X_SSL_CLIENT_S_DN
  * headers in order for this to work.
  *
- * You can disable this plugin by adding this into your theme:
- * add_filter('wpp_do_client_certificate_login', '__return_false');
- *
  * If you want to use this outside of wp-palvelu:
  * define('HTTPS_CLIENT_CERTIFICATE_DOMAIN','your-secured-subdomain.example.com'
  */
+namespace WPPalvelu;
 
-if (!class_exists('WPPalveluClientCertificatePlugin')) {
-  class WPPalveluClientCertificatePlugin {
+if (!class_exists('ClientCertificateLogin')) {
+  class ClientCertificateLogin {
     private static $_single; // Let's make this a singleton.
 
     public function __construct() {
       if (isset(self::$_single)) { return; }
       self::$_single       = $this; // Singleton set.
 
-      add_action('init',array($this,'client_certificate_login'));
+      add_action('init', array($this,'client_certificate_login') );
     }
 
     /*
      * Checks conditions and logs in with client certs if possible
      */
     public function client_certificate_login() {
-      if(apply_filters('wpp_do_client_certificate_login',true)) {
 
-        // Login using earlier generated token
-        $this->client_certificate_login_if_possible();
+      // Login using earlier generated token
+      $this->client_certificate_login_if_possible();
 
-        // Make sure that the endpoint being requested matches a valid endpoint '/wpp-login'.
-        if (isset( $_SERVER['REQUEST_URI'] ) && strpos( stripslashes( $_SERVER['REQUEST_URI'] ), '/wpp-login' ) === false ) {
-          return;
-        }
+      // Make sure that the endpoint being requested matches a valid endpoint '/wpp-login'.
+      if (isset( $_SERVER['REQUEST_URI'] ) && strpos( stripslashes( $_SERVER['REQUEST_URI'] ), '/wpp-login' ) === false ) {
+        return;
+      }
 
-        // Redirect into secure subdomain for the login
-        $secure_domain = $this->client_certificate_secured_domain();
-        if ($secure_domain && $_SERVER["HTTP_HOST"] != $secure_domain ) {
-          wp_redirect('https://'.$secure_domain.$_SERVER['REQUEST_URI'], 302 );
-          exit;
-        }
+      // Redirect into secure subdomain for the login
+      $secure_domain = $this->client_certificate_secured_domain();
+      if ($secure_domain && $_SERVER["HTTP_HOST"] != $secure_domain ) {
+        wp_redirect('https://'.$secure_domain.$_SERVER['REQUEST_URI'], 302 );
+        exit;
+      }
 
-        // If SSL client authentication was successful from nginx login to main site
-        if (isset($_SERVER['HTTP_X_SSL_CLIENT_VERIFY']) && $_SERVER['HTTP_X_SSL_CLIENT_VERIFY'] == 'SUCCESS') {
-          // Login to site using detauls from certificate
-          $this->client_certificate_login_create_token();
-        } elseif(!is_user_logged_in()) {
-          // If non logged user tries to use /wpp-login without a certificate just return an error
-          $error = new WP_Error('certificate_not_provided', __("<strong>ERROR</strong>: You can't use this login without providing a https client certificate."));
-          wp_die($error);
-        } else {
-          // If already logged in user accidentally uses this endpoint
-          wp_redirect(get_admin_url(), 302 );
-          exit;
-        }
+      // If SSL client authentication was successful from nginx login to main site
+      if (isset($_SERVER['HTTP_X_SSL_CLIENT_VERIFY']) && $_SERVER['HTTP_X_SSL_CLIENT_VERIFY'] == 'SUCCESS') {
+        // Login to site using detauls from certificate
+        $this->client_certificate_login_create_token();
+      } elseif(!is_user_logged_in()) {
+        // If non logged user tries to use /wpp-login without a certificate just return an error
+        $error = new WP_Error('certificate_not_provided', __("<strong>ERROR</strong>: You can't use this login without providing a https client certificate."));
+        wp_die($error);
+      } else {
+        // If already logged in user accidentally uses this endpoint
+        wp_redirect(get_admin_url(), 302 );
+        exit;
       }
     }
 
@@ -212,5 +208,5 @@ if (!class_exists('WPPalveluClientCertificatePlugin')) {
   }
 
   // Load the plugin hooks, etc.
-  $client_certificate_authentication_plugin = new WPPalveluClientCertificatePlugin();
-} // end if class_exists('WPPalveluClientCertificatePlugin')
+  $client_certificate_authentication_plugin = new ClientCertificateLogin();
+} // end if class_exists('ClientCertificateLogin')

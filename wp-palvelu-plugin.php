@@ -8,18 +8,39 @@
  */
 
 /*
+ * This Plugin should be installed in all instances in WP-Palvelu. If you don't want to use some features
+ * You can disable any of the modules by adding correct filter into your theme or plugin.
+ * For example:
+ *
+ * add_filter('wpp_use_client_certificate_login', '__return_false');
+ *
+ */
+
+/*
+ * This is a master switch to disable all modules.
+ * To disable this plugin use:
+ */
+if(apply_filters('wpp_disable_modules',false)) {
+  return;
+}
+
+/*
  * Helpers for hiding useless notifications and small fixes in logging
  */
-require_once(dirname( __FILE__ ) . '/modules/helpers.php');
+if(apply_filters('wpp_use_helpers',true)) {
+  require_once(dirname( __FILE__ ) . '/modules/helpers.php');
+}
 
 /*
  * Enable ssl certificate login through /wpp-login endpoint
- * You can disable this by adding:
- * add_filter('wpp_do_client_certificate_login', '__return_false');
  */
-require_once(dirname( __FILE__ ) . '/modules/wpp-certificate-login.php');
+if(apply_filters('wpp_use_client_certificate_login',true)) {
+  require_once(dirname( __FILE__ ) . '/modules/wpp-certificate-login.php');
+}
 
 /*
- * Add a cache purge button to the WP adminbar
+ * Add a cache purge button to the WP adminbar and to WP-CLI
  */
-require_once(dirname( __FILE__ ) . '/modules/purge.php');
+if(apply_filters('wpp_use_cache_purge',true)) {
+  require_once(dirname( __FILE__ ) . '/modules/cache-purge.php');
+}
