@@ -28,10 +28,11 @@ Class Loader {
      * It is important to load plugins in init hook so that themes and plugins can override the functionality
      * Use smaller priority so that all plugins and themes are run first.
      */
-    add_action('init', array($this,'load_all_modules'), 20);
+    add_action('init', array($this,'loadAllModules'), 20);
   }
 
-  public function load_all_modules() {
+  public static function loadAllModules() {
+
     /*
      * This is a master switch to disable all modules.
      * To disable this plugin use:
