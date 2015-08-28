@@ -35,7 +35,6 @@ Class Loader {
 
     /*
      * This is a master switch to disable all modules.
-     * To disable this plugin use:
      */
     if(apply_filters('wpp_disable_modules',false)) {
       return;
