@@ -9,8 +9,6 @@
 
 namespace WPPalvelu;
 
-use WPPalvelu\Cache; // Use custom caching class for better readability
-
 if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
   class RelativeUrls {
 
@@ -24,14 +22,20 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
       // Populate siteurl for later usage
       self::$siteurl = get_site_url();
 
-      // Small optimisation:
-      // WP_CONTENT_URL is used to move wp-content away from WordPress core
-      // If wp-content is moved away wp-content urls are automatically relative
-      // And we don't need to do anything
-      if (defined('WP_CONTENT_URL') && WP_CONTENT_URL[0] != "/") {
+      /**
+      * Small optimisation:
+      * WP_CONTENT_URL is used to move wp-content away from WordPress core
+      * If wp-content is moved away wp-content urls are automatically relative
+      * And we don't need to do anything
+      * Also don't do this if https-domain-alias in in use because overlapping functionality
+      */
+      if (!defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL') && defined('WP_CONTENT_URL') && WP_CONTENT_URL[0] != "/") {
         // Makes post content url relative
         add_filter( 'image_send_to_editor', array(__CLASS__, 'image_url_filter'), 10, 9 );
         add_filter( 'media_send_to_editor', array(__CLASS__, 'media_url_filter'), 10, 3 );
+
+        // Change urls in wp-admin
+        add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_link_adder_js_fix'), 10, 1 ); 
       }
 
       // Check post content
@@ -40,7 +44,7 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
 
       // When using feeds like rss the content should have absolute urls
       // These are quite easy to generate afterwards inside html content
-      add_filter( 'the_content_feed', array(__CLASS__, 'content_return_absolute_url_filter'), 10, 1);
+      add_filter( 'the_content_feed', array(__CLASS__, 'content_return_absolute_url_filter'), 10, 1 );
     }
 
     /**
@@ -51,6 +55,16 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
     }
     public static function media_url_filter( $html, $id, $att ) {
       return self::relativize_content( $att['url'], $html );
+    }
+
+    /**
+     * This adds a small javascript fix for the TinyMCE link adder dialog
+     */
+    public static function enqueue_link_adder_js_fix( $Hook ) {
+      if ( 'post.php' === $Hook || 'post-new.php' === $Hook ) {
+        // we only need to use this fix in post.php
+        wp_enqueue_script( 'link-relative', plugin_dir_url( __FILE__ ) . 'link-relative.js' );
+      }
     }
 
     /**
