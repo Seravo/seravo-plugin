@@ -1,3 +1,5 @@
+![WP-palvelu.fi](https://wp-palvelu.fi/wp-content/uploads/2015/01/wp-palvelu-header.jpg)
+
 # WP-palvelu Must-use Plugin
 
 This plugin enables [WP-palvelu](http://wp-palvelu.fi/) features and customisations.
