@@ -60,6 +60,14 @@ Class Loader {
     if(apply_filters('wpp_use_purge_cache',true)) {
       require_once(dirname( __FILE__ ) . '/modules/purge-cache.php');
     }
+
+    /*
+     * Use relative urls in post content but absolute urls in feeds
+     * This helps migrating the content between development and production 
+     */
+    if(apply_filters('wpp_use_relative_urls',true)) {
+      require_once(dirname( __FILE__ ) . '/modules/relative-urls.php');
+    }
   }
 }
 
