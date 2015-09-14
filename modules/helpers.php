@@ -32,16 +32,17 @@ if (!class_exists('Helpers')) {
         $response = self::getGlobalNotification();
         set_transient( 'seravo_notification', $response, HOUR_IN_SECONDS );
         // allow some html tags but strip most
-        $message = ''; 
-        if( isset($response->message) ) { 
-          $message = $response->message;
-          $message = strip_tags( trim($message),"<br><br/><a><b><strong><i>" );
-        }   
-        // control alert type
-        $type = ''; 
-        if( isset($response->type) ) { 
-          $type = $response->type;
-        }   
+      }
+      
+      $message = ''; 
+      if( isset($response->message) ) { 
+        $message = $response->message;
+        $message = strip_tags( trim($message),"<br><br/><a><b><strong><i>" );
+      }   
+      // control alert type
+      $type = ''; 
+      if( isset($response->type) ) { 
+        $type = $response->type;
       }
       if (!empty($message) ) { 
       ?>  
