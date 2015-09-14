@@ -63,7 +63,7 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
     public static function enqueue_link_adder_js_fix( $Hook ) {
       if ( 'post.php' === $Hook || 'post-new.php' === $Hook ) {
         // we only need to use this fix in post.php
-        wp_enqueue_script( 'link-relative', plugin_dir_url( __FILE__ ) . 'link-relative.js' );
+        wp_enqueue_script( 'link-relative', plugin_dir_url( __FILE__ ) . 'js/link-relative.js' );
       }
     }
 
