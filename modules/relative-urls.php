@@ -12,8 +12,9 @@ namespace WPPalvelu;
 if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
   class RelativeUrls {
 
-    // Siteurl
+    // Siteurl cache
     private static $siteurl;
+
     /*
      * Loads Plugin features
      */
@@ -38,23 +39,27 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
         add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_link_adder_js_fix'), 10, 1 ); 
       }
 
-      // Check post content
-      // TODO: this needs to be regexed that only href and src tags are replaced
-      //add_filter( 'content_save_pre', array(__CLASS__, 'content_url_filter'), 10, 1);
-
       // When using feeds like rss the content should have absolute urls
       // These are quite easy to generate afterwards inside html content
       add_filter( 'the_content_feed', array(__CLASS__, 'content_return_absolute_url_filter'), 10, 1 );
+
+      /**
+       * Check post content on save for absolute links
+       * To activate this you need to filter: add_filter('wpp_make_content_relative',__return_true);
+       */
+      if(apply_filters('wpp_make_post_content_relative',false)) {
+        add_filter( 'content_save_pre', array(__CLASS__, 'content_url_filter'), 10, 1);
+      }
     }
 
     /**
      * Media gallery images should be handled with relative urls
      */
     public static function image_url_filter( $html, $id, $caption, $title, $align, $url, $size, $alt ) {
-      return self::relativize_content( $url, $html );
+      return self::relativize_content_all( $url, $html );
     }
     public static function media_url_filter( $html, $id, $att ) {
-      return self::relativize_content( $att['url'], $html );
+      return self::relativize_content_all( $att['url'], $html );
     }
 
     /**
@@ -77,10 +82,10 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
        * When using https-domain-alias the real siteurl is stored in HTTPS_DOMAIN_ALIAS_FRONTEND_URL
        */
       if (defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL')) {
-        $content = self::relativize_content( HTTPS_DOMAIN_ALIAS_FRONTEND_URL, $content );
+        $content = self::relativize_content_attributes( HTTPS_DOMAIN_ALIAS_FRONTEND_URL, $content );
       }
 
-      return self::relativize_content( self::$siteurl, $content );
+      return self::relativize_content_attributes( self::$siteurl, $content );
     }
 
     /**
@@ -111,11 +116,11 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
     }
 
     /**
-     * Helper: This converts any link to slash-relative
+     * Helper: This converts any url to slash-relative
      *
      * NOTE: this applies to external links as well, so be careful with this!
      */
-    public static function relativize_content( $url, $html ) {
+    public static function relativize_content_all( $url, $html ) {
       // If urls already start from root, just return it
       if ( $url[0] == "/" ) return $html;
 
@@ -124,6 +129,34 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
       $root = $p['scheme'] . "://" . $p['host'];
       $html = str_ireplace( $root, '', $html );
 
+      return $html;
+    }
+
+    /**
+     * Helper: This converts any (href or src) attribute to slash-relative
+     *
+     * NOTE: this applies to external links as well, so be careful with this!
+     */
+    public static function relativize_content_attributes( $url, $html ) {
+      // If urls already start from root, just return it
+      if ( $url[0] == "/" ) return $html;
+      // strpos is so fast that so don't bother if check fails
+      if (strpos($html,$url) !== false) {
+
+
+        // Parse url
+        $parsed_url = parse_url($url);
+
+        // escape dots in hostname
+        $regex_hostname = preg_quote($parsed_url['host'],'/');
+
+        // Search href|src attributes which point to this site
+        // for example: href='https://www.example.com/frontpage/'
+        $pattern = "/\s(href|src)=(.{0,1})([\\\"\']+)(http[s]{0,1}\:\/\/){0,1}(www\.){0,1}".$regex_hostname."[\/]*/";
+
+        // Replace all absolute urls
+        $html = preg_replace($pattern,"$1=$2$3/",$html);
+      }
       return $html;
     }
 
