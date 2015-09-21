@@ -11,3 +11,9 @@ This plugin enables [WP-palvelu](http://wp-palvelu.fi/) features and customisati
 * Make urls in content relative for easier migration, but turn relative urls into absolute urls when using feeds (rss,atom...)
 
 * Allows login to wp-admin with secure ssl client certificate. This helps admins and clients which have multiple sites in WP-Palvelu.
+
+# Changelog
+
+## 1.2
+* Revamped the structure to allow developers to disable any functionality in the plugin using filters
+* Added relative urls module

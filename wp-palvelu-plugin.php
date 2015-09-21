@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/Seravo/wp-palvelu-plugin
  * Description: Enables some Wordpress-palvelu specific features
  * Author: Seravo Oy
- * Version: 1.1
+ * Version: 1.2
  */
 
 /*
