@@ -23,9 +23,9 @@ namespace WPPalvelu;
  */
 
 /*
- * Translate plugin description too.
+ * Translate plugin description too. This is here so that Poedit can find it
  */
-$dummy_desc = __( 'Enhances WordPress with WP-Palvelu.fi specific features and integrations.', 'wpp' );
+__( 'Enhances WordPress with WP-Palvelu.fi specific features and integrations.', 'wpp' );
 
 Class Loader {
   private static $_single; // Let's make this a singleton.
