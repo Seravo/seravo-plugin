@@ -53,7 +53,7 @@ if (!class_exists('ClientCertificateLogin')) {
         $this->client_certificate_login_create_token();
       } elseif(!is_user_logged_in()) {
         // If non logged user tries to use /wpp-login without a certificate just return an error
-        $error = new WP_Error('certificate_not_provided', __("<strong>ERROR</strong>: You can't use this login without providing a https client certificate."));
+        $error = new WP_Error('certificate_not_provided', "<strong>".__('ERROR','wpp').":</strong>".__("You can't use this login without providing a https client certificate.",'wpp'));
         wp_die($error);
       } else {
         // If already logged in user accidentally uses this endpoint
@@ -149,7 +149,7 @@ if (!class_exists('ClientCertificateLogin')) {
 
       // Fail if certificate details are wrong
       if(! isset($dn_values['emailAddress'])) {
-        $error = new WP_Error('certificate_error', __("<strong>ERROR</strong>: Certificate authentication was successful but it doesn't provide 'emailAddress'. <pre>{$_SERVER['HTTP_X_SSL_CLIENT_S_DN']}</pre>"));
+        $error = new WP_Error('certificate_error', "<strong>".__('ERROR','wpp').":</strong>".sprintf(__("Certificate authentication was successful but it doesn't provide value for 'emailAddress': %s",'wpp'), "<pre>".$_SERVER['HTTP_X_SSL_CLIENT_S_DN']."</pre>"));
         wp_die($error);
       }
 
@@ -166,7 +166,7 @@ if (!class_exists('ClientCertificateLogin')) {
         if (strpos($email, '@seravo.fi') !== false) {
           $user = $this->create_user($email);
         } else {
-          $error = new WP_Error('user_not_found', __("<strong>ERROR</strong>: Your SSL-certificate provided user: <b>{$dn_values['emailAddress']}</b> which was not found in database."));
+          $error = new WP_Error('user_not_found', "<strong>".__('ERROR','wpp').":</strong>".sprintf(__("SSL-certificate provided user: %s which was not found in database.",'wpp'), "<b>".$dn_values['emailAddress']."</b>"));
           wp_die($error);
         }
       }
@@ -197,7 +197,7 @@ if (!class_exists('ClientCertificateLogin')) {
       $user_id = wp_create_user($username, $password, $email);
       // Take only firstname of email (in case it is first.last@seravo.fi)
       $firstname = ucfirst(reset(explode('.', $username)));
-      $lastname = __("Seravo Ylläpito");
+      $lastname = __("WP-Palvelu.fi Admin");
       wp_update_user( array( 'ID' => $user_id, 'role' => 'administrator', 'last_name' => $lastname, 'first_name' => $firstname ) );
       $user = get_user_by('id', $user_id);
 

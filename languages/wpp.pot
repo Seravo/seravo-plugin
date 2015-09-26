@@ -1,0 +1,70 @@
+# Copyright (C) 2015 Seravo Oy
+# This file is distributed under the GPL v3.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-Palvelu Plugin\n"
+"Report-Msgid-Bugs-To: https://github.com/Seravo/wp-palvelu-plugin/issues\n"
+"POT-Creation-Date: 2015-09-26 15:44+0200\n"
+"PO-Revision-Date: 2015-09-26 15:44+0200\n"
+"Last-Translator: Onni Hakala <onni@koodimonni.fi>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: modules/purge-cache.php:22
+msgid "Purge Cache"
+msgstr ""
+
+#: modules/purge-cache.php:77
+msgid "Success:"
+msgstr ""
+
+#: modules/purge-cache.php:77
+msgid "The cache was flushed"
+msgstr ""
+
+#: modules/wpp-certificate-login.php:56 modules/wpp-certificate-login.php:152
+#: modules/wpp-certificate-login.php:169
+msgid "ERROR"
+msgstr ""
+
+#: modules/wpp-certificate-login.php:56
+msgid "You can't use this login without providing a https client certificate."
+msgstr ""
+
+#: modules/wpp-certificate-login.php:152
+#, php-format
+msgid ""
+"Certificate authentication was successful but it doesn't provide value for "
+"'emailAddress': %s"
+msgstr ""
+
+#: modules/wpp-certificate-login.php:169
+#, php-format
+msgid "SSL-certificate provided user: %s which was not found in database."
+msgstr ""
+
+#: modules/wpp-certificate-login.php:200
+msgid "WP-Palvelu.fi Admin"
+msgstr ""
+
+#: wp-palvelu-plugin.php:28
+msgid "WP-Palvelu Plugin"
+msgstr ""
+
+#: wp-palvelu-plugin.php:29
+msgid "Enhances WordPress with WP-Palvelu specific features and integrations."
+msgstr ""

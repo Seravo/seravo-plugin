@@ -1,11 +1,17 @@
 <?php
 /**
- * Plugin Name: WP-palvelu Plugin
- * Plugin URI: https://github.com/Seravo/wp-palvelu-plugin
- * Description: Enables some Wordpress-palvelu specific features
- * Author: Seravo Oy
+ * Plugin Name: WP-Palvelu Plugin
  * Version: 1.2
+ * Plugin URI: https://github.com/Seravo/wp-palvelu-plugin
+ * Description: Enhances WordPress with WP-Palvelu.fi specific features and integrations.
+ * Author: Seravo Oy
+ * Author URI: https://seravo.fi
+ * Text Domain: wpp
+ * Domain Path: /languages/
+ * License: GPL v2 or later
  */
+
+namespace WPPalvelu;
 
 /*
  * This Plugin should be installed in all instances in WP-Palvelu. If you don't want to use some features
@@ -15,20 +21,43 @@
  * add_filter('wpp_use_client_certificate_login', '__return_false');
  *
  */
-namespace WPPalvelu;
+
+/*
+ * Translate plugin description too.
+ */
+$dummy_desc = __( 'Enhances WordPress with WP-Palvelu.fi specific features and integrations.', 'wpp' );
 
 Class Loader {
   private static $_single; // Let's make this a singleton.
+  private static $domain = 'wpp';
 
   public function __construct() {
     if (isset(self::$_single)) { return; }
     self::$_single       = $this; // Singleton set.
 
     /*
+     * Load translations
+     */
+    add_action( 'plugins_loaded', array($this,'loadTextdomain') );
+
+    /*
      * It is important to load plugins in init hook so that themes and plugins can override the functionality
      * Use smaller priority so that all plugins and themes are run first.
      */
     add_action('init', array($this,'loadAllModules'), 20);
+  }
+
+  public static function loadTextdomain() {
+
+    // Load translations first from the languages directory
+    $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+    load_textdomain( 
+            $domain, 
+            WP_LANG_DIR . '/my-plugin/' . self::$domain . '-' . $locale . '.mo' 
+    );
+
+    // And then from this plugin folder
+    load_muplugin_textdomain( 'wpp', basename( dirname(__FILE__) ) . '/languages' );
   }
 
   public static function loadAllModules() {

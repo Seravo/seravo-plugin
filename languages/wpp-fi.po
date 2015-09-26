@@ -1,0 +1,69 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-Palvelu Plugin\n"
+"POT-Creation-Date: 2015-09-26 15:45+0200\n"
+"PO-Revision-Date: 2015-09-26 15:45+0200\n"
+"Last-Translator: Onni Hakala <onni@koodimonni.fi>\n"
+"Language-Team: Onni Hakala <onni@koodimonni.fi>\n"
+"Language: fi_FI\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: modules/purge-cache.php:22
+msgid "Purge Cache"
+msgstr "Tyhjennä Välimuisti"
+
+#: modules/purge-cache.php:77
+msgid "Success:"
+msgstr "Onnistui:"
+
+#: modules/purge-cache.php:77
+msgid "The cache was flushed"
+msgstr "Välimuisti tyhjennetty"
+
+#: modules/wpp-certificate-login.php:56 modules/wpp-certificate-login.php:152
+#: modules/wpp-certificate-login.php:169
+msgid "ERROR"
+msgstr "VIRHE"
+
+#: modules/wpp-certificate-login.php:56
+msgid "You can't use this login without providing a https client certificate."
+msgstr ""
+"Et voi käyttää tätä kirjautumistapaa ilman https client sertifikaattia."
+
+#: modules/wpp-certificate-login.php:152
+#, php-format
+msgid ""
+"Certificate authentication was successful but it doesn't provide value for "
+"'emailAddress': %s"
+msgstr ""
+"Sertifikaatilla autentikointi onnistui, mutta se ei sisällä kenttää "
+"'emailAddress': %s"
+
+#: modules/wpp-certificate-login.php:169
+#, php-format
+msgid "SSL-certificate provided user: %s which was not found in database."
+msgstr "SSL-sertifikaatin käyttäjää: %s ei löytynyt tietokannasta."
+
+#: modules/wpp-certificate-login.php:200
+msgid "WP-Palvelu.fi Admin"
+msgstr "WP-Palvelu.fi Ylläpitäjä"
+
+#: wp-palvelu-plugin.php:28
+msgid "WP-Palvelu Plugin"
+msgstr "WP-Palvelu.fi Lisäosa"
+
+#: wp-palvelu-plugin.php:29
+msgid ""
+"Enhances WordPress with WP-Palvelu.fi specific features and integrations."
+msgstr ""
+"Parantaa WordPressin toimintaa lisäämällä WP-Palvelu.fi:n ominaisuuksia."

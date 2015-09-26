@@ -2,7 +2,7 @@
   "name": "seravo/wp-palvelu-plugin",
   "type": "wordpress-muplugin",
   "license": "MIT",
-  "description": "Wordpress Mu-Plugin for wordpress instances in wp-palvelu.",
+  "description": "Enhances WordPress with WP-Palvelu.fi specific features and integrations",
   "homepage": "http://seravo.fi",
   "authors": [
     {

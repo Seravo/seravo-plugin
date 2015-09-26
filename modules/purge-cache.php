@@ -19,7 +19,7 @@ function _wpp_purge_button( $admin_bar ) {
   $purge_url = add_query_arg( 'wpp_purge_cache', '1' );
   $admin_bar->add_menu( array(
     'id' => 'nginx-helper-purge-all',
-    'title' => 'Purge Cache',
+    'title' => __('Purge Cache','wpp'),
     'href' => wp_nonce_url( $purge_url, '_wpp_purge', '_wpp_nonce' ),
   ));
 }
