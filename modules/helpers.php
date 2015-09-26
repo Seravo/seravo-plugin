@@ -16,9 +16,13 @@ if (!class_exists('Helpers')) {
     public static function load() {
 
       add_action( 'admin_notices', array(__CLASS__, 'showAdminNotification') );
-      add_action( 'admin_menu', array(__CLASS__, 'hideUpdateNotifications') );
-      add_filter( 'wp_get_update_data', array(__CLASS__, 'hideUpdateData') );
       add_action( 'wp_login_failed', array(__CLASS__, 'changeHttpCodeToUnauthorized') );
+
+      # Show update nofications during development
+      if (!self::isDevelopment()) {
+        add_action( 'admin_menu', array(__CLASS__, 'hideUpdateNotifications') );
+        add_filter( 'wp_get_update_data', array(__CLASS__, 'hideUpdateData') );
+      }
     }
 
     /**
@@ -94,6 +98,14 @@ if (!class_exists('Helpers')) {
       return json_decode( @file_get_contents('https://wp-palvelu.fi/ilmoitus/') );
     }
 
+    /*
+     * Helpers for this plugin and other modules
+     */
+
+    // Check if this is vagrant or not
+    public static function isDevelopment() {
+      return (getenv('WP_ENVIRONMENT') && getenv('WP_ENVIRONMENT') == 'development');
+    }
   }
 
   Helpers::load();
