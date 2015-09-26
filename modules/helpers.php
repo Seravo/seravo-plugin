@@ -10,19 +10,38 @@ namespace WPPalvelu;
 if (!class_exists('Helpers')) {
   class Helpers {
 
-    /*
+    /**
      * Loads WP-palvelu features
      */
     public static function load() {
 
-      add_action( 'admin_notices', array(__CLASS__, 'showAdminNotification') );
-      add_action( 'wp_login_failed', array(__CLASS__, 'changeHttpCodeToUnauthorized') );
+      /**
+       * Show WP-Palvelu notifications if this is WP-Palvelu instance
+       */
+      if (self::isProduction() or self::isShadow()) {
+        add_action( 'admin_notices', array(__CLASS__, 'showAdminNotification') );
+      }
 
-      # Show update nofications during development
+      /**
+       * Hide update nofications if this is not development
+       */
       if (!self::isDevelopment()) {
         add_action( 'admin_menu', array(__CLASS__, 'hideUpdateNotifications') );
         add_filter( 'wp_get_update_data', array(__CLASS__, 'hideUpdateData') );
       }
+
+      /**
+       * Ask browser not cache anything if blog is in development, non-public or debug
+       * This makes everyones life easier when clients don't know how to reset their browser cache from old stylesheets
+       */
+      if (self::isDevelopment() || !self::isPublic() || WP_DEBUG) {
+        add_action( 'send_headers', array(__CLASS__, 'sendNoCacheHeaders') );
+      }
+
+      /**
+       * Send proper headers after unsuccesful login
+       */
+      add_action( 'wp_login_failed', array(__CLASS__, 'changeHttpCodeToUnauthorized') );
     }
 
     /**
@@ -98,6 +117,11 @@ if (!class_exists('Helpers')) {
       return json_decode( @file_get_contents('https://wp-palvelu.fi/ilmoitus/') );
     }
 
+    public static function sendNoCacheHeaders() {
+      // Use WP function for this
+      nocache_headers();
+    }
+
     /*
      * Helpers for this plugin and other modules
      */
@@ -105,6 +129,19 @@ if (!class_exists('Helpers')) {
     // Check if this is vagrant or not
     public static function isDevelopment() {
       return (getenv('WP_ENVIRONMENT') && getenv('WP_ENVIRONMENT') == 'development');
+    }
+
+    // Check if this is WP-Palvelu production
+    public static function isProduction() {
+      return (getenv('WP_ENVIRONMENT') && getenv('WP_ENVIRONMENT') == 'production');
+    }
+
+    public static function isShadow() {
+      return (getenv('WP_ENVIRONMENT') && getenv('WP_ENVIRONMENT') == 'shadow');
+    }
+
+    public static function isPublic() {
+      return (get_option('blog_public') == true);
     }
   }
 
