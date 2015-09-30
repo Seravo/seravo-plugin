@@ -68,6 +68,13 @@ Class Loader {
     if(apply_filters('wpp_use_relative_urls',true)) {
       require_once(dirname( __FILE__ ) . '/modules/relative-urls.php');
     }
+
+    /*
+     * WP-palvelu doesn't need SQL OPTIMIZE TABLE queries. This is small fix which reduces unneccessary queries, since we run these automatically in our schedule.
+     */
+    if(apply_filters('wpp_use_wpdb_injector',true)) {
+      require_once(dirname( __FILE__ ) . '/modules/wpdb-injector.php');
+    }
   }
 }
 
