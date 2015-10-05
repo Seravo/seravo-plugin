@@ -33,11 +33,21 @@ Then add this to your composer:
 * Returns 401 (unauthorized) http status code after failed login.
 * Hides Update nagging since that is handled by WP-Palvelu
 
+* Uses nocache headers if the site is in development mode
+
+* Adds Purge Cache -button in adminbar
+
 * Make urls in content relative for easier migration, but turn relative urls into absolute urls when using feeds (rss,atom...)
 
 * Allows login to wp-admin with secure ssl client certificate. This helps admins and clients which have multiple sites in WP-Palvelu.
 
 # Changelog
+
+## 1.3
+* Added translations
+* Added Purge Cache -button to adminbar
+* Use headers which disallow browser cache when the site is in development
+* Fixes relative urls problems with Feeds (RSS,Atom...)
 
 ## 1.2
 * Revamped the structure to allow developers to disable any functionality in the plugin using filters
