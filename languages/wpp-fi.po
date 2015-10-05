@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP-Palvelu Plugin\n"
-"POT-Creation-Date: 2015-09-26 15:45+0200\n"
-"PO-Revision-Date: 2015-09-26 15:45+0200\n"
+"POT-Creation-Date: 2015-10-05 13:22+0200\n"
+"PO-Revision-Date: 2015-10-05 13:26+0200\n"
 "Last-Translator: Onni Hakala <onni@koodimonni.fi>\n"
 "Language-Team: Onni Hakala <onni@koodimonni.fi>\n"
 "Language: fi_FI\n"
@@ -18,15 +18,26 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: modules/purge-cache.php:22
+#: modules/purge-cache.php:24
+#, php-format
+msgid ""
+"WP-Palvelu uses proxy to deliver lightning fast responses to your visitors. "
+"Cached pages will be refreshed every %s. This button is used for clearing "
+"all cached pages from the frontend proxy immediately."
+msgstr ""
+"WP-Palvelu käyttää välipalvelinta, jotta sivuston kävijät saavat "
+"salamannopean sivunlatauksen. Välimuistitettuja sivuja päivitetään %s "
+"välein. Voit käyttää tätä näppäintä, jos haluat päivittää välimuistin heti."
+
+#: modules/purge-cache.php:25
 msgid "Purge Cache"
 msgstr "Tyhjennä Välimuisti"
 
-#: modules/purge-cache.php:77
+#: modules/purge-cache.php:93
 msgid "Success:"
 msgstr "Onnistui:"
 
-#: modules/purge-cache.php:77
+#: modules/purge-cache.php:93
 msgid "The cache was flushed"
 msgstr "Välimuisti tyhjennetty"
 
@@ -59,11 +70,10 @@ msgid "WP-Palvelu.fi Admin"
 msgstr "WP-Palvelu.fi Ylläpitäjä"
 
 #: wp-palvelu-plugin.php:28
-msgid "WP-Palvelu Plugin"
-msgstr "WP-Palvelu.fi Lisäosa"
-
-#: wp-palvelu-plugin.php:29
 msgid ""
 "Enhances WordPress with WP-Palvelu.fi specific features and integrations."
 msgstr ""
 "Parantaa WordPressin toimintaa lisäämällä WP-Palvelu.fi:n ominaisuuksia."
+
+#~ msgid "WP-Palvelu Plugin"
+#~ msgstr "WP-Palvelu.fi Lisäosa"
