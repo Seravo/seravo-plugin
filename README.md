@@ -4,6 +4,26 @@
 
 This plugin enables [WP-palvelu](http://wp-palvelu.fi/) features and customisations.
 
+# Installation
+
+In order to use this with composer you need to add this mu-plugin:
+
+https://github.com/roots/bedrock/blob/master/web/app/mu-plugins/bedrock-autoloader.php
+
+This is because WordPress won't use mu-plugins from their own folders.
+
+Use composer:
+
+```json
+{
+  "require": {
+    "seravo/wp-palvelu-plugin": "*"
+  }
+}
+```
+
+# Features
+
 * Shows notifications from WP-Palvelu
 * Returns 401 (unauthorized) http status code after failed login.
 * Hides Update nagging since that is handled by WP-Palvelu
