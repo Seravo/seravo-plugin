@@ -2,7 +2,7 @@
 
 # WP-palvelu Must-use Plugin
 
-This plugin enables [WP-palvelu](http://wp-palvelu.fi/) features and customisations.
+Enhances WordPress with [WP-palvelu.fi](http://wp-palvelu.fi/) specific features and integrations.
 
 # Installation
 
