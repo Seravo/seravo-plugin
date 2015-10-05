@@ -19,10 +19,23 @@ function _wpp_purge_button( $admin_bar ) {
   $purge_url = add_query_arg( 'wpp_purge_cache', '1' );
   $admin_bar->add_menu( array(
     'id' => 'nginx-helper-purge-all',
-    'title' => __('Purge Cache','wpp'),
+    'title' => '<span class="ab-icon"></span><span class="ab-label">'.__('Purge Cache','wpp')."</span",
     'href' => wp_nonce_url( $purge_url, '_wpp_purge', '_wpp_nonce' ),
   ));
 }
+
+/**
+ * Add Refresh Icon css for Purge Cache button into admin head
+ */
+add_action( 'admin_head', '_wpp_purge_admin_style' );
+function _wpp_purge_admin_style() { ?>
+<style type="text/css" media="screen">
+  #wpadminbar #wp-admin-bar-nginx-helper-purge-all .ab-icon:before {
+    content: "\f463";
+    top: 3px;
+  }  
+</style>
+<?php }
 
 
 /**
@@ -92,4 +105,3 @@ function _wpp_purge_cache() {
 
   return $return;
 }
-
