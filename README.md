@@ -12,12 +12,17 @@ https://github.com/roots/bedrock/blob/master/web/app/mu-plugins/bedrock-autoload
 
 This is because WordPress won't use mu-plugins from their own folders.
 
-Use composer:
+Then add this to your composer:
 
 ```json
 {
   "require": {
     "seravo/wp-palvelu-plugin": "*"
+  },
+  "extra": {
+    "installer-paths": {
+      "htdocs/wp-content/mu-plugins/{$name}/": ["type:wordpress-muplugin"]
+    }
   }
 }
 ```

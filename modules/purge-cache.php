@@ -17,11 +17,10 @@ function _wpp_purge_button( $admin_bar ) {
   }
 
   $purge_url = add_query_arg( 'wpp_purge_cache', '1' );
-  $title = 
   $admin_bar->add_menu( array(
     'id' => 'nginx-helper-purge-all',
     'title' => '<span class="ab-icon"></span><span title="'.
-    sprintf(__('WP-Palvelu uses proxy to deliver lightning fast responses to your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the frontend proxy immediately.','wpp'),"15 minutes").
+    sprintf(__('WP-Palvelu uses proxy to deliver lightning fast responses to your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the frontend proxy immediately.','wpp'),"15min").
     '" class="ab-label">'.__('Purge Cache','wpp')."</span",
     'href' => wp_nonce_url( $purge_url, '_wpp_purge', '_wpp_nonce' ),
   ));

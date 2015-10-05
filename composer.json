@@ -18,5 +18,8 @@
   ],
   "keywords": [
     "wordpress", "wp", "wp-palvelu"
-  ]
+  ],
+  "require": {
+    "composer/installers": "v1.0.12"
+  }
 }
