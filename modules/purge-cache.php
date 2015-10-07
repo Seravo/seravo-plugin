@@ -2,7 +2,7 @@
 /**
  * Plugin name: WP-palvelu Purge Cache
  * Description: Purges the WP-palvelu cache
- * Version: 1.0
+ * Version: 1.1
  */
 
 /**
