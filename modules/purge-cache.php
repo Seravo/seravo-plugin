@@ -16,29 +16,30 @@ function _wpp_purge_button( $admin_bar ) {
     return;
   }
 
+  /*
+   * Add 'Purge cache' button to menu
+   */
   $purge_url = add_query_arg( 'wpp_purge_cache', '1' );
   $admin_bar->add_menu( array(
     'id' => 'nginx-helper-purge-all',
     'title' => '<span class="ab-icon"></span><span title="'.
     sprintf(__('WP-Palvelu uses proxy to deliver lightning fast responses to your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the frontend proxy immediately.','wpp'),"15min").
-    '" class="ab-label">'.__('Purge Cache','wpp')."</span",
+    '" class="ab-label">'.__('Purge Cache','wpp')."</span>",
     'href' => wp_nonce_url( $purge_url, '_wpp_purge', '_wpp_nonce' ),
   ));
+
+  /*
+   * Add style snippet in context of adminbar
+   */
+  ?>
+  <style type="text/css" media="screen">
+    #wpadminbar #wp-admin-bar-nginx-helper-purge-all .ab-item .ab-icon:before {
+      content: "\f463";
+      top: 3px;
+    }  
+  </style>
+  <?php
 }
-
-/**
- * Add Refresh Icon css for Purge Cache button into admin head
- */
-add_action( 'admin_head', '_wpp_purge_admin_style' );
-function _wpp_purge_admin_style() { ?>
-<style type="text/css" media="screen">
-  #wpadminbar #wp-admin-bar-nginx-helper-purge-all .ab-icon:before {
-    content: "\f463";
-    top: 3px;
-  }  
-</style>
-<?php }
-
 
 /**
  * Purge the cache via REQUEST parameters
