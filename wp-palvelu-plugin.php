@@ -27,6 +27,11 @@ namespace WPPalvelu;
  */
 __( 'Enhances WordPress with WP-Palvelu.fi specific features and integrations.', 'wpp' );
 
+/*
+ * Load helpers so that these functions can be used in modules
+ */
+require_once(dirname( __FILE__ ) . '/lib/helpers.php');
+
 Class Loader {
   private static $_single; // Let's make this a singleton.
   private static $domain = 'wpp';
@@ -73,7 +78,7 @@ Class Loader {
      * Helpers for hiding useless notifications and small fixes in logging
      */
     if(apply_filters('wpp_use_helpers',true)) {
-      require_once(dirname( __FILE__ ) . '/modules/helpers.php');
+      require_once(dirname( __FILE__ ) . '/modules/fixes.php');
     }
 
     /*

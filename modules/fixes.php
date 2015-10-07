@@ -1,14 +1,14 @@
 <?php
 /*
- * Plugin name: WP-palvelu Helpers
- * Description: Contains custom helpers and small fixes
+ * Plugin name: WP-palvelu Fixes
+ * Description: Contains custom small fixes
  * Version: 1.1
  */
 
 namespace WPPalvelu;
 
-if (!class_exists('Helpers')) {
-  class Helpers {
+if (!class_exists('Fixes')) {
+  class Fixes {
 
     /**
      * Loads WP-palvelu features
@@ -18,14 +18,14 @@ if (!class_exists('Helpers')) {
       /**
        * Show WP-Palvelu notifications if this is WP-Palvelu instance
        */
-      if (self::isProduction() or self::isShadow()) {
+      if (Helpers::isProduction() or Helpers::isShadow()) {
         add_action( 'admin_notices', array(__CLASS__, 'showAdminNotification') );
       }
 
       /**
        * Hide update nofications if this is not development
        */
-      if (!self::isDevelopment()) {
+      if (!Helpers::isDevelopment()) {
         add_action( 'admin_menu', array(__CLASS__, 'hideUpdateNotifications') );
         add_filter( 'wp_get_update_data', array(__CLASS__, 'hideUpdateData') );
       }
@@ -34,7 +34,7 @@ if (!class_exists('Helpers')) {
        * Ask browser not cache anything if blog is in development, non-public or debug
        * This makes everyones life easier when clients don't know how to reset their browser cache from old stylesheets
        */
-      if (self::isDevelopment() || !self::isPublic() || WP_DEBUG) {
+      if (Helpers::isDevelopment() || !Helpers::isPublic() || WP_DEBUG) {
         add_action( 'send_headers', array(__CLASS__, 'sendNoCacheHeaders') );
       }
 
@@ -121,29 +121,7 @@ if (!class_exists('Helpers')) {
       // Use WP function for this
       nocache_headers();
     }
-
-    /*
-     * Helpers for this plugin and other modules
-     */
-
-    // Check if this is vagrant or not
-    public static function isDevelopment() {
-      return (getenv('WP_ENVIRONMENT') && getenv('WP_ENVIRONMENT') == 'development');
-    }
-
-    // Check if this is WP-Palvelu production
-    public static function isProduction() {
-      return (getenv('WP_ENVIRONMENT') && getenv('WP_ENVIRONMENT') == 'production');
-    }
-
-    public static function isShadow() {
-      return (getenv('WP_ENVIRONMENT') && getenv('WP_ENVIRONMENT') == 'shadow');
-    }
-
-    public static function isPublic() {
-      return (get_option('blog_public') == true);
-    }
   }
 
-  Helpers::load();
+  Fixes::load();
 }
