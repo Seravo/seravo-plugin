@@ -102,6 +102,14 @@ Class Loader {
     if(apply_filters('wpp_use_relative_urls',true)) {
       require_once(dirname( __FILE__ ) . '/modules/relative-urls.php');
     }
+
+    /*
+     * Do fixes which should only apply in development environment
+     * These include redirecting missing uploads from development to production
+     */
+    if(Helpers::isDevelopment() && apply_filters('wpp_use_vagrant_enhancements',true)) {
+      require_once(dirname( __FILE__ ) . '/modules/vagrant-enhancements.php');
+    }
   }
 }
 
