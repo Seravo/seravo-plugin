@@ -25,13 +25,13 @@ msgid ""
 "Cached pages will be refreshed every %s. This button is used for clearing "
 "all cached pages from the frontend proxy immediately."
 msgstr ""
-"WP-Palvelu käyttää välipalvelinta, jotta sivuston kävijät saavat "
+"WP-palvelu käyttää välipalvelinta, jotta sivuston kävijät saavat "
 "salamannopean sivunlatauksen. Välimuistitettuja sivuja päivitetään %s "
-"välein. Voit käyttää tätä näppäintä, jos haluat päivittää välimuistin heti."
+"välein. Voit käyttää tätä näppäintä, jos haluat tyhjentää välimuistin heti."
 
 #: modules/purge-cache.php:25
 msgid "Purge Cache"
-msgstr "Tyhjennä Välimuisti"
+msgstr "Tyhjennä välimuisti"
 
 #: modules/purge-cache.php:93
 msgid "Success:"
@@ -49,7 +49,7 @@ msgstr "VIRHE"
 #: modules/wpp-certificate-login.php:56
 msgid "You can't use this login without providing a https client certificate."
 msgstr ""
-"Et voi käyttää tätä kirjautumistapaa ilman https client sertifikaattia."
+"Et voi käyttää tätä kirjautumistapaa ilman https client -sertifikaattia."
 
 #: modules/wpp-certificate-login.php:152
 #, php-format
@@ -67,7 +67,7 @@ msgstr "SSL-sertifikaatin käyttäjää: %s ei löytynyt tietokannasta."
 
 #: modules/wpp-certificate-login.php:200
 msgid "WP-Palvelu.fi Admin"
-msgstr "WP-Palvelu.fi Ylläpitäjä"
+msgstr "WP-palvelu.fi Ylläpitäjä"
 
 #: wp-palvelu-plugin.php:28
 msgid ""
@@ -76,4 +76,4 @@ msgstr ""
 "Parantaa WordPressin toimintaa lisäämällä WP-Palvelu.fi:n ominaisuuksia."
 
 #~ msgid "WP-Palvelu Plugin"
-#~ msgstr "WP-Palvelu.fi Lisäosa"
+#~ msgstr "WP-palvelu.fi Lisäosa"
