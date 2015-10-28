@@ -36,7 +36,7 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
         add_filter( 'media_send_to_editor', array(__CLASS__, 'media_url_filter'), 10, 3 );
 
         // Change urls in wp-admin
-        add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_link_adder_js_fix'), 10, 1 ); 
+        //add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_link_adder_js_fix'), 10, 1 );
       }
 
       // When using feeds like rss the content should have absolute urls
@@ -68,12 +68,12 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
     public static function enqueue_link_adder_js_fix( $Hook ) {
       if ( 'post.php' === $Hook || 'post-new.php' === $Hook ) {
         // we only need to use this fix in post.php
-        wp_enqueue_script( 'link-relative', plugin_dir_url( __FILE__ ) . 'js/link-relative.js' );
+        wp_enqueue_script( 'link-relative', plugin_dir_url( __FILE__ ) . '../js/link-relative.js' );
       }
     }
 
     /**
-     * Post content should have relative urls for importing db between development and production 
+     * Post content should have relative urls for importing db between development and production
      */
     public static function content_url_filter( $content ) {
 
@@ -89,7 +89,7 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
     }
 
     /**
-     * Post content should have relative urls for importing db between development and production 
+     * Post content should have relative urls for importing db between development and production
      */
     public static function content_return_absolute_url_filter( $content ) {
 
