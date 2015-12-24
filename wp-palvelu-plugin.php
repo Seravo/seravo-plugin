@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP-Palvelu Plugin
- * Version: 1.3.1
+ * Version: 1.3.4
  * Plugin URI: https://github.com/Seravo/wp-palvelu-plugin
  * Description: Enhances WordPress with WP-Palvelu.fi specific features and integrations.
  * Author: Seravo Oy
@@ -56,9 +56,9 @@ Class Loader {
 
     // Load translations first from the languages directory
     $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-    load_textdomain( 
-            $domain, 
-            WP_LANG_DIR . '/my-plugin/' . self::$domain . '-' . $locale . '.mo' 
+    load_textdomain(
+            $domain,
+            WP_LANG_DIR . '/my-plugin/' . self::$domain . '-' . $locale . '.mo'
     );
 
     // And then from this plugin folder
@@ -97,7 +97,7 @@ Class Loader {
 
     /*
      * Use relative urls in post content but absolute urls in feeds
-     * This helps migrating the content between development and production 
+     * This helps migrating the content between development and production
      */
     if(apply_filters('wpp_use_relative_urls',true)) {
       require_once(dirname( __FILE__ ) . '/modules/relative-urls.php');
