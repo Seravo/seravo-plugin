@@ -55,10 +55,11 @@ Class Loader {
   public static function loadTextdomain() {
 
     // Load translations first from the languages directory
-    $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+    $locale = apply_filters( 'plugin_locale', get_locale(), self::$domain );
+
     load_textdomain(
-            $domain,
-            WP_LANG_DIR . '/my-plugin/' . self::$domain . '-' . $locale . '.mo'
+      self::$domain,
+      WP_LANG_DIR . '/my-plugin/' . self::$domain . '-' . $locale . '.mo'
     );
 
     // And then from this plugin folder
