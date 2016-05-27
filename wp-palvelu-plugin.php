@@ -97,6 +97,13 @@ Class Loader {
     }
 
     /*
+     * Hide the domain alias from search engines
+     */
+    if(apply_filters('wpp_hide_domain_alias',true)) {
+      require_once(dirname( __FILE__ ) . '/modules/noindex-domain-alias.php');
+    }
+
+    /*
      * Use relative urls in post content but absolute urls in feeds
      * This helps migrating the content between development and production
      */
