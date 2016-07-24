@@ -20,6 +20,7 @@
     "wordpress", "wp", "wp-palvelu"
   ],
   "require": {
-    "composer/installers": "v1.0.12"
+    "composer/installers": "v1.0.12",
+    "symfony/yaml": "v2.7.5"
   }
 }
