@@ -46,10 +46,44 @@ Class Loader {
     add_action( 'plugins_loaded', array($this,'loadTextdomain') );
 
     /*
+     * Register early on the direct download add_action as it must trigger
+     * before anything is sent to the output buffer.
+     */
+    add_action( 'plugins_loaded', array($this, 'enable_direct_download') );
+
+    /*
      * It is important to load plugins in init hook so that themes and plugins can override the functionality
      * Use smaller priority so that all plugins and themes are run first.
      */
     add_action('init', array($this,'loadAllModules'), 20);
+  }
+
+  /**
+   * Pass report file on to admin users
+   */
+  public static function enable_direct_download() {
+    global $pagenow;
+
+    // This check fires on every page load, so keep the scope small
+    if ( $pagenow == 'tools.php' && isset($_GET['report']) ) {
+
+      // Next check if the request for a report is valid
+      // - user be administrator
+      // - filename must be of correct form, e.g. 2016-09.html
+      if (current_user_can('administrator') &&
+          preg_match('/[0-9]{4}-[0-9]{2}\.html/', $_GET['report'], $matches) ) {
+
+        header("Content-type: text/html");
+        readfile("/data/slog/html/goaccess-". $matches[0]);
+        // Stop executing WordPress once a HTML file has been sent
+        exit();
+      } else {
+        // Yield an error if ?report was requested, but without permissions
+        // or with wrong filename.
+        exit("Report file not found.");
+      }
+
+    }
   }
 
   public static function loadTextdomain() {
@@ -109,6 +143,13 @@ Class Loader {
      */
     if(apply_filters('wpp_use_relative_urls',true)) {
       require_once(dirname( __FILE__ ) . '/modules/relative-urls.php');
+    }
+
+    /*
+     * View various reports for Seravo customers
+     */
+    if (apply_filters('wpp_show_reports_page',true)) {
+      require_once(dirname( __FILE__ ) . '/modules/reports.php');
     }
   }
 }
