@@ -64,19 +64,59 @@ foreach ($months as $month) {
 
 <p>Biggest directories:
   <div id="disk_usage_loading"><img src="/wp-admin/images/loading.gif"></div>
-  <pre id="biggest-directories"></pre>
+  <pre id="disk_usage"></pre>
 </p>
 
+
+<h2>Data integrity</h2>
+
+<h3>WordPress core</h3>
+
+<div id="wp_core_verify_loading"><img src="/wp-admin/images/loading.gif"></div>
+<pre id="wp_core_verify"></pre>
+
+<h3>Git</h3>
+
+<div id="git_status_loading"><img src="/wp-admin/images/loading.gif"></div>
+<pre id="git_status"></pre>
+
+
+<h2>Cache status</h2>
+
+<h3>Redis</h3>
+
+<div id="redis_info_loading"><img src="/wp-admin/images/loading.gif"></div>
+<pre id="redis_info"></pre>
+
+<h3>Front cache</h3>
+
+<div id="front_cache_status_loading"><img src="/wp-admin/images/loading.gif"></div>
+<pre id="front_cache_status"></pre>
+
 <script>
-jQuery.post(
-  ajaxurl,
-  { 'action': 'seravo_reports' },
-  function(rawData) {
-    jQuery('#disk_usage_loading').fadeOut();
-    var data = JSON.parse(rawData);
-    jQuery('#biggest-directories').append(data.join("\n"));
-  }
-).fail(function() {
-  jQuery('#disk_usage_loading').html('Failed to load directory sizes. Please try again.');
-});
+// Generic ajax report loader function
+function wpp_load_report(section) {
+  jQuery.post(
+    ajaxurl,
+    { 'action': 'seravo_reports',
+      'section': section },
+    function(rawData) {
+      if (rawData.length == 0) {
+        jQuery('#' + section).html('No data returned for section.');
+      }
+
+      jQuery('#' + section + '_loading').fadeOut();
+      var data = JSON.parse(rawData);
+      jQuery('#' + section).append(data.join("\n"));
+    }
+  ).fail(function() {
+    jQuery('#' + section + '_loading').html('Failed to load. Please try again.');
+  });
+}
+
+wpp_load_report('disk_usage');
+wpp_load_report('wp_core_verify');
+wpp_load_report('git_status');
+wpp_load_report('redis_info');
+wpp_load_report('front_cache_status');
 </script>
