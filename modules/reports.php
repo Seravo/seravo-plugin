@@ -11,6 +11,12 @@ if (!class_exists('Reports')) {
   class reports {
 
     public static function load() {
+
+      add_action('wp_ajax_seravo_reports', function() {
+        require_once(dirname( __FILE__ ) . '/../lib/reports-ajax.php');
+        wp_die();
+      });
+
       add_action( 'admin_menu', array(__CLASS__, 'register_reports_page') );
 
       // TODO: check if this hook actually ever fires for mu-plugins

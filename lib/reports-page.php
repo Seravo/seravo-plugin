@@ -61,3 +61,22 @@ foreach ($months as $month) {
 <h2>Disk usage</h2>
 
 <p>Total size of <code>/data</code> is <?php system("df -h /data | tail -n 1 | cut -f 11 -d ' '"); ?></p>
+
+<p>Biggest directories:
+  <div id="disk_usage_loading"><img src="/wp-admin/images/loading.gif"></div>
+  <pre id="biggest-directories"></pre>
+</p>
+
+<script>
+jQuery.post(
+  ajaxurl,
+  { 'action': 'seravo_reports' },
+  function(rawData) {
+    jQuery('#disk_usage_loading').fadeOut();
+    var data = JSON.parse(rawData);
+    jQuery('#biggest-directories').append(data.join("\n"));
+  }
+).fail(function() {
+  jQuery('#disk_usage_loading').html('Failed to load directory sizes. Please try again.');
+});
+</script>
