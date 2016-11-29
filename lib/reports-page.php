@@ -1,7 +1,8 @@
-<h1>HTTP Request Reports</h1>
+<h1>Reports</h1>
 
-<p>These monthly reports are generated from the site's HTTP access logs. They show every HTTP request of the site, including traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged.</p>
-<p>Log files can be accessed also directly on the server at <code>/data/slog/html/goaccess-*.html</code>.</p>
+<h2>HTTP request statistics</h2>
+
+<p>These monthly reports are generated from the site's HTTP access logs. They show every HTTP request of the site, including traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. Log files can be accessed also directly on the server at <code>/data/slog/html/goaccess-*.html</code>.</p>
 
 <table class="wp-list-table widefat fixed striped" style="width: 35em;">
   <thead>
@@ -55,3 +56,8 @@ foreach ($months as $month) {
 ?>
   </tbody>
 </table>
+
+
+<h2>Disk usage</h2>
+
+<p>Total size of <code>/data</code> is <?php system("df -h /data | tail -n 1 | cut -f 11 -d ' '"); ?></p>
