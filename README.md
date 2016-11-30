@@ -2,7 +2,7 @@
 
 # WP-palvelu Must-use Plugin
 
-Enhances WordPress with [WP-palvelu.fi](http://wp-palvelu.fi/) specific features and integrations.
+Enhances WordPress with [Seravo.com](https://seravo.com/) specific features and integrations (also known as WP-palvelu in Finnish).
 
 # Installation
 

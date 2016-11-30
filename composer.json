@@ -2,8 +2,8 @@
   "name": "seravo/wp-palvelu-plugin",
   "type": "wordpress-muplugin",
   "license": "GPLv3",
-  "description": "Enhances WordPress with WP-Palvelu.fi specific features and integrations",
-  "homepage": "http://seravo.fi",
+  "description": "Enhances WordPress with Seravo.com specific features and integrations",
+  "homepage": "http://seravo.com",
   "authors": [
     {
       "name": "Otto Kekäläinen",
