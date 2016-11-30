@@ -151,6 +151,13 @@ Class Loader {
     if (apply_filters('wpp_show_reports_page',true)) {
       require_once(dirname( __FILE__ ) . '/modules/reports.php');
     }
+
+    /*
+     * Allow Seravo customers to manage their domains
+     */
+    if (apply_filters('wpp_show_domains_page',true)) {
+      require_once(dirname( __FILE__ ) . '/modules/domains.php');
+    }
   }
 }
 
