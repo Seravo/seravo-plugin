@@ -1,5 +1,10 @@
 <?php
 
+function wpp_report_total_disk_usage() {
+  exec("du -sh /data", $output);
+  return $output;
+}
+
 function wpp_report_disk_usage() {
   exec("du -sh /data/* | sort -hr", $output);
   return $output;
@@ -15,7 +20,7 @@ function wpp_report_git_status() {
   exec("git -C /data/wordpress status", $output);
 
   if ( empty($output) ) {
-    return ['Git is not used on this site. To start using it, read our documentation for WordPres developers at <a href="https://seravo.com/docs/">seravo.com/docs</a>.'];
+    return ['Git is not used on this site. To start using it, read our documentation for WordPress developers at <a href="https://seravo.com/docs/">seravo.com/docs</a>.'];
   }
 
   array_unshift($output, '$ git status');
@@ -29,7 +34,7 @@ function wpp_report_redis_info() {
 
 function wpp_report_front_cache_status() {
   exec("curl -ILk ". get_site_url(), $output);
-  array_unshift($output, '$ curl -IL '. get_site_url());
+  array_unshift($output, '$ curl -ILk '. get_site_url());
 
   if ( preg_match('/X-Proxy-Cache: ([A-Z]+)/', implode("\n", $output), $matches) ) {
 
@@ -58,6 +63,10 @@ function wpp_report_front_cache_status() {
 }
 
 switch ($_REQUEST['section']) {
+  case 'total_disk_usage':
+    echo json_encode(wpp_report_disk_usage());
+    break;
+
   case 'disk_usage':
     echo json_encode(wpp_report_disk_usage());
     break;

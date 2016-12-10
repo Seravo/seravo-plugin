@@ -1,3 +1,5 @@
+<div class="wrap">
+
 <h1>Reports</h1>
 
 <h2>HTTP request statistics</h2>
@@ -9,6 +11,7 @@
     <tr>
       <th style="width: 5em;">Month</th>
       <th style="width: 25em;">HTTP requests</th>
+      <th style="width: 6em;">Report</th>
     </tr>
   </thead>
   <tbody>
@@ -45,11 +48,17 @@ rsort($months);
 
 foreach ($months as $month) {
 
-  $bar_size = $month['requests'] / $max_requests * 300;
+  $bar_size = intval( $month['requests'] / $max_requests * 300 );
+  if ( $bar_size < 40 ) {
+    $bar_css = 'auto';
+  } else {
+    $bar_css = $bar_size . 'px';
+  }
 
   echo "<tr>".
          "<td><a href='?report=". $month['date'] .".html' target='_blank'>". $month['date'] ."</a></td>".
-         "<td><div style='background: #44A1CB; color: #fff; padding: 3px; width:". $bar_size ."px;'>". $month['requests'] ."</div></td>".
+         "<td><div style='background: #44A1CB; color: #fff; padding: 3px; width: ". $bar_css ."; display: inline-block;'>". $month['requests'] ."</div></td>".
+         "<td><a href='?report=". $month['date'] .".html' target='_blank' class='button'>View report</a></td>".
        "</tr>";
 }
 
@@ -60,7 +69,10 @@ foreach ($months as $month) {
 
 <h2>Disk usage</h2>
 
-<p>Total size of <code>/data</code> is <?php system("df -h /data | tail -n 1 | cut -f 11 -d ' '"); ?></p>
+<p>Total size of <code>/data</code> is
+  <div id="total_disk_usage_loading"><img src="/wp-admin/images/loading.gif"></div>
+  <pre id="total_disk_usage"></pre>
+</p>
 
 <p>Biggest directories:
   <div id="disk_usage_loading"><img src="/wp-admin/images/loading.gif"></div>
@@ -83,12 +95,12 @@ foreach ($months as $month) {
 
 <h2>Cache status</h2>
 
-<h3>Redis</h3>
+<h3>Redis transient and object cache</h3>
 
 <div id="redis_info_loading"><img src="/wp-admin/images/loading.gif"></div>
 <pre id="redis_info"></pre>
 
-<h3>Front cache</h3>
+<h3>Nginx HTTP cache</h3>
 
 <div id="front_cache_status_loading"><img src="/wp-admin/images/loading.gif"></div>
 <pre id="front_cache_status"></pre>
@@ -114,9 +126,12 @@ function wpp_load_report(section) {
   });
 }
 
+wpp_load_report('total_disk_usage');
 wpp_load_report('disk_usage');
 wpp_load_report('wp_core_verify');
 wpp_load_report('git_status');
 wpp_load_report('redis_info');
 wpp_load_report('front_cache_status');
 </script>
+
+</div>
