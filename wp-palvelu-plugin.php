@@ -117,13 +117,6 @@ Class Loader {
     }
 
     /*
-     * Enable ssl certificate login through /wpp-login endpoint
-     */
-    if(apply_filters('wpp_use_client_certificate_login',true)) {
-      require_once(dirname( __FILE__ ) . '/modules/certificate-login.php');
-    }
-
-    /*
      * Add a cache purge button to the WP adminbar
      */
     if(apply_filters('wpp_use_purge_cache',true)) {

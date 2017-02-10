@@ -39,8 +39,6 @@ Then add this to your composer:
 
 * Make urls in content relative for easier migration, but turn relative urls into absolute urls when using feeds (rss,atom...)
 
-* Allows login to wp-admin with secure ssl client certificate. This helps admins and clients which have multiple sites in WP-Palvelu.
-
 # Changelog
 
 ## 1.3
