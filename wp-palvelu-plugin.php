@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: WP-Palvelu Plugin
- * Version: 1.3.7
+ * Version: 1.3.8
  * Plugin URI: https://github.com/Seravo/wp-palvelu-plugin
  * Description: Enhances WordPress with WP-Palvelu.fi specific features and integrations.
  * Author: Seravo Oy
- * Author URI: https://seravo.fi
+ * Author URI: https://seravo.com/
  * Text Domain: wpp
  * Domain Path: /languages/
  * License: GPL v2 or later
