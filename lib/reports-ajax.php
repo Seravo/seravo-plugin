@@ -64,7 +64,7 @@ function wpp_report_front_cache_status() {
 
 switch ($_REQUEST['section']) {
   case 'total_disk_usage':
-    echo json_encode(wpp_report_disk_usage());
+    echo json_encode(wpp_report_total_disk_usage());
     break;
 
   case 'disk_usage':
