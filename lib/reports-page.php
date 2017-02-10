@@ -25,7 +25,9 @@ $months = array();
 $max_requests = 0;
 
 if ( empty($reports) ) {
-  echo "No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.";
+
+  echo "<tr><td colspan=3>No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.</td></tr>";
+
 } else {
   foreach ($reports as $report) {
     $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' $report");
@@ -70,12 +72,12 @@ foreach ($months as $month) {
 <h2>Disk usage</h2>
 
 <p>Total size of <code>/data</code> is
-  <div id="total_disk_usage_loading"><img src="/wp-admin/images/loading.gif"></div>
+  <div id="total_disk_usage_loading"><img src="/wp-admin/images/spinner.gif"></div>
   <pre id="total_disk_usage"></pre>
 </p>
 
 <p>Biggest directories:
-  <div id="disk_usage_loading"><img src="/wp-admin/images/loading.gif"></div>
+  <div id="disk_usage_loading"><img src="/wp-admin/images/spinner.gif"></div>
   <pre id="disk_usage"></pre>
 </p>
 
@@ -84,12 +86,12 @@ foreach ($months as $month) {
 
 <h3>WordPress core</h3>
 
-<div id="wp_core_verify_loading"><img src="/wp-admin/images/loading.gif"></div>
+<div id="wp_core_verify_loading"><img src="/wp-admin/images/spinner.gif"></div>
 <pre id="wp_core_verify"></pre>
 
 <h3>Git</h3>
 
-<div id="git_status_loading"><img src="/wp-admin/images/loading.gif"></div>
+<div id="git_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
 <pre id="git_status"></pre>
 
 
@@ -97,12 +99,12 @@ foreach ($months as $month) {
 
 <h3>Redis transient and object cache</h3>
 
-<div id="redis_info_loading"><img src="/wp-admin/images/loading.gif"></div>
+<div id="redis_info_loading"><img src="/wp-admin/images/spinner.gif"></div>
 <pre id="redis_info"></pre>
 
 <h3>Nginx HTTP cache</h3>
 
-<div id="front_cache_status_loading"><img src="/wp-admin/images/loading.gif"></div>
+<div id="front_cache_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
 <pre id="front_cache_status"></pre>
 
 <script>
