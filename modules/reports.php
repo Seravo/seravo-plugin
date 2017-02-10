@@ -24,7 +24,7 @@ if (!class_exists('Reports')) {
     }
 
     public static function register_reports_page() {
-      add_submenu_page( 'tools.php', 'Reports', 'Reports', 'manage_options', 'reports_page', array(__CLASS__, 'load_reports_page') );
+      add_submenu_page( 'tools.php', __('Reports', 'wpp'), __('Reports', 'wpp'), 'manage_options', 'reports_page', array(__CLASS__, 'load_reports_page') );
     }
 
     public static function load_reports_page() {

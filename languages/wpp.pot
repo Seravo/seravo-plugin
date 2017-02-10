@@ -24,47 +24,95 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: modules/purge-cache.php:22
+#: lib/reports-page.php:3 modules/reports.php:27
+msgid "Reports"
+msgstr ""
+
+#: lib/reports-page.php:5
+msgid "HTTP request statistics"
+msgstr ""
+
+#: lib/reports-page.php:7
+msgid ""
+"These monthly reports are generated from the site's HTTP access logs. They "
+"show every HTTP request of the site, including traffic from both humans and "
+"bots. Requests blocked at the firewall level (for example during a DDOS "
+"attack) are not logged. Log files can be accessed also directly on the "
+"server at <code>/data/slog/html/goaccess-*.html</code>."
+msgstr ""
+
+#: lib/reports-page.php:12
+msgid "Month"
+msgstr ""
+
+#: lib/reports-page.php:13
+msgid "HTTP requests"
+msgstr ""
+
+#: lib/reports-page.php:14
+msgid "Report"
+msgstr ""
+
+#: lib/reports-page.php:29
+msgid ""
+"No reports found at /data/slog/html/. Reports should be available within a "
+"month of the creation of a new site."
+msgstr ""
+
+#: lib/reports-page.php:63
+msgid "View report"
+msgstr ""
+
+#: lib/reports-page.php:72
+msgid "Disk usage"
+msgstr ""
+
+#: lib/reports-page.php:74
+msgid "Total size of <code>/data</code> is"
+msgstr ""
+
+#: lib/reports-page.php:79
+msgid "Biggest directories:"
+msgstr ""
+
+#: modules/purge-cache.php:26
+msgid ""
+"WP-Palvelu uses proxy to deliver lightning fast responses to your visitors. "
+"Cached pages will be refreshed every %s. This button is used for clearing "
+"all cached pages from the frontend proxy immediately."
+msgstr ""
+
+#: modules/purge-cache.php:27
 msgid "Purge Cache"
 msgstr ""
 
-#: modules/purge-cache.php:77
+#: modules/purge-cache.php:93
 msgid "Success:"
 msgstr ""
 
-#: modules/purge-cache.php:77
+#: modules/purge-cache.php:93
 msgid "The cache was flushed"
 msgstr ""
 
-#: modules/wpp-certificate-login.php:56 modules/wpp-certificate-login.php:152
-#: modules/wpp-certificate-login.php:169
-msgid "ERROR"
-msgstr ""
-
-#: modules/wpp-certificate-login.php:56
-msgid "You can't use this login without providing a https client certificate."
-msgstr ""
-
-#: modules/wpp-certificate-login.php:152
-#, php-format
-msgid ""
-"Certificate authentication was successful but it doesn't provide value for "
-"'emailAddress': %s"
-msgstr ""
-
-#: modules/wpp-certificate-login.php:169
-#, php-format
-msgid "SSL-certificate provided user: %s which was not found in database."
-msgstr ""
-
-#: modules/wpp-certificate-login.php:200
-msgid "WP-Palvelu.fi Admin"
-msgstr ""
-
+#. #-#-#-#-#  wpp.pot (WP-Palvelu Plugin 1.3.7)  #-#-#-#-#
+#. Description of the plugin/theme
 #: wp-palvelu-plugin.php:28
+msgid ""
+"Enhances WordPress with WP-Palvelu.fi specific features and integrations."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
 msgid "WP-Palvelu Plugin"
 msgstr ""
 
-#: wp-palvelu-plugin.php:29
-msgid "Enhances WordPress with WP-Palvelu specific features and integrations."
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/Seravo/wp-palvelu-plugin"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Seravo Oy"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://seravo.fi"
 msgstr ""

@@ -1,17 +1,17 @@
 <div class="wrap">
 
-<h1>Reports</h1>
+<h1><?php _e('Reports', 'wpp'); ?></h1>
 
-<h2>HTTP request statistics</h2>
+<h2><?php _e('HTTP request statistics', 'wpp'); ?></h2>
 
-<p>These monthly reports are generated from the site's HTTP access logs. They show every HTTP request of the site, including traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. Log files can be accessed also directly on the server at <code>/data/slog/html/goaccess-*.html</code>.</p>
+<p><?php _e('These monthly reports are generated from the site\'s HTTP access logs. They show every HTTP request of the site, including traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. Log files can be accessed also directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'wpp'); ?></p>
 
 <table class="wp-list-table widefat fixed striped" style="width: 35em;">
   <thead>
     <tr>
-      <th style="width: 5em;">Month</th>
-      <th style="width: 25em;">HTTP requests</th>
-      <th style="width: 6em;">Report</th>
+      <th style="width: 5em;"><?php _e('Month', 'wpp'); ?></th>
+      <th style="width: 25em;"><?php _e('HTTP requests', 'wpp'); ?></th>
+      <th style="width: 6em;"><?php _e('Report', 'wpp'); ?></th>
     </tr>
   </thead>
   <tbody>
@@ -26,7 +26,7 @@ $max_requests = 0;
 
 if ( empty($reports) ) {
 
-  echo "<tr><td colspan=3>No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.</td></tr>";
+  echo '<tr><td colspan=3>'. __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'wpp'). '</td></tr>';
 
 } else {
   foreach ($reports as $report) {
@@ -60,7 +60,7 @@ foreach ($months as $month) {
   echo "<tr>".
          "<td><a href='?report=". $month['date'] .".html' target='_blank'>". $month['date'] ."</a></td>".
          "<td><div style='background: #44A1CB; color: #fff; padding: 3px; width: ". $bar_css ."; display: inline-block;'>". $month['requests'] ."</div></td>".
-         "<td><a href='?report=". $month['date'] .".html' target='_blank' class='button'>View report</a></td>".
+         "<td><a href='?report=". $month['date'] .".html' target='_blank' class='button'>". __('View report', 'wpp') ."</a></td>".
        "</tr>";
 }
 
@@ -69,14 +69,14 @@ foreach ($months as $month) {
 </table>
 
 
-<h2>Disk usage</h2>
+<h2><?php _e('Disk usage', 'wpp'); ?></h2>
 
-<p>Total size of <code>/data</code> is
+<p><?php _e('Total size of <code>/data</code> is', 'wpp'); ?>
   <div id="total_disk_usage_loading"><img src="/wp-admin/images/spinner.gif"></div>
   <pre id="total_disk_usage"></pre>
 </p>
 
-<p>Biggest directories:
+<p><?php _e('Biggest directories:', 'wpp'); ?>
   <div id="disk_usage_loading"><img src="/wp-admin/images/spinner.gif"></div>
   <pre id="disk_usage"></pre>
 </p>
