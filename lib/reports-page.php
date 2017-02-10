@@ -1,17 +1,17 @@
 <div class="wrap">
 
-<h1><?php _e('Reports', 'wpp'); ?></h1>
+<h1><?php _e('Reports', 'seravo'); ?></h1>
 
-<h2><?php _e('HTTP request statistics', 'wpp'); ?></h2>
+<h2><?php _e('HTTP request statistics', 'seravo'); ?></h2>
 
-<p><?php _e('These monthly reports are generated from the site\'s HTTP access logs. They show every HTTP request of the site, including traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. Log files can be accessed also directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'wpp'); ?></p>
+<p><?php _e('These monthly reports are generated from the site\'s HTTP access logs. They show every HTTP request of the site, including traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. Log files can be accessed also directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo'); ?></p>
 
 <table class="wp-list-table widefat fixed striped" style="width: 35em;">
   <thead>
     <tr>
-      <th style="width: 5em;"><?php _e('Month', 'wpp'); ?></th>
-      <th style="width: 25em;"><?php _e('HTTP requests', 'wpp'); ?></th>
-      <th style="width: 6em;"><?php _e('Report', 'wpp'); ?></th>
+      <th style="width: 5em;"><?php _e('Month', 'seravo'); ?></th>
+      <th style="width: 25em;"><?php _e('HTTP requests', 'seravo'); ?></th>
+      <th style="width: 6em;"><?php _e('Report', 'seravo'); ?></th>
     </tr>
   </thead>
   <tbody>
@@ -26,7 +26,7 @@ $max_requests = 0;
 
 if ( empty($reports) ) {
 
-  echo '<tr><td colspan=3>'. __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'wpp'). '</td></tr>';
+  echo '<tr><td colspan=3>'. __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'). '</td></tr>';
 
 } else {
   foreach ($reports as $report) {
@@ -60,7 +60,7 @@ foreach ($months as $month) {
   echo "<tr>".
          "<td><a href='?report=". $month['date'] .".html' target='_blank'>". $month['date'] ."</a></td>".
          "<td><div style='background: #44A1CB; color: #fff; padding: 3px; width: ". $bar_css ."; display: inline-block;'>". $month['requests'] ."</div></td>".
-         "<td><a href='?report=". $month['date'] .".html' target='_blank' class='button'>". __('View report', 'wpp') ."</a></td>".
+         "<td><a href='?report=". $month['date'] .".html' target='_blank' class='button'>". __('View report', 'seravo') ."</a></td>".
        "</tr>";
 }
 
@@ -69,14 +69,14 @@ foreach ($months as $month) {
 </table>
 
 
-<h2><?php _e('Disk usage', 'wpp'); ?></h2>
+<h2><?php _e('Disk usage', 'seravo'); ?></h2>
 
-<p><?php _e('Total size of <code>/data</code> is', 'wpp'); ?>
+<p><?php _e('Total size of <code>/data</code> is', 'seravo'); ?>
   <div id="total_disk_usage_loading"><img src="/wp-admin/images/spinner.gif"></div>
   <pre id="total_disk_usage"></pre>
 </p>
 
-<p><?php _e('Biggest directories:', 'wpp'); ?>
+<p><?php _e('Biggest directories:', 'seravo'); ?>
   <div id="disk_usage_loading"><img src="/wp-admin/images/spinner.gif"></div>
   <pre id="disk_usage"></pre>
 </p>
@@ -109,7 +109,7 @@ foreach ($months as $month) {
 
 <script>
 // Generic ajax report loader function
-function wpp_load_report(section) {
+function seravo_load_report(section) {
   jQuery.post(
     ajaxurl,
     { 'action': 'seravo_reports',
@@ -128,12 +128,12 @@ function wpp_load_report(section) {
   });
 }
 
-wpp_load_report('total_disk_usage');
-wpp_load_report('disk_usage');
-wpp_load_report('wp_core_verify');
-wpp_load_report('git_status');
-wpp_load_report('redis_info');
-wpp_load_report('front_cache_status');
+seravo_load_report('total_disk_usage');
+seravo_load_report('disk_usage');
+seravo_load_report('wp_core_verify');
+seravo_load_report('git_status');
+seravo_load_report('redis_info');
+seravo_load_report('front_cache_status');
 </script>
 
 </div>

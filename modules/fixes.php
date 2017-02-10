@@ -1,22 +1,22 @@
 <?php
 /*
- * Plugin name: WP-palvelu Fixes
- * Description: Contains custom small fixes
- * Version: 1.1
+ * Plugin name: Seravo.com minor customizations
+ * Description: Contains small custom fixes
  */
 
-namespace WPPalvelu;
+namespace Seravo;
 
-if (!class_exists('Fixes')) {
+if ( ! class_exists('Fixes') ) {
+
   class Fixes {
 
     /**
-     * Loads WP-palvelu features
+     * Loads Seravo features
      */
     public static function load() {
 
       /**
-       * Show WP-Palvelu notifications if this is WP-Palvelu instance
+       * Show Seravo.com notifications if this is Seravo.com instance
        */
       if (Helpers::isProduction() or Helpers::isStaging()) {
         add_action( 'admin_notices', array(__CLASS__, 'showAdminNotification') );
@@ -45,30 +45,30 @@ if (!class_exists('Fixes')) {
     }
 
     /**
-     * This is used to add notifications from wp-palvelu for users
+     * This is used to add notifications from Seravo.com for users
      */
     public static function showAdminNotification() {
       // get notification
-      if ( false === ( $response = get_transient( 'seravo_notification' ) ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] == 'no-cache' ) ) { 
+      if ( false === ( $response = get_transient( 'seravo_notification' ) ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] == 'no-cache' ) ) {
 
         // Download notification
         $response = self::getGlobalNotification();
         set_transient( 'seravo_notification', $response, HOUR_IN_SECONDS );
         // allow some html tags but strip most
       }
-      
-      $message = ''; 
-      if( isset($response->message) ) { 
+
+      $message = '';
+      if( isset($response->message) ) {
         $message = $response->message;
         $message = strip_tags( trim($message),"<br><br/><a><b><strong><i>" );
-      }   
+      }
       // control alert type
-      $type = ''; 
-      if( isset($response->type) ) { 
+      $type = '';
+      if( isset($response->type) ) {
         $type = $response->type;
       }
-      if (!empty($message) ) { 
-      ?>  
+      if (!empty($message) ) {
+      ?>
         <div class="<?php esc_attr_e($type) ?> notice is-dismissible">
           <p><?php echo $message; ?> <button type="button" class="notice-dismiss"></button></p>
         </div>

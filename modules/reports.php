@@ -2,13 +2,13 @@
 /*
  * Plugin name: Reports
  * Description: View various reports, e.g. HTTP request staistics from GoAccess
- * Version: 1.0
  */
 
-namespace WPPalvelu;
+namespace Seravo;
 
-if (!class_exists('Reports')) {
-  class reports {
+if ( ! class_exists('Reports') ) {
+
+  class Reports {
 
     public static function load() {
 
@@ -24,7 +24,7 @@ if (!class_exists('Reports')) {
     }
 
     public static function register_reports_page() {
-      add_submenu_page( 'tools.php', __('Reports', 'wpp'), __('Reports', 'wpp'), 'manage_options', 'reports_page', array(__CLASS__, 'load_reports_page') );
+      add_submenu_page( 'tools.php', __('Reports', 'seravo'), __('Reports', 'seravo'), 'manage_options', 'reports_page', array(__CLASS__, 'load_reports_page') );
     }
 
     public static function load_reports_page() {
@@ -33,5 +33,5 @@ if (!class_exists('Reports')) {
 
   }
 
-  reports::load();
+  Reports::load();
 }

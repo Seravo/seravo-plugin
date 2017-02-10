@@ -1,5 +1,5 @@
 {
-  "name": "seravo/wp-palvelu-plugin",
+  "name": "seravo/seravo-plugin",
   "type": "wordpress-muplugin",
   "license": "GPLv3",
   "description": "Enhances WordPress with Seravo.com specific features and integrations",

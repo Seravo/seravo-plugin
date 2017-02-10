@@ -3,9 +3,10 @@
  * Description: Helpers for this plugin and other modules
  */
 
-namespace WPPalvelu;
+namespace Seravo;
 
-if (!class_exists('Helpers')) {
+if ( ! class_exists('Helpers') ) {
+
   class Helpers {
 
     // Check if this if the site is running in Vagrant
@@ -28,5 +29,7 @@ if (!class_exists('Helpers')) {
     public static function isPublic() {
       return (get_option('blog_public') == true);
     }
+
   }
+
 }

@@ -1,8 +1,8 @@
-![WP-palvelu.fi](https://wp-palvelu.fi/wp-content/uploads/2015/01/wp-palvelu-header.jpg)
+![Seravo.com](https://seravo.com/wp-content/themes/seravo/images/seravo-banner-808x300.png)
 
-# WP-palvelu Must-use Plugin
+# Seravo Must-use Plugin
 
-Enhances WordPress with [Seravo.com](https://seravo.com/) specific features and integrations (also known as WP-palvelu in Finnish).
+Enhances WordPress with [Seravo.com](https://seravo.com/) specific features and integrations (also known as WP-palvelu.fi in Finland).
 
 # Installation
 
@@ -17,7 +17,7 @@ Then add this to your composer:
 ```json
 {
   "require": {
-    "seravo/wp-palvelu-plugin": "*"
+    "seravo/seravo-plugin": "*"
   },
   "extra": {
     "installer-paths": {
@@ -29,9 +29,9 @@ Then add this to your composer:
 
 # Features
 
-* Shows notifications from WP-Palvelu
+* Shows notifications from WP-palvelu.fi (@TODO: switch to Seravo.com)
 * Returns 401 (unauthorized) http status code after failed login.
-* Hides Update nagging since that is handled by WP-Palvelu
+* Hides Update nagging since that is handled by Seravo
 
 * Uses nocache headers if the site is in development mode
 
@@ -41,12 +41,4 @@ Then add this to your composer:
 
 # Changelog
 
-## 1.3
-* Added translations
-* Added Purge Cache -button to adminbar
-* Use headers which disallow browser cache when the site is in development
-* Fixes relative urls problems with Feeds (RSS,Atom...)
-
-## 1.2
-* Revamped the structure to allow developers to disable any functionality in the plugin using filters
-* Added relative urls module
+See git history.

@@ -1,15 +1,13 @@
 <?php
 /*
- * Plugin name: WP-palvelu Relative urls
- * Plugin URI: https://github.com/Seravo/wp-palvelu-plugin
+ * Plugin name: Seravo Relative urls
  * Description: Makes urls in post content relative
- * Author: Onni Hakala / Seravo Oy
- * Version: 1.0
  */
 
-namespace WPPalvelu;
+namespace Seravo;
 
-if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
+if ( ! class_exists(__NAMESPACE__.'\\RelativeUrls') ) {
+
   class RelativeUrls {
 
     // Siteurl cache
@@ -45,9 +43,9 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
 
       /**
        * Check post content on save for absolute links
-       * To activate this you need to filter: add_filter('wpp_make_content_relative',__return_true);
+       * To activate this you need to filter: add_filter('seravo_make_content_relative',__return_true);
        */
-      if(apply_filters('wpp_make_post_content_relative',false)) {
+      if(apply_filters('seravo_make_post_content_relative',false)) {
         add_filter( 'content_save_pre', array(__CLASS__, 'content_url_filter'), 10, 1);
       }
     }
@@ -96,7 +94,7 @@ if (!class_exists(__NAMESPACE__.'\\RelativeUrls')) {
       // This might be issue in really big sites so save results to transient using hash
       $letter_count = count($content);
       $hash = crc32($content);
-      $transient_key = "wpp_feed_".$letter_count."_".$hash;
+      $transient_key = "seravo_feed_".$letter_count."_".$hash;
 
       // Use transient to store the results
       if ( (isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] === 'no-cache') || false === ( $content = get_transient( $key ) ) )   {

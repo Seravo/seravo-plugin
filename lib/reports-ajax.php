@@ -1,22 +1,22 @@
 <?php
 
-function wpp_report_total_disk_usage() {
+function seravo_report_total_disk_usage() {
   exec("du -sh /data", $output);
   return $output;
 }
 
-function wpp_report_disk_usage() {
+function seravo_report_disk_usage() {
   exec("du -sh /data/* | sort -hr", $output);
   return $output;
 }
 
-function wpp_report_wp_core_verify() {
+function seravo_report_wp_core_verify() {
   exec("wp core verify-checksums", $output);
   array_unshift($output, '$ wp core verify-checksums');
   return $output;
 }
 
-function wpp_report_git_status() {
+function seravo_report_git_status() {
   exec("git -C /data/wordpress status", $output);
 
   if ( empty($output) ) {
@@ -27,12 +27,12 @@ function wpp_report_git_status() {
   return $output;
 }
 
-function wpp_report_redis_info() {
+function seravo_report_redis_info() {
   exec("redis-cli info | grep -e keyspace -e db0", $output);
   return $output;
 }
 
-function wpp_report_front_cache_status() {
+function seravo_report_front_cache_status() {
   exec("curl -ILk ". get_site_url(), $output);
   array_unshift($output, '$ curl -ILk '. get_site_url());
 
@@ -64,27 +64,27 @@ function wpp_report_front_cache_status() {
 
 switch ($_REQUEST['section']) {
   case 'total_disk_usage':
-    echo json_encode(wpp_report_total_disk_usage());
+    echo json_encode(seravo_report_total_disk_usage());
     break;
 
   case 'disk_usage':
-    echo json_encode(wpp_report_disk_usage());
+    echo json_encode(seravo_report_disk_usage());
     break;
 
   case 'wp_core_verify':
-    echo json_encode(wpp_report_wp_core_verify());
+    echo json_encode(seravo_report_wp_core_verify());
     break;
 
   case 'git_status':
-    echo json_encode(wpp_report_git_status());
+    echo json_encode(seravo_report_git_status());
     break;
 
   case 'redis_info':
-    echo json_encode(wpp_report_redis_info());
+    echo json_encode(seravo_report_redis_info());
     break;
 
   case 'front_cache_status':
-    echo json_encode(wpp_report_front_cache_status());
+    echo json_encode(seravo_report_front_cache_status());
     break;
 
   default:

@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP-Palvelu Plugin\n"
-"Report-Msgid-Bugs-To: https://github.com/Seravo/wp-palvelu-plugin/issues\n"
-"POT-Creation-Date: 2015-09-26 15:44+0200\n"
-"PO-Revision-Date: 2017-02-10 16:45+0200\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
+"POT-Creation-Date: 2017-02-10 21:33:42+00:00\n"
+"PO-Revision-Date: 2017-02-10 23:35+0200\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.fi>\n"
 "Language-Team: Onni Hakala <onni@koodimonni.fi>\n"
 "Language: fi_FI\n"
@@ -62,34 +62,34 @@ msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
 msgid "Biggest directories:"
 msgstr "Suurimmat hakemistot:"
 
-#: modules/purge-cache.php:26
-msgid "WP-Palvelu uses proxy to deliver lightning fast responses to your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the frontend proxy immediately."
-msgstr "WP-palvelu käyttää välipalvelinta, jotta sivuston kävijät saavat salamannopean sivunlatauksen. Välimuistitettuja sivuja päivitetään %s välein. Voit käyttää tätä näppäintä, jos haluat tyhjentää välimuistin heti."
+#: modules/purge-cache.php:25
+msgid "Seravo.com uses front proxies to deliver lightning fast responses to your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the frontend proxy immediately."
+msgstr "WP-palvelu.fi käyttää välipalvelinta, jotta sivuston kävijät saavat salamannopean sivunlatauksen. Välimuistitettuja sivuja päivitetään %s välein. Voit käyttää tätä näppäintä, jos haluat tyhjentää välimuistin heti."
 
-#: modules/purge-cache.php:27
+#: modules/purge-cache.php:26
 msgid "Purge Cache"
 msgstr "Tyhjennä välimuisti"
 
-#: modules/purge-cache.php:93
+#: modules/purge-cache.php:92
 msgid "Success:"
 msgstr "Onnistui:"
 
-#: modules/purge-cache.php:93
+#: modules/purge-cache.php:92
 msgid "The cache was flushed"
 msgstr "Välimuisti tyhjennetty"
 
-#. #-#-#-#-#  wpp.pot (WP-Palvelu Plugin 1.3.7)  #-#-#-#-#
+#. #-#-#-#-#  wpp.pot (Seravo Plugin 1.4.0)  #-#-#-#-#
 #. Description of the plugin/theme
-#: wp-palvelu-plugin.php:28
-msgid "Enhances WordPress with WP-Palvelu.fi specific features and integrations."
-msgstr "Parantaa WordPressin toimintaa lisäämällä WP-Palvelu.fi:n ominaisuuksia."
+#: seravo-plugin.php:29
+msgid "Enhances WordPress with Seravo.com specific features and integrations."
+msgstr "Parantaa WordPressin toimintaa lisäämällä WP-palvelu.fi:n ominaisuuksia."
 
 #. Plugin Name of the plugin/theme
-msgid "WP-Palvelu Plugin"
-msgstr "WP-palvelu.fi Lisäosa"
+msgid "Seravo Plugin"
+msgstr "WP-palvelu.fi-lisäosa"
 
 #. Plugin URI of the plugin/theme
-msgid "https://github.com/Seravo/wp-palvelu-plugin"
+msgid "https://github.com/Seravo/seravo-plugin"
 msgstr ""
 
 #. Author of the plugin/theme
@@ -97,6 +97,6 @@ msgid "Seravo Oy"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://seravo.fi"
+msgid "https://seravo.com/"
 msgstr ""
 
