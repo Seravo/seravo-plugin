@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP-Palvelu Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
 "POT-Creation-Date: 2017-02-10 21:33:42+00:00\n"
-"PO-Revision-Date: 2017-02-10 23:35+0200\n"
+"PO-Revision-Date: 2017-02-10 23:55+0200\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.fi>\n"
 "Language-Team: Onni Hakala <onni@koodimonni.fi>\n"
 "Language: fi_FI\n"
@@ -78,12 +78,6 @@ msgstr "Onnistui:"
 msgid "The cache was flushed"
 msgstr "Välimuisti tyhjennetty"
 
-#. #-#-#-#-#  wpp.pot (Seravo Plugin 1.4.0)  #-#-#-#-#
-#. Description of the plugin/theme
-#: seravo-plugin.php:29
-msgid "Enhances WordPress with Seravo.com specific features and integrations."
-msgstr "Parantaa WordPressin toimintaa lisäämällä WP-palvelu.fi:n ominaisuuksia."
-
 #. Plugin Name of the plugin/theme
 msgid "Seravo Plugin"
 msgstr "WP-palvelu.fi-lisäosa"
@@ -91,6 +85,10 @@ msgstr "WP-palvelu.fi-lisäosa"
 #. Plugin URI of the plugin/theme
 msgid "https://github.com/Seravo/seravo-plugin"
 msgstr ""
+
+#. Description of the plugin/theme
+msgid "Enhances WordPress with Seravo.com specific features and integrations."
+msgstr "Parantaa WordPressin toimintaa lisäämällä WP-palvelu.fi:n ominaisuuksia."
 
 #. Author of the plugin/theme
 msgid "Seravo Oy"

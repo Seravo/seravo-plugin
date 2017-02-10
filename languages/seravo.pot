@@ -1,4 +1,4 @@
-# Copyright (C) 2015 Seravo Oy
+# Copyright (C) 2015-2017 Seravo Oy
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
@@ -90,18 +90,16 @@ msgstr ""
 msgid "The cache was flushed"
 msgstr ""
 
-#. #-#-#-#-#  wpp.pot (Seravo Plugin 1.4.0)  #-#-#-#-#
-#. Description of the plugin/theme
-#: seravo-plugin.php:29
-msgid "Enhances WordPress with Seravo.com specific features and integrations."
-msgstr ""
-
 #. Plugin Name of the plugin/theme
 msgid "Seravo Plugin"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "https://github.com/Seravo/seravo-plugin"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Enhances WordPress with Seravo.com specific features and integrations."
 msgstr ""
 
 #. Author of the plugin/theme

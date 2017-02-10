@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Seravo Plugin
- * Version: 1.3.8
+ * Version: 1.4.0
  * Plugin URI: https://github.com/Seravo/seravo-plugin
  * Description: Enhances WordPress with Seravo.com specific features and integrations.
  * Author: Seravo Oy
@@ -22,11 +22,6 @@ namespace Seravo;
  * add_filter('seravo_use_relative_urls', '__return_false');
  *
  */
-
-/*
- * Translate plugin description too. This is here so that Poedit can find it
- */
-__( 'Enhances WordPress with Seravo.com specific features and integrations.', 'seravo' );
 
 /*
  * Load helpers so that these functions can be used in modules
