@@ -18,7 +18,7 @@ if (!class_exists('Fixes')) {
       /**
        * Show WP-Palvelu notifications if this is WP-Palvelu instance
        */
-      if (Helpers::isProduction() or Helpers::isShadow()) {
+      if (Helpers::isProduction() or Helpers::isStaging()) {
         add_action( 'admin_notices', array(__CLASS__, 'showAdminNotification') );
       }
 
