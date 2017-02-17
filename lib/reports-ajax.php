@@ -20,7 +20,7 @@ function seravo_report_git_status() {
   exec("git -C /data/wordpress status", $output);
 
   if ( empty($output) ) {
-    return ['Git is not used on this site. To start using it, read our documentation for WordPress developers at <a href="https://seravo.com/docs/">seravo.com/docs</a>.'];
+    return array('Git is not used on this site. To start using it, read our documentation for WordPress developers at <a href="https://seravo.com/docs/">seravo.com/docs</a>.');
   }
 
   array_unshift($output, '$ git status');
