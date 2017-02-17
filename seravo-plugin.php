@@ -144,3 +144,5 @@ Class Loader {
 }
 
 new Loader();
+
+require 'update-checker.php';
