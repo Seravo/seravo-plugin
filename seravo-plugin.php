@@ -135,6 +135,13 @@ Class Loader {
     }
 
     /*
+     * Log all login attempts, failed or successful
+     */
+    if ( apply_filters('seravo_use_login_log', true) ) {
+      require_once(dirname( __FILE__ ) . '/modules/wp-login-log.php');
+    }
+
+    /*
      * View various reports for Seravo customers
      */
     if (apply_filters('seravo_show_reports_page',true)) {
