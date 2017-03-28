@@ -147,6 +147,13 @@ Class Loader {
     if (apply_filters('seravo_show_reports_page',true)) {
       require_once(dirname( __FILE__ ) . '/modules/reports.php');
     }
+
+    /*
+     * Backups view for Seravo customers
+     */
+    if ( apply_filters('seravo_show_backups_page', true) ) {
+      require_once(dirname( __FILE__ ) . '/modules/backups.php');
+    }
   }
 }
 

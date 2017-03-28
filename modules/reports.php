@@ -7,7 +7,6 @@
 namespace Seravo;
 
 if ( ! class_exists('Reports') ) {
-
   class Reports {
 
     public static function load() {
