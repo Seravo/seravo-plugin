@@ -4,49 +4,53 @@
 
 <p>Backups are made automatically every night and preserved for 30 days. The data can be accessed on the server at <code>/data/backups</code>.</p>
 
-<h2>Current backups</h2>
-
+<h2>Current backups: <code>wp-backup-status</code></h2>
 <p>
-<pre>
-$ wp-backup-status
-<?php
-  exec('wp-backup-status 2>&1', $output);
-  foreach ($output as $line) {
-    echo $line;
-  }
-?>
-</pre>
+<div id="backup_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
+<pre id="backup_status"></pre>
 </p>
 
 <h2>Create a new backup</h2>
 
 <p>You can also create backups using the command line tool <code>wp-backup</code>. We recommend getting familiar with the command line option accessible via SSH so that recovering a backup is not dependant on if WP-admin works or not.</p>
 
-<p><button id="run_backup" class="button">Make a new backup <img class="hidden" src="/wp-admin/images/loading.gif"></button></p>
-<pre><div id="run_backup_output"></div></pre>
+<p>
+<button id="create_backup_button" class="button">Make a new backup </button>
+<div id="create_backup_loading"><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
+<pre><div id="create_backup"></div></pre>
+</p>
 
 <script>
-jQuery('#run_backup').click(function(){
-  jQuery('#run_backup img').show();
-  jQuery('#run_backup').attr('disabled', 'disabled');
-
+// Generic ajax report loader function
+function seravo_load_report(section) {
   jQuery.post(
     ajaxurl,
-    { 'action': 'seravo_backups' },
+    { 'action': 'seravo_backups',
+      'section': section },
     function(rawData) {
       if (rawData.length == 0) {
-        jQuery('#run_backup_output').html('Backup was started, but did not complete.');
+        jQuery('#' + section).html('No data returned for section.');
       }
 
-      jQuery("#run_backup img").fadeOut();
+      jQuery('#' + section + '_loading').fadeOut();
       var data = JSON.parse(rawData);
-      jQuery('#run_backup_output').append(data.join("\n"));
+      jQuery('#' + section).append(data.join("\n"));
     }
   ).fail(function() {
-    jQuery("#run_backup img").fadeOut();
-    jQuery('#run_backup_output').html('Backup failed to run. Please try again.');
+    jQuery('#' + section + '_loading').html('Failed to load. Please try again.');
   });
-})
+}
+
+// Load on page load
+seravo_load_report('backup_status');
+
+// Load when clicked
+jQuery('#create_backup_button').click(function(){
+  jQuery('#create_backup_loading img').show();
+  jQuery('#create_backup_button').hide();
+  seravo_load_report('create_backup');
+});
+
 </script>
 
 </div>
