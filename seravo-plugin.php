@@ -52,7 +52,46 @@ Class Loader {
      * Use smaller priority so that all plugins and themes are run first.
      */
     add_action('init', array($this,'loadAllModules'), 20);
+
+
+	/*
+	 * This will use the SWD api to toggle Seravo updates on/off for this site.
+	 */ 
+    add_action( 'admin_post_toggle_seravo_updates', array($this, 'seravo_admin_toggle_seravo_updates'), 20 );
+
   }
+
+
+public static function seravo_admin_toggle_seravo_updates() {
+	$site = getenv('USER');
+	$ch = curl_init('http://localhost:8888/v1/site/' . $site);
+               
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$updates_enabled = "false";
+
+	if ( $_POST['seravoupdates'] == "on") {
+		$updates_enabled = "true";
+	}
+            
+	$data = array("seravo_updates" => $updates_enabled);
+	$data_string = json_encode($data);
+	
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(                
+		'X-Api-Key: ' . getenv('SERAVO_API_KEY'),                
+		'Content-Type: application/json',                
+		'Content-Length: ' . strlen($data_string)            
+	));
+
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+
+	$response = curl_exec($ch);
+	curl_close($ch);
+	status_header(200);
+	header("Location: " . esc_url( admin_url('tools.php?page=seravoupdates_page') ) );
+	die();
+}
+
 
   /**
    * Pass report file on to admin users
@@ -154,7 +193,17 @@ Class Loader {
     if ( apply_filters('seravo_show_backups_page', true) ) {
       require_once(dirname( __FILE__ ) . '/modules/backups.php');
     }
+    
+    /*
+     * Automatic updates view for Seravo customers
+     */
+    if ( apply_filters('seravo_show_autoupdates_page', true) ) {
+      require_once(dirname( __FILE__ ) . '/modules/autoupdates.php');
+    }
   }
 }
 
 new Loader();
+
+
+
