@@ -39,7 +39,7 @@ Class Loader {
     /*
      * Load translations
      */
-    add_action( 'plugins_loaded', array($this,'loadTextdomain') );
+    add_action( 'plugins_loaded', array($this, 'loadTextdomain') );
 
     /*
      * Register early on the direct download add_action as it must trigger
@@ -51,7 +51,7 @@ Class Loader {
      * It is important to load plugins in init hook so that themes and plugins can override the functionality
      * Use smaller priority so that all plugins and themes are run first.
      */
-    add_action('init', array($this,'loadAllModules'), 20);
+    add_action( 'init', array($this, 'loadAllModules'), 20 );
   }
 
   /**
@@ -153,6 +153,13 @@ Class Loader {
      */
     if ( apply_filters('seravo_show_backups_page', true) ) {
       require_once(dirname( __FILE__ ) . '/modules/backups.php');
+    }
+
+    /*
+     * Updates page for site admins only
+     */
+    if ( apply_filters('seravo_show_updates_page', true) && current_user_can('administrator') ) {
+      require_once(dirname( __FILE__ ) . '/modules/updates.php');
     }
   }
 }
