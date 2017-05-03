@@ -54,7 +54,6 @@ if ( ! class_exists('LoginLog') ) {
       $request = $_SERVER['REQUEST_METHOD'] .' '. $_SERVER['REQUEST_URI'];
       $http_referer = $_SERVER['HTTP_REFERER'];
       $http_user_agent = $_SERVER['HTTP_USER_AGENT'];
-      $http_x_forwarded_for = $_SERVER['HTTP_X_FORWARDED_FOR'];
 
       // Finally write the log to disk
       $log_directory = dirname( ini_get('error_log') );
@@ -62,7 +61,6 @@ if ( ! class_exists('LoginLog') ) {
       fwrite( $log_fp, "$remote_addr - $remote_user [$time_local] \"$request\" " .
                        "$status_code 1000 \"$http_referer\" " .
                        "\"$http_user_agent\" $login_status " .
-                       "\"$http_x_forwarded_for\"" .
                        "\n"
       );
       fclose( $log_fp );
