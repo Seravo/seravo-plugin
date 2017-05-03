@@ -62,7 +62,8 @@ if ( ! class_exists('LoginLog') ) {
       fwrite( $log_fp, "$remote_addr - $remote_user [$time_local] \"$request\" " .
                        "$status_code 1000 \"$http_referer\" " .
                        "\"$http_user_agent\" $login_status " .
-                       "\"$http_x_forwarded_for\""
+                       "\"$http_x_forwarded_for\"" .
+                       "\n"
       );
       fclose( $log_fp );
 
