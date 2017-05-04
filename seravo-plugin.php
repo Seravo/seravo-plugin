@@ -167,6 +167,7 @@ Class Loader {
      */
     if (apply_filters('seravo_show_domains_page',true)) {
       require_once(dirname( __FILE__ ) . '/modules/domains.php');
+    }
     
     /*
      * Instance switcher
