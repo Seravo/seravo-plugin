@@ -33,6 +33,8 @@ if (!class_exists('Updates')) {
     }
 
     public static function seravo_admin_toggle_seravo_updates() {
+      check_admin_referer( 'toggle-seravo-updates-on-or-off' );
+
       $site = getenv('USER');
       $ch = curl_init('http://localhost:8888/v1/site/' . $site);
 
