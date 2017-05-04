@@ -62,6 +62,28 @@ if (!class_exists('InstanceSwitcher')) {
       wp_enqueue_script( 'wpisjs', plugins_url( '../js/instance_switcher.js' , __FILE__), null, null, true );
       wp_enqueue_style( 'wpisjs', plugins_url( '../style/instance_switcher.css' , __FILE__), null, null, 'all' );
     }
+    
+    public static function load_shadow_list(){
+      if ( ( $shadow_list = get_transient( 'shadow_list' ) ) === false ) {
+        $site = getenv('USER');
+        $ch = curl_init('http://localhost:8888/v1/site/' . $site . '/shadows');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-Api-Key: ' . getenv('SERAVO_API_KEY')));
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      
+        if (curl_error($ch) || $httpcode != 200) {
+          error_log('SWD API error '. $httpcode .': '. curl_error($ch));
+          die('API call failed: ' . curl_error($ch));
+        }
+      
+        curl_close($ch);
+        $shadow_list = json_decode($response, true);
+        set_transient( 'shadow_list', $shadow_list, 10 * MINUTE_IN_SECONDS );
+      }
+      
+      return $shadow_list;
+    }
 
     /**
     * Create the menu itself
@@ -82,46 +104,25 @@ if (!class_exists('InstanceSwitcher')) {
         return;
       }
       
-      
-      $instances = get_defined_constants();
-
-      // get the wpis specific constants
-      foreach( $instances as $key => $constant ) {
-        if( ! preg_match( '#WPIS-#', $key ) ) {
-          unset( $instances[$key] );
-        }
-      }
-      
+      $instances = InstanceSwitcher::load_shadow_list();
 
       if( empty( $instances ) ) {
         return;
       }
 
       $id = 'wpis';
-      $current_instance = getenv('CONTAINER');
-
-      $instance_index = strpos($current_instance,'_') + 1;
-      for( $x = 0 ; $x < $instance_index; ++$x ) {
-        $current_instance = substr($current_instance, 1);
-      }
-
-      // define the name of the current instance to be shown in the bar
-      foreach( $instances as $key => $instance ) {
-        if($current_instance == $instance){
-          $current_instance = substr($key, 5);
-        }
-      }
-
       $domain = ""; //$this->get_domain( $_SERVER['HTTP_HOST'] );
 
       if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production' ) {
         $menuclass = 'wpis-warning';
       }
+      
+      $current_title = getenv('WP_ENV');
 
       // create the parent menu here
       $wp_admin_bar->add_menu([
         'id' => $id,
-        'title' => $current_instance,
+        'title' => $current_title,
         'href' => '#',
         'meta' => [
           'class' => $menuclass,
@@ -130,11 +131,17 @@ if (!class_exists('InstanceSwitcher')) {
 
       // add menu entries for each shadow
       foreach($instances as $key => $instance) {
+        $title = $instance["env"];
+      
+        if ( strlen( $instance["info"] ) > 0 ) {
+          $title .= " (" . $instance["info"] . ")";
+        }
+      
         $wp_admin_bar->add_menu([
           'parent' => $id,
-          'title' => substr($key, 5),
-          'id' => $instance,
-          'href' => "#$instance",
+          'title' => $title,
+          'id' => $instance["name"],
+          'href' => "#" . substr($instance["name"], 6),
         ]);
       }
 
