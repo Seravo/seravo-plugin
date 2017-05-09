@@ -36,16 +36,6 @@ if (!class_exists('InstanceSwitcher')) {
       }
     }
 
-    public static function register_updates_page() {
-      if ( getenv('SERAVO_API_KEY') != '' ) {
-        add_submenu_page( 'tools.php', 'Instance Switcher', 'Instance Switcher', 'manage_options', 'updates_page', array(__CLASS__, 'load_updates_page') );
-      }
-    }
-
-    public static function load_updates_page() {
-      require_once(dirname( __FILE__ ) . '/../lib/updates-page.php');
-    }
-
     /**
     * Load javascript and stylesheets for the switcher
     */
