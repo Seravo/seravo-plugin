@@ -1,7 +1,7 @@
 <?php
 /*
- * Plugin name: InstanceSwitcher
- * Description: Enable users to manage their Seravo WordPress updates
+ * Plugin name: Instance Switcher
+ * Description: Enable users to switch to any shadow they have available
  * Version: 1.0
  */
 
@@ -11,7 +11,7 @@ if (!class_exists('InstanceSwitcher')) {
   class InstanceSwitcher {
 
     public static function load() {
-      // only run the instance switcher when in a container environment
+      // Only run the instance switcher when in a container environment, not in Vagrant
       if( ! getenv('CONTAINER') ) {
         return;
       }
@@ -117,12 +117,12 @@ if (!class_exists('InstanceSwitcher')) {
         $menuclass = 'instance-switcher-warning';
       }
 
-      $current_title = getenv('WP_ENV');
+      $current_title = strtoupper(getenv('WP_ENV'));
 
       // create the parent menu here
       $wp_admin_bar->add_menu([
         'id' => $id,
-        'title' => $current_title,
+        'title' => __('Now in', 'seravo-plugin') .': '. $current_title,
         'href' => '#',
         'meta' => [
           'class' => $menuclass,
@@ -131,7 +131,7 @@ if (!class_exists('InstanceSwitcher')) {
 
       // add menu entries for each shadow
       foreach($instances as $key => $instance) {
-        $title = $instance["env"];
+        $title = strtoupper($instance["env"]);
 
         if ( strlen( $instance["info"] ) > 0 ) {
           $title .= " (" . $instance["info"] . ")";
@@ -145,20 +145,31 @@ if (!class_exists('InstanceSwitcher')) {
         ]);
       }
 
-      // Last item is always to exit shadow
+      // If in a shadow, always show exit link
+      if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production' ) {
+        $wp_admin_bar->add_menu(array(
+          'parent' => $id,
+          'title' => __('Exit Shadow', 'seravo-plugin'),
+          'id' => 'exit-shadow',
+          'href' => "#exit",
+        ));
+      }
+
+      // Last item is always docs link
       $wp_admin_bar->add_menu(array(
         'parent' => $id,
-        'title' => __('Exit Shadow', 'seravo-plugin'),
-        'id' => 'exit-shadow',
-        'href' => "#exit",
+        'title' => __('Shadows explained at Seravo.com/docs', 'seravo-plugin'),
+        'id' => 'shadow-info',
+        'href' => "https://seravo.com/docs/deployment/shadows/",
       ));
+
     }
 
     public static function render_shadow_indicator() {
 ?>
       <style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px } #shadow-indicator a.clearlink { text-decoration: underline; color: #fff; }</style>
       <div id="shadow-indicator">
-      <?php echo wp_sprintf( __('You are currently in %s.', 'seravo-plugin'), getenv( 'WP_ENV' ) ); ?> <a class="clearlink" href="/?wpp_shadow=clear"><?php _e('Exit', 'seravo-plugin'); ?></a>
+      <?php echo wp_sprintf( __('Your current shadow instance is %s.', 'seravo-plugin'), getenv( 'WP_ENV' ) ); ?> <a class="clearlink" href="/?wpp_shadow=clear"><?php _e('Exit', 'seravo-plugin'); ?></a>
       </div>
 <?php
     }
