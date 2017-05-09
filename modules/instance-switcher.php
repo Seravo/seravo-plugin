@@ -17,13 +17,13 @@ if (!class_exists('InstanceSwitcher')) {
       }
 
       // admin ajax action
-      add_action( 'wp_ajax_wpis_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ) );
-      add_action( 'wp_ajax_nopriv_wpis_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ) );
-      
+      add_action( 'wp_ajax_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ) );
+      add_action( 'wp_ajax_nopriv_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ) );
+
       // styles and scripts for the switcher
       add_action( 'admin_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
       add_action( 'wp_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
-      
+
       // add the instance switcher menu
       add_action( 'admin_bar_menu', array( 'Seravo\InstanceSwitcher', 'add_switcher' ), 999 );
 
@@ -58,11 +58,11 @@ if (!class_exists('InstanceSwitcher')) {
       if ( !is_admin_bar_showing() ) {
         return;
       }
-      
-      wp_enqueue_script( 'wpisjs', plugins_url( '../js/instance_switcher.js' , __FILE__), null, null, true );
-      wp_enqueue_style( 'wpisjs', plugins_url( '../style/instance_switcher.css' , __FILE__), null, null, 'all' );
+
+      wp_enqueue_script( 'seravo', plugins_url( '../js/instance-switcher.js' , __FILE__), null, null, true );
+      wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css' , __FILE__), null, null, 'all' );
     }
-    
+
     public static function load_shadow_list(){
       if ( ( $shadow_list = get_transient( 'shadow_list' ) ) === false ) {
         $site = getenv('USER');
@@ -71,17 +71,17 @@ if (!class_exists('InstanceSwitcher')) {
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-Api-Key: ' . getenv('SERAVO_API_KEY')));
         $response = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-      
+
         if (curl_error($ch) || $httpcode != 200) {
           error_log('SWD API error '. $httpcode .': '. curl_error($ch));
           die('API call failed: ' . curl_error($ch));
         }
-      
+
         curl_close($ch);
         $shadow_list = json_decode($response, true);
         set_transient( 'shadow_list', $shadow_list, 10 * MINUTE_IN_SECONDS );
       }
-      
+
       return $shadow_list;
     }
 
@@ -89,7 +89,7 @@ if (!class_exists('InstanceSwitcher')) {
     * Create the menu itself
     */
     public static function add_switcher(  $wp_admin_bar ){
-      
+
       if ( ! function_exists( 'is_admin_bar_showing' ) ) {
         return;
       }
@@ -103,20 +103,20 @@ if (!class_exists('InstanceSwitcher')) {
       if( ! current_user_can( 'activate_plugins' )){
         return;
       }
-      
+
       $instances = InstanceSwitcher::load_shadow_list();
 
       if( empty( $instances ) ) {
         return;
       }
 
-      $id = 'wpis';
+      $id = 'instance-switcher';
       $domain = ""; //$this->get_domain( $_SERVER['HTTP_HOST'] );
 
       if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production' ) {
-        $menuclass = 'wpis-warning';
+        $menuclass = 'instance-switcher-warning';
       }
-      
+
       $current_title = getenv('WP_ENV');
 
       // create the parent menu here
@@ -132,11 +132,11 @@ if (!class_exists('InstanceSwitcher')) {
       // add menu entries for each shadow
       foreach($instances as $key => $instance) {
         $title = $instance["env"];
-      
+
         if ( strlen( $instance["info"] ) > 0 ) {
           $title .= " (" . $instance["info"] . ")";
         }
-      
+
         $wp_admin_bar->add_menu([
           'parent' => $id,
           'title' => $title,
@@ -153,7 +153,7 @@ if (!class_exists('InstanceSwitcher')) {
         'href' => "#exit",
       ));
     }
-    
+
     public static function render_shadow_indicator() {
 ?>
       <style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px } #shadow-indicator a.clearlink { text-decoration: underline; color: #fff; }</style>
@@ -162,7 +162,7 @@ if (!class_exists('InstanceSwitcher')) {
       </div>
 <?php
     }
-    
+
     /**
     * Let plugins or themes display admin notice when inside a shadow
     */

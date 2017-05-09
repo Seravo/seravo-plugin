@@ -1,5 +1,5 @@
 (function(){
-  var links = document.querySelectorAll('#wp-admin-bar-wpis li > a');
+  var links = document.querySelectorAll('#wp-admin-bar-instance-switcher li > a');
   var listener = function(e){
     e.preventDefault();
     var instance = e.target.getAttribute('href').substr(1);
