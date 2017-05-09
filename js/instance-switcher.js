@@ -1,4 +1,4 @@
-(function(){
+jQuery(document).ready(function($){
   var links = document.querySelectorAll('#wp-admin-bar-instance-switcher li > a');
   var listener = function(e){
     e.preventDefault();
@@ -13,7 +13,7 @@
     location.reload();
   };
 
-  for(var i = 0; i < links.length; i++){
+  for (var i = 0; i < links.length; i++) {
     links[i].addEventListener('click', listener);
   }
-})();
+});

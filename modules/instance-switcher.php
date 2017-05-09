@@ -33,20 +33,13 @@ if (!class_exists('InstanceSwitcher')) {
     }
 
     /**
-    * Load javascript and stylesheets for the switcher
+    * Load JavaScript and stylesheets for the switcher only if WP Admin bar visible
     */
     public static function assets(){
-      if ( !function_exists( 'is_admin_bar_showing' ) ) {
-        return;
+      if ( function_exists('is_admin_bar_showing')  && is_admin_bar_showing() ) {
+        wp_enqueue_script( 'seravo', plugins_url( '../js/instance-switcher.js' , __FILE__), 'jquery', null, false );
+        wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css' , __FILE__), null, null, 'all' );
       }
-
-      // use this within the admin bar
-      if ( !is_admin_bar_showing() ) {
-        return;
-      }
-
-      wp_enqueue_script( 'seravo', plugins_url( '../js/instance-switcher.js' , __FILE__), null, null, true );
-      wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css' , __FILE__), null, null, 'all' );
     }
 
     /**
