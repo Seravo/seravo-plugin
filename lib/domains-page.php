@@ -1,11 +1,11 @@
 <?php
 
 if ( ! current_user_can( 'level_10' ) ) {
-	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'Sorry, you are not allowed to access domains.' ) . '</p>',
-		403
-	);
+  wp_die(
+    '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+    '<p>' . __( 'Sorry, you are not allowed to access domains.' ) . '</p>',
+    403
+  );
 }
 
 if ( ! class_exists('WP_List_Table') ) {
@@ -115,28 +115,24 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     $this->process_bulk_action();
 
 
-    // Fetch the data here
-    // API should mimic http://codex.wordpress.org/Class_Reference/wpdb
+    // Fetch list of domains
 
+    $site = getenv('USER');
 
-    // Placeholder data
-    $data = array(
-      array(
-        'domain'     => 'example.com',
-        'expires'    => '2016-12-31',
-        'dns'        => 'ns1.gandi.net, ns2.gandi.net',
-        'management' => 'Seravo'
-      ),
-      array(
-        'domain'      => 'example.net',
-        'expires'     => '2016-12-15',
-        'dns'         => 'ns1.sonera.com, ns2.sonera.com',
-        'management'  => 'Customer'
-      )
-    );
+    $ch = curl_init('http://localhost:8888/v1/site/' . $site . '/domains');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-Api-Key: ' . getenv('SERAVO_API_KEY')));
+    $response = curl_exec($ch);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    // Just show no items found for now
-    $data = array();
+    if (curl_error($ch) || $httpcode != 200) {
+      error_log('SWD API error '. $httpcode .': '. curl_error($ch));
+      die('API call failed. Aborting. The error has been logged.');
+    }
+
+    curl_close($ch);
+
+    $data = json_decode($response, true);
 
     /**
      * This checks for sorting input and sorts the data in our array accordingly.
@@ -196,10 +192,10 @@ $domainsTable->prepare_items();
 
   <h1>
     Domains
-  	<a href="tools.php?page=add_domains_page" class="page-title-action"><?php echo esc_html_x('Add New', 'post'); ?></a>
+    <a href="tools.php?page=add_domains_page" class="page-title-action"><?php echo esc_html_x('Add New', 'post'); ?></a>
   </h1>
 
-  <p>Listing all domains routed to this WordPress site. Only domains managed (registry and DNS) by Seravo can be edited below.</p>
+  <p>Listing all domains routed to this WordPress site. The Add and Delete buttons are work-in-progress and not functional quite yet.</p>
 
   <!-- Forms are NOT created automatically, so you need to wrap the table in one to use features like bulk actions -->
   <form id="domains-filter" method="get">
