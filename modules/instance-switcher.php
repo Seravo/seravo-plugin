@@ -11,10 +11,6 @@ if (!class_exists('InstanceSwitcher')) {
   class InstanceSwitcher {
 
     public static function load() {
-      // Only run the instance switcher when in a container environment, not in Vagrant
-      if( ! getenv('CONTAINER') ) {
-        return;
-      }
 
       // admin ajax action
       add_action( 'wp_ajax_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ) );

@@ -172,7 +172,7 @@ Class Loader {
     /*
      * Instance switcher
      */
-    if ( apply_filters('seravo_show_instance_switcher', true) ) {
+    if ( apply_filters('seravo_show_instance_switcher', true) && getenv('CONTAINER') ) {
       require_once(dirname( __FILE__ ) . '/modules/instance-switcher.php');
     }
 
