@@ -29,6 +29,9 @@ Then add this to your composer:
 }
 ```
 
+Seravo's customers can simply run `wp-seravo-plugin-update` to get the latest (tagged) release. For the adventurous, get the git master head with `wp-seravo-plugin-update --dev`.
+
+
 # Features
 
 * Shows notifications from WP-palvelu.fi (@TODO: switch to Seravo.com)
@@ -39,7 +42,19 @@ Then add this to your composer:
 
 * Adds Purge Cache -button in adminbar
 
+* Automatically shows the shadow instance switcher is there are any shadow instances.
+
 * Make urls in content relative for easier migration, but turn relative urls into absolute urls when using feeds (rss,atom...)
+
+## Filters
+
+You can insert your own admin notice for users that are in shadow
+```php
+function my_shadow_admin_notice($admin_notice, $current_screen) {
+  return '<div class="notice notice-error"><p>This is staging. All content edited here will be lost. Return to production to create or edit content.</p></div>';
+}
+add_filter( 'seravo_instance_switcher_admin_notice', 'my_shadow_admin_notice', 10, 2 );
+```
 
 # Changelog
 

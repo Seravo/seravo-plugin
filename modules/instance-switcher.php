@@ -49,8 +49,11 @@ if (!class_exists('InstanceSwitcher')) {
       wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css' , __FILE__), null, null, 'all' );
     }
 
+    /**
+    * Automatically load list of shadow instances from Searvo API (if available)
+    */
     public static function load_shadow_list(){
-      if ( ( $shadow_list = get_transient( 'shadow_list' ) ) === false ) {
+      if ( getenv('WP_ENV') == 'production' && ( $shadow_list = get_transient( 'shadow_list' ) ) === false ) {
         $site = getenv('USER');
         $ch = curl_init('http://localhost:8888/v1/site/' . $site . '/shadows');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -60,7 +63,8 @@ if (!class_exists('InstanceSwitcher')) {
 
         if (curl_error($ch) || $httpcode != 200) {
           error_log('SWD API error '. $httpcode .': '. curl_error($ch));
-          die('API call failed: ' . curl_error($ch));
+          return false; // Exit with empty result and let later flow handle it
+          // Don't break page load here or everything would be broken.
         }
 
         curl_close($ch);
@@ -76,12 +80,8 @@ if (!class_exists('InstanceSwitcher')) {
     */
     public static function add_switcher(  $wp_admin_bar ){
 
-      if ( ! function_exists( 'is_admin_bar_showing' ) ) {
-        return;
-      }
-
-      // use this within the admin bar
-      if ( ! is_admin_bar_showing() ) {
+      // Bail out if there is no WP Admin bar
+      if ( ! function_exists( 'is_admin_bar_showing' ) || ! is_admin_bar_showing() ) {
         return;
       }
 
@@ -90,14 +90,7 @@ if (!class_exists('InstanceSwitcher')) {
         return;
       }
 
-      $instances = InstanceSwitcher::load_shadow_list();
-
-      if( empty( $instances ) ) {
-        return;
-      }
-
       $id = 'instance-switcher';
-      $domain = ""; //$this->get_domain( $_SERVER['HTTP_HOST'] );
 
       if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production' ) {
         $menuclass = 'instance-switcher-warning';
@@ -115,20 +108,24 @@ if (!class_exists('InstanceSwitcher')) {
         ],
       ]);
 
-      // add menu entries for each shadow
-      foreach($instances as $key => $instance) {
-        $title = strtoupper($instance["env"]);
+      $instances = InstanceSwitcher::load_shadow_list();
 
-        if ( strlen( $instance["info"] ) > 0 ) {
-          $title .= " (" . $instance["info"] . ")";
+      if ($instances) {
+        // add menu entries for each shadow
+        foreach($instances as $key => $instance) {
+          $title = strtoupper($instance["env"]);
+
+          if ( strlen( $instance["info"] ) > 0 ) {
+            $title .= " (" . $instance["info"] . ")";
+          }
+
+          $wp_admin_bar->add_menu([
+            'parent' => $id,
+            'title' => $title,
+            'id' => $instance["name"],
+            'href' => "#" . substr($instance["name"], 6),
+          ]);
         }
-
-        $wp_admin_bar->add_menu([
-          'parent' => $id,
-          'title' => $title,
-          'id' => $instance["name"],
-          'href' => "#" . substr($instance["name"], 6),
-        ]);
       }
 
       // If in a shadow, always show exit link
@@ -151,11 +148,14 @@ if (!class_exists('InstanceSwitcher')) {
 
     }
 
+    /**
+    * Front facing big fat red banner
+    */
     public static function render_shadow_indicator() {
 ?>
       <style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px } #shadow-indicator a.clearlink { text-decoration: underline; color: #fff; }</style>
       <div id="shadow-indicator">
-      <?php echo wp_sprintf( __('Your current shadow instance is %s.', 'seravo'), getenv( 'WP_ENV' ) ); ?> <a class="clearlink" href="/?wpp_shadow=clear&seravo_shadow=clear"><?php _e('Exit', 'seravo'); ?></a>
+      <?php echo wp_sprintf( __('Your current shadow instance is %s.', 'seravo'), strtoupper(getenv('WP_ENV')) ); ?> <a class="clearlink" href="/?wpp_shadow=clear&seravo_shadow=clear"><?php _e('Exit', 'seravo'); ?></a>
       </div>
 <?php
     }
