@@ -122,7 +122,7 @@ if (!class_exists('InstanceSwitcher')) {
       // create the parent menu here
       $wp_admin_bar->add_menu([
         'id' => $id,
-        'title' => __('Now in', 'seravo-plugin') .': '. $current_title,
+        'title' => __('Now in', 'seravo') .': '. $current_title,
         'href' => '#',
         'meta' => [
           'class' => $menuclass,
@@ -149,7 +149,7 @@ if (!class_exists('InstanceSwitcher')) {
       if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production' ) {
         $wp_admin_bar->add_menu(array(
           'parent' => $id,
-          'title' => __('Exit Shadow', 'seravo-plugin'),
+          'title' => __('Exit Shadow', 'seravo'),
           'id' => 'exit-shadow',
           'href' => "#exit",
         ));
@@ -158,7 +158,7 @@ if (!class_exists('InstanceSwitcher')) {
       // Last item is always docs link
       $wp_admin_bar->add_menu(array(
         'parent' => $id,
-        'title' => __('Shadows explained at Seravo.com/docs', 'seravo-plugin'),
+        'title' => __('Shadows explained at Seravo.com/docs', 'seravo'),
         'id' => 'shadow-info',
         'href' => "https://seravo.com/docs/deployment/shadows/",
       ));
@@ -169,7 +169,7 @@ if (!class_exists('InstanceSwitcher')) {
 ?>
       <style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px } #shadow-indicator a.clearlink { text-decoration: underline; color: #fff; }</style>
       <div id="shadow-indicator">
-      <?php echo wp_sprintf( __('Your current shadow instance is %s.', 'seravo-plugin'), getenv( 'WP_ENV' ) ); ?> <a class="clearlink" href="/?wpp_shadow=clear"><?php _e('Exit', 'seravo-plugin'); ?></a>
+      <?php echo wp_sprintf( __('Your current shadow instance is %s.', 'seravo'), getenv( 'WP_ENV' ) ); ?> <a class="clearlink" href="/?wpp_shadow=clear"><?php _e('Exit', 'seravo'); ?></a>
       </div>
 <?php
     }
