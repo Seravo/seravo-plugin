@@ -2,9 +2,9 @@
 
 if ( ! current_user_can( 'level_10' ) ) {
   wp_die(
-    '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-    '<p>' . __( 'Sorry, you are not allowed to access domains.' ) . '</p>',
-    403
+      '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+      '<p>' . __( 'Sorry, you are not allowed to access domains.' ) . '</p>',
+      403
   );
 }
 
@@ -14,21 +14,21 @@ if ( ! class_exists('WP_List_Table') ) {
 
 class Seravo_Domains_List_Table extends WP_List_Table {
 
-  function __construct(){
+  function __construct() {
     global $status, $page;
 
     // Set parent defaults
     parent::__construct(
-      array(
+        array(
         'singular'  => 'domain',
         'plural'    => 'domains',
-        'ajax'      => false
-      )
+        'ajax'      => false,
+        )
     );
   }
 
-  function column_default($item, $column_name){
-    switch($column_name){
+  function column_default( $item, $column_name ) {
+    switch ( $column_name ) {
       case 'domain':
       case 'expires':
       case 'dns':
@@ -39,12 +39,12 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     }
   }
 
-  function column_domain($item){
+  function column_domain( $item ) {
 
     $actions = array();
 
     // Domains managed by Seravo can be added, edited or deleted
-    if ($item['management'] == 'Seravo') {
+    if ( $item['management'] == 'Seravo' ) {
       $actions['edit'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['domain']);
     }
 
@@ -57,44 +57,44 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     );
   }
 
-  function column_cb($item){
+  function column_cb( $item ) {
     return sprintf(
-      '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-      /*$1%s*/ $this->_args['singular'],  // Let's simply repurpose the table's singular label ("domain")
-      /*$2%s*/ $item['domain']            // The value of the checkbox should be the domain name
+        '<input type="checkbox" name="%1$s[]" value="%2$s" />',
+        /*$1%s*/ $this->_args['singular'],  // Let's simply repurpose the table's singular label ("domain")
+        /*$2%s*/ $item['domain']            // The value of the checkbox should be the domain name
     );
   }
 
-  function get_columns(){
+  function get_columns() {
     $columns = array(
       'cb'         => '<input type="checkbox">', // Render a checkbox instead of text
       'domain'     => 'Domain',
       'expires'    => 'Expires',
       'dns'        => 'DNS',
-      'management' => 'Managed by'
+      'management' => 'Managed by',
     );
     return $columns;
   }
 
   function get_sortable_columns() {
     $sortable_columns = array(
-      'domain'     => array('domain', false),     // true means it's already sorted
-      'expires'    => array('expires', false),
-      'dns'        => array('dns', false),
-      'management' => array('management', false)
+      'domain'     => array( 'domain', false ),     // true means it's already sorted
+      'expires'    => array( 'expires', false ),
+      'dns'        => array( 'dns', false ),
+      'management' => array( 'management', false ),
     );
     return $sortable_columns;
   }
 
   function get_bulk_actions() {
     $actions = array(
-      'delete' => 'Delete'
+      'delete' => 'Delete',
     );
     return $actions;
   }
 
   function process_bulk_action() {
-    if( 'delete' === $this->current_action() ) {
+    if ( 'delete' === $this->current_action() ) {
       wp_die('Items deleted (or they would be if we had items to delete)!');
     }
   }
@@ -109,11 +109,10 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     $columns = $this->get_columns();
     $hidden = array();
     $sortable = $this->get_sortable_columns();
-    $this->_column_headers = array($columns, $hidden, $sortable);
+    $this->_column_headers = array( $columns, $hidden, $sortable );
 
     // Define custom bulk actions
     $this->process_bulk_action();
-
 
     // Fetch list of domains
 
@@ -121,12 +120,12 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     $ch = curl_init('http://localhost:8888/v1/site/' . $site . '/domains');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-Api-Key: ' . getenv('SERAVO_API_KEY')));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'X-Api-Key: ' . getenv('SERAVO_API_KEY') ));
     $response = curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    if (curl_error($ch) || $httpcode != 200) {
-      error_log('SWD API error '. $httpcode .': '. curl_error($ch));
+    if ( curl_error($ch) || $httpcode != 200 ) {
+      error_log('SWD API error ' . $httpcode . ': ' . curl_error($ch));
       die('API call failed. Aborting. The error has been logged.');
     }
 
@@ -142,9 +141,9 @@ class Seravo_Domains_List_Table extends WP_List_Table {
      * to a custom query. The returned data will be pre-sorted, and this array
      * sorting technique would be unnecessary.
      */
-    function usort_reorder($a,$b){
-        $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'domain'; // If no sort, default to domain name
-        $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; // If no order, default to asc
+    function usort_reorder( $a, $b ) {
+        $orderby = ( ! empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'domain'; // If no sort, default to domain name
+        $order = ( ! empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; // If no order, default to asc
         $result = strcmp($a[$orderby], $b[$orderby]); // Determine sort order
         return ($order === 'asc') ? $result : -$result; // Send final sort direction to usort
     }
@@ -171,11 +170,11 @@ class Seravo_Domains_List_Table extends WP_List_Table {
      * REQUIRED. We also have to register our pagination options & calculations.
      */
     $this->set_pagination_args(
-      array(
+        array(
         'total_items' => $total_items,                  // WE have to calculate the total number of items
         'per_page'    => $per_page,                     // WE have to determine how many items to show on a page
-        'total_pages' => ceil($total_items/$per_page)   // WE have to calculate the total number of pages
-      )
+        'total_pages' => ceil($total_items / $per_page),// WE have to calculate the total number of pages
+        )
     );
   }
 

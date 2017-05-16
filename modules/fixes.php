@@ -18,30 +18,30 @@ if ( ! class_exists('Fixes') ) {
       /**
        * Show Seravo.com notifications if this is Seravo.com instance
        */
-      if (Helpers::isProduction() or Helpers::isStaging()) {
-        add_action( 'admin_notices', array(__CLASS__, 'showAdminNotification') );
+      if ( Helpers::isProduction() or Helpers::isStaging() ) {
+        add_action( 'admin_notices', array( __CLASS__, 'showAdminNotification' ) );
       }
 
       /**
        * Hide update nofications if this is not development
        */
-      if (!Helpers::isDevelopment()) {
-        add_action( 'admin_menu', array(__CLASS__, 'hideUpdateNotifications') );
-        add_filter( 'wp_get_update_data', array(__CLASS__, 'hideUpdateData') );
+      if ( ! Helpers::isDevelopment() ) {
+        add_action( 'admin_menu', array( __CLASS__, 'hideUpdateNotifications' ) );
+        add_filter( 'wp_get_update_data', array( __CLASS__, 'hideUpdateData' ) );
       }
 
       /**
        * Ask browser not cache anything if blog is in development, non-public or debug
        * This makes everyones life easier when clients don't know how to reset their browser cache from old stylesheets
        */
-      if (Helpers::isDevelopment() || !Helpers::isPublic() || WP_DEBUG) {
-        add_action( 'send_headers', array(__CLASS__, 'sendNoCacheHeaders') );
+      if ( Helpers::isDevelopment() || ! Helpers::isPublic() || WP_DEBUG ) {
+        add_action( 'send_headers', array( __CLASS__, 'sendNoCacheHeaders' ) );
       }
 
       /**
        * Send proper headers after unsuccesful login
        */
-      add_action( 'wp_login_failed', array(__CLASS__, 'changeHttpCodeToUnauthorized') );
+      add_action( 'wp_login_failed', array( __CLASS__, 'changeHttpCodeToUnauthorized' ) );
     }
 
     /**
@@ -58,16 +58,16 @@ if ( ! class_exists('Fixes') ) {
       }
 
       $message = '';
-      if( isset($response->message) ) {
+      if ( isset($response->message) ) {
         $message = $response->message;
-        $message = strip_tags( trim($message),"<br><br/><a><b><strong><i>" );
+        $message = strip_tags( trim($message),'<br><br/><a><b><strong><i>' );
       }
       // control alert type
       $type = '';
-      if( isset($response->type) ) {
+      if ( isset($response->type) ) {
         $type = $response->type;
       }
-      if (!empty($message) ) {
+      if ( ! empty($message) ) {
       ?>
         <div class="<?php esc_attr_e($type) ?> notice is-dismissible">
           <p><?php echo $message; ?> <button type="button" class="notice-dismiss"></button></p>
@@ -86,16 +86,16 @@ if ( ! class_exists('Fixes') ) {
     /**
      * Removes red update bubbles from admin menus
      */
-    public static function hideUpdateData($update_data, $titles='') {
-      return array (
+    public static function hideUpdateData( $update_data, $titles = '' ) {
+      return array(
         'counts' => array(
           'plugins' => 0,
           'themes' => 0,
           'wordpress' => 0,
           'translations' => 0,
-          'total' => 0
+          'total' => 0,
         ),
-        'title' => ''
+        'title' => '',
       );
     }
 

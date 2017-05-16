@@ -7,15 +7,15 @@
 
 namespace Seravo;
 
-if ( !class_exists('Domains') ) {
+if ( ! class_exists('Domains') ) {
   class domains {
 
     public static function load() {
-      add_action( 'admin_menu', array(__CLASS__, 'register_domains_page') );
+      add_action( 'admin_menu', array( __CLASS__, 'register_domains_page' ) );
     }
 
     public static function register_domains_page() {
-      add_submenu_page( 'tools.php', 'Domains', 'Domains', 'manage_options', 'domains_page', array(__CLASS__, 'load_domains_page') );
+      add_submenu_page( 'tools.php', 'Domains', 'Domains', 'manage_options', 'domains_page', array( __CLASS__, 'load_domains_page' ) );
     }
 
     public static function load_domains_page() {

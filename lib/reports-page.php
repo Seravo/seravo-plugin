@@ -16,7 +16,7 @@
   </thead>
   <tbody>
 <?php
-$reports = glob("/data/slog/html/goaccess-*.html");
+$reports = glob('/data/slog/html/goaccess-*.html');
 
 // Create array of months with total request sums
 $months = array();
@@ -26,21 +26,21 @@ $max_requests = 0;
 
 if ( empty($reports) ) {
 
-  echo '<tr><td colspan=3>'. __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'). '</td></tr>';
+  echo '<tr><td colspan=3>' . __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo') . '</td></tr>';
 
 } else {
-  foreach ($reports as $report) {
+  foreach ( $reports as $report ) {
     $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' $report");
     preg_match('/([0-9]+)/', $total_requests_string, $total_requests_match);
     $total_requests = intval($total_requests_match[1]);
 
-    if ($total_requests > $max_requests) {
+    if ( $total_requests > $max_requests ) {
       $max_requests = $total_requests;
     }
 
     array_push( $months, array(
-      'date' => substr($report, 25, 7),
-      'requests' => $total_requests
+        'date' => substr($report, 25, 7),
+        'requests' => $total_requests,
     ));
   }
 }
@@ -48,7 +48,7 @@ if ( empty($reports) ) {
 // List months in reverse order with newest first
 rsort($months);
 
-foreach ($months as $month) {
+foreach ( $months as $month ) {
 
   $bar_size = intval( $month['requests'] / $max_requests * 300 );
   if ( $bar_size < 40 ) {
@@ -57,11 +57,11 @@ foreach ($months as $month) {
     $bar_css = $bar_size . 'px';
   }
 
-  echo "<tr>".
-         "<td><a href='?report=". $month['date'] .".html' target='_blank'>". $month['date'] ."</a></td>".
-         "<td><div style='background: #44A1CB; color: #fff; padding: 3px; width: ". $bar_css ."; display: inline-block;'>". $month['requests'] ."</div></td>".
-         "<td><a href='?report=". $month['date'] .".html' target='_blank' class='button'>". __('View report', 'seravo') ."</a></td>".
-       "</tr>";
+  echo '<tr>' .
+         "<td><a href='?report=" . $month['date'] . ".html' target='_blank'>" . $month['date'] . '</a></td>' .
+         "<td><div style='background: #44A1CB; color: #fff; padding: 3px; width: " . $bar_css . "; display: inline-block;'>" . $month['requests'] . '</div></td>' .
+         "<td><a href='?report=" . $month['date'] . ".html' target='_blank' class='button'>" . __('View report', 'seravo') . '</a></td>' .
+       '</tr>';
 }
 
 ?>

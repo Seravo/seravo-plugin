@@ -17,7 +17,7 @@ if ( ! class_exists('LoginLog') ) {
       // wp_signon has finished. Unfortunately it also fires on every single
       // wp-login.php load, so we shall not process it unless we really detect a
       // login in progress.
-      add_filter( 'login_redirect', array(__CLASS__, 'wp_login_redirect_log'), 10, 3 );
+      add_filter( 'login_redirect', array( __CLASS__, 'wp_login_redirect_log' ), 10, 3 );
 
     }
 
@@ -51,7 +51,7 @@ if ( ! class_exists('LoginLog') ) {
 
       $remote_addr = $_SERVER['REMOTE_ADDR'];
       $time_local = date('j/M/Y:H:i:s O');
-      $request = $_SERVER['REQUEST_METHOD'] .' '. $_SERVER['REQUEST_URI'];
+      $request = $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'];
       $http_referer = $_SERVER['HTTP_REFERER'];
       $http_user_agent = $_SERVER['HTTP_USER_AGENT'];
 

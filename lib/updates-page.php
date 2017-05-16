@@ -8,12 +8,12 @@ $site = getenv('USER');
 
 $ch = curl_init('http://localhost:8888/v1/site/' . $site);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-Api-Key: ' . getenv('SERAVO_API_KEY')));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'X-Api-Key: ' . getenv('SERAVO_API_KEY') ));
 $response = curl_exec($ch);
 $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-if (curl_error($ch) || $httpcode != 200) {
-  error_log('SWD API error '. $httpcode .': '. curl_error($ch));
+if ( curl_error($ch) || $httpcode != 200 ) {
+  error_log('SWD API error ' . $httpcode . ': ' . curl_error($ch));
   die('API call failed. Aborting. The error has been logged.');
 }
 
@@ -34,7 +34,7 @@ $site_data = json_decode($response, true);
 
 <h2>Opt-out form updates by Seravo</h2>
 <?php
-if ($site_data['seravo_updates'] == true) {
+if ( $site_data['seravo_updates'] == true ) {
   $checked = 'checked="checked"';
 } else {
   $checked = '';

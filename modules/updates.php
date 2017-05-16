@@ -7,24 +7,24 @@
 
 namespace Seravo;
 
-if (!class_exists('Updates')) {
+if ( ! class_exists('Updates') ) {
   class Updates {
 
     public static function load() {
-      add_action( 'admin_menu', array(__CLASS__, 'register_updates_page') );
+      add_action( 'admin_menu', array( __CLASS__, 'register_updates_page' ) );
 
       /*
       * This will use the SWD api to toggle Seravo updates on/off for this site.
       */
-      add_action( 'admin_post_toggle_seravo_updates', array('Seravo\Updates', 'seravo_admin_toggle_seravo_updates'), 20 );
+      add_action( 'admin_post_toggle_seravo_updates', array( 'Seravo\Updates', 'seravo_admin_toggle_seravo_updates' ), 20 );
 
       // TODO: check if this hook actually ever fires for mu-plugins
-      register_activation_hook( __FILE__, array(__CLASS__, 'register_view_updates_capability') );
+      register_activation_hook( __FILE__, array( __CLASS__, 'register_view_updates_capability' ) );
     }
 
     public static function register_updates_page() {
       if ( getenv('SERAVO_API_KEY') != '' ) {
-        add_submenu_page( 'tools.php', 'Updates', 'Updates', 'manage_options', 'updates_page', array(__CLASS__, 'load_updates_page') );
+        add_submenu_page( 'tools.php', 'Updates', 'Updates', 'manage_options', 'updates_page', array( __CLASS__, 'load_updates_page' ) );
       }
     }
 
@@ -47,13 +47,13 @@ if (!class_exists('Updates')) {
         $seravo_updates = 'false';
       }
 
-      $data = array('seravo_updates' => $seravo_updates);
+      $data = array( 'seravo_updates' => $seravo_updates );
       $data_string = json_encode($data);
 
       curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'X-Api-Key: ' . getenv('SERAVO_API_KEY'),
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($data_string)
+          'X-Api-Key: ' . getenv('SERAVO_API_KEY'),
+          'Content-Type: application/json',
+          'Content-Length: ' . strlen($data_string),
       ));
 
       curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
@@ -61,8 +61,8 @@ if (!class_exists('Updates')) {
 
       $response = curl_exec($ch);
 
-      if (curl_error($ch)) {
-        error_log('SWD API error: '. curl_error($ch));
+      if ( curl_error($ch) ) {
+        error_log('SWD API error: ' . curl_error($ch));
         status_header(500);
         die('API call failed. Aborting. The error has been logged.');
       }

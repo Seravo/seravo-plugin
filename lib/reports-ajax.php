@@ -1,26 +1,26 @@
 <?php
 
 function seravo_report_total_disk_usage() {
-  exec("du -sh /data", $output);
+  exec('du -sh /data', $output);
   return $output;
 }
 
 function seravo_report_disk_usage() {
-  exec("du -sh /data/* | sort -hr", $output);
+  exec('du -sh /data/* | sort -hr', $output);
   return $output;
 }
 
 function seravo_report_wp_core_verify() {
-  exec("wp core verify-checksums", $output);
+  exec('wp core verify-checksums', $output);
   array_unshift($output, '$ wp core verify-checksums');
   return $output;
 }
 
 function seravo_report_git_status() {
-  exec("git -C /data/wordpress status", $output);
+  exec('git -C /data/wordpress status', $output);
 
   if ( empty($output) ) {
-    return array('Git is not used on this site. To start using it, read our documentation for WordPress developers at <a href="https://seravo.com/docs/">seravo.com/docs</a>.');
+    return array( 'Git is not used on this site. To start using it, read our documentation for WordPress developers at <a href="https://seravo.com/docs/">seravo.com/docs</a>.' );
   }
 
   array_unshift($output, '$ git status');
@@ -28,17 +28,17 @@ function seravo_report_git_status() {
 }
 
 function seravo_report_redis_info() {
-  exec("redis-cli info | grep -e keyspace -e db0", $output);
+  exec('redis-cli info | grep -e keyspace -e db0', $output);
   return $output;
 }
 
 function seravo_report_front_cache_status() {
-  exec("curl -ILk ". get_site_url(), $output);
-  array_unshift($output, '$ curl -ILk '. get_site_url());
+  exec('curl -ILk ' . get_site_url(), $output);
+  array_unshift($output, '$ curl -ILk ' . get_site_url());
 
   if ( preg_match('/X-Proxy-Cache: ([A-Z]+)/', implode("\n", $output), $matches) ) {
 
-    switch ($matches[1]) {
+    switch ( $matches[1] ) {
       case 'HIT':
       case 'EXPIRED':
         $result = 'Front cache is working correctly.';
@@ -52,8 +52,7 @@ function seravo_report_front_cache_status() {
         $result = 'Unable to detect front cache status.';
         break;
     }
-
-  } else {
+} else {
     $result = 'No front cache available in this WordPress instance.';
   }
 
@@ -62,7 +61,7 @@ function seravo_report_front_cache_status() {
   return $output;
 }
 
-switch ($_REQUEST['section']) {
+switch ( $_REQUEST['section'] ) {
   case 'total_disk_usage':
     echo json_encode(seravo_report_total_disk_usage());
     break;
@@ -88,6 +87,6 @@ switch ($_REQUEST['section']) {
     break;
 
   default:
-    error_log("ERROR: Section ". $_REQUEST['section'] ." not defined");
+    error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
     break;
 }
