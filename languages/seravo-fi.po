@@ -78,6 +78,11 @@ msgstr "Onnistui:"
 msgid "The cache was flushed"
 msgstr "Välimuisti tyhjennetty"
 
+#: modules/check-https.php:19
+msgid "Error with HTTPS protocol. Check <a href=\"https://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/\">here</a> for more information."
+msgstr "HTTPS-protokolla ei ole käytössä WordPressin asetuksissa. Katso lisää <a href=\"https://wp-palvelu.fi/blogi/https-kaikille-ja-aina/\">täältä</a>."
+
+
 #. Plugin Name of the plugin/theme
 msgid "Seravo Plugin"
 msgstr "WP-palvelu.fi-lisäosa"
@@ -97,4 +102,3 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "https://seravo.com/"
 msgstr ""
-
