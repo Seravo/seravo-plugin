@@ -103,7 +103,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     global $wpdb; // This is used only if making any database queries
 
     // Domains per page
-    $per_page = 5;
+    $per_page = 500;
 
     // Define column headers
     $columns = $this->get_columns();
