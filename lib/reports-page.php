@@ -11,7 +11,7 @@
     <tr>
       <th style="width: 5em;"><?php _e('Month', 'seravo'); ?></th>
       <th style="width: 25em;"><?php _e('HTTP requests', 'seravo'); ?></th>
-      <th style="width: 6em;"><?php _e('Report', 'seravo'); ?></th>
+      <th style="width: 8em;"><?php _e('Report', 'seravo'); ?></th>
     </tr>
   </thead>
   <tbody>
