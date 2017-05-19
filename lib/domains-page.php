@@ -45,11 +45,11 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     // Domains managed by Seravo can be added, edited or deleted
     if ( $item['management'] == 'Seravo' ) {
-      $actions['edit'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['domain']);
+      // $actions['edit'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['domain']);
     }
 
     // Domains managed by customers themselves can only be added or deleted
-    $actions['delete'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['domain']);
+    // $actions['delete'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['domain']);
 
     return sprintf('%1$s %2$s',
         /*$1%s*/ $item['domain'],
@@ -88,7 +88,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
   function get_bulk_actions() {
     $actions = array(
-      'delete' => 'Delete',
+//      'delete' => 'Delete',
     );
     return $actions;
   }
@@ -191,10 +191,10 @@ $domainsTable->prepare_items();
 
   <h1>
     Domains
-    <a href="tools.php?page=add_domains_page" class="page-title-action"><?php echo esc_html_x('Add New', 'post'); ?></a>
+    <!-- a href="tools.php?page=add_domains_page" class="page-title-action"><?php // echo esc_html_x('Add New', 'post'); ?></a -->
   </h1>
 
-  <p>Listing all domains routed to this WordPress site. The Add and Delete buttons are work-in-progress and not functional quite yet.</p>
+  <p>Domains routed to this WordPress site are listed below.</p>
 
   <!-- Forms are NOT created automatically, so you need to wrap the table in one to use features like bulk actions -->
   <form id="domains-filter" method="get">
