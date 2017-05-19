@@ -175,6 +175,12 @@ class Loader {
       require_once(dirname( __FILE__ ) . '/modules/instance-switcher.php');
     }
 
+    /*
+     * Check that https is enabled in siteurl
+     */
+    if ( apply_filters('seravo_check_https', true) && current_user_can( 'administrator' )) {
+        require_once(dirname( __FILE__ ) . '/modules/check-https.php');
+    }
   }
 }
 
