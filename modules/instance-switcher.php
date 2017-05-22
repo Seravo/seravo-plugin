@@ -116,7 +116,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
               'parent' => $id,
               'title' => $title,
               'id' => $instance['name'],
-              'href' => '#' . substr($instance['name'], 6),
+              'href' => '#' . substr($instance['name'], -6),
           ]);
         }
       }
