@@ -181,6 +181,12 @@ class Loader {
     if ( apply_filters('seravo_check_https', true) && current_user_can( 'administrator' )) {
         require_once(dirname( __FILE__ ) . '/modules/check-https.php');
     }
+    /*
+     * Check that user has changed admin email to something else from no-reply@seravo
+     */
+    if ( apply_filters('seravo_check_default_email', true) && current_user_can( 'administrator' )) {
+        require_once(dirname( __FILE__ ) . '/modules/check-default-email.php');
+    }
   }
 }
 

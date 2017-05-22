@@ -82,6 +82,9 @@ msgstr "Välimuisti tyhjennetty"
 msgid "Error with HTTPS protocol. Check <a href=\"https://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/\">here</a> for more information."
 msgstr "HTTPS-protokolla ei ole käytössä WordPressin asetuksissa. Katso lisää <a href=\"https://wp-palvelu.fi/blogi/https-kaikille-ja-aina/\">täältä</a>."
 
+#: modules/check-default-email.php:30
+msgid "Warning: Default email value found. Change it to your own email address <a href=\"%s/wp-admin/options-general.php\">here</a>"
+msgstr "Varoitus: Oletussähköpostiosoite on käytössä. Vaihda se omaksi sähköpostiosoitteeksesi <a href=\"%s/wp-admin/options-general.php\">täällä</a>"
 
 #. Plugin Name of the plugin/theme
 msgid "Seravo Plugin"
