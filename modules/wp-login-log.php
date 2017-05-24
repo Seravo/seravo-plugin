@@ -54,16 +54,19 @@ if ( ! class_exists('LoginLog') ) {
       $request = $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'];
       $http_referer = $_SERVER['HTTP_REFERER'];
       $http_user_agent = $_SERVER['HTTP_USER_AGENT'];
-
-      // Finally write the log to disk
       $log_directory = dirname( ini_get('error_log') );
-      $log_fp = fopen( $log_directory . '/wp-login.log', 'a' );
-      fwrite( $log_fp, "$remote_addr - $remote_user [$time_local] \"$request\" " .
-                       "$status_code 1000 \"$http_referer\" " .
-                       "\"$http_user_agent\" $login_status " .
-                       "\n"
-      );
-      fclose( $log_fp );
+      $login_log_file = $log_directory . '/wp-login.log';
+
+      // Write the log to disk if the log file exists
+      if ( file_exists( $login_log_file ) ) {
+          $log_fp = fopen( $login_log_file );
+          fwrite( $log_fp, "$remote_addr - $remote_user [$time_local] \"$request\" " .
+                           "$status_code 1000 \"$http_referer\" " .
+                           "\"$http_user_agent\" $login_status " .
+                           "\n"
+          );
+          fclose( $log_fp );
+      }
 
       return $redirect_to;
     }
