@@ -57,6 +57,11 @@ if ( ! class_exists('LoginLog') ) {
 
       // Finally write the log to disk
       $log_directory = dirname( ini_get('error_log') );
+      if ( empty($log_directory) ) {
+        // If there is no log directory, just log one directory above WordPress
+        // and hope that directory is writeable but not accessible from the web
+        $log_directory = '..';
+      }
       $log_fp = fopen( $log_directory . '/wp-login.log', 'a' );
       fwrite( $log_fp, "$remote_addr - $remote_user [$time_local] \"$request\" " .
                        "$status_code 1000 \"$http_referer\" " .
