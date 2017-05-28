@@ -8,18 +8,18 @@
 
 namespace Seravo;
 
-if (! class_exists('CheckHttps')) {
+if ( ! class_exists('CheckHttps') ) {
     class CheckHttps {
 
         public static function load() {
-            add_action('admin_notices', array(__CLASS__, '_seravo_check_https'));
+            add_action('admin_notices', array( __CLASS__, '_seravo_check_https' ));
         }
 
         public static function _seravo_check_https() {
             // Get the siteurl and home url and check if https is enabled, if not, show warning
             $siteurl = get_option('siteurl');
             $home = get_option('home');
-            if (strpos($siteurl, 'https') !== 0 || strpos($home, 'https') !== 0) {
+            if ( strpos($siteurl, 'https') !== 0 || strpos($home, 'https') !== 0 ) {
                 self::_seravo_show_https_warning();
             }
         }

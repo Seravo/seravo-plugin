@@ -169,6 +169,13 @@ class Loader {
     }
 
     /*
+     * Show logs from /data/log/*.log in WP-admin
+     */
+    if ( apply_filters('seravo_show_logs_page', true) && current_user_can( 'administrator' ) ) {
+        require_once(dirname( __FILE__ ) . '/modules/logs.php');
+    }
+
+    /*
      * Instance switcher
      */
     if ( apply_filters('seravo_show_instance_switcher', true) && getenv('CONTAINER') ) {
@@ -178,13 +185,14 @@ class Loader {
     /*
      * Check that https is enabled in siteurl
      */
-    if ( apply_filters('seravo_check_https', true) && current_user_can( 'administrator' )) {
+    if ( apply_filters('seravo_check_https', true) && current_user_can( 'administrator' ) ) {
         require_once(dirname( __FILE__ ) . '/modules/check-https.php');
     }
+
     /*
      * Check that user has changed admin email to something else from no-reply@seravo
      */
-    if ( apply_filters('seravo_check_default_email', true) && current_user_can( 'administrator' )) {
+    if ( apply_filters('seravo_check_default_email', true) && current_user_can( 'administrator' ) ) {
         require_once(dirname( __FILE__ ) . '/modules/check-default-email.php');
     }
   }
