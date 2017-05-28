@@ -63,6 +63,10 @@ if ( ! class_exists('InstanceSwitcher') ) {
         curl_close($ch);
         $shadow_list = json_decode($response, true);
         set_transient( 'shadow_list', $shadow_list, 10 * MINUTE_IN_SECONDS );
+      } else {
+        // Return an explicit null if variable is empty
+        // (required to not emit a PHP Notice)
+        $shadow_list = null;
       }
 
       return $shadow_list;
