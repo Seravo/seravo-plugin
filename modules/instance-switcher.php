@@ -46,7 +46,12 @@ if ( ! class_exists('InstanceSwitcher') ) {
     * Automatically load list of shadow instances from Searvo API (if available)
     */
     public static function load_shadow_list() {
-      if ( getenv('WP_ENV') == 'production' && ( $shadow_list = get_transient( 'shadow_list' ) ) === false ) {
+
+      if ( getenv('WP_ENV') != 'production' ) {
+        return false;
+      }
+
+      if ( ( $shadow_list = get_transient( 'shadow_list' ) ) === false ) {
         $site = getenv('USER');
         $ch = curl_init('http://localhost:8888/v1/site/' . $site . '/shadows');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -63,10 +68,6 @@ if ( ! class_exists('InstanceSwitcher') ) {
         curl_close($ch);
         $shadow_list = json_decode($response, true);
         set_transient( 'shadow_list', $shadow_list, 10 * MINUTE_IN_SECONDS );
-      } else {
-        // Return an explicit null if variable is empty
-        // (required to not emit a PHP Notice)
-        $shadow_list = null;
       }
 
       return $shadow_list;
