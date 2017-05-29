@@ -17,6 +17,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
+#: modules/logs.php:62
+#: modules/logs.php:63
+msgid "Logs"
+msgstr "Lokit"
+
+#: modules/logs.php:96
+msgid "No logs found in <code>/data/log/</code>."
+msgstr "Lokeja ei löytynyt hakemistosta <code>/data/log/</code>."
+
+#: modules/logs.php:155
+msgid "File %s does not exist or we don't have permissions to read it"
+msgstr "Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä"
+
 #: lib/reports-page.php:3
 #: modules/reports.php:27
 msgid "Reports"

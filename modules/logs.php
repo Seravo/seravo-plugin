@@ -89,12 +89,13 @@ if ( ! class_exists('Logs') ) {
         $current_log = (int) $_GET['log'];
       }
 
-      // @TODO: rewrite this to automatically fetch all logs from /data/log/*.log
-      $logs = array(
-        '/data/log/php-error.log',
-        '/data/log/nginx-access.log',
-        '/data/log/nginx-error.log',
-      );
+      // Automatically fetch all logs from /data/log/*.log
+     $logs = glob( '/data/log/*.log' );
+      if ( empty( $logs ) ):
+          echo '<div class="notice notice-warning" style="padding:1em;margin:1em;">' .
+          __('No logs found in <code>/data/log/</code>.', 'seravo') . '</div>';
+          return;
+      endif;
 
       $logfile = null;
       if ( isset( $logs[ $current_log ] ) ) {
@@ -136,7 +137,7 @@ if ( ! class_exists('Logs') ) {
         <input type="hidden" name="page" value="logs_page">
         <input type="hidden" name="log" value="<?php echo $current_log; ?>">
         <input type="search" name="regex" value="<?php echo $regex; ?>" placeholder="">
-        <input type="submit" class="button" value="Filter">
+        <input type="submit" class="button" value="<?php _e('Filter', 'seravo'); ?>">
       </form>
     </div>
     <div class="log-table-view" data-logfile="<?php esc_attr_e( $logfile ); ?>" data-logbytes="<?php esc_attr_e( filesize( $logfile ) ); ?>" data-regex="<?php esc_attr_e( $regex ); ?>">
