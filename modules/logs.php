@@ -41,7 +41,8 @@ if ( ! class_exists('Logs') ) {
      * @return void
      */
     public function admin_enqueue_styles( $hook ) {
-      wp_register_style( 'log_viewer', plugin_dir_url( __DIR__ ) . 'style/log-viewer.css' );
+      wp_register_style( 'log_viewer', plugin_dir_url( __DIR__ ) . '/style/log-viewer.css' );
+      wp_register_script( 'log_viewer', plugin_dir_url(__DIR__) . '/js/log-viewer.js' );
 
       if ( $hook === 'tools_page_logs_page' ) {
         wp_enqueue_style( 'log_viewer' );
@@ -89,6 +90,11 @@ if ( ! class_exists('Logs') ) {
         $current_log = (int) $_GET['log'];
       }
 
+      $max_num_of_rows = 50;
+      if ( isset( $_GET['max_num_of_rows'] ) ) {
+          $max_num_of_rows = (int) $_GET['max_num_of_rows'];
+      }
+
       // Automatically fetch all logs from /data/log/*.log
      $logs = glob( '/data/log/*.log' );
       if ( empty( $logs ) ):
@@ -108,11 +114,11 @@ if ( ! class_exists('Logs') ) {
     <h2 class="screen-reader-text">Select log file list</h2>
     <ul class="subsubsub">
       <?php foreach ( $logs as $key => $log ) : ?>
-      <li><a href="tools.php?page=logs_page&log=<?php echo $key ?>" class="<?php echo $key == $current_log ? 'current' : ''; ?>"><?php echo basename( $log ); ?></a><?php echo ( $key < ( count( $logs ) - 1 ) ) ? ' |' : ''; ?></li>
+      <li><a href="tools.php?page=logs_page&log=<?php echo $key ?>&max_num_of_rows=<?php echo $max_num_of_rows ?>" class="<?php echo $key == $current_log ? 'current' : ''; ?>"><?php echo basename( $log ); ?></a><?php echo ( $key < ( count( $logs ) - 1 ) ) ? ' |' : ''; ?></li>
       <?php endforeach; ?>
     </ul>
     <p class="clear"></p>
-    <?php $this->render_log_view( $logfile, $regex ); ?>
+    <?php $this->render_log_view( $logfile, $regex, $max_num_of_rows ); ?>
   </div>
   <?php
     }
@@ -126,7 +132,7 @@ if ( ! class_exists('Logs') ) {
      * @access public
      * @return void
      */
-    public function render_log_view( $logfile, $regex = null ) {
+    public function render_log_view( $logfile, $regex = null, $max_num_of_rows) {
       global $current_log;
   ?>
   <div class="log-view">
@@ -138,12 +144,16 @@ if ( ! class_exists('Logs') ) {
         <input type="hidden" name="log" value="<?php echo $current_log; ?>">
         <input type="search" name="regex" value="<?php echo $regex; ?>" placeholder="">
         <input type="submit" class="button" value="<?php _e('Filter', 'seravo'); ?>">
+        <i><?php _e('Maximum amount of results shown: ', 'seravo'); ?></i>
+        <input type="radio" name="max_num_of_rows" value="50" class="log-max-results" <?php if ( $max_num_of_rows == 50 ) { echo 'checked'; } ?>>50
+        <input type="radio" name="max_num_of_rows" value="150" class="log-max-results" <?php if ( $max_num_of_rows == 150 ) { echo 'checked'; } ?>>150
+        <input type="radio" name="max_num_of_rows" value="300" class="log-max-results" <?php if ( $max_num_of_rows == 300 ) { echo 'checked'; } ?>>300
       </form>
     </div>
     <div class="log-table-view" data-logfile="<?php esc_attr_e( $logfile ); ?>" data-logbytes="<?php esc_attr_e( filesize( $logfile ) ); ?>" data-regex="<?php esc_attr_e( $regex ); ?>">
       <table class="wp-list-table widefat striped" cellspacing="0">
         <tbody>
-          <?php $result = $this->render_rows( $logfile, -1, 50, $regex ); ?>
+          <?php $result = $this->render_rows( $logfile, -1, $max_num_of_rows, $regex ); ?>
         </tbody>
       </table>
     </div>
@@ -154,9 +164,11 @@ if ( ! class_exists('Logs') ) {
         <p><?php echo wp_sprintf( __("File %s does not exist or we don't have permissions to read it.", 'seravo' ), $logfile ); ?></p>
       </div>
       <?php elseif ( ! $result ) : ?>
-      <p><?php _e('Log empty', 'seravo' ); ?></p>
-      <?php endif; ?>
-    <?php endif; ?>
+        <p><?php _e('Log empty', 'seravo' ); ?></p>
+      <?php else : ?>
+        <p><?php echo wp_sprintf(__('Showing %s rows', 'seravo'), $result); ?></p>
+      <?php endif;
+    endif; ?>
   </div>
 
   <?php
@@ -182,16 +194,17 @@ if ( ! class_exists('Logs') ) {
       $rows = Logs::read_log_lines_backwards( $logfile, $offset, $lines, $regex, $cutoff_bytes );
 
       if ( empty( $rows ) ) {
-        return false;
+        return 0;
       }
 
-      foreach ( $rows as $row ) : ?>
+      $num_of_rows = 0;
+      foreach ( $rows as $row ) : ++$num_of_rows; ?>
         <tr>
           <td><span class="logrow"><?php echo $row; ?></span></td>
         </tr>
       <?php endforeach;
 
-      return true;
+      return $num_of_rows;
     }
 
 

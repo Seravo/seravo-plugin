@@ -12,6 +12,10 @@
           $('#log-dialog').dialog('open');
       });
 
+      $('.log-max-results').click(function() {
+          $('.log-filter').submit();
+      });
+
       $('#log-dialog').dialog({
           title: 'Add New Log',
           dialogClass: 'wp-dialog',
