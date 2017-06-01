@@ -7,24 +7,24 @@
 
 namespace Seravo;
 
-if (! class_exists('CheckDefaultEmail')) {
+if ( ! class_exists('CheckDefaultEmail') ) {
     class CheckDefaultEmail {
 
         public static function load() {
-            add_action('admin_notices', array(__CLASS__, '_seravo_check_default_email'));
+            add_action('admin_notices', array( __CLASS__, '_seravo_check_default_email' ));
         }
 
         public static function _seravo_check_default_email() {
             // Get the siteurl and home url and check if https is enabled, if not, show warning
             $email = get_option('admin_email');
-            if ($email == 'no-reply@seravo.fi' || $email == 'no-reply@seravo.com') {
+            if ( $email == 'no-reply@seravo.fi' || $email == 'no-reply@seravo.com' ) {
                 self::_seravo_show_email_warning();
             }
         }
 
         public static  function _seravo_show_email_warning() {
             ?><div class="notice notice-error"><p>
-            <?php 
+            <?php
             $siteurl = get_option('siteurl');
             $link = sprintf( wp_kses( __( 'Warning: Default email value found. Change it to your own email address <a href="%s/wp-admin/options-general.php">here</a>', 'seravo' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( $siteurl ) );
             echo $link;
