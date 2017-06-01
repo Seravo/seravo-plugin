@@ -220,6 +220,13 @@ class Loader {
     if  ( apply_filters('seravo_search_replace', true) && current_user_can('administrator') ) {
       require_once(dirname( __FILE__ ) . '/modules/search-replace.php');
     }
+
+    /*
+    * Module for image optimization
+    */
+    if ( apply_filters('seravo_optimize_images', true) && current_user_can( 'administrator' ) ) {
+        require_once(dirname(__FILE__) . '/modules/optimize-images.php');
+    }
   }
 }
 
