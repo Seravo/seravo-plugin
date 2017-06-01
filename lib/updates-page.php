@@ -27,8 +27,8 @@ $site_data = json_decode($response, true);
 <h2>Site status</h2>
 <ul>
   <li>Site created: <?php echo $site_data['created']; ?></li>
-  <li>Latest update attempt: <?php echo $site_data['containers'][0]['update_attempt']; ?></li>
-  <li>Latest successful update: <?php echo $site_data['containers'][0]['update_success']; ?></li>
+  <li>Latest update attempt: <?php echo $site_data['update_attempt']; ?></li>
+  <li>Latest successful update: <?php echo $site_data['update_success']; ?></li>
 </ul>
 
 
