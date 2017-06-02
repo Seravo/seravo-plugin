@@ -195,6 +195,11 @@ class Loader {
     if ( apply_filters('seravo_check_default_email', true) && current_user_can( 'administrator' ) ) {
         require_once(dirname( __FILE__ ) . '/modules/check-default-email.php');
     }
+
+    if ( defined( 'WP_CLI' ) && WP_CLI ) {
+      require_once dirname( __FILE__ ) . '/modules/wp-cli.php';
+    }
+
   }
 }
 
