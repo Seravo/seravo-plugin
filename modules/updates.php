@@ -32,6 +32,28 @@ if ( ! class_exists('Updates') ) {
       require_once(dirname( __FILE__ ) . '/../lib/updates-page.php');
     }
 
+    public static function seravo_admin_get_site_info() {
+
+      $site = getenv('USER');
+
+      $ch = curl_init('http://localhost:8888/v1/site/' . $site);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'X-Api-Key: ' . getenv('SERAVO_API_KEY') ));
+      $response = curl_exec($ch);
+      $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+      if ( curl_error($ch) || $httpcode != 200 ) {
+        error_log('SWD API error ' . $httpcode . ': ' . curl_error($ch));
+        die('API call failed. Aborting. The error has been logged.');
+      }
+
+      curl_close($ch);
+
+      $site_info = json_decode($response, true);
+
+      return $site_info;
+    }
+
     public static function seravo_admin_toggle_seravo_updates() {
       check_admin_referer( 'toggle-seravo-updates-on-or-off' );
 
