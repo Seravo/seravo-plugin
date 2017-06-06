@@ -89,6 +89,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       }
 
       $id = 'instance-switcher';
+      $menuclass = '';
 
       if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production' ) {
         $menuclass = 'instance-switcher-warning';
