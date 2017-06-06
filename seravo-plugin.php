@@ -200,6 +200,13 @@ class Loader {
       require_once dirname( __FILE__ ) . '/modules/wp-cli.php';
     }
 
+    /*
+    * Notification with last WordPress login date and error count
+    */
+    if ( current_user_can( 'administrator' ) ) {
+        require_once(dirname(__FILE__) . '/modules/login-notification.php');
+    }
+
   }
 }
 

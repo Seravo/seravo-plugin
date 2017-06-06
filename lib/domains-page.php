@@ -126,7 +126,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     if ( curl_error($ch) || $httpcode != 200 ) {
       error_log('SWD API error ' . $httpcode . ': ' . curl_error($ch));
-      die('API call failed. Aborting. The error has been logged.');
+      die(__('API call failed. Aborting. The error has been logged.', 'seravo'));
     }
 
     curl_close($ch);
