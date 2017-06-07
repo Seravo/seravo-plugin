@@ -213,6 +213,13 @@ class Loader {
     if ( apply_filters('seravo_show_tests_page', true) && current_user_can( 'administrator' ) ) {
         require_once(dirname( __FILE__ ) . '/modules/tests.php');
     }
+
+    /*
+     * Allow Seravo customers to modify wp databases with search-replace
+     */
+    if  ( apply_filters('seravo_search_replace', true) && current_user_can('administrator') ) {
+      require_once(dirname( __FILE__ ) . '/modules/search-replace.php');
+    }
   }
 }
 
