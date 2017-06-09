@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-Palvelu Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-06-01 08:31+0300\n"
-"PO-Revision-Date: 2017-06-01 08:32+0300\n"
+"POT-Creation-Date: 2017-06-08 10:06+0300\n"
+"PO-Revision-Date: 2017-06-08 10:06+0300\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.fi>\n"
 "Language-Team: Onni Hakala <onni@koodimonni.fi>\n"
 "Language: fi_FI\n"
@@ -25,7 +25,11 @@ msgstr ""
 
 #: lib/domains-page.php:6
 msgid "Sorry, you are not allowed to access domains."
-msgstr ""
+msgstr "Sinulla ei ole oikeuksia verkkotunnusten hallintaan."
+
+#: lib/domains-page.php:129
+msgid "API call failed. Aborting. The error has been logged."
+msgstr "Rajapintayhteys epäonnistui. Virhe on lisätty lokiin."
 
 #: lib/reports-page.php:3 modules/reports.php:26
 msgid "Reports"
@@ -105,26 +109,62 @@ msgstr ""
 "HTTPS-protokolla ei ole käytössä WordPressin asetuksissa. Katso lisää <a "
 "href=\"https://wp-palvelu.fi/blogi/https-kaikille-ja-aina/\">täältä</a>."
 
-#: modules/instance-switcher.php:101
+#: modules/domains.php:18
+msgid "Domains"
+msgstr "Verkkotunnukset"
+
+#: modules/instance-switcher.php:103
 msgid "Now in"
 msgstr ""
 
-#: modules/instance-switcher.php:132
+#: modules/instance-switcher.php:134
 msgid "Exit Shadow"
 msgstr ""
 
-#: modules/instance-switcher.php:141
+#: modules/instance-switcher.php:143
 msgid "Shadows explained at Seravo.com/docs"
 msgstr ""
 
-#: modules/instance-switcher.php:155
+#: modules/instance-switcher.php:157
 #, php-format
 msgid "Your current shadow instance is %s."
 msgstr ""
 
-#: modules/instance-switcher.php:155
+#: modules/instance-switcher.php:157
 msgid "Exit"
 msgstr "Poistu"
+
+#: modules/login-notification.php:36
+msgid "Site Error Count"
+msgstr "Sivuston virhemäärä"
+
+#: modules/login-notification.php:115
+#, php-format
+msgid "Welcome %s!"
+msgstr "Tervetuloa, %s!"
+
+#: modules/login-notification.php:116
+#, php-format
+msgid "Previously logged into WordPress by %s on %s (%s)."
+msgstr "Edellinen kirjautuminen WordPressiin käyttäjältä %s – %s (%s)."
+
+#: modules/login-notification.php:122
+msgid "php-error.log"
+msgstr "php-error.log"
+
+#: modules/login-notification.php:124
+#, php-format
+msgid ""
+"You have a total of %s lines in your error log this week. Check %s for "
+"details."
+msgstr "Virhelokiin on tullut tällä viikolla %s riviä. Lisätietoa: %s."
+
+#: modules/login-notification.php:127
+#, php-format
+msgid ""
+"You have at least %s lines in your error log this week. Check %s for details."
+msgstr ""
+"Virhelokiin on tullut tällä viikolla vähintään %s riviä. Lisätietoa: %s."
 
 #: modules/logs.php:63 modules/logs.php:64 modules/logs.php:113
 msgid "Logs"
@@ -146,7 +186,7 @@ msgstr "Maksimimäärä näytettäviä lokirivejä:"
 #, php-format
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
-"Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä"
+"Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä."
 
 #: modules/logs.php:167
 msgid "Log empty"
@@ -180,9 +220,6 @@ msgstr "Onnistui:"
 msgid "The cache was flushed"
 msgstr "Välimuisti tyhjennetty"
 
-#~ msgid "Showing %s most recent entries"
-#~ msgstr "Näytetään %s viimeisintä lokiriviä"
-
 #~ msgid "Seravo Plugin"
 #~ msgstr "WP-palvelu.fi-lisäosa"
 
@@ -190,3 +227,11 @@ msgstr "Välimuisti tyhjennetty"
 #~ "Enhances WordPress with Seravo.com specific features and integrations."
 #~ msgstr ""
 #~ "Parantaa WordPressin toimintaa lisäämällä WP-palvelu.fi:n ominaisuuksia."
+
+#, fuzzy
+#~| msgid "Seravo Plugin"
+#~ msgid "Seravo Oy"
+#~ msgstr "WP-palvelu.fi-lisäosa"
+
+#~ msgid "Showing %s most recent entries"
+#~ msgstr "Näytetään %s viimeisintä lokiriviä"
