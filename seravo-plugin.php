@@ -207,6 +207,12 @@ class Loader {
         require_once(dirname(__FILE__) . '/modules/login-notification.php');
     }
 
+    /*
+     * Tests page for wp-test
+     */
+    if ( apply_filters('seravo_show_tests_page', true) && current_user_can( 'administrator' ) ) {
+        require_once(dirname( __FILE__ ) . '/modules/tests.php');
+    }
   }
 }
 

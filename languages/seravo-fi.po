@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-Palvelu Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-06-08 10:06+0300\n"
-"PO-Revision-Date: 2017-06-08 10:06+0300\n"
+"POT-Creation-Date: 2017-06-12 13:18+0300\n"
+"PO-Revision-Date: 2017-06-12 13:22+0300\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.fi>\n"
 "Language-Team: Onni Hakala <onni@koodimonni.fi>\n"
 "Language: fi_FI\n"
@@ -89,6 +89,37 @@ msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
 #: lib/reports-page.php:79
 msgid "Biggest directories:"
 msgstr "Suurimmat hakemistot:"
+
+#: lib/tests-page.php:3 modules/tests.php:25
+msgid "Tests"
+msgstr "Testit"
+
+#: lib/tests-page.php:5
+msgid ""
+"Here you can test the core functionality of the WordPress installation on "
+"your site.\n"
+"        The same effect can be achieved via command line by running <code>wp-"
+"test</code>.\n"
+"        For more information, check the <a href=\"https://seravo.com/docs/"
+"tests/integration-tests/\">\n"
+"            Seravo documentation for developers</a>."
+msgstr ""
+"Tällä sivulla voi testata WordPressin toiminnallisuuden sivustolla. \n"
+"Saman voi tehdä komentoriviltä ajamalla komennon <code>wp-test</code>.\n"
+"Lisätietoa sivuston tominnallisuuden testaamisesta <a href=https://seravo."
+"com/docs/tests/integration-tests/>Seravon kehittäjäohjeissa</a>."
+
+#: lib/tests-page.php:10
+msgid "Run Tests"
+msgstr "Suorita testit"
+
+#: lib/tests-page.php:15
+msgid "Click \"Run Tests\" to run the Rspec tests"
+msgstr "Klikkaa “Suorita testit” -nappia"
+
+#: lib/tests-page.php:19
+msgid "Toggle details"
+msgstr "Näytä lisää"
 
 #: modules/check-default-email.php:29
 #, php-format
@@ -186,7 +217,7 @@ msgstr "Maksimimäärä näytettäviä lokirivejä:"
 #, php-format
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
-"Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä."
+"Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä"
 
 #: modules/logs.php:167
 msgid "Log empty"
@@ -220,6 +251,29 @@ msgstr "Onnistui:"
 msgid "The cache was flushed"
 msgstr "Välimuisti tyhjennetty"
 
+#: modules/tests.php:37
+msgid "No data returned for section."
+msgstr "Testi ei palauttanut dataa."
+
+#: modules/tests.php:38
+msgid "Tests run succesfully without errors!"
+msgstr "Testit suoritettu onnistuneesti ilman virheitä!"
+
+#: modules/tests.php:39
+msgid "At least one test failed."
+msgstr "Ainakin yksi testi epäonnistui."
+
+#: modules/tests.php:40
+msgid "Failed to load. Please try again."
+msgstr "Lataaminen epäonnistui. Yritä uudelleen."
+
+#: modules/tests.php:41
+msgid "Running rspec tests..."
+msgstr "Testataan sivustoa…"
+
+#~ msgid "Showing %s most recent entries"
+#~ msgstr "Näytetään %s viimeisintä lokiriviä"
+
 #~ msgid "Seravo Plugin"
 #~ msgstr "WP-palvelu.fi-lisäosa"
 
@@ -227,11 +281,3 @@ msgstr "Välimuisti tyhjennetty"
 #~ "Enhances WordPress with Seravo.com specific features and integrations."
 #~ msgstr ""
 #~ "Parantaa WordPressin toimintaa lisäämällä WP-palvelu.fi:n ominaisuuksia."
-
-#, fuzzy
-#~| msgid "Seravo Plugin"
-#~ msgid "Seravo Oy"
-#~ msgstr "WP-palvelu.fi-lisäosa"
-
-#~ msgid "Showing %s most recent entries"
-#~ msgstr "Näytetään %s viimeisintä lokiriviä"

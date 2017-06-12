@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin 1.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-06-08 10:05+0300\n"
+"POT-Creation-Date: 2017-06-12 13:17+0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -85,6 +85,33 @@ msgstr ""
 
 #: lib/reports-page.php:79
 msgid "Biggest directories:"
+msgstr ""
+
+#: lib/tests-page.php:3 modules/tests.php:25
+msgid "Tests"
+msgstr ""
+
+#: lib/tests-page.php:5
+msgid ""
+"Here you can test the core functionality of the WordPress installation on "
+"your site.\n"
+"        The same effect can be achieved via command line by running "
+"<code>wp-test</code>.\n"
+"        For more information, check the <a href=\"https://seravo.com/docs/"
+"tests/integration-tests/\">\n"
+"            Seravo documentation for developers</a>."
+msgstr ""
+
+#: lib/tests-page.php:10
+msgid "Run Tests"
+msgstr ""
+
+#: lib/tests-page.php:15
+msgid "Click \"Run Tests\" to run the Rspec tests"
+msgstr ""
+
+#: lib/tests-page.php:19
+msgid "Toggle details"
 msgstr ""
 
 #: modules/check-default-email.php:29
@@ -206,4 +233,24 @@ msgstr ""
 
 #: modules/purge-cache.php:92
 msgid "The cache was flushed"
+msgstr ""
+
+#: modules/tests.php:37
+msgid "No data returned for section."
+msgstr ""
+
+#: modules/tests.php:38
+msgid "Tests run succesfully without errors!"
+msgstr ""
+
+#: modules/tests.php:39
+msgid "At least one test failed."
+msgstr ""
+
+#: modules/tests.php:40
+msgid "Failed to load. Please try again."
+msgstr ""
+
+#: modules/tests.php:41
+msgid "Running rspec tests..."
 msgstr ""

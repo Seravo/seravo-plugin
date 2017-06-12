@@ -1,0 +1,54 @@
+.seravo-test-result-wrapper {
+    display: block;
+    min-height: 5em;
+    max-width: 55em;
+    overflow: auto;
+    border-left: solid 0.5em #e8ba1b;
+    -moz-transition: border 1s ease-in;
+    -webkit-transition: border 1s ease-in;
+    -o-transition: border 1s ease-in;
+    transition: border 1s ease-in;
+    background-color: white;
+    margin-top: 2em;
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.12);
+}
+.seravo-test-result {
+    display: none;
+    margin: 1em;
+    max-height: 25em;
+    overflow: auto;
+    padding: 1em;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
+}
+.seravo-test-status {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 1.6em;
+}
+#seravo_test_show_more_wrapper {
+    display: none;
+    position: relative;
+    height: 1em;
+    float: right;
+    margin-right: 0.5em;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+#seravo_test_show_more,
+#seravo_test_show_more:hover,
+#seravo_test_show_more:active,
+#seravo_test_show_more:focus {
+    text-decoration: none;
+    box-shadow: none;
+    color: inherit;
+}
+#seravo_tests_loading {
+    margin: 0 auto;
+    overflow: hidden;
+}
+.seravo-test-result {
+    margin-left: 0.5em;
+}
