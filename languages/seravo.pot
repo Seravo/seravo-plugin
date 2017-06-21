@@ -87,6 +87,42 @@ msgstr ""
 msgid "Biggest directories:"
 msgstr ""
 
+#: lib/search-replace-page.php:9
+msgid "Search-replace tool"
+msgstr ""
+
+#: lib/search-replace-page.php:10
+msgid "With this tool you can run wp search-replace. For your own safety, dry-run has to be ran before the actual search-replace"
+msgstr ""
+
+#: lib/search-replace-page.php:13
+msgid "From:"
+msgstr ""
+
+#: lib/search-replace-page.php:14
+msgid "To:"
+msgstr ""
+
+#: lib/search-replace-page.php:19
+msgid "Skip backups"
+msgstr ""
+
+#: lib/search-replace-page.php:21
+msgid "All tables"
+msgstr ""
+
+# lib/search-replace-page.php:23
+msgid "Network"
+msgstr ""
+
+# lib/search-replace-page.php:27
+msgid "Run dry-run"
+msgstr ""
+
+# lib/search-replace-page.php:28
+msgid "Run wp search-replace"
+msgstr ""
+
 #: lib/tests-page.php:3 modules/tests.php:25
 msgid "Tests"
 msgstr ""
