@@ -217,11 +217,17 @@ class Loader {
       require_once(dirname( __FILE__ ) . '/modules/search-replace.php');
     }
 
+    /*
+    * Module for image optimization
+    */
+    if ( apply_filters('seravo_optimize_images', true) && current_user_can( 'administrator' ) ) {
+        require_once(dirname(__FILE__) . '/modules/optimize-images.php');
+    }
+
     // Load WP-CLI module 'wp seravo'
     if ( defined( 'WP_CLI' ) && WP_CLI ) {
       require_once dirname( __FILE__ ) . '/modules/wp-cli.php';
     }
-
   }
 }
 
