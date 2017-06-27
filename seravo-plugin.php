@@ -213,7 +213,7 @@ class Loader {
     /*
      * Allow Seravo customers to modify wp databases with search-replace
      */
-    if  ( apply_filters('seravo_search_replace', true) && current_user_can('administrator') ) {
+    if ( apply_filters('seravo_search_replace', true) && current_user_can('administrator') ) {
       require_once(dirname( __FILE__ ) . '/modules/search-replace.php');
     }
 

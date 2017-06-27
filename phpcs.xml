@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="Seravo">
+  <description>Seravo coding standards definition. Mostly WordPress coding standards, but relaxed a bit to be easier on developers.</description>
+
+  <!-- show progress -->
+  <arg value="p"/>
+
+  <!-- check current and all subfolders if no file parameter given -->
+  <file>.</file>
+
+  <rule ref="Squiz.PHP.CommentedOutCode"/>
+  <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+  <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+  <rule ref="Generic.Commenting.Todo"/>
+  <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+
+  <rule ref="WordPress-Extra">
+   <exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
+   <exclude name="Generic.WhiteSpace.ScopeIndent"/>
+   <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
+   <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
+   <exclude name="WordPress.Arrays.ArrayDeclaration.IndexNoNewline" />
+   <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys" />
+  </rule>
+</ruleset>

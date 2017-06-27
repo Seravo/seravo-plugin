@@ -18,7 +18,7 @@ jQuery(window).on('load', function() {
                     // No failures, if the string "Failed examples" was not found in data
                     jQuery(this).html(seravo_tests_loc.test_success).fadeIn('slow');
                     jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #038103');
-                } else  {
+                } else {
                     // At least 1 failure, if the string "Failed examples" was found
                     jQuery(this).html(seravo_tests_loc.test_fail).fadeIn('slow');
                     jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #e74c3c');

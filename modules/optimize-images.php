@@ -84,7 +84,7 @@ if ( ! class_exists('Optimize_images') ) {
         public static function seravo_image_max_height_field() {
             $image_max_height = get_option( 'seravo-image-max-resolution-height' );
             echo '<input type="text" class="' . self::get_input_field_attributes()[0] . '" name="seravo-image-max-resolution-height" ' . self::get_input_field_attributes()[1] . ' placeholder="'
-                            . __( 'Height', 'seravo' ) . '" value="'. $image_max_height . '">';
+                            . __( 'Height', 'seravo' ) . '" value="' . $image_max_height . '">';
         }
 
         public static function seravo_image_enabled_field() {

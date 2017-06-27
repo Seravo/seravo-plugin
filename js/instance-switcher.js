@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       document.cookie = "wpp_shadow=;path=/";
       document.cookie = "seravo_shadow=;path=/";
-    } else if (instance.length === 6){
+    } else if (instance.length === 6) {
       e.preventDefault();
       document.cookie = "wpp_shadow=" + instance + ";path=/";
       document.cookie = "seravo_shadow=" + instance + ";path=/";

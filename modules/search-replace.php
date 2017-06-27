@@ -12,9 +12,9 @@ if ( ! class_exists( 'SearchReplace' ) ) {
 
     public static function load() {
 
-      if( !is_multisite() ){
+      if ( ! is_multisite() ) {
         $GLOBALS['sr_networkvisibility'] = 'hidden';
-      } else{
+      } else {
         $GLOBALS['sr_networkvisibility'] = '';
       }
 
@@ -25,12 +25,12 @@ if ( ! class_exists( 'SearchReplace' ) ) {
 
       // Only show the menu item on systems where wp is available
       if ( exec( 'which wp' ) ) {
-        add_action( 'admin_menu' , array(__CLASS__, 'register_search_replace_page' ) );
+        add_action( 'admin_menu' , array( __CLASS__, 'register_search_replace_page' ) );
       }
     }
 
     public static function register_search_replace_page() {
-      add_submenu_page( 'tools.php' , 'Search Replace' , 'Search Replace' , 'manage_options' , 'searchreplace_menu' , array(__CLASS__, 'load_search_replace_page' ) );
+      add_submenu_page( 'tools.php' , 'Search Replace' , 'Search Replace' , 'manage_options' , 'searchreplace_menu' , array( __CLASS__, 'load_search_replace_page' ) );
     }
 
     public static function load_search_replace_page() {

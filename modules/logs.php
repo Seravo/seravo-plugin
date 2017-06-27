@@ -97,7 +97,7 @@ if ( ! class_exists('Logs') ) {
 
       // Automatically fetch all logs from /data/log/*.log
      $logs = glob( '/data/log/*.log' );
-      if ( empty( $logs ) ):
+      if ( empty( $logs ) ) :
           echo '<div class="notice notice-warning" style="padding:1em;margin:1em;">' .
           __('No logs found in <code>/data/log/</code>.', 'seravo') . '</div>';
           return;
@@ -132,7 +132,7 @@ if ( ! class_exists('Logs') ) {
      * @access public
      * @return void
      */
-    public function render_log_view( $logfile, $regex = null, $max_num_of_rows) {
+    public function render_log_view( $logfile, $regex = null, $max_num_of_rows ) {
       global $current_log;
   ?>
   <div class="log-view">

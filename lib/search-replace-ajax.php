@@ -1,6 +1,6 @@
 <?php
 
-function seravo_search_replace($from, $to, $options) {
+function seravo_search_replace( $from, $to, $options ) {
   $command = 'wp search-replace ';
   $output = [];
 
@@ -9,13 +9,13 @@ function seravo_search_replace($from, $to, $options) {
   $command .= "'" . $from . "' ";
   $command .= "'" . $to . "'";
 
-  if($options['dry_run'] === "false" && $options['skip_backup'] === "false" ) {
+  if ( $options['dry_run'] === 'false' && $options['skip_backup'] === 'false' ) {
     $backup = 'wp db export ' . getenv('DB_NAME') . '_' . date(DATE_ATOM) . '.sql --skip-extended-insert --single-transaction';
     array_push($output, '<b>$ ' . $backup . '</b>');
     exec($backup . ' 2>&1', $output);
   }
   // Only way this if is not true is if the backups fail.
-  if($options['dry_run'] === "true" || $options["skip_backup"] === "true" || strpos( end($output), 'Success:') !== false){
+  if ( $options['dry_run'] === 'true' || $options['skip_backup'] === 'true' || strpos( end($output), 'Success:') !== false ) {
     array_push($output,  '<b>$ ' . $command . '</b>');
     exec($command . ' 2>&1', $output);
   } else {
@@ -24,15 +24,15 @@ function seravo_search_replace($from, $to, $options) {
   return $output;
 }
 
-function seravo_search_replace_set_flags($options) {
+function seravo_search_replace_set_flags( $options ) {
   $flags = '';
-  if($options['dry_run'] === "true"){
+  if ( $options['dry_run'] === 'true' ) {
     $flags .= '--dry-run ';
   }
-  if($options['all_tables'] === "true"){
+  if ( $options['all_tables'] === 'true' ) {
     $flags .= '--all-tables ';
   }
-  if($options['network'] === "true"){
+  if ( $options['network'] === 'true' ) {
     $flags .= '--network ';
   }
   return $flags;
@@ -50,4 +50,4 @@ switch ( $_REQUEST['section'] ) {
 }
 
 
- ?>
+
