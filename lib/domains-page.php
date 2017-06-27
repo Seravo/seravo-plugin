@@ -190,7 +190,7 @@ $domainsTable->prepare_items();
 <div class="wrap">
 
   <h1>
-    <?php _e('Domains', 'seravo') ?>
+    <?php _e('Domains', 'seravo') ?> (beta)
     <!-- a href="tools.php?page=add_domains_page" class="page-title-action"><?php // echo esc_html_x('Add New', 'post'); ?></a -->
   </h1>
 

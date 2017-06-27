@@ -1,6 +1,6 @@
 <div class="wrap">
 
-    <h1><?php _e('Tests', 'seravo'); ?></h1>
+    <h1><?php _e('Tests', 'seravo'); ?> (beta)</h1>
 
     <p><?php _e('Here you can test the core functionality of the WordPress installation on your site.
         The same effect can be achieved via command line by running <code>wp-test</code>.

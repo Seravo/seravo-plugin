@@ -1,6 +1,6 @@
 <div class="wrap">
 
- <h1><?php _e('Search-replace tool','seravo'); ?></h1>
+ <h1><?php _e('Search-replace tool','seravo'); ?> (beta)</h1>
  <p> <?php _e('With this tool you can run wp search-replace. For your own safety, dry-run has to be ran before the actual search-replace', 'seravo'); ?></p>
 
  <div class="sr-navbar">

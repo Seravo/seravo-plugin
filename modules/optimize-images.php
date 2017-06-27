@@ -22,7 +22,7 @@ if ( ! class_exists('Optimize_images') ) {
         }
 
         public static function register_optimize_image_settings() {
-            add_settings_section( 'seravo-optimize-images-settings', __( 'Optimize Images', 'seravo' ),
+            add_settings_section( 'seravo-optimize-images-settings', __( 'Optimize Images', 'seravo' ) . ' (beta)',
                 array( __CLASS__, 'optimize_images_settings_description' ), 'optimize_images_settings' );
 
             register_setting( 'seravo-optimize-images-settings-group', 'seravo-enable-optimize-images' );
