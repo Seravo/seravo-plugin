@@ -164,7 +164,7 @@ class Loader {
     /*
      * Allow Seravo customers to manage their domains
      */
-    if ( apply_filters('seravo_show_domains_page',true) ) {
+    if ( apply_filters('seravo_show_domains_page',true) && getenv('CONTAINER') ) {
       require_once(dirname( __FILE__ ) . '/modules/domains.php');
     }
 
