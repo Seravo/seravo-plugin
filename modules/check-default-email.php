@@ -26,7 +26,7 @@ if ( ! class_exists('CheckDefaultEmail') ) {
             ?><div class="notice notice-error"><p>
             <?php
             $siteurl = get_option('siteurl');
-            $link = sprintf( wp_kses( __( 'Warning: Default email value found. Change it to your own email address <a href="%s/wp-admin/options-general.php">here</a>', 'seravo' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( $siteurl ) );
+            $link = sprintf( wp_kses( __( 'Warning: Default admin email detected in <a href="%s/wp-admin/options-general.php">site settings</a>. Please update it.', 'seravo' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( $siteurl ) );
             echo $link;
             ?>
             </p>
