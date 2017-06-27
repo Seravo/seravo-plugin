@@ -3,7 +3,7 @@
 if ( ! current_user_can( 'level_10' ) ) {
   wp_die(
       '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-      '<p>' . __( 'Sorry, you are not allowed to access domains.' ) . '</p>',
+      '<p>' . __( 'Sorry, you are not allowed to access domains.', 'seravo' ) . '</p>',
       403
   );
 }
@@ -68,10 +68,10 @@ class Seravo_Domains_List_Table extends WP_List_Table {
   function get_columns() {
     $columns = array(
       'cb'         => '<input type="checkbox">', // Render a checkbox instead of text
-      'domain'     => 'Domain',
-      'expires'    => 'Expires',
-      'dns'        => 'DNS',
-      'management' => 'Managed by',
+      'domain'     => __('Domain', 'seravo'),
+      'expires'    => __('Expires', 'seravo'),
+      'dns'        => __('DNS', 'seravo'),
+      'management' => __('Managed by', 'seravo'),
     );
     return $columns;
   }
@@ -190,11 +190,11 @@ $domainsTable->prepare_items();
 <div class="wrap">
 
   <h1>
-    Domains
+    <?php _e('Domains', 'seravo') ?>
     <!-- a href="tools.php?page=add_domains_page" class="page-title-action"><?php // echo esc_html_x('Add New', 'post'); ?></a -->
   </h1>
 
-  <p>Domains routed to this WordPress site are listed below.</p>
+  <p><?php _e('Domains routed to this WordPress site are listed below.', 'seravo') ?></p>
 
   <!-- Forms are NOT created automatically, so you need to wrap the table in one to use features like bulk actions -->
   <form id="domains-filter" method="get">

@@ -27,7 +27,7 @@ if ( ! class_exists('Backups') ) {
     }
 
     public static function register_backups_page() {
-      add_submenu_page( 'tools.php', 'Backups', 'Backups', 'manage_options', 'backups_page', array( __CLASS__, 'load_backups_page' ) );
+      add_submenu_page( 'tools.php', __('Backups', 'seravo'), __('Backups', 'seravo'), 'manage_options', 'backups_page', array( __CLASS__, 'load_backups_page' ) );
     }
 
     public static function load_backups_page() {

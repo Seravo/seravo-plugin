@@ -24,7 +24,7 @@ if ( ! class_exists('Updates') ) {
 
     public static function register_updates_page() {
       if ( getenv('SERAVO_API_KEY') != '' ) {
-        add_submenu_page( 'tools.php', 'Updates', 'Updates', 'manage_options', 'updates_page', array( __CLASS__, 'load_updates_page' ) );
+        add_submenu_page( 'tools.php', __('Updates', 'seravo'), __('Updates', 'seravo'), 'manage_options', 'updates_page', array( __CLASS__, 'load_updates_page' ) );
       }
     }
 

@@ -1,21 +1,21 @@
 <div class="wrap">
 
-<h1>Backups</h1>
+<h1><?php _e('Backups', 'seravo') ?></h1>
 
-<p>Backups are made automatically every night and preserved for 30 days. The data can be accessed on the server at <code>/data/backups</code>.</p>
+<p><?php _e('Backups are made automatically every night and preserved for 30 days. The data can be accessed on the server at <code>/data/backups</code>.', 'seravo') ?></p>
 
-<h2>Current backups: <code>wp-backup-status</code></h2>
+<h2><?php _e('Current backups: <code>wp-backup-status</code>', 'seravo') ?></h2>
 <p>
 <div id="backup_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
 <pre id="backup_status"></pre>
 </p>
 
-<h2>Create a new backup</h2>
+<h2><?php _e('Create a new backup', 'seravo') ?></h2>
 
-<p>You can also create backups using the command line tool <code>wp-backup</code>. We recommend getting familiar with the command line option accessible via SSH so that recovering a backup is not dependant on if WP-admin works or not.</p>
+<p><?php _e('You can also create backups using the command line tool <code>wp-backup</code>. We recommend getting familiar with the command line option accessible via SSH so that recovering a backup is not dependant on if WP-admin works or not.', 'seravo') ?></p>
 
 <p>
-<button id="create_backup_button" class="button">Make a new backup </button>
+<button id="create_backup_button" class="button"><?php _e('Make a new backup', 'seravo') ?> </button>
 <div id="create_backup_loading"><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
 <pre><div id="create_backup"></div></pre>
 </p>
