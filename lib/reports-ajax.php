@@ -28,7 +28,7 @@ function seravo_report_git_status() {
 }
 
 function seravo_report_redis_info() {
-  exec('redis-cli info | grep -e keyspace -e db0', $output);
+  exec('redis-cli info stats | grep keys', $output);
   return $output;
 }
 
