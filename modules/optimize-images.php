@@ -51,7 +51,7 @@ if ( ! class_exists('Optimize_images') ) {
 
         public static function check_default_settings() {
             // Set the default settings for the user if the settings don't exist in database
-            if ( get_option( 'seravo-image-max-resolution' ) === false || get_option( 'seravo-image-max-resolution-height' ) === false ) {
+            if ( get_option( 'seravo-image-max-resolution-width' ) === false || get_option( 'seravo-image-max-resolution-height' ) === false ) {
                 update_option( 'seravo-image-max-resolution-width', self::$max_width_default );
                 update_option( 'seravo-image-max-resolution-height', self::$max_height_default );
             }
