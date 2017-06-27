@@ -196,10 +196,6 @@ class Loader {
         require_once(dirname( __FILE__ ) . '/modules/check-default-email.php');
     }
 
-    if ( defined( 'WP_CLI' ) && WP_CLI ) {
-      require_once dirname( __FILE__ ) . '/modules/wp-cli.php';
-    }
-
     /*
     * Notification with last WordPress login date and error count
     */
@@ -220,6 +216,12 @@ class Loader {
     if  ( apply_filters('seravo_search_replace', true) && current_user_can('administrator') ) {
       require_once(dirname( __FILE__ ) . '/modules/search-replace.php');
     }
+
+    // Load WP-CLI module 'wp seravo'
+    if ( defined( 'WP_CLI' ) && WP_CLI ) {
+      require_once dirname( __FILE__ ) . '/modules/wp-cli.php';
+    }
+
   }
 }
 
