@@ -12,10 +12,10 @@ if ( ! class_exists( 'SearchReplace' ) ) {
 
     public static function load() {
 
-      if ( ! is_multisite() ) {
-        $GLOBALS['sr_networkvisibility'] = 'hidden';
+      if ( current_user_can( 'manage_network' ) ) {
+        $GLOBALS['sr_networkvisibility'] = true;
       } else {
-        $GLOBALS['sr_networkvisibility'] = '';
+        $GLOBALS['sr_networkvisibility'] = false;
       }
 
       add_action( 'wp_ajax_seravo_search_replace' , function(){
