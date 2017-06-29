@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin 1.5.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-06-27 12:23:50+00:00\n"
+"POT-Creation-Date: 2017-06-29 18:56:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -50,31 +50,31 @@ msgstr ""
 msgid "Sorry, you are not allowed to access domains."
 msgstr ""
 
-#: lib/domains-page.php:71
+#: lib/domains-page.php:73
 msgid "Domain"
 msgstr ""
 
-#: lib/domains-page.php:72
+#: lib/domains-page.php:74
 msgid "Expires"
 msgstr ""
 
-#: lib/domains-page.php:73
+#: lib/domains-page.php:75
 msgid "DNS"
 msgstr ""
 
-#: lib/domains-page.php:74
+#: lib/domains-page.php:76
 msgid "Managed by"
 msgstr ""
 
-#: lib/domains-page.php:129
+#: lib/domains-page.php:131
 msgid "API call failed. Aborting. The error has been logged."
 msgstr ""
 
-#: lib/domains-page.php:193 modules/domains.php:18
+#: lib/domains-page.php:195 modules/domains.php:18
 msgid "Domains"
 msgstr ""
 
-#: lib/domains-page.php:197
+#: lib/domains-page.php:199
 msgid "Domains routed to this WordPress site are listed below."
 msgstr ""
 
@@ -155,15 +155,15 @@ msgstr ""
 msgid "All tables"
 msgstr ""
 
-#: lib/search-replace-page.php:17
+#: lib/search-replace-page.php:18
 msgid "Network"
 msgstr ""
 
-#: lib/search-replace-page.php:21
+#: lib/search-replace-page.php:23
 msgid "Run dry-run"
 msgstr ""
 
-#: lib/search-replace-page.php:22
+#: lib/search-replace-page.php:24
 msgid "Run wp search-replace"
 msgstr ""
 
@@ -192,6 +192,42 @@ msgstr ""
 
 #: lib/tests-page.php:19
 msgid "Toggle details"
+msgstr ""
+
+#: lib/updates-page.php:3
+msgid "Seravo updates"
+msgstr ""
+
+#: lib/updates-page.php:11
+msgid "Site status"
+msgstr ""
+
+#: lib/updates-page.php:13
+msgid "Site created"
+msgstr ""
+
+#: lib/updates-page.php:14
+msgid "Latest update attempt"
+msgstr ""
+
+#: lib/updates-page.php:15
+msgid "Latest successful update"
+msgstr ""
+
+#: lib/updates-page.php:19
+msgid "Opt-out form updates by Seravo"
+msgstr ""
+
+#: lib/updates-page.php:30
+msgid ""
+"Seravo's upkeep service includes that your WordPress site is kept up-to-date "
+"with quick security updates and regular tested updates of both WordPress "
+"core and plugins. If you want full control of updates yourself, you can opt-"
+"out from Seravo updates."
+msgstr ""
+
+#: lib/updates-page.php:35
+msgid "Seravo updates enabled"
 msgstr ""
 
 #: modules/check-default-email.php:29
@@ -227,29 +263,29 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
-#: modules/login-notification.php:36
+#: modules/login-notification.php:39
 msgid "Site Error Count"
 msgstr ""
 
-#: modules/login-notification.php:115
+#: modules/login-notification.php:118
 msgid "Welcome %s!"
 msgstr ""
 
-#: modules/login-notification.php:116
+#: modules/login-notification.php:119
 msgid "Previously logged into WordPress by %s on %s (%s)."
 msgstr ""
 
-#: modules/login-notification.php:122
-msgid "php-error.log"
+#: modules/login-notification.php:125
+msgid "logs"
 msgstr ""
 
-#: modules/login-notification.php:124
+#: modules/login-notification.php:127
 msgid ""
 "You have a total of %s lines in your error log this week. Check %s for "
 "details."
 msgstr ""
 
-#: modules/login-notification.php:127
+#: modules/login-notification.php:130
 msgid ""
 "You have at least %s lines in your error log this week. Check %s for details."
 msgstr ""
