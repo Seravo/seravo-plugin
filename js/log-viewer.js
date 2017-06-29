@@ -1,43 +1,14 @@
 'use strict';
 
-(function($) {
-  $(window).load(function() {
+jQuery(document).ready(function($) {
+  $(window).on('load', function() {
       // auto-scroll to bottom of log viewers on page load
       $('.log-table-view').each(function() {
           $(this).scrollTop($('table', this).height())
       });
 
-      $('.page-title-action').click(function(e) {
-          e.preventDefault();
-          $('#log-dialog').dialog('open');
-      });
-
       $('.log-max-results').click(function() {
           $('.log-filter').submit();
-      });
-
-      $('#log-dialog').dialog({
-          title: 'Add New Log',
-          dialogClass: 'wp-dialog',
-          autoOpen: false,
-          draggable: false,
-          width: 'auto',
-          modal: true,
-          resizable: false,
-          closeOnEscape : true,
-          position: {
-          my: "center",
-          at: "center",
-          of: window
-          },
-          create: function(){
-          $('.ui-dialog-titlebar-close').addClass('ui-button');
-          },
-          open: function(){
-          $('.ui-widget-overlay').bind('click',function(){
-              $('#log-dialog').dialog('close');
-          })
-          }
       });
   });
 
@@ -55,7 +26,7 @@
         'regex': $this.data('regex'),
         'cutoff_bytes': $this.data('logbytes')
       };
-      console.log(payload);
+
       $.post(window.ajaxurl, payload, function(response) {
           var oldheight = $('table', $this).height();
           $('tbody', $this).prepend(response);
@@ -65,4 +36,4 @@
       }
   });
 
-})(jQuery);
+});
