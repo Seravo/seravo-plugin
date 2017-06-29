@@ -16,25 +16,28 @@ if ( ! class_exists('Login_notifications') ) {
         private static $max_rows = 200;
 
         public static function load() {
-             add_action('load-index.php', array( __CLASS__, 'retrieve_notification_data' ));
+            add_action('load-index.php', array(__CLASS__, 'retrieve_notification_data'));
         }
 
         public static function retrieve_notification_data() {
             wp_enqueue_style('login-notification', plugin_dir_url(__DIR__) . 'style/login-notification.css');
-            if ( apply_filters('seravo_dashboard_login', true) ) {
-                self::$login = self::retrieve_last_login();
+            // Retrieve last login notification only if the user has just logged in
+            if ( isset($_SERVER['HTTP_REFERER']) ) {
+                if ( apply_filters('seravo_dashboard_login', true) && strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') !== false ) {
+                    self::$login = self::retrieve_last_login();
+                }
             }
             if ( apply_filters('seravo_dashboard_errors', true) ) {
                 self::$errors = self::retrieve_error_count();
             }
             // Display logins and/or errors if retrieved succesfully
             if ( ! empty(self::$login) ) {
-                add_action('admin_notices', array( __CLASS__, 'display_admin_logins_notification' ));
+                add_action('admin_notices', array(__CLASS__, 'display_admin_logins_notification'));
             }
             if ( self::$errors > 0 ) {
                 add_action('wp_dashboard_setup', function() {
                     wp_add_dashboard_widget('seravo-error-widget', __('Site Error Count', 'seravo'),
-                    array( __CLASS__, 'display_admin_errors_notification' ));
+                        array(__CLASS__, 'display_admin_errors_notification'));
                 });
             }
         }
@@ -42,7 +45,7 @@ if ( ! class_exists('Login_notifications') ) {
         public static function retrieve_error_count() {
             // Check the first day of week from wp options, and transform to last day of week
             $wp_first_day = get_option('start_of_week');
-            if ( $wp_first_day === 0 ) {
+            if ( $wp_first_day === 0) {
                 $last_day_int = 6;
             } else {
                 $last_day_int = $wp_first_day - 1;
