@@ -63,27 +63,27 @@ function seravo_report_front_cache_status() {
 
 switch ( $_REQUEST['section'] ) {
   case 'total_disk_usage':
-    echo json_encode(seravo_report_total_disk_usage());
+    echo wp_wp_json_encode(seravo_report_total_disk_usage());
     break;
 
   case 'disk_usage':
-    echo json_encode(seravo_report_disk_usage());
+    echo wp_json_encode(seravo_report_disk_usage());
     break;
 
   case 'wp_core_verify':
-    echo json_encode(seravo_report_wp_core_verify());
+    echo wp_json_encode(seravo_report_wp_core_verify());
     break;
 
   case 'git_status':
-    echo json_encode(seravo_report_git_status());
+    echo wp_json_encode(seravo_report_git_status());
     break;
 
   case 'redis_info':
-    echo json_encode(seravo_report_redis_info());
+    echo wp_json_encode(seravo_report_redis_info());
     break;
 
   case 'front_cache_status':
-    echo json_encode(seravo_report_front_cache_status());
+    echo wp_json_encode(seravo_report_front_cache_status());
     break;
 
   default:

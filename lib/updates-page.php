@@ -18,7 +18,7 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
 
 <h2>Opt-out form updates by Seravo</h2>
 <?php
-if ( $site_info['seravo_updates'] == true ) {
+if ( $site_info['seravo_updates'] === true ) {
   $checked = 'checked="checked"';
 } else {
   $checked = '';

@@ -11,23 +11,23 @@ if ( ! class_exists('Helpers') ) {
 
     // Check if this if the site is running in Vagrant
     public static function isDevelopment() {
-      return (getenv('WP_ENV') && getenv('WP_ENV') == 'development');
+      return (getenv('WP_ENV') && getenv('WP_ENV') === 'development');
     }
 
     // Check if this is a live production site
     public static function isProduction() {
-      return (getenv('WP_ENV') && getenv('WP_ENV') == 'production');
+      return (getenv('WP_ENV') && getenv('WP_ENV') === 'production');
     }
 
     // Check if this is staging shadow
     // There shouldn't be difference between this and production,
     // but might be useful in the future.
     public static function isStaging() {
-      return (getenv('WP_ENV') && getenv('WP_ENV') == 'staging');
+      return (getenv('WP_ENV') && getenv('WP_ENV') === 'staging');
     }
 
     public static function isPublic() {
-      return (get_option('blog_public') == true);
+      return (get_option('blog_public') === true);
     }
 
   }

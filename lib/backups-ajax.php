@@ -12,11 +12,11 @@ function seravo_create_backup() {
 
 switch ( $_REQUEST['section'] ) {
   case 'backup_status':
-    echo json_encode(seravo_backup_status());
+    echo wp_json_encode(seravo_backup_status());
     break;
 
   case 'create_backup':
-    echo json_encode(seravo_create_backup());
+    echo wp_json_encode(seravo_create_backup());
     break;
 
   default:

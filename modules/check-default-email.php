@@ -17,7 +17,7 @@ if ( ! class_exists('CheckDefaultEmail') ) {
         public static function _seravo_check_default_email() {
             // Get the siteurl and home url and check if https is enabled, if not, show warning
             $email = get_option('admin_email');
-            if ( $email == 'no-reply@seravo.fi' || $email == 'no-reply@seravo.com' ) {
+            if ( $email === 'no-reply@seravo.fi' || $email === 'no-reply@seravo.com' ) {
                 self::_seravo_show_email_warning();
             }
         }

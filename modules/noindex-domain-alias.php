@@ -16,7 +16,7 @@ if ( ! class_exists('Noindex') ) {
     }
 
     public static function maybe_hide_domain_alias( $output, $public ) {
-      if ( '0' == $public ) {
+      if ( '0' === $public ) {
         // bail early if blog is not public
         return $output;
       }

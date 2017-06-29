@@ -49,7 +49,7 @@ if ( ! class_exists('Fixes') ) {
      */
     public static function showAdminNotification() {
       // get notification
-      if ( false === ( $response = get_transient( 'seravo_notification' ) ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] == 'no-cache' ) ) {
+      if ( false === ( $response = get_transient( 'seravo_notification' ) ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] === 'no-cache' ) ) {
 
         // Download notification
         $response = self::getGlobalNotification();

@@ -28,7 +28,7 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
       * And we don't need to do anything
       * Also don't do this if https-domain-alias in in use because overlapping functionality
       */
-      if ( ! defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL') && defined('WP_CONTENT_URL') && substr(WP_CONTENT_URL, 0, 1) != '/' ) {
+      if ( ! defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL') && defined('WP_CONTENT_URL') && substr(WP_CONTENT_URL, 0, 1) !== '/' ) {
         // Makes post content url relative
         add_filter( 'image_send_to_editor', array( __CLASS__, 'image_url_filter' ), 10, 9 );
         add_filter( 'media_send_to_editor', array( __CLASS__, 'media_url_filter' ), 10, 3 );
@@ -127,7 +127,7 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
       }
 
       // If url is already relative, do nothing
-      if ( substr( $url, 0, 4 ) != 'http' ) { return $html;
+      if ( substr( $url, 0, 4 ) !== 'http' ) { return $html;
       }
 
       // Otherwise take the scheme and host part away from the start of the url
@@ -145,7 +145,7 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
      */
     public static function relativize_content_attributes( $url, $html ) {
       // If urls already start from root, just return it
-      if ( $url[0] == '/' ) { return $html;
+      if ( $url[0] === '/' ) { return $html;
       }
       // strpos is so fast that so don't bother if check fails
       if ( strpos($html,$url) !== false ) {

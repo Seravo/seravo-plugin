@@ -61,7 +61,7 @@ class Loader {
     global $pagenow;
 
     // This check fires on every page load, so keep the scope small
-    if ( $pagenow == 'tools.php' && isset($_GET['report']) ) {
+    if ( $pagenow === 'tools.php' && isset($_GET['report']) ) {
 
       // Next check if the request for a report is valid
       // - user be administrator

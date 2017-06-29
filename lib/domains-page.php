@@ -43,14 +43,16 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     $actions = array();
 
+    /*
     // Domains managed by Seravo can be added, edited or deleted
-    if ( $item['management'] == 'Seravo' ) {
-      // $actions['edit'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['domain']);
+    if ( $item['management'] === 'Seravo' ) {
+        $actions['edit'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['domain']);
     }
 
     // Domains managed by customers themselves can only be added or deleted
     // $actions['delete'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['domain']);
-
+    */
+    
     return sprintf('%1$s %2$s',
         /*$1%s*/ $item['domain'],
         /*$2%s*/ $this->row_actions($actions)
@@ -124,7 +126,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     $response = curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    if ( curl_error($ch) || $httpcode != 200 ) {
+    if ( curl_error($ch) || $httpcode !== 200 ) {
       error_log('SWD API error ' . $httpcode . ': ' . curl_error($ch));
       die(__('API call failed. Aborting. The error has been logged.', 'seravo'));
     }

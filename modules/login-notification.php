@@ -16,7 +16,7 @@ if ( ! class_exists('Login_notifications') ) {
         private static $max_rows = 200;
 
         public static function load() {
-            add_action('load-index.php', array(__CLASS__, 'retrieve_notification_data'));
+            add_action('load-index.php', array( __CLASS__, 'retrieve_notification_data') );
         }
 
         public static function retrieve_notification_data() {
@@ -32,12 +32,12 @@ if ( ! class_exists('Login_notifications') ) {
             }
             // Display logins and/or errors if retrieved succesfully
             if ( ! empty(self::$login) ) {
-                add_action('admin_notices', array(__CLASS__, 'display_admin_logins_notification'));
+                add_action('admin_notices', array( __CLASS__, 'display_admin_logins_notification') );
             }
             if ( self::$errors > 0 ) {
                 add_action('wp_dashboard_setup', function() {
                     wp_add_dashboard_widget('seravo-error-widget', __('Site Error Count', 'seravo'),
-                        array(__CLASS__, 'display_admin_errors_notification'));
+                        array( __CLASS__, 'display_admin_errors_notification' ));
                 });
             }
         }
@@ -57,7 +57,7 @@ if ( ! class_exists('Login_notifications') ) {
                 3 => 'Wednesday',
                 4 => 'Thursday',
                 5 => 'Friday',
-                6 => 'Saturday'
+                6 => 'Saturday',
             );
             $last_day_of_week = strtotime('last ' . $days[$last_day_int]);
 
@@ -121,8 +121,8 @@ if ( ! class_exists('Login_notifications') ) {
         }
 
         public static function display_admin_errors_notification() {
-            $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&log=3&max_num_of_rows=50' . '"">' .
-                __('php-error.log', 'Seravo') . '</a>';
+            $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page' . '"">' .
+                __('logs', 'Seravo') . '</a>';
             if ( self::$errors < self::$max_rows ) {
                 $msg = wp_sprintf(__('You have a total of %s lines in your error log this week. Check %s for details.',
                     'seravo'), self::$errors, $url);

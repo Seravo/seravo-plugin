@@ -14,7 +14,7 @@
      <input type="checkbox" id="skip_backup" class="optionbox"></li>
     <li class="sr_option"><?php _e('All tables', 'seravo'); ?>
      <input type="checkbox" id="all_tables" class="optionbox"></li>
-    <?php if( $GLOBALS['sr_networkvisibility'] ) : ?>
+    <?php if ( $GLOBALS['sr_networkvisibility'] ) : ?>
       <li class="sr_option"><?php _e('Network', 'seravo'); ?>
        <input type="checkbox" id="network" class="optionbox"></li>
   <?php endif; ?>

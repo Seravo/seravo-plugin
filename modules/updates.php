@@ -23,7 +23,7 @@ if ( ! class_exists('Updates') ) {
     }
 
     public static function register_updates_page() {
-      if ( getenv('SERAVO_API_KEY') != '' ) {
+      if ( getenv('SERAVO_API_KEY') !== '' ) {
         add_submenu_page( 'tools.php', __('Updates', 'seravo'), __('Updates', 'seravo'), 'manage_options', 'updates_page', array( __CLASS__, 'load_updates_page' ) );
       }
     }
@@ -42,7 +42,7 @@ if ( ! class_exists('Updates') ) {
       $response = curl_exec($ch);
       $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-      if ( curl_error($ch) || $httpcode != 200 ) {
+      if ( curl_error($ch) || $httpcode !== 200 ) {
         error_log('SWD API error ' . $httpcode . ': ' . curl_error($ch));
         die('API call failed. Aborting. The error has been logged.');
       }
@@ -63,7 +63,7 @@ if ( ! class_exists('Updates') ) {
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-      if ( $_POST['seravo_updates'] == 'on' ) {
+      if ( $_POST['seravo_updates'] === 'on' ) {
         $seravo_updates = 'true';
       } else {
         $seravo_updates = 'false';

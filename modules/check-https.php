@@ -24,12 +24,12 @@ if ( ! class_exists('CheckHttps') ) {
             }
         }
 
-        public static  function _seravo_show_https_warning() {
-            ?><div class="notice notice-error"><p>
+        public static  function _seravo_show_https_warning() { ?>
+            <div class="notice notice-error"><p>
             <?php printf(
                     __('HTTPS protocol is not used in <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/">use https</a>.', 'seravo'),
-                    esc_url( $siteurl )
-                  ); ?>
+                        esc_url( $siteurl )
+                    ); ?>
             </p>
         </div>
         <?php }

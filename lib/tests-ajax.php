@@ -8,7 +8,7 @@ function seravo_tests() {
 
 switch ( $_REQUEST['section'] ) {
     case 'seravo_tests':
-        echo json_encode(seravo_tests());
+        echo wp_json_encode(seravo_tests());
         break;
     default:
         error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');

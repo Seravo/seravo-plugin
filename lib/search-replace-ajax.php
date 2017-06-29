@@ -41,13 +41,10 @@ function seravo_search_replace_set_flags( $options ) {
 switch ( $_REQUEST['section'] ) {
 
   case 'search_replace':
-   echo json_encode(seravo_search_replace( $_REQUEST['from'], $_REQUEST['to'], $_REQUEST['options'] ) );
+   echo wp_json_encode(seravo_search_replace( $_REQUEST['from'], $_REQUEST['to'], $_REQUEST['options'] ) );
    break;
 
   default:
    error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
    break;
 }
-
-
-

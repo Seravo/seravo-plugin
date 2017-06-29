@@ -145,12 +145,12 @@ if ( ! class_exists('Logs') ) {
         <input type="search" name="regex" value="<?php echo $regex; ?>" placeholder="">
         <input type="submit" class="button" value="<?php _e('Filter', 'seravo'); ?>">
         <i><?php _e('Maximum amount of results shown: ', 'seravo'); ?></i>
-        <input type="radio" name="max_num_of_rows" value="50" class="log-max-results" <?php if ( $max_num_of_rows == 50 ) { echo 'checked'; } ?>>50
-        <input type="radio" name="max_num_of_rows" value="150" class="log-max-results" <?php if ( $max_num_of_rows == 150 ) { echo 'checked'; } ?>>150
-        <input type="radio" name="max_num_of_rows" value="300" class="log-max-results" <?php if ( $max_num_of_rows == 300 ) { echo 'checked'; } ?>>300
+        <input type="radio" name="max_num_of_rows" value="50" class="log-max-results" <?php if ( $max_num_of_rows === 50 ) { echo 'checked'; } ?>>50
+        <input type="radio" name="max_num_of_rows" value="150" class="log-max-results" <?php if ( $max_num_of_rows === 150 ) { echo 'checked'; } ?>>150
+        <input type="radio" name="max_num_of_rows" value="300" class="log-max-results" <?php if ( $max_num_of_rows === 300 ) { echo 'checked'; } ?>>300
       </form>
     </div>
-    <div class="log-table-view" data-logfile="<?php esc_attr_e( $logfile ); ?>" data-logbytes="<?php esc_attr_e( filesize( $logfile ) ); ?>" data-regex="<?php esc_attr_e( $regex ); ?>">
+    <div class="log-table-view" data-logfile="<?php esc_attr_e( $logfile ); ?>" data-logbytes="<?php esc_attr_e( filesize($logfile) ); ?>" data-regex="<?php esc_attr_e($regex); ?>">
       <table class="wp-list-table widefat striped" cellspacing="0">
         <tbody>
           <?php $result = $this->render_rows( $logfile, -1, $max_num_of_rows, $regex ); ?>
@@ -282,7 +282,7 @@ if ( ! class_exists('Logs') ) {
       $linebuffer = '';
 
       // start with a newline if the last character of the file isn't one
-      if ( fread( $f, 1 ) != "\n" ) {
+      if ( fread( $f, 1 ) !== "\n" ) {
         $linebuffer = "\n";
       }
 

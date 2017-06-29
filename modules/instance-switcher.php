@@ -24,7 +24,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       add_action( 'admin_bar_menu', array( 'Seravo\InstanceSwitcher', 'add_switcher' ), 999 );
 
       // display a notice at the bottom of the window when in a shadow
-      if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production' ) {
+      if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
         add_action('admin_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
         add_action('wp_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
         add_action('login_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
@@ -47,7 +47,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
     */
     public static function load_shadow_list() {
 
-      if ( getenv('WP_ENV') != 'production' ) {
+      if ( getenv('WP_ENV') !== 'production' ) {
         return false;
       }
 
@@ -59,7 +59,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
         $response = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if ( curl_error($ch) || $httpcode != 200 ) {
+        if ( curl_error($ch) || $httpcode !== 200 ) {
           error_log('SWD API error ' . $httpcode . ': ' . curl_error($ch));
           return false; // Exit with empty result and let later flow handle it
           // Don't break page load here or everything would be broken.
@@ -91,7 +91,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       $id = 'instance-switcher';
       $menuclass = '';
 
-      if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production' ) {
+      if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
         $menuclass = 'instance-switcher-warning';
       }
 
@@ -128,7 +128,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       }
 
       // If in a shadow, always show exit link
-      if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production' ) {
+      if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
         $wp_admin_bar->add_menu(array(
             'parent' => $id,
             'title' => __('Exit Shadow', 'seravo'),
