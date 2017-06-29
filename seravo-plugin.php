@@ -171,7 +171,7 @@ class Loader {
     /*
      * Show logs from /data/log/*.log in WP-admin
      */
-    if ( apply_filters('seravo_show_logs_page', true) && current_user_can( 'administrator' ) ) {
+    if ( current_user_can('administrator') ) {
         require_once(dirname( __FILE__ ) . '/modules/logs.php');
     }
 
