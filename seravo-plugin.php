@@ -134,11 +134,9 @@ class Loader {
     }
 
     /*
-     * Log all login attempts, failed or successful
+     * Log all login attempts, failed or successful. Use no filters, as this should be mandatory
      */
-    if ( apply_filters('seravo_use_login_log', true) ) {
-      require_once(dirname( __FILE__ ) . '/modules/wp-login-log.php');
-    }
+     require_once(dirname( __FILE__ ) . '/modules/wp-login-log.php');
 
     /*
      * View various reports for Seravo customers
@@ -150,14 +148,14 @@ class Loader {
     /*
      * Backups view for Seravo customers
      */
-    if ( apply_filters('seravo_show_backups_page', true) ) {
+    if ( apply_filters('seravo_show_backups_page', true) && getenv('CONTAINER') ) {
       require_once(dirname( __FILE__ ) . '/modules/backups.php');
     }
 
     /*
      * Updates page for site admins only
      */
-    if ( apply_filters('seravo_show_updates_page', true) && current_user_can('administrator') ) {
+    if ( apply_filters('seravo_show_updates_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
       require_once(dirname( __FILE__ ) . '/modules/updates.php');
     }
 
