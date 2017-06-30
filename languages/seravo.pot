@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin 1.5.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-06-29 18:56:07+00:00\n"
+"POT-Creation-Date: 2017-06-30 11:07:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -350,6 +350,14 @@ msgstr ""
 msgid ""
 "Change the maximum image size for your site. Using a smaller image size\n"
 "            significantly improves site performance and saves disk space."
+msgstr ""
+
+#: modules/optimize-images.php:102
+msgid "The minimum width for image optimisation is %s px."
+msgstr ""
+
+#: modules/optimize-images.php:111
+msgid "The minimum height for image optimisation is %s px."
 msgstr ""
 
 #: modules/purge-cache.php:25

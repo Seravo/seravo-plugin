@@ -99,7 +99,7 @@ if ( ! class_exists('Optimize_images') ) {
         public static function sanitize_image_width( $width ) {
             if ( $width < self::$max_width_default && $width !== null && get_option( 'seravo-enable-optimize-images' ) === 'on' ) {
                 add_settings_error( 'seravo-image-max-resolution-width', 'invalid-width',
-                    __( sprintf( __( 'The minimum width for image optimisation is %s px.', 'seravo' ), self::$max_width_default ), 'seravo' ) );
+                sprintf( __( 'The minimum width for image optimisation is %s px.', 'seravo' ), self::$max_width_default ) );
                 return self::$max_width_default;
             }
             return $width;
@@ -108,7 +108,7 @@ if ( ! class_exists('Optimize_images') ) {
         public static function sanitize_image_height( $height ) {
             if ( $height < self::$max_height_default && $height !== null && get_option( 'seravo-enable-optimize-images' ) === 'on' ) {
                 add_settings_error( 'seravo-image-max-resolution-height', 'invalid-height',
-                    __( sprintf( __( 'The minimum height for image optimisation is %s px.', 'seravo' ), self::$max_height_default ), 'seravo' ) );
+                    sprintf( __( 'The minimum height for image optimisation is %s px.', 'seravo' ), self::$max_height_default ) );
                 return self::$max_height_default;
             }
             return $height;
