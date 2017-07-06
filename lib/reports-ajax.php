@@ -63,7 +63,7 @@ function seravo_report_front_cache_status() {
 
 switch ( $_REQUEST['section'] ) {
   case 'total_disk_usage':
-    echo wp_wp_json_encode(seravo_report_total_disk_usage());
+    echo wp_json_encode(seravo_report_total_disk_usage());
     break;
 
   case 'disk_usage':
