@@ -12,12 +12,14 @@
   <ul class="optionboxes">
     <li class="sr_option"><?php _e('Skip backups', 'seravo'); ?>
      <input type="checkbox" id="skip_backup" class="optionbox"></li>
-    <li class="sr_option"><?php _e('All tables', 'seravo'); ?>
-     <input type="checkbox" id="all_tables" class="optionbox"></li>
+    <?php if ( $GLOBALS['sr_alltables'] ) : ?>
+      <li class="sr_option"><?php _e('All tables', 'seravo'); ?>
+        <input type="checkbox" id="all_tables" class="optionbox"></li>
+    <?php endif; ?>
     <?php if ( $GLOBALS['sr_networkvisibility'] ) : ?>
       <li class="sr_option"><?php _e('Network', 'seravo'); ?>
        <input type="checkbox" id="network" class="optionbox"></li>
-  <?php endif; ?>
+    <?php endif; ?>
   </ul>
 
     <button id="sr-drybutton" class="button"> <?php _e('Run dry-run', 'seravo'); ?> </button>
