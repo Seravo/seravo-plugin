@@ -83,11 +83,6 @@ if ( ! class_exists('InstanceSwitcher') ) {
         return;
       }
 
-      // check permissions
-      if ( ! current_user_can( 'activate_plugins' ) ) {
-        return;
-      }
-
       $id = 'instance-switcher';
       $menuclass = '';
 
