@@ -21,19 +21,23 @@ if ( ! class_exists('Login_notifications') ) {
 
         public static function retrieve_notification_data() {
             wp_enqueue_style('login-notification', plugin_dir_url(__DIR__) . 'style/login-notification.css');
+
             // Retrieve last login notification only if the user has just logged in
             if ( isset($_SERVER['HTTP_REFERER']) ) {
                 if ( apply_filters('seravo_dashboard_login', true) && strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') !== false ) {
                     self::$login = self::retrieve_last_login();
                 }
             }
+
             if ( apply_filters('seravo_dashboard_errors', true) ) {
                 self::$errors = self::retrieve_error_count();
             }
+
             // Display logins and/or errors if retrieved succesfully
             if ( ! empty(self::$login) ) {
                 add_action('admin_notices', array( __CLASS__, 'display_admin_logins_notification') );
             }
+
             if ( self::$errors > 0 ) {
                 add_action('wp_dashboard_setup', function() {
                     wp_add_dashboard_widget('seravo-error-widget', __('Site Error Count', 'seravo'),
@@ -93,31 +97,35 @@ if ( ! class_exists('Login_notifications') ) {
             $already_skipped = false;
 
             foreach ( $output_reversed as $line ) {
-                // Skip the first login from the current user because it is most likely the latest,
-                // however don't skip any logins from other users
-                if ( preg_match('/.*SUCCESS.*/', $line) && preg_match('/.*' . get_userdata(wp_get_current_user()->ID)->user_login . '.*/', $line) && ! $already_skipped ) {
-                    $already_skipped = true;
-                    continue;
-                }
-                if ( preg_match(  '/.*SUCCESS.*/', $line ) ) {
-                    // Fetch login date from the successful login
-                    $output_array = explode(' ', $line);
-                    $user = $output_array[2];
+                $output_array = explode(' ', $line);
+                $is_successful_login = (bool) preg_match(  '/.*SUCCESS.*/', $output_array[count($output_array) - 1]);
+                $is_current_user_login = ( get_userdata( wp_get_current_user()->ID )->user_login === $output_array[2] );
+
+                // Handle only successful logins
+                if ( $is_successful_login && $is_current_user_login ) {
+                    // Skip the first login from the current user as it is most likely the latest
+                    if ( ! $already_skipped ) {
+                        $already_skipped = true;
+                        continue;
+                    }
+
+                    // Fetch login ip and date
+                    $ip = $output_array[0];
                     $date = substr($output_array[3], 1, strlen($output_array[3]));
                     return array(
-                        'user' => $user,
+                        'ip' => $ip,
                         'date' => $date
                     );
                 }
             }
-            return array(); // If no previous logins were found
+            return array();
         }
 
         public static function display_admin_logins_notification() {
             echo '<div class="seravo-last-login notice notice-info is-dismissible">' .
-                wp_sprintf(__('Welcome %s!', 'seravo'), get_userdata(wp_get_current_user()->ID)->user_login) . ' ' .
-                wp_sprintf(__('Previously logged into WordPress by %s on %s (%s).', 'seravo' ), self::$login['user'],
-                self::$login['date'], date_default_timezone_get()) . '</div>';
+                wp_sprintf(__('Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s.', 'seravo' ),
+                get_userdata(wp_get_current_user()->ID)->user_login,  self::$login['date'],
+                date_default_timezone_get(), self::$login['ip']) . '</div>';
         }
 
         public static function display_admin_errors_notification() {

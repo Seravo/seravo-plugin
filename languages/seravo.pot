@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin 1.5.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-06-30 11:07:21+00:00\n"
+"POT-Creation-Date: 2017-08-16 12:40:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -151,19 +151,19 @@ msgstr ""
 msgid "Skip backups"
 msgstr ""
 
-#: lib/search-replace-page.php:15
+#: lib/search-replace-page.php:16
 msgid "All tables"
 msgstr ""
 
-#: lib/search-replace-page.php:18
+#: lib/search-replace-page.php:20
 msgid "Network"
 msgstr ""
 
-#: lib/search-replace-page.php:23
+#: lib/search-replace-page.php:25
 msgid "Run dry-run"
 msgstr ""
 
-#: lib/search-replace-page.php:24
+#: lib/search-replace-page.php:26
 msgid "Run wp search-replace"
 msgstr ""
 
@@ -243,49 +243,45 @@ msgid ""
 "user-manual/web-publishing/https-for-wordpress/\">use https</a>."
 msgstr ""
 
-#: modules/instance-switcher.php:103
+#: modules/instance-switcher.php:98
 msgid "Now in"
 msgstr ""
 
-#: modules/instance-switcher.php:134
+#: modules/instance-switcher.php:129
 msgid "Exit Shadow"
 msgstr ""
 
-#: modules/instance-switcher.php:143
+#: modules/instance-switcher.php:138
 msgid "Shadows explained at Seravo.com/docs"
 msgstr ""
 
-#: modules/instance-switcher.php:157
+#: modules/instance-switcher.php:152
 msgid "Your current shadow instance is %s."
 msgstr ""
 
-#: modules/instance-switcher.php:157
+#: modules/instance-switcher.php:152
 msgid "Exit"
 msgstr ""
 
-#: modules/login-notification.php:39
+#: modules/login-notification.php:43
 msgid "Site Error Count"
 msgstr ""
 
-#: modules/login-notification.php:118
-msgid "Welcome %s!"
+#: modules/login-notification.php:126
+msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
 
-#: modules/login-notification.php:119
-msgid "Previously logged into WordPress by %s on %s (%s)."
-msgstr ""
-
-#: modules/login-notification.php:125
+#: modules/login-notification.php:133
 msgid "logs"
 msgstr ""
 
-#: modules/login-notification.php:127
+#: modules/login-notification.php:135
 msgid ""
 "You have a total of %s lines in your error log this week. Check %s for "
 "details."
 msgstr ""
 
-#: modules/login-notification.php:130
+#: modules/login-notification.php:138
 msgid ""
 "You have at least %s lines in your error log this week. Check %s for details."
 msgstr ""
