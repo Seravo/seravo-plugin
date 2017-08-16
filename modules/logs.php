@@ -260,11 +260,12 @@ if ( ! class_exists('Logs') ) {
     public static function read_log_lines_backwards( $filepath, $offset = -1, $lines = 1, $regex = null, $cutoff_bytes = null ) {
       // Open file
       $f = @fopen( $filepath, 'rb' );
-      $filesize = filesize( $filepath );
 
       if ( $f === false ) {
         return false;
       }
+
+      $filesize = filesize( $filepath );
 
       // buffer size is 4096 bytes
       $buffer = 4096;
