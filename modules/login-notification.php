@@ -19,6 +19,9 @@ if ( ! class_exists('Login_notifications') ) {
             add_action('load-index.php', array( __CLASS__, 'retrieve_notification_data') );
         }
 
+        /**
+        * Retreives login notification data when loading the dashboard page.
+        */
         public static function retrieve_notification_data() {
             wp_enqueue_style('login-notification', plugin_dir_url(__DIR__) . 'style/login-notification.css');
 
@@ -46,6 +49,12 @@ if ( ! class_exists('Login_notifications') ) {
             }
         }
 
+        /**
+        * Get the amount of php-error.log lines that have been added this week. The
+        * first day of the week is retreived from WordPress settings.
+        *
+        * @return int The amount of php-error.log lines appended this week
+        */
         public static function retrieve_error_count() {
             // Check the first day of week from wp options, and transform to last day of week
             $wp_first_day = get_option('start_of_week');
@@ -67,6 +76,9 @@ if ( ! class_exists('Login_notifications') ) {
 
             // Read and reverse the php error logfile
             $output = Logs::read_log_lines_backwards('/data/log/php-error.log', -1, self::$max_rows);
+            if ( ! $output ) {
+                return 0;
+            }
             $output_reversed = array_reverse($output);
 
             $php_errors = 0;
@@ -89,9 +101,17 @@ if ( ! class_exists('Login_notifications') ) {
              return $php_errors;
         }
 
+        /**
+        * Get the last login details from the current user logged into WordPress.
+        *
+        * @return array Previous login ip address and date, or empty array if not found
+        */
         public static function retrieve_last_login() {
             // Read login log file and reverse it
             $output = Logs::read_log_lines_backwards('/data/log/wp-login.log', -1, self::$max_rows);
+            if ( ! $output ) {
+                return;
+            }
             $output_reversed = array_reverse($output);
 
             $already_skipped = false;
@@ -121,6 +141,9 @@ if ( ! class_exists('Login_notifications') ) {
             return array();
         }
 
+        /**
+        * Display the latest login of the current user logged in.
+        */
         public static function display_admin_logins_notification() {
             echo '<div class="seravo-last-login notice notice-info is-dismissible">' .
                 wp_sprintf(__('Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s.', 'seravo' ),
@@ -128,6 +151,9 @@ if ( ! class_exists('Login_notifications') ) {
                 date_default_timezone_get(), self::$login['ip']) . '</div>';
         }
 
+        /**
+        * Display the amount of php-error.log lines that have appeared this week.
+        */
         public static function display_admin_errors_notification() {
             $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page' . '"">' .
                 __('logs', 'Seravo') . '</a>';
