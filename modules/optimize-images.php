@@ -56,7 +56,7 @@ if ( ! class_exists('Optimize_images') ) {
                 update_option( 'seravo-image-max-resolution-height', self::$max_height_default );
             }
             if ( get_option( 'seravo-enable-optimize-images' ) === false ) {
-                update_option( 'seravo-enable-optimize-images', 'on' );
+                update_option( 'seravo-enable-optimize-images', '' );
             }
         }
 
