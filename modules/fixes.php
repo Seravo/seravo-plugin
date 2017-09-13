@@ -31,11 +31,11 @@ if ( ! class_exists('Fixes') ) {
       }
 
       /**
-       * Ask browser not cache anything if blog is in development, non-public or debug
-       * This makes everyones life easier when clients don't know how to reset their browser cache from old stylesheets
+       * Ask browser not cache WordPress/PHP output if blog is not in production or if
+       * WP_DEBUG is set (which happens in wp-config.php by default in non-production).
        */
-      if ( Helpers::isDevelopment() || ! Helpers::isPublic() || WP_DEBUG ) {
-        add_action( 'send_headers', array( __CLASS__, 'sendNoCacheHeaders' ) );
+      if ( ! Helpers::isProduction() || WP_DEBUG) {
+        add_action( 'send_headers', array(__CLASS__, 'sendNoCacheHeaders') );
       }
 
       /**
