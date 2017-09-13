@@ -26,8 +26,9 @@ if ( ! class_exists('Helpers') ) {
       return (getenv('WP_ENV') && getenv('WP_ENV') === 'staging');
     }
 
+    // blog_public is usually '1' so don't check for strict true
     public static function isPublic() {
-      return (get_option('blog_public') === true);
+      return (get_option('blog_public') == true);
     }
 
   }
