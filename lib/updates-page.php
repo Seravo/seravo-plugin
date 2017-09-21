@@ -33,6 +33,6 @@ if ( $site_info['seravo_updates'] === true ) {
     <?php wp_nonce_field( 'toggle-seravo-updates-on-or-off' ); ?>
     <input type="hidden" name="action" value="toggle_seravo_updates">
     <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo') ?><br><br>
-    <input type="submit" value="Save settings">
+    <input type="submit" value="<?php _e('Save settings', 'seravo') ?>">
   </form>
 </div>

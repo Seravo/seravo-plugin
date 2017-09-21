@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Seravo Plugin package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.5.4\n"
+"Project-Id-Version: Seravo Plugin 1.6.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-08-16 12:40:41+00:00\n"
+"POT-Creation-Date: 2017-09-21 10:42:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -194,31 +194,31 @@ msgstr ""
 msgid "Toggle details"
 msgstr ""
 
-#: lib/updates-page.php:3
+#: lib/updates-page.php:21
 msgid "Seravo updates"
 msgstr ""
 
-#: lib/updates-page.php:11
+#: lib/updates-page.php:36
 msgid "Site status"
 msgstr ""
 
-#: lib/updates-page.php:13
+#: lib/updates-page.php:38
 msgid "Site created"
 msgstr ""
 
-#: lib/updates-page.php:14
+#: lib/updates-page.php:39
 msgid "Latest update attempt"
 msgstr ""
 
-#: lib/updates-page.php:15
+#: lib/updates-page.php:40
 msgid "Latest successful update"
 msgstr ""
 
-#: lib/updates-page.php:19
+#: lib/updates-page.php:44
 msgid "Opt-out form updates by Seravo"
 msgstr ""
 
-#: lib/updates-page.php:30
+#: lib/updates-page.php:55
 msgid ""
 "Seravo's upkeep service includes that your WordPress site is kept up-to-date "
 "with quick security updates and regular tested updates of both WordPress "
@@ -226,8 +226,12 @@ msgid ""
 "out from Seravo updates."
 msgstr ""
 
-#: lib/updates-page.php:35
+#: lib/updates-page.php:60
 msgid "Seravo updates enabled"
+msgstr ""
+
+#: lib/updates-page.php:61
+msgid "Save settings"
 msgstr ""
 
 #: modules/check-default-email.php:29
@@ -263,25 +267,25 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
-#: modules/login-notification.php:43
+#: modules/login-notification.php:46
 msgid "Site Error Count"
 msgstr ""
 
-#: modules/login-notification.php:126
+#: modules/login-notification.php:149
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
 
-#: modules/login-notification.php:133
+#: modules/login-notification.php:159
 msgid "logs"
 msgstr ""
 
-#: modules/login-notification.php:135
+#: modules/login-notification.php:161
 msgid ""
 "You have a total of %s lines in your error log this week. Check %s for "
 "details."
 msgstr ""
 
-#: modules/login-notification.php:138
+#: modules/login-notification.php:164
 msgid ""
 "You have at least %s lines in your error log this week. Check %s for details."
 msgstr ""
