@@ -8,14 +8,20 @@ if ( ! current_user_can( 'level_10' ) ) {
   );
 }
 
+if ( ! class_exists( 'Seravo_Domains_DNS_Table' ) ) {
+  require_once( dirname( __FILE__ ) . '/domains-dns.php');
+}
+
 if ( ! class_exists('WP_List_Table') ) {
   require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
 class Seravo_Domains_List_Table extends WP_List_Table {
+  public $dns;
 
   function __construct() {
     global $status, $page;
+    $this->dns = new Seravo_Domains_DNS_Table;
 
     // Set parent defaults
     parent::__construct(
@@ -49,10 +55,11 @@ class Seravo_Domains_List_Table extends WP_List_Table {
         $actions['edit'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['domain']);
     }
 
-    // Domains managed by customers themselves can only be added or deleted
+    // Domains managed by customers themselves can only be added, viewed or deleted
     // $actions['delete'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Delete</a>', $_REQUEST['page'], 'delete', $item['domain']);
     */
-    
+    $actions['view'] = sprintf('<a href="?page=%s&action=%s&domain=%s">View</a>', $_REQUEST['page'], 'view', $item['domain']);
+
     return sprintf('%1$s %2$s',
         /*$1%s*/ $item['domain'],
         /*$2%s*/ $this->row_actions($actions)
@@ -98,6 +105,9 @@ class Seravo_Domains_List_Table extends WP_List_Table {
   function process_bulk_action() {
     if ( 'delete' === $this->current_action() ) {
       wp_die('Items deleted (or they would be if we had items to delete)!');
+    }
+    elseif ( 'view' === $this->current_action() ) {
+      $this->dns->fetch_dns_records($_REQUEST['domain']);
     }
   }
 
@@ -205,5 +215,10 @@ $domainsTable->prepare_items();
     <!-- Now we can render the completed list table -->
     <?php $domainsTable->display() ?>
   </form>
+  <?php
+  if (!is_null($domainsTable->dns)) {
+    $domainsTable->dns->display();
+  }
+   ?>
 
 </div>
