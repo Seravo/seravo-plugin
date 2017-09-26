@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Seravo Plugin
- * Version: 1.6.1
+ * Version: 1.6.2
  * Plugin URI: https://github.com/Seravo/seravo-plugin
  * Description: Enhances WordPress with Seravo.com specific features and integrations.
  * Author: Seravo Oy
