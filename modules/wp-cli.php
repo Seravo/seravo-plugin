@@ -1,6 +1,6 @@
 <?php
 /**
- * Implements example command.
+ * Implements Seravo.com specific actions
  */
 class Seravo_WP_CLI extends WP_CLI_Command {
 
