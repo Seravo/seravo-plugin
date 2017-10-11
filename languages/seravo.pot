@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Seravo Plugin package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.6.1\n"
+"Project-Id-Version: Seravo Plugin 1.6.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-09-21 10:42:34+00:00\n"
+"POT-Creation-Date: 2017-10-11 12:17:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,6 +42,34 @@ msgstr ""
 msgid "Make a new backup"
 msgstr ""
 
+#: lib/domains-dns.php:13
+msgid "Zone for: "
+msgstr ""
+
+#: lib/domains-dns.php:19
+msgid "updated: "
+msgstr ""
+
+#: lib/domains-dns.php:22
+msgid "Name"
+msgstr ""
+
+#: lib/domains-dns.php:23
+msgid "TTL"
+msgstr ""
+
+#: lib/domains-dns.php:25
+msgid "Type"
+msgstr ""
+
+#: lib/domains-dns.php:26
+msgid "Value"
+msgstr ""
+
+#: lib/domains-dns.php:52 lib/domains-page.php:141
+msgid "API call failed. Aborting. The error has been logged."
+msgstr ""
+
 #: lib/domains-page.php:5
 msgid "Cheatin&#8217; uh?"
 msgstr ""
@@ -50,31 +78,27 @@ msgstr ""
 msgid "Sorry, you are not allowed to access domains."
 msgstr ""
 
-#: lib/domains-page.php:73
+#: lib/domains-page.php:80
 msgid "Domain"
 msgstr ""
 
-#: lib/domains-page.php:74
+#: lib/domains-page.php:81
 msgid "Expires"
 msgstr ""
 
-#: lib/domains-page.php:75
+#: lib/domains-page.php:82
 msgid "DNS"
 msgstr ""
 
-#: lib/domains-page.php:76
+#: lib/domains-page.php:83
 msgid "Managed by"
 msgstr ""
 
-#: lib/domains-page.php:131
-msgid "API call failed. Aborting. The error has been logged."
-msgstr ""
-
-#: lib/domains-page.php:195 modules/domains.php:18
+#: lib/domains-page.php:205 modules/domains.php:18
 msgid "Domains"
 msgstr ""
 
-#: lib/domains-page.php:199
+#: lib/domains-page.php:209
 msgid "Domains routed to this WordPress site are listed below."
 msgstr ""
 
@@ -194,31 +218,31 @@ msgstr ""
 msgid "Toggle details"
 msgstr ""
 
-#: lib/updates-page.php:21
+#: lib/updates-page.php:3
 msgid "Seravo updates"
 msgstr ""
 
-#: lib/updates-page.php:36
+#: lib/updates-page.php:11
 msgid "Site status"
 msgstr ""
 
-#: lib/updates-page.php:38
+#: lib/updates-page.php:13
 msgid "Site created"
 msgstr ""
 
-#: lib/updates-page.php:39
+#: lib/updates-page.php:14
 msgid "Latest update attempt"
 msgstr ""
 
-#: lib/updates-page.php:40
+#: lib/updates-page.php:15
 msgid "Latest successful update"
 msgstr ""
 
-#: lib/updates-page.php:44
+#: lib/updates-page.php:19
 msgid "Opt-out form updates by Seravo"
 msgstr ""
 
-#: lib/updates-page.php:55
+#: lib/updates-page.php:30
 msgid ""
 "Seravo's upkeep service includes that your WordPress site is kept up-to-date "
 "with quick security updates and regular tested updates of both WordPress "
@@ -226,11 +250,11 @@ msgid ""
 "out from Seravo updates."
 msgstr ""
 
-#: lib/updates-page.php:60
+#: lib/updates-page.php:35
 msgid "Seravo updates enabled"
 msgstr ""
 
-#: lib/updates-page.php:61
+#: lib/updates-page.php:36
 msgid "Save settings"
 msgstr ""
 
