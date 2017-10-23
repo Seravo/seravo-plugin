@@ -91,12 +91,18 @@ if ( ! class_exists('InstanceSwitcher') ) {
       }
 
       $current_title = strtoupper(getenv('WP_ENV'));
+      $current_url = "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+      if (strpos($current_url, '?') > -1) {
+        $current_url .= '&';
+      } else {
+        $current_url .= '?';
+      }
 
       // create the parent menu here
       $wp_admin_bar->add_menu([
           'id' => $id,
           'title' => __('Now in', 'seravo') . ': ' . $current_title,
-          'href' => '#',
+          'href' => !empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#'
           'meta' => [
           'class' => $menuclass,
           ],
