@@ -102,7 +102,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       $wp_admin_bar->add_menu([
           'id' => $id,
           'title' => __('Now in', 'seravo') . ': ' . $current_title,
-          'href' => !empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#'
+          'href' => !empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#',
           'meta' => [
           'class' => $menuclass,
           ],
