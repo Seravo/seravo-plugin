@@ -1,20 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var links = document.querySelectorAll('#wp-admin-bar-instance-switcher li > a');
-    var listener = function(e){
-    var instance = e.target.getAttribute('href').substr(1);
+  // Select all links in shadow drop-down
+  var links = document.querySelectorAll('#wp-admin-bar-instance-switcher li > a');
+
+  var listener = function(e){
+    // Match all strings #something in the link targets.
+    // Typically #exit or #abc123 (shadow ID).
+    var instance = e.target.getAttribute('href').match(/#([a-z0-9]+)/)[1];
     if (instance === 'exit') {
+      // If exit selected, clear cookies.
       e.preventDefault();
       document.cookie = "wpp_shadow=;path=/";
       document.cookie = "seravo_shadow=;path=/";
     } else if (instance.length === 6) {
+      // If shadow selected, set cookies.
       e.preventDefault();
       document.cookie = "wpp_shadow=" + instance + ";path=/";
       document.cookie = "seravo_shadow=" + instance + ";path=/";
     }
-    location.reload();
-    };
 
-    for (var i = 0; i < links.length; i++) {
+    // Clean away potential old shadow query strings and reload page
+    newloc = location.href.replace(/[a-z]+_shadow=[a-z0-9]+/, '')
+    location.href = newloc;
+  };
+
+  for (var i = 0; i < links.length; i++) {
     links[i].addEventListener('click', listener);
-    }
+  }
 });
