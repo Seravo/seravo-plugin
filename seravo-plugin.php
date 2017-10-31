@@ -179,6 +179,13 @@ class Loader {
       }
 
       /*
+       * Cruft view for Seravo customers
+       */
+      if ( apply_filters('seravo_show_cruftfiles_page', true) && getenv('CONTAINER') ) {
+        require_once(dirname( __FILE__ ) . '/modules/cruftfiles.php');
+      }
+
+      /*
        * Updates page for site admins only
        */
       if ( apply_filters('seravo_show_updates_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
