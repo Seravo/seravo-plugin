@@ -4,6 +4,14 @@
  * Description: Purges the Seravo cache
  */
 
+/** 
+ * Make capability filterable
+ */
+
+function _seravo_purge_capability() {
+  return apply_filters( 'seravo_purge_cache_capability', 'manage_options' );
+}
+
 /**
  * Add a purge button in the WP Admin Bar
  */
@@ -11,7 +19,7 @@ add_action( 'admin_bar_menu', '_seravo_purge_button', 999 );
 function _seravo_purge_button( $admin_bar ) {
 
   // check permissions
-  if ( ! current_user_can( 'manage_options' ) ) {
+  if ( ! current_user_can( _seravo_purge_capability() ) ) {
     return;
   }
 
@@ -47,7 +55,7 @@ add_action( 'admin_init', '_maybe_seravo_purge_cache' );
 function _maybe_seravo_purge_cache() {
 
   // check permissions
-  if ( ! current_user_can( 'manage_options' ) ) {
+  if ( ! current_user_can( _seravo_purge_capability() ) ) {
     return;
   }
 
@@ -78,7 +86,7 @@ add_action( 'admin_notices', '_seravo_purge_notification' );
 function _seravo_purge_notification() {
 
   // check permissions
-  if ( ! current_user_can( 'manage_options' ) ) {
+  if ( ! current_user_can( _seravo_purge_capability() ) ) {
     return;
   }
 
