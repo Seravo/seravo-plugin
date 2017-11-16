@@ -21,7 +21,9 @@ if ( ! class_exists('Cruftfiles') ) {
     }
 
     public static function register_cruftfiles_page() {
-      add_submenu_page( 'tools.php', 'Cruft files', 'Cruft files', 'manage_options', 'cruftfiles_page', array( __CLASS__, 'load_cruftfiles_page' ) );
+      add_submenu_page( 'tools.php', __( 'Cruft Files', 'seravo' ),
+      __( 'Cruft Files', 'seravo' ), 'manage_options', 'cruftfiles_page',
+      array( __CLASS__, 'load_cruftfiles_page' ) );
     }
 
     public static function load_cruftfiles_page() {
