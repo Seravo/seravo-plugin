@@ -1,0 +1,15 @@
+.cruftfile-delete-button {
+  color: #a00;
+}
+.cruftfile-delete-button:hover {
+  color: #EA6161 !important;
+  outline: none;
+  box-shadow: none;
+}
+.cruftfile-delete-button:active,
+.cruftfile-delete-button:focus,
+.cruftfile-delete-button:visited {
+  color: #a00;
+  outline: none;
+  box-shadow: none;
+}
