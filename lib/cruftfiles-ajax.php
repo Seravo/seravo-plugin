@@ -21,7 +21,6 @@ function list_known_cruft_dir($name) {
 }
 
 function seravo_cruftfiles_status($type, $name) {
-  // exec('find_cruft_files 2>&1', $output);
   exec('echo Testi 2>&1', $output);
   return $output;
 }
@@ -29,7 +28,7 @@ function seravo_cruftfiles_status($type, $name) {
 switch ( $_REQUEST['section'] ) {
   case 'cruftfiles_status':
 
-    $list_files = array('*.sql', '.hhvm.hhbc', '*.gz', '*.zip'); // List of known types of cruft files
+    $list_files = array('*.sql', '.hhvm.hhbc', '*.gz', '*.zip', '*.wpress'); // List of known types of cruft files
     $list_dirs = array('siirto', 'palautus', 'vanha', '*-old', '*-copy', '*-2', '*.bak', 'migration'); // List of known cruft directories
     $list_known_files = array();
     $list_known_dirs = array(
@@ -56,7 +55,7 @@ switch ( $_REQUEST['section'] ) {
       $cruft_found = list_known_cruft_dir($dirname);
       if ($cruft_found != "") array_push($crufts, $cruft_found);
     }
-
+    set_transient('cruft_files_found', $crufts, 600);
 
     echo json_encode($crufts);
     break;

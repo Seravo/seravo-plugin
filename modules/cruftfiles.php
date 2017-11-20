@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin name: Cruft files
- * Description: View and edit domains and DNS
+ * Description: View and remove cruft files found in filesystem
  * Version: 1.0
  */
 
@@ -34,11 +34,34 @@ if ( ! class_exists('Cruftfiles') ) {
       if ( isset($_POST['deletefile']) && ! empty($_POST['deletefile']) ) {
         $file = $_POST['deletefile'];
         $result = array();
-        $unlink_result = unlink($file);
-        $result['success'] = (bool) $unlink_result;
+        $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
+        $match = 0;
+        foreach ($legit_cruft_files as $file_found) {
+          if (in_array($file, $file_found)) $match = 1; // Mark file as legitimate
+        }
+        if ($match == 1) {
+          $result = array();
+          if (is_dir($file)) $unlink_result = Cruftfiles::rmdir_recursive($file, 0);
+          else $unlink_result = unlink($file);
+          $result['success'] = (bool) $unlink_result;
+        }
         echo json_encode($result);
       }
       wp_die();
+    }
+
+    public static function rmdir_recursive($dir, $recursive) {
+      foreach(scandir($dir) as $file) {
+        if ('.' === $file || '..' === $file) continue; // Skip current and upper level directories
+        if (is_dir("$dir/$file")) {
+          rmdir_recursive("$dir/$file", 1);
+        }
+        else {
+          unlink("$dir/$file");
+        }
+      }
+      rmdir($dir);
+      if ($recursive == 0) return true; // when not called recursively
     }
 
     public static function enqueue_cruftfiles_scripts( $hook ) {

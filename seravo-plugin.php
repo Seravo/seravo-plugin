@@ -181,7 +181,7 @@ class Loader {
       /*
        * Cruft view for Seravo customers
        */
-      if ( apply_filters('seravo_show_cruftfiles_page', true) && getenv('CONTAINER') ) {
+      if ( apply_filters('seravo_show_cruftfiles_page', true) ) {
         require_once(dirname( __FILE__ ) . '/modules/cruftfiles.php');
       }
 
