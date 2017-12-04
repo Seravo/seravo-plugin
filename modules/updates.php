@@ -14,7 +14,8 @@ if ( ! class_exists('Updates') ) {
       add_action( 'admin_menu', array( __CLASS__, 'register_updates_page' ) );
 
       /*
-      * This will use the SWD api to toggle Seravo updates on/off for this site.
+      * This will use the SWD api to toggle Seravo updates on/off and add
+      * technical contact emails for this site.
       */
       add_action( 'admin_post_toggle_seravo_updates', array( 'Seravo\Updates', 'seravo_admin_toggle_seravo_updates' ), 20 );
 
@@ -55,7 +56,7 @@ if ( ! class_exists('Updates') ) {
     }
 
     public static function seravo_admin_toggle_seravo_updates() {
-      check_admin_referer( 'toggle-seravo-updates-on-or-off' );
+      check_admin_referer( 'seravo-updates-nonce' );
 
       $site = getenv('USER');
       $ch = curl_init('http://localhost:8888/v1/site/' . $site);
@@ -68,8 +69,37 @@ if ( ! class_exists('Updates') ) {
       } else {
         $seravo_updates = 'false';
       }
-
       $data = array( 'seravo_updates' => $seravo_updates );
+
+      // Handle site technical contact email addresses
+      if ( isset($_POST['technical_contacts']) ) {
+        $validated_addresses = array();
+
+        if (! empty($_POST['technical_contacts']) ) {
+          $contact_addresses = explode( ',', $_POST['technical_contacts']);
+
+          // Perform email validation before making API request
+          foreach ( $contact_addresses as $contact_address ) {
+            $address = trim($contact_address);
+
+            if ( ! empty($address) && filter_var($address, FILTER_VALIDATE_EMAIL) ) {
+              $validated_addresses[] = $address;
+            }
+          }
+
+        } elseif ( trim($_POST['technical_contacts']) === '' ) {
+          // If the contact email field is left entirely empty, it means that the
+          // customer wishes to remove all his/her emails => so consider an empty
+          // string as a "valid address"
+          $validated_addresses[] = '';
+        }
+
+        // Only update addresses if any valid ones were found
+        if ( ! empty($validated_addresses) ) {
+          $data['contact_emails'] = $validated_addresses;
+        }
+      }
+
       $data_string = json_encode($data);
 
       curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -79,7 +109,6 @@ if ( ! class_exists('Updates') ) {
       ));
 
       curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-      // error_log($data_string);
 
       $response = curl_exec($ch);
 

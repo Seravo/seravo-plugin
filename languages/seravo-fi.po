@@ -2,14 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-12-07 22:23+0200\n"
-"PO-Revision-Date: 2017-12-07 22:30+0200\n"
-"Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
+"POT-Creation-Date: 2017-12-12 14:18:49+00:00\n"
+"PO-Revision-Date: 2017-12-18 12:16+0200\n"
+"Last-Translator: Leo Toikka <leo@seravo.fi>\n"
+"Language-Team: \n"
 "Language: fi_FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
@@ -268,11 +269,11 @@ msgstr "Edellinen päivitysyritys"
 msgid "Latest successful update"
 msgstr "Viimeisin onnistunut päivitys"
 
-#: lib/updates-page.php:19
+#: lib/updates-page.php:18
 msgid "Opt-out form updates by Seravo"
 msgstr "Kiellä Seravoa päivittämästä sivustoa ja vastaa päivityksistä itse."
 
-#: lib/updates-page.php:30
+#: lib/updates-page.php:34
 msgid ""
 "Seravo's upkeep service includes that your WordPress site is kept up-to-date "
 "with quick security updates and regular tested updates of both WordPress "
@@ -286,11 +287,36 @@ msgstr ""
 "tekemästä päivityksiä sivustollesi. HUOM! Tietoturvapäivityksiä saatamme "
 "tehdä päivityskiellosta huolimatta, mikäli tilanne vaatii."
 
-#: lib/updates-page.php:35
+#: lib/updates-page.php:39
 msgid "Seravo updates enabled"
 msgstr "Seravon päivitykset sallittu"
 
-#: lib/updates-page.php:36
+#: lib/updates-page.php:41
+msgid "Technical contact email addresses"
+msgstr "Sivuston tekniset yhteyshenkilöt"
+
+#: lib/updates-page.php:42
+msgid ""
+"Seravo may send automatic notifications about site errors and failed updates "
+"to these addresses. Please separate multiple email addresses with commas."
+msgstr ""
+"Seravo voi lähettää automaattisia ilmoituksia näihin sähköpostiosoitteisiin "
+"koskien sivuston virheitä ja epäonnistuneita päivitysyrityksiä. Useita "
+"sähköposteja voi lisätä erottamalla ne pilkulla."
+
+#: lib/updates-page.php:43
+msgid "example@example.com"
+msgstr "esimerkki@esimerkki.fi"
+
+#: lib/updates-page.php:46
+msgid ""
+"P.S. Subscribe to Seravo's %sNewsletter for WordPress Developers%s to get up-"
+"to-date information about our newest features."
+msgstr ""
+"P.S. Tilaa Seravon %suutiskirje WordPress-kehittäjille%s pysyäksesi ajan "
+"tasalla uusimmista ominaisuuksistamme."
+
+#: lib/updates-page.php:49
 msgid "Save settings"
 msgstr "Tallenna asetukset"
 
@@ -472,7 +498,7 @@ msgstr "Lataaminen epäonnistui. Yritä uudelleen."
 msgid "Running rspec tests..."
 msgstr "Testataan sivustoa…"
 
-#: modules/updates.php:27
+#: modules/updates.php:28
 msgid "Updates"
 msgstr "Päivitykset"
 
