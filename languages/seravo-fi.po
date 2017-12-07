@@ -1,22 +1,22 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP-Palvelu Plugin\n"
+"Project-Id-Version: Seravo Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-10-11 12:17:16+00:00\n"
-"PO-Revision-Date: 2017-10-11 15:19+0300\n"
+"POT-Creation-Date: 2017-12-07 22:23+0200\n"
+"PO-Revision-Date: 2017-12-07 22:30+0200\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
-"Language-Team: Onni Hakala <onni@koodimonni.fi>\n"
 "Language: fi_FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: \n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: lib/backups-page.php:3 modules/backups.php:30
@@ -312,23 +312,23 @@ msgstr ""
 "\">WordPressin asetuksissa</a>. Ole hyvä ja <a href=\"https://wp-palvelu.fi/"
 "blogi/miten-otan-https-kayttoon/\">ota https käyttöön sivustolla</a>."
 
-#: modules/instance-switcher.php:98
+#: modules/instance-switcher.php:104
 msgid "Now in"
 msgstr "Nyt käytössä"
 
-#: modules/instance-switcher.php:129
+#: modules/instance-switcher.php:135
 msgid "Exit Shadow"
 msgstr "Poistu varjosta"
 
-#: modules/instance-switcher.php:138
+#: modules/instance-switcher.php:144
 msgid "Shadows explained at Seravo.com/docs"
 msgstr "Varjot selitettynä ohjeissa Seravo.com/docs"
 
-#: modules/instance-switcher.php:152
+#: modules/instance-switcher.php:162
 msgid "Your current shadow instance is %s."
 msgstr "Olet nyt varjossa %s."
 
-#: modules/instance-switcher.php:152
+#: modules/instance-switcher.php:162
 msgid "Exit"
 msgstr "Poistu"
 
@@ -444,13 +444,13 @@ msgstr ""
 msgid "Purge Cache"
 msgstr "Tyhjennä välimuisti"
 
-#: modules/purge-cache.php:92
+#: modules/purge-cache.php:100
 msgid "Success:"
 msgstr "Onnistui:"
 
-#: modules/purge-cache.php:92
-msgid "The cache was flushed"
-msgstr "Välimuisti tyhjennetty"
+#: modules/purge-cache.php:100
+msgid "The cache was flushed."
+msgstr "Välimuisti tyhjennetty."
 
 #: modules/tests.php:37
 msgid "No data returned for section."
@@ -496,9 +496,3 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "https://seravo.com/"
 msgstr "https://wp-palvelu.fi/"
-
-#~ msgid "Welcome %s!"
-#~ msgstr "Tervetuloa, %s!"
-
-#~ msgid "Previously logged into WordPress by %s on %s (%s)."
-#~ msgstr "Edellinen kirjautuminen WordPressiin käyttäjältä %s – %s (%s)."

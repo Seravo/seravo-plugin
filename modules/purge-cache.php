@@ -97,7 +97,7 @@ function _seravo_purge_notification() {
 
   ?>
   <div class="notice updated is-dismissible">
-      <p><strong><?php _e( 'Success:' ); ?></strong> <?php _e( 'The cache was flushed.' ); ?> <button type="button" class="notice-dismiss"></button></p>
+      <p><strong><?php _e( 'Success:', 'seravo' ); ?></strong> <?php _e( 'The cache was flushed.', 'seravo' ); ?> <button type="button" class="notice-dismiss"></button></p>
   </div>
   <?php
 }

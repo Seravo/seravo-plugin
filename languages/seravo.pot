@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin 1.6.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-10-11 12:17:16+00:00\n"
+"POT-Creation-Date: 2017-12-07 20:22:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -271,23 +271,23 @@ msgid ""
 "user-manual/web-publishing/https-for-wordpress/\">use https</a>."
 msgstr ""
 
-#: modules/instance-switcher.php:98
+#: modules/instance-switcher.php:104
 msgid "Now in"
 msgstr ""
 
-#: modules/instance-switcher.php:129
+#: modules/instance-switcher.php:135
 msgid "Exit Shadow"
 msgstr ""
 
-#: modules/instance-switcher.php:138
+#: modules/instance-switcher.php:144
 msgid "Shadows explained at Seravo.com/docs"
 msgstr ""
 
-#: modules/instance-switcher.php:152
+#: modules/instance-switcher.php:162
 msgid "Your current shadow instance is %s."
 msgstr ""
 
-#: modules/instance-switcher.php:152
+#: modules/instance-switcher.php:162
 msgid "Exit"
 msgstr ""
 
@@ -395,12 +395,12 @@ msgstr ""
 msgid "Purge Cache"
 msgstr ""
 
-#: modules/purge-cache.php:92
+#: modules/purge-cache.php:100
 msgid "Success:"
 msgstr ""
 
-#: modules/purge-cache.php:92
-msgid "The cache was flushed"
+#: modules/purge-cache.php:100
+msgid "The cache was flushed."
 msgstr ""
 
 #: modules/tests.php:37
