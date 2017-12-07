@@ -60,11 +60,19 @@ function _maybe_seravo_purge_cache() {
 
     // purge the cache
     $response = _seravo_purge_cache();
-    error_log( "NOTICE: Cache flush initiated from admin: \n" . $response );
+    error_log( "NOTICE: Cache flush initiated from wp-admin. Response: \n" . $response );
 
     // redirect to the original siteurl with notification
     $redirect_url = remove_query_arg( array( 'seravo_purge_cache', '_seravo_nonce' ) );
-    $redirect_url = add_query_arg( 'seravo_purge_success', 1, $redirect_url );
+
+    // Check if response was like "Cache purged successfully for <container>."
+    // Return 1 or 0 as middle argument based on if success or not.
+    $redirect_url = add_query_arg(
+      'seravo_purge_success',
+      strpos($response, 'success'),
+      $redirect_url
+    );
+
     wp_redirect($redirect_url);
 
     die();
@@ -89,7 +97,7 @@ function _seravo_purge_notification() {
 
   ?>
   <div class="notice updated is-dismissible">
-      <p><strong><?php _e( 'Success:' ); ?></strong> <?php _e( 'The cache was flushed' ); ?> <button type="button" class="notice-dismiss"></button></p>
+      <p><strong><?php _e( 'Success:' ); ?></strong> <?php _e( 'The cache was flushed.' ); ?> <button type="button" class="notice-dismiss"></button></p>
   </div>
   <?php
 }
@@ -100,7 +108,8 @@ function _seravo_purge_notification() {
 function _seravo_purge_cache() {
 
   // send a purge request to the downstream server
-  $ch = curl_init( get_site_url( null, '/purge/' ) );
+  $nginx_purge_endpoint = 'http://'. getenv('HTTPS_DOMAIN_ALIAS') .'/purge/';
+  $ch = curl_init( $nginx_purge_endpoint );
   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PURGE');
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   $return = curl_exec($ch);
