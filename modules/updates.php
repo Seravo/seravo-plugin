@@ -43,7 +43,7 @@ if ( ! class_exists('Updates') ) {
       $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
       if ( curl_error($ch) || $httpcode !== 200 ) {
-        error_log('SWD API error ' . $httpcode . ': ' . curl_error($ch));
+        error_log('SWD API (updates) error ' . $httpcode . ': ' . curl_error($ch));
         die('API call failed. Aborting. The error has been logged.');
       }
 
@@ -84,7 +84,7 @@ if ( ! class_exists('Updates') ) {
       $response = curl_exec($ch);
 
       if ( curl_error($ch) ) {
-        error_log('SWD API error: ' . curl_error($ch));
+        error_log('SWD API (updates) error: ' . curl_error($ch));
         status_header(500);
         die('API call failed. Aborting. The error has been logged.');
       }

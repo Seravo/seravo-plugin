@@ -60,7 +60,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ( curl_error($ch) || $httpcode !== 200 ) {
-          error_log('SWD API error ' . $httpcode . ': ' . curl_error($ch));
+          error_log('SWD API (shadows) error ' . $httpcode . ': ' . curl_error($ch));
           return false; // Exit with empty result and let later flow handle it
           // Don't break page load here or everything would be broken.
         }

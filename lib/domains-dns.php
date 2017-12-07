@@ -47,7 +47,7 @@ class Seravo_Domains_DNS_Table {
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ( curl_error($ch) || $httpcode !== 200 ) {
-      error_log('SWD API error ' . $httpcode . ': ' . curl_error($ch));
+      error_log('SWD API (domins) error ' . $httpcode . ': ' . curl_error($ch));
       echo '<b>' . $url . '</b><br>';
       die(__('API call failed. Aborting. The error has been logged.', 'seravo'));
     }
