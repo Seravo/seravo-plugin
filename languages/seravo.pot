@@ -1,16 +1,21 @@
 # Copyright (C) 2017 Seravo Plugin
 # This file is distributed under the same license as the Seravo Plugin package.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin 1.6.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-12-12 14:18:49+00:00\n"
+"POT-Creation-Date: 2017-12-21 17:27+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-KeywordsList: __;_e;_x\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
 
 #: lib/backups-page.php:3 modules/backups.php:30
 msgid "Backups"
@@ -40,6 +45,75 @@ msgstr ""
 
 #: lib/backups-page.php:18
 msgid "Make a new backup"
+msgstr ""
+
+#: lib/database-page.php:3 modules/database.php:64
+msgid "Database"
+msgstr ""
+
+#: lib/database-page.php:6
+msgid "Database credentials"
+msgstr ""
+
+#: lib/database-page.php:18
+msgid "Manage database with Adminer"
+msgstr ""
+
+#: lib/database-page.php:19
+msgid ""
+"Adminer is a simple database management tool like phpMyAdmin. <a href=\"$s"
+"\">Learn more about Adminer.</a>"
+msgstr ""
+
+#: lib/database-page.php:20
+#, php-format
+msgid "Find Adminer in production at %1$s and in local development at %2$s."
+msgstr ""
+
+#: lib/database-page.php:54
+msgid "Open Adminer"
+msgstr ""
+
+#: lib/database-page.php:59
+msgid "Search-replace tool"
+msgstr ""
+
+#: lib/database-page.php:60
+msgid ""
+"With this tool you can run wp search-replace. For your own safety, dry-run "
+"has to be ran before the actual search-replace"
+msgstr ""
+
+#: lib/database-page.php:63
+msgid "From:"
+msgstr ""
+
+#: lib/database-page.php:64
+msgid "To:"
+msgstr ""
+
+#: lib/database-page.php:71
+msgid "Skip backups"
+msgstr ""
+
+#: lib/database-page.php:76
+msgid "All tables"
+msgstr ""
+
+#: lib/database-page.php:82
+msgid "Network"
+msgstr ""
+
+#: lib/database-page.php:87
+msgid "Run dry-run"
+msgstr ""
+
+#: lib/database-page.php:88
+msgid "Run wp search-replace"
+msgstr ""
+
+#: lib/database-page.php:178
+msgid "Database info"
 msgstr ""
 
 #: lib/domains-dns.php:13
@@ -153,44 +227,6 @@ msgstr ""
 msgid "Biggest directories:"
 msgstr ""
 
-#: lib/search-replace-page.php:3
-msgid "Search-replace tool"
-msgstr ""
-
-#: lib/search-replace-page.php:4
-msgid ""
-"With this tool you can run wp search-replace. For your own safety, dry-run "
-"has to be ran before the actual search-replace"
-msgstr ""
-
-#: lib/search-replace-page.php:7
-msgid "From:"
-msgstr ""
-
-#: lib/search-replace-page.php:8
-msgid "To:"
-msgstr ""
-
-#: lib/search-replace-page.php:13
-msgid "Skip backups"
-msgstr ""
-
-#: lib/search-replace-page.php:16
-msgid "All tables"
-msgstr ""
-
-#: lib/search-replace-page.php:20
-msgid "Network"
-msgstr ""
-
-#: lib/search-replace-page.php:25
-msgid "Run dry-run"
-msgstr ""
-
-#: lib/search-replace-page.php:26
-msgid "Run wp search-replace"
-msgstr ""
-
 #: lib/tests-page.php:3 modules/tests.php:25
 msgid "Tests"
 msgstr ""
@@ -269,6 +305,7 @@ msgid "example@example.com"
 msgstr ""
 
 #: lib/updates-page.php:46
+#, php-format
 msgid ""
 "P.S. Subscribe to Seravo's %sNewsletter for WordPress Developers%s to get up-"
 "to-date information about our newest features."
@@ -279,12 +316,14 @@ msgid "Save settings"
 msgstr ""
 
 #: modules/check-default-email.php:29
+#, php-format
 msgid ""
 "Warning: Default admin email detected in <a href=\"%s/wp-admin/options-"
 "general.php\">site settings</a>. Please update it."
 msgstr ""
 
 #: modules/check-https.php:30
+#, php-format
 msgid ""
 "HTTPS protocol is not used in <a href=\"%s/wp-admin/options-general.php"
 "\">site settings</a>. Please <a href=\"https://make.wordpress.org/support/"
@@ -304,6 +343,7 @@ msgid "Shadows explained at Seravo.com/docs"
 msgstr ""
 
 #: modules/instance-switcher.php:162
+#, php-format
 msgid "Your current shadow instance is %s."
 msgstr ""
 
@@ -316,6 +356,7 @@ msgid "Site Error Count"
 msgstr ""
 
 #: modules/login-notification.php:149
+#, php-format
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
 
@@ -324,12 +365,14 @@ msgid "logs"
 msgstr ""
 
 #: modules/login-notification.php:161
+#, php-format
 msgid ""
 "You have a total of %s lines in your error log this week. Check %s for "
 "details."
 msgstr ""
 
 #: modules/login-notification.php:164
+#, php-format
 msgid ""
 "You have at least %s lines in your error log this week. Check %s for details."
 msgstr ""
@@ -351,6 +394,7 @@ msgid "Maximum amount of results shown: "
 msgstr ""
 
 #: modules/logs.php:164
+#, php-format
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 
@@ -359,6 +403,7 @@ msgid "Log empty"
 msgstr ""
 
 #: modules/logs.php:169
+#, php-format
 msgid "Showing %s rows"
 msgstr ""
 
@@ -397,14 +442,17 @@ msgid ""
 msgstr ""
 
 #: modules/optimize-images.php:102
+#, php-format
 msgid "The minimum width for image optimisation is %s px."
 msgstr ""
 
 #: modules/optimize-images.php:111
+#, php-format
 msgid "The minimum height for image optimisation is %s px."
 msgstr ""
 
 #: modules/purge-cache.php:25
+#, php-format
 msgid ""
 "Seravo.com uses front proxies to deliver lightning fast responses to your "
 "visitors. Cached pages will be refreshed every %s. This button is used for "
@@ -445,24 +493,4 @@ msgstr ""
 
 #: modules/updates.php:28
 msgid "Updates"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "Seravo Plugin"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "https://github.com/Seravo/seravo-plugin"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid "Enhances WordPress with Seravo.com specific features and integrations."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "Seravo Oy"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://seravo.com/"
 msgstr ""
