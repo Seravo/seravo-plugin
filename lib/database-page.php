@@ -1,21 +1,15 @@
 <div class="wrap">
 
-<h1><?php _e('Database', 'seravo') ?> (beta)</h1>
+<h1><?php _e('Database', 'seravo'); ?> (beta)</h1>
 
 <div class="seravo-section">
-<h2><?php _e('Database credentials', 'seravo') ?></h2>
-
-<pre>
-<code>DB_NAME       <?php echo esc_html(DB_NAME); ?></code>
-<code>DB_USER       <?php echo esc_html(DB_USER); ?></code>
-<code>DB_PASSWORD   <?php echo esc_html(DB_PASSWORD); ?></code>
-<code>DB_PORT       <?php echo esc_html(DB_PORT); ?></code>
-<code>DB_HOST       <?php echo esc_html(DB_HOST); ?></code>
-</pre>
+<h2><?php _e('Database access', 'seravo'); ?></h2>
+  <p><?php printf( __( 'You can find the database credentials by connecting with SSH and running command %s. These credentials can be used to connect to server with SSH tunnel. You can also use web-based Adminer below.', 'seravo' ), '<code>wp-env-list</code>' ); ?></p>
+  <p><?php printf( __( 'When you have SSH connection you can use WP-CLI that has powerful database tools for example exports and imports. <a href="%s">Read wp db docs.</a>', 'seravo' ), 'https://developer.wordpress.org/cli/commands/db/' ); ?></p>
 </div>
 
 <div class="seravo-section">
-<h2><?php _e('Manage database with Adminer', 'seravo') ?></h2>
+<h2><?php _e('Manage database with Adminer', 'seravo'); ?></h2>
 <p><?php printf( __( 'Adminer is a simple database management tool like phpMyAdmin. <a href="$s">Learn more about Adminer.</a>', 'seravo' ), 'https://www.adminer.org' ); ?></p>
 <p><?php printf( __( 'Find Adminer in production at %1$s and in local development at %2$s.', 'seravo' ), '<code>sitename.com/.seravo/adminer</code>', '<code>adminer.sitename.local</code>' ); ?></p>
 
@@ -31,7 +25,7 @@
   if ( 'production' === getenv('WP_ENV') ) {
 
     // Add trailing slash if missing
-    if(substr($siteurl, -1) !== '/') {
+    if ( substr($siteurl, -1) !== '/' ) {
       $siteurl .= '/';
     }
 
@@ -40,7 +34,7 @@
   } else {
 
     // Add trailing slash if missing
-    if(substr($siteurl, -1) !== '/') {
+    if ( substr($siteurl, -1) !== '/' ) {
       $siteurl .= '/';
     }
 
@@ -172,10 +166,10 @@ jQuery( document ).ready( function(){
 </div>
 <?php endif; // end search & replace ?>
 
-<?php if ( exec( 'which wp' )) : ?>
+<?php if ( exec( 'which wp' ) ) : ?>
 
 <div class="seravo-seciton">
-<h2><?php _e( 'Database info', 'seravo' ); ?></h2>
+<h2><?php _e( 'Database size', 'seravo' ); ?></h2>
 <p>
 <div id="seravo_wp_db_info_loading"><img src="/wp-admin/images/spinner.gif"></div>
 <pre><div id="seravo_wp_db_info"></div></pre>

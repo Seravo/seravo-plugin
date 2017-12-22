@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-12-21 17:27+0200\n"
-"PO-Revision-Date: 2017-12-21 17:28+0200\n"
+"POT-Creation-Date: 2017-12-22 14:55+0200\n"
+"PO-Revision-Date: 2017-12-22 14:55+0200\n"
 "Last-Translator: Teemu Suoranta <teemu.suoranta@aucor.fi>\n"
 "Language-Team: \n"
 "Language: fi_FI\n"
@@ -60,14 +60,36 @@ msgid "Database"
 msgstr "Tietokanta"
 
 #: lib/database-page.php:6
-msgid "Database credentials"
-msgstr "Tietokantatunnukset"
+msgid "Database access"
+msgstr "Yhteys tietokantaan"
 
-#: lib/database-page.php:18
+#: lib/database-page.php:7
+#, php-format
+msgid ""
+"You can find the database credentials by connecting with SSH and running "
+"command %s. These credentials can be used to connect to server with SSH "
+"tunnel. You can also use web-based Adminer below."
+msgstr ""
+"Löydät tietokantatunnukset ottamalla palvelimelle SSH-yhteyden ja "
+"suorittamalla komennon %s. Voit hyödyntää näitä tunnuksia, jos haluat ottaa "
+"yhteyden tietokantaan ulkoisella sovelluksella SSH-tunnelista. Voit hallita "
+"tietokantaa myös Adminerin selainkäyttöliittymän avulla alempana."
+
+#: lib/database-page.php:8
+#, php-format
+msgid ""
+"When you have SSH connection you can use WP-CLI that has powerful database "
+"tools for example exports and imports. <a href=\"%s\">Read wp db docs.</a>"
+msgstr ""
+"Kun olet yhdistänyt palvelimelle SSH-yhteydellä, voit hyödyntää WP-CLI:n "
+"monipuolisia tietokantatyökaluja esimerkiksi tietokannan vientiin tai "
+"tuontiin. <a href=\"%s\">Lue dokumentaatio wp db -komennoille.</a>"
+
+#: lib/database-page.php:12
 msgid "Manage database with Adminer"
 msgstr "Hallinnoi tietokantaa Adminerilla"
 
-#: lib/database-page.php:19
+#: lib/database-page.php:13
 msgid ""
 "Adminer is a simple database management tool like phpMyAdmin. <a href=\"$s"
 "\">Learn more about Adminer.</a>"
@@ -75,22 +97,22 @@ msgstr ""
 "Adminer on yksinkertainen tietokannan hallintatyökalu kuten phpMyAdmin. <a "
 "href=\"$s\">Lue lisää Adminerista.</a>"
 
-#: lib/database-page.php:20
+#: lib/database-page.php:14
 #, php-format
 msgid "Find Adminer in production at %1$s and in local development at %2$s."
 msgstr ""
 "Löydät Adminerin tuotantosivustolta %1$s ja paikallisesta "
 "kehitysympäristöstä %2$s."
 
-#: lib/database-page.php:54
+#: lib/database-page.php:48
 msgid "Open Adminer"
 msgstr "Siirry Admineriin"
 
-#: lib/database-page.php:59
+#: lib/database-page.php:53
 msgid "Search-replace tool"
 msgstr "Etsi ja korvaa -työkalu"
 
-#: lib/database-page.php:60
+#: lib/database-page.php:54
 msgid ""
 "With this tool you can run wp search-replace. For your own safety, dry-run "
 "has to be ran before the actual search-replace"
@@ -98,40 +120,40 @@ msgstr ""
 "Tämän työkalun avulla voit ajaa komennon wp search-replace. Turvallisuuden "
 "vuoksi on ajettava kuiva-ajo (dry-run) ennen kun tehdään muutoksia."
 
-#: lib/database-page.php:63
+#: lib/database-page.php:57
 msgid "From:"
 msgstr "Mistä:"
 
-#: lib/database-page.php:64
+#: lib/database-page.php:58
 msgid "To:"
 msgstr "Mihin:"
 
-#: lib/database-page.php:71
+#: lib/database-page.php:65
 msgid "Skip backups"
 msgstr "Ohita varmuuskopiointi"
 
-#: lib/database-page.php:76
+#: lib/database-page.php:70
 msgid "All tables"
 msgstr "Kaikki taulut"
 
 # lib/search-replace-page.php:23
-#: lib/database-page.php:82
+#: lib/database-page.php:76
 msgid "Network"
 msgstr "Network"
 
 # lib/search-replace-page.php:27
-#: lib/database-page.php:87
+#: lib/database-page.php:81
 msgid "Run dry-run"
 msgstr "Aja kuiva-ajo"
 
 # lib/search-replace-page.php:28
-#: lib/database-page.php:88
+#: lib/database-page.php:82
 msgid "Run wp search-replace"
 msgstr "Aja wp search-replace"
 
-#: lib/database-page.php:178
-msgid "Database info"
-msgstr "Tietoa tietokannasta"
+#: lib/database-page.php:172
+msgid "Database size"
+msgstr "Tietokannan koko"
 
 #: lib/domains-dns.php:13
 msgid "Zone for: "
@@ -547,6 +569,12 @@ msgstr "Testataan sivustoa…"
 #: modules/updates.php:28
 msgid "Updates"
 msgstr "Päivitykset"
+
+#~ msgid "Database info"
+#~ msgstr "Tietoa tietokannasta"
+
+#~ msgid "Database credentials"
+#~ msgstr "Tietokantatunnukset"
 
 #~ msgctxt "seravo"
 #~ msgid ""
