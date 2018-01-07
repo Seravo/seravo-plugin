@@ -1,0 +1,27 @@
+.seravo-section {
+  margin-bottom: 2.5rem;
+}
+
+.seravo-wb-db-info-table {
+  margin-bottom: 1rem;
+}
+.seravo-wb-db-info-table td {
+  padding-right: 1rem;
+}
+
+.sr-navbar .optionboxes li {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.sr-navbar .optionboxes li label {
+  vertical-align: baseline;
+}
+
+#sr-from {
+  margin-right: 1rem;
+}
+
+#search_replace_command {
+  margin: 1rem 0;
+}

@@ -2,22 +2,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-12-12 14:18:49+00:00\n"
-"PO-Revision-Date: 2017-12-18 12:16+0200\n"
-"Last-Translator: Leo Toikka <leo@seravo.fi>\n"
+"POT-Creation-Date: 2018-01-07 19:12+0200\n"
+"PO-Revision-Date: 2018-01-07 19:13+0200\n"
+"Last-Translator: Teemu Suoranta <teemu.suoranta@aucor.fi>\n"
 "Language-Team: \n"
 "Language: fi_FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language-Team: \n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: lib/backups-page.php:3 modules/backups.php:30
@@ -56,13 +55,113 @@ msgstr ""
 msgid "Make a new backup"
 msgstr "Ota uusi varmuuskopio"
 
+#: lib/database-page.php:3 modules/database.php:64
+msgid "Database"
+msgstr "Tietokanta"
+
+#: lib/database-page.php:6
+msgid "Database access"
+msgstr "Yhteys tietokantaan"
+
+#: lib/database-page.php:7
+#, php-format
+msgid ""
+"You can find the database credentials by connecting with SSH and running "
+"command %s. These credentials can be used to connect to server with SSH "
+"tunnel. You can also use web-based Adminer below."
+msgstr ""
+"Löydät tietokantatunnukset ottamalla palvelimelle SSH-yhteyden ja "
+"suorittamalla komennon %s. Voit hyödyntää näitä tunnuksia, jos haluat ottaa "
+"yhteyden tietokantaan ulkoisella sovelluksella SSH-tunnelista. Voit hallita "
+"tietokantaa myös Adminerin selainkäyttöliittymän avulla alempana."
+
+#: lib/database-page.php:8
+#, php-format
+msgid ""
+"When you have SSH connection you can use WP-CLI that has powerful database "
+"tools for example exports and imports. <a href=\"%s\">Read wp db docs.</a>"
+msgstr ""
+"Kun olet yhdistänyt palvelimelle SSH-yhteydellä, voit hyödyntää WP-CLI:n "
+"monipuolisia tietokantatyökaluja esimerkiksi tietokannan vientiin tai "
+"tuontiin. <a href=\"%s\">Lue dokumentaatio wp db -komennoille.</a>"
+
+#: lib/database-page.php:12
+msgid "Manage database with Adminer"
+msgstr "Hallinnoi tietokantaa Adminerilla"
+
+#: lib/database-page.php:13
+msgid ""
+"Adminer is a simple database management tool like phpMyAdmin. <a href=\"$s"
+"\">Learn more about Adminer.</a>"
+msgstr ""
+"Adminer on yksinkertainen tietokannan hallintatyökalu kuten phpMyAdmin. <a "
+"href=\"$s\">Lue lisää Adminerista.</a>"
+
+#: lib/database-page.php:14
+#, php-format
+msgid "Find Adminer in production at %1$s and in local development at %2$s."
+msgstr ""
+"Löydät Adminerin tuotantosivustolta %1$s ja paikallisesta "
+"kehitysympäristöstä %2$s."
+
+#: lib/database-page.php:48
+msgid "Open Adminer"
+msgstr "Siirry Admineriin"
+
+#: lib/database-page.php:53
+msgid "Search-replace tool"
+msgstr "Etsi ja korvaa -työkalu"
+
+#: lib/database-page.php:54
+msgid ""
+"With this tool you can run wp search-replace. For your own safety, dry-run "
+"has to be ran before the actual search-replace"
+msgstr ""
+"Tämän työkalun avulla voit ajaa komennon wp search-replace. Turvallisuuden "
+"vuoksi on ajettava kuiva-ajo (dry-run) ennen kun tehdään muutoksia"
+
+#: lib/database-page.php:57
+msgid "From:"
+msgstr "Mistä:"
+
+#: lib/database-page.php:58
+msgid "To:"
+msgstr "Mihin:"
+
+#: lib/database-page.php:65
+msgid "Skip backups"
+msgstr "Ohita varmuuskopiointi"
+
+#: lib/database-page.php:70
+msgid "All tables"
+msgstr "Kaikki taulut"
+
+# lib/search-replace-page.php:23
+#: lib/database-page.php:76
+msgid "Network"
+msgstr "Network"
+
+# lib/search-replace-page.php:27
+#: lib/database-page.php:81
+msgid "Run dry-run"
+msgstr "Aja kuiva-ajo"
+
+# lib/search-replace-page.php:28
+#: lib/database-page.php:82
+msgid "Run wp search-replace"
+msgstr "Aja wp search-replace"
+
+#: lib/database-page.php:172
+msgid "Database size"
+msgstr "Tietokannan koko"
+
 #: lib/domains-dns.php:13
 msgid "Zone for: "
-msgstr "Zone verkkotunnukselle:"
+msgstr "Zone verkkotunnukselle: "
 
 #: lib/domains-dns.php:19
 msgid "updated: "
-msgstr "päivitetty:"
+msgstr "päivitetty: "
 
 #: lib/domains-dns.php:22
 msgid "Name"
@@ -86,7 +185,7 @@ msgstr "Rajapintayhteys epäonnistui. Virhe on lisätty lokiin."
 
 #: lib/domains-page.php:5
 msgid "Cheatin&#8217; uh?"
-msgstr ""
+msgstr "Yritätkö huijata?"
 
 #: lib/domains-page.php:6
 msgid "Sorry, you are not allowed to access domains."
@@ -175,49 +274,6 @@ msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
 msgid "Biggest directories:"
 msgstr "Suurimmat hakemistot:"
 
-#: lib/search-replace-page.php:3
-msgid "Search-replace tool"
-msgstr "Etsi ja korvaa -työkalu"
-
-#: lib/search-replace-page.php:4
-msgid ""
-"With this tool you can run wp search-replace. For your own safety, dry-run "
-"has to be ran before the actual search-replace"
-msgstr ""
-"Tämän työkalun avulla voit ajaa komennon wp search-replace. Turvallisuuden "
-"vuoksi on ajettava kuiva-ajo (dry-run) ennen kun tehdään muutoksia."
-
-#: lib/search-replace-page.php:7
-msgid "From:"
-msgstr "Mistä:"
-
-#: lib/search-replace-page.php:8
-msgid "To:"
-msgstr "Mihin:"
-
-#: lib/search-replace-page.php:13
-msgid "Skip backups"
-msgstr "Ohita varmuuskopiointi"
-
-#: lib/search-replace-page.php:16
-msgid "All tables"
-msgstr "Kaikki taulut"
-
-# lib/search-replace-page.php:23
-#: lib/search-replace-page.php:20
-msgid "Network"
-msgstr "Network"
-
-# lib/search-replace-page.php:27
-#: lib/search-replace-page.php:25
-msgid "Run dry-run"
-msgstr "Aja kuiva-ajo"
-
-# lib/search-replace-page.php:28
-#: lib/search-replace-page.php:26
-msgid "Run wp search-replace"
-msgstr "Aja wp search-replace"
-
 #: lib/tests-page.php:3 modules/tests.php:25
 msgid "Tests"
 msgstr "Testit"
@@ -271,7 +327,7 @@ msgstr "Viimeisin onnistunut päivitys"
 
 #: lib/updates-page.php:18
 msgid "Opt-out form updates by Seravo"
-msgstr "Kiellä Seravoa päivittämästä sivustoa ja vastaa päivityksistä itse."
+msgstr "Kiellä Seravoa päivittämästä sivustoa ja vastaa päivityksistä itse"
 
 #: lib/updates-page.php:34
 msgid ""
@@ -309,6 +365,7 @@ msgid "example@example.com"
 msgstr "esimerkki@esimerkki.fi"
 
 #: lib/updates-page.php:46
+#, php-format
 msgid ""
 "P.S. Subscribe to Seravo's %sNewsletter for WordPress Developers%s to get up-"
 "to-date information about our newest features."
@@ -321,6 +378,7 @@ msgid "Save settings"
 msgstr "Tallenna asetukset"
 
 #: modules/check-default-email.php:29
+#, php-format
 msgid ""
 "Warning: Default admin email detected in <a href=\"%s/wp-admin/options-"
 "general.php\">site settings</a>. Please update it."
@@ -329,6 +387,7 @@ msgstr ""
 "a> on käytössä oletussähköpostiosoite. Ole hyvä ja vaihda se."
 
 #: modules/check-https.php:30
+#, php-format
 msgid ""
 "HTTPS protocol is not used in <a href=\"%s/wp-admin/options-general.php"
 "\">site settings</a>. Please <a href=\"https://make.wordpress.org/support/"
@@ -351,6 +410,7 @@ msgid "Shadows explained at Seravo.com/docs"
 msgstr "Varjot selitettynä ohjeissa Seravo.com/docs"
 
 #: modules/instance-switcher.php:162
+#, php-format
 msgid "Your current shadow instance is %s."
 msgstr "Olet nyt varjossa %s."
 
@@ -363,6 +423,7 @@ msgid "Site Error Count"
 msgstr "Sivuston virhemäärä"
 
 #: modules/login-notification.php:149
+#, php-format
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
 "Tervetuloa, %1$s! Edellinen kirjautuminen: %2$s (%3$s) osoitteesta %4$s."
@@ -372,12 +433,14 @@ msgid "logs"
 msgstr "lokit"
 
 #: modules/login-notification.php:161
+#, php-format
 msgid ""
 "You have a total of %s lines in your error log this week. Check %s for "
 "details."
 msgstr "Virhelokiin on tullut tällä viikolla %s riviä. Lisätietoa: %s."
 
 #: modules/login-notification.php:164
+#, php-format
 msgid ""
 "You have at least %s lines in your error log this week. Check %s for details."
 msgstr ""
@@ -400,6 +463,7 @@ msgid "Maximum amount of results shown: "
 msgstr "Maksimimäärä näytettäviä lokirivejä: "
 
 #: modules/logs.php:164
+#, php-format
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 "Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä."
@@ -409,6 +473,7 @@ msgid "Log empty"
 msgstr "Loki on tyhjä"
 
 #: modules/logs.php:169
+#, php-format
 msgid "Showing %s rows"
 msgstr "Näytetään %s riviä"
 
@@ -449,14 +514,17 @@ msgstr ""
 "nopeampana latausaikana ja säästää levytilaa palvelimella."
 
 #: modules/optimize-images.php:102
+#, php-format
 msgid "The minimum width for image optimisation is %s px."
 msgstr "Suurimman sallitun kuvan leveyden tulee olla vähintään %s px."
 
 #: modules/optimize-images.php:111
+#, php-format
 msgid "The minimum height for image optimisation is %s px."
 msgstr "Suurimman sallitun kuvan korkeuden tulee olla vähintään %s px."
 
 #: modules/purge-cache.php:25
+#, php-format
 msgid ""
 "Seravo.com uses front proxies to deliver lightning fast responses to your "
 "visitors. Cached pages will be refreshed every %s. This button is used for "
@@ -502,23 +570,55 @@ msgstr "Testataan sivustoa…"
 msgid "Updates"
 msgstr "Päivitykset"
 
-#. Plugin Name of the plugin/theme
-msgid "Seravo Plugin"
-msgstr "WP-palvelu.fi-lisäosa"
+#~ msgid "Database info"
+#~ msgstr "Tietoa tietokannasta"
 
-#. Plugin URI of the plugin/theme
-msgid "https://github.com/Seravo/seravo-plugin"
-msgstr ""
+#~ msgid "Database credentials"
+#~ msgstr "Tietokantatunnukset"
 
-#. Description of the plugin/theme
-msgid "Enhances WordPress with Seravo.com specific features and integrations."
-msgstr ""
-"Parantaa WordPressin toimintaa lisäämällä WP-palvelu.fi:n ominaisuuksia."
+#~ msgctxt "seravo"
+#~ msgid ""
+#~ "Adminer is a simple database management tool like phpMyAdmin. <a href=\"$s"
+#~ "\">Learn more about Adminer.</a>"
+#~ msgstr ""
+#~ "Adminer on yksinkertainen tietokannan hallintatyökalu kuten phpMyAdmin. "
+#~ "<a href=\"$s\">Lue lisää Adminerista.</a>"
 
-#. Author of the plugin/theme
-msgid "Seravo Oy"
-msgstr ""
+#~ msgctxt "seravo"
+#~ msgid "Find Adminer in production at %1$s and in local development at %2$s."
+#~ msgstr ""
+#~ "Löydät Adminerin tuotantosivustolta %1$s ja paikallisesta "
+#~ "kehitysympäristöstä %2$s."
 
-#. Author URI of the plugin/theme
-msgid "https://seravo.com/"
-msgstr "https://wp-palvelu.fi/"
+#~ msgctxt "seravo"
+#~ msgid ""
+#~ "Adminer is a simple database management tool like phpMyAdmin. <a href=\\"
+#~ "\"%1$s\\\">Learn more about Adminer.</a>"
+#~ msgstr ""
+#~ "Adminer on yksinkertainen tietokannan hallintatyökalu kuten phpMyAdmin. "
+#~ "<a href=\\\"%1$s\\\">Lue lisää Adminerista.</a>"
+
+#~ msgctxt "seravo"
+#~ msgid ""
+#~ "Adminer is a simple database management tool like phpMyAdmin. <a href=\"%s"
+#~ "\">Learn more about Adminer.</a>"
+#~ msgstr ""
+#~ "Adminer on yksinkertainen tietokannan hallintatyökalu kuten phpMyAdmin. "
+#~ "<a href=\"%s\">Lue lisää Adminerista.</a>"
+
+#~ msgctxt "seravo"
+#~ msgid "Find Adminer in production at %s and in local development at %s."
+#~ msgstr ""
+#~ "Löydät Adminerin tuotantosivustolta %s ja paikallisesta "
+#~ "kehitysympäristöstä %s."
+
+#~ msgid "Seravo Plugin"
+#~ msgstr "WP-palvelu.fi-lisäosa"
+
+#~ msgid ""
+#~ "Enhances WordPress with Seravo.com specific features and integrations."
+#~ msgstr ""
+#~ "Parantaa WordPressin toimintaa lisäämällä WP-palvelu.fi:n ominaisuuksia."
+
+#~ msgid "https://seravo.com/"
+#~ msgstr "https://wp-palvelu.fi/"

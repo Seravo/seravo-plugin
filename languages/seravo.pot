@@ -1,14 +1,14 @@
-# Copyright (C) 2017 Seravo Plugin
+# Copyright (C) 2018 Seravo Plugin
 # This file is distributed under the same license as the Seravo Plugin package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.6.2\n"
+"Project-Id-Version: Seravo Plugin 1.7.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-12-12 14:18:49+00:00\n"
+"POT-Creation-Date: 2018-01-07 17:08:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -40,6 +40,87 @@ msgstr ""
 
 #: lib/backups-page.php:18
 msgid "Make a new backup"
+msgstr ""
+
+#: lib/database-page.php:3 modules/database.php:64
+msgid "Database"
+msgstr ""
+
+#: lib/database-page.php:6
+msgid "Database access"
+msgstr ""
+
+#: lib/database-page.php:7
+msgid ""
+"You can find the database credentials by connecting with SSH and running "
+"command %s. These credentials can be used to connect to server with SSH "
+"tunnel. You can also use web-based Adminer below."
+msgstr ""
+
+#: lib/database-page.php:8
+msgid ""
+"When you have SSH connection you can use WP-CLI that has powerful database "
+"tools for example exports and imports. <a href=\"%s\">Read wp db docs.</a>"
+msgstr ""
+
+#: lib/database-page.php:12
+msgid "Manage database with Adminer"
+msgstr ""
+
+#: lib/database-page.php:13
+msgid ""
+"Adminer is a simple database management tool like phpMyAdmin. <a href=\"$s"
+"\">Learn more about Adminer.</a>"
+msgstr ""
+
+#: lib/database-page.php:14
+msgid "Find Adminer in production at %1$s and in local development at %2$s."
+msgstr ""
+
+#: lib/database-page.php:48
+msgid "Open Adminer"
+msgstr ""
+
+#: lib/database-page.php:53
+msgid "Search-replace tool"
+msgstr ""
+
+#: lib/database-page.php:54
+msgid ""
+"With this tool you can run wp search-replace. For your own safety, dry-run "
+"has to be ran before the actual search-replace"
+msgstr ""
+
+#: lib/database-page.php:57
+msgid "From:"
+msgstr ""
+
+#: lib/database-page.php:58
+msgid "To:"
+msgstr ""
+
+#: lib/database-page.php:65
+msgid "Skip backups"
+msgstr ""
+
+#: lib/database-page.php:70
+msgid "All tables"
+msgstr ""
+
+#: lib/database-page.php:76
+msgid "Network"
+msgstr ""
+
+#: lib/database-page.php:81
+msgid "Run dry-run"
+msgstr ""
+
+#: lib/database-page.php:82
+msgid "Run wp search-replace"
+msgstr ""
+
+#: lib/database-page.php:172
+msgid "Database size"
 msgstr ""
 
 #: lib/domains-dns.php:13
@@ -151,44 +232,6 @@ msgstr ""
 
 #: lib/reports-page.php:79
 msgid "Biggest directories:"
-msgstr ""
-
-#: lib/search-replace-page.php:3
-msgid "Search-replace tool"
-msgstr ""
-
-#: lib/search-replace-page.php:4
-msgid ""
-"With this tool you can run wp search-replace. For your own safety, dry-run "
-"has to be ran before the actual search-replace"
-msgstr ""
-
-#: lib/search-replace-page.php:7
-msgid "From:"
-msgstr ""
-
-#: lib/search-replace-page.php:8
-msgid "To:"
-msgstr ""
-
-#: lib/search-replace-page.php:13
-msgid "Skip backups"
-msgstr ""
-
-#: lib/search-replace-page.php:16
-msgid "All tables"
-msgstr ""
-
-#: lib/search-replace-page.php:20
-msgid "Network"
-msgstr ""
-
-#: lib/search-replace-page.php:25
-msgid "Run dry-run"
-msgstr ""
-
-#: lib/search-replace-page.php:26
-msgid "Run wp search-replace"
 msgstr ""
 
 #: lib/tests-page.php:3 modules/tests.php:25
