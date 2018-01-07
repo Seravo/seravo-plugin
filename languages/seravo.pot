@@ -1,21 +1,16 @@
-# Copyright (C) 2017 Seravo Plugin
+# Copyright (C) 2018 Seravo Plugin
 # This file is distributed under the same license as the Seravo Plugin package.
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.6.2\n"
+"Project-Id-Version: Seravo Plugin 1.7.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2017-12-22 14:55+0200\n"
+"POT-Creation-Date: 2018-01-07 17:08:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"X-Generator: Poedit 1.8.7\n"
-"X-Poedit-KeywordsList: __;_e;_x\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-SearchPath-0: .\n"
 
 #: lib/backups-page.php:3 modules/backups.php:30
 msgid "Backups"
@@ -56,7 +51,6 @@ msgid "Database access"
 msgstr ""
 
 #: lib/database-page.php:7
-#, php-format
 msgid ""
 "You can find the database credentials by connecting with SSH and running "
 "command %s. These credentials can be used to connect to server with SSH "
@@ -64,7 +58,6 @@ msgid ""
 msgstr ""
 
 #: lib/database-page.php:8
-#, php-format
 msgid ""
 "When you have SSH connection you can use WP-CLI that has powerful database "
 "tools for example exports and imports. <a href=\"%s\">Read wp db docs.</a>"
@@ -81,7 +74,6 @@ msgid ""
 msgstr ""
 
 #: lib/database-page.php:14
-#, php-format
 msgid "Find Adminer in production at %1$s and in local development at %2$s."
 msgstr ""
 
@@ -320,7 +312,6 @@ msgid "example@example.com"
 msgstr ""
 
 #: lib/updates-page.php:46
-#, php-format
 msgid ""
 "P.S. Subscribe to Seravo's %sNewsletter for WordPress Developers%s to get up-"
 "to-date information about our newest features."
@@ -331,14 +322,12 @@ msgid "Save settings"
 msgstr ""
 
 #: modules/check-default-email.php:29
-#, php-format
 msgid ""
 "Warning: Default admin email detected in <a href=\"%s/wp-admin/options-"
 "general.php\">site settings</a>. Please update it."
 msgstr ""
 
 #: modules/check-https.php:30
-#, php-format
 msgid ""
 "HTTPS protocol is not used in <a href=\"%s/wp-admin/options-general.php"
 "\">site settings</a>. Please <a href=\"https://make.wordpress.org/support/"
@@ -358,7 +347,6 @@ msgid "Shadows explained at Seravo.com/docs"
 msgstr ""
 
 #: modules/instance-switcher.php:162
-#, php-format
 msgid "Your current shadow instance is %s."
 msgstr ""
 
@@ -371,7 +359,6 @@ msgid "Site Error Count"
 msgstr ""
 
 #: modules/login-notification.php:149
-#, php-format
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
 
@@ -380,14 +367,12 @@ msgid "logs"
 msgstr ""
 
 #: modules/login-notification.php:161
-#, php-format
 msgid ""
 "You have a total of %s lines in your error log this week. Check %s for "
 "details."
 msgstr ""
 
 #: modules/login-notification.php:164
-#, php-format
 msgid ""
 "You have at least %s lines in your error log this week. Check %s for details."
 msgstr ""
@@ -409,7 +394,6 @@ msgid "Maximum amount of results shown: "
 msgstr ""
 
 #: modules/logs.php:164
-#, php-format
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 
@@ -418,7 +402,6 @@ msgid "Log empty"
 msgstr ""
 
 #: modules/logs.php:169
-#, php-format
 msgid "Showing %s rows"
 msgstr ""
 
@@ -457,17 +440,14 @@ msgid ""
 msgstr ""
 
 #: modules/optimize-images.php:102
-#, php-format
 msgid "The minimum width for image optimisation is %s px."
 msgstr ""
 
 #: modules/optimize-images.php:111
-#, php-format
 msgid "The minimum height for image optimisation is %s px."
 msgstr ""
 
 #: modules/purge-cache.php:25
-#, php-format
 msgid ""
 "Seravo.com uses front proxies to deliver lightning fast responses to your "
 "visitors. Cached pages will be refreshed every %s. This button is used for "
@@ -508,4 +488,24 @@ msgstr ""
 
 #: modules/updates.php:28
 msgid "Updates"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Seravo Plugin"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/Seravo/seravo-plugin"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Enhances WordPress with Seravo.com specific features and integrations."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Seravo Oy"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://seravo.com/"
 msgstr ""
