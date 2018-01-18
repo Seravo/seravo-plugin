@@ -86,7 +86,7 @@ add_action( 'admin_notices', '_seravo_purge_notification' );
 function _seravo_purge_notification() {
 
   // check permissions
-  if ( ! current_user_can( 'edit_posts' ) ) {
+  if ( ! current_user_can( 'manage_options' ) ) {
     return;
   }
 
