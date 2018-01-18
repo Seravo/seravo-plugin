@@ -4,12 +4,12 @@
  * Description: Purges the Seravo cache
  */
 
-/** 
+/**
  * Make capability filterable
  */
 
 function _seravo_purge_capability() {
-  return apply_filters( 'seravo_purge_cache_capability', 'manage_options' );
+  return apply_filters( 'seravo_purge_cache_capability', 'edit_posts' );
 }
 
 /**
