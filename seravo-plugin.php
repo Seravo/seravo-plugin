@@ -6,7 +6,7 @@
  * Description: Enhances WordPress with Seravo.com specific features and integrations.
  * Author: Seravo Oy
  * Author URI: https://seravo.com/
- * Text Domain: wpp
+ * Text Domain: seravo
  * Domain Path: /languages/
  * License: GPL v3 or later
  */
@@ -100,28 +100,28 @@ class Loader {
     /*
      * This is a master switch to disable all modules.
      */
-    if ( apply_filters('seravo_disable_modules',false) ) {
+    if ( apply_filters('seravo_disable_modules', false) ) {
       return;
     }
 
     /*
      * Helpers for hiding useless notifications and small fixes in logging
      */
-    if ( apply_filters('seravo_use_helpers',true) ) {
+    if ( apply_filters('seravo_use_helpers', true) ) {
       require_once(dirname( __FILE__ ) . '/modules/fixes.php');
     }
 
     /*
      * Add a cache purge button to the WP adminbar
      */
-    if ( apply_filters('seravo_use_purge_cache',true) ) {
+    if ( apply_filters('seravo_use_purge_cache', true) ) {
       require_once(dirname( __FILE__ ) . '/modules/purge-cache.php');
     }
 
     /*
      * Hide the domain alias from search engines
      */
-    if ( apply_filters('seravo_hide_domain_alias',true) ) {
+    if ( apply_filters('seravo_hide_domain_alias', true) ) {
       require_once(dirname( __FILE__ ) . '/modules/noindex-domain-alias.php');
     }
 
@@ -129,7 +129,7 @@ class Loader {
      * Use relative urls in post content but absolute urls in feeds
      * This helps migrating the content between development and production
      */
-    if ( apply_filters('seravo_use_relative_urls',true) ) {
+    if ( apply_filters('seravo_use_relative_urls', true) ) {
       require_once(dirname( __FILE__ ) . '/modules/relative-urls.php');
     }
 
@@ -172,7 +172,7 @@ class Loader {
       /*
        * View various reports for Seravo customers
        */
-      if ( apply_filters('seravo_show_reports_page',true) ) {
+      if ( apply_filters('seravo_show_reports_page', true) ) {
         require_once(dirname( __FILE__ ) . '/modules/reports.php');
       }
 
@@ -200,7 +200,7 @@ class Loader {
       /*
        * Allow Seravo customers to manage their domains
        */
-      if ( apply_filters('seravo_show_domains_page',true) && getenv('CONTAINER') ) {
+      if ( apply_filters('seravo_show_domains_page', true) && getenv('CONTAINER') ) {
         require_once(dirname( __FILE__ ) . '/modules/domains.php');
       }
 
@@ -226,7 +226,7 @@ class Loader {
       }
 
       /*
-       * Module for image optimization
+       * Optimize images
        */
       if ( apply_filters('seravo_optimize_images', true) && current_user_can( 'administrator' ) ) {
         require_once(dirname(__FILE__) . '/modules/optimize-images.php');
@@ -235,6 +235,7 @@ class Loader {
 
     /*
      * Database and search & replace
+     * This module handels it's Network Admin and other permission checks in its own load().
      */
     if ( apply_filters('seravo_database_page', true) && current_user_can( 'administrator' ) ) {
       require_once(dirname( __FILE__ ) . '/modules/database.php');
