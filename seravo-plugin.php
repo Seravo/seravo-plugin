@@ -138,6 +138,11 @@ class Loader {
      */
      require_once(dirname( __FILE__ ) . '/modules/wp-login-log.php');
 
+     /*
+      * Enforce strong passwords
+      */
+     require_once(dirname( __FILE__ ) . '/modules/passwords.php');
+
     /*
      * Instance switcher
      */
