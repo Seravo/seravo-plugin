@@ -1,4 +1,4 @@
-'use-strict';
+'use strict';
 
 jQuery(document).ready(function($) {
   function seravo_ajax_delete_file(filepath, callback) {
