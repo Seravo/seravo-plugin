@@ -55,6 +55,18 @@ msgstr ""
 msgid "Make a new backup"
 msgstr "Ota uusi varmuuskopio"
 
+#: lib/cruftfiles-page.php:3
+msgid "Cruft Files (beta)"
+msgstr "Roskatiedostot"
+
+#: lib/cruftfiles-page.php:5
+msgid "Find and delete unnecessary files in the filesystem"
+msgstr "Etsi ja poista tarpeettomia tiedostoja palvelimelta levytilan säästämiseksi"
+
+#: lib/cruftfiles-page.php:12
+msgid "Finding files..."
+msgstr "Etsitään tiedostoja…"
+
 #: lib/database-page.php:3 modules/database.php:64
 msgid "Database"
 msgstr "Tietokanta"
@@ -397,6 +409,26 @@ msgstr ""
 "\">WordPressin asetuksissa</a>. Ole hyvä ja <a href=\"https://wp-palvelu.fi/"
 "blogi/miten-otan-https-kayttoon/\">ota https käyttöön sivustolla</a>."
 
+#: modules/cruftfiles.php:24 modules/cruftfiles.php:25
+msgid "Cruft Files"
+msgstr "Roskatiedostot"
+
+#: modules/cruftfiles.php:54 modules/tests.php:37
+msgid "No data returned for section."
+msgstr "Testi ei palauttanut dataa."
+
+#: modules/cruftfiles.php:55
+msgid "Are you sure you want to proceed? Deleted files can not be recovered."
+msgstr "Oletko varma, että haluat jatkaa? Tiedostot poistetaan pysyvästi."
+
+#: modules/cruftfiles.php:56 modules/tests.php:40
+msgid "Failed to load. Please try again."
+msgstr "Lataaminen epäonnistui. Yritä uudelleen."
+
+#: modules/cruftfiles.php:57
+msgid "Congratulations! You have no any cruft around."
+msgstr "Hienoa, sivustolta ei löytynyt roskatiedostoja!"
+
 #: modules/instance-switcher.php:104
 msgid "Now in"
 msgstr "Nyt käytössä"
@@ -546,10 +578,6 @@ msgstr "Onnistui:"
 msgid "The cache was flushed."
 msgstr "Välimuisti tyhjennetty."
 
-#: modules/tests.php:37
-msgid "No data returned for section."
-msgstr "Testi ei palauttanut dataa."
-
 #: modules/tests.php:38
 msgid "Tests run succesfully without errors!"
 msgstr "Testit suoritettu onnistuneesti ilman virheitä!"
@@ -557,10 +585,6 @@ msgstr "Testit suoritettu onnistuneesti ilman virheitä!"
 #: modules/tests.php:39
 msgid "At least one test failed."
 msgstr "Ainakin yksi testi epäonnistui."
-
-#: modules/tests.php:40
-msgid "Failed to load. Please try again."
-msgstr "Lataaminen epäonnistui. Yritä uudelleen."
 
 #: modules/tests.php:41
 msgid "Running rspec tests..."

@@ -1,4 +1,4 @@
-'use-strict'
+'use-strict';
 
 jQuery(document).ready(function($) {
   function seravo_ajax_delete_file(filepath, callback) {
@@ -25,19 +25,21 @@ jQuery(document).ready(function($) {
         if (rawData.length == 0) {
           $('#' + section).html(seravo_cruftfiles_loc.no_data);
         }
-
         $('#' + section + '_loading').fadeOut();
         var data = JSON.parse(rawData);
-
+        var filecount = 0;
         $.each( data, function( i, file){
           if (file != '') {
+            filecount++;
             $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete">' +
             '<a href="" class="dashicons dashicons-trash cruftfile-delete-button">' +
             '</td><td class="cruftfile-path">' + file + '</td></tr>');
           }
         });
+        if (filecount == 0) {
+          $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
+        }
         $( '#cruftfiles_status_loading img' ).fadeOut
-
         $('.cruftfile-delete-button').click(function(event) {
           event.preventDefault();
           var is_user_sure = confirm(seravo_cruftfiles_loc.confirm);

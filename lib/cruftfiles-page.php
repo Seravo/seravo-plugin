@@ -13,6 +13,4 @@
 </div>
 </p>
 
-<p><b><?php _e( 'Note! Deleted files cannot be undeleted.', 'seravo'); ?></b></p>
-
 </div>
