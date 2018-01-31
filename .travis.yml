@@ -2,11 +2,28 @@ sudo: false
 
 language: php
 
-php:
-  - 5.6
-  - 7.0
-  - 7.1
+matrix:
+  include:
+    - 5.6
+    - 7.2
+    # Arbitrary PHP version to run the sniffs against.
+    - php: '7.0'
+      env: SNIFF=1
+
+before_install:
+  - if [[ "$SNIFF" == "1" ]]; then export PHPCS_DIR=/tmp/phpcs; fi
+  - if [[ "$SNIFF" == "1" ]]; then export SNIFFS_DIR=/tmp/sniffs; fi
+  # Install PHP_CodeSniffer.
+  - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/squizlabs/PHP_CodeSniffer.git $PHPCS_DIR; fi
+  # Install WordPress Coding Standards.
+  - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $SNIFFS_DIR; fi
+  # Set install path for WordPress Coding Standards.
+  - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/bin/phpcs --config-set installed_paths $SNIFFS_DIR; fi
+  # After CodeSniffer install you should refresh your path.
+  - if [[ "$SNIFF" == "1" ]]; then phpenv rehash; fi
 
 script:
   # Syntax check all php files and fail for any error text in STDERR
   - '! find . -type f -name "*.php" -exec php -d error_reporting=32767 -l {} \; 2>&1 >&- | grep "^"'
+  # More extensive PHP Style Check
+  - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/bin/phpcs -i; $PHPCS_DIR/bin/phpcs --standard=phpcs.xml seravo-plugin.php; fi
