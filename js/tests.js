@@ -5,7 +5,6 @@ jQuery(window).on('load', function() {
             ajaxurl,
             { 'action': 'seravo_tests_ajax',
             'section': 'seravo_tests' },
-
             function(rawData) {
                 if ( rawData.length == 0 ) {
                     jQuery('#seravo_tests').html(seravo_tests_loc.no_data);

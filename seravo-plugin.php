@@ -167,7 +167,7 @@ class Loader {
     /*
      * Hide some functionality in multisites from normal admins
      */
-    if ( !is_multisite() || current_user_can( 'manage_network' ) ){
+    if ( ! is_multisite() || current_user_can( 'manage_network' ) ) {
 
       /*
        * View various reports for Seravo customers
@@ -240,7 +240,6 @@ class Loader {
     if ( apply_filters('seravo_database_page', true) && current_user_can( 'administrator' ) ) {
       require_once(dirname( __FILE__ ) . '/modules/database.php');
     }
-
 
     // Load WP-CLI module 'wp seravo'
     if ( defined( 'WP_CLI' ) && WP_CLI ) {

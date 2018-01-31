@@ -116,7 +116,7 @@ function _seravo_purge_notification() {
 function _seravo_purge_cache() {
 
   // send a purge request to the downstream server
-  $nginx_purge_endpoint = 'http://'. getenv('HTTPS_DOMAIN_ALIAS') .'/purge/';
+  $nginx_purge_endpoint = 'http://' . getenv('HTTPS_DOMAIN_ALIAS') . '/purge/';
   $ch = curl_init( $nginx_purge_endpoint );
   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PURGE');
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

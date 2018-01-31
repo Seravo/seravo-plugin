@@ -105,8 +105,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
   function process_bulk_action() {
     if ( 'delete' === $this->current_action() ) {
       wp_die('Items deleted (or they would be if we had items to delete)!');
-    }
-    elseif ( 'view' === $this->current_action() ) {
+    } elseif ( 'view' === $this->current_action() ) {
       $this->dns->fetch_dns_records($_REQUEST['domain']);
     }
   }
@@ -216,7 +215,7 @@ $domainsTable->prepare_items();
     <?php $domainsTable->display() ?>
   </form>
   <?php
-  if (!is_null($domainsTable->dns)) {
+  if ( ! is_null($domainsTable->dns) ) {
     $domainsTable->dns->display();
   }
    ?>

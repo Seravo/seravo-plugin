@@ -75,7 +75,7 @@ if ( ! class_exists('Updates') ) {
       if ( isset($_POST['technical_contacts']) ) {
         $validated_addresses = array();
 
-        if (! empty($_POST['technical_contacts']) ) {
+        if ( ! empty($_POST['technical_contacts']) ) {
           $contact_addresses = explode( ',', $_POST['technical_contacts']);
 
           // Perform email validation before making API request
@@ -92,6 +92,7 @@ if ( ! class_exists('Updates') ) {
           // customer wishes to remove all his/her emails => so consider an empty
           // string as a "valid address"
           $validated_addresses[] = '';
+
         }
 
         // Only update addresses if any valid ones were found

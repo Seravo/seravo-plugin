@@ -34,7 +34,7 @@ function seravo_search_replace_set_flags( $options ) {
   }
   if ( $options['network'] === 'true' ) {
     $flags .= '--network ';
-  } else if ( is_multisite() ){
+  } elseif ( is_multisite() ) {
     $flags .= '--url="' . get_site_url() . '" ';
   }
   return $flags;

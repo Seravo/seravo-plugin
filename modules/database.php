@@ -15,10 +15,10 @@ if ( ! class_exists('Database') ) {
      */
     public static function load() {
 
-     if ( !is_multisite() ){
+     if ( ! is_multisite() ) {
         $GLOBALS['sr_networkvisibility'] = false;
         $GLOBALS['sr_alltables'] = true;
-      } else if ( current_user_can( 'manage_network' ) ) {
+      } elseif ( current_user_can( 'manage_network' ) ) {
         $GLOBALS['sr_networkvisibility'] = true;
         $GLOBALS['sr_alltables'] = true;
       } else {

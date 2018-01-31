@@ -10,16 +10,16 @@
  *
  * @return string HTML table markup
  */
-function seravo_wp_db_info_to_table($array) {
+function seravo_wp_db_info_to_table( $array ) {
 
-  if(is_array($array)) {
+  if ( is_array($array) ) {
     $output = '<table class="seravo-wb-db-info-table">';
-    foreach ($array as $i => $value) {
+    foreach ( $array as $i => $value ) {
       // Columns are separated with tabs
       $columns = explode("\t", $value);
       $output .= '<tr>';
-      foreach ($columns as $j => $column) {
-        $output .= '<td>' . $column .'</td>';
+      foreach ( $columns as $j => $column ) {
+        $output .= '<td>' . $column . '</td>';
       }
       $output .= '</tr>';
     }
@@ -30,13 +30,13 @@ function seravo_wp_db_info_to_table($array) {
 
 }
 
-/** 
+/**
  * Get database total size
  *
  * @return array sizes
  */
 function seravo_get_wp_db_info_totals() {
-  
+
   exec('wp db size', $output);
 
   return $output;
@@ -49,7 +49,7 @@ function seravo_get_wp_db_info_totals() {
  * @return array sizes
  */
 function seravo_get_wp_db_info_tables() {
-  
+
   exec('wp db size --tables', $output);
 
   return $output;

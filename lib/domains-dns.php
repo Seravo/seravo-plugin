@@ -3,15 +3,15 @@ class Seravo_Domains_DNS_Table {
 
   function __construct() {
     global $status, $page;
-    $records = array('' => '' );
+    $records = array( '' => '' );
   }
 
   function display() {
-    if( empty($this->records)){
+    if ( empty($this->records) ) {
       return;
     }
     echo '<div><h2>' . __('Zone for: ', 'seravo') . $this->records['name'] . '</h2>';
-    if( isset($this->records['error'])){
+    if ( isset($this->records['error']) ) {
       echo $this->records['error'] . '<br>';
       return;
     }
@@ -23,9 +23,9 @@ class Seravo_Domains_DNS_Table {
         <th>' . __('TTL','seravo') . '</th>
         <th> </th>
         <th>' . __('Type','seravo') . '</th>
-        <th>' . __('Value', 'seravo') .'</th>
+        <th>' . __('Value', 'seravo') . '</th>
     </thead>';
-    foreach ($this->records['records'] as $record){
+    foreach ( $this->records['records'] as $record ) {
       echo '<tr>';
       echo '<td>' . $record['name'] . '</td>
           <td>' . $record['ttl'] . '</td>
@@ -37,7 +37,7 @@ class Seravo_Domains_DNS_Table {
     echo '</table>';
   }
 
-  function fetch_dns_records($url) {
+  function fetch_dns_records( $url ) {
     $site = getenv('USER');
 
     $ch = curl_init('http://localhost:8888/v1/site/' . $site . '/domain/' . $url . '/zone');
@@ -59,4 +59,4 @@ class Seravo_Domains_DNS_Table {
   }
 
 }
-?>
+

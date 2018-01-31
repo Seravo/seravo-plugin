@@ -30,14 +30,14 @@ if ( ! class_exists('Passwords') ) {
         wp_register_style('seravo_passwords', plugin_dir_url(__DIR__) . '/style/passwords.css');
         wp_register_script(
           'seravo_passwords', plugin_dir_url( __DIR__ ) . '/js/passwords.js',
-          array ('jquery'),
+          array( 'jquery' ),
           false, // version string
           true // in footer
         );
 
         if ( $page === 'profile.php' || $page === 'user-new.php' ) {
           wp_enqueue_style('seravo_passwords');
-        } else if ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
+        } elseif ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
           wp_enqueue_script('seravo_passwords');
         }
 

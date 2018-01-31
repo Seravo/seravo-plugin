@@ -92,7 +92,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
 
       $current_title = strtoupper(getenv('WP_ENV'));
       $current_url = "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-      if (strpos($current_url, '?') > -1) {
+      if ( strpos($current_url, '?') > -1 ) {
         $current_url .= '&';
       } else {
         $current_url .= '?';
@@ -102,7 +102,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       $wp_admin_bar->add_menu([
           'id' => $id,
           'title' => __('Now in', 'seravo') . ': ' . $current_title,
-          'href' => !empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#',
+          'href' => ! empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#',
           'meta' => [
           'class' => $menuclass,
           ],
@@ -154,7 +154,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
     public static function render_shadow_indicator() {
       $shadow_title = strtoupper(getenv('WP_ENV'));
       if ( getenv('WP_ENV_COMMENT') && ! empty( getenv('WP_ENV_COMMENT') ) ) {
-        $shadow_title = $shadow_title . ' ('. getenv('WP_ENV_COMMENT') .')';
+        $shadow_title = $shadow_title . ' (' . getenv('WP_ENV_COMMENT') . ')';
       }
 ?>
       <style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px } #shadow-indicator a.clearlink { text-decoration: underline; color: #fff; }</style>

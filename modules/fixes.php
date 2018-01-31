@@ -34,8 +34,8 @@ if ( ! class_exists('Fixes') ) {
        * Ask browser not cache WordPress/PHP output if blog is not in production or if
        * WP_DEBUG is set (which happens in wp-config.php by default in non-production).
        */
-      if ( ! Helpers::isProduction() || WP_DEBUG) {
-        add_action( 'send_headers', array(__CLASS__, 'sendNoCacheHeaders') );
+      if ( ! Helpers::isProduction() || WP_DEBUG ) {
+        add_action( 'send_headers', array( __CLASS__, 'sendNoCacheHeaders' ) );
       }
 
       /**

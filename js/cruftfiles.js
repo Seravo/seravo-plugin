@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
         $('.cruftfile-delete-button').click(function(event) {
           event.preventDefault();
           var is_user_sure = confirm(seravo_cruftfiles_loc.confirm);
-          if (!is_user_sure) {
+          if ( ! is_user_sure) {
             return;
           }
           var parent_row = $(this).parents(':eq(1)');

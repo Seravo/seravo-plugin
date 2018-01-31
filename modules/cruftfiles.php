@@ -21,9 +21,11 @@ if ( ! class_exists('Cruftfiles') ) {
     }
 
     public static function register_cruftfiles_page() {
-      add_submenu_page( 'tools.php', __( 'Cruft Files', 'seravo' ),
-      __( 'Cruft Files', 'seravo' ), 'manage_options', 'cruftfiles_page',
-      array( __CLASS__, 'load_cruftfiles_page' ) );
+      add_submenu_page(
+        'tools.php', __( 'Cruft Files', 'seravo' ),
+        __( 'Cruft Files', 'seravo' ), 'manage_options', 'cruftfiles_page',
+        array( __CLASS__, 'load_cruftfiles_page' )
+      );
     }
 
     public static function load_cruftfiles_page() {
@@ -36,13 +38,18 @@ if ( ! class_exists('Cruftfiles') ) {
         $result = array();
         $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
         $match = 0;
-        foreach ($legit_cruft_files as $file_found) {
-          if (in_array($file, $file_found)) $match = 1; // Mark file as legitimate
+        foreach ( $legit_cruft_files as $file_found ) {
+          if ( in_array($file, $file_found) ) {
+            $match = 1; // Mark file as legitimate
+          }
         }
-        if ($match == 1) {
+        if ( $match == 1 ) {
           $result = array();
-          if (is_dir($file)) $unlink_result = Cruftfiles::rmdir_recursive($file, 0);
-          else $unlink_result = unlink($file);
+          if ( is_dir($file) ) {
+            $unlink_result = Cruftfiles::rmdir_recursive($file, 0);
+          } else {
+            $unlink_result = unlink($file);
+          }
           $result['success'] = (bool) $unlink_result;
         }
         echo json_encode($result);
@@ -50,18 +57,21 @@ if ( ! class_exists('Cruftfiles') ) {
       wp_die();
     }
 
-    public static function rmdir_recursive($dir, $recursive) {
-      foreach(scandir($dir) as $file) {
-        if ('.' === $file || '..' === $file) continue; // Skip current and upper level directories
-        if (is_dir("$dir/$file")) {
-          rmdir_recursive("$dir/$file", 1);
+    public static function rmdir_recursive( $dir, $recursive ) {
+      foreach ( scandir($dir) as $file ) {
+        if ( '.' === $file || '..' === $file ) {
+          continue; // Skip current and upper level directories
         }
-        else {
+        if ( is_dir("$dir/$file") ) {
+          rmdir_recursive("$dir/$file", 1);
+        } else {
           unlink("$dir/$file");
         }
       }
       rmdir($dir);
-      if ($recursive == 0) return true; // when not called recursively
+      if ( $recursive == 0 ) {
+        return true; // when not called recursively
+      }
     }
 
     public static function enqueue_cruftfiles_scripts( $hook ) {
