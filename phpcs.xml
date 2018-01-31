@@ -19,6 +19,7 @@
    <exclude name="Generic.WhiteSpace.ScopeIndent"/>
    <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
    <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
+   <exclude name="PEAR.Functions.FunctionCallSignature.Indent" />
    <exclude name="WordPress.Arrays.ArrayDeclaration.IndexNoNewline" />
    <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys" />
   </rule>
