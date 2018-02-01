@@ -39,7 +39,7 @@ class Loader {
     /*
      * Load translations
      */
-    add_action( 'plugins_loaded', array( $this, 'loadTextdomain' ) );
+    add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 
     /*
      * Register early on the direct download add_action as it must trigger
@@ -51,7 +51,7 @@ class Loader {
      * It is important to load plugins in init hook so that themes and plugins can override the functionality
      * Use smaller priority so that all plugins and themes are run first.
      */
-    add_action( 'init', array( $this, 'loadAllModules' ), 20 );
+    add_action( 'init', array( $this, 'load_all_modules' ), 20 );
   }
 
   /**
@@ -81,7 +81,7 @@ class Loader {
     }
   }
 
-  public static function loadTextdomain() {
+  public static function load_textdomain() {
 
     // Load translations first from the languages directory
     $locale = apply_filters( 'plugin_locale', get_locale(), self::$domain );
@@ -95,7 +95,7 @@ class Loader {
     load_muplugin_textdomain( 'seravo', basename( dirname(__FILE__) ) . '/languages' );
   }
 
-  public static function loadAllModules() {
+  public static function load_all_modules() {
 
     /*
      * This is a master switch to disable all modules.
