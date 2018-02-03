@@ -63,15 +63,16 @@ class Loader {
     global $pagenow;
 
     // This check fires on every page load, so keep the scope small
-    if ( $pagenow === 'tools.php' && isset($_GET['report']) ) {
+    if ( $pagenow === 'tools.php' && isset($_GET['report']) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
 
       // Next check if the request for a report is valid
       // - user be administrator
       // - filename must be of correct form, e.g. 2016-09.html
       if ( current_user_can('administrator') &&
-          preg_match('/[0-9]{4}-[0-9]{2}\.html/', $_GET['report'], $matches) ) {
+          preg_match('/[0-9]{4}-[0-9]{2}\.html/', $_GET['report'], $matches) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
 
         header('Content-type: text/html');
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_readfile
         readfile('/data/slog/html/goaccess-' . $matches[0]);
         // Stop executing WordPress once a HTML file has been sent
         exit();
