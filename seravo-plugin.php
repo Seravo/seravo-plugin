@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable WordPress.Files.FileName.InvalidClassFileName
 /**
  * Plugin Name: Seravo Plugin
  * Version: 1.7.0
