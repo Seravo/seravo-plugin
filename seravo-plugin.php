@@ -33,8 +33,10 @@ class Loader {
   private static $domain = 'seravo';
 
   public function __construct() {
-    if ( isset(self::$_single) ) { return; }
-    self::$_single       = $this; // Singleton set.
+    if ( isset(self::$_single) ) {
+      return;
+    }
+    self::$_single = $this; // Singleton set.
 
     /*
      * Load translations
