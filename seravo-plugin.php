@@ -26,7 +26,7 @@ namespace Seravo;
 /*
  * Load helpers so that these functions can be used in modules
  */
-require_once(dirname( __FILE__ ) . '/lib/helpers.php');
+require_once dirname( __FILE__ ) . '/lib/helpers.php';
 
 class Loader {
   private static $_single; // Let's make this a singleton.
@@ -108,21 +108,21 @@ class Loader {
      * Helpers for hiding useless notifications and small fixes in logging
      */
     if ( apply_filters('seravo_use_helpers', true) ) {
-      require_once(dirname( __FILE__ ) . '/modules/fixes.php');
+      require_once dirname( __FILE__ ) . '/modules/fixes.php';
     }
 
     /*
      * Add a cache purge button to the WP adminbar
      */
     if ( apply_filters('seravo_use_purge_cache', true) ) {
-      require_once(dirname( __FILE__ ) . '/modules/purge-cache.php');
+      require_once dirname( __FILE__ ) . '/modules/purge-cache.php';
     }
 
     /*
      * Hide the domain alias from search engines
      */
     if ( apply_filters('seravo_hide_domain_alias', true) ) {
-      require_once(dirname( __FILE__ ) . '/modules/noindex-domain-alias.php');
+      require_once dirname( __FILE__ ) . '/modules/noindex-domain-alias.php';
     }
 
     /*
@@ -130,38 +130,38 @@ class Loader {
      * This helps migrating the content between development and production
      */
     if ( apply_filters('seravo_use_relative_urls', true) ) {
-      require_once(dirname( __FILE__ ) . '/modules/relative-urls.php');
+      require_once dirname( __FILE__ ) . '/modules/relative-urls.php';
     }
 
     /*
      * Log all login attempts, failed or successful. Use no filters, as this should be mandatory
      */
-     require_once(dirname( __FILE__ ) . '/modules/wp-login-log.php');
+     require_once dirname( __FILE__ ) . '/modules/wp-login-log.php';
 
      /*
       * Enforce strong passwords
       */
-     require_once(dirname( __FILE__ ) . '/modules/passwords.php');
+     require_once dirname( __FILE__ ) . '/modules/passwords.php';
 
     /*
      * Instance switcher
      */
     if ( apply_filters('seravo_show_instance_switcher', true) && getenv('CONTAINER') ) {
-      require_once(dirname( __FILE__ ) . '/modules/instance-switcher.php');
+      require_once dirname( __FILE__ ) . '/modules/instance-switcher.php';
     }
 
     /*
      * Check that https is enabled in siteurl
      */
     if ( apply_filters('seravo_check_https', true) && current_user_can( 'administrator' ) ) {
-        require_once(dirname( __FILE__ ) . '/modules/check-https.php');
+        require_once dirname( __FILE__ ) . '/modules/check-https.php';
     }
 
     /*
      * Check that user has changed admin email to something else from no-reply@seravo
      */
     if ( apply_filters('seravo_check_default_email', true) && current_user_can( 'administrator' ) ) {
-        require_once(dirname( __FILE__ ) . '/modules/check-default-email.php');
+        require_once dirname( __FILE__ ) . '/modules/check-default-email.php';
     }
 
     /*
@@ -173,63 +173,63 @@ class Loader {
        * View various reports for Seravo customers
        */
       if ( apply_filters('seravo_show_reports_page', true) ) {
-        require_once(dirname( __FILE__ ) . '/modules/reports.php');
+        require_once dirname( __FILE__ ) . '/modules/reports.php';
       }
 
       /*
        * Backups view for Seravo customers
        */
       if ( apply_filters('seravo_show_backups_page', true) && getenv('CONTAINER') ) {
-        require_once(dirname( __FILE__ ) . '/modules/backups.php');
+        require_once dirname( __FILE__ ) . '/modules/backups.php';
       }
 
       /*
        * Cruft view for Seravo customers
        */
       if ( apply_filters('seravo_show_cruftfiles_page', true) ) {
-        require_once(dirname( __FILE__ ) . '/modules/cruftfiles.php');
+        require_once dirname( __FILE__ ) . '/modules/cruftfiles.php';
       }
 
       /*
        * Updates page for site admins only
        */
       if ( apply_filters('seravo_show_updates_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
-        require_once(dirname( __FILE__ ) . '/modules/updates.php');
+        require_once dirname( __FILE__ ) . '/modules/updates.php';
       }
 
       /*
        * Allow Seravo customers to manage their domains
        */
       if ( apply_filters('seravo_show_domains_page', true) && getenv('CONTAINER') ) {
-        require_once(dirname( __FILE__ ) . '/modules/domains.php');
+        require_once dirname( __FILE__ ) . '/modules/domains.php';
       }
 
       /*
        * Show logs from /data/log/*.log in WP-admin
        */
       if ( current_user_can('administrator') ) {
-        require_once(dirname( __FILE__ ) . '/modules/logs.php');
+        require_once dirname( __FILE__ ) . '/modules/logs.php';
       }
 
       /*
        * Notification with last WordPress login date and error count
        */
       if ( current_user_can( 'administrator' ) ) {
-        require_once(dirname(__FILE__) . '/modules/login-notification.php');
+        require_once dirname(__FILE__) . '/modules/login-notification.php';
       }
 
       /*
        * Tests page for wp-test
        */
       if ( apply_filters('seravo_show_tests_page', true) && current_user_can( 'administrator' ) ) {
-          require_once(dirname( __FILE__ ) . '/modules/tests.php');
+          require_once dirname( __FILE__ ) . '/modules/tests.php';
       }
 
       /*
        * Optimize images
        */
       if ( apply_filters('seravo_optimize_images', true) && current_user_can( 'administrator' ) ) {
-        require_once(dirname(__FILE__) . '/modules/optimize-images.php');
+        require_once dirname(__FILE__) . '/modules/optimize-images.php';
       }
     }
 
@@ -238,7 +238,7 @@ class Loader {
      * This module handels it's Network Admin and other permission checks in its own load().
      */
     if ( apply_filters('seravo_database_page', true) && current_user_can( 'administrator' ) ) {
-      require_once(dirname( __FILE__ ) . '/modules/database.php');
+      require_once dirname( __FILE__ ) . '/modules/database.php';
     }
 
     // Load WP-CLI module 'wp seravo'
