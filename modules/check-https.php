@@ -25,7 +25,7 @@ if ( ! class_exists('CheckHttps') ) {
         }
 
         public static  function _seravo_show_https_warning() {
-?>
+            $siteurl = get_option('siteurl'); ?>
             <div class="notice notice-error"><p>
 <?php
 printf(
