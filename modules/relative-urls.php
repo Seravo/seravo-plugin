@@ -92,7 +92,7 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
     public static function content_return_absolute_url_filter( $content ) {
 
       // This might be issue in really big sites so save results to transient using hash
-      $letter_count = count($content);
+      $letter_count = strlen($content);
       $hash = crc32($content);
       $transient_key = 'seravo_feed_' . $letter_count . '_' . $hash;
 
