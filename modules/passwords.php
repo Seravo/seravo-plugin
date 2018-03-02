@@ -29,8 +29,14 @@ if ( ! class_exists('Passwords') ) {
 
         wp_register_style('seravo_passwords', plugin_dir_url(__DIR__) . '/style/passwords.css');
         wp_register_script(
+         'seravo_passwords_sha1', plugin_dir_url(__DIR__) . '/js/sha1.js',
+         array(),
+         false,
+         true
+        );
+        wp_register_script(
           'seravo_passwords', plugin_dir_url( __DIR__ ) . '/js/passwords.js',
-          array( 'jquery' ),
+          array( 'jquery', 'seravo_passwords_sha1',),
           false, // version string
           true // in footer
         );
