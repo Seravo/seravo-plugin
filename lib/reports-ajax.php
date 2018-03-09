@@ -1,12 +1,32 @@
 <?php
 
-function seravo_report_total_disk_usage() {
-  exec('du -sh /data', $output);
-  return $output;
+function humanFileSize($size, $precision = 2) {
+  for($i = 0; ($size / 1024) > 0.9; $i++, $size /= 1024) {}
+  return round($size, $precision).['B','kB','MB','GB','TB','PB','EB','ZB','YB'][$i];
 }
 
-function seravo_report_disk_usage() {
-  exec('du -sh /data/* | sort -hr', $output);
+function seravo_report_folders() {
+  exec ('du -sb /data', $dataFolder);
+  list($dataSize, $dataName) = preg_split('/\s+/', $dataFolder[0]);
+  exec('du -sb /data/* | sort -hr', $dataSub);
+  // Generate sub folder array
+  $dataFolders = array();
+  foreach ($dataSub as $folder) {
+    list($folderSize, $folderName) = preg_split('/\s+/', $folder);
+    $dataFolders[$folderName] = array(
+      'percentage' => (($folderSize / $dataSize) * 100),
+      'human' => humanFileSize($folderSize),
+      'size' =>  $folderSize
+    );
+  }
+  // Create output array
+  $output = array(
+    'data' => array(
+      'human' => humanFileSize($dataSize),
+      'size' => $dataSize
+    ),
+    'dataFolders' => $dataFolders
+  );
   return $output;
 }
 
@@ -62,12 +82,8 @@ function seravo_report_front_cache_status() {
 }
 
 switch ( $_REQUEST['section'] ) {
-  case 'total_disk_usage':
-    echo wp_json_encode(seravo_report_total_disk_usage());
-    break;
-
-  case 'disk_usage':
-    echo wp_json_encode(seravo_report_disk_usage());
+  case 'folders_chart':
+    echo wp_json_encode(seravo_report_folders());
     break;
 
   case 'wp_core_verify':
