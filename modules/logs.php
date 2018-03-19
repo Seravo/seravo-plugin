@@ -144,10 +144,6 @@ if ( ! class_exists('Logs') ) {
         <input type="hidden" name="log" value="<?php echo $current_log; ?>">
         <input type="search" name="regex" value="<?php echo $regex; ?>" placeholder="">
         <input type="submit" class="button" value="<?php _e('Filter', 'seravo'); ?>">
-        <i><?php _e('Maximum amount of results shown: ', 'seravo'); ?></i>
-        <input type="radio" name="max_num_of_rows" value="50" class="log-max-results" <?php if ( $max_num_of_rows === 50 ) { echo 'checked'; } ?>>50
-        <input type="radio" name="max_num_of_rows" value="150" class="log-max-results" <?php if ( $max_num_of_rows === 150 ) { echo 'checked'; } ?>>150
-        <input type="radio" name="max_num_of_rows" value="300" class="log-max-results" <?php if ( $max_num_of_rows === 300 ) { echo 'checked'; } ?>>300
       </form>
     </div>
     <div class="log-table-view" data-logfile="<?php esc_attr_e( $logfile ); ?>" data-logbytes="<?php esc_attr_e( filesize($logfile) ); ?>" data-regex="<?php esc_attr_e($regex); ?>">
@@ -166,7 +162,7 @@ if ( ! class_exists('Logs') ) {
       <?php elseif ( ! $result ) : ?>
         <p><?php _e('Log empty', 'seravo' ); ?></p>
       <?php else : ?>
-        <p><?php echo wp_sprintf(__('Showing %s rows', 'seravo'), $result); ?></p>
+        <p><?php _e('Scroll to load more lines from the log.', 'seravo'); ?></p>
       <?php endif;
     endif; ?>
   </div>

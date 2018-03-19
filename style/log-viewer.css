@@ -5,7 +5,7 @@
 .log-view .log-table-view {
     position: relative;
     width: 100%;
-    height: 275px;
+    height: 500px;
     min-height: 25px;
     overflow: auto;
     resize: both;
@@ -19,6 +19,9 @@
 .log-view .log-table-view table td {
     padding-top: 0;
     padding-bottom: 0
+}
+.log-view .log-table-view table td:hover {
+    background-color: #8cf;
 }
 .log-view .log-table-view table td span.highlight {
     background-color: #ff0

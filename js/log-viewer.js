@@ -6,10 +6,6 @@ jQuery(document).ready(function($) {
         $('.log-table-view').each(function() {
         $(this).scrollTop($('table', this).height())
     });
-
-    $('.log-max-results').click(function() {
-        $('.log-filter').submit();
-    });
 });
 
 $('.log-table-view').on('scroll', function(e) {
