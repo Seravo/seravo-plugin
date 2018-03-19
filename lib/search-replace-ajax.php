@@ -10,12 +10,13 @@ function seravo_search_replace( $from, $to, $options ) {
   $command .= "'" . $to . "'";
 
   if ( $options['dry_run'] === 'false' && $options['skip_backup'] === 'false' ) {
-    $backup = 'wp db export ' . getenv('DB_NAME') . '_' . date(DATE_ATOM) . '.sql --skip-extended-insert --single-transaction';
+    $backup = 'wp-backup';
     array_push($output, '<b>$ ' . $backup . '</b>');
     exec($backup . ' 2>&1', $output);
   }
-  // Only way this if is not true is if the backups fail.
-  if ( $options['dry_run'] === 'true' || $options['skip_backup'] === 'true' || strpos( end($output), 'Success:') !== false ) {
+  // Only way this is not true, is if the backups fail
+  // wp-backup output line 4 should have "Success: Exported to '<name>_<id>.sql'."
+  if ( $options['dry_run'] === 'true' || $options['skip_backup'] === 'true' || strpos( $output[3], 'Success:') !== false ) {
     array_push($output,  '<b>$ ' . $command . '</b>');
     exec($command . ' 2>&1', $output);
   } else {

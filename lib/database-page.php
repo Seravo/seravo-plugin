@@ -112,8 +112,6 @@ function seravo_load_sr_report( section, from, to, options ) {
         jQuery.each( row.split( '\t' ), function( j, col ){
           if (i === 0){
             jQuery( '#search_replace_command' ).append('<code>' + col + '</code>');
-          } else if (i === 1){
-            jQuery( '<th>' ).html(col).appendTo(tr);
           } else {
             jQuery( '<td>' ).html(col).appendTo(tr);
           }
