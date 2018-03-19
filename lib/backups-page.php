@@ -14,10 +14,18 @@
 <pre><div id="create_backup"></div></pre>
 </p>
 
-<h2><?php _e('Current backups: <code>wp-backup-status</code>', 'seravo') ?></h2>
+<h2><?php _e('Current backups', 'seravo') ?></h2>
+<?php echo wp_sprintf( __('This listing is produced by command %s.', 'seravo'), '<code>wp-backup-status</code>' ); ?>
 <p>
 <div id="backup_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
 <pre id="backup_status"></pre>
+</p>
+
+<h2><?php _e('Fiels excluded from backups', 'seravo') ?></h2>
+<?php echo wp_sprintf( __('Below is the content of the file %s.', 'seravo'), '<code>/data/backups/exclude.filelist</code>' ); ?>
+<p>
+<div id="backup_exclude_loading"><img src="/wp-admin/images/spinner.gif"></div>
+<pre id="backup_exclude"></pre>
 </p>
 
 <script>
@@ -43,6 +51,7 @@ function seravo_load_report(section) {
 
 // Load on page load
 seravo_load_report('backup_status');
+seravo_load_report('backup_exclude');
 
 // Load when clicked
 jQuery('#create_backup_button').click(function(){

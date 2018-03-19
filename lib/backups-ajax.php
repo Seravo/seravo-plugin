@@ -5,6 +5,10 @@ function seravo_backup_status() {
   return $output;
 }
 
+function seravo_backup_exclude() {
+  exec('cat /data/backups/exclude.filelist', $output);
+  return $output;
+}
 function seravo_create_backup() {
   exec('wp-backup 2>&1', $output);
   return $output;
@@ -13,6 +17,10 @@ function seravo_create_backup() {
 switch ( $_REQUEST['section'] ) {
   case 'backup_status':
     echo wp_json_encode(seravo_backup_status());
+    break;
+
+  case 'backup_exclude':
+    echo wp_json_encode(seravo_backup_exclude());
     break;
 
   case 'create_backup':
