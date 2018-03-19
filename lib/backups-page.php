@@ -4,12 +4,6 @@
 
 <p><?php _e('Backups are made automatically every night and preserved for 30 days. The data can be accessed on the server at <code>/data/backups</code>.', 'seravo') ?></p>
 
-<h2><?php _e('Current backups: <code>wp-backup-status</code>', 'seravo') ?></h2>
-<p>
-<div id="backup_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
-<pre id="backup_status"></pre>
-</p>
-
 <h2><?php _e('Create a new backup', 'seravo') ?></h2>
 
 <p><?php _e('You can also create backups using the command line tool <code>wp-backup</code>. We recommend getting familiar with the command line option accessible via SSH so that recovering a backup is not dependant on if WP-admin works or not.', 'seravo') ?></p>
@@ -18,6 +12,12 @@
 <button id="create_backup_button" class="button"><?php _e('Make a new backup', 'seravo') ?> </button>
 <div id="create_backup_loading"><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
 <pre><div id="create_backup"></div></pre>
+</p>
+
+<h2><?php _e('Current backups: <code>wp-backup-status</code>', 'seravo') ?></h2>
+<p>
+<div id="backup_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
+<pre id="backup_status"></pre>
 </p>
 
 <script>

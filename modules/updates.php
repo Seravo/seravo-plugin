@@ -120,8 +120,7 @@ if ( ! class_exists('Updates') ) {
       }
 
       curl_close($ch);
-      status_header(200);
-      header('Location: ' . esc_url( admin_url('tools.php?page=updates_page') ) );
+      wp_redirect( admin_url('tools.php?page=updates_page&settings-updated=true') );
       die();
     }
 

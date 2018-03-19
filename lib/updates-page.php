@@ -8,6 +8,11 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
 
 ?>
 
+<?php if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] ) { ?>
+<div id="updates-settings_updated" class="updated settings-error notice is-dismissible">
+<p><strong><?php _e('Settings saved.'); ?></strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php _e('Dismiss this notice.'); ?></span></button></div>
+<?php } ?>
+
 <h2><?php _e('Site status', 'seravo') ?></h2>
 <ul>
   <li><?php _e('Site created', 'seravo') ?>: <?php echo $site_info['created']; ?></li>
@@ -50,6 +55,6 @@ if ( ! empty($contact_emails) ) {
       <?php echo sprintf( __('P.S. Subscribe to Seravo\'s %1$sNewsletter for WordPress Developers%1$s to get up-to-date information about our newest features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>'); ?>
     </small></p>
 
-    <input type="submit" class="button button-primary" value="<?php _e('Save settings', 'seravo') ?>">
+    <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo') ?>">
   </form>
 </div>

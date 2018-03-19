@@ -45,7 +45,7 @@
 
  ?>
 
-<p><a href="<?php echo esc_url($adminer_url); ?>" class="button" target="_blank"><?php _e( 'Open Adminer', 'seravo' ); ?></a></p>
+<p><a href="<?php echo esc_url($adminer_url); ?>" class="button" target="_blank"><?php _e( 'Open Adminer', 'seravo' ); ?><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>
 </div>
 
 <?php if ( exec( 'which wp' ) && apply_filters('seravo_search_replace', true) ) : ?>

@@ -25,3 +25,8 @@
 #search_replace_command {
   margin: 1rem 0;
 }
+
+span.dashicons-external {
+  line-height: unset;
+  padding-left: 3px;
+}
