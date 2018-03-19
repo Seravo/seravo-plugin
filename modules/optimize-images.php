@@ -11,9 +11,13 @@ namespace Seravo;
 if ( ! class_exists('Optimize_images') ) {
     class Optimize_images {
 
-        // Default maximum resolution for images. Can't be set any lower by user.
+        // Default maximum resolution for images
         private static $max_width_default = 4000;
         private static $max_height_default = 4000;
+
+        // Minimum resolution for images. Can't be set any lower by user.
+        private static $min_width = 500;
+        private static $min_height = 500;
 
         public static function load() {
             add_action( 'admin_init', array( __CLASS__, 'register_optimize_image_settings' ) );
@@ -111,21 +115,21 @@ if ( ! class_exists('Optimize_images') ) {
         }
 
         public static function sanitize_image_width( $width ) {
-            if ( $width < self::$max_width_default && $width !== null && get_option( 'seravo-enable-optimize-images' ) === 'on' ) {
+            if ( $width < self::$min_width && $width !== null && get_option( 'seravo-enable-optimize-images' ) === 'on' ) {
                 add_settings_error( 'seravo-image-max-resolution-width', 'invalid-width',
-                sprintf( __( 'The minimum width for image optimisation is %s px.', 'seravo' ), self::$max_width_default ) );
-                return self::$max_width_default;
+                sprintf( __( 'The minimum width for image optimisation is %s px.', 'seravo' ), self::$min_width ) );
+                return self::$min_width;
             }
             return $width;
         }
 
         public static function sanitize_image_height( $height ) {
-            if ( $height < self::$max_height_default && $height !== null && get_option( 'seravo-enable-optimize-images' ) === 'on' ) {
+            if ( $height < self::$min_height && $height !== null && get_option( 'seravo-enable-optimize-images' ) === 'on' ) {
                 add_settings_error(
                   'seravo-image-max-resolution-height', 'invalid-height',
-                  sprintf( __( 'The minimum height for image optimisation is %s px.', 'seravo' ), self::$max_height_default )
+                  sprintf( __( 'The minimum height for image optimisation is %s px.', 'seravo' ), self::$min_height )
                 );
-                return self::$max_height_default;
+                return self::$min_height;
             }
             return $height;
         }
