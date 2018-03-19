@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin 1.7.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2018-01-07 17:08:12+00:00\n"
+"POT-Creation-Date: 2018-03-19 20:12:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,14 +23,10 @@ msgid ""
 msgstr ""
 
 #: lib/backups-page.php:7
-msgid "Current backups: <code>wp-backup-status</code>"
-msgstr ""
-
-#: lib/backups-page.php:13
 msgid "Create a new backup"
 msgstr ""
 
-#: lib/backups-page.php:15
+#: lib/backups-page.php:9
 msgid ""
 "You can also create backups using the command line tool <code>wp-backup</"
 "code>. We recommend getting familiar with the command line option accessible "
@@ -38,8 +34,36 @@ msgid ""
 "not."
 msgstr ""
 
-#: lib/backups-page.php:18
+#: lib/backups-page.php:12
 msgid "Make a new backup"
+msgstr ""
+
+#: lib/backups-page.php:17
+msgid "Current backups"
+msgstr ""
+
+#: lib/backups-page.php:18
+msgid "This listing is produced by command %s."
+msgstr ""
+
+#: lib/backups-page.php:24
+msgid "Files excluded from backups"
+msgstr ""
+
+#: lib/backups-page.php:25
+msgid "Below is the content of the file %s."
+msgstr ""
+
+#: lib/cruftfiles-page.php:3
+msgid "Cruft Files (beta)"
+msgstr ""
+
+#: lib/cruftfiles-page.php:5
+msgid "Find and delete unnecessary files in the filesystem"
+msgstr ""
+
+#: lib/cruftfiles-page.php:12
+msgid "Finding files..."
 msgstr ""
 
 #: lib/database-page.php:3 modules/database.php:64
@@ -119,7 +143,7 @@ msgstr ""
 msgid "Run wp search-replace"
 msgstr ""
 
-#: lib/database-page.php:172
+#: lib/database-page.php:170
 msgid "Database size"
 msgstr ""
 
@@ -147,7 +171,7 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: lib/domains-dns.php:52 lib/domains-page.php:141
+#: lib/domains-dns.php:52 lib/domains-page.php:140
 msgid "API call failed. Aborting. The error has been logged."
 msgstr ""
 
@@ -175,23 +199,19 @@ msgstr ""
 msgid "Managed by"
 msgstr ""
 
-#: lib/domains-page.php:205 modules/domains.php:18
+#: lib/domains-page.php:204 modules/domains.php:18
 msgid "Domains"
 msgstr ""
 
-#: lib/domains-page.php:209
+#: lib/domains-page.php:208
 msgid "Domains routed to this WordPress site are listed below."
 msgstr ""
 
-#: lib/reports-page.php:3 modules/reports.php:26
-msgid "Reports"
-msgstr ""
-
-#: lib/reports-page.php:5
+#: lib/reports-page.php:10 lib/reports-page.php:14
 msgid "HTTP request statistics"
 msgstr ""
 
-#: lib/reports-page.php:7
+#: lib/reports-page.php:18
 msgid ""
 "These monthly reports are generated from the site's HTTP access logs. They "
 "show every HTTP request of the site, including traffic from both humans and "
@@ -200,37 +220,37 @@ msgid ""
 "server at <code>/data/slog/html/goaccess-*.html</code>."
 msgstr ""
 
-#: lib/reports-page.php:12
+#: lib/reports-page.php:24
 msgid "Month"
 msgstr ""
 
-#: lib/reports-page.php:13
+#: lib/reports-page.php:25
 msgid "HTTP requests"
 msgstr ""
 
-#: lib/reports-page.php:14
+#: lib/reports-page.php:26
 msgid "Report"
 msgstr ""
 
-#: lib/reports-page.php:29
+#: lib/reports-page.php:39
 msgid ""
 "No reports found at /data/slog/html/. Reports should be available within a "
 "month of the creation of a new site."
 msgstr ""
 
-#: lib/reports-page.php:63
+#: lib/reports-page.php:72
 msgid "View report"
 msgstr ""
 
-#: lib/reports-page.php:72
+#: lib/reports-page.php:112 lib/reports-page.php:117
 msgid "Disk usage"
 msgstr ""
 
-#: lib/reports-page.php:74
+#: lib/reports-page.php:121
 msgid "Total size of <code>/data</code> is"
 msgstr ""
 
-#: lib/reports-page.php:79
+#: lib/reports-page.php:127
 msgid "Biggest directories:"
 msgstr ""
 
@@ -265,27 +285,35 @@ msgstr ""
 msgid "Seravo updates"
 msgstr ""
 
-#: lib/updates-page.php:11
-msgid "Site status"
+#: lib/updates-page.php:13
+msgid "Settings saved."
 msgstr ""
 
 #: lib/updates-page.php:13
-msgid "Site created"
+msgid "Dismiss this notice."
 msgstr ""
 
-#: lib/updates-page.php:14
-msgid "Latest update attempt"
-msgstr ""
-
-#: lib/updates-page.php:15
-msgid "Latest successful update"
+#: lib/updates-page.php:16
+msgid "Site status"
 msgstr ""
 
 #: lib/updates-page.php:18
+msgid "Site created"
+msgstr ""
+
+#: lib/updates-page.php:19
+msgid "Latest update attempt"
+msgstr ""
+
+#: lib/updates-page.php:20
+msgid "Latest successful update"
+msgstr ""
+
+#: lib/updates-page.php:23
 msgid "Opt-out form updates by Seravo"
 msgstr ""
 
-#: lib/updates-page.php:34
+#: lib/updates-page.php:39
 msgid ""
 "Seravo's upkeep service includes that your WordPress site is kept up-to-date "
 "with quick security updates and regular tested updates of both WordPress "
@@ -293,31 +321,31 @@ msgid ""
 "out from Seravo updates."
 msgstr ""
 
-#: lib/updates-page.php:39
+#: lib/updates-page.php:44
 msgid "Seravo updates enabled"
 msgstr ""
 
-#: lib/updates-page.php:41
+#: lib/updates-page.php:46
 msgid "Technical contact email addresses"
 msgstr ""
 
-#: lib/updates-page.php:42
+#: lib/updates-page.php:47
 msgid ""
 "Seravo may send automatic notifications about site errors and failed updates "
 "to these addresses. Please separate multiple email addresses with commas."
 msgstr ""
 
-#: lib/updates-page.php:43
+#: lib/updates-page.php:48
 msgid "example@example.com"
 msgstr ""
 
-#: lib/updates-page.php:46
+#: lib/updates-page.php:55
 msgid ""
-"P.S. Subscribe to Seravo's %sNewsletter for WordPress Developers%s to get up-"
-"to-date information about our newest features."
+"P.S. Subscribe to Seravo's %1$sNewsletter for WordPress Developers%1$s to "
+"get up-to-date information about our newest features."
 msgstr ""
 
-#: lib/updates-page.php:49
+#: lib/updates-page.php:58
 msgid "Save settings"
 msgstr ""
 
@@ -327,11 +355,31 @@ msgid ""
 "general.php\">site settings</a>. Please update it."
 msgstr ""
 
-#: modules/check-https.php:30
+#: modules/check-https.php:32
 msgid ""
 "HTTPS protocol is not used in <a href=\"%s/wp-admin/options-general.php"
 "\">site settings</a>. Please <a href=\"https://make.wordpress.org/support/"
 "user-manual/web-publishing/https-for-wordpress/\">use https</a>."
+msgstr ""
+
+#: modules/cruftfiles.php:25 modules/cruftfiles.php:26
+msgid "Cruft Files"
+msgstr ""
+
+#: modules/cruftfiles.php:87 modules/tests.php:37
+msgid "No data returned for section."
+msgstr ""
+
+#: modules/cruftfiles.php:88
+msgid "Are you sure you want to proceed? Deleted files can not be recovered."
+msgstr ""
+
+#: modules/cruftfiles.php:89 modules/tests.php:40
+msgid "Failed to load. Please try again."
+msgstr ""
+
+#: modules/cruftfiles.php:90
+msgid "Congratulations! You have no any cruft around."
 msgstr ""
 
 #: modules/instance-switcher.php:104
@@ -358,23 +406,24 @@ msgstr ""
 msgid "Site Error Count"
 msgstr ""
 
-#: modules/login-notification.php:149
+#: modules/login-notification.php:150
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
 
-#: modules/login-notification.php:159
+#: modules/login-notification.php:162
 msgid "logs"
 msgstr ""
 
-#: modules/login-notification.php:161
+#: modules/login-notification.php:165
 msgid ""
-"You have a total of %s lines in your error log this week. Check %s for "
+"You have a total of %1$s lines in your error log this week. Check %1$s for "
 "details."
 msgstr ""
 
-#: modules/login-notification.php:164
+#: modules/login-notification.php:170
 msgid ""
-"You have at least %s lines in your error log this week. Check %s for details."
+"You have at least %1$s lines in your error log this week. Check %1$s for "
+"details."
 msgstr ""
 
 #: modules/logs.php:63 modules/logs.php:64 modules/logs.php:113
@@ -389,85 +438,81 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: modules/logs.php:147
-msgid "Maximum amount of results shown: "
-msgstr ""
-
-#: modules/logs.php:164
+#: modules/logs.php:160
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 
-#: modules/logs.php:167
+#: modules/logs.php:163
 msgid "Log empty"
 msgstr ""
 
-#: modules/logs.php:169
-msgid "Showing %s rows"
+#: modules/logs.php:165
+msgid "Scroll to load more lines from the log."
 msgstr ""
 
-#: modules/optimize-images.php:25 modules/optimize-images.php:64
+#: modules/optimize-images.php:30 modules/optimize-images.php:81
 msgid "Optimize Images"
 msgstr ""
 
-#: modules/optimize-images.php:34
+#: modules/optimize-images.php:45
 msgid "Limit Image Resolution"
 msgstr ""
 
-#: modules/optimize-images.php:36
+#: modules/optimize-images.php:49
 msgid "Maximum Image Width (px)"
 msgstr ""
 
-#: modules/optimize-images.php:38
+#: modules/optimize-images.php:53
 msgid "Maximum Image Height (px)"
 msgstr ""
 
-#: modules/optimize-images.php:74
+#: modules/optimize-images.php:92
 msgid "Save"
 msgstr ""
 
-#: modules/optimize-images.php:81
+#: modules/optimize-images.php:99
 msgid "Width"
 msgstr ""
 
-#: modules/optimize-images.php:87
+#: modules/optimize-images.php:105
 msgid "Height"
 msgstr ""
 
-#: modules/optimize-images.php:95
+#: modules/optimize-images.php:113
 msgid ""
 "Change the maximum image size for your site. Using a smaller image size\n"
 "            significantly improves site performance and saves disk space."
 msgstr ""
 
-#: modules/optimize-images.php:102
+#: modules/optimize-images.php:120
 msgid "The minimum width for image optimisation is %s px."
 msgstr ""
 
-#: modules/optimize-images.php:111
+#: modules/optimize-images.php:130
 msgid "The minimum height for image optimisation is %s px."
 msgstr ""
 
-#: modules/purge-cache.php:25
+#: modules/purge-cache.php:33
 msgid ""
 "Seravo.com uses front proxies to deliver lightning fast responses to your "
 "visitors. Cached pages will be refreshed every %s. This button is used for "
 "clearing all cached pages from the frontend proxy immediately."
 msgstr ""
 
-#: modules/purge-cache.php:26
+#: modules/purge-cache.php:34
 msgid "Purge Cache"
 msgstr ""
 
-#: modules/purge-cache.php:100
+#: modules/purge-cache.php:108
 msgid "Success:"
 msgstr ""
 
-#: modules/purge-cache.php:100
+#: modules/purge-cache.php:108
 msgid "The cache was flushed."
 msgstr ""
 
-#: modules/tests.php:37
-msgid "No data returned for section."
+#: modules/reports.php:26
+msgid "Reports"
 msgstr ""
 
 #: modules/tests.php:38
@@ -476,10 +521,6 @@ msgstr ""
 
 #: modules/tests.php:39
 msgid "At least one test failed."
-msgstr ""
-
-#: modules/tests.php:40
-msgid "Failed to load. Please try again."
 msgstr ""
 
 #: modules/tests.php:41

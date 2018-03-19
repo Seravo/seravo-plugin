@@ -21,7 +21,7 @@
 <pre id="backup_status"></pre>
 </p>
 
-<h2><?php _e('Fiels excluded from backups', 'seravo') ?></h2>
+<h2><?php _e('Files excluded from backups', 'seravo') ?></h2>
 <?php echo wp_sprintf( __('Below is the content of the file %s.', 'seravo'), '<code>/data/backups/exclude.filelist</code>' ); ?>
 <p>
 <div id="backup_exclude_loading"><img src="/wp-admin/images/spinner.gif"></div>
