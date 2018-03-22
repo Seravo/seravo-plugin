@@ -23,8 +23,11 @@ function list_known_cruft_dir( $name ) {
 switch ( $_REQUEST['section'] ) {
   case 'cruftfiles_status':
 
-    $list_files = array( '*.sql', '.hhvm.hhbc', '*.wpress' ); // List of known types of cruft files
-    $list_dirs = array( 'siirto', 'palautus', 'vanha', '*-old', '*-copy', '*-2', '*.bak', 'migration' ); // List of known cruft directories
+    // List of known types of cruft files
+    $list_files = array( '*.sql', '.hhvm.hhbc', '*.wpress' );
+    // List of known cruft directories
+    $list_dirs = array( 'siirto', 'palautus', 'vanha', '*-old', '*-copy', '*-2', '*.bak', 'migration',
+                        '*_BAK', '_mu-plugins', '*.orig', '-backup', '*.backup' );
     $list_known_files = array();
     $list_known_dirs = array(
       '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage',
