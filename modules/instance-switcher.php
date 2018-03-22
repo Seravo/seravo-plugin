@@ -2,7 +2,6 @@
 /*
  * Plugin name: Instance Switcher
  * Description: Enable users to switch to any shadow they have available
- * Version: 1.0
  */
 
 namespace Seravo;
@@ -11,6 +10,11 @@ if ( ! class_exists('InstanceSwitcher') ) {
   class InstanceSwitcher {
 
     public static function load() {
+
+      // Check permission
+      if ( ! current_user_can( InstanceSwitcher::custom_capability() ) ) {
+        return;
+      }
 
       // admin ajax action
       add_action( 'wp_ajax_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ) );
@@ -30,6 +34,13 @@ if ( ! class_exists('InstanceSwitcher') ) {
         add_action('login_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
         add_action('admin_notices', array( 'Seravo\InstanceSwitcher', 'render_shadow_admin_notice' ) );
       }
+    }
+
+    /**
+    * Make capability filterable
+    */
+    public static function custom_capability() {
+      return apply_filters( 'seravo_instance_switcher_capability', 'edit_posts' );
     }
 
     /**
