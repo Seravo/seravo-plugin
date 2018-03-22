@@ -101,32 +101,19 @@ class Loader {
   public static function load_all_modules() {
 
     /*
-     * This is a master switch to disable all modules.
-     */
-    if ( apply_filters('seravo_disable_modules', false) ) {
-      return;
-    }
-
-    /*
      * Helpers for hiding useless notifications and small fixes in logging
      */
-    if ( apply_filters('seravo_use_helpers', true) ) {
-      require_once dirname( __FILE__ ) . '/modules/fixes.php';
-    }
+    require_once dirname( __FILE__ ) . '/modules/fixes.php';
 
     /*
      * Add a cache purge button to the WP adminbar
      */
-    if ( apply_filters('seravo_use_purge_cache', true) ) {
-      require_once dirname( __FILE__ ) . '/modules/purge-cache.php';
-    }
+    require_once dirname( __FILE__ ) . '/modules/purge-cache.php';
 
     /*
      * Hide the domain alias from search engines
      */
-    if ( apply_filters('seravo_hide_domain_alias', true) ) {
-      require_once dirname( __FILE__ ) . '/modules/noindex-domain-alias.php';
-    }
+    require_once dirname( __FILE__ ) . '/modules/noindex-domain-alias.php';
 
     /*
      * Use relative urls in post content but absolute urls in feeds
@@ -156,15 +143,15 @@ class Loader {
     /*
      * Check that https is enabled in siteurl
      */
-    if ( apply_filters('seravo_check_https', true) && current_user_can( 'administrator' ) ) {
-        require_once dirname( __FILE__ ) . '/modules/check-https.php';
+    if ( current_user_can( 'administrator' ) ) {
+      require_once dirname( __FILE__ ) . '/modules/check-https.php';
     }
 
     /*
      * Check that user has changed admin email to something else from no-reply@seravo
      */
-    if ( apply_filters('seravo_check_default_email', true) && current_user_can( 'administrator' ) ) {
-        require_once dirname( __FILE__ ) . '/modules/check-default-email.php';
+    if ( current_user_can( 'administrator' ) ) {
+      require_once dirname( __FILE__ ) . '/modules/check-default-email.php';
     }
 
     /*
@@ -231,7 +218,7 @@ class Loader {
       /*
        * Optimize images
        */
-      if ( apply_filters('seravo_optimize_images', true) && current_user_can( 'administrator' ) ) {
+      if ( apply_filters('seravo_show_optimize_images_page', true) && current_user_can( 'administrator' ) ) {
         require_once dirname(__FILE__) . '/modules/optimize-images.php';
       }
     }
@@ -240,7 +227,7 @@ class Loader {
      * Database and search & replace
      * This module handels it's Network Admin and other permission checks in its own load().
      */
-    if ( apply_filters('seravo_database_page', true) && current_user_can( 'administrator' ) ) {
+    if ( apply_filters('seravo_show_database_page', true) && current_user_can( 'administrator' ) ) {
       require_once dirname( __FILE__ ) . '/modules/database.php';
     }
 
