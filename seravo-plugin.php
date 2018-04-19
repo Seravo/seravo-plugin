@@ -28,6 +28,8 @@ namespace Seravo;
  */
 require_once dirname( __FILE__ ) . '/lib/helpers.php';
 
+require_once dirname( __FILE__ ) . '/lib/canonical-domain-and-https.php';
+
 class Loader {
   private static $_single; // Let's make this a singleton.
   private static $domain = 'seravo';
