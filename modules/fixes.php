@@ -42,7 +42,40 @@ if ( ! class_exists('Fixes') ) {
        * Send proper headers after unsuccesful login
        */
       add_action( 'wp_login_failed', array( __CLASS__, 'changeHttpCodeToUnauthorized' ) );
+
+      /**
+       * Additional hooks to option updates to ensure they get refreshed in the
+       * Redis object-cache when they change.
+       */
+      add_action( 'added_option',   array( __CLASS__, 'maybe_clear_alloptions_cache' ) );
+      add_action( 'updated_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ) );
+      add_action( 'deleted_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ) );
+
     }
+
+
+    /**
+     * Fix a race condition in options caching
+     *
+     * See https://core.trac.wordpress.org/ticket/31245
+     * and https://github.com/tillkruss/redis-cache/issues/58
+     *
+     */
+    public static function maybe_clear_alloptions_cache( $option ) {
+
+      // error_log("added/updated/deleted option: $option");
+
+      if ( wp_installing() === FALSE ) {
+        $alloptions = wp_load_alloptions(); // alloptions should be cached at this point
+
+        // If option is part of the alloptions collection then clear it.
+        if ( array_key_exists($option, $alloptions) ) {
+          wp_cache_delete( $option, 'options' );
+          // error_log("deleted from cache group 'options': $option");
+        }
+
+      }
+     }
 
     /**
      * This is used to add notifications from Seravo.com for users
