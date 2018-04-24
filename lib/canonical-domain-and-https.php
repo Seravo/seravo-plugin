@@ -19,7 +19,6 @@ if ( ! class_exists('Canonical_Domain_And_Https') ) {
       // their use by doing a redirect if the request was not already https.
       $siteurl = get_option('siteurl');
       $home = get_option('home');
-      error_log("$home $siteurl");
 
       if ( strpos($siteurl, 'https') !== false && strpos($home, 'https') !== false ) {
         // Site uses https
