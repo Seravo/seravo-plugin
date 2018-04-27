@@ -13,6 +13,8 @@ if ( ! class_exists('Canonical_Domain_And_Https') ) {
 
   class Canonical_Domain_And_Https {
 
+    // NOTE! This function is executed on every page load, including also when
+    // wp-cli runs. Be careful to keep the overhead here minimal.
     public static function load() {
 
       // Check if siteurl and home both include https addresses. If so, enforce
@@ -22,7 +24,7 @@ if ( ! class_exists('Canonical_Domain_And_Https') ) {
 
       if ( strpos($siteurl, 'https') !== false && strpos($home, 'https') !== false ) {
         // Site uses https
-        if ( is_ssl() === false ) {
+        if ( is_ssl() === false && $_SERVER['HTTP_HOST'] && $_SERVER['REQUEST_URI']) {
           // Request did not use https, force redirect
           $url = 'https://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
           // error_log("Redirect to $url");
