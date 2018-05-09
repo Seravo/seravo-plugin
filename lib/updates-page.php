@@ -52,7 +52,7 @@ if ( ! empty($contact_emails) ) {
 ?>">
 
     <p><small class="seravo-developer-letter-hint">
-      <?php echo sprintf( __('P.S. Subscribe to Seravo\'s %1$sNewsletter for WordPress Developers%1$s to get up-to-date information about our newest features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>'); ?>
+      <?php echo sprintf( __('P.S. Subscribe to Seravo\'s %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our newest features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>'); ?>
     </small></p>
 
     <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo') ?>">

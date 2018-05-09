@@ -162,12 +162,12 @@ if ( ! class_exists('Login_notifications') ) {
                 __('logs', 'Seravo') . '</a>';
             if ( self::$errors < self::$max_rows ) {
                 $msg = wp_sprintf(
-                   __('You have a total of %1$s lines in your error log this week. Check %1$s for details.',
+                   __('You have a total of %1$s lines in your error log this week. Check %2$s for details.',
                   'seravo'), self::$errors, $url
                 );
             } else {
                 $msg = wp_sprintf(
-                  __('You have at least %1$s lines in your error log this week. Check %1$s for details.', 'seravo'),
+                  __('You have at least %1$s lines in your error log this week. Check %2$s for details.', 'seravo'),
                   self::$errors, $url
                 );
             }
