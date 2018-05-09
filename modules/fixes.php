@@ -18,14 +18,14 @@ if ( ! class_exists('Fixes') ) {
       /**
        * Show Seravo.com notifications if this is Seravo.com instance
        */
-      if ( Helpers::isProduction() or Helpers::isStaging() ) {
+      if ( Helpers::is_production() or Helpers::is_staging() ) {
         add_action( 'admin_notices', array( __CLASS__, 'showAdminNotification' ) );
       }
 
       /**
        * Hide update nofications if this is not development
        */
-      if ( ! Helpers::isDevelopment() ) {
+      if ( ! Helpers::is_development() ) {
         add_action( 'admin_menu', array( __CLASS__, 'hideUpdateNotifications' ) );
         add_filter( 'wp_get_update_data', array( __CLASS__, 'hideUpdateData' ) );
       }
@@ -34,7 +34,7 @@ if ( ! class_exists('Fixes') ) {
        * Ask browser not cache WordPress/PHP output if blog is not in production or if
        * WP_DEBUG is set (which happens in wp-config.php by default in non-production).
        */
-      if ( ! Helpers::isProduction() || WP_DEBUG ) {
+      if ( ! Helpers::is_production() || WP_DEBUG ) {
         add_action( 'send_headers', array( __CLASS__, 'sendNoCacheHeaders' ) );
       }
 
