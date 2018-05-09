@@ -63,21 +63,12 @@ if ( ! class_exists('InstanceSwitcher') ) {
       }
 
       if ( ( $shadow_list = get_transient( 'shadow_list' ) ) === false ) {
-        $site = getenv('USER');
-        $ch = curl_init('http://localhost:8888/v1/site/' . $site . '/shadows');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'X-Api-Key: ' . getenv('SERAVO_API_KEY') ));
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        if ( curl_error($ch) || $httpcode !== 200 ) {
-          error_log('SWD API (shadows) error ' . $httpcode . ': ' . curl_error($ch));
+        $api_query = '/shadows';
+        $shadow_list = API::get_site_data($api_query);
+        if ( is_wp_error($shadow_list) ) {
           return false; // Exit with empty result and let later flow handle it
           // Don't break page load here or everything would be broken.
         }
-
-        curl_close($ch);
-        $shadow_list = json_decode($response, true);
         set_transient( 'shadow_list', $shadow_list, 10 * MINUTE_IN_SECONDS );
       }
 

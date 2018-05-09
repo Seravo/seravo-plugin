@@ -1,4 +1,6 @@
 <?php
+require_once dirname( __FILE__ ) . '/../lib/api.php';
+
 class Seravo_Domains_DNS_Table {
 
   function __construct() {
@@ -38,24 +40,13 @@ class Seravo_Domains_DNS_Table {
   }
 
   function fetch_dns_records( $url ) {
-    $site = getenv('USER');
-
-    $ch = curl_init('http://localhost:8888/v1/site/' . $site . '/domain/' . $url . '/zone');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'X-Api-Key: ' . getenv('SERAVO_API_KEY') ));
-    $response = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    if ( curl_error($ch) || $httpcode !== 200 ) {
-      error_log('SWD API (domains) error ' . $httpcode . ': ' . curl_error($ch));
-      echo '<b>' . $url . '</b><br>';
-      die(__('API call failed. Aborting. The error has been logged.', 'seravo'));
+    $api_query = '/domain/' . $url . '/zone';
+    $records = Seravo\API::get_site_data($api_query);
+    if ( is_wp_error($records) ) {
+      die($records->get_error_message());
     }
 
-    curl_close($ch);
-
-    $data = json_decode($response, true);
-    $this->records = $data;
+    $this->records = $records;
   }
 
 }

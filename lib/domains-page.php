@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname( __FILE__ ) . '/../lib/api.php';
+
 if ( ! current_user_can( 'level_10' ) ) {
   wp_die(
       '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
@@ -126,23 +128,11 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     $this->process_bulk_action();
 
     // Fetch list of domains
-
-    $site = getenv('USER');
-
-    $ch = curl_init('http://localhost:8888/v1/site/' . $site . '/domains');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'X-Api-Key: ' . getenv('SERAVO_API_KEY') ));
-    $response = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    if ( curl_error($ch) || $httpcode !== 200 ) {
-      error_log('SWD API (domains) error ' . $httpcode . ': ' . curl_error($ch));
-      die(__('API call failed. Aborting. The error has been logged.', 'seravo'));
+    $api_query = '/domains';
+    $data = Seravo\API::get_site_data($api_query);
+    if ( is_wp_error($data) ) {
+      die($data->get_error_message());
     }
-
-    curl_close($ch);
-
-    $data = json_decode($response, true);
 
     /**
      * This checks for sorting input and sorts the data in our array accordingly.

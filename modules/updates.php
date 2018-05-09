@@ -7,6 +7,8 @@
 
 namespace Seravo;
 
+require_once dirname( __FILE__ ) . '/../lib/api.php';
+
 if ( ! class_exists('Updates') ) {
   class Updates {
 
@@ -34,35 +36,16 @@ if ( ! class_exists('Updates') ) {
     }
 
     public static function seravo_admin_get_site_info() {
-
-      $site = getenv('USER');
-
-      $ch = curl_init('http://localhost:8888/v1/site/' . $site);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'X-Api-Key: ' . getenv('SERAVO_API_KEY') ));
-      $response = curl_exec($ch);
-      $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-      if ( curl_error($ch) || $httpcode !== 200 ) {
-        error_log('SWD API (updates) error ' . $httpcode . ': ' . curl_error($ch));
-        die('API call failed. Aborting. The error has been logged.');
+      $site_info = API::get_site_data();
+      if ( is_wp_error($site_info) ) {
+        die($site_info->get_error_message());
       }
-
-      curl_close($ch);
-
-      $site_info = json_decode($response, true);
 
       return $site_info;
     }
 
     public static function seravo_admin_toggle_seravo_updates() {
       check_admin_referer( 'seravo-updates-nonce' );
-
-      $site = getenv('USER');
-      $ch = curl_init('http://localhost:8888/v1/site/' . $site);
-
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
       if ( $_POST['seravo_updates'] === 'on' ) {
         $seravo_updates = 'true';
@@ -101,25 +84,11 @@ if ( ! class_exists('Updates') ) {
         }
       }
 
-      $data_string = json_encode($data);
-
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-          'X-Api-Key: ' . getenv('SERAVO_API_KEY'),
-          'Content-Type: application/json',
-          'Content-Length: ' . strlen($data_string),
-      ));
-
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-
-      $response = curl_exec($ch);
-
-      if ( curl_error($ch) ) {
-        error_log('SWD API (updates) error: ' . curl_error($ch));
-        status_header(500);
-        die('API call failed. Aborting. The error has been logged.');
+      $response = API::update_site_data($data);
+      if ( is_wp_error($response) ) {
+        die($response->get_error_message());
       }
 
-      curl_close($ch);
       wp_redirect( admin_url('tools.php?page=updates_page&settings-updated=true') );
       die();
     }
