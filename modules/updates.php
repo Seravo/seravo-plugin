@@ -47,7 +47,7 @@ if ( ! class_exists('Updates') ) {
     public static function seravo_admin_toggle_seravo_updates() {
       check_admin_referer( 'seravo-updates-nonce' );
 
-      if ( $_POST['seravo_updates'] === 'on' ) {
+      if ( isset($_POST['seravo_updates']) && $_POST['seravo_updates'] === 'on' ) {
         $seravo_updates = 'true';
       } else {
         $seravo_updates = 'false';
