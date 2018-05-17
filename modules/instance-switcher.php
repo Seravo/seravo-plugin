@@ -11,6 +11,14 @@ if ( ! class_exists('InstanceSwitcher') ) {
 
     public static function load() {
 
+      // display a notice at the bottom of the window when in a shadow
+      if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
+        add_action('admin_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
+        add_action('wp_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
+        add_action('login_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
+        add_action('admin_notices', array( 'Seravo\InstanceSwitcher', 'render_shadow_admin_notice' ) );
+      }
+
       // Check permission
       if ( ! current_user_can( InstanceSwitcher::custom_capability() ) ) {
         return;
@@ -27,13 +35,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       // add the instance switcher menu
       add_action( 'admin_bar_menu', array( 'Seravo\InstanceSwitcher', 'add_switcher' ), 999 );
 
-      // display a notice at the bottom of the window when in a shadow
-      if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
-        add_action('admin_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
-        add_action('wp_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
-        add_action('login_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
-        add_action('admin_notices', array( 'Seravo\InstanceSwitcher', 'render_shadow_admin_notice' ) );
-      }
+
     }
 
     /**
