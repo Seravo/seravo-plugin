@@ -31,5 +31,11 @@ $('.log-table-view').on('scroll', function(e) {
         });
     }
 });
+// Script for showing clicked row on log-view-active box
+jQuery(".logrow").click(function () {
+    var $row = jQuery(this).closest("td"); // Find the row
+    var $text = $row.find(".logrow").text(); // Find the text
 
+    jQuery('.log-view-active').text($text);
+});
 });

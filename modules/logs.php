@@ -165,6 +165,8 @@ if ( ! class_exists('Logs') ) {
         <p><?php _e('Scroll to load more lines from the log.', 'seravo'); ?></p>
       <?php endif;
     endif; ?>
+    <div class="log-view-active">
+    </div>
   </div>
 
   <?php

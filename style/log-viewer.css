@@ -1,30 +1,30 @@
 .log-view input[name=regex] {
     height: 28px;
-    margin: 0 4px 0 0
+    margin: 0 4px 0 0;
 }
 .log-view .log-table-view {
     position: relative;
     width: 100%;
-    height: 500px;
+    max-height: 450px;
     min-height: 25px;
     overflow: auto;
     resize: both;
-    border: 1px solid #e5e5e5
+    border: 1px solid #e5e5e5;
 }
 .log-view .log-table-view table {
     border: 0;
     white-space: nowrap;
-    font-family: monospace
+    font-family: monospace;
 }
 .log-view .log-table-view table td {
     padding-top: 0;
-    padding-bottom: 0
+    padding-bottom: 0;
 }
 .log-view .log-table-view table td:hover {
-    background-color: #8cf;
+    background-color: #44A1CB;
 }
 .log-view .log-table-view table td span.highlight {
-    background-color: #ff0
+    background-color: #ff0;
 }
 .log-view .log-table-view .overlay {
     position: absolute;
@@ -32,5 +32,18 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, .5)
+    width: 300%;
+    background: rgba(0, 0, 0, .5);
+}
+.logrow:hover {
+    background-color: #44A1CB;
+    color: white;
+    cursor: pointer;
+}
+.log-view-active {
+    border: 1px solid #e5e5e5;
+    background-color: #fff;
+    height: 100%;
+    padding: 20px;
+    word-wrap: break-word;
 }
