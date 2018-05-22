@@ -39,30 +39,29 @@ switch ( $_REQUEST['section'] ) {
     $crufts = array();
     foreach ( $list_files as $filename ) {
       $cruft_found = find_cruft_file($filename);
-      if ( $cruft_found != '' ) {
-        array_push($crufts, $cruft_found);
+      if ( !empty($cruft_found) ) {
+        $crufts = array_merge($crufts, $cruft_found);
       }
     }
     foreach ( $list_dirs as $dirname ) {
       $cruft_found = find_cruft_dir($dirname);
-      if ( $cruft_found != '' ) {
-        array_push($crufts, $cruft_found);
+      if ( !empty($cruft_found) ) {
+        $crufts = array_merge($crufts, $cruft_found);
       }
     }
     foreach ( $list_known_files as $dirname ) {
       $cruft_found = list_known_cruft_file($dirname);
-      if ( $cruft_found != '' ) {
-        array_push($crufts, $cruft_found);
+      if ( !empty($cruft_found) ) {
+        $crufts = array_merge($crufts, $cruft_found);
       }
     }
     foreach ( $list_known_dirs as $dirname ) {
       $cruft_found = list_known_cruft_dir($dirname);
-      if ( $cruft_found != '' ) {
-        array_push($crufts, $cruft_found);
+      if ( !empty($cruft_found) ) {
+        $crufts = array_merge($crufts, $cruft_found);
       }
     }
     set_transient('cruft_files_found', $crufts, 600);
-
     echo wp_json_encode($crufts);
     break;
 
