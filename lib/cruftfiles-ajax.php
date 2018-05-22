@@ -10,6 +10,21 @@ function find_cruft_dir( $name ) {
   return $output;
 }
 
+function find_cruft_core() {
+  $output = array();
+  $handle = popen('wp core verify-checksums 2>&1', 'r');
+  $temp = stream_get_contents($handle);
+  pclose($handle);
+  // Lines beginning with: "Warning: File should not exist: "
+  $temp = explode("\n", $temp);
+  foreach ( $temp as $line ) {
+    if ( strpos( $line,"Warning: File should not exist: " ) !== false ) {
+      $line = "/data/wordpress/htdocs/wordpress/" . substr($line, 32);
+      array_push($output, $line);
+    }
+  }
+  return $output;
+}
 function list_known_cruft_file( $name ) {
   exec('ls ' . $name, $output);
   return $output;
@@ -37,6 +52,7 @@ switch ( $_REQUEST['section'] ) {
     );
 
     $crufts = array();
+    $crufts = array_merge($crufts, find_cruft_core());
     foreach ( $list_files as $filename ) {
       $cruft_found = find_cruft_file($filename);
       if ( !empty($cruft_found) ) {
@@ -61,6 +77,7 @@ switch ( $_REQUEST['section'] ) {
         $crufts = array_merge($crufts, $cruft_found);
       }
     }
+    $crufts = array_unique($crufts);
     set_transient('cruft_files_found', $crufts, 600);
     echo wp_json_encode($crufts);
     break;
