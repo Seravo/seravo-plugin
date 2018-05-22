@@ -9,9 +9,11 @@ jQuery(document).ready(function($) {
         'deletefile': filepath },
       function( rawData ) {
         var data = JSON.parse(rawData);
-        if ( data.success ) {
-          callback();
-        }
+        data.forEach(fileinfo => {
+          if ( fileinfo.success ) {
+            callback();
+          }
+        });
       });
   }
 

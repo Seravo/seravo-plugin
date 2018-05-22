@@ -32,27 +32,35 @@ if ( ! class_exists('Cruftfiles') ) {
       require_once(dirname( __FILE__ ) . '/../lib/cruftfiles-page.php');
     }
 
+    /**
+     * $_POST['deletefile'] is either a string denoting only one file
+     * or it can contain an array containing strings denoting files.
+     */
     public static function ajax_delete_file() {
       if ( isset($_POST['deletefile']) && ! empty($_POST['deletefile']) ) {
-        $file = $_POST['deletefile'];
-        $result = array();
-        $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
-        $match = 0;
-        foreach ( $legit_cruft_files as $file_found ) {
-          if ( in_array($file, $file_found) ) {
-            $match = 1; // Mark file as legitimate
-          }
+        $files = $_POST['deletefile'];
+        if ( is_string($files) ) {
+          $files = array($files);
         }
-        if ( $match == 1 ) {
+        if ( !empty($files) ) {
           $result = array();
-          if ( is_dir($file) ) {
-            $unlink_result = Cruftfiles::rmdir_recursive($file, 0);
-          } else {
-            $unlink_result = unlink($file);
+          $results = array();
+          foreach ( $files as $file ) {
+            $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
+            if( in_array( $file, $legit_cruft_files, true ) ) {
+              if ( is_dir($file) ) {
+                $unlink_result = Cruftfiles::rmdir_recursive($file, 0);
+              } else {
+                $unlink_result = unlink($file);
+              }
+              // else - Backwards compatible with old UI
+              $result['success'] = (bool) $unlink_result;
+              $result['filename'] = $file;
+              array_push( $results, $result );
+            }
           }
-          $result['success'] = (bool) $unlink_result;
+          echo json_encode($results);
         }
-        echo json_encode($result);
       }
       wp_die();
     }
