@@ -30,3 +30,52 @@ span.dashicons-external {
   line-height: unset;
   padding-left: 3px;
 }
+
+.inside {
+  padding: 10px 15px 0px 15px!important;
+}
+
+@media only screen and (min-width: 1500px) {
+  #wpbody-content #dashboard-widgets .postbox-container {
+    width: 50%;
+  }
+}
+
+.js .widget .widget-top, .js .postbox .hndle {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 1025px) {
+  .label_buttons {
+    display: block;
+  }
+  .to_button, .adminer_button {
+    padding-top: 15px;
+  }
+  .optionboxes {
+    padding-left: 10%;
+  }
+  .to_label {
+    padding-right: 15%;
+  }
+  .from_label {
+    padding-right: 10%;
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .pie_container {
+    margin: -90px;
+    padding-top: 90px;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+  }
+  .section_chart_mobile {
+    padding-bottom: 25%;
+  }
+  canvas {
+    width: 253px!important;
+    height: 198px!important;
+    margin: auto;
+  }
+}

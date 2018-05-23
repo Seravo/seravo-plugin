@@ -50,9 +50,14 @@ if ( ! class_exists('Database') ) {
     public static function register_scripts( $page ) {
 
         wp_register_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css');
+        wp_register_script( 'chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, null, true );
 
         if ( $page === 'tools_page_database_page' ) {
             wp_enqueue_style('seravo_database');
+            wp_enqueue_script('chart-js');
+            wp_enqueue_script( 'color-hash', plugins_url( '../js/color-hash.js' , __FILE__), 'jquery', null, false );
+            wp_enqueue_script( 'reports-chart', plugins_url( '../js/reports-chart.js' , __FILE__), 'jquery', null, false );
+            wp_enqueue_script( 'database', plugins_url( '../js/database.js' , __FILE__), 'jquery', null, false );
         }
 
     }

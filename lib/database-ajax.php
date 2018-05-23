@@ -43,6 +43,11 @@ function seravo_get_wp_db_info_totals() {
 
 }
 
+function humanFileSize( int $size, $precision = 2 ) {
+  for ($i = 0; ($size / 1024) > 0.9; $i++, $size /= 1024) {}
+  return round($size, $precision).['B','kB','MB','GB','TB','PB','EB','ZB','YB'][$i];
+}
+
 /**
  * Get database table sizes
  *
@@ -50,9 +55,29 @@ function seravo_get_wp_db_info_totals() {
  */
 function seravo_get_wp_db_info_tables() {
 
-  exec('wp db size --tables', $output);
+  exec('wp db size --size_format=b', $total);
 
-  return $output;
+  exec('wp db size --tables --format=json', $json);
+
+  $tables = json_decode($json[0], true);
+  $dataFolders = array();
+
+  foreach ($tables as $table) {
+    $size = preg_replace("/[^0-9]/", "", $table['Size']);
+    $dataFolders[$table['Name']] = array(
+      'percentage' => (($size / $total[0]) * 100),
+      'human' => humanFileSize($size),
+      'size' =>  $size
+    );
+  }
+  // Create output array
+  return array(
+    'data' => array(
+      'human' => humanFileSize($total[0]),
+      'size' => $total
+    ),
+    'dataFolders' => $dataFolders
+  );
 }
 
 
@@ -63,7 +88,10 @@ function seravo_get_wp_db_info_tables() {
  */
 function seravo_get_wp_db_info() {
 
-  return seravo_wp_db_info_to_table(seravo_get_wp_db_info_totals()) . seravo_wp_db_info_to_table(seravo_get_wp_db_info_tables());
+  return array(
+    'totals' => seravo_wp_db_info_to_table(seravo_get_wp_db_info_totals()),
+    'tables' => seravo_get_wp_db_info_tables()
+  );
 
 }
 

@@ -23,6 +23,8 @@ function generateChart(JSONdata) {
       ]
     },
     options: {
+      maintainAspectRatio: true,
+      resposive: true,
       tooltips: {
         callbacks: {
           label: function (tooltipItem, data) {
