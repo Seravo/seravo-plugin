@@ -4,7 +4,7 @@
 
 <div class="seravo-section">
 <h2><?php _e('Database access', 'seravo'); ?></h2>
-  <p><?php printf( __( 'You can find the database credentials by connecting with SSH and running command %s. These credentials can be used to connect to server with SSH tunnel. You can also use web-based Adminer below.', 'seravo' ), '<code>wp-env-list</code>' ); ?></p>
+  <p><?php printf( __( 'You can find the database credentials by connecting with SSH and running command %s. These credentials can be used to connect to server with SSH tunnel. You can also use web-based Adminer below.', 'seravo' ), '<code>wp-list-env</code>' ); ?></p>
   <p><?php printf( __( 'When you have SSH connection you can use WP-CLI that has powerful database tools for example exports and imports. <a href="%s">Read wp db docs.</a>', 'seravo' ), 'https://developer.wordpress.org/cli/commands/db/' ); ?></p>
 </div>
 
