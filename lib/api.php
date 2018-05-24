@@ -29,7 +29,7 @@ namespace Seravo;
        if ( curl_error($ch) || $httpcode !== 200 ) {
          error_log('SWD API (' . $api_query . ') error ' . $httpcode . ': ' . curl_error($ch));
          curl_close($ch);
-         return new WP_Error('seravo-api-get-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
+         return new \WP_Error('seravo-api-get-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
        }
 
        curl_close($ch);
@@ -58,7 +58,7 @@ namespace Seravo;
        if ( curl_error($ch) || $httpcode !== 200 ) {
          error_log('SWD API (' . $api_query . ') error ' . $httpcode . ': ' . curl_error($ch));
          curl_close($ch);
-         return new WP_Error('seravo-api-put-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
+         return new \WP_Error('seravo-api-put-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
        }
 
        return $response;
