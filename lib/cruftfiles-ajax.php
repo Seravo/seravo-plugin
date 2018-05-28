@@ -60,18 +60,23 @@ function seravo_ajax_list_cruft_files() {
   switch ( $_REQUEST['section'] ) {
     case 'cruftfiles_status':
 
-      // List of known types of cruft files
-      $list_files = array( '*.sql', '.hhvm.hhbc', '*.wpress' );
-      // List of known cruft directories
-      $list_dirs = array( 'siirto', 'palautus', 'vanha', '*-old', '*-copy', '*-2', '*.bak', 'migration',
-                          '*_BAK', '_mu-plugins', '*.orig', '-backup', '*.backup' );
-      $list_known_files = array();
-      $list_known_dirs = array(
-        '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage',
-        '/data/wordpress/htdocs/wp-content/ai1wm-backups',
-        '/data/wordpress/htdocs/wp-content/uploads/backupbuddy_backups',
-        '/data/wordpress/htdocs/wp-content/updraft',
-      );
+    // List of known types of cruft files
+    $list_files = array( '*.sql', '.hhvm.hhbc', '*.wpress' );
+    // List of known cruft directories
+    $list_dirs = array( 'siirto', 'palautus', 'vanha', '*-old', '*-copy', '*-2', '*.bak', 'migration',
+                        '*_BAK', '_mu-plugins', '*.orig', '-backup', '*.backup' );
+    $list_known_files = array();
+    $list_known_dirs = array(
+      '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage',
+      '/data/wordpress/htdocs/wp-content/ai1wm-backups',
+      '/data/wordpress/htdocs/wp-content/uploads/backupbuddy_backups',
+      '/data/wordpress/htdocs/wp-content/updraft',
+    );
+    $white_list_dirs = array(
+      '/data/wordpress/htdocs/wp-content/plugins',
+      '/data/wordpress/htdocs/wp-content/mu-plugins',
+      '/data/wordpress/htdocs/wp-content/themes',
+    );
 
       $crufts = array();
       $crufts = array_merge($crufts, find_cruft_core());
@@ -116,22 +121,21 @@ function seravo_ajax_delete_cruft_files() {
     if ( is_string($files) ) {
       $files = array($files);
     }
-    if ( !empty($files) ) {
-      $result = array();
-      $results = array();
-      foreach ( $files as $file ) {
-        $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
-        if ( in_array( $file, $legit_cruft_files, true ) ) {
-          if ( is_dir($file) ) {
-            $unlink_result = rmdir_recursive($file, 0);
-          } else {
-            $unlink_result = unlink($file);
-          }
-          // else - Backwards compatible with old UI
-          $result['success'] = (bool) $unlink_result;
-          $result['filename'] = $file;
-          array_push( $results, $result );
+    // This should be performed right after cruftfile search and before wp core
+    foreach ( $white_list_dirs as $dirname ) {
+      // Some directories are whitelisted and their files should not be deleted
+      $keep = array();
+      foreach ( $crufts as $filename ) {
+        if ( strpos($filename, $dirname) !== false ) {          
+          array_push($keep, $filename);
         }
+      }
+      $crufts = array_diff( $crufts, $keep );
+    }
+    foreach ( $list_known_dirs as $dirname ) {
+      $cruft_found = list_known_cruft_dir($dirname);
+      if ( !empty($cruft_found) ) {
+        $crufts = array_merge($crufts, $cruft_found);
       }
       echo wp_json_encode($results);
     }
