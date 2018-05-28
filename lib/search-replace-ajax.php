@@ -1,4 +1,8 @@
 <?php
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
 
 function seravo_search_replace( $from, $to, $options ) {
   $command = 'wp search-replace ';

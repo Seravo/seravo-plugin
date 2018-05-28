@@ -1,4 +1,8 @@
 <?php
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
 
 if ( ! current_user_can( 'level_10' ) ) {
   wp_die(

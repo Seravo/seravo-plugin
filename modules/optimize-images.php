@@ -8,6 +8,11 @@
 
 namespace Seravo;
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
 if ( ! class_exists('Optimize_images') ) {
   class Optimize_images {
 

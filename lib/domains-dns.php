@@ -1,4 +1,8 @@
 <?php
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
 
 class Seravo_Domains_DNS_Table {
 

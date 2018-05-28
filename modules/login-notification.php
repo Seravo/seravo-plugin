@@ -5,6 +5,11 @@
  */
 namespace Seravo;
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
 require_once(__DIR__ . '/logs.php');
 
 if ( ! class_exists('Login_notifications') ) {

@@ -1,5 +1,10 @@
 <?php
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
 function seravo_backup_status() {
   exec('wp-backup-status 2>&1', $output);
   return $output;

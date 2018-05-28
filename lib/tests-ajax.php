@@ -1,6 +1,11 @@
 <?php
 /* Module which handles ajax requests for the test page */
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
 function seravo_tests() {
   exec('wp-test', $output);
   return $output;

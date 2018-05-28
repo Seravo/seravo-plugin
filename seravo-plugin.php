@@ -13,6 +13,11 @@
 
 namespace Seravo;
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
 /*
  * This plugin should be installed in all WordPress instances at Seravo.com.
  * If you don't want to use some features you can disable any of the modules
