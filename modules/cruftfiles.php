@@ -40,14 +40,14 @@ if ( ! class_exists('Cruftfiles') ) {
       if ( isset($_POST['deletefile']) && ! empty($_POST['deletefile']) ) {
         $files = $_POST['deletefile'];
         if ( is_string($files) ) {
-          $files = array($files);
+          $files = array( $files );
         }
-        if ( !empty($files) ) {
+        if ( ! empty($files) ) {
           $result = array();
           $results = array();
           foreach ( $files as $file ) {
             $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
-            if( in_array( $file, $legit_cruft_files, true ) ) {
+            if ( in_array( $file, $legit_cruft_files, true ) ) {
               if ( is_dir($file) ) {
                 $unlink_result = Cruftfiles::rmdir_recursive($file, 0);
               } else {

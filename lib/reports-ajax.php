@@ -9,21 +9,21 @@ function seravo_report_folders() {
   exec('du -sb /data/* | sort -hr', $dataSub);
   // Generate sub folder array
   $dataFolders = array();
-  foreach ($dataSub as $folder) {
+  foreach ( $dataSub as $folder ) {
     list($folderSize, $folderName) = preg_split('/\s+/', $folder);
-    $dataFolders[$folderName] = array(
+    $dataFolders[ $folderName ] = array(
       'percentage' => (($folderSize / $dataSize) * 100),
       'human' => Helpers::human_file_size($folderSize),
-      'size' =>  $folderSize
+      'size' => $folderSize,
     );
   }
   // Create output array
   $output = array(
     'data' => array(
       'human' => Helpers::human_file_size($dataSize),
-      'size' => $dataSize
+      'size' => $dataSize,
     ),
-    'dataFolders' => $dataFolders
+    'dataFolders' => $dataFolders,
   );
   return $output;
 }
@@ -70,11 +70,8 @@ function seravo_report_front_cache_status() {
         $result = 'Unable to detect front cache status.';
         break;
     }
-
   } else {
-
     $result = 'No front cache available in this WordPress instance.';
-
   }
 
   array_unshift($output, $result, '');

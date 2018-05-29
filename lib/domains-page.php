@@ -41,7 +41,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
       case 'expires':
       case 'dns':
       case 'management':
-        return $item[$column_name];
+        return $item[ $column_name ];
       default:
         return print_r($item, true); // Show the whole array for troubleshooting purposes
     }
@@ -145,7 +145,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     function usort_reorder( $a, $b ) {
         $orderby = ( ! empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'domain'; // If no sort, default to domain name
         $order = ( ! empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; // If no order, default to asc
-        $result = strcmp($a[$orderby], $b[$orderby]); // Determine sort order
+        $result = strcmp($a[ $orderby ], $b[ $orderby ]); // Determine sort order
         return ($order === 'asc') ? $result : -$result; // Send final sort direction to usort
     }
     usort($data, 'usort_reorder');

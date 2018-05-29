@@ -35,10 +35,10 @@
                       // Track max request value to calculate relative bar widths
                       $max_requests = 0;
 
-                      if (empty($reports)) {
+                      if ( empty($reports) ) {
                         echo '<tr><td colspan=3>' . __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo') . '</td></tr>';
                       } else {
-                        foreach ($reports as $report) {
+                        foreach ( $reports as $report ) {
                           $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' $report");
                           preg_match('/([0-9]+)/', $total_requests_string, $total_requests_match);
                           $total_requests = intval($total_requests_match[1]);
@@ -58,7 +58,7 @@
                       // List months in reverse order with newest first
                       rsort($months);
 
-                      foreach ($months as $month) {
+                      foreach ( $months as $month ) {
                         $bar_size = intval( $month['requests'] / $max_requests * 100 );
                         if ( $bar_size <= 10 ) {
                           $bar_css = 'auto';

@@ -61,21 +61,21 @@ function seravo_get_wp_db_info_tables() {
   $tables = json_decode($json[0], true);
   $dataFolders = array();
 
-  foreach ($tables as $table) {
-    $size = preg_replace("/[^0-9]/", "", $table['Size']);
-    $dataFolders[$table['Name']] = array(
+  foreach ( $tables as $table ) {
+    $size = preg_replace('/[^0-9]/', '', $table['Size']);
+    $dataFolders[ $table['Name'] ] = array(
       'percentage' => (($size / $total[0]) * 100),
       'human' => Helpers::human_file_size($size),
-      'size' =>  $size
+      'size' => $size,
     );
   }
   // Create output array
   return array(
     'data' => array(
       'human' => Helpers::human_file_size($total[0]),
-      'size' => $total
+      'size' => $total,
     ),
-    'dataFolders' => $dataFolders
+    'dataFolders' => $dataFolders,
   );
 }
 
@@ -89,7 +89,7 @@ function seravo_get_wp_db_info() {
 
   return array(
     'totals' => seravo_wp_db_info_to_table(seravo_get_wp_db_info_totals()),
-    'tables' => seravo_get_wp_db_info_tables()
+    'tables' => seravo_get_wp_db_info_tables(),
   );
 
 }

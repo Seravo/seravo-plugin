@@ -72,7 +72,7 @@ if ( ! class_exists('Login_notifications') ) {
         5 => 'Friday',
         6 => 'Saturday',
       );
-      $last_day_of_week = strtotime('last ' . $days[$last_day_int]);
+      $last_day_of_week = strtotime('last ' . $days[ $last_day_int ]);
 
       // Read and reverse the php error logfile
       $output = Logs::read_log_lines_backwards('/data/log/php-error.log', -1, self::$max_rows);
@@ -118,7 +118,7 @@ if ( ! class_exists('Login_notifications') ) {
 
       foreach ( $output_reversed as $line ) {
         $output_array = explode(' ', $line);
-        $is_successful_login = (bool) preg_match(  '/.*SUCCESS.*/', $output_array[count($output_array) - 1]);
+        $is_successful_login = (bool) preg_match(  '/.*SUCCESS.*/', $output_array[ count($output_array) - 1 ]);
         $is_current_user_login = ( get_userdata( wp_get_current_user()->ID )->user_login === $output_array[2] );
 
         // Handle only successful logins

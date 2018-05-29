@@ -18,8 +18,8 @@ function find_cruft_core() {
   // Lines beginning with: "Warning: File should not exist: "
   $temp = explode("\n", $temp);
   foreach ( $temp as $line ) {
-    if ( strpos( $line,"Warning: File should not exist: " ) !== false ) {
-      $line = "/data/wordpress/htdocs/wordpress/" . substr($line, 32);
+    if ( strpos( $line,'Warning: File should not exist: ' ) !== false ) {
+      $line = '/data/wordpress/htdocs/wordpress/' . substr($line, 32);
       array_push($output, $line);
     }
   }
@@ -55,25 +55,25 @@ switch ( $_REQUEST['section'] ) {
     $crufts = array_merge($crufts, find_cruft_core());
     foreach ( $list_files as $filename ) {
       $cruft_found = find_cruft_file($filename);
-      if ( !empty($cruft_found) ) {
+      if ( ! empty($cruft_found) ) {
         $crufts = array_merge($crufts, $cruft_found);
       }
     }
     foreach ( $list_dirs as $dirname ) {
       $cruft_found = find_cruft_dir($dirname);
-      if ( !empty($cruft_found) ) {
+      if ( ! empty($cruft_found) ) {
         $crufts = array_merge($crufts, $cruft_found);
       }
     }
     foreach ( $list_known_files as $dirname ) {
       $cruft_found = list_known_cruft_file($dirname);
-      if ( !empty($cruft_found) ) {
+      if ( ! empty($cruft_found) ) {
         $crufts = array_merge($crufts, $cruft_found);
       }
     }
     foreach ( $list_known_dirs as $dirname ) {
       $cruft_found = list_known_cruft_dir($dirname);
-      if ( !empty($cruft_found) ) {
+      if ( ! empty($cruft_found) ) {
         $crufts = array_merge($crufts, $cruft_found);
       }
     }
