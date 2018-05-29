@@ -11,17 +11,16 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
+require_once dirname( __FILE__ ) . '/../lib/reports-ajax.php';
+
 if ( ! class_exists('Reports') ) {
   class Reports {
 
     public static function load() {
-
-      add_action('wp_ajax_seravo_reports', function() {
-          require_once(dirname( __FILE__ ) . '/../lib/reports-ajax.php');
-          wp_die();
-      });
-
       add_action( 'admin_menu', array( __CLASS__, 'register_reports_page' ) );
+
+      // Add AJAX endpoint for receiving data for various reports
+      add_action('wp_ajax_seravo_reports', 'seravo_ajax_reports');
 
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook( __FILE__, array( __CLASS__, 'register_view_reports_capability' ) );

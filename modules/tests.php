@@ -12,6 +12,8 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
+require_once dirname( __FILE__ ) . '/../lib/tests-ajax.php';
+
 if ( ! class_exists('Tests') ) {
   class Tests {
 
@@ -20,10 +22,8 @@ if ( ! class_exists('Tests') ) {
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_tests_scripts' ));
 
-      add_action('wp_ajax_seravo_tests_ajax', function() {
-        require_once(dirname( __FILE__ ) . '/../lib/tests-ajax.php');
-        wp_die();
-      });
+      // Add AJAX endpoint for running tests
+      add_action('wp_ajax_seravo_tests_ajax', 'seravo_ajax_tests');
     }
 
     public static function register_tests_page() {

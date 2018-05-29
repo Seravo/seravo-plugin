@@ -1,5 +1,4 @@
 <?php
-
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -40,54 +39,103 @@ function list_known_cruft_dir( $name ) {
   return $output;
 }
 
-switch ( $_REQUEST['section'] ) {
-  case 'cruftfiles_status':
+function rmdir_recursive( $dir, $recursive ) {
+  foreach ( scandir($dir) as $file ) {
+    if ( '.' === $file || '..' === $file ) {
+      continue; // Skip current and upper level directories
+    }
+    if ( is_dir("$dir/$file") ) {
+      rmdir_recursive("$dir/$file", 1);
+    } else {
+      unlink("$dir/$file");
+    }
+  }
+  rmdir($dir);
+  if ( $recursive == 0 ) {
+    return true; // when not called recursively
+  }
+}
 
-    // List of known types of cruft files
-    $list_files = array( '*.sql', '.hhvm.hhbc', '*.wpress' );
-    // List of known cruft directories
-    $list_dirs = array( 'siirto', 'palautus', 'vanha', '*-old', '*-copy', '*-2', '*.bak', 'migration',
-                        '*_BAK', '_mu-plugins', '*.orig', '-backup', '*.backup' );
-    $list_known_files = array();
-    $list_known_dirs = array(
-      '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage',
-      '/data/wordpress/htdocs/wp-content/ai1wm-backups',
-      '/data/wordpress/htdocs/wp-content/uploads/backupbuddy_backups',
-      '/data/wordpress/htdocs/wp-content/updraft',
-    );
+function seravo_ajax_list_cruft_files() {
+  switch ( $_REQUEST['section'] ) {
+    case 'cruftfiles_status':
 
-    $crufts = array();
-    $crufts = array_merge($crufts, find_cruft_core());
-    foreach ( $list_files as $filename ) {
-      $cruft_found = find_cruft_file($filename);
-      if ( ! empty($cruft_found) ) {
-        $crufts = array_merge($crufts, $cruft_found);
-      }
-    }
-    foreach ( $list_dirs as $dirname ) {
-      $cruft_found = find_cruft_dir($dirname);
-      if ( ! empty($cruft_found) ) {
-        $crufts = array_merge($crufts, $cruft_found);
-      }
-    }
-    foreach ( $list_known_files as $dirname ) {
-      $cruft_found = list_known_cruft_file($dirname);
-      if ( ! empty($cruft_found) ) {
-        $crufts = array_merge($crufts, $cruft_found);
-      }
-    }
-    foreach ( $list_known_dirs as $dirname ) {
-      $cruft_found = list_known_cruft_dir($dirname);
-      if ( ! empty($cruft_found) ) {
-        $crufts = array_merge($crufts, $cruft_found);
-      }
-    }
-    $crufts = array_unique($crufts);
-    set_transient('cruft_files_found', $crufts, 600);
-    echo wp_json_encode($crufts);
-    break;
+      // List of known types of cruft files
+      $list_files = array( '*.sql', '.hhvm.hhbc', '*.wpress' );
+      // List of known cruft directories
+      $list_dirs = array( 'siirto', 'palautus', 'vanha', '*-old', '*-copy', '*-2', '*.bak', 'migration',
+                          '*_BAK', '_mu-plugins', '*.orig', '-backup', '*.backup' );
+      $list_known_files = array();
+      $list_known_dirs = array(
+        '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage',
+        '/data/wordpress/htdocs/wp-content/ai1wm-backups',
+        '/data/wordpress/htdocs/wp-content/uploads/backupbuddy_backups',
+        '/data/wordpress/htdocs/wp-content/updraft',
+      );
 
-  default:
-    error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
-    break;
+      $crufts = array();
+      $crufts = array_merge($crufts, find_cruft_core());
+      foreach ( $list_files as $filename ) {
+        $cruft_found = find_cruft_file($filename);
+        if ( ! empty($cruft_found) ) {
+          $crufts = array_merge($crufts, $cruft_found);
+        }
+      }
+      foreach ( $list_dirs as $dirname ) {
+        $cruft_found = find_cruft_dir($dirname);
+        if ( ! empty($cruft_found) ) {
+          $crufts = array_merge($crufts, $cruft_found);
+        }
+      }
+      foreach ( $list_known_files as $dirname ) {
+        $cruft_found = list_known_cruft_file($dirname);
+        if ( ! empty($cruft_found) ) {
+          $crufts = array_merge($crufts, $cruft_found);
+        }
+      }
+      $crufts = array_unique($crufts);
+      set_transient('cruft_files_found', $crufts, 600);
+      echo wp_json_encode($crufts);
+      break;
+
+    default:
+      error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
+      break;
+  }
+
+  wp_die();
+}
+
+/**
+ * $_POST['deletefile'] is either a string denoting only one file
+ * or it can contain an array containing strings denoting files.
+ */
+function seravo_ajax_delete_cruft_files() {
+  if ( isset($_POST['deletefile']) && ! empty($_POST['deletefile']) ) {
+    $files = $_POST['deletefile'];
+    if ( is_string($files) ) {
+      $files = array($files);
+    }
+    if ( !empty($files) ) {
+      $result = array();
+      $results = array();
+      foreach ( $files as $file ) {
+        $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
+        if ( in_array( $file, $legit_cruft_files, true ) ) {
+          if ( is_dir($file) ) {
+            $unlink_result = rmdir_recursive($file, 0);
+          } else {
+            $unlink_result = unlink($file);
+          }
+          // else - Backwards compatible with old UI
+          $result['success'] = (bool) $unlink_result;
+          $result['filename'] = $file;
+          array_push( $results, $result );
+        }
+      }
+      echo wp_json_encode($results);
+    }
+  }
+
+  wp_die();
 }
