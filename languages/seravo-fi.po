@@ -33,7 +33,7 @@ msgid ""
 "Backups are made automatically every night and preserved for 30 days. The "
 "data can be accessed on the server at <code>/data/backups</code>."
 msgstr ""
-"Varmuuskopiot tehdään automaattisesti joka työ ja säilytetään 30 päivän "
+"Varmuuskopiot tehdään automaattisesti joka yö ja säilytetään 30 päivän "
 "ajan. Varmuuskopioita voi selata palvelimella kansiossa <code>/data/backups</"
 "code>."
 
