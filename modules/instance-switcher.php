@@ -35,7 +35,6 @@ if ( ! class_exists('InstanceSwitcher') ) {
       // add the instance switcher menu
       add_action( 'admin_bar_menu', array( 'Seravo\InstanceSwitcher', 'add_switcher' ), 999 );
 
-
     }
 
     /**

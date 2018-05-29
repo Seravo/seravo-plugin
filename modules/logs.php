@@ -96,7 +96,7 @@ if ( ! class_exists('Logs') ) {
       }
 
       // Automatically fetch all logs from /data/log/*.log
-     $logs = glob( '/data/log/*.log' );
+      $logs = glob( '/data/log/*.log' );
       if ( empty( $logs ) ) :
           echo '<div class="notice notice-warning" style="padding:1em;margin:1em;">' .
           __('No logs found in <code>/data/log/</code>.', 'seravo') . '</div>';

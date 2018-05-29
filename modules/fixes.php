@@ -65,7 +65,7 @@ if ( ! class_exists('Fixes') ) {
 
       // error_log("added/updated/deleted option: $option");
 
-      if ( wp_installing() === FALSE ) {
+      if ( wp_installing() === false ) {
         $alloptions = wp_load_alloptions(); // alloptions should be cached at this point
 
         // If option is part of the alloptions collection then clear it.
@@ -73,9 +73,8 @@ if ( ! class_exists('Fixes') ) {
           wp_cache_delete( $option, 'options' );
           // error_log("deleted from cache group 'options': $option");
         }
-
       }
-     }
+    }
 
     /**
      * This is used to add notifications from Seravo.com for users
