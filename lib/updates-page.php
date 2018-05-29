@@ -46,10 +46,10 @@ if ( isset($site_info['contact_emails']) ) {
     <h2><?php _e('Technical contact email addresses', 'seravo') ?></h2>
     <p><?php _e('Seravo may send automatic notifications about site errors and failed updates to these addresses. Please separate multiple email addresses with commas.', 'seravo') ?></p>
     <input name="technical_contacts" type="email" multiple size="30" placeholder="<?php _e('example@example.com', 'seravo') ?>" value="<?php
-if ( ! empty($contact_emails) ) {
-  echo implode(', ', $contact_emails);
-}
-?>">
+    if ( ! empty($contact_emails) ) {
+      echo implode(', ', $contact_emails);
+    }
+    ?>">
 
     <p><small class="seravo-developer-letter-hint">
       <?php echo sprintf( __('P.S. Subscribe to Seravo\'s %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our newest features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>'); ?>

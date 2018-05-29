@@ -38,32 +38,32 @@
 
                   <?php
 
-                    $adminer_url = '';
+                  $adminer_url = '';
 
-                    // TODO: test for multisite
-                    $siteurl = get_site_url();
+                  // TODO: test for multisite
+                  $siteurl = get_site_url();
 
 
-                    if ( 'production' === getenv('WP_ENV') ) {
+                  if ( 'production' === getenv('WP_ENV') ) {
 
-                      // Add trailing slash if missing
-                      if ( substr($siteurl, -1) !== '/' ) {
-                        $siteurl .= '/';
-                      }
-
-                      $adminer_url = $siteurl . '.seravo/adminer';
-
-                    } else {
-
-                      // Add trailing slash if missing
-                      if ( substr($siteurl, -1) !== '/' ) {
-                        $siteurl .= '/';
-                      }
-
-                      // Inject subdomain
-                      $adminer_url = str_replace('//', '//adminer.', $siteurl);
-
+                    // Add trailing slash if missing
+                    if ( substr($siteurl, -1) !== '/' ) {
+                      $siteurl .= '/';
                     }
+
+                    $adminer_url = $siteurl . '.seravo/adminer';
+
+                  } else {
+
+                    // Add trailing slash if missing
+                    if ( substr($siteurl, -1) !== '/' ) {
+                      $siteurl .= '/';
+                    }
+
+                    // Inject subdomain
+                    $adminer_url = str_replace('//', '//adminer.', $siteurl);
+
+                  }
 
                   ?>
 
@@ -77,7 +77,7 @@
 
         <div class="postbox-container">
           <div id="side-sortables" class="meta-box-sortables ui-sortable">
-            <!--Third postbox: Search-replace tool--> 
+            <!--Third postbox: Search-replace tool-->
             <div id="dashboard_quick_press" class="postbox">
               <button type="button" class="handlediv button-link" aria-expanded="true">
                 <span class="screen-reader-text">Toggle panel: <?php _e('Search-replace tool','seravo'); ?></span>
@@ -94,7 +94,7 @@
                   <p> <?php _e('With this tool you can run wp search-replace. For your own safety, dry-run has to be ran before the actual search-replace', 'seravo'); ?></p>
                   <div class="sr-navbar">
                     <span class="label_buttons"><label class="from_label" for="sr-from"><?php _e('From:', 'seravo'); ?></label> <input type="text" id="sr-from" value=""></span>
-                    <span class="label_buttons to_button"><label class="to_label" for="sr-to"><?php _e('To:', 'seravo'); ?></label> <input type="text" id="sr-to" value=""></span>            
+                    <span class="label_buttons to_button"><label class="to_label" for="sr-to"><?php _e('To:', 'seravo'); ?></label> <input type="text" id="sr-to" value=""></span>
                     <!-- To add new arbitrary option put it below. Use class optionbox
                         Custom options will be overriden upon update -->
                     <ul class="optionboxes">

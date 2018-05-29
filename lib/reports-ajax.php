@@ -70,8 +70,11 @@ function seravo_report_front_cache_status() {
         $result = 'Unable to detect front cache status.';
         break;
     }
-} else {
+
+  } else {
+
     $result = 'No front cache available in this WordPress instance.';
+
   }
 
   array_unshift($output, $result, '');

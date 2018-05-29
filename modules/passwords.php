@@ -27,19 +27,19 @@ if ( ! class_exists('Passwords') ) {
      */
     public static function register_scripts( $page ) {
 
-        wp_register_style('seravo_passwords', plugin_dir_url(__DIR__) . '/style/passwords.css');
-        wp_register_script(
-          'seravo_passwords', plugin_dir_url( __DIR__ ) . '/js/passwords.js',
-          array( 'jquery' ),
-          false, // version string
-          true // in footer
-        );
+      wp_register_style('seravo_passwords', plugin_dir_url(__DIR__) . '/style/passwords.css');
+      wp_register_script(
+        'seravo_passwords', plugin_dir_url( __DIR__ ) . '/js/passwords.js',
+        array( 'jquery' ),
+        false, // version string
+        true // in footer
+      );
 
-        if ( $page === 'profile.php' || $page === 'user-new.php' ) {
-          wp_enqueue_style('seravo_passwords');
-        } elseif ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
-          wp_enqueue_script('seravo_passwords');
-        }
+      if ( $page === 'profile.php' || $page === 'user-new.php' ) {
+        wp_enqueue_style('seravo_passwords');
+      } elseif ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
+        wp_enqueue_script('seravo_passwords');
+      }
 
     }
 

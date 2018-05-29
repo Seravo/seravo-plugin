@@ -5,10 +5,10 @@
 
 namespace Seravo;
 
- // Deny direct access
- if ( ! defined('ABSPATH') ) {
-   die('Access denied!');
- }
+// Deny direct access
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
 
 if ( ! class_exists('API') ) {
 

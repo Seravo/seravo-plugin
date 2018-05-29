@@ -34,7 +34,7 @@ if ( ! class_exists('Noindex') ) {
           $output .= "Disallow: /\n";
 
         }
-}
+      }
 
       return $output;
     }

@@ -97,7 +97,8 @@ jQuery(document).ready(function($) {
           jQuery('#' + section).text(data.join("\n"));
         }
         jQuery('#' + section + '_loading').fadeOut();
-      }).fail(function () {
+      }
+    ).fail(function () {
       jQuery('#' + section + '_loading').html('Failed to load. Please try again.');
     });
   }

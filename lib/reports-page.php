@@ -45,8 +45,8 @@
                           if ( $total_requests > $max_requests ) {
                             $max_requests = $total_requests;
                           }
-                          array_push( 
-                            $months, 
+                          array_push(
+                            $months,
                             array(
                               'date' => substr($report, 25, 7),
                               'requests' => $total_requests,
@@ -106,7 +106,7 @@
 
         <div class="postbox-container">
           <div id="side-sortables" class="meta-box-sortables ui-sortable">
-            <!--Third postbox: Disk usage--> 
+            <!--Third postbox: Disk usage-->
             <div id="dashboard_quick_press" class="postbox">
               <button type="button" class="handlediv button-link" aria-expanded="true">
                 <span class="screen-reader-text">Toggle panel: <?php _e('Disk usage', 'seravo'); ?></span>
@@ -163,7 +163,7 @@
     </div>
   </div>
 
-  <?php 
+  <?php
     wp_register_script( 'chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, null, true );
     wp_enqueue_script('chart-js');
     wp_enqueue_script( 'color-hash', plugins_url( '../js/color-hash.js' , __FILE__), 'jquery', null, false );
@@ -239,8 +239,7 @@
     border: 2px solid #dddede;
   }
   ::-webkit-scrollbar-track {
-    border-radius: 10px;  
-    background-color: #dddede; 
+    border-radius: 10px;
+    background-color: #dddede;
   }
 </style>
-

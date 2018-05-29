@@ -59,6 +59,7 @@ if ( ! class_exists('Updates') ) {
         $validated_addresses = array();
 
         if ( ! empty($_POST['technical_contacts']) ) {
+
           $contact_addresses = explode( ',', $_POST['technical_contacts']);
 
           // Perform email validation before making API request
@@ -71,6 +72,7 @@ if ( ! class_exists('Updates') ) {
           }
 
         } elseif ( trim($_POST['technical_contacts']) === '' ) {
+
           // If the contact email field is left entirely empty, it means that the
           // customer wishes to remove all his/her emails => so consider an empty
           // string as a "valid address"

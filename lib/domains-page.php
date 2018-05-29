@@ -99,7 +99,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
   function get_bulk_actions() {
     $actions = array(
-//      'delete' => 'Delete',
+    //  'delete' => 'Delete',
     );
     return $actions;
   }
@@ -208,6 +208,6 @@ $domainsTable->prepare_items();
   if ( ! is_null($domainsTable->dns) ) {
     $domainsTable->dns->display();
   }
-   ?>
+  ?>
 
 </div>
