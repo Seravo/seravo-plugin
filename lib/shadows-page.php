@@ -35,6 +35,7 @@ require_once dirname( __FILE__ ) . '/api.php';
           <th><?php _e('SSH port', 'seravo'); ?></th>
           <th><?php _e('Creation date', 'seravo'); ?></th>
           <th><?php _e('Information', 'seravo'); ?></th>
+          <th><?php _e('Reset Shadow', 'seravo'); ?></th>
         </thead>
 
         <tbody>
@@ -43,9 +44,10 @@ require_once dirname( __FILE__ ) . '/api.php';
               <tr>
                 <?php foreach ( $shadow_data_ordered as $data_key ) : ?>
                   <?php if ( isset($shadow_data[$data_key]) ) : ?>
-                    <th><?php echo $shadow_data[$data_key]; ?></th>
+                    <td><?php echo $shadow_data[$data_key]; ?></td>
                   <?php endif; ?>
                 <?php endforeach; ?>
+                <td><button data-shadow-name="<?php echo $shadow_data['name']; ?>" class="shadow-reset" type="button">Reset Shadow</button></td>
               </tr>
             <?php endforeach; ?>
           <?php else : ?>
