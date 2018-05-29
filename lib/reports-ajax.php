@@ -31,7 +31,7 @@ function seravo_report_folders() {
 }
 
 function seravo_report_wp_core_verify() {
-  exec('wp core verify-checksums', $output);
+  exec('wp core verify-checksums 2>&1', $output);
   array_unshift($output, '$ wp core verify-checksums');
   return $output;
 }
