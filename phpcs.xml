@@ -1,28 +1,82 @@
 <?xml version="1.0"?>
 <ruleset name="Seravo">
-  <description>Seravo coding standards definition. Mostly WordPress coding standards, but relaxed a bit to be easier on developers.</description>
+  <description>
+    Seravo coding standards definition. Mostly WordPress coding standards, but relaxed a bit to be
+    easier on developers.
+  </description>
 
-  <!-- show progress -->
+  <!-- Show sniff progress -->
   <arg value="p"/>
 
-  <!-- check current and all subfolders if no file parameter given -->
+  <!-- All files should be UTF-8 encoded. -->
+  <arg name="encoding" value="utf-8"/>
+
+  <!-- check current and all subfolders if no file parameter given. -->
   <file>.</file>
 
-  <rule ref="Squiz.PHP.CommentedOutCode"/>
-  <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
-  <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
-  <rule ref="Generic.Commenting.Todo"/>
-  <rule ref="Generic.ControlStructures.InlineControlStructure"/>
 
+  <!--
+    Include WordPress Coding Standards with some exclusions. WordPress-Extra contains an extended
+    ruleset for recommended best practices, see
+    https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards#rulesets for details
+    about different WordPress subsets.
+  -->
   <rule ref="WordPress-Extra">
-   <exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
-   <exclude name="Generic.WhiteSpace.ScopeIndent"/>
-   <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
-   <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
-   <exclude name="PEAR.Functions.FunctionCallSignature.Indent" />
-   <exclude name="WordPress.WhiteSpace.PrecisionAlignment.Found" />
-   <exclude name="WordPress.Arrays.ArrayDeclaration.IndexNoNewline" />
-   <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys" />
-   <exclude name="WordPress.PHP.YodaConditions" />
+
+    <!-- Exclude some rules that conflict with the use of two spaces instead of four spaces or tabs
+    for indentation -->
+    <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed" />
+    <exclude name="WordPress.WhiteSpace.PrecisionAlignment.Found" />
+    <exclude name="WordPress.Arrays.ArrayIndentation.ItemNotAligned" />
+    <exclude name="WordPress.Arrays.ArrayIndentation.MultiLineArrayItemNotAligned" />
+    <exclude name="PEAR.Functions.FunctionCallSignature" />
+    <exclude name="PSR2.ControlStructures.SwitchDeclaration.BreakIndent" />
+
+    <!-- There is no need to align equals signs -->
+    <exclude name="Generic.Formatting.MultipleStatementAlignment" />
+
+    <!-- Don't enforce the usage of excessive amounts of whitespace -->
+    <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
+    <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
+
+    <!-- Yoda Condition checks reduce code readability with very little benefit -->
+    <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
+
+    <!-- Don't enforce the usage of class files with name "class-*.php". -->
+    <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+
+    <!-- We need to use PHP system calls to provide grahpical wrappers for CLI commands. -->
+    <exclude name="WordPress.PHP.DiscouragedPHPFunctions.system_calls_exec" />
+
+    <!-- Don't enforce the usage of escaped output in every situation, the security risks should be
+    assessed separately. Also we can't always use nonces e.g. for APIs... -->
+    <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification" />
+    <exclude name="WordPress.XSS.EscapeOutput" />
+
   </rule>
+
+
+  <!--
+    Add some custom sniff rules here. See
+    https://github.com/squizlabs/PHP_CodeSniffer/wiki/Customisable-Sniff-Properties for available
+    sniffs and their properties.
+  -->
+  <!-- Code blocks should be indented with two (2) spaces -->
+  <rule ref="Generic.WhiteSpace.ScopeIndent">
+    <properties>
+      <property name="indent" value="2" />
+      <property name="exact" value="false" />
+      <property name="tabIndent" value="false" />
+    </properties>
+  </rule>
+
+  <!-- The soft limit on line length is 100 characters. However, do not trigger errors if the limit
+  is exceeded. -->
+  <rule ref="Generic.Files.LineLength">
+    <properties>
+      <property name="lineLimit" value="100"/>
+      <property name="absoluteLineLimit" value="0"/>
+    </properties>
+  </rule>
+
 </ruleset>
