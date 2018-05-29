@@ -3,6 +3,10 @@
  * Ajax function for database info
  */
 
+
+require_once dirname( __FILE__ ) . '/helpers.php';
+use Seravo\Helpers;
+
 /**
  * Turn wp-cli table into HTML table
  *
@@ -43,11 +47,6 @@ function seravo_get_wp_db_info_totals() {
 
 }
 
-function humanFileSize( int $size, $precision = 2 ) {
-  for ($i = 0; ($size / 1024) > 0.9; $i++, $size /= 1024) {}
-  return round($size, $precision).['B','kB','MB','GB','TB','PB','EB','ZB','YB'][$i];
-}
-
 /**
  * Get database table sizes
  *
@@ -66,14 +65,14 @@ function seravo_get_wp_db_info_tables() {
     $size = preg_replace("/[^0-9]/", "", $table['Size']);
     $dataFolders[$table['Name']] = array(
       'percentage' => (($size / $total[0]) * 100),
-      'human' => humanFileSize($size),
+      'human' => Helpers::human_file_size($size),
       'size' =>  $size
     );
   }
   // Create output array
   return array(
     'data' => array(
-      'human' => humanFileSize($total[0]),
+      'human' => Helpers::human_file_size($total[0]),
       'size' => $total
     ),
     'dataFolders' => $dataFolders

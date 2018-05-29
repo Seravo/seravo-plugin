@@ -1,9 +1,7 @@
 <?php
 
-function humanFileSize($size, $precision = 2) {
-  for($i = 0; ($size / 1024) > 0.9; $i++, $size /= 1024) {}
-  return round($size, $precision).['B','kB','MB','GB','TB','PB','EB','ZB','YB'][$i];
-}
+require_once dirname( __FILE__ ) . '/helpers.php';
+use Seravo\Helpers;
 
 function seravo_report_folders() {
   exec ('du -sb /data', $dataFolder);
@@ -15,14 +13,14 @@ function seravo_report_folders() {
     list($folderSize, $folderName) = preg_split('/\s+/', $folder);
     $dataFolders[$folderName] = array(
       'percentage' => (($folderSize / $dataSize) * 100),
-      'human' => humanFileSize($folderSize),
+      'human' => Helpers::human_file_size($folderSize),
       'size' =>  $folderSize
     );
   }
   // Create output array
   $output = array(
     'data' => array(
-      'human' => humanFileSize($dataSize),
+      'human' => Helpers::human_file_size($dataSize),
       'size' => $dataSize
     ),
     'dataFolders' => $dataFolders
