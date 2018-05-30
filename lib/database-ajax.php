@@ -3,6 +3,11 @@
  * Ajax function for database info
  */
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
 use Seravo\Helpers;
 
 /**
@@ -95,14 +100,16 @@ function seravo_get_wp_db_info() {
 /**
  * Run AJAX request
  */
-switch ( $_REQUEST['section'] ) {
+function seravo_ajax_get_wp_db_info() {
+  switch ( $_REQUEST['section'] ) {
+    case 'seravo_wp_db_info':
+      echo wp_json_encode(seravo_get_wp_db_info());
+      break;
 
-  case 'seravo_wp_db_info':
-    echo wp_json_encode(seravo_get_wp_db_info());
-    break;
+    default:
+      error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
+      break;
+  }
 
-  default:
-    error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
-    break;
-
+  wp_die();
 }

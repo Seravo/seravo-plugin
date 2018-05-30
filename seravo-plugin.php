@@ -13,6 +13,11 @@
 
 namespace Seravo;
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
 /*
  * This plugin should be installed in all WordPress instances at Seravo.com.
  * If you don't want to use some features you can disable any of the modules
@@ -209,11 +214,10 @@ class Loader {
       }
 
       /*
-       * Notification with last WordPress login date and error count
+       * Notification with last WordPress login date and error count. This module handles its own
+       * capability checks.
        */
-      if ( current_user_can( 'administrator' ) ) {
-        require_once dirname(__FILE__) . '/modules/login-notification.php';
-      }
+      require_once dirname(__FILE__) . '/modules/login-notification.php';
 
       /*
        * Tests page for wp-test

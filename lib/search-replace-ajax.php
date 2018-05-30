@@ -1,4 +1,8 @@
 <?php
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
 
 function seravo_search_replace( $from, $to, $options ) {
   $command = 'wp search-replace ';
@@ -41,13 +45,16 @@ function seravo_search_replace_set_flags( $options ) {
   return $flags;
 }
 
-switch ( $_REQUEST['section'] ) {
+function seravo_ajax_search_replace() {
+  switch ( $_REQUEST['section'] ) {
+    case 'search_replace':
+     echo wp_json_encode(seravo_search_replace( $_REQUEST['from'], $_REQUEST['to'], $_REQUEST['options'] ) );
+     break;
 
-  case 'search_replace':
-    echo wp_json_encode(seravo_search_replace( $_REQUEST['from'], $_REQUEST['to'], $_REQUEST['options'] ) );
-    break;
+    default:
+     error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
+     break;
+  }
 
-  default:
-    error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
-    break;
+  wp_die();
 }

@@ -1,3 +1,10 @@
+<?php
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+?>
+
 <div id="wpbody" role="main">
   <div id="wpbody-content" aria-label="Main content" tabindex="0">
     <div class="wrap">

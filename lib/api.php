@@ -5,7 +5,7 @@
 
 namespace Seravo;
 
-// Deny direct access
+// Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }

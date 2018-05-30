@@ -7,17 +7,23 @@
 
 namespace Seravo;
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
+require_once dirname( __FILE__ ) . '/../lib/cruftfiles-ajax.php';
+
 if ( ! class_exists('Cruftfiles') ) {
   class Cruftfiles {
 
     public static function load() {
       add_action( 'admin_menu', array( __CLASS__, 'register_cruftfiles_page' ) );
       add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_cruftfiles_scripts' ) );
-      add_action('wp_ajax_seravo_cruftfiles', function() {
-          require_once(dirname( __FILE__ ) . '/../lib/cruftfiles-ajax.php');
-          wp_die();
-      });
-      add_action( 'wp_ajax_seravo_delete_file', array( __CLASS__, 'ajax_delete_file' ) );
+
+      // AJAX functionality for listing and deleting files
+      add_action( 'wp_ajax_seravo_cruftfiles', 'seravo_ajax_list_cruft_files' );
+      add_action( 'wp_ajax_seravo_delete_file', 'seravo_ajax_delete_cruft_files' );
     }
 
     public static function register_cruftfiles_page() {

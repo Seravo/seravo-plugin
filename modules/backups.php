@@ -7,15 +7,19 @@
 
 namespace Seravo;
 
+require_once(dirname( __FILE__ ) . '/../lib/backups-ajax.php');
+
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
 if ( ! class_exists('Backups') ) {
   class Backups {
 
     public static function load() {
-
-      add_action('wp_ajax_seravo_backups', function() {
-          require_once(dirname( __FILE__ ) . '/../lib/backups-ajax.php');
-          wp_die();
-      });
+      // Add AJAX endpoint for backups
+      add_action('wp_ajax_seravo_backups', 'seravo_ajax_backups');
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_backups_scripts' ));
 

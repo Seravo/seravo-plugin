@@ -1,4 +1,8 @@
 <?php
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
 
 use Seravo\Helpers;
 
@@ -78,28 +82,32 @@ function seravo_report_front_cache_status() {
   return $output;
 }
 
-switch ( $_REQUEST['section'] ) {
-  case 'folders_chart':
-    echo wp_json_encode(seravo_report_folders());
-    break;
+function seravo_ajax_reports() {
+  switch ( $_REQUEST['section'] ) {
+    case 'folders_chart':
+      echo wp_json_encode(seravo_report_folders());
+      break;
 
-  case 'wp_core_verify':
-    echo wp_json_encode(seravo_report_wp_core_verify());
-    break;
+    case 'wp_core_verify':
+      echo wp_json_encode(seravo_report_wp_core_verify());
+      break;
 
-  case 'git_status':
-    echo wp_json_encode(seravo_report_git_status());
-    break;
+    case 'git_status':
+      echo wp_json_encode(seravo_report_git_status());
+      break;
 
-  case 'redis_info':
-    echo wp_json_encode(seravo_report_redis_info());
-    break;
+    case 'redis_info':
+      echo wp_json_encode(seravo_report_redis_info());
+      break;
 
-  case 'front_cache_status':
-    echo wp_json_encode(seravo_report_front_cache_status());
-    break;
+    case 'front_cache_status':
+      echo wp_json_encode(seravo_report_front_cache_status());
+      break;
 
-  default:
-    error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
-    break;
+    default:
+      error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
+      break;
+  }
+
+  wp_die();
 }

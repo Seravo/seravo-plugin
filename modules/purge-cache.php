@@ -4,6 +4,11 @@
  * Description: Purges the Seravo cache
  */
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
 /**
  * Make capability filterable
  */

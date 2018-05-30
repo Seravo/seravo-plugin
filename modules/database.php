@@ -7,6 +7,14 @@
 
 namespace Seravo;
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
+require_once dirname( __FILE__ ) . '/../lib/search-replace-ajax.php';
+require_once dirname( __FILE__ ) . '/../lib/database-ajax.php';
+
 if ( ! class_exists('Database') ) {
   class Database {
 
@@ -27,18 +35,11 @@ if ( ! class_exists('Database') ) {
       }
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
-
-      add_action( 'wp_ajax_seravo_search_replace' , function(){
-        require_once(dirname( __FILE__ ) . '/../lib/search-replace-ajax.php' );
-        wp_die();
-      });
-
-      add_action( 'wp_ajax_seravo_wp_db_info' , function(){
-        require_once(dirname( __FILE__ ) . '/../lib/database-ajax.php' );
-        wp_die();
-      });
-
       add_action( 'admin_menu', array( __CLASS__, 'register_database_page' ) );
+
+      // Add AJAX endpoints for wp search-replace and database info
+      add_action( 'wp_ajax_seravo_search_replace' , 'seravo_ajax_search_replace' );
+      add_action( 'wp_ajax_seravo_wp_db_info' , 'seravo_ajax_get_wp_db_info' );
 
     }
 

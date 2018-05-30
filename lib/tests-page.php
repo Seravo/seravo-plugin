@@ -1,3 +1,10 @@
+<?php
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+?>
+
 <div class="wrap">
 
     <h1><?php _e('Tests', 'seravo'); ?> (beta)</h1>

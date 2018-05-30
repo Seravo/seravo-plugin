@@ -1,3 +1,10 @@
+<?php
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+?>
+
 <div id="wpbody" role="main">
   <div id="wpbody-content" aria-label="Main content" tabindex="0">
     <div class="wrap">
@@ -29,7 +36,7 @@
               <span><?php _e('Create a new backup', 'seravo'); ?></span>
             </h2>
             <div class="inside">
-              <p><?php _e('You can also create backups using the command line tool <code>wp-backup</code>. We recommend getting familiar with the command line option accessible via SSH so that recovering a backup is not dependant on if WP-admin works or not.', 'seravo') ?></p>       
+              <p><?php _e('You can also create backups using the command line tool <code>wp-backup</code>. We recommend getting familiar with the command line option accessible via SSH so that recovering a backup is not dependant on if WP-admin works or not.', 'seravo') ?></p>
               <p class="create_backup">
                 <button id="create_backup_button" class="button"><?php _e('Make a new backup', 'seravo') ?> </button>
                 <div id="create_backup_loading"><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
