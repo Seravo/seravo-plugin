@@ -37,20 +37,24 @@ if ( ! class_exists('Login_notifications') ) {
         }
       }
 
-      if ( apply_filters('seravo_dashboard_errors', true) ) {
-        self::$errors = self::retrieve_error_count();
-      }
-
       // Display logins and/or errors if retrieved succesfully
       if ( ! empty(self::$login) ) {
         add_action('admin_notices', array( __CLASS__, 'display_admin_logins_notification' ) );
       }
 
-      if ( self::$errors > 0 ) {
-        add_action('wp_dashboard_setup', function() {
-          wp_add_dashboard_widget('seravo-error-widget', __('Site Error Count', 'seravo'),
-          array( __CLASS__, 'display_admin_errors_notification' ));
-        });
+      // Show site error count dashboard widget only to site admins
+      if ( current_user_can('administrator') ) {
+
+        if ( apply_filters('seravo_dashboard_errors', true) ) {
+          self::$errors = self::retrieve_error_count();
+        }
+
+        if ( self::$errors > 0 ) {
+          add_action('wp_dashboard_setup', function() {
+            wp_add_dashboard_widget('seravo-error-widget', __('Site Error Count', 'seravo'),
+            array( __CLASS__, 'display_admin_errors_notification' ));
+          });
+        }
       }
     }
 

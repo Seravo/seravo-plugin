@@ -214,11 +214,10 @@ class Loader {
       }
 
       /*
-       * Notification with last WordPress login date and error count
+       * Notification with last WordPress login date and error count. This module handles its own
+       * capability checks.
        */
-      if ( current_user_can( 'administrator' ) ) {
-        require_once dirname(__FILE__) . '/modules/login-notification.php';
-      }
+      require_once dirname(__FILE__) . '/modules/login-notification.php';
 
       /*
        * Tests page for wp-test
