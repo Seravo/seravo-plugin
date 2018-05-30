@@ -1,6 +1,5 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/helpers.php';
 use Seravo\Helpers;
 
 function seravo_report_folders() {

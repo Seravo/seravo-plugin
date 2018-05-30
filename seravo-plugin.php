@@ -28,6 +28,11 @@ namespace Seravo;
  */
 require_once dirname( __FILE__ ) . '/lib/helpers.php';
 
+/*
+ * Load Seravo API module
+ */
+require_once dirname( __FILE__ ) . '/lib/api.php';
+
 require_once dirname( __FILE__ ) . '/lib/canonical-domain-and-https.php';
 
 class Loader {

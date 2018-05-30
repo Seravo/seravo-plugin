@@ -7,8 +7,6 @@
 
 namespace Seravo;
 
-require_once dirname( __FILE__ ) . '/../lib/api.php';
-
 if ( ! class_exists('Updates') ) {
   class Updates {
 

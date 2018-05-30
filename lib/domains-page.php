@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/../lib/api.php';
-
 if ( ! current_user_can( 'level_10' ) ) {
   wp_die(
       '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .

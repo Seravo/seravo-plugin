@@ -3,8 +3,6 @@
  * Ajax function for database info
  */
 
-
-require_once dirname( __FILE__ ) . '/helpers.php';
 use Seravo\Helpers;
 
 /**
