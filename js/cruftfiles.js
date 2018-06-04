@@ -67,4 +67,21 @@ jQuery(document).ready(function($) {
 
   // Load on page load
   seravo_load_report('cruftfiles_status');
+    // Postbox toggle script
+  jQuery('.ui-sortable-handle').on('click', function () {
+    jQuery(this).parent().toggleClass("closed");
+    if (jQuery(this).parent().hasClass("closed")) {
+      jQuery(this).parents().eq(3).height(60);
+    } else {
+      jQuery(this).parents().eq(3).height('auto');
+    }
+  });
+  jQuery('.toggle-indicator').on('click', function () {
+    jQuery(this).parent().parent().toggleClass("closed");
+    if (jQuery(this).parent().hasClass("closed")) {
+      jQuery(this).parents().eq(4).height(60);
+    } else {
+      jQuery(this).parents().eq(4).height('auto');
+    }
+  });
 });
