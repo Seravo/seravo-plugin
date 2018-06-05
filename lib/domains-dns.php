@@ -6,12 +6,12 @@ if ( ! defined('ABSPATH') ) {
 
 class Seravo_Domains_DNS_Table {
 
-  function __construct() {
+  public function __construct() {
     global $status, $page;
     $records = array( '' => '' );
   }
 
-  function display() {
+  public function display() {
     if ( empty($this->records) ) {
       return;
     }
@@ -24,10 +24,10 @@ class Seravo_Domains_DNS_Table {
     echo '<i>' . __('updated: ', 'seravo') . date_format($timestamp, 'Y-m-d H:i O') . ' </i></div>';
     echo '<table class="wp-list-table widefat fixed striped domains" id="dns_zone">';
     echo '<thead>
-        <th>' . __('Name','seravo') . '</th>
-        <th>' . __('TTL','seravo') . '</th>
+        <th>' . __('Name', 'seravo') . '</th>
+        <th>' . __('TTL', 'seravo') . '</th>
         <th> </th>
-        <th>' . __('Type','seravo') . '</th>
+        <th>' . __('Type', 'seravo') . '</th>
         <th>' . __('Value', 'seravo') . '</th>
     </thead>';
     foreach ( $this->records['records'] as $record ) {
@@ -42,7 +42,7 @@ class Seravo_Domains_DNS_Table {
     echo '</table>';
   }
 
-  function fetch_dns_records( $url ) {
+  public function fetch_dns_records( $url ) {
     $api_query = '/domain/' . $url . '/zone';
     $records = Seravo\API::get_site_data($api_query);
     if ( is_wp_error($records) ) {

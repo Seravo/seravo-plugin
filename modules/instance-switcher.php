@@ -25,7 +25,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       }
 
       // Check permission
-      if ( ! current_user_can( InstanceSwitcher::custom_capability() ) ) {
+      if ( ! current_user_can( self::custom_capability() ) ) {
         return;
       }
 
@@ -53,9 +53,9 @@ if ( ! class_exists('InstanceSwitcher') ) {
     * Load JavaScript and stylesheets for the switcher only if WP Admin bar visible
     */
     public static function assets() {
-      if ( function_exists('is_admin_bar_showing')  && is_admin_bar_showing() ) {
-        wp_enqueue_script( 'seravo', plugins_url( '../js/instance-switcher.js' , __FILE__), 'jquery', null, false );
-        wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css' , __FILE__), null, null, 'all' );
+      if ( function_exists('is_admin_bar_showing') && is_admin_bar_showing() ) {
+        wp_enqueue_script( 'seravo', plugins_url( '../js/instance-switcher.js', __FILE__), 'jquery', null, false );
+        wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css', __FILE__), null, null, 'all' );
       }
     }
 
@@ -67,8 +67,8 @@ if ( ! class_exists('InstanceSwitcher') ) {
       if ( getenv('WP_ENV') !== 'production' ) {
         return false;
       }
-
-      if ( ( $shadow_list = get_transient( 'shadow_list' ) ) === false ) {
+      $shadow_list = get_transient( 'shadow_list' );
+      if ( ( $shadow_list ) === false ) {
         $api_query = '/shadows';
         $shadow_list = API::get_site_data($api_query);
         if ( is_wp_error($shadow_list) ) {
@@ -116,7 +116,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
           ],
       ]);
 
-      $instances = InstanceSwitcher::load_shadow_list();
+      $instances = self::load_shadow_list();
 
       if ( $instances ) {
         // add menu entries for each shadow
@@ -164,12 +164,16 @@ if ( ! class_exists('InstanceSwitcher') ) {
       if ( getenv('WP_ENV_COMMENT') && ! empty( getenv('WP_ENV_COMMENT') ) ) {
         $shadow_title = $shadow_title . ' (' . getenv('WP_ENV_COMMENT') . ')';
       }
-?>
+      ?>
       <style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px } #shadow-indicator a.clearlink { text-decoration: underline; color: #fff; }</style>
       <div id="shadow-indicator">
-      <?php echo wp_sprintf( __('Your current shadow instance is %s.', 'seravo'), $shadow_title ); ?> <a class="clearlink" href="/?wpp_shadow=clear&seravo_shadow=clear"><?php _e('Exit', 'seravo'); ?></a>
+      <?php
+        // translators: $s Identifier for the shadow instance in use
+        echo wp_sprintf( __('Your current shadow instance is %s.', 'seravo'), $shadow_title );
+      ?>
+      <a class="clearlink" href="/?wpp_shadow=clear&seravo_shadow=clear"><?php _e('Exit', 'seravo'); ?></a>
       </div>
-<?php
+      <?php
     }
 
     /**

@@ -21,7 +21,7 @@ class Seravo_WP_CLI extends WP_CLI_Command {
    *     wp seravo updates
    *
    */
-  function updates( $args, $assoc_args ) {
+  public function updates( $args, $assoc_args ) {
 
     require_once(dirname( __FILE__ ) . '/../modules/updates.php');
     $site_info = Seravo\Updates::seravo_admin_get_site_info();

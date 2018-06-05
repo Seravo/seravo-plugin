@@ -62,12 +62,12 @@ function seravo_get_wp_db_info_tables() {
   exec('wp db size --tables --format=json', $json);
 
   $tables = json_decode($json[0], true);
-  $dataFolders = array();
+  $data_folders = array();
 
   foreach ( $tables as $table ) {
     $size = preg_replace('/[^0-9]/', '', $table['Size']);
-    $dataFolders[ $table['Name'] ] = array(
-      'percentage' => (($size / $total[0]) * 100),
+    $data_folders[ $table['Name'] ] = array(
+      'percentage' => ( ( $size / $total[0] ) * 100 ),
       'human' => Helpers::human_file_size($size),
       'size' => $size,
     );
@@ -78,7 +78,7 @@ function seravo_get_wp_db_info_tables() {
       'human' => Helpers::human_file_size($total[0]),
       'size' => $total,
     ),
-    'dataFolders' => $dataFolders,
+    'data_folders' => $data_folders,
   );
 }
 

@@ -3,7 +3,7 @@ function generateChart(JSONdata) {
   var labels = [];
   var background = [];
   // Create chart colors of string
-  Object.keys(JSONdata).forEach(folder => {
+  Object.keys(JSONdata).forEach(function( folder ) {
     data.push(JSONdata[folder].percentage);
     labels.push(folder + ' - ' + JSONdata[folder].human);
     background.push((new ColorHash({ saturation: [0.9, 0, 1] })).hex(folder));
@@ -19,7 +19,7 @@ function generateChart(JSONdata) {
           data: data,
           backgroundColor: background,
           borderWidth: 1
-        }
+      }
       ]
     },
     options: {
@@ -61,7 +61,8 @@ function generateChart(JSONdata) {
         && y <= legend.bottom
         && y >= legend.top
       ) {
-        for (var i = 0; i < legend.legendHitBoxes.length; ++i) {
+        var limit = legend.legendHitBoxes.length;
+        for (var i = 0; i < limit; ++i) {
           var box = legend.legendHitBoxes[i];
           if (
             x <= box.left + box.width

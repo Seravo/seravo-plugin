@@ -42,7 +42,7 @@ if ( ! class_exists('Backups') ) {
       wp_register_style('seravo_backups', plugin_dir_url(__DIR__) . '/style/backups.css');
 
       if ( $page === 'tools_page_backups_page' ) {
-        wp_enqueue_script( 'backups', plugins_url( '../js/backups.js' , __FILE__), 'jquery', null, false );
+        wp_enqueue_script( 'backups', plugins_url( '../js/backups.js', __FILE__), 'jquery', null, false );
         wp_enqueue_style('seravo_backups');
       }
 

@@ -7,26 +7,26 @@ if ( ! defined('ABSPATH') ) {
 use Seravo\Helpers;
 
 function seravo_report_folders() {
-  exec ('du -sb /data', $dataFolder);
-  list($dataSize, $dataName) = preg_split('/\s+/', $dataFolder[0]);
-  exec('du -sb /data/* | sort -hr', $dataSub);
+  exec ('du -sb /data', $data_folder);
+  list($data_size, $data_name) = preg_split('/\s+/', $data_folder[0]);
+  exec('du -sb /data/* | sort -hr', $data_sub);
   // Generate sub folder array
-  $dataFolders = array();
-  foreach ( $dataSub as $folder ) {
-    list($folderSize, $folderName) = preg_split('/\s+/', $folder);
-    $dataFolders[ $folderName ] = array(
-      'percentage' => (($folderSize / $dataSize) * 100),
-      'human' => Helpers::human_file_size($folderSize),
-      'size' => $folderSize,
+  $data_folders = array();
+  foreach ( $data_sub as $folder ) {
+    list($folder_size, $folder_name) = preg_split('/\s+/', $folder);
+    $data_folders[ $folder_name ] = array(
+      'percentage' => ( ( $folder_size / $data_size ) * 100 ),
+      'human' => Helpers::human_file_size($folder_size),
+      'size' => $folder_size,
     );
   }
   // Create output array
   $output = array(
     'data' => array(
-      'human' => Helpers::human_file_size($dataSize),
-      'size' => $dataSize,
+      'human' => Helpers::human_file_size($data_size),
+      'size' => $data_size,
     ),
-    'dataFolders' => $dataFolders,
+    'dataFolders' => $data_folders,
   );
   return $output;
 }
@@ -41,7 +41,11 @@ function seravo_report_git_status() {
   exec('git -C /data/wordpress status', $output);
 
   if ( empty($output) ) {
-    return array( 'Git is not used on this site. To start using it, read our documentation for WordPress developers at <a href="https://seravo.com/docs/">seravo.com/docs</a>.' );
+    return array(
+                  'Git is not used on this site. To start using it,
+                  read our documentation for WordPress developers at
+                  <a href="https://seravo.com/docs/">seravo.com/docs</a>.',
+    );
   }
 
   array_unshift($output, '$ git status');

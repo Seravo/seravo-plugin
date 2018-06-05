@@ -13,7 +13,7 @@ if ( ! defined('ABSPATH') ) {
 }
 
 if ( ! class_exists('Domains') ) {
-  class domains {
+  class Domains {
 
     public static function load() {
       add_action( 'admin_menu', array( __CLASS__, 'register_domains_page' ) );

@@ -12,8 +12,8 @@ if ( ! defined('ABSPATH') ) {
 
 require_once(__DIR__ . '/logs.php');
 
-if ( ! class_exists('Login_notifications') ) {
-  class Login_notifications {
+if ( ! class_exists('Login_Notifications') ) {
+  class Login_Notifications {
 
     private static $login;
     private static $errors;
@@ -107,7 +107,7 @@ if ( ! class_exists('Login_notifications') ) {
         }
         ++$php_errors;
       }
-       return $php_errors;
+      return $php_errors;
     }
 
     /**
@@ -155,27 +155,41 @@ if ( ! class_exists('Login_notifications') ) {
     */
     public static function display_admin_logins_notification() {
       echo '<div class="seravo-last-login notice notice-info is-dismissible">' .
-         wp_sprintf(
-           __('Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s.', 'seravo' ),
-           get_userdata(wp_get_current_user()->ID)->user_login,  self::$login['date'],
-           date_default_timezone_get(), self::$login['ip']
-         ) .
-         '</div>';
+        wp_sprintf(
+          /* translators:
+          * %1$s username of the current user
+          * %2$s datetime of last login
+          * %3$s timezone used to represent the datetime of the last login
+          * %4$s IP address of the last login
+          */
+          __('Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s.', 'seravo' ),
+          get_userdata(wp_get_current_user()->ID)->user_login, self::$login['date'],
+          date_default_timezone_get(), self::$login['ip']
+        ) .
+        '</div>';
     }
 
     /**
     * Display the amount of php-error.log lines that have appeared this week.
     */
     public static function display_admin_errors_notification() {
-      $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page' . '"">' .
+      $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page" ">' .
         __('logs', 'Seravo') . '</a>';
       if ( self::$errors < self::$max_rows ) {
         $msg = wp_sprintf(
-           __('You have a total of %1$s lines in your error log this week. Check %2$s for details.',
+          /* translators:
+          * %1$s number of errors in the log
+          * %2$s url for additional information
+          */
+          __('You have a total of %1$s lines in your error log this week. Check %2$s for details.',
           'seravo'), self::$errors, $url
         );
       } else {
         $msg = wp_sprintf(
+          /* translators:
+          * %1$s number of errors in the log
+          * %2$s url for additional information
+          */
           __('You have at least %1$s lines in your error log this week. Check %2$s for details.', 'seravo'),
           self::$errors, $url
         );
@@ -183,5 +197,5 @@ if ( ! class_exists('Login_notifications') ) {
       echo '<div>' . $msg . '</div>';
     }
   }
-  Login_notifications::load();
+  Login_Notifications::load();
 }

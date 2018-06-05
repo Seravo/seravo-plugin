@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     newloc = location.href.replace(/[a-z]+_shadow=[a-z0-9]+/, '')
     location.href = newloc;
   };
-
-  for (var i = 0; i < links.length; i++) {
+  var limit = links.length;
+  for (var i = 0; i < limit; i++) {
     links[i].addEventListener('click', listener);
   }
 });

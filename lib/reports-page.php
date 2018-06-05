@@ -72,14 +72,26 @@ if ( ! defined('ABSPATH') ) {
                         } else {
                           $bar_css = $bar_size . '%';
                         }
-
-                        echo '<tr>' .
-                                "<td><a href='?report=" . $month['date'] . ".html' target='_blank'>" . $month['date'] . '</a></td>' .
-                                "<td><div style='background: #44A1CB; color: #fff; padding: 3px; width: " . $bar_css . "; display: inline-block;'>" . $month['requests'] . '</div></td>' .
-                                "<td><a href='?report=" . $month['date'] . ".html' target='_blank' class='button hideMobile'>" . __('View report', 'seravo') . '<span aria-hidden="true" class="dashicons dashicons-external" style="line-height: unset; padding-left: 3px;"></span> </a></td>' .
-                            '</tr>';
-                      }
-                      ?>
+                        ?>
+                        <tr>
+                          <td>
+                            <a href='?report=" <?php echo $month['date']; ?> ".html' target='_blank'>
+                              <?php echo $month['date']; ?>
+                            </a>
+                          </td>
+                          <td>
+                            <div style='background: #44A1CB; color: #fff; padding: 3px; width: " <?php echo $bar_css; ?> "; display: inline-block;'>
+                              <?php echo $month['requests']; ?>
+                            </div>
+                          </td>
+                          <td>
+                            <a href='?report=" <?php echo $month['date']; ?> ".html' target='_blank' class='button hideMobile'>
+                              <?php echo __('View report', 'seravo'); ?>
+                              <span aria-hidden="true" class="dashicons dashicons-external" style="line-height: unset; padding-left: 3px;"></span>
+                            </a>
+                          </td>
+                        </tr>
+                      <?php } ?>
                     </tbody>
                   </table>
                 </div>
@@ -173,8 +185,8 @@ if ( ! defined('ABSPATH') ) {
   <?php
     wp_register_script( 'chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, null, true );
     wp_enqueue_script('chart-js');
-    wp_enqueue_script( 'color-hash', plugins_url( '../js/color-hash.js' , __FILE__), 'jquery', null, false );
-    wp_enqueue_script( 'reports-chart', plugins_url( '../js/reports-chart.js' , __FILE__), 'jquery', null, false );
+    wp_enqueue_script( 'color-hash', plugins_url( '../js/color-hash.js', __FILE__), 'jquery', null, false );
+    wp_enqueue_script( 'reports-chart', plugins_url( '../js/reports-chart.js', __FILE__), 'jquery', null, false );
   ?>
 
   <script>

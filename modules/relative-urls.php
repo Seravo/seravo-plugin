@@ -50,7 +50,7 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
        * Check post content on save for absolute links
        * To activate this you need to filter: add_filter('seravo_make_content_relative',__return_true);
        */
-      if ( apply_filters('seravo_make_post_content_relative',false) ) {
+      if ( apply_filters('seravo_make_post_content_relative', false) ) {
         add_filter( 'content_save_pre', array( __CLASS__, 'content_url_filter' ), 10, 1);
       }
     }
@@ -68,8 +68,8 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
     /**
      * This adds a small javascript fix for the TinyMCE link adder dialog
      */
-    public static function enqueue_link_adder_js_fix( $Hook ) {
-      if ( 'post.php' === $Hook || 'post-new.php' === $Hook ) {
+    public static function enqueue_link_adder_js_fix( $hook ) {
+      if ( 'post.php' === $hook || 'post-new.php' === $hook ) {
         // we only need to use this fix in post.php
         wp_enqueue_script( 'link-relative', plugin_dir_url( __FILE__ ) . '../js/link-relative.js' );
       }
@@ -102,10 +102,11 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
       $transient_key = 'seravo_feed_' . $letter_count . '_' . $hash;
 
       // Use transient to store the results
-      if ( (isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] === 'no-cache') || false === ( $content = get_transient( $transient_key ) ) ) {
+      $content = get_transient( $transient_key );
+      if ( ( isset($_SERVER['HTTP_PRAGMA'] ) && $_SERVER['HTTP_PRAGMA'] === 'no-cache' ) || false === ( $content ) ) {
 
         // Again integrate with https://github.com/seravo/https-domain-alias
-        $url = (defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL') ? HTTPS_DOMAIN_ALIAS_FRONTEND_URL : self::$siteurl );
+        $url = ( defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL') ? HTTPS_DOMAIN_ALIAS_FRONTEND_URL : self::$siteurl );
 
         // Regex replace all relative urls
         $content = self::unrelativize_content( $url, $content );
@@ -132,7 +133,8 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
       }
 
       // If url is already relative, do nothing
-      if ( substr( $url, 0, 4 ) !== 'http' ) { return $html;
+      if ( substr( $url, 0, 4 ) !== 'http' ) {
+        return $html;
       }
 
       // Otherwise take the scheme and host part away from the start of the url
@@ -150,23 +152,24 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
      */
     public static function relativize_content_attributes( $url, $html ) {
       // If urls already start from root, just return it
-      if ( $url[0] === '/' ) { return $html;
+      if ( $url[0] === '/' ) {
+        return $html;
       }
       // strpos is so fast that so don't bother if check fails
-      if ( strpos($html,$url) !== false ) {
+      if ( strpos($html, $url) !== false ) {
 
         // Parse url
         $parsed_url = parse_url($url);
 
         // escape dots in hostname
-        $regex_hostname = preg_quote($parsed_url['host'],'/');
+        $regex_hostname = preg_quote($parsed_url['host'], '/');
 
         // Search href|src attributes which point to this site
         // for example: href='https://www.example.com/frontpage/'
         $pattern = "/\s(href|src)=(.{0,1})([\\\"\']+)(http[s]{0,1}\:\/\/){0,1}(www\.){0,1}" . $regex_hostname . '[\/]*/';
 
         // Replace all absolute urls
-        $html = preg_replace($pattern,'$1=$2$3/',$html);
+        $html = preg_replace($pattern, '$1=$2$3/', $html);
       }
       return $html;
     }
@@ -180,7 +183,7 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
 
       // Search and replace relative links like href='/..' and src="/.."
       $pattern = "/(href|src)=([\"\']+)\//";
-      return preg_replace($pattern,"$1=$2{$siteurl}/",$html);
+      return preg_replace($pattern, "$1=$2{$siteurl}/", $html);
     }
 
   }

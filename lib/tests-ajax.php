@@ -20,6 +20,5 @@ function seravo_ajax_tests() {
       error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
       break;
   }
-  
   wp_die();
 }

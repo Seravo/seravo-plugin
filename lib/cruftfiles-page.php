@@ -16,7 +16,10 @@ if ( ! defined('ABSPATH') ) {
     <tbody id="cruftfiles_entries">
     </tbody>
   </table>
-  <div id="cruftfiles_status_loading"><?php _e( 'Finding files...', 'seravo' ); ?><img src="/wp-admin/images/spinner.gif"></div>
+  <div id="cruftfiles_status_loading">
+    <?php _e( 'Finding files...', 'seravo' ); ?>
+    <img src="/wp-admin/images/spinner.gif">
+  </div>
 </div>
 </p>
 

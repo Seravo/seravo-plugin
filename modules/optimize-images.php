@@ -13,8 +13,8 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists('Optimize_images') ) {
-  class Optimize_images {
+if ( ! class_exists('Optimize_Images') ) {
+  class Optimize_Images {
 
     // Default maximum resolution for images
     private static $max_width_default = 4000;
@@ -111,7 +111,7 @@ if ( ! class_exists('Optimize_images') ) {
     }
 
     public static function seravo_image_enabled_field() {
-      echo '<input type="checkbox" name="seravo-enable-optimize-images" id="enable-optimize-images" ' . checked( 'on' , get_option( 'seravo-enable-optimize-images' ), false ) . '>';
+      echo '<input type="checkbox" name="seravo-enable-optimize-images" id="enable-optimize-images" ' . checked( 'on', get_option( 'seravo-enable-optimize-images' ), false ) . '>';
     }
 
     public static function optimize_images_settings_description() {
@@ -122,6 +122,7 @@ if ( ! class_exists('Optimize_images') ) {
     public static function sanitize_image_width( $width ) {
       if ( $width < self::$min_width && $width !== null && get_option( 'seravo-enable-optimize-images' ) === 'on' ) {
         add_settings_error( 'seravo-image-max-resolution-width', 'invalid-width',
+        // translators: %s numeric value for the minimum image width
         sprintf( __( 'The minimum width for image optimisation is %s px.', 'seravo' ), self::$min_width ) );
         return self::$min_width;
       }
@@ -132,6 +133,7 @@ if ( ! class_exists('Optimize_images') ) {
       if ( $height < self::$min_height && $height !== null && get_option( 'seravo-enable-optimize-images' ) === 'on' ) {
         add_settings_error(
           'seravo-image-max-resolution-height', 'invalid-height',
+          // translators: %s numeric value for the minimum image height
           sprintf( __( 'The minimum height for image optimisation is %s px.', 'seravo' ), self::$min_height )
         );
         return self::$min_height;
@@ -148,5 +150,5 @@ if ( ! class_exists('Optimize_images') ) {
 
 
   }
-  Optimize_images::load();
+  Optimize_Images::load();
 }

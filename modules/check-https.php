@@ -29,18 +29,19 @@ if ( ! class_exists('CheckHttps') ) {
       }
     }
 
-    public static  function _seravo_show_https_warning() {
+    public static function _seravo_show_https_warning() {
       $siteurl = get_option('siteurl'); ?>
       <div class="notice notice-error"><p>
-<?php
-printf(
-  __('HTTPS protocol is not used in <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/">use https</a>.', 'seravo'),
-  esc_url( $siteurl )
-);
-?>
+      <?php
+      printf(
+      // translators: user's website url
+      __('HTTPS protocol is not used in <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/">use https</a>.', 'seravo'),
+      esc_url( $siteurl )
+      );
+      ?>
       </p>
     </div>
-<?php
+      <?php
     }
   }
   CheckHttps::load();

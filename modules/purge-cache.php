@@ -35,6 +35,7 @@ function _seravo_purge_button( $admin_bar ) {
   $admin_bar->add_menu( array(
       'id' => 'nginx-helper-purge-all',
       'title' => '<span class="ab-icon"></span><span title="' .
+      // translators: %s cache refresh interval
       sprintf(__('Seravo.com uses front proxies to deliver lightning fast responses to your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the frontend proxy immediately.', 'seravo'), '15 min') .
       '" class="ab-label">' . __('Purge Cache', 'seravo') . '</span>',
       'href' => wp_nonce_url( $purge_url, '_seravo_purge', '_seravo_nonce' ),

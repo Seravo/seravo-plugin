@@ -29,8 +29,11 @@ if ( ! class_exists('LoginLog') ) {
     public static function wp_login_redirect_log( $redirect_to, $requested_redirect_to, $user ) {
 
       // Bail out quickly if username and password were not sent on this load
-      if ( ! isset($_POST['log']) || empty($_POST['log']) ||
-           ! isset($_POST['pwd']) || empty($_POST['pwd']) ) {
+      if ( ! isset($_POST['log']) ||
+            empty($_POST['log']) ||
+            ! isset($_POST['pwd']) ||
+            empty($_POST['pwd'])
+          ) {
         return $redirect_to;
       }
 
@@ -68,11 +71,7 @@ if ( ! class_exists('LoginLog') ) {
         $log_directory = '..';
       }
       $log_fp = fopen( $log_directory . '/wp-login.log', 'a' );
-      fwrite( $log_fp, "$remote_addr - $remote_user [$time_local] \"$request\" " .
-                       "$status_code 1000 \"$http_referer\" " .
-                       "\"$http_user_agent\" $login_status " .
-                       "\n"
-      );
+      fwrite( $log_fp, "$remote_addr - $remote_user [$time_local] \"$request\" $status_code 1000 \"$http_referer\" \"$http_user_agent\" $login_status \n" );
       fclose( $log_fp );
 
       return $redirect_to;

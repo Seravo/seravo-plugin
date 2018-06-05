@@ -14,8 +14,8 @@
 namespace Seravo;
 
 // Deny direct access to this file
-if ( ! defined('ABSPATH') ) {
-  die('Access denied!');
+if ( ! defined( 'ABSPATH' ) ) {
+  die( 'Access denied!' );
 }
 
 /*
@@ -45,7 +45,7 @@ class Loader {
   private static $domain = 'seravo';
 
   public function __construct() {
-    if ( isset(self::$_single) ) {
+    if ( isset( self::$_single ) ) {
       return;
     }
     self::$_single = $this; // Singleton set.
@@ -75,23 +75,23 @@ class Loader {
     global $pagenow;
 
     // This check fires on every page load, so keep the scope small
-    if ( $pagenow === 'tools.php' && isset($_GET['report']) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+    if ( $pagenow === 'tools.php' && isset( $_GET['report'] ) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
 
       // Next check if the request for a report is valid
       // - user be administrator
       // - filename must be of correct form, e.g. 2016-09.html
-      if ( current_user_can('administrator') &&
-          preg_match('/[0-9]{4}-[0-9]{2}\.html/', $_GET['report'], $matches) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+      if ( current_user_can( 'administrator' ) &&
+          preg_match( '/[0-9]{4}-[0-9]{2}\.html/', $_GET['report'], $matches) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
 
         header('Content-type: text/html');
         // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_readfile
-        readfile('/data/slog/html/goaccess-' . $matches[0]);
+        readfile( '/data/slog/html/goaccess-' . $matches[0] );
         // Stop executing WordPress once a HTML file has been sent
         exit();
       } else {
         // Yield an error if ?report was requested, but without permissions
         // or with wrong filename.
-        exit('Report file not found.');
+        exit( 'Report file not found.' );
       }
     }
   }
@@ -138,12 +138,12 @@ class Loader {
     /*
      * Log all login attempts, failed or successful. Use no filters, as this should be mandatory
      */
-     require_once dirname( __FILE__ ) . '/modules/wp-login-log.php';
+      require_once dirname( __FILE__ ) . '/modules/wp-login-log.php';
 
      /*
       * Enforce strong passwords
       */
-     require_once dirname( __FILE__ ) . '/modules/passwords.php';
+      require_once dirname( __FILE__ ) . '/modules/passwords.php';
 
     /*
      * Instance switcher
@@ -229,8 +229,9 @@ class Loader {
       /*
        * Optimize images
        */
-      if ( apply_filters('seravo_show_optimize_images_page', true) && current_user_can( 'administrator' ) ) {
-        require_once dirname(__FILE__) . '/modules/optimize-images.php';
+      if ( apply_filters('seravo_show_optimize_images_page', true) &&
+            current_user_can( 'administrator' ) ) {
+        require_once dirname( __FILE__ ) . '/modules/optimize-images.php';
       }
     }
 
