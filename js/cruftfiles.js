@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
         'deletefile': filepath },
       function( rawData ) {
         var data = JSON.parse(rawData);
-        data.forEach(fileinfo => {
+        data.forEach(function( fileinfo ) {
           if ( fileinfo.success ) {
             callback();
           }
@@ -33,9 +33,8 @@ jQuery(document).ready(function($) {
         $.each( data, function( i, file){
           if (file != '') {
             filecount++;
-            $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete">' +
-            '<a href="" class="dashicons dashicons-trash cruftfile-delete-button">' +
-            '</td><td class="cruftfile-path">' + file + '</td></tr>');
+            $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete"><a href="" class="dashicons dashicons-trash cruftfile-delete-button"></td><td class="cruftfile-path">'
+                                                + file + '</td></tr>');
           }
         });
         if (filecount == 0) {

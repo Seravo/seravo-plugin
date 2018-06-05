@@ -23,16 +23,16 @@ if ( ! class_exists('Fixes') ) {
       /**
        * Show Seravo.com notifications if this is Seravo.com instance
        */
-      if ( Helpers::is_production() or Helpers::is_staging() ) {
-        add_action( 'admin_notices', array( __CLASS__, 'showAdminNotification' ) );
+      if ( Helpers::is_production() || Helpers::is_staging() ) {
+        add_action( 'admin_notices', array( __CLASS__, 'show_admin_notification' ) );
       }
 
       /**
        * Hide update nofications if this is not development
        */
       if ( ! Helpers::is_development() ) {
-        add_action( 'admin_menu', array( __CLASS__, 'hideUpdateNotifications' ) );
-        add_filter( 'wp_get_update_data', array( __CLASS__, 'hideUpdateData' ) );
+        add_action( 'admin_menu', array( __CLASS__, 'hide_update_notifications' ) );
+        add_filter( 'wp_get_update_data', array( __CLASS__, 'hide_update_data' ) );
       }
 
       /**
@@ -40,19 +40,19 @@ if ( ! class_exists('Fixes') ) {
        * WP_DEBUG is set (which happens in wp-config.php by default in non-production).
        */
       if ( ! Helpers::is_production() || WP_DEBUG ) {
-        add_action( 'send_headers', array( __CLASS__, 'sendNoCacheHeaders' ) );
+        add_action( 'send_headers', array( __CLASS__, 'send_no_cache_headers' ) );
       }
 
       /**
        * Send proper headers after unsuccesful login
        */
-      add_action( 'wp_login_failed', array( __CLASS__, 'changeHttpCodeToUnauthorized' ) );
+      add_action( 'wp_login_failed', array( __CLASS__, 'change_http_code_to_unauthorized' ) );
 
       /**
        * Additional hooks to option updates to ensure they get refreshed in the
        * Redis object-cache when they change.
        */
-      add_action( 'added_option',   array( __CLASS__, 'maybe_clear_alloptions_cache' ) );
+      add_action( 'added_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ) );
       add_action( 'updated_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ) );
       add_action( 'deleted_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ) );
 
@@ -84,12 +84,13 @@ if ( ! class_exists('Fixes') ) {
     /**
      * This is used to add notifications from Seravo.com for users
      */
-    public static function showAdminNotification() {
+    public static function show_admin_notification() {
       // get notification
-      if ( false === ( $response = get_transient( 'seravo_notification' ) ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] === 'no-cache' ) ) {
+      $response = get_transient( 'seravo_notification' );
+      if ( false === ( $response ) || ( isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] === 'no-cache' ) ) {
 
         // Download notification
-        $response = self::getGlobalNotification();
+        $response = self::get_global_notification();
         set_transient( 'seravo_notification', $response, HOUR_IN_SECONDS );
         // allow some html tags but strip most
       }
@@ -97,7 +98,7 @@ if ( ! class_exists('Fixes') ) {
       $message = '';
       if ( isset($response->message) ) {
         $message = $response->message;
-        $message = strip_tags( trim($message),'<br><br/><a><b><strong><i>' );
+        $message = strip_tags( trim($message), '<br><br/><a><b><strong><i>' );
       }
       // control alert type
       $type = '';
@@ -105,25 +106,25 @@ if ( ! class_exists('Fixes') ) {
         $type = $response->type;
       }
       if ( ! empty($message) ) {
-      ?>
-        <div class="<?php esc_attr_e($type) ?> notice is-dismissible">
+        ?>
+        <div class="<?php echo esc_attr($type); ?> notice is-dismissible">
           <p><?php echo $message; ?> <button type="button" class="notice-dismiss"></button></p>
         </div>
-      <?php
+        <?php
       }
     }
 
     /**
      * Removes core update notifications
      */
-    public static function hideUpdateNotifications() {
+    public static function hide_update_notifications() {
       remove_action( 'admin_notices', 'update_nag', 3 );
     }
 
     /**
      * Removes red update bubbles from admin menus
      */
-    public static function hideUpdateData( $update_data, $titles = '' ) {
+    public static function hide_update_data( $update_data, $titles = '' ) {
       return array(
         'counts' => array(
           'plugins' => 0,
@@ -141,20 +142,20 @@ if ( ! class_exists('Fixes') ) {
      * Then failed login attempts (brute forcing) can be noticed in access.log
      * WP core ticket: https://core.trac.wordpress.org/ticket/25446
      */
-    public static function changeHttpCodeToUnauthorized() {
+    public static function change_http_code_to_unauthorized() {
       status_header( 401 );
     }
 
     /**
      * Loads global Notification message from central server
      */
-    public static function getGlobalNotification() {
+    public static function get_global_notification() {
       // use @file_get_contents to suppress the warning when network is down.
       // Usually this happens on offline local development
       return json_decode( @file_get_contents('https://wp-palvelu.fi/ilmoitus/') );
     }
 
-    public static function sendNoCacheHeaders() {
+    public static function send_no_cache_headers() {
       // Use WP function for this
       nocache_headers();
     }

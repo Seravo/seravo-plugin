@@ -22,8 +22,18 @@ if ( ! defined('ABSPATH') ) {
               </h2>
               <div class="inside">
                 <div class="seravo-section">
-                  <p><?php printf( __( 'You can find the database credentials by connecting with SSH and running command %s. These credentials can be used to connect to server with SSH tunnel. You can also use web-based Adminer below.', 'seravo' ), '<code>wp-list-env</code>' ); ?></p>
-                  <p><?php printf( __( 'When you have SSH connection you can use WP-CLI that has powerful database tools for example exports and imports. <a href="%s">Read wp db docs.</a>', 'seravo' ), 'https://developer.wordpress.org/cli/commands/db/' ); ?></p>
+                  <p>
+                    <?php
+                      // translators: $s example of the command for getting user's database credentials
+                      printf( __( 'You can find the database credentials by connecting with SSH and running command %s. These credentials can be used to connect to server with SSH tunnel. You can also use web-based Adminer below.', 'seravo' ), '<code>wp-list-env</code>' );
+                    ?>
+                  </p>
+                  <p>
+                    <?php
+                      // translators: $s url containing additional information on WordPress database tools
+                      printf( __( 'When you have SSH connection you can use WP-CLI that has powerful database tools for example exports and imports. <a href="%s">Read wp db docs.</a>', 'seravo' ), 'https://developer.wordpress.org/cli/commands/db/' );
+                    ?>
+                  </p>
                 </div>
               </div>
             </div>
@@ -41,7 +51,15 @@ if ( ! defined('ABSPATH') ) {
               <div class="inside">
                 <div class="seravo-section">
                   <p><?php printf( __( 'Adminer is a simple database management tool like phpMyAdmin. <a href="$s">Learn more about Adminer.</a>', 'seravo' ), 'https://www.adminer.org' ); ?></p>
-                  <p><?php printf( __( 'Find Adminer in production at %1$s and in local development at %2$s.', 'seravo' ), '<code>sitename.com/.seravo/adminer</code>', '<code>adminer.sitename.local</code>' ); ?></p>
+                  <p>
+                    <?php
+                      /* translators:
+                      * %1$s example url for accessing Adminer in production environment
+                      * %2$s example url for accessing Adminer in local development
+                      */
+                      printf( __( 'Find Adminer in production at %1$s and in local development at %2$s.', 'seravo' ), '<code>sitename.com/.seravo/adminer</code>', '<code>adminer.sitename.local</code>' );
+                    ?>
+                  </p>
 
                   <?php
 
@@ -87,12 +105,12 @@ if ( ! defined('ABSPATH') ) {
             <!--Third postbox: Search-replace tool-->
             <div id="dashboard_quick_press" class="postbox">
               <button type="button" class="handlediv button-link" aria-expanded="true">
-                <span class="screen-reader-text">Toggle panel: <?php _e('Search-replace tool','seravo'); ?></span>
+                <span class="screen-reader-text">Toggle panel: <?php _e('Search-replace tool', 'seravo'); ?></span>
                 <span class="toggle-indicator" aria-hidden="true"></span>
               </button>
               <h2 class="hndle ui-sortable-handle">
                 <span>
-                  <span class="hide-if-no-js"><?php _e('Search-replace tool','seravo'); ?></span>
+                  <span class="hide-if-no-js"><?php _e('Search-replace tool', 'seravo'); ?></span>
                 </span>
               </h2>
               <div class="inside">

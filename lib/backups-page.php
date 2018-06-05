@@ -21,7 +21,7 @@ if ( ! defined('ABSPATH') ) {
                 <span><?php _e('Backups', 'seravo'); ?></span>
               </h2>
               <div class="inside">
-                <p><?php _e('Backups are made automatically every night and preserved for 30 days. The data can be accessed on the server at <code>/data/backups</code>.', 'seravo') ?></p>
+                <p><?php _e('Backups are made automatically every night and preserved for 30 days. The data can be accessed on the server at <code>/data/backups</code>.', 'seravo'); ?></p>
               </div>
           </div>
           <!-- first ends -->
@@ -36,9 +36,9 @@ if ( ! defined('ABSPATH') ) {
               <span><?php _e('Create a new backup', 'seravo'); ?></span>
             </h2>
             <div class="inside">
-              <p><?php _e('You can also create backups using the command line tool <code>wp-backup</code>. We recommend getting familiar with the command line option accessible via SSH so that recovering a backup is not dependant on if WP-admin works or not.', 'seravo') ?></p>
+              <p><?php _e('You can also create backups using the command line tool <code>wp-backup</code>. We recommend getting familiar with the command line option accessible via SSH so that recovering a backup is not dependant on if WP-admin works or not.', 'seravo'); ?></p>
               <p class="create_backup">
-                <button id="create_backup_button" class="button"><?php _e('Make a new backup', 'seravo') ?> </button>
+                <button id="create_backup_button" class="button"><?php _e('Make a new backup', 'seravo'); ?> </button>
                 <div id="create_backup_loading"><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
                 <pre><div id="create_backup"></div></pre>
               </p>
@@ -56,7 +56,10 @@ if ( ! defined('ABSPATH') ) {
               <span><?php _e('Files excluded from backups', 'seravo'); ?></span>
             </h2>
             <div class="inside">
-              <?php echo wp_sprintf( __('Below is the content of the file %s.', 'seravo'), '<code>/data/backups/exclude.filelist</code>' ); ?>
+              <?php
+                // translators: %s name of the file shown
+                echo wp_sprintf( __('Below is the content of the file %s.', 'seravo'), '<code>/data/backups/exclude.filelist</code>' );
+              ?>
               <p>
                 <div id="backup_exclude_loading">
                   <img src="/wp-admin/images/spinner.gif">
@@ -81,7 +84,10 @@ if ( ! defined('ABSPATH') ) {
                 <span><?php _e( 'Current backups', 'seravo' ); ?></span>
               </h2>
               <div class="inside">
-                <?php echo wp_sprintf( __('This listing is produced by command %s.', 'seravo'), '<code>wp-backup-status</code>' ); ?>
+                <?php
+                  // translators: %s command used to list WordPress backups of the website
+                  echo wp_sprintf( __('This listing is produced by command %s.', 'seravo'), '<code>wp-backup-status</code>' );
+                ?>
                 <p>
                   <div id="backup_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
                   <pre id="backup_status"></pre>

@@ -91,7 +91,7 @@ jQuery(document).ready(function($) {
         if (section === 'seravo_wp_db_info') {
           console.log(data);
           jQuery('#seravo_wp_db_info').append(data.totals);
-          generateChart(data.tables.dataFolders);
+          generateChart(data.tables.data_folders);
         } else {
           console.log(section, data);
           jQuery('#' + section).text(data.join("\n"));

@@ -38,8 +38,8 @@ if ( ! class_exists('Database') ) {
       add_action( 'admin_menu', array( __CLASS__, 'register_database_page' ) );
 
       // Add AJAX endpoints for wp search-replace and database info
-      add_action( 'wp_ajax_seravo_search_replace' , 'seravo_ajax_search_replace' );
-      add_action( 'wp_ajax_seravo_wp_db_info' , 'seravo_ajax_get_wp_db_info' );
+      add_action( 'wp_ajax_seravo_search_replace', 'seravo_ajax_search_replace' );
+      add_action( 'wp_ajax_seravo_wp_db_info', 'seravo_ajax_get_wp_db_info' );
 
     }
 
@@ -56,9 +56,9 @@ if ( ! class_exists('Database') ) {
       if ( $page === 'tools_page_database_page' ) {
         wp_enqueue_style('seravo_database');
         wp_enqueue_script('chart-js');
-        wp_enqueue_script( 'color-hash', plugins_url( '../js/color-hash.js' , __FILE__), 'jquery', null, false );
-        wp_enqueue_script( 'reports-chart', plugins_url( '../js/reports-chart.js' , __FILE__), 'jquery', null, false );
-        wp_enqueue_script( 'database', plugins_url( '../js/database.js' , __FILE__), 'jquery', null, false );
+        wp_enqueue_script( 'color-hash', plugins_url( '../js/color-hash.js', __FILE__), 'jquery', null, false );
+        wp_enqueue_script( 'reports-chart', plugins_url( '../js/reports-chart.js', __FILE__), 'jquery', null, false );
+        wp_enqueue_script( 'database', plugins_url( '../js/database.js', __FILE__), 'jquery', null, false );
       }
 
     }

@@ -73,7 +73,6 @@ if ( ! class_exists('Updates') ) {
               $validated_addresses[] = $address;
             }
           }
-
         } elseif ( trim($_POST['technical_contacts']) === '' ) {
 
           // If the contact email field is left entirely empty, it means that the

@@ -27,16 +27,18 @@ if ( ! class_exists('CheckDefaultEmail') ) {
       }
     }
 
-    public static  function _seravo_show_email_warning() {
+    public static function _seravo_show_email_warning() {
       ?><div class="notice notice-error"><p>
       <?php
       $siteurl = get_option('siteurl');
+      // translators: $s user's website url
       $link = sprintf( wp_kses( __( 'Warning: Default admin email detected in <a href="%s/wp-admin/options-general.php">site settings</a>. Please update it.', 'seravo' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( $siteurl ) );
       echo $link;
       ?>
       </p>
     </div>
-    <?php }
+      <?php
+    }
   }
   CheckDefaultEmail::load();
 }

@@ -55,7 +55,7 @@ if ( ! class_exists('Cruftfiles') ) {
             $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
             if ( in_array( $file, $legit_cruft_files, true ) ) {
               if ( is_dir($file) ) {
-                $unlink_result = Cruftfiles::rmdir_recursive($file, 0);
+                $unlink_result = self::rmdir_recursive($file, 0);
               } else {
                 $unlink_result = unlink($file);
               }

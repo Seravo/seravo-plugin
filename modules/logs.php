@@ -113,19 +113,19 @@ if ( ! class_exists('Logs') ) {
         $logfile = $logs[ $current_log ];
       }
 
-  ?>
+      ?>
   <div class="wrap">
     <h1><?php _e('Logs', 'seravo'); ?></h1>
     <h2 class="screen-reader-text">Select log file list</h2>
     <ul class="subsubsub">
       <?php foreach ( $logs as $key => $log ) : ?>
-      <li><a href="tools.php?page=logs_page&log=<?php echo $key ?>&max_num_of_rows=<?php echo $max_num_of_rows ?>" class="<?php echo $key == $current_log ? 'current' : ''; ?>"><?php echo basename( $log ); ?></a><?php echo ( $key < ( count( $logs ) - 1 ) ) ? ' |' : ''; ?></li>
+      <li><a href="tools.php?page=logs_page&log=<?php echo $key; ?>&max_num_of_rows=<?php echo $max_num_of_rows; ?>" class="<?php echo $key == $current_log ? 'current' : ''; ?>"><?php echo basename( $log ); ?></a><?php echo ( $key < ( count( $logs ) - 1 ) ) ? ' |' : ''; ?></li>
       <?php endforeach; ?>
     </ul>
     <p class="clear"></p>
-    <?php $this->render_log_view( $logfile, $regex, $max_num_of_rows ); ?>
+      <?php $this->render_log_view( $logfile, $regex, $max_num_of_rows ); ?>
   </div>
-  <?php
+      <?php
     }
 
 
@@ -139,9 +139,9 @@ if ( ! class_exists('Logs') ) {
      */
     public function render_log_view( $logfile, $regex = null, $max_num_of_rows ) {
       global $current_log;
-  ?>
+      ?>
   <div class="log-view">
-    <?php if ( is_readable( $logfile ) ) : ?>
+      <?php if ( is_readable( $logfile ) ) : ?>
     <div class="tablenav top">
       <form class="log-filter" method="get">
         <label class="screen-reader-text" for="regex">Regex:</label>
@@ -151,7 +151,7 @@ if ( ! class_exists('Logs') ) {
         <input type="submit" class="button" value="<?php _e('Filter', 'seravo'); ?>">
       </form>
     </div>
-    <div class="log-table-view" data-logfile="<?php esc_attr_e( $logfile ); ?>" data-logbytes="<?php esc_attr_e( filesize($logfile) ); ?>" data-regex="<?php esc_attr_e($regex); ?>">
+    <div class="log-table-view" data-logfile="<?php esc_attr( $logfile ); ?>" data-logbytes="<?php esc_attr( filesize($logfile) ); ?>" data-regex="<?php esc_attr($regex); ?>">
       <table class="wp-list-table widefat striped" cellspacing="0">
         <tbody>
           <?php $result = $this->render_rows( $logfile, -1, $max_num_of_rows, $regex ); ?>
@@ -159,22 +159,29 @@ if ( ! class_exists('Logs') ) {
       </table>
     </div>
     <?php endif; ?>
-    <?php if ( ! is_null( $logfile ) ) : ?>
-      <?php if ( ! is_readable( $logfile ) ) : ?>
+      <?php if ( ! is_null( $logfile ) ) : ?>
+        <?php if ( ! is_readable( $logfile ) ) : ?>
       <div id="message" class="notice notice-error">
-        <p><?php echo wp_sprintf( __("File %s does not exist or we don't have permissions to read it.", 'seravo' ), $logfile ); ?></p>
+        <p>
+          <?php
+            // translators: $s name of the logfile
+            echo wp_sprintf( __("File %s does not exist or we don't have permissions to read it.", 'seravo' ), $logfile );
+          ?>
+        </p>
       </div>
       <?php elseif ( ! $result ) : ?>
         <p><?php _e('Log empty', 'seravo' ); ?></p>
       <?php else : ?>
         <p><?php _e('Scroll to load more lines from the log.', 'seravo'); ?></p>
-      <?php endif;
-    endif; ?>
+      <?php
+      endif;
+    endif;
+?>
     <div class="log-view-active">
     </div>
   </div>
 
-  <?php
+      <?php
     }
 
 
@@ -194,19 +201,21 @@ if ( ! class_exists('Logs') ) {
       // escape special regex chars
       $regex = '#' . preg_quote( $regex ) . '#';
 
-      $rows = Logs::read_log_lines_backwards( $logfile, $offset, $lines, $regex, $cutoff_bytes );
+      $rows = self::read_log_lines_backwards( $logfile, $offset, $lines, $regex, $cutoff_bytes );
 
       if ( empty( $rows ) ) {
         return 0;
       }
 
       $num_of_rows = 0;
-      foreach ( $rows as $row ) : ++$num_of_rows; ?>
+      foreach ( $rows as $row ) {
+        ++$num_of_rows;
+        ?>
         <tr>
           <td><span class="logrow"><?php echo $row; ?></span></td>
         </tr>
-      <?php endforeach;
-
+        <?php
+      }
       return $num_of_rows;
     }
 
@@ -339,7 +348,8 @@ if ( ! class_exists('Logs') ) {
         }
 
         // remove any offset lines off the end
-        while ( $offset < -1 && count( $complete_lines ) > 0 ) {
+        $limit = count( $complete_lines );
+        while ( $offset < -1 && $limit > 0 ) {
           array_pop( $complete_lines );
           $offset++;
         }
