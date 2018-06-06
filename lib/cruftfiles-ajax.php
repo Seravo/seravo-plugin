@@ -108,8 +108,25 @@ function seravo_ajax_list_cruft_files() {
           $crufts = array_merge($crufts, $cruft_found);
         }
       }
+      // This should be performed right after cruftfile search and before wp core
+      foreach ( $white_list_dirs as $dirname ) {
+        // Some directories are whitelisted and their files should not be deleted
+        $keep = array();
+        foreach ( $crufts as $filename ) {
+          if ( strpos($filename, $dirname) !== false ) {
+            array_push($keep, $filename);
+          }
+        }
+        $crufts = array_diff( $crufts, $keep );
+      }
       foreach ( $list_known_files as $dirname ) {
         $cruft_found = list_known_cruft_file($dirname);
+        if ( ! empty($cruft_found) ) {
+          $crufts = array_merge($crufts, $cruft_found);
+        }
+      }
+      foreach ( $list_known_dirs as $dirname ) {
+        $cruft_found = list_known_cruft_dir($dirname);
         if ( ! empty($cruft_found) ) {
           $crufts = array_merge($crufts, $cruft_found);
         }
@@ -137,25 +154,25 @@ function seravo_ajax_delete_cruft_files() {
     if ( is_string($files) ) {
       $files = array( $files );
     }
-    // This should be performed right after cruftfile search and before wp core
-    foreach ( $white_list_dirs as $dirname ) {
-      // Some directories are whitelisted and their files should not be deleted
-      $keep = array();
-      foreach ( $crufts as $filename ) {
-        if ( strpos($filename, $dirname) !== false ) {
-          array_push($keep, $filename);
+    if ( ! empty($files) ) {
+      $result = array();
+      $results = array();
+      foreach ( $files as $file ) {
+        $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
+        if ( in_array( $file, $legit_cruft_files, true ) ) {
+          if ( is_dir($file) ) {
+            $unlink_result = rmdir_recursive($file, 0);
+          } else {
+            $unlink_result = unlink($file);
+          }
+          // else - Backwards compatible with old UI
+          $result['success'] = (bool) $unlink_result;
+          $result['filename'] = $file;
+          array_push( $results, $result );
         }
-      }
-      $crufts = array_diff( $crufts, $keep );
-    }
-    foreach ( $list_known_dirs as $dirname ) {
-      $cruft_found = list_known_cruft_dir($dirname);
-      if ( ! empty($cruft_found) ) {
-        $crufts = array_merge($crufts, $cruft_found);
       }
       echo wp_json_encode($results);
     }
   }
-
   wp_die();
 }
