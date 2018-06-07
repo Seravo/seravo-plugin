@@ -79,4 +79,10 @@
     </properties>
   </rule>
 
+  <!-- Allow concatenation of multiple strings if they are located on multiple lines -->
+  <rule ref="Generic.Strings.UnnecessaryStringConcat">
+    <properties>
+      <property name="allowMultiline" value="true" />
+    </properties>
+  </rule>
 </ruleset>
