@@ -18,6 +18,7 @@ if ( ! class_exists('Updates') ) {
     public static function load() {
       add_action( 'admin_menu', array( __CLASS__, 'register_updates_page' ) );
 
+      add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
       /*
       * This will use the SWD api to toggle Seravo updates on/off and add
       * technical contact emails for this site.
@@ -26,6 +27,22 @@ if ( ! class_exists('Updates') ) {
 
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook( __FILE__, array( __CLASS__, 'register_view_updates_capability' ) );
+    }
+
+    /**
+     * Register scripts
+     *
+     * @param string $page hook name
+     */
+    public static function register_scripts( $page ) {
+
+      wp_register_style('seravo_updates', plugin_dir_url(__DIR__) . '/style/updates.css');
+
+      if ( $page === 'tools_page_updates_page' ) {
+          wp_enqueue_style('seravo_updates');
+          wp_enqueue_script( 'seravo_updates', plugins_url( '../js/updates.js', __FILE__), 'jquery', null, false );
+      }
+
     }
 
     public static function register_updates_page() {

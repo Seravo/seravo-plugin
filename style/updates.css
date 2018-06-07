@@ -1,0 +1,82 @@
+@media only screen and (min-width: 1500px) {
+  #wpbody-content #dashboard-widgets .postbox-container {
+    width: 50%;
+  }
+}
+
+.inside {
+  padding: 30px 60px 60px 60px!important;
+  text-align: center;
+}
+
+.js .widget .widget-top, .js .postbox .hndle {
+  cursor: pointer;
+}
+
+@media only screen and (max-width:1445px) {
+  .inside {
+    padding: 10px 20px 20px 20px!important;
+    text-align: center;
+  }
+}
+
+.allow_updates_checkbox {
+  padding-bottom: 10px;
+}
+
+.technical_contacts_buttons {
+  padding-top: 10px;
+}
+
+.email-button {
+  margin-bottom: 5px!important;
+}
+.dashicons {
+  line-height: 1.4;
+}
+
+@media screen and (max-width: 425px) {
+  .technical_contacts_input {
+    max-width: 200px;
+  }
+}
+
+form[name="seravo_updates_form"] > .technical_contacts_error {
+  display: none;
+}
+
+form[name="seravo_updates_form"].has-errors > .technical_contacts_error {
+  background: #c51244 !important;
+  padding: 10px !important;
+  border-radius: 0 !important;
+  position: relative;
+  display: block;
+  max-width: 280px;
+  margin: auto;
+  box-shadow: 1px 1px 1px #aaaaaa;
+  margin-top: 10px;
+  color: white;
+}
+
+form[name="seravo_updates_form"].has-errors > .technical_contacts_error::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #c51244;
+  position: absolute;
+  top: -10px;
+}
+
+form[name="seravo_updates_form"].has-errors > .technical_contacts_error::after {
+  background: #fff0f4;
+  color: #c51244;
+}
+
+form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
+  box-shadow: 0!important;
+  border: 1px solid #c51244 !important;
+  background: #fff0f4;
+  color: #eb819f;
+}
