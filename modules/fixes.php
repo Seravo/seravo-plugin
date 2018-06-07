@@ -127,13 +127,13 @@ if ( ! class_exists('Fixes') ) {
     public static function hide_update_data( $update_data, $titles = '' ) {
       return array(
         'counts' => array(
-          'plugins' => 0,
-          'themes' => 0,
-          'wordpress' => 0,
+          'plugins'      => 0,
+          'themes'       => 0,
+          'wordpress'    => 0,
           'translations' => 0,
-          'total' => 0,
+          'total'        => 0,
         ),
-        'title' => '',
+        'title'  => '',
       );
     }
 

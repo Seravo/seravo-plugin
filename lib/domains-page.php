@@ -30,9 +30,9 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     // Set parent defaults
     parent::__construct(
         array(
-        'singular'  => 'domain',
-        'plural'    => 'domains',
-        'ajax'      => false,
+          'singular' => 'domain',
+          'plural'   => 'domains',
+          'ajax'     => false,
         )
     );
   }
@@ -184,11 +184,11 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     $this->set_pagination_args(
         array(
           // WE have to calculate the total number of items
-        'total_items' => $total_items,
+          'total_items' => $total_items,
           // WE have to determine how many items to show on a page
-        'per_page'    => $per_page,
+          'per_page'    => $per_page,
           // WE have to calculate the total number of pages
-        'total_pages' => ceil($total_items / $per_page),
+          'total_pages' => ceil($total_items / $per_page),
         )
     );
   }

@@ -55,7 +55,7 @@ if ( ! defined('ABSPATH') ) {
                           array_push(
                             $months,
                             array(
-                              'date' => substr($report, 25, 7),
+                              'date'     => substr($report, 25, 7),
                               'requests' => $total_requests,
                             )
                           );

@@ -61,37 +61,37 @@ function seravo_ajax_list_cruft_files() {
     case 'cruftfiles_status':
       // List of known types of cruft files
       $list_files = array(
-                            '*.sql',
-                            '.hhvm.hhbc',
-                            '*.wpress',
+        '*.sql',
+        '.hhvm.hhbc',
+        '*.wpress',
       );
       // List of known cruft directories
       $list_dirs = array(
-                          'siirto',
-                          'palautus',
-                          'vanha',
-                          '*-old',
-                          '*-copy',
-                          '*-2',
-                          '*.bak',
-                          'migration',
-                          '*_BAK',
-                          '_mu-plugins',
-                          '*.orig',
-                          '-backup',
-                          '*.backup',
+        'siirto',
+        'palautus',
+        'vanha',
+        '*-old',
+        '*-copy',
+        '*-2',
+        '*.bak',
+        'migration',
+        '*_BAK',
+        '_mu-plugins',
+        '*.orig',
+        '-backup',
+        '*.backup',
       );
       $list_known_files = array();
       $list_known_dirs = array(
-      '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage',
-      '/data/wordpress/htdocs/wp-content/ai1wm-backups',
-      '/data/wordpress/htdocs/wp-content/uploads/backupbuddy_backups',
-      '/data/wordpress/htdocs/wp-content/updraft',
+        '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage',
+        '/data/wordpress/htdocs/wp-content/ai1wm-backups',
+        '/data/wordpress/htdocs/wp-content/uploads/backupbuddy_backups',
+        '/data/wordpress/htdocs/wp-content/updraft',
       );
       $white_list_dirs = array(
-      '/data/wordpress/htdocs/wp-content/plugins',
-      '/data/wordpress/htdocs/wp-content/mu-plugins',
-      '/data/wordpress/htdocs/wp-content/themes',
+        '/data/wordpress/htdocs/wp-content/plugins',
+        '/data/wordpress/htdocs/wp-content/mu-plugins',
+        '/data/wordpress/htdocs/wp-content/themes',
       );
 
       $crufts = array();
