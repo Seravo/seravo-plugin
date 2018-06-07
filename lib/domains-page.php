@@ -13,11 +13,11 @@ if ( ! current_user_can( 'level_10' ) ) {
 }
 
 if ( ! class_exists( 'Seravo_Domains_DNS_Table' ) ) {
-  require_once( dirname( __FILE__ ) . '/domains-dns.php');
+  require_once dirname( __FILE__ ) . '/domains-dns.php';
 }
 
 if ( ! class_exists('WP_List_Table') ) {
-  require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+  require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 class Seravo_Domains_List_Table extends WP_List_Table {

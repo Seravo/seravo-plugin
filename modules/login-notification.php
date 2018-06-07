@@ -10,7 +10,7 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once(__DIR__ . '/logs.php');
+require_once __DIR__ . '/logs.php';
 
 if ( ! class_exists('Login_Notifications') ) {
   class Login_Notifications {
@@ -142,7 +142,7 @@ if ( ! class_exists('Login_Notifications') ) {
           $ip = $output_array[0];
           $date = substr($output_array[3], 1, strlen($output_array[3]));
           return array(
-            'ip' => $ip,
+            'ip'   => $ip,
             'date' => $date,
           );
         }

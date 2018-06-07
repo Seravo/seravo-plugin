@@ -35,7 +35,7 @@ if ( ! class_exists('Cruftfiles') ) {
     }
 
     public static function load_cruftfiles_page() {
-      require_once(dirname( __FILE__ ) . '/../lib/cruftfiles-page.php');
+      require_once dirname( __FILE__ ) . '/../lib/cruftfiles-page.php';
     }
 
     /**

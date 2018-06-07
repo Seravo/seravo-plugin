@@ -7,7 +7,7 @@
 
 namespace Seravo;
 
-require_once(dirname( __FILE__ ) . '/../lib/backups-ajax.php');
+require_once dirname( __FILE__ ) . '/../lib/backups-ajax.php';
 
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
@@ -53,7 +53,7 @@ if ( ! class_exists('Backups') ) {
     }
 
     public static function load_backups_page() {
-      require_once(dirname( __FILE__ ) . '/../lib/backups-page.php');
+      require_once dirname( __FILE__ ) . '/../lib/backups-page.php';
     }
 
   }

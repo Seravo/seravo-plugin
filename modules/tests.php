@@ -50,7 +50,7 @@ if ( ! class_exists('Tests') ) {
     }
 
     public static function load_tests_page() {
-      require_once(dirname(__FILE__) . '/../lib/tests-page.php');
+      require_once dirname(__FILE__) . '/../lib/tests-page.php';
     }
   }
 

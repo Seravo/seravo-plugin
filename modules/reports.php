@@ -31,7 +31,7 @@ if ( ! class_exists('Reports') ) {
     }
 
     public static function load_reports_page() {
-      require_once(dirname( __FILE__ ) . '/../lib/reports-page.php');
+      require_once dirname( __FILE__ ) . '/../lib/reports-page.php';
     }
 
   }

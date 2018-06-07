@@ -35,7 +35,7 @@ if ( ! class_exists('Updates') ) {
     }
 
     public static function load_updates_page() {
-      require_once(dirname( __FILE__ ) . '/../lib/updates-page.php');
+      require_once dirname( __FILE__ ) . '/../lib/updates-page.php';
     }
 
     public static function seravo_admin_get_site_info() {
