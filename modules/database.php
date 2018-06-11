@@ -74,7 +74,7 @@ if ( ! class_exists('Database') ) {
      * Load options page
      */
     public static function load_database_page() {
-      require_once(dirname( __FILE__ ) . '/../lib/database-page.php');
+      require_once dirname( __FILE__ ) . '/../lib/database-page.php';
     }
 
   }

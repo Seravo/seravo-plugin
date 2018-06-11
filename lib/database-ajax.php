@@ -68,15 +68,15 @@ function seravo_get_wp_db_info_tables() {
     $size = preg_replace('/[^0-9]/', '', $table['Size']);
     $data_folders[ $table['Name'] ] = array(
       'percentage' => ( ( $size / $total[0] ) * 100 ),
-      'human' => Helpers::human_file_size($size),
-      'size' => $size,
+      'human'      => Helpers::human_file_size($size),
+      'size'       => $size,
     );
   }
   // Create output array
   return array(
-    'data' => array(
+    'data'         => array(
       'human' => Helpers::human_file_size($total[0]),
-      'size' => $total,
+      'size'  => $total,
     ),
     'data_folders' => $data_folders,
   );

@@ -79,4 +79,19 @@
     </properties>
   </rule>
 
+  <!-- Allow concatenation of multiple strings if they are located on multiple lines -->
+  <rule ref="Generic.Strings.UnnecessaryStringConcat">
+    <properties>
+      <property name="allowMultiline" value="true" />
+    </properties>
+  </rule>
+
+  <!-- Enforce that multiline arrays are indented with two spaces -->
+  <rule ref="Generic.Arrays.ArrayIndent">
+    <properties>
+      <property name="indent" value="2" />
+    </properties>
+  </rule>
+
+
 </ruleset>

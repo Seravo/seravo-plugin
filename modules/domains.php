@@ -24,7 +24,7 @@ if ( ! class_exists('Domains') ) {
     }
 
     public static function load_domains_page() {
-      require_once(dirname( __FILE__ ) . '/../lib/domains-page.php');
+      require_once dirname( __FILE__ ) . '/../lib/domains-page.php';
     }
 
   }

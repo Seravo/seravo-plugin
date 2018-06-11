@@ -108,12 +108,12 @@ if ( ! class_exists('InstanceSwitcher') ) {
 
       // create the parent menu here
       $wp_admin_bar->add_menu([
-          'id' => $id,
-          'title' => __('Now in', 'seravo') . ': ' . $current_title,
-          'href' => ! empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#',
-          'meta' => [
+        'id'    => $id,
+        'title' => __('Now in', 'seravo') . ': ' . $current_title,
+        'href'  => ! empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#',
+        'meta'  => [
           'class' => $menuclass,
-          ],
+		],
       ]);
 
       $instances = self::load_shadow_list();
@@ -128,10 +128,10 @@ if ( ! class_exists('InstanceSwitcher') ) {
           }
 
           $wp_admin_bar->add_menu([
-              'parent' => $id,
-              'title' => $title,
-              'id' => $instance['name'],
-              'href' => '#' . substr($instance['name'], -6),
+            'parent' => $id,
+            'title'  => $title,
+            'id'     => $instance['name'],
+            'href'   => '#' . substr($instance['name'], -6),
           ]);
         }
       }
@@ -139,19 +139,19 @@ if ( ! class_exists('InstanceSwitcher') ) {
       // If in a shadow, always show exit link
       if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
         $wp_admin_bar->add_menu(array(
-            'parent' => $id,
-            'title' => __('Exit Shadow', 'seravo'),
-            'id' => 'exit-shadow',
-            'href' => '#exit',
+          'parent' => $id,
+          'title'  => __('Exit Shadow', 'seravo'),
+          'id'     => 'exit-shadow',
+          'href'   => '#exit',
         ));
       }
 
       // Last item is always docs link
       $wp_admin_bar->add_menu(array(
-          'parent' => $id,
-          'title' => __('Shadows explained at Seravo.com/docs', 'seravo'),
-          'id' => 'shadow-info',
-          'href' => 'https://seravo.com/docs/deployment/shadows/',
+        'parent' => $id,
+        'title'  => __('Shadows explained at Seravo.com/docs', 'seravo'),
+        'id'     => 'shadow-info',
+        'href'   => 'https://seravo.com/docs/deployment/shadows/',
       ));
 
     }

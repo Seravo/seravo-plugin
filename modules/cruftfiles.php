@@ -35,7 +35,7 @@ if ( ! class_exists('Cruftfiles') ) {
     }
 
     public static function load_cruftfiles_page() {
-      require_once(dirname( __FILE__ ) . '/../lib/cruftfiles-page.php');
+      require_once dirname( __FILE__ ) . '/../lib/cruftfiles-page.php';
     }
 
     /**
@@ -98,10 +98,10 @@ if ( ! class_exists('Cruftfiles') ) {
 
         // Localize the javascript file.
         $loc_translation = array(
-            'no_data' => __( 'No data returned for section.', 'seravo' ),
-            'confirm' => __( 'Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo' ),
-            'fail' => __( 'Failed to load. Please try again.', 'seravo' ),
-            'no_cruftfiles' => __( 'Congratulations! You have no any cruft around.', 'seravo' ),
+          'no_data'       => __( 'No data returned for section.', 'seravo' ),
+          'confirm'       => __( 'Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo' ),
+          'fail'          => __( 'Failed to load. Please try again.', 'seravo' ),
+          'no_cruftfiles' => __( 'Congratulations! You have no any cruft around.', 'seravo' ),
         );
         wp_localize_script( 'seravo_cruftfiles', 'seravo_cruftfiles_loc', $loc_translation );
       }

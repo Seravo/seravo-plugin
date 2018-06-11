@@ -39,10 +39,10 @@ if ( ! class_exists('Tests') ) {
         wp_enqueue_script('seravo_tests');
 
         $loc_translation = array(
-          'no_data' => __('No data returned for section.', 'seravo'),
-          'test_success' => __('Tests run succesfully without errors!', 'seravo'),
-          'test_fail' => __('At least one test failed.', 'seravo'),
-          'run_fail' => __('Failed to load. Please try again.', 'seravo'),
+          'no_data'       => __('No data returned for section.', 'seravo'),
+          'test_success'  => __('Tests run succesfully without errors!', 'seravo'),
+          'test_fail'     => __('At least one test failed.', 'seravo'),
+          'run_fail'      => __('Failed to load. Please try again.', 'seravo'),
           'running_tests' => __('Running rspec tests...', 'seravo'),
         );
         wp_localize_script('seravo_tests', 'seravo_tests_loc', $loc_translation);
@@ -50,7 +50,7 @@ if ( ! class_exists('Tests') ) {
     }
 
     public static function load_tests_page() {
-      require_once(dirname(__FILE__) . '/../lib/tests-page.php');
+      require_once dirname(__FILE__) . '/../lib/tests-page.php';
     }
   }
 

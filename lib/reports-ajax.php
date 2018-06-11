@@ -16,15 +16,15 @@ function seravo_report_folders() {
     list($folder_size, $folder_name) = preg_split('/\s+/', $folder);
     $data_folders[ $folder_name ] = array(
       'percentage' => ( ( $folder_size / $data_size ) * 100 ),
-      'human' => Helpers::human_file_size($folder_size),
-      'size' => $folder_size,
+      'human'      => Helpers::human_file_size($folder_size),
+      'size'       => $folder_size,
     );
   }
   // Create output array
   $output = array(
-    'data' => array(
+    'data'        => array(
       'human' => Helpers::human_file_size($data_size),
-      'size' => $data_size,
+      'size'  => $data_size,
     ),
     'dataFolders' => $data_folders,
   );
@@ -42,9 +42,9 @@ function seravo_report_git_status() {
 
   if ( empty($output) ) {
     return array(
-                  'Git is not used on this site. To start using it,
-                  read our documentation for WordPress developers at
-                  <a href="https://seravo.com/docs/">seravo.com/docs</a>.',
+      'Git is not used on this site. To start using it,
+      read our documentation for WordPress developers at
+      <a href="https://seravo.com/docs/">seravo.com/docs</a>.',
     );
   }
 
