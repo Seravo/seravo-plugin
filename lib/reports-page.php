@@ -102,17 +102,19 @@ if ( ! defined('ABSPATH') ) {
           <!--Second postbox: Cache status-->
             <div id="dashboard_activity" class="postbox">
               <button type="button" class="handlediv button-link" aria-expanded="true">
-                <span class="screen-reader-text">Toggle panel: Cache status</span>
+                <span class="screen-reader-text"><?php _e('Cache status', 'seravo'); ?></span>
                 <span class="toggle-indicator" aria-hidden="true"></span>
               </button>
-              <h2 class="hndle ui-sortable-handle"><span>Cache status</span></h2>
+              <h2 class="hndle ui-sortable-handle">
+                <span><?php _e('Cache status', 'seravo'); ?></span>
+              </h2>
               <div class="inside" style="padding: 10px 15px;">
-                <h3>Redis transient and object cache</h3>
+                <h3><?php _e('Redis transient and object cache', 'seravo'); ?></h3>
                 <div class="redis_info_loading">
                   <img src="/wp-admin/images/spinner.gif">
                 </div>
                 <pre id="redis_info"></pre>
-                <h3>Nginx HTTP cache</h3>
+                <h3><?php _e('Nginx HTTP cache', 'seravo'); ?></h3>
                 <div class="front_cache_status_loading">
                   <img src="/wp-admin/images/spinner.gif">
                 </div>
@@ -156,14 +158,18 @@ if ( ! defined('ABSPATH') ) {
             <!--Fourth postbox: Data integrity-->
             <div id="dashboard_primary" class="postbox">
               <button type="button" class="handlediv button-link" aria-expanded="true">
-                <span class="screen-reader-text">Toggle panel: Data Integrity</span>
+                <span class="screen-reader-text">Toggle panel: <?php _e('Data Integrity', 'seravo'); ?></span>
                 <span class="toggle-indicator" aria-hidden="true"></span>
               </button>
               <h2 class="hndle ui-sortable-handle">
-                <span>Data Integrity</span>
+                <span>
+                  <?php _e('Data Integrity', 'seravo'); ?>
+                </span>
               </h2>
               <div class="inside" style="padding: 10px;">
-                <h3>WordPress core</h3>
+                <h3>
+                  <?php _e('WordPress core', 'seravo'); ?>
+                </h3>
                 <div class="wp_core_verify_loading">
                   <img src="/wp-admin/images/spinner.gif">
                 </div>
