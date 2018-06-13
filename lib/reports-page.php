@@ -75,7 +75,7 @@ if ( ! defined('ABSPATH') ) {
                         ?>
                         <tr>
                           <td>
-                            <a href='?report=" <?php echo $month['date']; ?> ".html' target='_blank'>
+                            <a href='?report=<?php echo $month['date']; ?>.html' target='_blank'>
                               <?php echo $month['date']; ?>
                             </a>
                           </td>
@@ -85,7 +85,7 @@ if ( ! defined('ABSPATH') ) {
                             </div>
                           </td>
                           <td>
-                            <a href='?report=" <?php echo $month['date']; ?> ".html' target='_blank' class='button hideMobile'>
+                            <a href='?report=<?php echo $month['date']; ?>.html' target='_blank' class='button hideMobile'>
                               <?php echo __('View report', 'seravo'); ?>
                               <span aria-hidden="true" class="dashicons dashicons-external" style="line-height: unset; padding-left: 3px;"></span>
                             </a>
