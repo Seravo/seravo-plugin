@@ -50,7 +50,14 @@ if ( ! defined('ABSPATH') ) {
               </h2>
               <div class="inside">
                 <div class="seravo-section">
-                  <p><?php printf( __( 'Adminer is a simple database management tool like phpMyAdmin. <a href="$s">Learn more about Adminer.</a>', 'seravo' ), 'https://www.adminer.org' ); ?></p>
+                  <p>
+                    <?php
+                      /* translators:
+                      * %1$s url to www.adminer.org
+                      */
+                      printf( __( 'Adminer is a simple database management tool like phpMyAdmin. <a href="%1$s">Learn more about Adminer.</a>', 'seravo' ), 'https://www.adminer.org' );
+                    ?>
+                  </p>
                   <p>
                     <?php
                       /* translators:
