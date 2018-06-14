@@ -257,8 +257,10 @@ class Loader {
     /**
      * Shadows page
      */
-    if ( apply_filters('seravo_show_shadows_page', true) && current_user_can( 'administrator' ) ) {
-      require_once dirname( __FILE__ ) . '/modules/shadows.php';
+    if ( ! is_multisite() || current_user_can( 'manage_network' ) ) {
+      if ( apply_filters('seravo_show_shadows_page', true) && current_user_can( 'administrator' ) ) {
+        require_once dirname( __FILE__ ) . '/modules/shadows.php';
+      }
     }
   }
 }
