@@ -29,7 +29,7 @@ if ( ! class_exists('Canonical_Domain_And_Https') ) {
 
       if ( strpos($siteurl, 'https') !== false && strpos($home, 'https') !== false ) {
         // Site uses https
-        if ( is_ssl() === false && $_SERVER['HTTP_HOST'] && $_SERVER['REQUEST_URI'] ) {
+        if ( is_ssl() === false && isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']) ) {
           // Request did not use https, force redirect
           $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
           // error_log("Redirect to $url");
