@@ -38,7 +38,13 @@ require_once dirname( __FILE__ ) . '/lib/helpers.php';
  */
 require_once dirname( __FILE__ ) . '/lib/api.php';
 
-require_once dirname( __FILE__ ) . '/lib/canonical-domain-and-https.php';
+/*
+ * Load Canonical Domain and HTTPS. Check first that WP CLI is not defined so the module will not
+ * perform any redirections locally.
+ */
+if ( ! defined('WP_CLI') ) {
+  require_once dirname( __FILE__ ) . '/lib/canonical-domain-and-https.php';
+}
 
 class Loader {
   private static $_single; // Let's make this a singleton.
