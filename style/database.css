@@ -45,7 +45,7 @@ span.dashicons-external {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 1025px) {
+@media only screen and (max-width: 1115px) {
   .label_buttons {
     display: block;
   }
@@ -56,10 +56,10 @@ span.dashicons-external {
     padding-left: 10%;
   }
   .to_label {
-    padding-right: 15%;
+    padding-right: 8%;
   }
   .from_label {
-    padding-right: 10%;
+    padding-right: 8%;
   }
 }
 
