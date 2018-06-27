@@ -15,7 +15,9 @@
   outline: none;
   box-shadow: none;
 }
-
+.cruft-plugin-set {
+  padding-top: 15px;
+}
 .inside {
   padding: 10px 15px 0px 15px!important;
 }
@@ -25,18 +27,10 @@
 .js .widget .widget-top, .js .postbox .hndle {
   cursor: pointer;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 .postbox-container-max {
   width: 100%
 }
-=======
->>>>>>> Update Cruft Remover layout to WP layout
-=======
-.postbox-container-max {
-  width: 100%
-}
->>>>>>> WIP
+
 @media only screen and (min-width: 1500px) {
   #wpbody-content #dashboard-widgets .postbox-container {
     width: 50%;

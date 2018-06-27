@@ -73,10 +73,6 @@ if ( ! defined('ABSPATH') ) {
                     </p>
                     <p>
                       <div id="cruftplugins_status">
-                        <table>
-                          <tbody id="cruftplugins_inactive">
-                          </tbody>
-                        </table>
                         <div id="cruftplugins_status_loading">
                           <?php _e( 'Finding plugins...', 'seravo' ); ?>
                           <img src="/wp-admin/images/spinner.gif">

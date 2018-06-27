@@ -111,16 +111,22 @@ if ( ! class_exists('Cruftfiles') ) {
           'no_cruftfiles' => __( 'Congratulations! You have no any cruft around.', 'seravo' ),
         );
         $loc_translation_plugins = array(
-          'inactive'        => __( 'Inactive plugins:', 'seravo' ),
-          'cache_plugins'        => __( 'Unnecessary cache plugins:', 'seravo' ),
+          'inactive'                => __( 'Inactive plugins:', 'seravo' ),
+          'inactive_desc'           => __( 'These plugins are currently not in use. They can be removed to save disk storage.'),
+          'cache_plugins'           => __( 'Unnecessary cache plugins:', 'seravo' ),
+          'cache_plugins_desc'      => __( 'Your website runs on a server which has serverside caching. Any plugins that provide caching can not improve upon the provided service.', 'seravo' ),
           'security_plugins'        => __( 'Unnecessary security plugins:', 'seravo' ),
-          'db_plugins'        => __( 'Unnecessary database manipulating plugins:', 'seravo' ),
-          'backup_plugins'        => __( 'Unnecessary backup plugins:', 'seravo' ),
-          'poor_security'        => __( 'Plugins that are not very secure:', 'seravo' ),
-          'no_cruftplugins' => __( 'All plugins are active and approved.', 'seravo' ),
-          'cruftplugins'    => __( 'The following plugins have been found and can be suggested for removal', 'seravo' ),
-          'confirm'         => __( 'Are you sure you want to remove this plugin?', 'seravo'),
-          'failure'         => __( 'Failed to remove plugin', 'seravo'),
+          'security_plugins_desc'   => __( 'Your website runs on a server which has been configured to a high level of security. Any plugins providing security services only slow your website down.', 'seravo' ),
+          'db_plugins'              => __( 'Unnecessary database manipulating plugins:', 'seravo' ),
+          'db_plugins_desc'         => __( 'These plugins may cause issues with your database.', 'seravo' ),
+          'backup_plugins'          => __( 'Unnecessary backup plugins:', 'seravo' ),
+          'backup_plugins_desc'     => __( 'Backups of your website are taken automatically on the server daily. Any plugins creating backups are redundant and unnecessesarily fill up data storage.', 'seravo' ),
+          'poor_security'           => __( 'Plugins that are not very secure:', 'seravo' ),
+          'poor_security_desc'      => __( 'These plugins are known to have issues with security.', 'seravo' ),
+          'no_cruftplugins'         => __( 'All plugins are currently active and approved.', 'seravo' ),
+          'cruftplugins'            => __( 'The following plugins have been found and are suggested for removal', 'seravo' ),
+          'confirm'                 => __( 'Are you sure you want to remove this plugin?', 'seravo'),
+          'failure'                 => __( 'Failed to remove plugin', 'seravo'),
         );
         wp_localize_script( 'seravo_cruftfiles', 'seravo_cruftfiles_loc', $loc_translation_files );
         wp_localize_script( 'seravo_cruftplugins', 'seravo_cruftplugins_loc', $loc_translation_plugins );
