@@ -253,6 +253,15 @@ class Loader {
     if ( defined( 'WP_CLI' ) && WP_CLI ) {
       require_once dirname( __FILE__ ) . '/modules/wp-cli.php';
     }
+
+    /**
+     * Shadows page
+     */
+    if ( ! is_multisite() || current_user_can( 'manage_network' ) ) {
+      if ( apply_filters('seravo_show_shadows_page', true) && current_user_can( 'administrator' ) ) {
+        require_once dirname( __FILE__ ) . '/modules/shadows.php';
+      }
+    }
   }
 }
 
