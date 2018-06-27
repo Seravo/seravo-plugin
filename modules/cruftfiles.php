@@ -102,6 +102,7 @@ if ( ! class_exists('Cruftfiles') ) {
           'confirm'       => __( 'Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo' ),
           'fail'          => __( 'Failed to load. Please try again.', 'seravo' ),
           'no_cruftfiles' => __( 'Congratulations! You have no any cruft around.', 'seravo' ),
+          'delete'        => __( 'Delete', 'seravo' ),
         );
         wp_localize_script( 'seravo_cruftfiles', 'seravo_cruftfiles_loc', $loc_translation );
       }

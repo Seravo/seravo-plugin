@@ -16,7 +16,7 @@ jQuery(document).ready(function($) {
         });
       });
   }
-
+  
   // Generic ajax report loader function
   function seravo_load_report(section) {
     $.post(
@@ -33,13 +33,36 @@ jQuery(document).ready(function($) {
         $.each( data, function( i, file){
           if (file != '') {
             filecount++;
-            $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete"><a href="" class="dashicons dashicons-trash cruftfile-delete-button"></td><td class="cruftfile-path">'
+            $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete"><input data-file-name="'+file+'" class="cruftfile-check" type="checkbox"></td><td class="cruftfile-path">'
                                                 + file + '</td></tr>');
           }
         });
         if (filecount == 0) {
+          
           $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
+        } else {
+          $( '#cruftfiles_entries' ).parents(':eq(0)').prepend('<thead><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>Select all files</b></td></tr></thead>');
+          $( '#cruftfiles_status' ).prepend('<button class="cruftfile-delete-button button" type="button">' + seravo_cruftfiles_loc.delete + '</b>');
+          $( '#cruftfiles_entries' ).parents(':eq(0)').append('<tfoot><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>Select all files</b></td></tr></tfoot>');
+          $( '#cruftfiles_status' ).append('<button class="cruftfile-delete-button button" type="button">' + seravo_cruftfiles_loc.delete + '</b>');
         }
+        $('.cruftfile-select-all').click(function(event) {   
+          if(this.checked) {
+              // Iterate each checkbox
+              $('.cruftfile-check, .cruftfile-select-all').each(function() {
+                  this.checked = true;                        
+              });
+          } else {
+              $('.cruftfile-check, .cruftfile-select-all').each(function() {
+                  this.checked = false;                       
+              });
+          }
+      });
+      $('.cruftfile-check').click(function() {
+        $('.cruftfile-select-all').each(function() {
+          this.checked = false;
+        });
+      });
         $( '#cruftfiles_status_loading img' ).fadeOut
         $('.cruftfile-delete-button').click(function(event) {
           event.preventDefault();
@@ -47,15 +70,29 @@ jQuery(document).ready(function($) {
           if ( ! is_user_sure) {
             return;
           }
-          var parent_row = $(this).parents(':eq(1)');
-          var filepath = parent_row.find('.cruftfile-path').html();
+          var cruft_list = new Array();
+          var remove_rows = new Array();
+          //jokainen checkattu boxi - sen sisaruksess on tiedostonimi
+          $('.cruftfile-check').each(function(){
+            if ( $(this).is(":checked") ) {
+              remove_rows.push( $(this).parents(':eq(1)') );
+              cruft_list.push( $(this).attr('data-file-name') );
+            }
+          });
+          //var parent_row = $(this).parents(':eq(1)');
+          //var filepath = parent_row.find('.cruftfile-path').html();
 
-          seravo_ajax_delete_file(filepath, function() {
-            parent_row.animate({
-              opacity: 0
-            }, 600, function() {
-              parent_row.remove();
+          seravo_ajax_delete_file(cruft_list, function() {
+            remove_rows.forEach(function( row ) {
+              row.animate({
+                opacity: 0
+              }, 600, function() {
+                row.remove();
+              });
             });
+            $('#cruftfiles_entries').
+            // if empty : show this
+            $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
           });
         });
 
