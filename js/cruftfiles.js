@@ -16,7 +16,7 @@ jQuery(document).ready(function($) {
         });
       });
   }
-  
+
   // Generic ajax report loader function
   function seravo_load_report(section) {
     $.post(
@@ -33,12 +33,12 @@ jQuery(document).ready(function($) {
         $.each( data, function( i, file){
           if (file != '') {
             filecount++;
-            $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete"><input data-file-name="'+file+'" class="cruftfile-check" type="checkbox"></td><td class="cruftfile-path">'
+            $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete"><input data-file-name="' + file + '" class="cruftfile-check" type="checkbox"></td><td class="cruftfile-path">'
                                                 + file + '</td></tr>');
           }
         });
         if (filecount == 0) {
-          
+
           $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
         } else {
           $( '#cruftfiles_entries' ).parents(':eq(0)').prepend('<thead><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>Select all files</b></td></tr></thead>');
@@ -46,23 +46,23 @@ jQuery(document).ready(function($) {
           $( '#cruftfiles_entries' ).parents(':eq(0)').append('<tfoot><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>Select all files</b></td></tr></tfoot>');
           $( '#cruftfiles_status' ).append('<button class="cruftfile-delete-button button" type="button">' + seravo_cruftfiles_loc.delete + '</b>');
         }
-        $('.cruftfile-select-all').click(function(event) {   
-          if(this.checked) {
+        $('.cruftfile-select-all').click(function(event) {
+          if (this.checked) {
               // Iterate each checkbox
               $('.cruftfile-check, .cruftfile-select-all').each(function() {
-                  this.checked = true;                        
+                  this.checked = true;
               });
           } else {
               $('.cruftfile-check, .cruftfile-select-all').each(function() {
-                  this.checked = false;                       
+                  this.checked = false;
               });
           }
-      });
-      $('.cruftfile-check').click(function() {
-        $('.cruftfile-select-all').each(function() {
-          this.checked = false;
         });
-      });
+        $('.cruftfile-check').click(function() {
+          $('.cruftfile-select-all').each(function() {
+            this.checked = false;
+          });
+        });
         $( '#cruftfiles_status_loading img' ).fadeOut
         $('.cruftfile-delete-button').click(function(event) {
           event.preventDefault();
@@ -88,11 +88,15 @@ jQuery(document).ready(function($) {
                 opacity: 0
               }, 600, function() {
                 row.remove();
+                if ( $('#cruftfiles_entries').children().length == 0 ) {
+                  $( '#cruftfiles_status' ).children().remove();
+                  $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
+                }
               });
             });
-            $('#cruftfiles_entries').
+
             // if empty : show this
-            $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
+
           });
         });
 
