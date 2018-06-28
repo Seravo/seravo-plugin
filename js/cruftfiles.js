@@ -41,10 +41,13 @@ jQuery(document).ready(function($) {
 
           $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
         } else {
+
           $( '#cruftfiles_entries' ).parents(':eq(0)').prepend('<thead><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>Select all files</b></td></tr></thead>');
-          $( '#cruftfiles_status' ).prepend('<button class="cruftfile-delete-button button" type="button">' + seravo_cruftfiles_loc.delete + '</b>');
-          $( '#cruftfiles_entries' ).parents(':eq(0)').append('<tfoot><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>Select all files</b></td></tr></tfoot>');
+          $( '#cruftfiles_entries' ).parents(':eq(0)').append('<tfoot class="less-than"><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>Select all files</b></td></tr></tfoot>');
           $( '#cruftfiles_status' ).append('<button class="cruftfile-delete-button button" type="button">' + seravo_cruftfiles_loc.delete + '</b>');
+          if ( filecount < 30 ) {
+            $( '.less-than' ).hide();
+          }
         }
         $('.cruftfile-select-all').click(function(event) {
           if (this.checked) {
@@ -59,9 +62,16 @@ jQuery(document).ready(function($) {
           }
         });
         $('.cruftfile-check').click(function() {
-          $('.cruftfile-select-all').each(function() {
-            this.checked = false;
-          });
+          if ( $('.cruftfile-check:checked').length == $('.cruftfile-check').length ) {
+            $('.cruftfile-select-all').each(function() {
+              this.checked = true;
+            });
+          } else {
+            $('.cruftfile-select-all').each(function() {
+              this.checked = false;
+            });
+          }
+
         });
         $( '#cruftfiles_status_loading img' ).fadeOut
         $('.cruftfile-delete-button').click(function(event) {
@@ -72,34 +82,31 @@ jQuery(document).ready(function($) {
           }
           var cruft_list = new Array();
           var remove_rows = new Array();
-          //jokainen checkattu boxi - sen sisaruksess on tiedostonimi
           $('.cruftfile-check').each(function(){
             if ( $(this).is(":checked") ) {
               remove_rows.push( $(this).parents(':eq(1)') );
               cruft_list.push( $(this).attr('data-file-name') );
             }
           });
-          //var parent_row = $(this).parents(':eq(1)');
-          //var filepath = parent_row.find('.cruftfile-path').html();
-
-          seravo_ajax_delete_file(cruft_list, function() {
-            remove_rows.forEach(function( row ) {
-              row.animate({
-                opacity: 0
-              }, 600, function() {
-                row.remove();
-                if ( $('#cruftfiles_entries').children().length == 0 ) {
-                  $( '#cruftfiles_status' ).children().remove();
-                  $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
-                }
+          if ( cruft_list.length > 0 ) {
+            seravo_ajax_delete_file(cruft_list, function() {
+              remove_rows.forEach(function( row ) {
+                row.animate({
+                  opacity: 0
+                }, 600, function() {
+                  row.remove();
+                  if ( $('#cruftfiles_entries').children().length < 30 ) {
+                    $( '.less-than' ).hide(400);
+                  }
+                  if ( $('#cruftfiles_entries').children().length == 0 ) {
+                    $( '#cruftfiles_status' ).children().remove();
+                    $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
+                  }
+                });
               });
             });
-
-            // if empty : show this
-
-          });
+          }
         });
-
       }
     ).fail(function() {
       $('#' + section + '_loading').html(seravo_cruftfiles_loc.fail);
