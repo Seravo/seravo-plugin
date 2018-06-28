@@ -26,7 +26,10 @@
   cursor: pointer;
 }
 .postbox-container-max {
-  width: 100%
+  width: 100%;
+}
+.cruft-tool-selector {
+  background-color: antiquewhite;
 }
 @media only screen and (min-width: 1500px) {
   #wpbody-content #dashboard-widgets .postbox-container {

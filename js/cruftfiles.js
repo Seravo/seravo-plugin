@@ -33,13 +33,46 @@ jQuery(document).ready(function($) {
         $.each( data, function( i, file){
           if (file != '') {
             filecount++;
-            $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete"><a href="" class="dashicons dashicons-trash cruftfile-delete-button"></td><td class="cruftfile-path">'
+            $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete"><input data-file-name="' + file + '" class="cruftfile-check" type="checkbox"></td><td class="cruftfile-path">'
                                                 + file + '</td></tr>');
           }
         });
         if (filecount == 0) {
+
           $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
+        } else {
+
+          $( '#cruftfiles_entries' ).parents(':eq(0)').prepend('<thead><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>Select all files</b></td></tr></thead>');
+          $( '#cruftfiles_entries' ).parents(':eq(0)').append('<tfoot class="less-than"><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>Select all files</b></td></tr></tfoot>');
+          $( '#cruftfiles_status' ).append('<button class="cruftfile-delete-button button" type="button">' + seravo_cruftfiles_loc.delete + '</b>');
+          if ( filecount < 30 ) {
+            $( '.less-than' ).hide();
+          }
         }
+        $('.cruftfile-select-all').click(function(event) {
+          if (this.checked) {
+              // Iterate each checkbox
+              $('.cruftfile-check, .cruftfile-select-all').each(function() {
+                  this.checked = true;
+              });
+          } else {
+              $('.cruftfile-check, .cruftfile-select-all').each(function() {
+                  this.checked = false;
+              });
+          }
+        });
+        $('.cruftfile-check').click(function() {
+          if ( $('.cruftfile-check:checked').length == $('.cruftfile-check').length ) {
+            $('.cruftfile-select-all').each(function() {
+              this.checked = true;
+            });
+          } else {
+            $('.cruftfile-select-all').each(function() {
+              this.checked = false;
+            });
+          }
+
+        });
         $( '#cruftfiles_status_loading img' ).fadeOut
         $('.cruftfile-delete-button').click(function(event) {
           event.preventDefault();
@@ -47,18 +80,33 @@ jQuery(document).ready(function($) {
           if ( ! is_user_sure) {
             return;
           }
-          var parent_row = $(this).parents(':eq(1)');
-          var filepath = parent_row.find('.cruftfile-path').html();
-
-          seravo_ajax_delete_file(filepath, function() {
-            parent_row.animate({
-              opacity: 0
-            }, 600, function() {
-              parent_row.remove();
-            });
+          var cruft_list = new Array();
+          var remove_rows = new Array();
+          $('.cruftfile-check').each(function(){
+            if ( $(this).is(":checked") ) {
+              remove_rows.push( $(this).parents(':eq(1)') );
+              cruft_list.push( $(this).attr('data-file-name') );
+            }
           });
+          if ( cruft_list.length > 0 ) {
+            seravo_ajax_delete_file(cruft_list, function() {
+              remove_rows.forEach(function( row ) {
+                row.animate({
+                  opacity: 0
+                }, 600, function() {
+                  row.remove();
+                  if ( $('#cruftfiles_entries').children().length < 30 ) {
+                    $( '.less-than' ).hide(400);
+                  }
+                  if ( $('#cruftfiles_entries').children().length == 0 ) {
+                    $( '#cruftfiles_status' ).children().remove();
+                    $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
+                  }
+                });
+              });
+            });
+          }
         });
-
       }
     ).fail(function() {
       $('#' + section + '_loading').html(seravo_cruftfiles_loc.fail);
