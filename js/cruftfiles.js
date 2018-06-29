@@ -29,12 +29,14 @@ jQuery(document).ready(function($) {
         }
         $('#' + section + '_loading').fadeOut();
         var data = JSON.parse(rawData);
+        console.log(data);
         var filecount = 0;
         $.each( data, function( i, file){
-          if (file != '') {
+          if (file.filename != '') {
             filecount++;
-            $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete"><input data-file-name="' + file + '" class="cruftfile-check" type="checkbox"></td><td class="cruftfile-path">'
-                                                + file + '</td></tr>');
+            //This row needs to print the filesizes
+            $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete"><input data-file-name="' + file.filename + '" class="cruftfile-check" type="checkbox"></td><td class="cruftfile-path">'
+                                                + file.filename + '</td><td style="float:right;">'+file.size+seravo_cruftfiles_loc.bytes+'</td></tr>');
           }
         });
         if (filecount == 0) {

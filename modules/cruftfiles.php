@@ -103,6 +103,7 @@ if ( ! class_exists('Cruftfiles') ) {
           'fail'          => __( 'Failed to load. Please try again.', 'seravo' ),
           'no_cruftfiles' => __( 'Congratulations! You have no any cruft around.', 'seravo' ),
           'delete'        => __( 'Delete', 'seravo' ),
+          'bytes'         => __( 'b', 'seravo' ),
         );
         wp_localize_script( 'seravo_cruftfiles', 'seravo_cruftfiles_loc', $loc_translation );
       }

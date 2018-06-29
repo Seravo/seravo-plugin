@@ -4,6 +4,16 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
+function add_file_information( $file ) {
+  exec( 'du ' . $file . ' -h', $output );
+  $size = explode("\t" ,$output[0]);
+
+  $data['size'] = $size[0];
+  $data['filename'] = $file;
+  return $data;
+
+}
+
 function find_cruft_file( $name ) {
   exec('find /data/wordpress -name ' . $name, $output);
   return $output;
@@ -133,6 +143,9 @@ function seravo_ajax_list_cruft_files() {
       }
       $crufts = array_unique($crufts);
       set_transient('cruft_files_found', $crufts, 600);
+      
+      $crufts = array_map("add_file_information", $crufts);
+      error_log(json_encode($crufts));
       echo wp_json_encode($crufts);
       break;
 
