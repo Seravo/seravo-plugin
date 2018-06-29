@@ -104,6 +104,9 @@ if ( ! class_exists('Cruftfiles') ) {
           'no_cruftfiles' => __( 'Congratulations! You have no any cruft around.', 'seravo' ),
           'delete'        => __( 'Delete', 'seravo' ),
           'bytes'         => __( 'b', 'seravo' ),
+          'mod_date'      => __( 'Last modified', 'seravo' ),
+          'select_all'    => __( 'Select all files', 'seravo' ),
+          'filesize'      => __( 'Filesize', 'seravo' ),
         );
         wp_localize_script( 'seravo_cruftfiles', 'seravo_cruftfiles_loc', $loc_translation );
       }

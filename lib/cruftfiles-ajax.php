@@ -5,10 +5,11 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function add_file_information( $file ) {
-  exec( 'du ' . $file . ' -h', $output );
+  exec( 'du ' . $file . ' -h --time', $output );
   $size = explode("\t" ,$output[0]);
 
   $data['size'] = $size[0];
+  $data['mod_date'] = $size[1];
   $data['filename'] = $file;
   return $data;
 
