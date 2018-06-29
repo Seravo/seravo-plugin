@@ -6,7 +6,7 @@ if ( ! defined('ABSPATH') ) {
 
 function add_file_information( $file ) {
   exec( 'du ' . $file . ' -h --time', $output );
-  $size = explode("\t" ,$output[0]);
+  $size = explode("\t", $output[0]);
 
   $data['size'] = $size[0];
   $data['mod_date'] = $size[1];
@@ -144,9 +144,8 @@ function seravo_ajax_list_cruft_files() {
       }
       $crufts = array_unique($crufts);
       set_transient('cruft_files_found', $crufts, 600);
-      
-      $crufts = array_map("add_file_information", $crufts);
-      error_log(json_encode($crufts));
+
+      $crufts = array_map('add_file_information', $crufts);
       echo wp_json_encode($crufts);
       break;
 

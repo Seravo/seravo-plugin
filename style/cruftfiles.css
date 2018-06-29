@@ -37,6 +37,10 @@
   }
 }
 
+td {
+  padding-right: 15px;
+}
+
 @media only screen and (max-width: 1025px) {
   .label_buttons {
     display: block;

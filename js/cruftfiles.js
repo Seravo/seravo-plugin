@@ -29,14 +29,13 @@ jQuery(document).ready(function($) {
         }
         $('#' + section + '_loading').fadeOut();
         var data = JSON.parse(rawData);
-        console.log(data);
         var filecount = 0;
         $.each( data, function( i, file){
           if (file.filename != '') {
             filecount++;
             //This row needs to print the filesizes
             $( '#cruftfiles_entries' ).append('<tr class="cruftfile"><td class="cruftfile-delete"><input data-file-name="' + file.filename + '" class="cruftfile-check" type="checkbox"></td><td class="cruftfile-path">'
-                                                + file.filename + '</td><td>'+file.mod_date+'</td><td style="float:right;">'+file.size+seravo_cruftfiles_loc.bytes+'</td></tr>');
+                                                + file.filename + '</td><td>' + file.mod_date + '</td><td style="float:right;">' + file.size + seravo_cruftfiles_loc.bytes + '</td></tr>');
           }
         });
         if (filecount == 0) {
@@ -44,8 +43,8 @@ jQuery(document).ready(function($) {
           $( '#cruftfiles_status' ).append('<b>' + seravo_cruftfiles_loc.no_cruftfiles + '</b>');
         } else {
 
-          $( '#cruftfiles_entries' ).parents(':eq(0)').prepend('<thead><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>'+seravo_cruftfiles_loc.select_all+'</b></td><td>'+seravo_cruftfiles_loc.mod_date+'</td><td>'+seravo_cruftfiles_loc.filesize+'</td></tr></thead>');
-          $( '#cruftfiles_entries' ).parents(':eq(0)').append('<tfoot class="less-than"><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>'+seravo_cruftfiles_loc.select_all+'</b></td><td>'+seravo_cruftfiles_loc.mod_date+'</td><td>'+seravo_cruftfiles_loc.filesize+'</td></tr></tfoot>');
+          $( '#cruftfiles_entries' ).parents(':eq(0)').prepend('<thead><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>' + seravo_cruftfiles_loc.select_all + '</b></td><td class="cruft-tool-selector">' + seravo_cruftfiles_loc.mod_date + '</td><td class="cruft-tool-selector">' + seravo_cruftfiles_loc.filesize + '</td></tr></thead>');
+          $( '#cruftfiles_entries' ).parents(':eq(0)').append('<tfoot class="less-than"><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>' + seravo_cruftfiles_loc.select_all + '</b></td><td class="cruft-tool-selector">' + seravo_cruftfiles_loc.mod_date + '</td><td class="cruft-tool-selector">' + seravo_cruftfiles_loc.filesize + '</td></tr></tfoot>');
           $( '#cruftfiles_status' ).append('<button class="cruftfile-delete-button button" type="button">' + seravo_cruftfiles_loc.delete + '</b>');
           if ( filecount < 30 ) {
             $( '.less-than' ).hide();
