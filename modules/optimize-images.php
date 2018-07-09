@@ -32,7 +32,7 @@ if ( ! class_exists('Optimize_Images') ) {
 
     public static function register_optimize_image_settings() {
       add_settings_section(
-        'seravo-optimize-images-settings', __( 'Optimize Images', 'seravo' ) . ' (beta)',
+        'seravo-optimize-images-settings', '',
         array( __CLASS__, 'optimize_images_settings_description' ), 'optimize_images_settings'
       );
 
@@ -64,9 +64,11 @@ if ( ! class_exists('Optimize_Images') ) {
 
     public static function admin_enqueue_styles( $page ) {
       wp_register_script( 'optimize-images', plugin_dir_url(__DIR__) . '/js/optimize-images.js', array(), null );
+      wp_register_style('optimize-images', plugin_dir_url(__DIR__) . 'style/optimize-images.css', array(), null );
 
       if ( $page === 'tools_page_optimize_images_page' ) {
         wp_enqueue_script( 'optimize-images' );
+        wp_enqueue_style( 'optimize-images' );
       }
     }
 
@@ -89,13 +91,7 @@ if ( ! class_exists('Optimize_Images') ) {
     }
 
     public static function load_optimize_images_page() {
-      settings_errors();
-      echo '<div class="wrap">
-        <form method="post" action="options.php" class="seravo-general-form">';
-      settings_fields( 'seravo-optimize-images-settings-group' );
-      do_settings_sections( 'optimize_images_settings' );
-      submit_button( __( 'Save', 'seravo' ), 'primary', 'btnSubmit' );
-      echo '</form></div>';
+      require_once dirname( __FILE__ ) . '/../lib/optimize-images-page.php';
     }
 
     public static function seravo_image_max_width_field() {
