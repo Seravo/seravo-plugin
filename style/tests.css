@@ -2,7 +2,7 @@
     display: block;
     min-height: 5em;
     max-width: 55em;
-    overflow: auto;
+    overflow: hidden;
     border-left: solid 0.5em #e8ba1b;
     -moz-transition: border 1s ease-in;
     -webkit-transition: border 1s ease-in;
@@ -25,6 +25,7 @@
     font-weight: bold;
     text-align: center;
     margin-top: 1.6em;
+    padding-bottom: 7px;
 }
 #seravo_test_show_more_wrapper {
     display: none;
