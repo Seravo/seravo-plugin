@@ -75,7 +75,7 @@ function seravo_ajax_list_cruft_plugins() {
   }
     $output = array_udiff($output, $remove_from_list,
       function ( $obj_a, $obj_b ) {
-        return $obj_a->name <=> $obj_b->name;
+        return strcmp($obj_a->name, $obj_b->name);
       }
     );
   //to check if the system has these
