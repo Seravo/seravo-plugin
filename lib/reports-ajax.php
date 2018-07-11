@@ -6,6 +6,39 @@ if ( ! defined('ABSPATH') ) {
 
 use Seravo\Helpers;
 
+function seravo_ajax_report_http_requests() {
+  $reports = glob('/data/slog/html/goaccess-*.html');
+  // Create array of months with total request sums
+  $months = array();
+  // Track max request value to calculate relative bar widths
+  $max_requests = 0;
+  foreach ( $reports as $report ) {
+    $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' $report");
+    preg_match('/([0-9]+)/', $total_requests_string, $total_requests_match);
+    $total_requests = intval($total_requests_match[1]);
+    if ( $total_requests > $max_requests ) {
+      $max_requests = $total_requests;
+    }
+    array_push(
+      $months,
+      array(
+        'date'     => substr($report, 25, 7),
+        'requests' => $total_requests,
+      )
+    );
+  }
+  if ( count($months) > 0 ) {
+    array_push(
+      $months,
+      array(
+        'max_requests' => $max_requests,
+      ));
+  }
+  echo wp_json_encode($months);
+  wp_die();
+}
+
+
 function seravo_report_folders() {
   exec ('du -sb /data', $data_folder);
   list($data_size, $data_name) = preg_split('/\s+/', $data_folder[0]);
