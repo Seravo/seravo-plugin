@@ -114,6 +114,8 @@ if ( ! class_exists('Cruftfiles') ) {
           'mod_date'      => __( 'Last modified', 'seravo' ),
           'select_all'    => __( 'Select all files', 'seravo' ),
           'filesize'      => __( 'Filesize', 'seravo' ),
+          'ajaxurl'       => admin_url('admin-ajax.php'),
+          'ajax_nonce'    => wp_create_nonce('seravo_cruftfiles'),
         );
         $loc_translation_plugins = array(
           'inactive'                => __( 'Inactive plugins:', 'seravo' ),
@@ -132,6 +134,8 @@ if ( ! class_exists('Cruftfiles') ) {
           'cruftplugins'            => __( 'The following plugins have been found and are suggested for removal', 'seravo' ),
           'confirm'                 => __( 'Are you sure you want to remove this plugin?', 'seravo' ),
           'failure'                 => __( 'Failed to remove plugin', 'seravo' ),
+          'ajaxurl'                 => admin_url('admin-ajax.php'),
+          'ajax_nonce'              => wp_create_nonce('seravo_cruftplugins'),
         );
         wp_localize_script( 'seravo_cruftfiles', 'seravo_cruftfiles_loc', $loc_translation_files );
         wp_localize_script( 'seravo_cruftplugins', 'seravo_cruftplugins_loc', $loc_translation_plugins );

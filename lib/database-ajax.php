@@ -101,6 +101,7 @@ function seravo_get_wp_db_info() {
  * Run AJAX request
  */
 function seravo_ajax_get_wp_db_info() {
+  check_ajax_referer( 'seravo_database', 'nonce' );
   switch ( $_REQUEST['section'] ) {
     case 'seravo_wp_db_info':
       echo wp_json_encode(seravo_get_wp_db_info());

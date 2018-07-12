@@ -23,10 +23,11 @@ jQuery(document).ready(function($) {
   function seravo_ajax_reset_shadow(shadow, animate) {
     animate('progress');
     $.post(
-      ajaxurl,
+      seravo_shadows_loc.ajaxurl,
       { type: 'POST',
         'action': 'seravo_reset_shadow',
-        'resetshadow': shadow },
+        'resetshadow': shadow,
+        'nonce': seravo_shadows_loc.ajax_nonce, },
         function( rawData ) {
           var data = JSON.parse(rawData);
           // If the last row of rawData does not begin with SUCCESS:

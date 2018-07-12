@@ -38,12 +38,18 @@ if ( ! class_exists('Backups') ) {
      * @param string $page hook name
      */
     public static function register_backups_scripts( $page ) {
-
+      wp_register_script('seravo_backups', plugin_dir_url(__DIR__) . '/js/backups.js');
       wp_register_style('seravo_backups', plugin_dir_url(__DIR__) . '/style/backups.css');
 
       if ( $page === 'tools_page_backups_page' ) {
-        wp_enqueue_script( 'backups', plugins_url( '../js/backups.js', __FILE__), 'jquery', null, false );
+        wp_enqueue_script( 'seravo_backups' );
         wp_enqueue_style('seravo_backups');
+
+        $loc_translation_backups = array(
+          'ajaxurl'     => admin_url('admin-ajax.php'),
+          'ajax_nonce'  => wp_create_nonce('seravo_backups'),
+        );
+        wp_localize_script( 'seravo_backups', 'seravo_backups_loc', $loc_translation_backups );
       }
 
     }

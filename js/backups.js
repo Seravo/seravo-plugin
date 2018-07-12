@@ -5,9 +5,10 @@ jQuery(document).ready(function($) {
   // Generic ajax report loader function
   function seravo_load_report(section) {
     jQuery.post(
-      ajaxurl, {
+      seravo_backups_loc.ajaxurl, {
         'action': 'seravo_backups',
-        'section': section
+        'section': section,
+        'nonce': seravo_backups_loc.ajax_nonce,
       },
       function (rawData) {
         if (rawData.length == 0) {

@@ -68,6 +68,7 @@ function rmdir_recursive( $dir, $recursive ) {
 }
 
 function seravo_ajax_list_cruft_files() {
+  check_ajax_referer( 'seravo_cruftfiles', 'nonce' );
   switch ( $_REQUEST['section'] ) {
     case 'cruftfiles_status':
       // List of known types of cruft files
@@ -162,6 +163,7 @@ function seravo_ajax_list_cruft_files() {
  * or it can contain an array containing strings denoting files.
  */
 function seravo_ajax_delete_cruft_files() {
+  check_ajax_referer( 'seravo_cruftfiles', 'nonce' );
   if ( isset($_POST['deletefile']) && ! empty($_POST['deletefile']) ) {
     $files = $_POST['deletefile'];
     if ( is_string($files) ) {

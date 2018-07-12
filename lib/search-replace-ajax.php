@@ -48,6 +48,7 @@ function seravo_search_replace_set_flags( $options ) {
 }
 
 function seravo_ajax_search_replace() {
+  check_ajax_referer( 'seravo_database', 'nonce' );
   switch ( $_REQUEST['section'] ) {
     case 'search_replace':
       echo wp_json_encode(seravo_search_replace(

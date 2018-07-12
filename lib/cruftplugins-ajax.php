@@ -5,6 +5,7 @@ if ( ! defined('ABSPATH') ) {
 }
 // [plugin, reason, size]
 function seravo_ajax_list_cruft_plugins() {
+  check_ajax_referer( 'seravo_cruftplugins', 'nonce' );
   exec('wp plugin list --fields=name,title,status --format=json --skip-plugins --skip-themes', $output);
     //https://help.seravo.com/en/knowledgebase/19-themes-and-plugins/docs/51-wordpress-plugins-in-seravo-com
     $plugins_list = array(
@@ -85,6 +86,7 @@ function seravo_ajax_list_cruft_plugins() {
 }
 
 function seravo_ajax_remove_plugins() {
+  check_ajax_referer( 'seravo_cruftplugins', 'nonce' );
   if ( isset($_POST['removeplugin']) && ! empty($_POST['removeplugin']) ) {
     $plugins = $_POST['removeplugin'];
     if ( is_string($plugins) ) {

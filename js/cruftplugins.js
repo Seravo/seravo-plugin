@@ -6,10 +6,11 @@
 jQuery(document).ready(function($) {
   function seravo_ajax_delete_plugin(plugin_name, callback) {
     $.post(
-      ajaxurl,
+      seravo_cruftplugins_loc.ajaxurl,
       { type: 'POST',
         'action': 'seravo_remove_plugins',
-        'removeplugin': plugin_name },
+        'removeplugin': plugin_name,
+        'nonce': seravo_cruftplugins_loc.ajax_nonce, },
       function( rawData ) {
         var data = JSON.parse(rawData);
         if ( data[ data.length - 1 ].indexOf('Success: Deleted 1 of 1 plugins.') != -1 ) {
@@ -23,9 +24,10 @@ jQuery(document).ready(function($) {
   // Generic ajax report loader function
   function seravo_plugin_load_report(section) {
     $.post(
-      ajaxurl,
+      seravo_cruftplugins_loc.ajaxurl,
       { 'action': 'seravo_list_cruft_plugins',
-        'section': section },
+        'section': section,
+        'nonce': seravo_cruftplugins_loc.ajax_nonce, },
       function(rawData) {
         if (rawData.length == 0) {
           $('#' + section).html(seravo_cruftplugins_loc.no_data);

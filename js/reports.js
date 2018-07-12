@@ -4,8 +4,9 @@ jQuery(document).ready(function($) {
 
   function seravo_load_http_request_reports(){
     $.post(
-      ajaxurl,
-      {'action': 'seravo_report_http_requests'},
+      seravo_reports_loc.ajaxurl,
+      { 'action': 'seravo_report_http_requests',
+        'nonce': seravo_reports_loc.ajax_nonce, },
       function(rawData) {
         var data = JSON.parse(rawData);
         //test if this is still valid
@@ -52,7 +53,11 @@ jQuery(document).ready(function($) {
   }
 
   function seravo_load_report(section) {
-    jQuery.post(ajaxurl, { 'action': 'seravo_reports', 'section': section }, function(rawData) {
+    jQuery.post(seravo_reports_loc.ajaxurl, {
+      'action': 'seravo_reports',
+      'section': section,
+      'nonce': seravo_reports_loc.ajax_nonce,
+    }, function(rawData) {
       if (rawData.length == 0) {
         jQuery('#' + section).html(seravo_reports.no_data);
       }

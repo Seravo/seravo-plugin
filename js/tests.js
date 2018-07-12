@@ -2,9 +2,10 @@ jQuery(window).on('load', function() {
 
   function seravo_load_test_report() {
     jQuery.post(
-      ajaxurl,
+      seravo_tests_loc.ajaxurl,
       { 'action': 'seravo_tests_ajax',
-        'section': 'seravo_tests' },
+        'section': 'seravo_tests',
+        'nonce': seravo_tests_loc.ajax_nonce },
       function(rawData) {
         if ( rawData.length == 0 ) {
           jQuery('#seravo_tests').html(seravo_tests_loc.no_data);
