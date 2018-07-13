@@ -6,12 +6,13 @@ jQuery(document).ready(function($) {
   // Modified from the original seravo_load_report to handle tables and tsv's
   function seravo_load_sr_report(section, from, to, options) {
     jQuery.post(
-      ajaxurl, {
+      seravo_database_loc.ajaxurl, {
         'action': 'seravo_search_replace',
         'section': section,
         'from': from,
         'to': to,
-        'options': options
+        'options': options,
+        'nonce': seravo_database_loc.ajax_nonce,
       },
       function (rawData) {
         if (rawData.length === 0) {
@@ -73,15 +74,16 @@ jQuery(document).ready(function($) {
   jQuery(document).ready(function () {
     jQuery('#sr-button').prop('disabled', true);
     jQuery('#skip_backup').prop('checked', false);
-  })
+  });
 
   // Database table sizes script
   // Load db info with ajax because it might take a little while
   function seravo_load_db_info(section) {
     jQuery.post(
-      ajaxurl, {
+      seravo_database_loc.ajaxurl, {
         'action': 'seravo_wp_db_info',
-        'section': section
+        'section': section,
+        'nonce': seravo_database_loc.ajax_nonce,
       },
       function (rawData) {
         if (rawData.length == 0) {
@@ -89,11 +91,9 @@ jQuery(document).ready(function($) {
         }
         var data = JSON.parse(rawData);
         if (section === 'seravo_wp_db_info') {
-          console.log(data);
           jQuery('#seravo_wp_db_info').append(data.totals);
           generateChart(data.tables.data_folders);
         } else {
-          console.log(section, data);
           jQuery('#' + section).text(data.join("\n"));
         }
         jQuery('#' + section + '_loading').fadeOut();

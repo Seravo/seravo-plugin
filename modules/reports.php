@@ -49,10 +49,12 @@ if ( ! class_exists('Reports') ) {
         wp_enqueue_script( 'seravo_reports' );
 
         $loc_translation = array(
-          'no_data' => __('No data returned for section.', 'seravo'),
-          'failed' => __('Failed to load. Please try again.', 'seravo'),
-          'no_reports' => __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'),
+          'no_data'     => __('No data returned for section.', 'seravo'),
+          'failed'      => __('Failed to load. Please try again.', 'seravo'),
+          'no_reports'  => __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'),
           'view_report' => __('View report', 'seravo'),
+          'ajaxurl'     => admin_url('admin-ajax.php'),
+          'ajax_nonce'  => wp_create_nonce('seravo_reports'),
 
         );
         wp_localize_script( 'seravo_reports', 'seravo_reports_loc', $loc_translation );

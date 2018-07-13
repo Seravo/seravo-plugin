@@ -7,6 +7,7 @@ if ( ! defined('ABSPATH') ) {
 use Seravo\Helpers;
 
 function seravo_ajax_report_http_requests() {
+  check_ajax_referer( 'seravo_reports', 'nonce' );
   $reports = glob('/data/slog/html/goaccess-*.html');
   // Create array of months with total request sums
   $months = array();
@@ -120,6 +121,7 @@ function seravo_report_front_cache_status() {
 }
 
 function seravo_ajax_reports() {
+  check_ajax_referer( 'seravo_reports', 'nonce' );
   switch ( $_REQUEST['section'] ) {
     case 'folders_chart':
       echo wp_json_encode(seravo_report_folders());

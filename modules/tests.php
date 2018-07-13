@@ -44,6 +44,8 @@ if ( ! class_exists('Tests') ) {
           'test_fail'     => __('At least one test failed.', 'seravo'),
           'run_fail'      => __('Failed to load. Please try again.', 'seravo'),
           'running_tests' => __('Running rspec tests...', 'seravo'),
+          'ajaxurl'       => admin_url('admin-ajax.php'),
+          'ajax_nonce'    => wp_create_nonce('seravo_tests'),
         );
         wp_localize_script('seravo_tests', 'seravo_tests_loc', $loc_translation);
       }

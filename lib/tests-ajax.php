@@ -12,6 +12,7 @@ function seravo_tests() {
 }
 
 function seravo_ajax_tests() {
+  check_ajax_referer( 'seravo_tests', 'nonce' );
   switch ( $_REQUEST['section'] ) {
     case 'seravo_tests':
       echo wp_json_encode(seravo_tests());

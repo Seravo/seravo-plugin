@@ -34,7 +34,7 @@ if ( ! class_exists('Database') ) {
         $GLOBALS['sr_alltables'] = false;
       }
 
-      add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
+      add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_database_scripts' ));
       add_action( 'admin_menu', array( __CLASS__, 'register_database_page' ) );
 
       // Add AJAX endpoints for wp search-replace and database info
@@ -48,7 +48,7 @@ if ( ! class_exists('Database') ) {
      *
      * @param string $page hook name
      */
-    public static function register_scripts( $page ) {
+    public static function enqueue_database_scripts( $page ) {
 
       wp_register_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css');
       wp_register_script( 'chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, null, true );
@@ -58,7 +58,13 @@ if ( ! class_exists('Database') ) {
         wp_enqueue_script('chart-js');
         wp_enqueue_script( 'color-hash', plugins_url( '../js/color-hash.js', __FILE__), 'jquery', null, false );
         wp_enqueue_script( 'reports-chart', plugins_url( '../js/reports-chart.js', __FILE__), 'jquery', null, false );
-        wp_enqueue_script( 'database', plugins_url( '../js/database.js', __FILE__), 'jquery', null, false );
+        wp_enqueue_script( 'seravo_database', plugins_url( '../js/database.js', __FILE__), 'jquery', null, false );
+
+        $loc_translation_database = array(
+          'ajaxurl'     => admin_url('admin-ajax.php'),
+          'ajax_nonce'  => wp_create_nonce('seravo_database'),
+        );
+        wp_localize_script( 'seravo_database', 'seravo_database_loc', $loc_translation_database );
       }
 
     }

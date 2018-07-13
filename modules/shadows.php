@@ -9,6 +9,11 @@
 
 namespace Seravo;
 
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
 require_once dirname( __FILE__ ) . '/../lib/helpers.php';
 require_once dirname( __FILE__ ) . '/../lib/shadows-ajax.php';
 
@@ -38,7 +43,7 @@ if ( ! class_exists('Shadows') ) {
     }
 
     public static function register_shadows_scripts( $page ) {
-      wp_register_style('seravo_shadows', plugin_dir_url( __DIR__ ) . '/css/shadows.css' );
+      wp_register_style('seravo_shadows', plugin_dir_url( __DIR__ ) . '/style/shadows.css' );
       wp_register_script( 'seravo_shadows', plugin_dir_url( __DIR__ ) . '/js/shadows.js' );
 
       if ( $page === 'tools_page_shadows_page' ) {
@@ -46,10 +51,12 @@ if ( ! class_exists('Shadows') ) {
         wp_enqueue_script( 'seravo_shadows' );
 
         $loc_translation = array(
-          'success'  => __('Success', 'seravo'),
-          'failure'  => __('Failure', 'seravo'),
-          'error'    => __('Error', 'seravo'),
-          'confirm'  => __('Are you sure? This replaces all information in the selected environment.', 'seravo'),
+          'success'     => __('Success', 'seravo'),
+          'failure'     => __('Failure', 'seravo'),
+          'error'       => __('Error', 'seravo'),
+          'confirm'     => __('Are you sure? This replaces all information in the selected environment.', 'seravo'),
+          'ajaxurl'     => admin_url('admin-ajax.php'),
+          'ajax_nonce'  => wp_create_nonce('seravo_shadows'),
         );
 
         wp_localize_script( 'seravo_shadows', 'seravo_shadows_loc', $loc_translation );

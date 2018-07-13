@@ -3,10 +3,11 @@
 jQuery(document).ready(function($) {
   function seravo_ajax_delete_file(filepath, callback) {
     $.post(
-      ajaxurl,
+      seravo_cruftfiles_loc.ajaxurl,
       { type: 'POST',
         'action': 'seravo_delete_file',
-        'deletefile': filepath },
+        'deletefile': filepath,
+        'nonce': seravo_cruftfiles_loc.ajax_nonce },
       function( rawData ) {
         var data = JSON.parse(rawData);
         data.forEach(function( fileinfo ) {
@@ -20,9 +21,10 @@ jQuery(document).ready(function($) {
   // Generic ajax report loader function
   function seravo_load_report(section) {
     $.post(
-      ajaxurl,
+      seravo_cruftfiles_loc.ajaxurl,
       { 'action': 'seravo_cruftfiles',
-        'section': section },
+        'section': section,
+        'nonce': seravo_cruftfiles_loc.ajax_nonce, },
       function(rawData) {
         if (rawData.length == 0) {
           $('#' + section).html(seravo_cruftfiles_loc.no_data);
