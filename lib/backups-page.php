@@ -5,9 +5,7 @@ if ( ! defined('ABSPATH') ) {
 }
 ?>
 
-<div id="wpbody" role="main">
-  <div id="wpbody-content" aria-label="Main content" tabindex="0">
-    <div class="wrap">
+
       <div id="dashboard-widgets" class="metabox-holder">
         <div class="postbox-container">
           <div id="normal-sortables" class="meta-box-sortables ui-sortable">
@@ -98,6 +96,4 @@ if ( ! defined('ABSPATH') ) {
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+

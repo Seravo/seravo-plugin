@@ -4,9 +4,7 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 ?>
-<div id="wpbody" role="main">
-  <div id="wpbody-content" aria-label="Main content" tabindex="0">
-    <div class="wrap">
+
       <?php
       $site_info = Seravo\Updates::seravo_admin_get_site_info();
       ?>
@@ -99,6 +97,4 @@ if ( ! defined('ABSPATH') ) {
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+

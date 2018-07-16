@@ -7,9 +7,7 @@ if ( ! defined('ABSPATH') ) {
 
 
 
-  <div id="wpbody" role="main">
-    <div id="wpbody-content" aria-label="Main content" tabindex="0">
-      <div class="wrap">
+
         <div id="dashboard-widgets" class="metabox-holder">
           <!-- container 1 -->
           <div class="postbox-container-max">
@@ -87,6 +85,4 @@ if ( ! defined('ABSPATH') ) {
 
           </div>
           <!-- end 3 -->
-        </div>
-      </div>
-    </div>
+

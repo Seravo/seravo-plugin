@@ -11,9 +11,7 @@ if ( ! defined('ABSPATH') ) {
 require_once dirname( __FILE__ ) . '/api.php';
 ?>
 
-<div id="wpbody" role="main">
-  <div id="wpbody-content" aria-label="Main content" tabindex="0">
-    <div class="wrap">
+
         <div id="dashboard-widgets" class="metabox-holder">
           <!-- container  -->
           <div class="postbox-container-max">
@@ -86,6 +84,4 @@ require_once dirname( __FILE__ ) . '/api.php';
           </div>
           <!-- end container -->
         </div>
-    </div>
-  </div>
-</div>
+
