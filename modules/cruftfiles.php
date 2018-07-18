@@ -14,6 +14,7 @@ if ( ! defined('ABSPATH') ) {
 
 require_once dirname( __FILE__ ) . '/../lib/cruftfiles-ajax.php';
 require_once dirname( __FILE__ ) . '/../lib/cruftplugins-ajax.php';
+require_once dirname( __FILE__ ) . '/../lib/cruftthemes-ajax.php';
 
 if ( ! class_exists('Cruftfiles') ) {
   class Cruftfiles {
@@ -26,9 +27,13 @@ if ( ! class_exists('Cruftfiles') ) {
       add_action( 'wp_ajax_seravo_cruftfiles', 'seravo_ajax_list_cruft_files' );
       add_action( 'wp_ajax_seravo_delete_file', 'seravo_ajax_delete_cruft_files' );
 
-      // AJAX functionality for listing ... plugins
+      // AJAX functionality for listing and removing plugins
       add_action( 'wp_ajax_seravo_list_cruft_plugins', 'seravo_ajax_list_cruft_plugins' );
       add_action( 'wp_ajax_seravo_remove_plugins', 'seravo_ajax_remove_plugins' );
+
+      // AJAX functionality for listing and removing themess
+      add_action( 'wp_ajax_seravo_list_cruft_themes', 'seravo_ajax_list_cruft_themes' );
+      add_action( 'wp_ajax_seravo_remove_themes', 'seravo_ajax_remove_themes' );
     }
 
     public static function register_cruftfiles_page() {
@@ -98,11 +103,13 @@ if ( ! class_exists('Cruftfiles') ) {
       wp_register_style( 'seravo_cruftfiles', plugin_dir_url( __DIR__ ) . '/style/cruftfiles.css', '', Helpers::seravo_plugin_version());
       wp_register_script( 'seravo_cruftfiles', plugin_dir_url( __DIR__ ) . '/js/cruftfiles.js', '', Helpers::seravo_plugin_version());
       wp_register_script( 'seravo_cruftplugins', plugin_dir_url( __DIR__ ) . '/js/cruftplugins.js', '', Helpers::seravo_plugin_version());
+      wp_register_script( 'seravo_cruftthemes', plugin_dir_url( __DIR__ ) . '/js/cruftthemes.js', '', Helpers::seravo_plugin_version());
 
       if ( $hook === 'tools_page_cruftfiles_page' ) {
         wp_enqueue_style( 'seravo_cruftfiles' );
         wp_enqueue_script( 'seravo_cruftfiles' );
         wp_enqueue_script( 'seravo_cruftplugins' );
+        wp_enqueue_script( 'seravo_cruftthemes' );
 
         // Localize the javascript file.
         $loc_translation_files = array(
@@ -120,7 +127,7 @@ if ( ! class_exists('Cruftfiles') ) {
         );
         $loc_translation_plugins = array(
           'inactive'                => __( 'Inactive plugins:', 'seravo' ),
-          'inactive_desc'           => __( 'These plugins are currently not in use. They can be removed to save disk storage.' ),
+          'inactive_desc'           => __( 'These plugins are currently not in use. They can be removed to save disk storage.', 'seravo' ),
           'cache_plugins'           => __( 'Unnecessary cache plugins:', 'seravo' ),
           'cache_plugins_desc'      => __( 'Your website runs on a server which has serverside caching. Any plugins that provide caching can not improve upon the provided service.', 'seravo' ),
           'security_plugins'        => __( 'Unnecessary security plugins:', 'seravo' ),
@@ -138,8 +145,18 @@ if ( ! class_exists('Cruftfiles') ) {
           'ajaxurl'                 => admin_url('admin-ajax.php'),
           'ajax_nonce'              => wp_create_nonce('seravo_cruftplugins'),
         );
+        $loc_translation_themes = array(
+          'isparentto'     => __( 'is parent to: ', 'seravo' ),
+          'confirm'        => __( 'Are you sure you want to remove this theme?', 'seravo' ),
+          'failure'        => __( 'Failed to remove theme', 'seravo' ),
+          'no_cruftthemes' => __( 'There are currently no unnecessary themes on the website.', 'seravo' ),
+          'cruftthemes'    => __( 'The following themes are inactive and can be removed.', 'seravo' ),
+          'ajaxurl'        => admin_url('admin-ajax.php'),
+          'ajax_nonce'     => wp_create_nonce('seravo_cruftthemes'),
+        );
         wp_localize_script( 'seravo_cruftfiles', 'seravo_cruftfiles_loc', $loc_translation_files );
         wp_localize_script( 'seravo_cruftplugins', 'seravo_cruftplugins_loc', $loc_translation_plugins );
+        wp_localize_script( 'seravo_cruftthemes', 'seravo_cruftthemes_loc', $loc_translation_themes );
       }
     }
   }
