@@ -57,10 +57,6 @@ if ( ! class_exists('Updates') ) {
 
     public static function seravo_admin_get_site_info() {
       $site_info = API::get_site_data();
-      if ( is_wp_error($site_info) ) {
-        die($site_info->get_error_message());
-      }
-
       return $site_info;
     }
 
