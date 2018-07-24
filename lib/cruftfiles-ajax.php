@@ -143,6 +143,16 @@ function seravo_ajax_list_cruft_files() {
           $crufts = array_merge($crufts, $cruft_found);
         }
       }
+
+      $crufts = array_filter($crufts, function( $item ) use ( $crufts ) {
+        foreach ( $crufts as $substring ) {
+          if ( strpos($item, $substring) === 0 && $item !== $substring ) {
+            return false;
+          }
+        }
+        return true;
+      });
+
       $crufts = array_unique($crufts);
       set_transient('cruft_files_found', $crufts, 600);
 
