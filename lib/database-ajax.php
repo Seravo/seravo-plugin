@@ -26,7 +26,7 @@ function seravo_wp_db_info_to_table( $array ) {
       $columns = explode("\t", $value);
       $output .= '<tr>';
       foreach ( $columns as $j => $column ) {
-        $output .= '<td>' . $column . '</td>';
+        $output .= '<td>' . ( ( Helpers::human_file_size($column) == '0B' ) ? $column : Helpers::human_file_size($column) ) . '</td>';
       }
       $output .= '</tr>';
     }
