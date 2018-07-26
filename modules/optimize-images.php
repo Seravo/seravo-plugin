@@ -63,8 +63,8 @@ if ( ! class_exists('Optimize_Images') ) {
     }
 
     public static function admin_enqueue_styles( $page ) {
-      wp_register_script( 'optimize-images', plugin_dir_url(__DIR__) . '/js/optimize-images.js', array(), null );
-      wp_register_style('optimize-images', plugin_dir_url(__DIR__) . 'style/optimize-images.css', array(), null );
+      wp_register_script( 'optimize-images', plugin_dir_url(__DIR__) . '/js/optimize-images.js', array(), Helpers::seravo_plugin_version() );
+      wp_register_style('optimize-images', plugin_dir_url(__DIR__) . 'style/optimize-images.css', array(), Helpers::seravo_plugin_version() );
 
       if ( $page === 'tools_page_optimize_images_page' ) {
         wp_enqueue_script( 'optimize-images' );

@@ -48,6 +48,7 @@ if ( ! class_exists('Cruftfiles') ) {
      * or it can contain an array containing strings denoting files.
      */
     public static function ajax_delete_file() {
+      check_ajax_referer( 'seravo_cruftfiles', 'nonce' );
       if ( isset($_POST['deletefile']) && ! empty($_POST['deletefile']) ) {
         $files = $_POST['deletefile'];
         if ( is_string($files) ) {
@@ -94,9 +95,9 @@ if ( ! class_exists('Cruftfiles') ) {
     }
 
     public static function enqueue_cruftfiles_scripts( $hook ) {
-      wp_register_style( 'seravo_cruftfiles', plugin_dir_url( __DIR__ ) . '/style/cruftfiles.css' );
-      wp_register_script( 'seravo_cruftfiles', plugin_dir_url( __DIR__ ) . '/js/cruftfiles.js' );
-      wp_register_script( 'seravo_cruftplugins', plugin_dir_url( __DIR__ ) . '/js/cruftplugins.js' );
+      wp_register_style( 'seravo_cruftfiles', plugin_dir_url( __DIR__ ) . '/style/cruftfiles.css', '', Helpers::seravo_plugin_version());
+      wp_register_script( 'seravo_cruftfiles', plugin_dir_url( __DIR__ ) . '/js/cruftfiles.js', '', Helpers::seravo_plugin_version());
+      wp_register_script( 'seravo_cruftplugins', plugin_dir_url( __DIR__ ) . '/js/cruftplugins.js', '', Helpers::seravo_plugin_version());
 
       if ( $hook === 'tools_page_cruftfiles_page' ) {
         wp_enqueue_style( 'seravo_cruftfiles' );

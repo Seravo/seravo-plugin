@@ -54,8 +54,8 @@ if ( ! class_exists('InstanceSwitcher') ) {
     */
     public static function assets() {
       if ( function_exists('is_admin_bar_showing') && is_admin_bar_showing() ) {
-        wp_enqueue_script( 'seravo', plugins_url( '../js/instance-switcher.js', __FILE__), 'jquery', null, false );
-        wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css', __FILE__), null, null, 'all' );
+        wp_enqueue_script( 'seravo', plugins_url( '../js/instance-switcher.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
+        wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css', __FILE__), null, Helpers::seravo_plugin_version(), 'all' );
       }
     }
 

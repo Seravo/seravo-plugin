@@ -38,8 +38,8 @@ if ( ! class_exists('Backups') ) {
      * @param string $page hook name
      */
     public static function register_backups_scripts( $page ) {
-      wp_register_script('seravo_backups', plugin_dir_url(__DIR__) . '/js/backups.js');
-      wp_register_style('seravo_backups', plugin_dir_url(__DIR__) . '/style/backups.css');
+      wp_register_script('seravo_backups', plugin_dir_url(__DIR__) . '/js/backups.js', '', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_backups', plugin_dir_url(__DIR__) . '/style/backups.css', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_backups_page' ) {
         wp_enqueue_script( 'seravo_backups' );

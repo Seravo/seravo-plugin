@@ -36,11 +36,11 @@ if ( ! class_exists('Updates') ) {
      */
     public static function register_scripts( $page ) {
 
-      wp_register_style('seravo_updates', plugin_dir_url(__DIR__) . '/style/updates.css');
+      wp_register_style('seravo_updates', plugin_dir_url(__DIR__) . '/style/updates.css', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_updates_page' ) {
           wp_enqueue_style('seravo_updates');
-          wp_enqueue_script( 'seravo_updates', plugins_url( '../js/updates.js', __FILE__), 'jquery', null, false );
+          wp_enqueue_script( 'seravo_updates', plugins_url( '../js/updates.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
       }
 
     }

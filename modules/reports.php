@@ -38,14 +38,14 @@ if ( ! class_exists('Reports') ) {
     }
 
     public static function enqueue_reports_scripts( $page ) {
-      wp_register_script( 'chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, null, true );
-      wp_register_script( 'seravo_reports', plugin_dir_url( __DIR__ ) . '/js/reports.js');
-      wp_register_style( 'seravo_reports', plugin_dir_url( __DIR__ ) . '/style/reports.css' );
+      wp_register_script( 'chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, Helpers::seravo_plugin_version(), true );
+      wp_register_script( 'seravo_reports', plugin_dir_url( __DIR__ ) . '/js/reports.js', '', Helpers::seravo_plugin_version());
+      wp_register_style( 'seravo_reports', plugin_dir_url( __DIR__ ) . '/style/reports.css', '', Helpers::seravo_plugin_version());
       if ( $page === 'tools_page_reports_page' ) {
         wp_enqueue_style( 'seravo_reports' );
         wp_enqueue_script('chart-js');
-        wp_enqueue_script( 'color-hash', plugins_url( '../js/color-hash.js', __FILE__), 'jquery', null, false );
-        wp_enqueue_script( 'reports-chart', plugins_url( '../js/reports-chart.js', __FILE__), 'jquery', null, false );
+        wp_enqueue_script( 'color-hash', plugins_url( '../js/color-hash.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
+        wp_enqueue_script( 'reports-chart', plugins_url( '../js/reports-chart.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
         wp_enqueue_script( 'seravo_reports' );
 
         $loc_translation = array(
