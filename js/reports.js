@@ -81,12 +81,4 @@ jQuery(document).ready(function($) {
   seravo_load_report('git_status');
   seravo_load_report('redis_info');
   seravo_load_report('front_cache_status');
-
-  // Accordion script
-  jQuery('.ui-sortable-handle').on('click', function () {
-    jQuery(this).parent().toggleClass("closed");
-  });
-  jQuery('.toggle-indicator').on('click', function () {
-    jQuery(this).parent().parent().toggleClass("closed");
-  });
 });
