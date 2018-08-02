@@ -46,8 +46,8 @@ if ( ! class_exists('Logs') ) {
      * @return void
      */
     public function admin_enqueue_styles( $hook ) {
-      wp_register_style( 'log_viewer', plugin_dir_url( __DIR__ ) . '/style/log-viewer.css' );
-      wp_register_script( 'log_viewer', plugin_dir_url(__DIR__) . '/js/log-viewer.js' );
+      wp_register_style( 'log_viewer', plugin_dir_url( __DIR__ ) . '/style/log-viewer.css', '', Helpers::seravo_plugin_version() );
+      wp_register_script( 'log_viewer', plugin_dir_url(__DIR__) . '/js/log-viewer.js', '', Helpers::seravo_plugin_version());
 
       if ( $hook === 'tools_page_logs_page' ) {
         wp_enqueue_style( 'log_viewer' );

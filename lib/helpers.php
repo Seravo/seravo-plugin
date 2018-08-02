@@ -31,6 +31,10 @@ if ( ! class_exists('Helpers') ) {
       return ( getenv('WP_ENV') && getenv('WP_ENV') === 'staging' );
     }
 
+    public static function seravo_plugin_version() {
+        return get_plugin_data( WP_CONTENT_DIR . '/mu-plugins/seravo-plugin/seravo-plugin.php' )['Version'];
+    }
+
     public static function human_file_size( $size, $precision = 2 ) {
       for ( $i = 0; ( $size / 1024 ) > 0.9; ) {
         $i++;

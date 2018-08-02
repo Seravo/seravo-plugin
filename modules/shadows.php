@@ -43,8 +43,8 @@ if ( ! class_exists('Shadows') ) {
     }
 
     public static function register_shadows_scripts( $page ) {
-      wp_register_style('seravo_shadows', plugin_dir_url( __DIR__ ) . '/style/shadows.css' );
-      wp_register_script( 'seravo_shadows', plugin_dir_url( __DIR__ ) . '/js/shadows.js' );
+      wp_register_style('seravo_shadows', plugin_dir_url( __DIR__ ) . '/style/shadows.css', '', Helpers::seravo_plugin_version() );
+      wp_register_script( 'seravo_shadows', plugin_dir_url( __DIR__ ) . '/js/shadows.js', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_shadows_page' ) {
         wp_enqueue_style( 'seravo_shadows' );

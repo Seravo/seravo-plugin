@@ -28,7 +28,7 @@ if ( ! class_exists('Login_Notifications') ) {
     * Retreives login notification data when loading the dashboard page.
     */
     public static function retrieve_notification_data() {
-      wp_enqueue_style('login-notification', plugin_dir_url(__DIR__) . 'style/login-notification.css');
+      wp_enqueue_style('login-notification', plugin_dir_url(__DIR__) . 'style/login-notification.css', '', Helpers::seravo_plugin_version());
 
       // Retrieve last login notification only if the user has just logged in
       if ( isset($_SERVER['HTTP_REFERER']) ) {
