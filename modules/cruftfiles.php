@@ -34,18 +34,93 @@ if ( ! class_exists('Cruftfiles') ) {
       // AJAX functionality for listing and removing themess
       add_action( 'wp_ajax_seravo_list_cruft_themes', 'seravo_ajax_list_cruft_themes' );
       add_action( 'wp_ajax_seravo_remove_themes', 'seravo_ajax_remove_themes' );
+
+      // Add HTTP request stats postbox
+      seravo_add_postbox(
+        'cruft-files',
+        __('Cruft Files (beta)', 'seravo'),
+        array( __CLASS__, 'cruftfiles_postbox' ),
+        'tools_page_cruftfiles_page',
+        'normal'
+      );
+
+      // Add cache status postbox
+      seravo_add_postbox(
+        'cruft-plugins',
+        __('Unnecessary plugins', 'seravo'),
+        array( __CLASS__, 'cruftplugins_postbox' ),
+        'tools_page_cruftfiles_page',
+        'side'
+      );
+
+      // Add cache status postbox
+      seravo_add_postbox(
+        'cruft-themes',
+        __('Unnecessary themes', 'seravo'),
+        array( __CLASS__, 'cruftthemes_postbox' ),
+        'tools_page_cruftfiles_page',
+        'side'
+      );
     }
 
     public static function register_cruftfiles_page() {
       add_submenu_page(
         'tools.php', __( 'Cruft Files', 'seravo' ),
         __( 'Cruft Files', 'seravo' ), 'manage_options', 'cruftfiles_page',
-        array( __CLASS__, 'load_cruftfiles_page' )
+        'Seravo\seravo_postboxes_page'
       );
     }
 
-    public static function load_cruftfiles_page() {
-      require_once dirname( __FILE__ ) . '/../lib/cruftfiles-page.php';
+    public static function cruftfiles_postbox() {
+      ?>
+      <p>
+        <?php _e( 'Find and delete unnecessary files in the filesystem', 'seravo' ); ?>
+      </p>
+      <p>
+        <div id="cruftfiles_status">
+          <table>
+            <tbody id="cruftfiles_entries">
+            </tbody>
+          </table>
+          <div id="cruftfiles_status_loading">
+            <?php _e( 'Finding files...', 'seravo' ); ?>
+            <img src="/wp-admin/images/spinner.gif">
+          </div>
+        </div>
+      </p>
+      <?php
+    }
+
+    public static function cruftplugins_postbox() {
+      ?>
+      <p>
+        <?php _e( 'Find and remove plugins that are unnecessary or inactive. For more information, read our <a href="https://help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-lisaosat-wp-palvelu-fi-ssa">Helpy-page</a>.', 'seravo' ); ?>
+      </p>
+      <p>
+        <div id="cruftplugins_status">
+          <div id="cruftplugins_status_loading">
+            <?php _e( 'Finding plugins...', 'seravo' ); ?>
+            <img src="/wp-admin/images/spinner.gif">
+          </div>
+        </div>
+      </p>
+      <?php
+    }
+
+    public static function cruftthemes_postbox() {
+      ?>
+      <p>
+        <?php _e( 'Find and remove themes that are unnecessary or inactive.', 'seravo' ); ?>
+      </p>
+      <p>
+        <div id="cruftthemes_status">
+          <div id="cruftthemes_status_loading">
+            <?php _e( 'Finding themes...', 'seravo' ); ?>
+            <img src="/wp-admin/images/spinner.gif">
+          </div>
+        </div>
+      </p>
+      <?php
     }
 
     /**

@@ -1,7 +1,3 @@
-.seravo-section {
-  margin-bottom: 2.5rem;
-}
-
 .seravo-wb-db-info-table {
   margin-bottom: 1rem;
 }
@@ -29,20 +25,6 @@
 span.dashicons-external {
   line-height: unset;
   padding-left: 3px;
-}
-
-.inside {
-  padding: 10px 15px 0px 15px!important;
-}
-
-@media only screen and (min-width: 1500px) {
-  #wpbody-content #dashboard-widgets .postbox-container {
-    width: 50%;
-  }
-}
-
-.js .widget .widget-top, .js .postbox .hndle {
-  cursor: pointer;
 }
 
 @media only screen and (max-width: 1115px) {

@@ -18,26 +18,11 @@
 .cruft-plugin-set {
   padding-top: 15px;
 }
-.inside {
-  padding: 10px 15px 0px 15px!important;
-}
-.seravo-section {
-  margin-bottom: 2.5rem;
-}
-.js .widget .widget-top, .js .postbox .hndle {
-  cursor: pointer;
-}
 .postbox-container-max {
   width: 100%;
 }
 .cruft-tool-selector {
   background-color: antiquewhite;
-}
-
-@media only screen and (min-width: 1500px) {
-  #wpbody-content #dashboard-widgets .postbox-container {
-    width: 50%;
-  }
 }
 table {
   border: collapse;
