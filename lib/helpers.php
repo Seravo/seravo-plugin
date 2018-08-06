@@ -32,7 +32,7 @@ if ( ! class_exists('Helpers') ) {
     }
 
     public static function seravo_plugin_version() {
-        return get_plugin_data( WP_CONTENT_DIR . '/mu-plugins/seravo-plugin/seravo-plugin.php' )['Version'];
+      return get_file_data(plugin_dir_path(dirname(__FILE__)) . 'seravo-plugin.php', array( 'Version' ), 'plugin')[0];
     }
 
     public static function human_file_size( $size, $precision = 2 ) {
