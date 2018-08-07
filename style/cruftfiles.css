@@ -39,9 +39,35 @@
     width: 50%;
   }
 }
+table {
+  border: collapse;
+}
+.cruft-theme-table {
+    border-bottom: 2px solid black;
+}
+.crufttheme {
+    padding: 1px 1px 1px 1px;
+    display: flex;
+    border-top: 2px solid black;
+}
 
-td {
-  padding-right: 15px;
+.crufttheme-child {
+    border-top: none;
+}
+
+.child-delete-button {
+    margin-left: 30px;
+}
+
+.cruft-button-hide {
+  clip-path: polygon(0px 0px, 0px 0px, 0px 0px, 0px 0px) !important;
+    color: #CCC;
+}
+.cruft-highlight {
+  background: red !important;
+}
+.crufttheme-delete {
+  padding-right: 10px;
 }
 
 @media only screen and (max-width: 1025px) {
