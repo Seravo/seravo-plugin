@@ -60,9 +60,11 @@ require_once dirname( __FILE__ ) . '/api.php';
                             <?php foreach ( $shadow_list as $shadow_data ) : ?>
                               <tr>
                                 <?php foreach ( $shadow_data_ordered as $data_key ) : ?>
+                                <td>
                                   <?php if ( isset($shadow_data[ $data_key ]) ) : ?>
-                                    <td><?php echo $shadow_data[ $data_key ]; ?></td>
+                                    <?php echo $shadow_data[ $data_key ]; ?>
                                   <?php endif; ?>
+                                </td>
                                 <?php endforeach; ?>
                                 <td><button data-shadow-name="<?php echo $shadow_data['name']; ?>" class="shadow-reset button" type="button"><?php _e('Reset Shadow', 'seravo'); ?></button></td>
                               </tr>
