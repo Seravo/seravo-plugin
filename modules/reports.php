@@ -89,7 +89,7 @@ if ( ! class_exists('Reports') ) {
         <p><?php _e('These monthly reports are generated from the site\'s HTTP access logs. They show every HTTP request of the site, including traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. Log files can be accessed also directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo'); ?></p>
       </div>
       <div class="http-requests_info_loading" style="padding: 0px;">
-        <table class="widefat fixed striped" style="width: 100%; border: none;">
+        <table class="widefat striped" style="width: 100%; border: none;">
           <thead>
             <tr>
               <th style="width: 25%;"><?php _e('Month', 'seravo'); ?></th>
