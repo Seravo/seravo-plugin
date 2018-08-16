@@ -34,13 +34,4 @@ jQuery(document).ready(function($) {
     jQuery('#create_backup_button').hide();
     seravo_load_report('create_backup');
   });
-
-  // Postbox toggle-script
-  jQuery('.ui-sortable-handle').on('click', function () {
-    jQuery(this).parent().toggleClass("closed");
-  });
-  jQuery('.toggle-indicator').on('click', function () {
-    jQuery(this).parent().parent().toggleClass("closed");
-  });
-
 });

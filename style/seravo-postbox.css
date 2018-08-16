@@ -1,0 +1,41 @@
+@media only screen and (max-width: 1430px) {
+  .seravo-postbox .hideMobile {
+    font-size: 0px!important;
+  }
+}
+@media only screen and (max-width:1445px) {
+  .inside {
+    padding: 10px 20px 20px 20px!important;
+  }
+}
+.seravo-postbox .inside {
+  padding: 10px 15px 0px 15px!important;
+  margin: 0!important;
+}
+.seravo-postbox .inside pre {
+  overflow: auto;
+  padding-bottom: 15px;
+}
+.seravo-postbox .inside td {
+  padding-right: 15px;
+}
+.seravo-postbox .seravo-section {
+  margin-bottom: 2.5rem;
+}
+
+/* Scrollbar on mobile*/
+.seravo-postbox ::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+.seravo-postbox ::-webkit-scrollbar:horizontal {
+  height: 12px;
+}
+.seravo-postbox ::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 10px;
+  border: 2px solid #dddede;
+}
+.seravo-postbox ::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #dddede;
+}

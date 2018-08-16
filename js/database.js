@@ -106,11 +106,4 @@ jQuery(document).ready(function($) {
   // Postbox toggle script
   // Load on page load
   seravo_load_db_info('seravo_wp_db_info');
-
-  jQuery('.ui-sortable-handle').on('click', function () {
-    jQuery(this).parent().toggleClass("closed");
-  });
-  jQuery('.toggle-indicator').on('click', function () {
-    jQuery(this).parent().parent().toggleClass("closed");
-  });
 });

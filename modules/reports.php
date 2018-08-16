@@ -27,14 +27,36 @@ if ( ! class_exists('Reports') ) {
 
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook( __FILE__, array( __CLASS__, 'register_view_reports_capability' ) );
+
+      // Add HTTP request stats postbox
+      seravo_add_postbox(
+        'http-request-statistics',
+        __('HTTP request statistics', 'seravo'),
+        array( __CLASS__, 'seravo_http_request_statistics' ),
+        'tools_page_reports_page',
+        'normal'
+      );
+
+      // Add cache status postbox
+      seravo_add_postbox(
+        'cache-status',
+        __('Cache status', 'seravo'),
+        array( __CLASS__, 'seravo_cache_status' ),
+        'tools_page_reports_page',
+        'side'
+      );
+
+      seravo_add_postbox(
+        'disk-usage',
+        __('Disk usage', 'seravo'),
+        array( __CLASS__, 'seravo_disk_usage' ),
+        'tools_page_reports_page',
+        'normal'
+      );
     }
 
     public static function register_reports_page() {
-      add_submenu_page( 'tools.php', __('Reports', 'seravo'), __('Reports', 'seravo'), 'manage_options', 'reports_page', array( __CLASS__, 'load_reports_page' ) );
-    }
-
-    public static function load_reports_page() {
-      require_once dirname( __FILE__ ) . '/../lib/reports-page.php';
+      add_submenu_page( 'tools.php', __('Reports', 'seravo'), __('Reports', 'seravo'), 'manage_options', 'reports_page', 'Seravo\seravo_postboxes_page' );
     }
 
     public static function enqueue_reports_scripts( $page ) {
@@ -61,6 +83,79 @@ if ( ! class_exists('Reports') ) {
       }
     }
 
+    public static function seravo_http_request_statistics() {
+      ?>
+      <div style="padding: 0px 15px;">
+        <p><?php _e('These monthly reports are generated from the site\'s HTTP access logs. They show every HTTP request of the site, including traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. Log files can be accessed also directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo'); ?></p>
+      </div>
+      <div class="http-requests_info_loading" style="padding: 0px;">
+        <table class="widefat striped" style="width: 100%; border: none;">
+          <thead>
+            <tr>
+              <th style="width: 25%;"><?php _e('Month', 'seravo'); ?></th>
+              <th style="width: 50%;"><?php _e('HTTP requests', 'seravo'); ?></th>
+              <th style="width: 25%;"><?php _e('Report', 'seravo'); ?></th>
+            </tr>
+          </thead>
+          <tbody id="http-reports_table">
+
+          </tbody>
+        </table>
+
+
+      </div>
+      <pre id="http-requests_info"></pre>
+      <?php
+    }
+
+    public static function seravo_cache_status() {
+      ?>
+      <h3><?php _e('Redis transient and object cache', 'seravo'); ?></h3>
+      <div class="redis_info_loading">
+        <img src="/wp-admin/images/spinner.gif">
+      </div>
+      <pre id="redis_info"></pre>
+      <h3><?php _e('Nginx HTTP cache', 'seravo'); ?></h3>
+      <div class="front_cache_status_loading">
+        <img src="/wp-admin/images/spinner.gif">
+      </div>
+      <pre id="front_cache_status"></pre>
+      <?php
+    }
+
+    public static function seravo_disk_usage() {
+      ?>
+      <p><?php _e('Total size of <code>/data</code> is', 'seravo'); ?>
+        <div class="folders_chart_loading">
+          <img src="/wp-admin/images/spinner.gif">
+        </div>
+        <pre id="total_disk_usage"></pre>
+      </p>
+      <p><?php _e('Biggest directories:', 'seravo'); ?>
+        <div class="folders_chart_loading">
+          <img src="/wp-admin/images/spinner.gif">
+        </div>
+        <canvas id="pie_chart" style="width: 10%; height: 4vh;"></canvas>
+      </p>
+      <?php
+    }
+
+    public static function seravo_data_integrity() {
+      ?>
+      <h3>
+        <?php _e('WordPress core', 'seravo'); ?>
+      </h3>
+      <div class="wp_core_verify_loading">
+        <img src="/wp-admin/images/spinner.gif">
+      </div>
+      <pre id="wp_core_verify"></pre>
+      <h3>Git</h3>
+      <div class="git_status_loading">
+        <img src="/wp-admin/images/spinner.gif">
+      </div>
+      <pre id="git_status"></pre>
+      <?php
+    }
   }
 
   Reports::load();

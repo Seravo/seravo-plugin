@@ -28,6 +28,14 @@ if ( ! class_exists('Optimize_Images') ) {
       add_action( 'admin_init', array( __CLASS__, 'register_optimize_image_settings' ) );
       add_action( 'admin_menu', array( __CLASS__, 'register_optimize_images_page' ) );
       add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_styles' ) );
+
+      seravo_add_postbox(
+        'optimize-images',
+        __('Optimize Images (beta)', 'seravo'),
+        array( __CLASS__, 'optimize_images_postbox' ),
+        'tools_page_optimize_images_page',
+        'normal'
+      );
     }
 
     public static function register_optimize_image_settings() {
@@ -86,12 +94,8 @@ if ( ! class_exists('Optimize_Images') ) {
     public static function register_optimize_images_page() {
       add_submenu_page(
         'tools.php', __( 'Optimize Images', 'seravo' ), __( 'Optimize Images', 'seravo' ),
-        'manage_options', 'optimize_images_page', array( __CLASS__, 'load_optimize_images_page' )
+        'manage_options', 'optimize_images_page', 'Seravo\seravo_postboxes_page'
       );
-    }
-
-    public static function load_optimize_images_page() {
-      require_once dirname( __FILE__ ) . '/../lib/optimize-images-page.php';
     }
 
     public static function seravo_image_max_width_field() {
@@ -144,7 +148,14 @@ if ( ! class_exists('Optimize_Images') ) {
       return array( 'max-resolution-field-disabled', 'hidden' );
     }
 
-
+    public static function optimize_images_postbox() {
+      settings_errors();
+      echo '<form method="post" action="options.php" class="seravo-general-form">';
+      settings_fields( 'seravo-optimize-images-settings-group' );
+      do_settings_sections( 'optimize_images_settings' );
+      submit_button( __( 'Save', 'seravo' ), 'primary', 'btnSubmit' );
+      echo '</form>';
+    }
   }
   Optimize_Images::load();
 }

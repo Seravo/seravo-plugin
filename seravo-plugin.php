@@ -38,6 +38,11 @@ require_once dirname( __FILE__ ) . '/lib/helpers.php';
  */
 require_once dirname( __FILE__ ) . '/lib/api.php';
 
+/**
+ * Load Seravo postbox functionalities
+ */
+require_once dirname( __FILE__ ) . '/lib/seravo-postbox.php';
+
 /*
  * Load Canonical Domain and HTTPS. Check first that WP CLI is not defined so the module will not
  * perform any redirections locally.
