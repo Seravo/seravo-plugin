@@ -199,7 +199,7 @@ class Loader {
       /*
        * Cruft view for Seravo customers
        */
-      if ( apply_filters('seravo_show_cruftfiles_page', true) ) {
+      if ( apply_filters('seravo_show_cruftfiles_page', true) && current_user_can('administrator') ) {
         require_once dirname( __FILE__ ) . '/modules/cruftfiles.php';
       }
 
