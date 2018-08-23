@@ -41,7 +41,7 @@ if ( ! class_exists('Cruftfiles') ) {
         __('Cruft Files (beta)', 'seravo'),
         array( __CLASS__, 'cruftfiles_postbox' ),
         'tools_page_cruftfiles_page',
-        'normal'
+        'side'
       );
 
       // Add cache status postbox
@@ -50,7 +50,7 @@ if ( ! class_exists('Cruftfiles') ) {
         __('Unnecessary plugins', 'seravo'),
         array( __CLASS__, 'cruftplugins_postbox' ),
         'tools_page_cruftfiles_page',
-        'side'
+        'normal'
       );
 
       // Add cache status postbox
@@ -59,7 +59,7 @@ if ( ! class_exists('Cruftfiles') ) {
         __('Unnecessary themes', 'seravo'),
         array( __CLASS__, 'cruftthemes_postbox' ),
         'tools_page_cruftfiles_page',
-        'side'
+        'normal'
       );
     }
 
