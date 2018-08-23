@@ -6,9 +6,9 @@ if ( ! defined('ABSPATH') ) {
 
 if ( ! current_user_can( 'level_10' ) ) {
   wp_die(
-      '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>
-      <p>' . __( 'Sorry, you are not allowed to access domains.', 'seravo' ) . '</p>',
-      403
+    '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>
+    <p>' . __( 'Sorry, you are not allowed to access domains.', 'seravo' ) . '</p>',
+    403
   );
 }
 
@@ -29,11 +29,11 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     // Set parent defaults
     parent::__construct(
-        array(
-          'singular' => 'domain',
-          'plural'   => 'domains',
-          'ajax'     => false,
-        )
+      array(
+        'singular' => 'domain',
+        'plural'   => 'domains',
+        'ajax'     => false,
+      )
     );
   }
 
@@ -150,14 +150,14 @@ class Seravo_Domains_List_Table extends WP_List_Table {
      * sorting technique would be unnecessary.
      */
     function usort_reorder( $a, $b ) {
-          // If no sort, default to domain name
-        $orderby = ( ! empty($_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'domain';
-          // If no order, default to asc
-        $order = ( ! empty($_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'asc';
-          // Determine sort order
-        $result = strcmp($a[ $orderby ], $b[ $orderby ]);
-          // Send final sort direction to usort
-        return ( $order === 'asc' ) ? $result : -$result;
+      // If no sort, default to domain name
+      $orderby = ( ! empty($_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'domain';
+        // If no order, default to asc
+      $order = ( ! empty($_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'asc';
+        // Determine sort order
+      $result = strcmp($a[ $orderby ], $b[ $orderby ]);
+        // Send final sort direction to usort
+      return ( $order === 'asc' ) ? $result : -$result;
     }
     usort($data, 'usort_reorder');
 
@@ -182,14 +182,14 @@ class Seravo_Domains_List_Table extends WP_List_Table {
      * REQUIRED. We also have to register our pagination options & calculations.
      */
     $this->set_pagination_args(
-        array(
-          // WE have to calculate the total number of items
-          'total_items' => $total_items,
-          // WE have to determine how many items to show on a page
-          'per_page'    => $per_page,
-          // WE have to calculate the total number of pages
-          'total_pages' => ceil($total_items / $per_page),
-        )
+      array(
+        // WE have to calculate the total number of items
+        'total_items' => $total_items,
+        // WE have to determine how many items to show on a page
+        'per_page'    => $per_page,
+        // WE have to calculate the total number of pages
+        'total_pages' => ceil($total_items / $per_page),
+      )
     );
   }
 
@@ -204,12 +204,7 @@ $domains_table->prepare_items();
 ?>
 <div class="wrap">
 
-  <h1>
-    <?php _e('Domains', 'seravo'); ?> (beta)
-    <!-- a href="tools.php?page=add_domains_page" class="page-title-action">
-      <?php // echo esc_html_x('Add New', 'post'); ?>
-    </a -->
-  </h1>
+  <h1><?php _e('Domains', 'seravo'); ?> (beta)</h1>
 
   <p><?php _e('Domains routed to this WordPress site are listed below.', 'seravo'); ?></p>
 

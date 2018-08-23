@@ -97,12 +97,8 @@ if ( ! class_exists('Reports') ) {
               <th style="width: 25%;"><?php _e('Report', 'seravo'); ?></th>
             </tr>
           </thead>
-          <tbody id="http-reports_table">
-
-          </tbody>
+          <tbody id="http-reports_table"></tbody>
         </table>
-
-
       </div>
       <pre id="http-requests_info"></pre>
       <?php
