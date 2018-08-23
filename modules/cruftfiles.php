@@ -228,6 +228,7 @@ if ( ! class_exists('Cruftfiles') ) {
           'cruftthemes'    => __( 'The following themes are inactive and can be removed.', 'seravo' ),
           'ajaxurl'        => admin_url('admin-ajax.php'),
           'ajax_nonce'     => wp_create_nonce('seravo_cruftthemes'),
+
         );
         wp_localize_script( 'seravo_cruftfiles', 'seravo_cruftfiles_loc', $loc_translation_files );
         wp_localize_script( 'seravo_cruftplugins', 'seravo_cruftplugins_loc', $loc_translation_plugins );
