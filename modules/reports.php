@@ -34,6 +34,15 @@ if ( ! class_exists('Reports') ) {
         __('HTTP request statistics', 'seravo'),
         array( __CLASS__, 'seravo_http_request_statistics' ),
         'tools_page_reports_page',
+        'side'
+      );
+
+      // Add disk usage postbox
+      seravo_add_postbox(
+        'disk-usage',
+        __('Disk usage', 'seravo'),
+        array( __CLASS__, 'seravo_disk_usage' ),
+        'tools_page_reports_page',
         'normal'
       );
 
@@ -42,14 +51,6 @@ if ( ! class_exists('Reports') ) {
         'cache-status',
         __('Cache status', 'seravo'),
         array( __CLASS__, 'seravo_cache_status' ),
-        'tools_page_reports_page',
-        'side'
-      );
-
-      seravo_add_postbox(
-        'disk-usage',
-        __('Disk usage', 'seravo'),
-        array( __CLASS__, 'seravo_disk_usage' ),
         'tools_page_reports_page',
         'normal'
       );
