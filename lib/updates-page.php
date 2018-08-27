@@ -107,3 +107,70 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
     </div>
   </div>
 </div>
+
+<h2 class="clear"><?php _e('Screenshots', 'seravo'); ?></h2>
+<?php
+$screenshots = glob( '/data/reports/tests/debug/*.png' );
+
+if ( count($screenshots) > 0 ) {
+
+  echo '
+<table>
+  <tr>
+    <th><' . __('Current site', 'seravo') . '</th>
+    <th style="background-color: yellow;">' . __('Difference', 'seravo') . '</th>
+    <th>' . __('Update shadow', 'seravo') . '</th>
+  </tr>
+    <tbody  style="vertical-align: top; text-align: center;">';
+
+  foreach ( $screenshots as $key => $screenshot ) {
+    // Skip *.shadow.png files from this loop
+    if ( strpos( $screenshot, '.shadow.png') || strpos( $screenshot, '.diff.png') ) {
+      continue;
+    }
+
+    $name = substr( basename( $screenshot ), 0, -4);
+    $diff_txt = file_get_contents( substr( $screenshot, 0, -4) . '.diff.txt' );
+    if ( preg_match('/Total: ([0-9.]+)/', $diff_txt, $matches) ) {
+      $diff = (float) $matches[1];
+    }
+
+    echo '
+      <tr>
+        <td>
+          <a href="/.seravo/screenshots-ng/debug/' . $name . '.png">
+            <img style="width: 15em" src="/.seravo/screenshots-ng/debug/' . $name . '.png">
+          </a>
+        </td>
+        <td style="background-color: yellow;">
+          <a href="/.seravo/screenshots-ng/debug/' . $name . '.diff.png">
+            <img style="width: 15em" src="/.seravo/screenshots-ng/debug/' . $name . '.diff.png">
+          </a>
+          <br><span';
+
+    // Make the difference number stand out if it is non-zero
+    if ( $diff > 0.011 ) {
+      echo ' style="color: red;"';
+    }
+
+    echo '>' . round( $diff * 100, 2 ) . ' %</span>
+        </td>
+        <td>
+          <a href="/.seravo/screenshots-ng/debug/' . $name . '.shadow.png">
+            <img style="width: 15em;" src="/.seravo/screenshots-ng/debug/' . $name . '.shadow.png">
+          </a>
+        </td>
+      </tr>';
+  }
+
+  echo '
+  </tbody>
+</table>';
+
+} else {
+
+  echo '<tr><td colspan="3">' .
+    __('No screenshots found. They will become available during the next update test.', 'seravo') .
+    '</td></tr>';
+
+}
