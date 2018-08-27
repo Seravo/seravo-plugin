@@ -171,7 +171,10 @@ if ( ! class_exists('Logs') ) {
         <input type="submit" class="button" value="<?php _e('Filter', 'seravo'); ?>">
       </form>
     </div>
-    <div class="log-table-view" data-logfile="<?php esc_attr( $logfile ); ?>" data-logbytes="<?php esc_attr( filesize($logfile) ); ?>" data-regex="<?php esc_attr($regex); ?>">
+    <div class="log-table-view"
+      data-logfile="<?php echo esc_attr( $logfile ); ?>"
+      data-logbytes="<?php echo esc_attr( filesize($logfile) ); ?>"
+      data-regex="<?php echo esc_attr($regex); ?>">
       <table class="wp-list-table widefat striped" cellspacing="0">
         <tbody>
           <?php $result = $this->render_rows( $logfile, -1, $max_num_of_rows, $regex ); ?>
