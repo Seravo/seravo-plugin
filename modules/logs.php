@@ -95,6 +95,11 @@ if ( ! class_exists('Logs') ) {
         $current_log = (int) $_GET['log'];
       }
 
+      $current_logfile = null;
+      if ( isset( $_GET['logfile'] ) ) {
+        $current_logfile = $_GET['logfile'];
+      }
+
       $max_num_of_rows = 50;
       if ( isset( $_GET['max_num_of_rows'] ) ) {
           $max_num_of_rows = (int) $_GET['max_num_of_rows'];
@@ -108,8 +113,18 @@ if ( ! class_exists('Logs') ) {
           return;
       endif;
 
+      // Create an array of the logfiles with basename of log as key
+      $logfiles = array();
+      foreach ( $logs as $key => $log ) {
+        $logfiles[ basename( $log ) ] = $log;
+      }
+
+      // Set logfile based on supplied log name if exists,
+      // otherwise fall back to using log index number
       $logfile = null;
-      if ( isset( $logs[ $current_log ] ) ) {
+      if ( isset( $logfiles[ $current_logfile ] ) ) {
+        $logfile = $logfiles[ $current_logfile ];
+      } elseif ( isset( $logs[ $current_log ] ) ) {
         $logfile = $logs[ $current_log ];
       }
 
@@ -119,7 +134,12 @@ if ( ! class_exists('Logs') ) {
     <h2 class="screen-reader-text">Select log file list</h2>
     <ul class="subsubsub">
       <?php foreach ( $logs as $key => $log ) : ?>
-      <li><a href="tools.php?page=logs_page&log=<?php echo $key; ?>&max_num_of_rows=<?php echo $max_num_of_rows; ?>" class="<?php echo $key == $current_log ? 'current' : ''; ?>"><?php echo basename( $log ); ?></a><?php echo ( $key < ( count( $logs ) - 1 ) ) ? ' |' : ''; ?></li>
+      <li><a href="tools.php?page=logs_page&logfile=<?php echo basename( $log ); ?>&max_num_of_rows=<?php echo $max_num_of_rows; ?>"
+            class="<?php echo basename( $log ) == $current_logfile ? 'current' : ''; ?>">
+            <?php echo basename( $log ); ?>
+          </a>
+          <?php echo ( $key < ( count( $logs ) - 1 ) ) ? ' |' : ''; ?>
+      </li>
       <?php endforeach; ?>
     </ul>
     <p class="clear"></p>
