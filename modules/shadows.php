@@ -55,6 +55,7 @@ if ( ! class_exists('Shadows') ) {
           'failure'     => __('Failure', 'seravo'),
           'error'       => __('Error', 'seravo'),
           'confirm'     => __('Are you sure? This replaces all information in the selected environment.', 'seravo'),
+          'confirm_pull'=> __('Are you sure? This replaces all information in the your production environment with information from the selected shadow environment. This could cause the Dashboard to be inaccessible, which then requires you to access the website via SSH in order to restore your backups.', 'seravo' ),
           'ajaxurl'     => admin_url('admin-ajax.php'),
           'ajax_nonce'  => wp_create_nonce('seravo_shadows'),
         );
