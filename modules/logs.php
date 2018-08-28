@@ -167,6 +167,7 @@ if ( ! class_exists('Logs') ) {
         <label class="screen-reader-text" for="regex">Regex:</label>
         <input type="hidden" name="page" value="logs_page">
         <input type="hidden" name="log" value="<?php echo $current_log; ?>">
+        <input type="hidden" name="logfile" value="<?php echo basename($logfile); ?>">
         <input type="search" name="regex" value="<?php echo $regex; ?>" placeholder="">
         <input type="submit" class="button" value="<?php _e('Filter', 'seravo'); ?>">
       </form>
