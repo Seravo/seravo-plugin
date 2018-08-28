@@ -33,10 +33,10 @@ jQuery(document).ready(function($) {
   });
 
   // Script for showing clicked row on log-view-active box
-  jQuery(".logrow").click(function () {
+  $('.log-table-view').on('click', '.logrow', function() {
     var $row = jQuery(this).closest("td"); // Find the row
     var $text = $row.find(".logrow").text(); // Find the text
 
-    jQuery('.log-view-active').text($text);
+    $('.log-view-active').text($text);
   });
 });
