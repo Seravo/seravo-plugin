@@ -131,7 +131,9 @@ class Loader {
     /*
      * Add a cache purge button to the WP adminbar
      */
-    require_once dirname( __FILE__ ) . '/modules/purge-cache.php';
+    if ( apply_filters('seravo_use_purge_cache', true) ) {
+		  require_once dirname( __FILE__ ) . '/modules/purge-cache.php';
+	  }
 
     /*
      * Hide the domain alias from search engines
