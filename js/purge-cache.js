@@ -6,7 +6,8 @@ jQuery(document).ready(function($) {
     evt.preventDefault();
 
     // Show spinning animation
-    $('.seravo-purge-cache-icon', this).addClass('spin');
+    var purge_cache_icon = $('.seravo-purge-cache-icon', this);
+    purge_cache_icon.addClass('spin');
 
     // Ask for server to empty cache via AJAX
     $.post(seravo_purge_cache_loc.ajax_url, {
@@ -28,5 +29,9 @@ jQuery(document).ready(function($) {
       // Add or update the Seravo purge cache success parameter
       query_params['seravo_purge_success'] = response.success;
       location.search = $.param(query_params);
+
+    }).fail(function(response) {
+      purge_cache_icon.removeClass('spin');
+    });
   });
 });
