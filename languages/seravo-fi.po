@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2018-08-23 14:26:26+00:00\n"
-"PO-Revision-Date: 2018-08-23 17:32+0300\n"
+"POT-Creation-Date: 2018-10-08 07:34:13+00:00\n"
+"PO-Revision-Date: 2018-10-08 10:47+0300\n"
 "Last-Translator: Leo Toikka <leo@seravo.fi>\n"
 "Language-Team: \n"
 "Language: fi_FI\n"
@@ -209,7 +209,7 @@ msgstr "Tallenna asetukset"
 msgid "Site status"
 msgstr "Sivuston tila"
 
-#: lib/updates-page.php:96
+#: lib/updates-page.php:96 modules/reports.php:173
 msgid "Site created"
 msgstr "Sivusto luotu"
 
@@ -220,6 +220,29 @@ msgstr "Edellinen päivitysyritys"
 #: lib/updates-page.php:98
 msgid "Latest successful update"
 msgstr "Viimeisin onnistunut päivitys"
+
+#: lib/updates-page.php:111
+msgid "Screenshots"
+msgstr "Kuvakaappaukset"
+
+#: lib/updates-page.php:120
+msgid "Current site"
+msgstr "Nykyinen sivusto"
+
+#: lib/updates-page.php:121
+msgid "Difference"
+msgstr "Eroavaisuus"
+
+#: lib/updates-page.php:122
+msgid "Update shadow"
+msgstr "Päivitysvarjo"
+
+#: lib/updates-page.php:173
+msgid ""
+"No screenshots found. They will become available during the next update test."
+msgstr ""
+"Kuvakaappauksia ei löytynyt. Kuvakaappaukset generoidaan sivuston seuraavan "
+"päivityksen yhteydessä."
 
 #: modules/backups.php:36 modules/backups.php:90
 msgid "Backups"
@@ -338,7 +361,7 @@ msgstr "Etsi ja poista teemoja, jotka ovat turhia tai epäaktiivisia."
 msgid "Finding themes..."
 msgstr "Etsitään lisäosia…"
 
-#: modules/cruftfiles.php:191 modules/reports.php:74 modules/tests.php:50
+#: modules/cruftfiles.php:191 modules/reports.php:83 modules/tests.php:50
 msgid "No data returned for section."
 msgstr "Testi ei palauttanut dataa."
 
@@ -346,7 +369,7 @@ msgstr "Testi ei palauttanut dataa."
 msgid "Are you sure you want to proceed? Deleted files can not be recovered."
 msgstr "Oletko varma, että haluat jatkaa? Tiedostot poistetaan pysyvästi."
 
-#: modules/cruftfiles.php:193 modules/reports.php:75 modules/tests.php:53
+#: modules/cruftfiles.php:193 modules/reports.php:84 modules/tests.php:53
 msgid "Failed to load. Please try again."
 msgstr "Lataaminen epäonnistui. Yritä uudelleen."
 
@@ -640,29 +663,29 @@ msgid ""
 msgstr ""
 "Virhelokiin on tullut tällä viikolla vähintään %1$s riviä. Lisätietoa: %2$s."
 
-#: modules/logs.php:68 modules/logs.php:69 modules/logs.php:118
+#: modules/logs.php:68 modules/logs.php:69 modules/logs.php:133
 msgid "Logs"
 msgstr "Lokit"
 
-#: modules/logs.php:107
+#: modules/logs.php:112
 msgid "No logs found in <code>/data/log/</code>."
 msgstr "Lokeja ei löytynyt hakemistosta <code>/data/log/</code>."
 
-#: modules/logs.php:151
+#: modules/logs.php:172
 msgid "Filter"
 msgstr "Hae"
 
 #. translators: $s name of the logfile
-#: modules/logs.php:168
+#: modules/logs.php:192
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 "Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä."
 
-#: modules/logs.php:173
+#: modules/logs.php:197
 msgid "Log empty"
 msgstr "Loki on tyhjä"
 
-#: modules/logs.php:175
+#: modules/logs.php:199
 msgid "Scroll to load more lines from the log."
 msgstr "Selaa ladataksesi lisää rivejä lokista."
 
@@ -717,7 +740,7 @@ msgid "Save"
 msgstr "Tallenna"
 
 #. translators: %s cache refresh interval
-#: modules/purge-cache.php:39
+#: modules/purge-cache.php:37
 msgid ""
 "Seravo.com uses front proxies to deliver lightning fast responses to your "
 "visitors. Cached pages will be refreshed every %s. This button is used for "
@@ -727,35 +750,52 @@ msgstr ""
 "salamannopean sivunlatauksen. Välimuistitettuja sivuja päivitetään %s "
 "välein. Voit käyttää tätä näppäintä, jos haluat tyhjentää välimuistin heti."
 
-#: modules/purge-cache.php:40
+#: modules/purge-cache.php:38
 msgid "Purge Cache"
 msgstr "Tyhjennä välimuisti"
 
-#: modules/purge-cache.php:114
+#: modules/purge-cache.php:71
 msgid "Success:"
 msgstr "Onnistui:"
 
-#: modules/purge-cache.php:114
+#: modules/purge-cache.php:71
 msgid "The cache was flushed."
 msgstr "Välimuisti tyhjennetty."
+
+#: modules/purge-cache.php:75
+msgid "Error:"
+msgstr "Virhe:"
+
+#: modules/purge-cache.php:75
+msgid "The cache was not flushed, please check your PHP error log for details."
+msgstr ""
+"Välimuistia ei tyhjennetty, lisätietoja virheestä löytyy PHP-virhelokista."
+
+#: modules/purge-cache.php:90
+msgid "Error: the nonce did not verify."
+msgstr "Virhe: kertakäyttöavain ei täsmännyt."
 
 #: modules/reports.php:34
 msgid "HTTP request statistics"
 msgstr "HTTP-liikennetilastot"
 
 #: modules/reports.php:43
-msgid "Cache status"
-msgstr "Välimuistin tila"
-
-#: modules/reports.php:51
 msgid "Disk usage"
 msgstr "Levytilan käyttö"
 
-#: modules/reports.php:59
+#: modules/reports.php:52
+msgid "Cache status"
+msgstr "Välimuistin tila"
+
+#: modules/reports.php:60
+msgid "Site information"
+msgstr "Sivuston tiedot"
+
+#: modules/reports.php:68
 msgid "Reports"
 msgstr "Raportit"
 
-#: modules/reports.php:76
+#: modules/reports.php:85
 msgid ""
 "No reports found at /data/slog/html/. Reports should be available within a "
 "month of the creation of a new site."
@@ -763,11 +803,11 @@ msgstr ""
 "Raportteja ei löytynyt polusta /data/slog/html/. Raportit tulisi olla "
 "saatavilla noin kuukauden kuluessa uuden sivuston perustamisesta."
 
-#: modules/reports.php:77
+#: modules/reports.php:86
 msgid "View report"
 msgstr "Näytä raportti"
 
-#: modules/reports.php:89
+#: modules/reports.php:98
 msgid ""
 "These monthly reports are generated from the site's HTTP access logs. They "
 "show every HTTP request of the site, including traffic from both humans and "
@@ -782,37 +822,93 @@ msgstr ""
 "suoraan myös palvelimella polussa <code>/data/slog/html/goaccess-*.html</"
 "code>."
 
-#: modules/reports.php:95
+#: modules/reports.php:104
 msgid "Month"
 msgstr "Kuukausi"
 
-#: modules/reports.php:96
+#: modules/reports.php:105
 msgid "HTTP requests"
 msgstr "HTTP-pyynnöt"
 
-#: modules/reports.php:97
+#: modules/reports.php:106
 msgid "Report"
 msgstr "Raportti"
 
-#: modules/reports.php:109
+#: modules/reports.php:118
 msgid "Redis transient and object cache"
 msgstr "Oliovälimuisti"
 
-#: modules/reports.php:114
+#: modules/reports.php:123
 msgid "Nginx HTTP cache"
 msgstr "Nginx HTTP välimuisti"
 
-#: modules/reports.php:124
+#: modules/reports.php:133
 msgid "Total size of <code>/data</code> is"
 msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
 
-#: modules/reports.php:130
+#: modules/reports.php:139
 msgid "Biggest directories:"
 msgstr "Suurimmat hakemistot:"
 
-#: modules/reports.php:142
+#: modules/reports.php:152
+msgid "Demo"
+msgstr "Demo"
+
+#: modules/reports.php:153
+msgid "WP Mini"
+msgstr ""
+
+#: modules/reports.php:154
+msgid "WP Pro"
+msgstr ""
+
+#: modules/reports.php:155
+msgid "WP Business"
+msgstr ""
+
+#: modules/reports.php:156
+msgid "WP Enterprise"
+msgstr ""
+
+#: modules/reports.php:160
+msgid "Finland"
+msgstr "Suomi"
+
+#: modules/reports.php:161
+msgid "Sweden"
+msgstr "Ruotsi"
+
+#: modules/reports.php:162
+msgid "Germany"
+msgstr "Saksa"
+
+#: modules/reports.php:163
+msgid "USA"
+msgstr "Yhdysvallat"
+
+#: modules/reports.php:164
+msgid "No preference"
+msgstr "Seravon valitsema"
+
+#: modules/reports.php:174
+msgid "Plan termination"
+msgstr "Palvelupaketin päättyminen"
+
+#: modules/reports.php:175
+msgid "Site country selection"
+msgstr "Sivuston maavalinta"
+
+#: modules/reports.php:176
+msgid "Plan type"
+msgstr "Palvelupaketti"
+
+#: modules/reports.php:177
+msgid "Account Manager"
+msgstr "Account Manager"
+
+#: modules/reports.php:183
 msgid "WordPress core"
-msgstr "WordPress ydin"
+msgstr "WordPressin ydin"
 
 #: modules/shadows.php:36 modules/shadows.php:37
 msgid "Shadows"

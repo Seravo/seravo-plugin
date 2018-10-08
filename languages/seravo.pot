@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Seravo Plugin package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.9.1\n"
+"Project-Id-Version: Seravo Plugin 1.9.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2018-08-23 14:26:26+00:00\n"
+"POT-Creation-Date: 2018-10-08 07:34:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Site status"
 msgstr ""
 
-#: lib/updates-page.php:96
+#: lib/updates-page.php:96 modules/reports.php:173
 msgid "Site created"
 msgstr ""
 
@@ -194,6 +194,27 @@ msgstr ""
 
 #: lib/updates-page.php:98
 msgid "Latest successful update"
+msgstr ""
+
+#: lib/updates-page.php:111
+msgid "Screenshots"
+msgstr ""
+
+#: lib/updates-page.php:120
+msgid "Current site"
+msgstr ""
+
+#: lib/updates-page.php:121
+msgid "Difference"
+msgstr ""
+
+#: lib/updates-page.php:122
+msgid "Update shadow"
+msgstr ""
+
+#: lib/updates-page.php:173
+msgid ""
+"No screenshots found. They will become available during the next update test."
 msgstr ""
 
 #: modules/backups.php:36 modules/backups.php:90
@@ -299,7 +320,7 @@ msgstr ""
 msgid "Finding themes..."
 msgstr ""
 
-#: modules/cruftfiles.php:191 modules/reports.php:74 modules/tests.php:50
+#: modules/cruftfiles.php:191 modules/reports.php:83 modules/tests.php:50
 msgid "No data returned for section."
 msgstr ""
 
@@ -307,7 +328,7 @@ msgstr ""
 msgid "Are you sure you want to proceed? Deleted files can not be recovered."
 msgstr ""
 
-#: modules/cruftfiles.php:193 modules/reports.php:75 modules/tests.php:53
+#: modules/cruftfiles.php:193 modules/reports.php:84 modules/tests.php:53
 msgid "Failed to load. Please try again."
 msgstr ""
 
@@ -569,28 +590,28 @@ msgid ""
 "details."
 msgstr ""
 
-#: modules/logs.php:68 modules/logs.php:69 modules/logs.php:118
+#: modules/logs.php:68 modules/logs.php:69 modules/logs.php:133
 msgid "Logs"
 msgstr ""
 
-#: modules/logs.php:107
+#: modules/logs.php:112
 msgid "No logs found in <code>/data/log/</code>."
 msgstr ""
 
-#: modules/logs.php:151
+#: modules/logs.php:172
 msgid "Filter"
 msgstr ""
 
 #. translators: $s name of the logfile
-#: modules/logs.php:168
+#: modules/logs.php:192
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 
-#: modules/logs.php:173
+#: modules/logs.php:197
 msgid "Log empty"
 msgstr ""
 
-#: modules/logs.php:175
+#: modules/logs.php:199
 msgid "Scroll to load more lines from the log."
 msgstr ""
 
@@ -643,23 +664,35 @@ msgid "Save"
 msgstr ""
 
 #. translators: %s cache refresh interval
-#: modules/purge-cache.php:39
+#: modules/purge-cache.php:37
 msgid ""
 "Seravo.com uses front proxies to deliver lightning fast responses to your "
 "visitors. Cached pages will be refreshed every %s. This button is used for "
 "clearing all cached pages from the frontend proxy immediately."
 msgstr ""
 
-#: modules/purge-cache.php:40
+#: modules/purge-cache.php:38
 msgid "Purge Cache"
 msgstr ""
 
-#: modules/purge-cache.php:114
+#: modules/purge-cache.php:71
 msgid "Success:"
 msgstr ""
 
-#: modules/purge-cache.php:114
+#: modules/purge-cache.php:71
 msgid "The cache was flushed."
+msgstr ""
+
+#: modules/purge-cache.php:75
+msgid "Error:"
+msgstr ""
+
+#: modules/purge-cache.php:75
+msgid "The cache was not flushed, please check your PHP error log for details."
+msgstr ""
+
+#: modules/purge-cache.php:90
+msgid "Error: the nonce did not verify."
 msgstr ""
 
 #: modules/reports.php:34
@@ -667,28 +700,32 @@ msgid "HTTP request statistics"
 msgstr ""
 
 #: modules/reports.php:43
-msgid "Cache status"
-msgstr ""
-
-#: modules/reports.php:51
 msgid "Disk usage"
 msgstr ""
 
-#: modules/reports.php:59
+#: modules/reports.php:52
+msgid "Cache status"
+msgstr ""
+
+#: modules/reports.php:60
+msgid "Site information"
+msgstr ""
+
+#: modules/reports.php:68
 msgid "Reports"
 msgstr ""
 
-#: modules/reports.php:76
+#: modules/reports.php:85
 msgid ""
 "No reports found at /data/slog/html/. Reports should be available within a "
 "month of the creation of a new site."
 msgstr ""
 
-#: modules/reports.php:77
+#: modules/reports.php:86
 msgid "View report"
 msgstr ""
 
-#: modules/reports.php:89
+#: modules/reports.php:98
 msgid ""
 "These monthly reports are generated from the site's HTTP access logs. They "
 "show every HTTP request of the site, including traffic from both humans and "
@@ -697,35 +734,91 @@ msgid ""
 "server at <code>/data/slog/html/goaccess-*.html</code>."
 msgstr ""
 
-#: modules/reports.php:95
+#: modules/reports.php:104
 msgid "Month"
 msgstr ""
 
-#: modules/reports.php:96
+#: modules/reports.php:105
 msgid "HTTP requests"
 msgstr ""
 
-#: modules/reports.php:97
+#: modules/reports.php:106
 msgid "Report"
 msgstr ""
 
-#: modules/reports.php:109
+#: modules/reports.php:118
 msgid "Redis transient and object cache"
 msgstr ""
 
-#: modules/reports.php:114
+#: modules/reports.php:123
 msgid "Nginx HTTP cache"
 msgstr ""
 
-#: modules/reports.php:124
+#: modules/reports.php:133
 msgid "Total size of <code>/data</code> is"
 msgstr ""
 
-#: modules/reports.php:130
+#: modules/reports.php:139
 msgid "Biggest directories:"
 msgstr ""
 
-#: modules/reports.php:142
+#: modules/reports.php:152
+msgid "Demo"
+msgstr ""
+
+#: modules/reports.php:153
+msgid "WP Mini"
+msgstr ""
+
+#: modules/reports.php:154
+msgid "WP Pro"
+msgstr ""
+
+#: modules/reports.php:155
+msgid "WP Business"
+msgstr ""
+
+#: modules/reports.php:156
+msgid "WP Enterprise"
+msgstr ""
+
+#: modules/reports.php:160
+msgid "Finland"
+msgstr ""
+
+#: modules/reports.php:161
+msgid "Sweden"
+msgstr ""
+
+#: modules/reports.php:162
+msgid "Germany"
+msgstr ""
+
+#: modules/reports.php:163
+msgid "USA"
+msgstr ""
+
+#: modules/reports.php:164
+msgid "No preference"
+msgstr ""
+
+#: modules/reports.php:174
+msgid "Plan termination"
+msgstr ""
+
+#: modules/reports.php:175
+msgid "Site country selection"
+msgstr ""
+
+#: modules/reports.php:176
+msgid "Plan type"
+msgstr ""
+
+#: modules/reports.php:177
+msgid "Account Manager"
+msgstr ""
+
+#: modules/reports.php:183
 msgid "WordPress core"
 msgstr ""
 
