@@ -29,7 +29,7 @@ class Seravo_WP_CLI extends WP_CLI_Command {
     if ( $site_info['seravo_updates'] === true ) {
       WP_CLI::success( 'Seravo updates: enabled' );
     } elseif ( $site_info['seravo_updates'] === true ) {
-      WP_CLI::success('Seravo updates: disbled' );
+      WP_CLI::success('Seravo updates: disabled' );
     } else {
       WP_CLI::error( 'Seravo API failed to return information about updates.' );
     }
