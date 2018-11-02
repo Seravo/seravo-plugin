@@ -129,6 +129,11 @@ class Loader {
     require_once dirname( __FILE__ ) . '/modules/fixes.php';
 
     /*
+     * Helpers for fixing issues with third-party code (plugins etc.)
+     */
+    require_once dirname( __FILE__ ) . '/modules/thirdparty-fixes.php';
+
+    /*
      * Add a cache purge button to the WP adminbar
      */
     require_once dirname( __FILE__ ) . '/modules/purge-cache.php';
