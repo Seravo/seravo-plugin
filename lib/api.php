@@ -17,7 +17,7 @@ if ( ! class_exists('API') ) {
     /**
     * Get various data from the site API for the current site.
     */
-    public static function get_site_data( $api_query = '' ) {
+    public static function get_site_data( $api_query = '', $handled_http_codes = [ 200 ] ) {
       $site = getenv('USER');
       $ch = curl_init('http://localhost:8888/v1/site/' . $site . $api_query );
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -26,7 +26,7 @@ if ( ! class_exists('API') ) {
       $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
       // Check for errors
-      if ( curl_error($ch) || $httpcode !== 200 ) {
+      if ( curl_error($ch) || ! in_array( $httpcode, $handled_http_codes ) ) {
         error_log('SWD API (' . $api_query . ') error ' . $httpcode . ': ' . curl_error($ch));
         curl_close($ch);
         return new \WP_Error('seravo-api-get-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
@@ -37,7 +37,7 @@ if ( ! class_exists('API') ) {
       return $data;
     }
 
-    public static function update_site_data( $data, $api_query = '' ) {
+    public static function update_site_data( $data, $api_query = '', $handled_http_codes = [ 200 ] ) {
       $data_json = json_encode($data);
       $site = getenv('USER');
       $ch = curl_init('http://localhost:8888/v1/site/' . $site . $api_query);
@@ -55,7 +55,7 @@ if ( ! class_exists('API') ) {
       $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
       // Check for errors
-      if ( curl_error($ch) || $httpcode !== 200 ) {
+      if ( curl_error($ch) || ! in_array( $httpcode, $handled_http_codes ) ) {
         error_log('SWD API (' . $api_query . ') error ' . $httpcode . ': ' . curl_error($ch));
         curl_close($ch);
         return new \WP_Error('seravo-api-put-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
