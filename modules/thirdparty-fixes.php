@@ -101,7 +101,7 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
       $whitelist = $this->retrieve_whitelist();
       $ip = $validate['ip'];
       if (in_array( $ip, $whitelist )) {
-        $this->log( "Bypass IP Geo Block filter using seravo-plugin." );
+        $this->log( "Bypass IP Geo Block filter using seravo-plugin (${ip})." );
         $validate['result'] = 'passed';
       }
       return $validate;
