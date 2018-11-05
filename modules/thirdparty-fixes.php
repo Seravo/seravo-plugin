@@ -78,6 +78,21 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
       $whitelist = $this->retrieve_whitelist();
       return in_array( $ip, $whitelist );
     }
+
+    /**
+     * Whitelist Seravo infrastructure in IP Geo Block
+     *
+     * @see <https://github.com/tokkonopapa/WordPress-IP-Geo-Block/blob/master/ip-geo-block/samples.php>
+     * @see <https://www.ipgeoblock.com/>
+     */
+    public function ipgeoblock_whitelist_seravo( $validate ) {
+      $whitelist = $this->retrieve_whitelist();
+      $ip = $validate['ip'];
+      if (in_array( $ip, $whitelist )) {
+        $validate['result'] = 'passed';
+      }
+      return $validate;
+    }
   }
   ThirdpartyFixes::init();
 }
