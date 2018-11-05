@@ -24,6 +24,10 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
     public function __construct() {
       // Jetpack whitelisting
       add_filter( 'jpp_allow_login', array( $this, 'jetpack_whitelist_seravo' ), 10, 1 );
+
+      // IP Geo Block whitelisting
+      add_filter( 'ip-geo-block-admin', array( $this, 'ipgeoblock_whitelist_seravo' ) );
+      add_filter( 'ip-geo-block-login', array( $this, 'ipgeoblock_whitelist_seravo' ) );
     }
 
     /**
