@@ -27,25 +27,15 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
     }
 
     /**
-     * Whitelist Seravo infrastructure in Jetpack.
+     * Retrieve whitelisted IPs from our API.
      *
-     * We've noticed that sometimes Jetpack thinks that our
-     * requests are bruteforcing, while we're just doing site
-     * status checks.
-     *
-     * So, let's fetch list of IP addresses that should be whitelisted
-     * and always allowed.
+     * JSON contains just a list of IP addresses (both IPv4, IPv6),
+     *     ['123.45.67.89', '2a00:....', ...]
      *
      * @since 1.9.4
      * @version 1.0
-     * @see <https://developer.jetpack.com/hooks/jpp_allow_login/>
-     * @see <https://developer.jetpack.com/tag/jpp_allow_login/>
      **/
-    public function jetpack_whitelist_seravo( $ip ) {
-      if ( ! function_exists( 'jetpack_protect_get_ip' ) ) {
-        return false;
-      }
-      $ip = jetpack_protect_get_ip();
+    public function retrieve_whitelist() {
       $url = 'https://api.seravo.com/v0/infrastructure/monitoring-hosts.json';
       $key = 'seravo_jetpack_whitelist_' . md5( $url );
       $found = false;
@@ -62,8 +52,31 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
         // Cache for 24 hours (86400 seconds)
         wp_cache_add( $key, $data, $group = '', 86400 );
       }
+      return $data;
+    }
 
-      return in_array( $ip, $data );
+    /**
+     * Whitelist Seravo infrastructure in Jetpack.
+     *
+     * We've noticed that sometimes Jetpack thinks that our
+     * requests are bruteforcing, while we're just doing site
+     * status checks.
+     *
+     * So, let's fetch list of IP addresses that should be whitelisted
+     * and always allowed.
+     *
+     * @since 1.9.4
+     * @version 1.1
+     * @see <https://developer.jetpack.com/hooks/jpp_allow_login/>
+     * @see <https://developer.jetpack.com/tag/jpp_allow_login/>
+     **/
+    public function jetpack_whitelist_seravo( $ip ) {
+      if ( ! function_exists( 'jetpack_protect_get_ip' ) ) {
+        return false;
+      }
+      $ip = jetpack_protect_get_ip();
+      $whitelist = $this->retrieve_whitelist();
+      return in_array( $ip, $whitelist );
     }
   }
   ThirdpartyFixes::init();
