@@ -21,6 +21,10 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
       return self::$instance;
     }
 
+    public static function log($message) {
+      error_log( date( DATE_RFC2822 ) . ' ' . $message . chr( 10 ), 3, '/data/log/seravo-plugin.log' );
+    }
+
     public function __construct() {
       // Jetpack whitelisting
       add_filter( 'jpp_allow_login', array( $this, 'jetpack_whitelist_seravo' ), 10, 1 );
@@ -80,7 +84,11 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
       }
       $ip = jetpack_protect_get_ip();
       $whitelist = $this->retrieve_whitelist();
-      return in_array( $ip, $whitelist );
+      $res = in_array( $ip, $whitelist );
+      if ($res === true) {
+        $this->log( "Bypass Jetpack filter using seravo-plugin." );
+      }
+      return $res;
     }
 
     /**
@@ -93,6 +101,7 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
       $whitelist = $this->retrieve_whitelist();
       $ip = $validate['ip'];
       if (in_array( $ip, $whitelist )) {
+        $this->log( "Bypass IP Geo Block filter using seravo-plugin." );
         $validate['result'] = 'passed';
       }
       return $validate;
