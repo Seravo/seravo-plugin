@@ -66,6 +66,8 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     */
     $actions['view'] = sprintf( '<a href="?page=%s&action=%s&domain=%s">View</a>',
                                   $_REQUEST['page'], 'view', $item['domain']);
+    $actions['edit'] = sprintf( '<a href="?page=%s&action=%s&domain=%s">Edit</a>',
+                                  $_REQUEST['page'], 'edit', $item['domain']);
 
     return sprintf('%1$s %2$s',
         /*$1%s*/ $item['domain'],
@@ -115,6 +117,9 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     if ( 'delete' === $this->current_action() ) {
       wp_die('Items deleted (or they would be if we had items to delete)!');
     } elseif ( 'view' === $this->current_action() ) {
+      $this->dns->fetch_dns_records($_REQUEST['domain']);
+    } elseif ( 'edit' === $this->current_action() ) {
+      // Fetch something to edit
       $this->dns->fetch_dns_records($_REQUEST['domain']);
     }
   }
@@ -217,8 +222,15 @@ $domains_table->prepare_items();
     <?php $domains_table->display(); ?>
   </form>
   <?php
+  // Create the dns-table section if it's available
   if ( ! is_null($domains_table->dns) ) {
-    $domains_table->dns->display();
+    if ( 'view' === $domains_table->current_action() ) {
+      $domains_table->dns->display();
+    } elseif ( 'edit' === $domains_table->current_action() ) {
+      $domains_table->dns->display_edit();
+    } elseif ( $_REQUEST['zone-updated'] ) {
+      $domains_table->dns->display_results( $_REQUEST['modifications'], $_REQUEST['error'] );
+    }
   }
   ?>
 
