@@ -144,6 +144,11 @@ class Loader {
     require_once dirname( __FILE__ ) . '/modules/noindex-domain-alias.php';
 
     /*
+     * Limit crawler access by using robots.txt
+     */
+	require_once dirname( __FILE__ ) . '/modules/crawl-delay.php';
+
+    /*
      * Use relative urls in post content but absolute urls in feeds
      * This helps migrating the content between development and production
      */
