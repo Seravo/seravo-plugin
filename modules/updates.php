@@ -70,6 +70,12 @@ if ( ! class_exists('Updates') ) {
       }
       $data = array( 'seravo_updates' => $seravo_updates );
 
+      // Slack webhook
+      $data['notification_webhooks'] = array(
+        'type' => 'slack',
+        'url' => $_POST['slack_webhook'],
+      );
+
       // Handle site technical contact email addresses
       if ( isset($_POST['technical_contacts']) ) {
         $validated_addresses = array();

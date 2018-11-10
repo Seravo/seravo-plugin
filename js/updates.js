@@ -39,6 +39,16 @@ jQuery(document).ready(function($) {
     }
   });
 
+  jQuery('#slack_webhook_test').click(function() {
+    $.ajax({
+      data: 'payload=' + JSON.stringify({"text": "Seravo update notification test sent from " + window.location.href }),
+      dataType: 'json',
+      processData: false,
+      type: 'POST',
+      url: document.getElementsByName('slack_webhook')[0].value
+    });
+  });
+
   function insertEmail() {
     if (validateEmail($emailInput)) {
       emails.push($emailInput.val())

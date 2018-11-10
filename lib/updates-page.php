@@ -41,6 +41,14 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
             } else {
               $checked = '';
             }
+
+            if ( isset( $site_info['notification_webhooks'][0]['url'] ) &&
+                 $site_info['notification_webhooks'][0]['type'] === 'slack' ) {
+              $slack_webhook = $site_info['notification_webhooks'][0]['url'];
+            } else {
+              $slack_webhook = '';
+            }
+
             $contact_emails = array();
             if ( isset($site_info['contact_emails']) ) {
               $contact_emails = $site_info['contact_emails'];
@@ -53,6 +61,13 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
                 <div class="checkbox allow_updates_checkbox">
                   <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo'); ?><br>
                 </div>
+
+                <hr class="seravo-updates-hr">
+                <h2><?php _e('Update notifications Slack webhook', 'seravo'); ?></h2>
+                <p><?php _e('If you define a Slack webhook address below, then Seravo can send notifications on every update, both successful and failed ones, to the Slack channel you define in the webhook.', 'seravo'); ?></p>
+                <input name="slack_webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="<?php echo $slack_webhook; ?>">
+                <button type="button" class="button" id="slack_webhook_test"><?php _e('Send test notification', 'seravo'); ?></button>
+
                 <hr class="seravo-updates-hr">
                 <h2><?php _e('Technical contact email addresses', 'seravo'); ?></h2>
                 <p><?php _e('Seravo may send automatic notifications about site errors and failed updates to these addresses. Remember to add @-character to email.', 'seravo'); ?></p>
