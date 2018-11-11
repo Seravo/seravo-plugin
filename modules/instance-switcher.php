@@ -16,8 +16,10 @@ if ( ! class_exists('InstanceSwitcher') ) {
 
     public static function load() {
 
-      // display a notice at the bottom of the window when in a shadow
-      if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
+      # Show the red banner only in staging/testing instances
+      # Don't show the banner in Vagrant or other local development environments
+      # or in update shadows where the red banner would just be annoying.
+      if ( getenv('WP_ENV') && getenv('WP_ENV') === 'staging' ) {
         add_action('admin_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
         add_action('wp_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
         add_action('login_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
@@ -60,13 +62,16 @@ if ( ! class_exists('InstanceSwitcher') ) {
     }
 
     /**
-    * Automatically load list of shadow instances from Searvo API (if available)
+    * Automatically load list of shadow instances from Seravo API (if available)
     */
     public static function load_shadow_list() {
 
+      // If not in production, the Seravo API is not accessible and it is not
+      // even possible know what shadows exists, so just return an empty list.
       if ( getenv('WP_ENV') !== 'production' ) {
         return false;
       }
+
       $shadow_list = get_transient( 'shadow_list' );
       if ( ( $shadow_list ) === false ) {
         $api_query = '/shadows';
@@ -94,6 +99,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       $id = 'instance-switcher';
       $menuclass = '';
 
+      # Color the instance switcher red if not in production
       if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
         $menuclass = 'instance-switcher-warning';
       }
