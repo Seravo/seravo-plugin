@@ -67,7 +67,9 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
                   echo wp_sprintf( __('P.S. Subscribe to Seravo\'s %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our newest features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
                 ?>
                 </small></p>
-                  <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
+                <br>
+                <br>
+                <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
               </form>
             <?php
           } else {
@@ -94,8 +96,10 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
           <?php if ( gettype($site_info) === 'array' ) : ?>
           <ul>
             <li><?php _e('Site created', 'seravo'); ?>: <?php echo $site_info['created']; ?></li>
-            <li><?php _e('Latest update attempt', 'seravo'); ?>: <?php echo $site_info['update_attempt']; ?></li>
             <li><?php _e('Latest successful update', 'seravo'); ?>: <?php echo $site_info['update_success']; ?></li>
+            <?php if ( ! empty( $site_info['update_attempt'] ) ) { ?>
+            <li><?php _e('Latest update attempt', 'seravo'); ?>: <?php echo $site_info['update_attempt']; ?></li>'
+            <?php } ?>
           </ul>
             <?php
             else :
@@ -112,7 +116,9 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
 <?php
 $screenshots = glob( '/data/reports/tests/debug/*.png' );
 
-if ( count($screenshots) > 0 ) {
+# @TODO: Show as many screenshots as possible based on how many screenshot pairs
+# are found, e.g. home.png / home.diff.png / home.shadow.png
+if ( count($screenshots) > 3 ) {
 
   echo '
 <table>
@@ -139,12 +145,12 @@ if ( count($screenshots) > 0 ) {
       <tr>
         <td>
           <a href="/.seravo/screenshots-ng/debug/' . $name . '.png">
-            <img style="width: 15em" src="/.seravo/screenshots-ng/debug/' . $name . '.png">
+            <img style="width: 30em" src="/.seravo/screenshots-ng/debug/' . $name . '.png">
           </a>
         </td>
         <td style="background-color: yellow;">
           <a href="/.seravo/screenshots-ng/debug/' . $name . '.diff.png">
-            <img style="width: 15em" src="/.seravo/screenshots-ng/debug/' . $name . '.diff.png">
+            <img style="width: 30em" src="/.seravo/screenshots-ng/debug/' . $name . '.diff.png">
           </a>
           <br><span';
 
@@ -157,7 +163,7 @@ if ( count($screenshots) > 0 ) {
         </td>
         <td>
           <a href="/.seravo/screenshots-ng/debug/' . $name . '.shadow.png">
-            <img style="width: 15em;" src="/.seravo/screenshots-ng/debug/' . $name . '.shadow.png">
+            <img style="width: 30em;" src="/.seravo/screenshots-ng/debug/' . $name . '.shadow.png">
           </a>
         </td>
       </tr>';
