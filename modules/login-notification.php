@@ -173,7 +173,7 @@ if ( ! class_exists('Login_Notifications') ) {
     * Display the amount of php-error.log lines that have appeared this week.
     */
     public static function display_admin_errors_notification() {
-      $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page" ">' .
+      $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log" ">' .
         __('logs', 'Seravo') . '</a>';
       if ( self::$errors < self::$max_rows ) {
         $msg = wp_sprintf(
