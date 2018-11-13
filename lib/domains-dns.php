@@ -15,13 +15,12 @@ class Seravo_Domains_DNS_Table {
     if ( empty( $this->records ) ) {
       return;
     }
-    echo '<div><h2>' . __( 'Zone for: ', 'seravo' ) . $this->records['name'] . '</h2>';
     if ( isset( $this->records['error'] ) ) {
-      echo $this->records['error'] . '<br>';
+      echo '<div><p style="margin-left: 3px;"><b>' . $this->records['error'] . '</b></p></div>';
       return;
     }
     $timestamp = date_create_from_format( 'Y-m-d\TH:i:s.uO', $this->records['timestamp'] );
-    echo '<i>' . __( 'updated: ', 'seravo' ) . date_format( $timestamp, 'Y-m-d H:i O' ) . ' </i></div>';
+    echo '<div><p style="margin-left: 3px;"><b>' . __( 'Zone for: ', 'seravo' ) . $this->records['name'] . '</b> <i>(' . __( 'updated: ', 'seravo' ) . date_format( $timestamp, 'Y-m-d H:i O' ) . ')</i></p></div>';
     echo '<table class="wp-list-table widefat fixed striped domains" id="dns_zone">';
     echo '<thead>
       <th>' . __( 'Name', 'seravo' ) . '</th>
@@ -46,6 +45,7 @@ class Seravo_Domains_DNS_Table {
     if ( ! isset( $this->records ) ) {
       return;
     }
+    echo '<hr>';
     if ( $this->records['pending_activation'] ) {
       // translators: %s domain of the site
       echo '<p>' . wp_sprintf( __( "Seravo's systems have detected that <strong>%s</strong> does not point to
@@ -66,22 +66,30 @@ class Seravo_Domains_DNS_Table {
       wp_nonce_field( 'seravo-zone-nonce' );
       echo '<input type="hidden" name="action" value="change_zone_file">';
       echo '<input type="hidden" name="domain" value="' . $this->records['name'] . '">';
-      echo '<h2>' . __( 'Compulsory records', 'seravo' ) . '</h2>';
+      echo '<table>';
+      echo '<tr><td style="padding-bottom: 0px;">';
+      echo '<h2 style="margin: 0px 0px 5px 0px;">' . __( 'Compulsory records', 'seravo' ) . '</h2>';
       echo '<p>' . __( 'These records are not recommended for editting. Please
       contact Seravo customer service if you want to make changes to them.', 'seravo' ) . '</p>';
-      echo '<textarea name="compulsory" readonly rows="15" cols="80">';
-      echo $this->compulsory_as_string();
-      echo '</textarea>';
-      echo '<h2>' . __( 'Editable records', 'seravo' ) . '</h2>';
+      echo '</td><td style="padding-bottom: 0px;">';
+      echo '<h2 style="margin: 0px 0px 5px 0px;">' . __( 'Editable records', 'seravo' ) . '</h2>';
       echo '<p>' . __( 'Here you can add, edit and delete records.
       Please do not try to add records conflicting with compulsory records, since
       they will be stripped off.', 'seravo') . '</p>';
-      echo '<textarea name="zonefile" rows="15" cols="80">';
+      echo '</td></tr>';
+      echo '<tr><td style="width:50%">';
+      echo '<textarea name="compulsory" readonly style="width:100%" rows="15">';
+      echo $this->compulsory_as_string();
+      echo '</textarea>';
+      echo '</td><td style="width:50%">';
+      echo '<textarea name="zonefile" style="width:100%" rows="15">';
       echo $this->editable_as_string();
       echo '</textarea>';
-      echo '<input type="submit">';
-      echo '</form>';
+      echo '</td></tr>';
+      echo '<tr><td><input type="submit"</td></tr>';
+      echo '</table>';
     }
+    echo '<hr>';
   }
 
   public function display_results( $modifications = false, $error = false ) {
