@@ -198,8 +198,34 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     );
   }
 
-}
+  public function single_row( $item ) {
 
+    // Print the rows normally
+    echo '<tr>';
+    $this->single_row_columns( $item );
+    echo '</tr>';
+
+    // If there was a DNS table request for the previously printed domain
+    if ( $item['domain'] === $_REQUEST['domain'] && ! is_null($this->dns) ) {
+
+      // Add empty row to keep the row color same as the one above
+      echo '<tr></tr>';
+      echo '<tr><td style="padding-top:0px;" colspan="' . $this->get_column_count() . '">';
+
+      if ( 'view' === $this->current_action() ) {
+        $this->dns->display();
+      } else if ( 'edit' === $this->current_action() ) {
+        $this->dns->display_edit();
+      } elseif ( $_REQUEST['zone-updated'] ) {
+        $this->dns->display_results( $_REQUEST['modifications'], $_REQUEST['error'] );
+      }
+
+      echo '</td></tr>';
+
+    }
+  }
+
+}
 
 // Create an instance of our package class
 $domains_table = new Seravo_Domains_List_Table();
@@ -221,17 +247,5 @@ $domains_table->prepare_items();
     <!-- Now we can render the completed list table -->
     <?php $domains_table->display(); ?>
   </form>
-  <?php
-  // Create the dns-table section if it's available
-  if ( ! is_null($domains_table->dns) ) {
-    if ( 'view' === $domains_table->current_action() ) {
-      $domains_table->dns->display();
-    } elseif ( 'edit' === $domains_table->current_action() ) {
-      $domains_table->dns->display_edit();
-    } elseif ( $_REQUEST['zone-updated'] ) {
-      $domains_table->dns->display_results( $_REQUEST['modifications'], $_REQUEST['error'] );
-    }
-  }
-  ?>
 
 </div>
