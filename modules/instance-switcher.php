@@ -163,7 +163,9 @@ if ( ! class_exists('InstanceSwitcher') ) {
     }
 
     /**
-    * Front facing big fat red banner
+    * Front facing red banner that is always visible and
+    * a big fat banner that is shown when a visitor returns to the site after
+    * being away for more thatn 12 hours.
     */
     public static function render_shadow_indicator() {
       $shadow_title = strtoupper(getenv('WP_ENV'));
@@ -179,6 +181,56 @@ if ( ! class_exists('InstanceSwitcher') ) {
       ?>
       <a class="clearlink" href="/?wpp_shadow=clear&seravo_shadow=clear"><?php _e('Exit', 'seravo'); ?></a>
       </div>
+
+      <style>
+      #shadow-notice {
+        display: none;
+        width: 80%;
+        height: 80%;
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        font-family: Arial, sans-serif;
+        font-size: 60px;
+        color: #fff;
+        background: #cc0000;
+        z-index: 3000;
+        line-height: 1;
+        text-align: center;
+        padding: 50px;
+      }
+      #shadow-notice a.clearlink {
+        text-decoration: underline;
+        color: #fff;
+      }
+      </style>
+      <div id="shadow-notice">
+      <?php echo wp_sprintf( __('You are currently browsing a testing shadow.', 'seravo'), $shadow_title ); ?>
+      <br>
+      <button id="shadow_notice_continue"><?php _e('OK', 'seravo'); ?></button>
+      <a href="/?wpp_shadow=clear&seravo_shadow=clear"><button><?php _e('Go to the live production site', 'seravo'); ?></button></a>
+      </div>
+      <script>
+      function set_shadow_notice_cookie(){
+        var d = new Date();
+        d.setTime(d.getTime() + (12*60*60*1000));
+        document.cookie = "seravo_shadow_notice_hide=true;expires="+ d.toUTCString() + ";path=/";
+      }
+
+      // Show big fat notice if cookie is not set (or does not contain 'true')
+      if (document.cookie.replace(/(?:(?:^|.*;\s*)seravo_shadow_notice_hide\s*\=\s*([^;]*).*$)|^.*$/, "$1") !== "true") {
+        document.querySelector('#shadow-notice').style.display = 'block';
+      } else {
+        // If the cookie was already set, extend the time it is valid
+        set_shadow_notice_cookie();
+      }
+
+      // Hide big fat notice when user clicks 'OK' and set cookie so it does not come back
+      document.querySelector('#shadow_notice_continue').addEventListener('click', function(e){
+        document.querySelector('#shadow-notice').style.display = 'none';
+        set_shadow_notice_cookie();
+      });
+      </script>
       <?php
     }
 

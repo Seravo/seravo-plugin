@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
       document.cookie = "wpp_shadow=;path=/";
       document.cookie = "seravo_shadow=;path=/";
     } else if (instance.length === 6) {
-      // If shadow selected, set cookies.
+      // If shadow selected, set cookies that are stored for the duration of the session.
+      // If user has presistent tabs, the cookies may be stored for very long.
+      // @TOOD: Consider using Max-Age=seconds in the cookie
       e.preventDefault();
       document.cookie = "wpp_shadow=" + instance + ";path=/";
       document.cookie = "seravo_shadow=" + instance + ";path=/";
