@@ -105,6 +105,9 @@ function seravo_ajax_list_cruft_files() {
         '/data/wordpress/htdocs/wp-content/mu-plugins',
         '/data/wordpress/htdocs/wp-content/themes',
       );
+      $white_list_files = array(
+        '/data/wordpress/vagrant-base.sql',
+      );
 
       $crufts = array();
       $crufts = array_merge($crufts, find_cruft_core());
@@ -131,6 +134,17 @@ function seravo_ajax_list_cruft_files() {
         }
         $crufts = array_diff( $crufts, $keep );
       }
+      foreach ( $white_list_files as $filename ) {
+        // Some files are whitelisted as it is not necessary to delete them
+        $keep = array();
+        foreach ( $crufts as $cruftname ) {
+          if ( strpos($cruftname, $filename) !== false ) {
+            array_push($keep, $cruftname);
+          }
+        }
+        $crufts = array_diff( $crufts, $keep );
+      }
+
       foreach ( $list_known_files as $dirname ) {
         $cruft_found = list_known_cruft_file($dirname);
         if ( ! empty($cruft_found) ) {
