@@ -38,19 +38,18 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
     public function retrieve_whitelist() {
       $url = 'https://api.seravo.com/v0/infrastructure/monitoring-hosts.json';
       $key = 'seravo_jetpack_whitelist_' . md5( $url );
-      $found = false;
 
       // Try to fetch data from cache
-      $data = wp_cache_get( $key, '', false, $found );
+      $data = get_transient( $key );
 
       // If cachet data wasn't found, fetch it (otherwise, just use cached data)
-      if ( ( $found === false ) || count( $data ) < 1 ) {
+      if ( ( $data === false ) || count( $data ) < 1 ) {
         // Retrieve data from API
         $response = wp_remote_get( esc_url_raw( $url ) );
         $data = json_decode( wp_remote_retrieve_body( $response ) );
 
-        // Cache for 24 hours (86400 seconds)
-        wp_cache_add( $key, $data, $group = '', 86400 );
+        // Cache for 24 hours (DAY_IN_SECONDS)
+        set_transient( $key, $data, DAY_IN_SECONDS );
       }
       return $data;
     }
