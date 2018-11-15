@@ -173,27 +173,18 @@ if ( ! class_exists('Login_Notifications') ) {
     * Display the amount of php-error.log lines that have appeared this week.
     */
     public static function display_admin_errors_notification() {
-      $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log" ">' .
-        __('logs', 'Seravo') . '</a>';
-      if ( self::$errors < self::$max_rows ) {
-        $msg = wp_sprintf(
-          /* translators:
-          * %1$s number of errors in the log
-          * %2$s url for additional information
-          */
-          __('You have a total of %1$s lines in your error log this week. Check %2$s for details.',
-          'seravo'), self::$errors, $url
-        );
-      } else {
-        $msg = wp_sprintf(
-          /* translators:
-          * %1$s number of errors in the log
-          * %2$s url for additional information
-          */
-          __('You have at least %1$s lines in your error log this week. Check %2$s for details.', 'seravo'),
-          self::$errors, $url
-        );
-      }
+      $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log">php-error.log</a>';
+      $msg = wp_sprintf(
+        /* translators:
+        * %1$s number of errors in the log
+        * %2$s url for additional information
+        */
+        __('The PHP error log more than %1$s entries this week. Please see %2$s for details.
+            This is usually a sign that something is broken in the code and it should be reported
+            to the developer of the code that is emitting errors or warnings.',
+           'seravo'),
+        self::$errors, $url
+      );
       echo '<div>' . $msg . '</div>';
     }
   }
