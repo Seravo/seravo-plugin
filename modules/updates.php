@@ -70,10 +70,12 @@ if ( ! class_exists('Updates') ) {
       }
       $data = array( 'seravo_updates' => $seravo_updates );
 
-      // Slack webhook
+      // Webhooks is an anonymous array of named arrays with type/url pairs
       $data['notification_webhooks'] = array(
-        'type' => 'slack',
-        'url' => $_POST['slack_webhook'],
+        array(
+          'type' => 'slack',
+          'url'  => $_POST['slack_webhook'],
+        ),
       );
 
       // Handle site technical contact email addresses
