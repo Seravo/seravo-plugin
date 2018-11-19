@@ -283,7 +283,9 @@ jQuery(document).ready(function($) {
   };
   ajaxPopulateWidgets();
 
-  seravo_postboxes.add_postbox_toggles(pagenow, { pbshow: ajaxPopulateWidgets } );
+  if ( typeof pagenow !== 'undefined' ) {
+    seravo_postboxes.add_postbox_toggles(pagenow, { pbshow: ajaxPopulateWidgets } );
+  }
 
   $( '.seravo-postbox-holder .meta-box-sortables' ).sortable( 'option', 'containment', '#wpwrap' );
 
