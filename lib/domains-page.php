@@ -53,6 +53,8 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     $actions = array();
 
+    $paged = ! empty($_REQUEST['page']) ? $_REQUEST['paged'] : '1';
+
     /*
     // Domains managed by Seravo can be added, edited or deleted
     // if ( $item['management'] === 'Seravo' ) {
@@ -64,10 +66,10 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     // $actions['delete'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Delete</a>',
     //                                $_REQUEST['page'], 'delete', $item['domain']);
     */
-    $actions['view'] = sprintf( '<a href="?page=%s&action=%s&domain=%s">View</a>',
-                                  $_REQUEST['page'], 'view', $item['domain']);
-    $actions['edit'] = sprintf( '<a href="?page=%s&action=%s&domain=%s">Edit</a>',
-                                  $_REQUEST['page'], 'edit', $item['domain']);
+    $actions['view'] = sprintf( '<a href="?page=%s&action=%s&domain=%s&paged=%s">View</a>',
+                                  $_REQUEST['page'], 'view', $item['domain'], $paged);
+    $actions['edit'] = sprintf( '<a href="?page=%s&action=%s&domain=%s&paged=%s">Edit</a>',
+                                  $_REQUEST['page'], 'edit', $item['domain'], $paged);
 
     return sprintf('%1$s %2$s',
         /*$1%s*/ $item['domain'],
@@ -210,7 +212,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
       // Add empty row to keep the row color same as the one above
       echo '<tr></tr>';
-      echo '<tr><td style="padding-top:0px;" colspan="' . $this->get_column_count() . '">';
+      echo '<tr><td style="padding-top:0px; padding-bottom:0px;" colspan="' . $this->get_column_count() . '">';
 
       if ( 'view' === $this->current_action() ) {
         $this->dns->display();

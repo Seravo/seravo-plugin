@@ -48,6 +48,8 @@ if ( ! class_exists('Domains') ) {
           $zone = $_POST['zonefile'];
         }
 
+        $paged_str = ! empty($_POST['paged']) ? '&paged=' . $_POST['paged'] : '';
+
         // Remove the escapes that are not needed.
         // This makes \" into "
         $data_str = str_replace( '\"', '"', $zone );
@@ -67,7 +69,7 @@ if ( ! class_exists('Domains') ) {
       // Check if validation tests failed
       if ( isset( $r_obj->status ) && $r_obj->status === 400 ) {
         $error_msg = '&error=' . urlencode( $r_obj->reason );
-        wp_redirect( admin_url( 'tools.php?page=domains_page&zone-updated=true' . $error_msg ) );
+        wp_redirect( admin_url( 'tools.php?page=domains_page&domain=' . $_POST['domain'] . $paged_str . '&zone-updated=true' . $error_msg ) );
         die();
 
       } elseif ( $r_obj->modifications ) {
@@ -77,7 +79,7 @@ if ( ! class_exists('Domains') ) {
           $mod_str .= '&modifications[]=' . urlencode( $m );
         }
       }
-      wp_redirect( admin_url( 'tools.php?page=domains_page&zone-updated=true' . $mod_str ) );
+      wp_redirect( admin_url( 'tools.php?page=domains_page&domain=' . $_POST['domain'] . $paged_str . '&zone-updated=true' . $mod_str ) );
       die();
     }
   }

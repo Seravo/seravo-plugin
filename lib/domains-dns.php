@@ -21,7 +21,7 @@ class Seravo_Domains_DNS_Table {
     }
     $timestamp = date_create_from_format( 'Y-m-d\TH:i:s.uO', $this->records['timestamp'] );
     echo '<div><p style="margin-left: 3px;"><b>' . __( 'Zone for: ', 'seravo' ) . $this->records['name'] . '</b> <i>(' . __( 'updated: ', 'seravo' ) . date_format( $timestamp, 'Y-m-d H:i O' ) . ')</i></p></div>';
-    echo '<table class="wp-list-table widefat fixed striped domains" id="dns_zone">';
+    echo '<table style="margin-bottom: 8px;" class="wp-list-table widefat fixed striped domains" id="dns_zone">';
     echo '<thead>
       <th>' . __( 'Name', 'seravo' ) . '</th>
       <th>' . __( 'TTL', 'seravo' ) . '</th>
@@ -45,24 +45,27 @@ class Seravo_Domains_DNS_Table {
     if ( ! isset( $this->records ) ) {
       return;
     }
-    echo '<hr>';
     if ( $this->records['pending_activation'] ) {
+      echo '<hr>';
       // translators: %s domain of the site
-      echo '<p>' . wp_sprintf( __( "Seravo's systems have detected that <strong>%s</strong> does not point to
+      echo '<p style="max-width:50%;">' . wp_sprintf( __( "Seravo's systems have detected that <strong>%s</strong> does not point to
        Seravo's servers. For your protection, manual editting is prohibited.
        Please contact Seravo's customer service if you want to changes to the zone.
        You can publish the site yourself when you want to with the following button:", 'seravo'), $this->records['name'] ) . '</p>';
-      echo '<form name="seravo_edit_zone" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="post">';
       wp_nonce_field( 'seravo-zone-nonce' );
       echo '<input type="hidden" name="action" value="change_zone_file">';
       echo '<input type="hidden" name="domain" value="' . $this->records['name'] . '">';
       echo '<textarea type="hidden" name="zonefile" style="display:none;">' .
       $this->compulsory_as_string() . "\n" . $this->editable_as_string() .
       '</textarea>';
-      echo '<input type="submit" value="' . __( 'Publish', 'seravo' ) . '" >';
-      echo '</form>';
+      echo '<input style="margin-bottom:8px;" type="submit" value="' . __( 'Publish', 'seravo' ) . '"" formaction="' . esc_url( admin_url( 'admin-post.php' ) ) . '" formmethod="post" >';
+      echo '<hr>';
     } else {
-      echo '<form name="seravo_edit_zone" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="post">';
+      if ( isset( $this->records['error'] ) ) {
+        echo '<div><p style="margin-left: 3px;"><b>' . $this->records['error'] . '</b></p></div>';
+        return;
+      }
+      echo '<hr>';
       wp_nonce_field( 'seravo-zone-nonce' );
       echo '<input type="hidden" name="action" value="change_zone_file">';
       echo '<input type="hidden" name="domain" value="' . $this->records['name'] . '">';
@@ -86,16 +89,16 @@ class Seravo_Domains_DNS_Table {
       echo $this->editable_as_string();
       echo '</textarea>';
       echo '</td></tr>';
-      echo '<tr><td><input type="submit"</td></tr>';
+      echo '<tr><td><input type="submit" formaction="' . esc_url( admin_url( 'admin-post.php' ) ) . '" formmethod="post"></td></tr>';
       echo '</table>';
+      echo '<hr>';
     }
-    echo '<hr>';
   }
 
   public function display_results( $modifications = false, $error = false ) {
 
     if ( ! $error ) {
-      echo '<h2>' . __('Zone updated succesfully!', 'seravo') . '</h2>';
+      echo '<p><b>' . __('Zone updated succesfully!', 'seravo') . '</b></p>';
       if ( $modifications ) {
         echo '<div>' . __('The following modifications were made to the zone: ', 'seravo');
         echo '<ol>';
@@ -105,7 +108,7 @@ class Seravo_Domains_DNS_Table {
         echo '</ol></div>';
       }
     } else {
-      echo '<h2>' . __( 'Zone update failed', 'seravo' ) . '</h2>';
+      echo '<p><b>' . __( 'Zone update failed', 'seravo' ) . '</b></p>';
       echo '<div>' . $error . '</div>';
     }
   }
