@@ -170,9 +170,16 @@ class Loader {
 
     /*
      * Check that https is enabled in siteurl
+	 */
+	if ( current_user_can( 'administrator' ) ) {
+      require_once dirname( __FILE__ ) . '/modules/check-https.php';
+	}
+
+	/*
+	 * Check that the PHP version is 7.2
      */
     if ( current_user_can( 'administrator' ) ) {
-      require_once dirname( __FILE__ ) . '/modules/check-https.php';
+      require_once dirname( __FILE__ ) . '/modules/check-php-version.php';
     }
 
     /*
