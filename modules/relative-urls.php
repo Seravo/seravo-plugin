@@ -102,8 +102,8 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
       $transient_key = 'seravo_feed_' . $letter_count . '_' . $hash;
 
       // Use transient to store the results
-      $content = get_transient( $transient_key );
-      if ( ( isset($_SERVER['HTTP_PRAGMA'] ) && $_SERVER['HTTP_PRAGMA'] === 'no-cache' ) || false === ( $content ) ) {
+      $transient = get_transient( $transient_key );
+      if ( ( isset($_SERVER['HTTP_PRAGMA'] ) && $_SERVER['HTTP_PRAGMA'] === 'no-cache' ) || false === ( $transient ) ) {
 
         // Again integrate with https://github.com/seravo/https-domain-alias
         $url = ( defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL') ? HTTPS_DOMAIN_ALIAS_FRONTEND_URL : self::$siteurl );
@@ -114,6 +114,8 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
         // Save to transient
         set_transient( $transient_key, $content, 15 * MINUTE_IN_SECONDS );
 
+      } else {
+        $content = $transient;
       }
 
       return $content;
