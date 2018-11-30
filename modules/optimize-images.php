@@ -55,7 +55,7 @@ if ( ! class_exists('Optimize_Images') ) {
       );
 
       add_settings_field(
-        'seravo-images-enabled-field', __( 'Limit Image Resolution', 'seravo' ),
+        'seravo-images-enabled-field', __( 'Optimize Images', 'seravo' ),
         array( __CLASS__, 'seravo_image_enabled_field' ), 'optimize_images_settings', 'seravo-optimize-images-settings'
       );
       add_settings_field(
@@ -115,15 +115,17 @@ if ( ! class_exists('Optimize_Images') ) {
     }
 
     public static function optimize_images_settings_description() {
-      _e('Define the maximum image size for your site. Using optimized images significantly improves site performance and saves disk space.', 'seravo');
+      echo '<p>' . __('Optimization reduces image file size. This improves the performance and browsing experience of your site.', 'seravo') . '</p>' .
+      '<p>' . __('By setting the maximum image resolution, you can determine the maximum allowed dimensions for images.', 'seravo') . '</p>' .
+      '<p>' . __( 'For further information, refer to our <a href="https://help.seravo.com/en/knowledgebase/23-managing-wordpress/docs/119-seravo-plugin-optimize-images">knowledgebase article</a>.', 'seravo') . '</p>';
     }
 
     public static function sanitize_image_width( $width ) {
       if ( $width < self::$min_width && $width !== null && get_option( 'seravo-enable-optimize-images' ) === 'on' ) {
         add_settings_error( 'seravo-image-max-resolution-width', 'invalid-width',
         // translators: %s numeric value for the minimum image width
-        sprintf( __( 'The minimum width for image optimisation is %s px.', 'seravo' ), self::$min_width ) );
-        return self::$min_width;
+        sprintf( __( 'The minimum width for image optimisation is %1$s px. Setting suggested width of %2$s px.', 'seravo' ), self::$min_width, self::$max_width_default ) );
+        return self::$max_width_default;
       }
       return $width;
     }
@@ -133,9 +135,9 @@ if ( ! class_exists('Optimize_Images') ) {
         add_settings_error(
           'seravo-image-max-resolution-height', 'invalid-height',
           // translators: %s numeric value for the minimum image height
-          sprintf( __( 'The minimum height for image optimisation is %s px.', 'seravo' ), self::$min_height )
+          sprintf( __( 'The minimum height for image optimisation is %1$s px. Setting suggested height of %2$s px.', 'seravo' ), self::$min_height, self::$max_height_default )
         );
-        return self::$min_height;
+        return self::$max_height_default;
       }
       return $height;
     }
@@ -144,7 +146,7 @@ if ( ! class_exists('Optimize_Images') ) {
       if ( get_option( 'seravo-enable-optimize-images' ) === 'on' ) {
         return array( 'max-resolution-field', '' );
       }
-      return array( 'max-resolution-field-disabled', 'hidden' );
+      return array( 'max-resolution-field', 'disabled=""' );
     }
 
     public static function optimize_images_postbox() {
