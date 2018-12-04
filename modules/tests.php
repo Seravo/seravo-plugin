@@ -47,9 +47,9 @@ if ( ! class_exists('Tests') ) {
         wp_enqueue_script('seravo_tests');
 
         $loc_translation = array(
-          'no_data'       => __('No data returned for section.', 'seravo'),
-          'test_success'  => __('Tests run succesfully without errors!', 'seravo'),
-          'test_fail'     => __('At least one test failed.', 'seravo'),
+          'no_data'       => __('No data returned for the section.', 'seravo'),
+          'test_success'  => __('Tests were run without any errors!', 'seravo'),
+          'test_fail'     => __('At least one of the tests failed.', 'seravo'),
           'run_fail'      => __('Failed to load. Please try again.', 'seravo'),
           'running_tests' => __('Running rspec tests...', 'seravo'),
           'ajaxurl'       => admin_url('admin-ajax.php'),
@@ -67,10 +67,7 @@ if ( ! class_exists('Tests') ) {
       ?>
       <p>
         <?php
-        _e('Here you can test the core functionality of the WordPress installation on your site.
-          The same effect can be achieved via command line by running <code>wp-test</code>.
-          For more information, check the <a href="https://seravo.com/docs/tests/integration-tests/">
-          Seravo documentation for developers</a>.', 'seravo');
+        _e('Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href="https://seravo.com/docs/tests/integration-tests/"> Seravo Developer Documentation</a>.', 'seravo');
         ?>
       </p>
       <button type="button" class="button-primary" id="run-wp-tests"><?php _e('Run Tests', 'seravo'); ?></button>
@@ -82,7 +79,7 @@ if ( ! class_exists('Tests') ) {
           <pre id="seravo_tests"></pre>
         </div>
         <div id="seravo_test_show_more_wrapper">
-          <a href="" id="seravo_test_show_more"><?php _e('Toggle details', 'seravo'); ?>
+          <a href="" id="seravo_test_show_more"><?php _e('Toggle Details', 'seravo'); ?>
             <div class="dashicons dashicons-arrow-down-alt2" id="seravo_arrow_show_more">
             </div>
           </a>

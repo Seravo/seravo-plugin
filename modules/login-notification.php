@@ -179,9 +179,7 @@ if ( ! class_exists('Login_Notifications') ) {
         * %1$s number of errors in the log
         * %2$s url for additional information
         */
-        __('The PHP error log more than %1$s entries this week. Please see %2$s for details.
-            This is usually a sign that something is broken in the code and it should be reported
-            to the developer of the code that is emitting errors or warnings.',
+        __('The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified.',
            'seravo'),
         self::$errors, $url
       );

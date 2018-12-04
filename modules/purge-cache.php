@@ -34,7 +34,7 @@ if ( ! class_exists('Purge_Cache') ) {
         'id'    => 'nginx-helper-purge-all',
         'title' => '<span class="ab-icon seravo-purge-cache-icon"></span><span title="' .
           // translators: %s cache refresh interval
-          sprintf(__('Seravo.com uses front proxies to deliver lightning fast responses to your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the frontend proxy immediately.', 'seravo'), '15 min') .
+          sprintf(__('Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the front-end proxy immediately.', 'seravo'), '15 min') .
           '" class="ab-label seravo-purge-cache-text">' . __('Purge Cache', 'seravo') . '</span>',
       ));
     }

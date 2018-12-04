@@ -61,7 +61,7 @@ if ( ! class_exists('Domains') ) {
           die( $response->get_error_message() );
         }
       } else {
-        die('An error occured while trying to change the zone');
+        die('An error occured while trying to edit the zone');
       }
       // Response as an object
       $r_obj = json_decode( $response );

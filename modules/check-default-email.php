@@ -32,7 +32,7 @@ if ( ! class_exists('CheckDefaultEmail') ) {
       <?php
       $siteurl = get_option('siteurl');
       // translators: $s user's website url
-      $link = sprintf( wp_kses( __( 'Warning: Default admin email detected in <a href="%s/wp-admin/options-general.php">site settings</a>. Please update it.', 'seravo' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( $siteurl ) );
+      $link = sprintf( wp_kses( __( 'Warning: A generic admin email was detected in the <a href="%s/wp-admin/options-general.php">site settings</a>. Please update it.', 'seravo' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( $siteurl ) );
       echo $link;
       ?>
       </p>
