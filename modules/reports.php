@@ -31,7 +31,7 @@ if ( ! class_exists('Reports') ) {
       // Add HTTP request stats postbox
       seravo_add_postbox(
         'http-request-statistics',
-        __('HTTP request statistics', 'seravo'),
+        __('HTTP Request Statistics', 'seravo'),
         array( __CLASS__, 'seravo_http_request_statistics' ),
         'tools_page_reports_page',
         'side'
@@ -40,7 +40,7 @@ if ( ! class_exists('Reports') ) {
       // Add disk usage postbox
       seravo_add_postbox(
         'disk-usage',
-        __('Disk usage', 'seravo'),
+        __('Disk Usage', 'seravo'),
         array( __CLASS__, 'seravo_disk_usage' ),
         'tools_page_reports_page',
         'normal'
@@ -49,7 +49,7 @@ if ( ! class_exists('Reports') ) {
       // Add cache status postbox
       seravo_add_postbox(
         'cache-status',
-        __('Cache status', 'seravo'),
+        __('Cache Status', 'seravo'),
         array( __CLASS__, 'seravo_cache_status' ),
         'tools_page_reports_page',
         'normal'
@@ -57,7 +57,7 @@ if ( ! class_exists('Reports') ) {
 
       seravo_add_postbox(
         'site-info',
-        __('Site information', 'seravo'),
+        __('Site Information', 'seravo'),
         array( __CLASS__, 'seravo_site_info' ),
         'tools_page_reports_page',
         'normal'
@@ -80,7 +80,7 @@ if ( ! class_exists('Reports') ) {
         wp_enqueue_script( 'seravo_reports' );
 
         $loc_translation = array(
-          'no_data'     => __('No data returned for section.', 'seravo'),
+          'no_data'     => __('No data returned for the section.', 'seravo'),
           'failed'      => __('Failed to load. Please try again.', 'seravo'),
           'no_reports'  => __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'),
           'view_report' => __('View report', 'seravo'),
@@ -95,14 +95,14 @@ if ( ! class_exists('Reports') ) {
     public static function seravo_http_request_statistics() {
       ?>
       <div style="padding: 0px 15px;">
-        <p><?php _e('These monthly reports are generated from the site\'s HTTP access logs. They show every HTTP request of the site, including traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. Log files can be accessed also directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo'); ?></p>
+        <p><?php _e('These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo'); ?></p>
       </div>
       <div class="http-requests_info_loading" style="padding: 0px;">
         <table class="widefat striped" style="width: 100%; border: none;">
           <thead>
             <tr>
               <th style="width: 25%;"><?php _e('Month', 'seravo'); ?></th>
-              <th style="width: 50%;"><?php _e('HTTP requests', 'seravo'); ?></th>
+              <th style="width: 50%;"><?php _e('HTTP Requests', 'seravo'); ?></th>
               <th style="width: 25%;"><?php _e('Report', 'seravo'); ?></th>
             </tr>
           </thead>
@@ -115,12 +115,12 @@ if ( ! class_exists('Reports') ) {
 
     public static function seravo_cache_status() {
       ?>
-      <h3><?php _e('Redis transient and object cache', 'seravo'); ?></h3>
+      <h3><?php _e('Redis Transient and Object Cache', 'seravo'); ?></h3>
       <div class="redis_info_loading">
         <img src="/wp-admin/images/spinner.gif">
       </div>
       <pre id="redis_info"></pre>
-      <h3><?php _e('Nginx HTTP cache', 'seravo'); ?></h3>
+      <h3><?php _e('Nginx HTTP Cache', 'seravo'); ?></h3>
       <div class="front_cache_status_loading">
         <img src="/wp-admin/images/spinner.gif">
       </div>
@@ -130,13 +130,13 @@ if ( ! class_exists('Reports') ) {
 
     public static function seravo_disk_usage() {
       ?>
-      <p><?php _e('Total size of <code>/data</code> is', 'seravo'); ?>
+      <p><?php _e('The total size of <code>/data</code> is', 'seravo'); ?>
         <div class="folders_chart_loading">
           <img src="/wp-admin/images/spinner.gif">
         </div>
         <pre id="total_disk_usage"></pre>
       </p>
-      <p><?php _e('Biggest directories:', 'seravo'); ?>
+      <p><?php _e('Disk usage by directory', 'seravo'); ?>
         <div class="folders_chart_loading">
           <img src="/wp-admin/images/spinner.gif">
         </div>
@@ -170,10 +170,10 @@ if ( ! class_exists('Reports') ) {
         }
       }
       // $site_info['termination']
-      print_item( date('Y-m-d', strtotime($site_info['created'])), __('Site created', 'seravo') );
-      print_item( date('Y-m-d', strtotime($site_info['termination'])), __('Plan termination', 'seravo') );
-      print_item( $countries[ $site_info['country'] ], __('Site country selection', 'seravo') );
-      print_item( $plans[ $site_info['plan']['type'] ], __('Plan type', 'seravo') );
+      print_item( date('Y-m-d', strtotime($site_info['created'])), __('Site Created', 'seravo') );
+      print_item( date('Y-m-d', strtotime($site_info['termination'])), __('Plan Termination', 'seravo') );
+      print_item( $countries[ $site_info['country'] ], __('Site Location', 'seravo') );
+      print_item( $plans[ $site_info['plan']['type'] ], __('Plan Type', 'seravo') );
       print_item( htmlentities($site_info['account_manager']), __('Account Manager', 'seravo') );
     }
 

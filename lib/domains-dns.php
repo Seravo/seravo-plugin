@@ -48,10 +48,7 @@ class Seravo_Domains_DNS_Table {
     if ( $this->records['pending_activation'] ) {
       echo '<hr>';
       // translators: %s domain of the site
-      echo '<p style="max-width:50%;">' . wp_sprintf( __( "Seravo's systems have detected that <strong>%s</strong> does not point to
-       Seravo's servers. For your protection, manual editting is prohibited.
-       Please contact Seravo's customer service if you want to changes to the zone.
-       You can publish the site yourself when you want to with the following button:", 'seravo'), $this->records['name'] ) . '</p>';
+      echo '<p style="max-width:50%;">' . wp_sprintf( __( 'Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:', 'seravo'), $this->records['name'] ) . '</p>';
       wp_nonce_field( 'seravo-zone-nonce' );
       echo '<input type="hidden" name="action" value="change_zone_file">';
       echo '<input type="hidden" name="domain" value="' . $this->records['name'] . '">';
@@ -71,14 +68,11 @@ class Seravo_Domains_DNS_Table {
       echo '<input type="hidden" name="domain" value="' . $this->records['name'] . '">';
       echo '<table>';
       echo '<tr><td style="padding-bottom: 0px;">';
-      echo '<h2 style="margin: 0px 0px 5px 0px;">' . __( 'Compulsory records', 'seravo' ) . '</h2>';
-      echo '<p>' . __( 'These records are not recommended for editting. Please
-      contact Seravo customer service if you want to make changes to them.', 'seravo' ) . '</p>';
+      echo '<h2 style="margin: 0px 0px 5px 0px;">' . __( 'Compulsory Records', 'seravo' ) . '</h2>';
+      echo '<p>' . __( 'It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them.', 'seravo' ) . '</p>';
       echo '</td><td style="padding-bottom: 0px;">';
       echo '<h2 style="margin: 0px 0px 5px 0px;">' . __( 'Editable records', 'seravo' ) . '</h2>';
-      echo '<p>' . __( 'Here you can add, edit and delete records.
-      Please do not try to add records conflicting with compulsory records, since
-      they will be stripped off.', 'seravo') . '</p>';
+      echo '<p>' . __( 'Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated.', 'seravo') . '</p>';
       echo '</td></tr>';
       echo '<tr><td style="width:50%">';
       echo '<textarea name="compulsory" readonly style="width:100%" rows="15">';
@@ -98,9 +92,9 @@ class Seravo_Domains_DNS_Table {
   public function display_results( $modifications = false, $error = false ) {
 
     if ( ! $error ) {
-      echo '<p><b>' . __('Zone updated succesfully!', 'seravo') . '</b></p>';
+      echo '<p><b>' . __('The zone was updated succesfully!', 'seravo') . '</b></p>';
       if ( $modifications ) {
-        echo '<div>' . __('The following modifications were made to the zone: ', 'seravo');
+        echo '<div>' . __('The following modifications were done for the zone: ', 'seravo');
         echo '<ol>';
         foreach ( $modifications as $m ) {
           echo '<li>' . $m . '</li>';
@@ -108,7 +102,7 @@ class Seravo_Domains_DNS_Table {
         echo '</ol></div>';
       }
     } else {
-      echo '<p><b>' . __( 'Zone update failed', 'seravo' ) . '</b></p>';
+      echo '<p><b>' . __( 'The zone update failed', 'seravo' ) . '</b></p>';
       echo '<div>' . $error . '</div>';
     }
   }

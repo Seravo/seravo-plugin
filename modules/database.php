@@ -43,7 +43,7 @@ if ( ! class_exists('Database') ) {
 
       seravo_add_postbox(
         'database-access',
-        __('Database access', 'seravo'),
+        __('Database Access', 'seravo'),
         array( __CLASS__, 'database_access_postbox' ),
         'tools_page_database_page',
         'normal'
@@ -51,7 +51,7 @@ if ( ! class_exists('Database') ) {
 
       seravo_add_postbox(
         'database-adminer',
-        __('Manage database with Adminer', 'seravo'),
+        __('Manage the Database with Adminer', 'seravo'),
         array( __CLASS__, 'database_adminer_postbox' ),
         'tools_page_database_page',
         'normal'
@@ -59,7 +59,7 @@ if ( ! class_exists('Database') ) {
 
       seravo_add_postbox(
         'database-search-replace',
-        __('Search-replace tool', 'seravo'),
+        __('Search-Replace Tool', 'seravo'),
         array( __CLASS__, 'database_search_replace_postbox' ),
         'tools_page_database_page',
         'side'
@@ -67,7 +67,7 @@ if ( ! class_exists('Database') ) {
 
       seravo_add_postbox(
         'database-size',
-        __('Database size', 'seravo'),
+        __('Database Size', 'seravo'),
         array( __CLASS__, 'database_size_postbox' ),
         'tools_page_database_page',
         'side'
@@ -112,13 +112,13 @@ if ( ! class_exists('Database') ) {
       <p>
         <?php
         // translators: $s example of the command for getting user's database credentials
-        printf( __( 'You can find the database credentials by connecting with SSH and running command %s. These credentials can be used to connect to server with SSH tunnel. You can also use web-based Adminer below.', 'seravo' ), '<code>wp-list-env</code>' );
+        printf( __( 'You can find the database credentials by connecting to your site with SSH and running the command %s. These credentials can be used to connect to the server with an SSH tunnel. You can also use the web-based Adminer available on this page.', 'seravo' ), '<code>wp-list-env</code>' );
         ?>
       </p>
       <p>
         <?php
         // translators: $s url containing additional information on WordPress database tools
-        printf( __( 'When you have SSH connection you can use WP-CLI that has powerful database tools for example exports and imports. <a href="%s">Read wp db docs.</a>', 'seravo' ), 'https://developer.wordpress.org/cli/commands/db/' );
+        printf( __( 'When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href="%s">Read the documentation for wp db</a>.', 'seravo' ), 'https://developer.wordpress.org/cli/commands/db/' );
         ?>
       </p>
       <?php
@@ -131,7 +131,7 @@ if ( ! class_exists('Database') ) {
         /* translators:
         * %1$s url to www.adminer.org
         */
-        printf( __( 'Adminer is a simple database management tool like phpMyAdmin. <a href="%1$s">Learn more about Adminer.</a>', 'seravo' ), 'https://www.adminer.org' );
+        printf( __( 'Adminer is a simple database management tool, like phpMyAdmin. <a href="%1$s">Learn more about Adminer.</a>', 'seravo' ), 'https://www.adminer.org' );
         ?>
       </p>
       <p>
@@ -140,7 +140,7 @@ if ( ! class_exists('Database') ) {
         * %1$s example url for accessing Adminer in production environment
         * %2$s example url for accessing Adminer in local development
         */
-        printf( __( 'Find Adminer in production at %1$s and in local development at %2$s.', 'seravo' ), '<code>sitename.com/.seravo/adminer</code>', '<code>adminer.sitename.local</code>' );
+        printf( __( 'Adminer can be located in the production environment at %1$s and in the local development environment at %2$s.', 'seravo' ), '<code>sitename.com/.seravo/adminer</code>', '<code>adminer.sitename.local</code>' );
         ?>
       </p>
       <?php
@@ -184,7 +184,7 @@ if ( ! class_exists('Database') ) {
     public static function database_search_replace_postbox() {
       ?>
       <?php if ( exec( 'which wp' ) && apply_filters('seravo_search_replace', true) ) : ?>
-        <p> <?php _e('With this tool you can run wp search-replace. For your own safety, dry-run has to be ran before the actual search-replace', 'seravo'); ?></p>
+        <p> <?php _e('You can use this tool to run <code>wp search-replace</code>. For safety reason a dry run is compulsory before the actual search-replace can be done.', 'seravo'); ?></p>
         <div class="sr-navbar">
           <span class="label_buttons"><label class="from_label" for="sr-from"><?php _e('From:', 'seravo'); ?></label> <input type="text" id="sr-from" value=""></span>
           <span class="label_buttons to_button"><label class="to_label" for="sr-to"><?php _e('To:', 'seravo'); ?></label> <input type="text" id="sr-to" value=""></span>
@@ -209,7 +209,7 @@ if ( ! class_exists('Database') ) {
             <?php endif; ?>
           </ul>
           <div class="datab_buttons">
-            <button id="sr-drybutton" class="button sr-button"> <?php _e('Run dry-run', 'seravo'); ?> </button>
+            <button id="sr-drybutton" class="button sr-button"> <?php _e('Do a dry run', 'seravo'); ?> </button>
             <button id="sr-button" class="button sr-button" disabled> <?php _e('Run wp search-replace', 'seravo'); ?> </button>
           </div>
         </div>

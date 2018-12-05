@@ -31,7 +31,7 @@ require_once dirname( __FILE__ ) . '/api.php';
         <div class="inside" style="padding: 0px">
           <div class="seravo-section">
             <div style="padding: 0px 15px">
-              <p><?php _e('Allow easy access to site shadows. Resetting a shadow copies the production state to a shadow by all replacing files under /data/wordpress/ and importing the production database. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/">Developer documentation</a>.', 'seravo'); ?></p>
+              <p><?php _e('Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/">Developer documentation</a>.', 'seravo'); ?></p>
             </div>
             <div style="padding: 0px">
               <?php
@@ -51,8 +51,8 @@ require_once dirname( __FILE__ ) . '/api.php';
                 <thead>
                   <th><?php _e('Name', 'seravo'); ?></th>
                   <th><?php _e('Identifier', 'seravo'); ?></th>
-                  <th><?php _e('SSH port', 'seravo'); ?></th>
-                  <th><?php _e('Creation date', 'seravo'); ?></th>
+                  <th><?php _e('SSH Port', 'seravo'); ?></th>
+                  <th><?php _e('Creation Date', 'seravo'); ?></th>
                   <th><?php _e('Reset Shadow', 'seravo'); ?></th>
                 </thead>
                 <tbody>
@@ -73,7 +73,7 @@ require_once dirname( __FILE__ ) . '/api.php';
               </table>
               <?php else : ?>
                 <p style="padding: 15px">
-                  <?php _e('No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at wordpress@seravo.com.', 'seravo'); ?>
+                  <?php _e('No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href="mailto:wordpress@seravo.com">wordpress@seravo.com</a>.', 'seravo'); ?>
                 </p>
               <?php endif; ?>
             </div>

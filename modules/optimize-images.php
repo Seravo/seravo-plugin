@@ -115,8 +115,7 @@ if ( ! class_exists('Optimize_Images') ) {
     }
 
     public static function optimize_images_settings_description() {
-      _e('Change the maximum image size for your site. Using a smaller image size
-      significantly improves site performance and saves disk space.', 'seravo');
+      _e('Define the maximum image size for your site. Using optimized images significantly improves site performance and saves disk space.', 'seravo');
     }
 
     public static function sanitize_image_width( $width ) {

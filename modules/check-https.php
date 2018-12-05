@@ -35,7 +35,7 @@ if ( ! class_exists('CheckHttps') ) {
       <?php
       printf(
       // translators: user's website url
-      __('HTTPS protocol is not used in <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/">use https</a>.', 'seravo'),
+      __('The HTTPS protocol is not currently active in the <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/">use HTTPS</a>.', 'seravo'),
       esc_url( $siteurl )
       );
       ?>

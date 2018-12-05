@@ -41,7 +41,7 @@ if ( ! class_exists('Backups') ) {
 
       seravo_add_postbox(
         'backups-create',
-        __('Create a new backup', 'seravo'),
+        __('Create a New Backup', 'seravo'),
         array( __CLASS__, 'backups_create_postbox' ),
         'tools_page_backups_page',
         'normal'
@@ -49,7 +49,7 @@ if ( ! class_exists('Backups') ) {
 
       seravo_add_postbox(
         'backups-excludes',
-        __('Files excluded from backups', 'seravo'),
+        __('Files Excluded from the Backups', 'seravo'),
         array( __CLASS__, 'backups_excludes_postbox' ),
         'tools_page_backups_page',
         'side'
@@ -57,7 +57,7 @@ if ( ! class_exists('Backups') ) {
 
       seravo_add_postbox(
         'backups-list',
-        __('Current backups', 'seravo'),
+        __('Current Backups', 'seravo'),
         array( __CLASS__, 'backups_list_postbox' ),
         'tools_page_backups_page',
         'side'
@@ -93,16 +93,16 @@ if ( ! class_exists('Backups') ) {
     public static function backups_info_postbox() {
       ?>
       <div class="inside">
-        <p><?php _e('Backups are made automatically every night and preserved for 30 days. The data can be accessed on the server at <code>/data/backups</code>.', 'seravo'); ?></p>
+        <p><?php _e('Backups are automatically created every night and preserved for 30 days. The data can be accessed on the server in under <code>/data/backups</code>.', 'seravo'); ?></p>
       </div>
       <?php
     }
 
     public static function backups_create_postbox() {
       ?>
-      <p><?php _e('You can also create backups using the command line tool <code>wp-backup</code>. We recommend getting familiar with the command line option accessible via SSH so that recovering a backup is not dependant on if WP-admin works or not.', 'seravo'); ?></p>
+      <p><?php _e('You can also create backups manually by running <code>wp-backup</code> on the command line. We recommend that you get familiar with the command line option that is accessible to you via SSH. That way recovering a backup will be possible whether the WP Admin is accessible or not.', 'seravo'); ?></p>
       <p class="create_backup">
-        <button id="create_backup_button" class="button"><?php _e('Make a new backup', 'seravo'); ?> </button>
+        <button id="create_backup_button" class="button"><?php _e('Create a backup', 'seravo'); ?> </button>
         <div id="create_backup_loading"><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
         <pre><div id="create_backup"></div></pre>
       </p>
@@ -111,7 +111,7 @@ if ( ! class_exists('Backups') ) {
 
     public static function backups_excludes_postbox() {
       // translators: %s name of the file shown
-      echo wp_sprintf( __('Below is the content of the file %s.', 'seravo'), '<code>/data/backups/exclude.filelist</code>' );
+      echo wp_sprintf( __('Below are the contents of %s.', 'seravo'), '<code>/data/backups/exclude.filelist</code>' );
       ?>
       <p>
         <div id="backup_exclude_loading">
@@ -124,7 +124,7 @@ if ( ! class_exists('Backups') ) {
 
     public static function backups_list_postbox() {
       // translators: %s command used to list WordPress backups of the website
-      echo wp_sprintf( __('This listing is produced by command %s.', 'seravo'), '<code>wp-backup-status</code>' );
+      echo wp_sprintf( __('This list is produced by the command %s.', 'seravo'), '<code>wp-backup-status</code>' );
       ?>
       <p>
         <div id="backup_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
