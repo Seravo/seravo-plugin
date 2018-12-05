@@ -51,29 +51,29 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
   public function column_domain( $item ) {
 
-    $actions = array();
-
-    $paged = ! empty($_REQUEST['page']) ? $_REQUEST['paged'] : '1';
+  	$actions = array();
 
     /*
     // Domains managed by Seravo can be added, edited or deleted
     // if ( $item['management'] === 'Seravo' ) {
-    //     $actions['edit'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Edit</a>',
-    //                                  $_REQUEST['page'], 'edit', $item['domain']);
+    //     $actions['edit'] = sprintf( $action_request, 'edit', 'Edit');
     }
 
     // Domains managed by customers themselves can only be added, viewed or deleted
-    // $actions['delete'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Delete</a>',
-    //                                $_REQUEST['page'], 'delete', $item['domain']);
+    // $actions['delete'] = sprintf( $action_request, 'delete', 'Delete');
     */
-    $actions['view'] = sprintf( '<a href="?page=%s&action=%s&domain=%s&paged=%s">View</a>',
-                                  $_REQUEST['page'], 'view', $item['domain'], $paged);
-    $actions['edit'] = sprintf( '<a href="?page=%s&action=%s&domain=%s&paged=%s">Edit</a>',
-                                  $_REQUEST['page'], 'edit', $item['domain'], $paged);
+        
+    $action_request = '<a href="?page=' . $_REQUEST['page'] . '&domain=' . $item['domain'] . '&paged=' . $_REQUEST['paged'] . '&action=%s">%s</a>';
 
-    return sprintf('%1$s %2$s',
+    $actions['view'] = sprintf( $action_request, 'view', 'View' );
+    $actions['edit'] = sprintf( $action_request, 'edit', 'Edit' );
+
+    $primary_str = ! empty( $item['primary'] ) ? ' — ' . __( 'Primary Domain', 'seravo' ) : '';
+
+    return sprintf(' <strong class="row-title">%1$s<small>%2$s</small></strong> %3$s',
         /*$1%s*/ $item['domain'],
-        /*$2%s*/ $this->row_actions($actions)
+        /*$2%s*/ $primary_str,
+        /*$3%s*/ $this->row_actions($actions)
     );
   }
 
