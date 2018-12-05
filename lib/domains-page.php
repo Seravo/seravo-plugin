@@ -51,7 +51,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
   public function column_domain( $item ) {
 
-  	$actions = array();
+    $actions = array();
 
     /*
     // Domains managed by Seravo can be added, edited or deleted
@@ -62,7 +62,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     // Domains managed by customers themselves can only be added, viewed or deleted
     // $actions['delete'] = sprintf( $action_request, 'delete', 'Delete');
     */
-        
+
     $action_request = '<a href="?page=' . $_REQUEST['page'] . '&domain=' . $item['domain'] . '&paged=' . $_REQUEST['paged'] . '&action=%s">%s</a>';
 
     $actions['view'] = sprintf( $action_request, 'view', 'View' );
@@ -70,11 +70,28 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     $primary_str = ! empty( $item['primary'] ) ? ' — ' . __( 'Primary Domain', 'seravo' ) : '';
 
-    return sprintf(' <strong class="row-title">%1$s<small>%2$s</small></strong> %3$s',
+    switch ( $item['management'] ) {
+      case 'Customer':
+        // translators:  %1$s is opening tag for a link, %2$s a closing tag.
+        $action_row_msg = sprintf( __( 'DNS not managed by Seravo, see %1$smore details%2$s', 'seravo' ),
+                                       '<a href="https://help.seravo.com/en/docs/18-can-i-use-my-own-dns" target="_blank">', '</a>' );
+        break;
+      case null:
+        $action_row_msg = __( "Subdomains don't have their own zone", 'seravo' );
+        break;
+      case 'Seravo':
+        $action_row_msg = '';
+        break;
+      default:
+        $action_row_msg = __( "This domain doesn't have a zone", 'seravo' );
+    }
+
+    return sprintf( '<strong class="row-title">%1$s<small>%2$s</small></strong> %3$s',
         /*$1%s*/ $item['domain'],
         /*$2%s*/ $primary_str,
-        /*$3%s*/ $this->row_actions($actions)
+        /*$3%s*/ empty( $action_row_msg ) ? $this->row_actions($actions) : '<div class="row-actions" style="color:#8e8d8d"><b>' . $action_row_msg . '</b></div>'
     );
+
   }
 
   public function column_cb( $item ) {
