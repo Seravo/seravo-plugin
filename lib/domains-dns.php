@@ -83,7 +83,8 @@ class Seravo_Domains_DNS_Table {
       echo $this->editable_as_string();
       echo '</textarea>';
       echo '</td></tr>';
-      echo '<tr><td><input type="submit" formaction="' . esc_url( admin_url( 'admin-post.php' ) ) . '" formmethod="post"></td></tr>';
+      echo '<tr><td></td><td><input type="submit" class="button alignright" formaction="' . esc_url( admin_url( 'admin-post.php' ) ) . '" 
+            formmethod="post" value="' . __( 'Update Zone', 'seravo' ) . '"></td></tr>';
       echo '</table>';
       echo '<hr>';
     }
