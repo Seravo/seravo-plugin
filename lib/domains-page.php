@@ -53,28 +53,45 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     $actions = array();
 
-    $paged = ! empty($_REQUEST['page']) ? $_REQUEST['paged'] : '1';
-
     /*
     // Domains managed by Seravo can be added, edited or deleted
     // if ( $item['management'] === 'Seravo' ) {
-    //     $actions['edit'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Edit</a>',
-    //                                  $_REQUEST['page'], 'edit', $item['domain']);
+    //     $actions['edit'] = sprintf( $action_request, 'edit', 'Edit');
     }
 
     // Domains managed by customers themselves can only be added, viewed or deleted
-    // $actions['delete'] = sprintf('<a href="?page=%s&action=%s&domain=%s">Delete</a>',
-    //                                $_REQUEST['page'], 'delete', $item['domain']);
+    // $actions['delete'] = sprintf( $action_request, 'delete', 'Delete');
     */
-    $actions['view'] = sprintf( '<a href="?page=%s&action=%s&domain=%s&paged=%s">View</a>',
-                                  $_REQUEST['page'], 'view', $item['domain'], $paged);
-    $actions['edit'] = sprintf( '<a href="?page=%s&action=%s&domain=%s&paged=%s">Edit</a>',
-                                  $_REQUEST['page'], 'edit', $item['domain'], $paged);
 
-    return sprintf('%1$s %2$s',
+    $action_request = '<a href="?page=' . $_REQUEST['page'] . '&domain=' . $item['domain'] . '&paged=' . $_REQUEST['paged'] . '&action=%s">%s</a>';
+
+    $actions['view'] = sprintf( $action_request, 'view', 'View' );
+    $actions['edit'] = sprintf( $action_request, 'edit', 'Edit' );
+
+    $primary_str = ! empty( $item['primary'] ) ? ' — ' . __( 'Primary Domain', 'seravo' ) : '';
+
+    switch ( $item['management'] ) {
+      case 'Customer':
+        // translators:  %1$s is opening tag for a link, %2$s a closing tag.
+        $action_row_msg = sprintf( __( 'DNS not managed by Seravo, see %1$smore details%2$s', 'seravo' ),
+                                       '<a href="https://help.seravo.com/en/docs/18-can-i-use-my-own-dns" target="_blank">', '</a>' );
+        break;
+      case null:
+        $action_row_msg = __( "Subdomains don't have their own zone", 'seravo' );
+        break;
+      case 'Seravo':
+        $action_row_msg = '';
+        break;
+      default:
+        $action_row_msg = __( "This domain doesn't have a zone", 'seravo' );
+    }
+
+    return sprintf( '<strong class="row-title">%1$s<small>%2$s</small></strong> %3$s',
         /*$1%s*/ $item['domain'],
-        /*$2%s*/ $this->row_actions($actions)
+        /*$2%s*/ $primary_str,
+        /*$3%s*/ empty( $action_row_msg ) ? $this->row_actions($actions) : '<div class="row-actions" style="color:#8e8d8d"><b>' . $action_row_msg . '</b></div>'
     );
+
   }
 
   public function column_cb( $item ) {
