@@ -87,6 +87,14 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     );
   }
 
+  public function column_dns( $item ) {
+    $dns = $item['dns'];
+    if ( ! empty ( $dns ) ) {
+      return implode( '<br>', $dns );
+    }
+    return '';
+  }
+
   public function get_columns() {
     $columns = array(
       'cb'         => '<input type="checkbox">', // Render a checkbox instead of text
