@@ -148,6 +148,11 @@ if ( ! class_exists('Reports') ) {
     public static function seravo_site_info() {
       $site_info = Updates::seravo_admin_get_site_info();
 
+      // If you are devloping locally and want to mock a api request, uncomment the code below and add a valid json response
+      // $response = '{
+      // }';
+      // $site_info = json_decode($response, true);
+
       $plans = array(
         'demo'       => __('Demo', 'seravo'),
         'mini'       => __('WP Mini', 'seravo'),
@@ -165,11 +170,12 @@ if ( ! class_exists('Reports') ) {
       );
 
       function print_item( $value, $description ) {
-        if ( ! empty($value) ) {
+        if ( ! empty($value) && '1970-01-01' != $value ) {
           echo '<p>' . $description . ': ' . $value . '</p>';
         }
       }
-      // $site_info['termination']
+
+      print_item( $site_info['name'], __('Site Name', 'seravo') );
       print_item( date('Y-m-d', strtotime($site_info['created'])), __('Site Created', 'seravo') );
       print_item( date('Y-m-d', strtotime($site_info['termination'])), __('Plan Termination', 'seravo') );
       print_item( $countries[ $site_info['country'] ], __('Site Location', 'seravo') );
