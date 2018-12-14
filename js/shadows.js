@@ -2,6 +2,7 @@
 
 jQuery(document).ready(function($) {
   $('.shadow-reset').click(function(event) {
+    var parent = event.target.parentElement;
     var is_user_sure = confirm(seravo_shadows_loc.confirm);
     if ( ! is_user_sure) {
       return;
@@ -9,13 +10,14 @@ jQuery(document).ready(function($) {
     seravo_ajax_reset_shadow($(this).attr("data-shadow-name"),
       function( status ){
         if ( status == 'progress' ) {
-          event.target.disabled = true;
+          // <img src="/wp-admin/images/spinner.gif">
+          parent.innerHTML = '<img src="/wp-admin/images/spinner.gif">'
         } else if ( status == 'success' ) {
-          event.target.innerHTML = seravo_shadows_loc.success;
+          parent.innerHTML = seravo_shadows_loc.success;
         } else if ( status == 'failure' ) {
-          event.target.innerHTML = seravo_shadows_loc.failure;
+          parent.innerHTML = seravo_shadows_loc.failure;
         } else {
-          event.target.innerHTML = seravo_shadows_loc.error;
+          parent.innerHTML = seravo_shadows_loc.error;
         }
       });
   });
