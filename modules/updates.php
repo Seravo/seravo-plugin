@@ -60,6 +60,119 @@ if ( ! class_exists('Updates') ) {
       return $site_info;
     }
 
+    public static function seravo_admin_image_comparison( $atts = [], $content = null, $tag = 'seravo_admin_image_comparison' ) {
+      ob_start();
+      ?>
+      <h2 class="clear"><?php _e('Screenshots', 'seravo'); ?></h2>
+      <?php
+      $screenshots = glob( '/data/reports/tests/debug/*.png' );
+      $showing = 0;
+      # Shows a comparison of any and all image pair of *.png and *.shadow.png found.
+      if ( count($screenshots) > 3 ) {
+
+        echo '
+      <table>
+        <tr>
+          <th style="background-color: yellow;">' . __('The Difference', 'seravo') . '</th>
+        </tr>
+          <tbody  style="vertical-align: top; text-align: center;">';
+
+        foreach ( $screenshots as $key => $screenshot ) {
+          // Skip *.shadow.png files from this loop
+          if ( strpos( $screenshot, '.shadow.png') || strpos( $screenshot, '.diff.png') ) {
+            continue;
+          }
+
+          $name = substr( basename( $screenshot ), 0, -4);
+
+          // Check whether the *.shadow.png exists in the set
+          // Do not show the comparison if both images are not found.
+          $exists_shadow = false;
+          foreach ( $screenshots as $key => $screenshotshadow ) {
+                // Increment over the known images. Stop when match found
+            if ( strpos( $screenshotshadow, $name . '.shadow.png' ) !== false ) {
+                $exists_shadow = true;
+                break;
+            }
+          }
+          // Only shot the comparison if both images are available
+          if ( ! $exists_shadow ) {
+            continue;
+          }
+
+          $diff_txt = file_get_contents( substr( $screenshot, 0, -4) . '.diff.txt' );
+          if ( preg_match('/Total: ([0-9.]+)/', $diff_txt, $matches) ) {
+            $diff = (float) $matches[1];
+          }
+
+          echo '
+            <tr>
+              <td style="background-color: yellow;">
+              ';
+              echo self::seravo_admin_image_comparison_slider(array(
+                'img_right' => "/.seravo/screenshots-ng/debug/$name.shadow.png",
+                'img_left' => "/.seravo/screenshots-ng/debug/$name.png",
+              ));
+              echo '<br><span';
+              // Make the difference number stand out if it is non-zero
+          if ( $diff > 0.011 ) {
+            echo ' style="color: red;"';
+          }
+              echo '>' . round( $diff * 100, 2 ) . ' %</span>
+              </td>
+            </tr>';
+            $showing++;
+        }
+        echo '
+        </tbody>
+      </table>';
+
+      }
+
+      if ( $showing == 0 ) {
+        echo '<tr><td colspan="3">' .
+          __('No screenshots found. They will become available during the next attempted update.', 'seravo') .
+          '</td></tr>';
+      }
+
+      return ob_get_clean();
+    }
+
+    public static function seravo_admin_image_comparison_slider( $atts = [], $content = null, $tag = 'seravo_admin_image_comparison_slider' ) {
+
+      // normalize attribute keys, lowercase
+      $atts = array_change_key_case( (array) $atts, CASE_LOWER);
+
+      $img_comp_atts = shortcode_atts([
+        'img_left'    => '',
+        'img_right'   => '',
+        'desc_left' => __('Current State', 'seravo'),
+        'desc_right'  => __('Update Attempt', 'seravo'),
+        'desc_left_bg_color' => 'green',
+        'desc_right_bg_color' => 'red',
+        'desc_left_txt_color' => 'white',
+        'desc_right_txt_color' => 'white',
+	  ], $atts, $tag);
+      ob_start();
+      ?>
+      <div class="ba-slider">
+       <img src="<?php echo $img_comp_atts['img_right']; ?>">
+       <div class="ba-text-block" style="background-color:<?php echo $img_comp_atts['desc_right_bg_color']; ?>;color:<?php echo $img_comp_atts['desc_right_txt_color']; ?>;">
+            <?php echo $img_comp_atts['desc_right']; ?>
+      </div>
+       <div class="ba-resize">
+           <img src="<?php echo $img_comp_atts['img_left']; ?>">
+           <div class="ba-text-block" style="background-color:<?php echo $img_comp_atts['desc_left_bg_color']; ?>;color:<?php echo $img_comp_atts['desc_left_txt_color']; ?>;">
+              <?php echo $img_comp_atts['desc_left']; ?>
+           </div>
+       </div>
+       <span class="ba-handle"></span>
+     </div>
+      <?php
+
+      return ob_get_clean();
+    }
+
     public static function seravo_admin_toggle_seravo_updates() {
       check_admin_referer( 'seravo-updates-nonce' );
 
