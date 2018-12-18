@@ -32,7 +32,9 @@ if ( ! class_exists('Login_Notifications') ) {
 
       // Retrieve last login notification only if the user has just logged in
       if ( isset($_SERVER['HTTP_REFERER']) ) {
-        if ( apply_filters('seravo_dashboard_login', true) && strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') !== false ) {
+        if ( apply_filters('seravo_dashboard_login', true)
+            && (strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') !== false
+            || strpos($_SERVER['HTTP_REFERER'], 'wp-admin/profile.php') !== false ) ) {
           self::$login = self::retrieve_last_login();
         }
       }
