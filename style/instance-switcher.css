@@ -1,3 +1,28 @@
 #wp-admin-bar-instance-switcher.instance-switcher-warning > a {
   background-color: #cc0000;
 }
+#wp-admin-bar-instance-switcher .ab-item .ab-icon.seravo-instance-switcher-icon:before {
+  content: "\f325";
+}
+@media screen and (max-width:782px) and (min-width:325px) {
+  #wp-admin-bar-instance-switcher {
+    display: block !important;
+    position: static !important;
+    padding-left: 6px !important;
+  }
+  #wp-admin-bar-instance-switcher-text {
+    display: none;
+  }
+  #wp-admin-bar-instance-switcher-instance {
+    margin: 0px 6px;
+  }
+  #wp-admin-bar-instance-switcher .ab-item .ab-icon.seravo-instance-switcher-icon:before {
+    top: -3px;
+    line-height: 53px;
+    height: 45px !important;
+    width: 52px;
+  }
+  #wp-admin-bar-instance-switcher .ab-item .ab-label.seravo-instance-switcher-text {
+    display: none;
+  }
+}
