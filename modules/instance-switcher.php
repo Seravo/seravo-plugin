@@ -115,7 +115,8 @@ if ( ! class_exists('InstanceSwitcher') ) {
       // create the parent menu here
       $wp_admin_bar->add_menu([
         'id'    => $id,
-        'title' => __('Now in', 'seravo') . ': ' . $current_title,
+        'title' => '<span class="ab-icon seravo-instance-switcher-icon"></span>' .
+                   '<span class="ab-label seravo-instance-switcher-text">' . __('Now in', 'seravo') . ': ' . $current_title . '</span>',
         'href'  => ! empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#',
         'meta'  => [
           'class' => $menuclass,
