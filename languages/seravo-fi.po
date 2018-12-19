@@ -2,763 +2,138 @@
 # This file is distributed under the same license as the Seravo Must-use Plugin package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-11 12:34:06+0000\n"
+"Project-Id-Version: Seravo Must-use Plugin\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
+"POT-Creation-Date: 2018-12-19T10:32:41+02:00\n"
+"PO-Revision-Date: 2018-12-19 10:41+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.3.1\n"
-"Language: fi\n"
-"Project-Id-Version: Seravo Must-use Plugin\n"
+"X-Generator: Poedit 2.1.1\n"
 
-#: modules/tests.php:70
-msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/integration-tests/\"> Seravo Developer Documentation</a>."
-msgstr ""
-
-#: modules/tests.php:52
-msgid "At least one of the tests failed."
-msgstr "Ainakin yksi testeistä epäonnistui."
-
-#: modules/tests.php:51
-msgid "Tests were run without any errors!"
-msgstr "Testit suoritettu onnistuneesti ilman virheitä!"
-
-#: modules/reports.php:215
-msgid "Site Language"
-msgstr "Sivuston kieli"
-
-#: modules/reports.php:214
-msgid "Site Location"
-msgstr "Sivuston sijainti"
-
-#: modules/reports.php:211
-msgid "Site Name"
-msgstr "Sivuston nimi"
-
-#: modules/reports.php:139
-msgid "Disk usage by directory"
-msgstr "Levytilan käyttö"
-
-#: modules/database.php:212
-msgid "Do a dry run"
-msgstr "Aja kuiva-ajo"
-
-#: modules/database.php:187
-msgid "You can use this tool to run <code>wp search-replace</code>. For safety reason a dry run is compulsory before the actual search-replace can be done."
-msgstr "Tämän työkalun avulla voit ajaa komennon <code>wp search-replace</code>. Turvallisuussyistä on ajettava kuiva-ajo (dry-run) ennen kuin on mahdollista tehdä muutoksia."
-
-#. translators: %1$s example url for accessing Adminer in production
-#. environment %2$s example url for accessing Adminer in local development
-#: modules/database.php:143
-msgid "Adminer can be located in the production environment at %1$s and in the local development environment at %2$s."
-msgstr "Löydät Adminerin tuotantosivustolta %1$s ja paikallisesta kehitysympäristöstä %2$s."
-
-#. translators: $s url containing additional information on WordPress database
-#. tools
-#: modules/database.php:121
-msgid "When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href=\"%s\">Read the documentation for wp db</a>."
-msgstr "Kun olet yhdistänyt palvelimelle SSH-yhteydellä, voit hyödyntää WP-CLI:n monipuolisia tietokantatyökaluja esimerkiksi tietokannan vientiin tai tuontiin. <a href=\"%s\">Lue dokumentaatio wp db -komennoille</a>."
-
-#. translators: $s example of the command for getting user's database
-#. credentials
-#: modules/database.php:115
-msgid "You can find the database credentials by connecting to your site with SSH and running the command %s. These credentials can be used to connect to the server with an SSH tunnel. You can also use the web-based Adminer available on this page."
-msgstr "Löydät tietokantatunnukset ottamalla palvelimelle SSH-yhteyden ja suorittamalla komennon %s. Voit hyödyntää näitä tunnuksia, mikäli haluat ottaa yhteyden tietokantaan ulkoisella sovelluksella SSH-tunnelin kautta. Voit hallita tietokantaa myös Adminerin selainkäyttöliittymän avulla alempana."
-
-#. translators: %1$s: current php version, %2$s: recommended php version
-#: modules/check-php-version.php:49
-msgid "The PHP version %1$s currently in use is lower than the recommended %2$s. Support and security updates might not be available for the version in use. <a target=\"blank\" href=\"http://php.net/supported-versions.php\">Read more</a>."
-msgstr ""
-
-#: modules/cruftfiles.php:216
-msgid "All the plugins that were found are currently active and do not have any known issues."
-msgstr "Kaikki sivustolle asennetut lisäosat ovat käytössä ja niiden suhteen ei ole tiedossa olevia ongelmia."
-
-#: modules/cruftfiles.php:214
-msgid "Unsecure Plugins:"
-msgstr "Vaaralliset lisäosat:"
-
-#: modules/cruftfiles.php:213
-msgid "Backups of your website are automatically run on the server on a daily basis. Any plugins creating additional backups are redundant and will unnecessesarily fill up your data storage space."
-msgstr "Sivustostasi otetaan automaattisesti varmuuskopio päivittäin. Lisäosat, jotka luovat varmuuskopioita tekevät ylimääräisiä varmuuskopioita, jotka täyttävät turhaan kiintolevytilaa."
-
-#: modules/cruftfiles.php:209
-msgid "Your website runs on a server that is designed to provide a high level of security. Any plugins providing additional security measures will likely just slow down your website."
-msgstr "Verkkosivuasi ylläpidetään palvelimella, jonka tietoturvaominaisuuksiin on jo panostettu runsaasti työtä. Seuraavat tietoturvalisäosat lähinnä hidastavat sivustosi toimintaa."
-
-#: modules/cruftfiles.php:207
-msgid "Your website is running on a server that does takes care of caching automatically. Any additional plugins that do caching will not improve the service."
-msgstr "Verkkosivuasi ylläpidetään palvelimella, jolla on toteutettu välimuistin hallinta palvelimella. Lisäosat, jotka tarjoavat välimuistipalvelua eivät paranna sivuston suorituskykyä."
-
-#: modules/cruftfiles.php:194
-msgid "Congratulations! You have do not have any unnecessary files around."
-msgstr "Hienoa! Sivustolta ei löytynyt roskatiedostoja."
-
-#: modules/cruftfiles.php:118
-msgid "Searching for themes..."
-msgstr "Etsitään lisäosia…"
-
-#: modules/cruftfiles.php:113
-msgid "Find and remove themes that are inactive. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-themes-and-plugins\">documentation concerning themes and plugins</a>."
-msgstr ""
-
-#: modules/cruftfiles.php:102
-msgid "Searching for plugins..."
-msgstr "Etsitään lisäosia…"
-
-#: modules/cruftfiles.php:97
-msgid "Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-lisaosat-wp-palvelu-fi-ssa\">recommendations for plugins in our environment</a>."
-msgstr ""
-
-#: modules/cruftfiles.php:86
-msgid "Searching for files..."
-msgstr "Etsitään tiedostoja…"
-
-#: modules/cruftfiles.php:77
-msgid "Find and delete any extraneous and potentially harmful files taking up space in the file system."
-msgstr "Etsi ja poista tarpeettomia ja potentiaalisesti haitallisia tiedostoja palvelimelta levytilan säästämiseksi."
-
-#. translators: %s name of the file shown
-#: modules/backups.php:114
-msgid "Below are the contents of %s."
-msgstr "Alla on tiedoston %s sisältö."
-
-#: modules/backups.php:105
-msgid "Create a backup"
-msgstr "Ota uusi varmuuskopio"
-
-#: modules/backups.php:103
-msgid "You can also create backups manually by running <code>wp-backup</code> on the command line. We recommend that you get familiar with the command line option that is accessible to you via SSH. That way recovering a backup will be possible whether the WP Admin is accessible or not."
-msgstr "Voit tehdä varmuuskopioita komentoriviltä komennolla <code>wp-backup</code>. Suosittelemme tutustumaan komentorivin käyttöön SSH-yhteyden yli, jotta varmuuskopion palauttaminen ei olisi riippuvainen WP-adminin toimivuudesta."
-
-#: modules/backups.php:52
-msgid "Files Excluded from the Backups"
-msgstr "Varmuuskopioista pois jätettävät tiedostot"
-
-#. translators: %1$s number of errors in the log %2$s url for additional
-#. information
-#: modules/login-notification.php:182
-msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
-msgstr "PHP:n virhelokissa on yli %1$s merkintää tällä viikolla. Ole hyvä ja tarkista yksityiskohdat täältä: %2$s. Tämä on tavallisesti merkki siitä, että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan sivuston kehittäjälle."
-
-#: lib/domains-dns.php:106
-msgid "The zone update failed"
-msgstr "Zonen päivitys epäonnistui"
-
-#: lib/domains-dns.php:98
-msgid "The following modifications were done for the zone: "
-msgstr "Zonelle tehtiin seuraavat muutokset: "
-
-#: lib/domains-dns.php:96
-msgid "The zone was updated succesfully!"
-msgstr "Zonen päivitys onnistui!"
-
-#: lib/domains-dns.php:87
-msgid "Update Zone"
-msgstr ""
-
-#: lib/domains-dns.php:75
-msgid "Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated."
-msgstr "Täältä käsin voit lisätä, muokata tai poistaa tietueita. Ei kannata lisätä tietueita jotka ovat ristiriidassa pakollisten tietueiden kanssa. Niitä ei oteta huomioon."
-
-#: lib/domains-dns.php:74
-msgid "Editable records"
-msgstr "Muokattavat tietueet"
-
-#: lib/domains-dns.php:72
-msgid "It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them."
-msgstr "Näiden tietueiden muokkaaminen ei ole suositeltavaa. Ota yhteyttä Seravon asiakaspalveluun mikäli tahdot niitä muutettavan."
-
-#: lib/domains-dns.php:71
-msgid "Compulsory Records"
-msgstr "Pakolliset tietueet"
-
-#: lib/domains-dns.php:58
-msgid "Publish"
-msgstr "Julkaise"
-
-#. translators: %s domain of the site
-#: lib/domains-dns.php:51
-msgid "Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:"
-msgstr "Järjestelmiemme mukaan <strong>%s</strong> ei osoita Seravon palvelimille. Olemme varmuuden vuoksi estäneet muutokset. Ota yhteyttä Seravon asiakaspalveluun mikäli haluat muokata kyseisiä tietueita. Voit julkaista sivustosi silloin kuin haluat oheisen painikkeen avulla:"
-
-#: lib/updates-page.php:143
-msgid "Update Attempt"
-msgstr "Edellinen päivitysyritys"
-
-#: lib/updates-page.php:142
-msgid "The Difference"
-msgstr "Eroavaisuudet"
-
-#: lib/updates-page.php:141
-msgid "Current State"
-msgstr "Sivuston nykytila"
-
-#: lib/updates-page.php:73
-msgid "Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address."
-msgstr "Seravo voi käyttää tässä annettuja sähköpostiosoitteita ilmoittaakseen sivustoilla havaituista virhetilanteista. Ole hyvä ja lisää ainoastaan täydellisiä sähköpostiosoitteita."
-
-#: lib/updates-page.php:72
-msgid "Technical Contacts"
-msgstr "Tekniset yhteyshenkilöt"
-
-#: lib/updates-page.php:69
-msgid "Send a Test Notification"
-msgstr "Lähetä testi-ilmoitus"
-
-#: lib/updates-page.php:67
-msgid "By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href=\"https://api.slack.com/incoming-webhooks\">Read more about webhooks</a>."
-msgstr ""
-
-#: lib/updates-page.php:66
-msgid "Update Notifications with a Slack Webhook"
-msgstr "Päivitysilmoitukset Slackin webhookin avulla"
-
-#: lib/updates-page.php:62
-msgid "Automatic updates"
-msgstr "Automaattiset päivitykset"
-
-#: lib/updates-page.php:57
-msgid "The Seravo upkeep service includes automatic updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from automatic updates by unchecking the checkbox below."
-msgstr "Seravon ylläpitopalvelu pitää WordPress-asennuksesi ajan tasalla asentamalla tietoturvapäivityksiä aina kun sellaisia on tarjolla, sekä säännöllisesti ja testatusti muita saatavilla olevia päivityksiä WordPressin ytimeen ja lisäosiin. Jos haluat pitää päivitykset kokonaan omassa hallinnassasi, voit estää Seravon automaattiset päivitykset sivustollesi poistamalla ruksin allaolevasta ruudusta. HUOM! Tietoturvapäivityksiä saatamme tehdä päivityskiellosta huolimatta, tilanteen niin vaatiessa."
-
-#: lib/updates-page.php:37
-msgid "Automatic Updates by Seravo"
-msgstr "Seravon automaattiset päivitykset"
-
-#: lib/shadows-page.php:76
-msgid "No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href=\"mailto:wordpress@seravo.com\">wordpress@seravo.com</a>."
-msgstr ""
-
-#: lib/domains-page.php:86
-msgid "This domain doesn't have a zone"
-msgstr ""
-
-#: lib/domains-page.php:80
-msgid "Subdomains don't have their own zone"
-msgstr ""
-
-#. translators:  %1$s is opening tag for a link, %2$s a closing tag.
-#: lib/domains-page.php:76
-msgid "DNS not managed by Seravo, see %1$smore details%2$s"
-msgstr ""
-
-#: lib/domains-page.php:71
-msgid "Primary Domain"
-msgstr ""
-
-#. Author URI of the plugin
-msgid "https://seravo.com/"
-msgstr ""
-
-#. Author of the plugin
-msgid "Seravo Oy"
-msgstr ""
-
-#. Description of the plugin
-msgid "Enhances WordPress with Seravo.com specific features and integrations."
+#. Plugin Name of the plugin
+msgid "Seravo Plugin"
 msgstr ""
 
 #. Plugin URI of the plugin
 msgid "https://github.com/Seravo/seravo-plugin"
 msgstr ""
 
-#. Plugin Name of the plugin
-msgid "Seravo Plugin"
+#. Description of the plugin
+msgid "Enhances WordPress with Seravo.com specific features and integrations."
 msgstr ""
 
-#: modules/updates.php:50
-msgid "Updates"
-msgstr "Päivitykset"
-
-#: modules/tests.php:82
-msgid "Toggle Details"
-msgstr "Näytä lisää"
-
-#: modules/tests.php:76
-msgid "Click \"Run Tests\" to run the Rspec tests"
-msgstr "Klikkaa “Suorita testit” -nappia"
-
-#: modules/tests.php:73
-msgid "Run Tests"
-msgstr "Suorita testit"
-
-#: modules/tests.php:54
-msgid "Running rspec tests..."
-msgstr "Testataan sivustoa…"
-
-#: modules/tests.php:30 modules/tests.php:38
-msgid "Tests"
-msgstr "Testit"
-
-#: modules/shadows.php:57
-msgid "Are you sure? This replaces all information in the selected environment."
-msgstr "Oletko varma? Tämä toiminto korvaa kaiken valitussa ympäristössä."
-
-#: modules/shadows.php:56
-msgid "Error"
-msgstr "Virhe"
-
-#: modules/shadows.php:55
-msgid "Failure"
-msgstr "Epäonnistui"
-
-#: modules/shadows.php:54
-msgid "Success"
-msgstr "Onnistui"
-
-#: modules/shadows.php:36 modules/shadows.php:37
-msgid "Shadows"
-msgstr "Varjot"
-
-#: modules/reports.php:223
-msgid "WordPress core"
-msgstr "WordPressin ydin"
-
-#: modules/reports.php:217
-msgid "Account Manager"
-msgstr "Account Manager"
-
-#: modules/reports.php:216
-msgid "Plan Type"
-msgstr "Palvelupaketti"
-
-#: modules/reports.php:213
-msgid "Plan Termination"
-msgstr "Palvelupaketin päättyminen"
-
-#: modules/reports.php:202
-msgid "No preference"
-msgstr "Seravon valitsema"
-
-#: modules/reports.php:201
-msgid "USA"
-msgstr "Yhdysvallat"
-
-#: modules/reports.php:200
-msgid "Germany"
-msgstr "Saksa"
-
-#: modules/reports.php:199
-msgid "Sweden"
-msgstr "Ruotsi"
-
-#: modules/reports.php:198
-msgid "Finland"
-msgstr "Suomi"
-
-#: modules/reports.php:194
-msgid "WP Enterprise"
+#. Author of the plugin
+msgid "Seravo Oy"
 msgstr ""
 
-#: modules/reports.php:193
-msgid "WP Business"
+#. Author URI of the plugin
+msgid "https://seravo.com/"
 msgstr ""
 
-#: modules/reports.php:192
-msgid "WP Pro"
+#: lib/seravo-postbox.php:133
+msgid "Drag boxes here"
+msgstr "Raahaa laatikot tähän"
+
+#. translators: %s: Togglable postbox title
+#: lib/seravo-postbox.php:261
+msgid "Toggle panel: %s"
+msgstr "Näytä lisää: %s"
+
+#: lib/updates-page.php:26 lib/updates-page.php:30
+msgid "Seravo Updates"
+msgstr "Seravon päivitykset"
+
+#: lib/updates-page.php:37
+msgid "Automatic Updates by Seravo"
+msgstr "Seravon automaattiset päivitykset"
+
+#: lib/updates-page.php:57
+msgid ""
+"The Seravo upkeep service includes automatic updates to your WordPress site, "
+"keeping your site current with security patches and frequent tested updates "
+"to both the WordPress core and plugins. If you want full control of updates "
+"to yourself, you should opt out from automatic updates by unchecking the "
+"checkbox below."
+msgstr ""
+"Seravon ylläpitopalvelu pitää WordPress-asennuksesi ajan tasalla asentamalla "
+"tietoturvapäivityksiä aina kun sellaisia on tarjolla, sekä säännöllisesti ja "
+"testatusti muita saatavilla olevia päivityksiä WordPressin ytimeen ja "
+"lisäosiin. Jos haluat pitää päivitykset kokonaan omassa hallinnassasi, voit "
+"estää Seravon automaattiset päivitykset sivustollesi poistamalla ruksin "
+"allaolevasta ruudusta. HUOM! Tietoturvapäivityksiä saatamme tehdä "
+"päivityskiellosta huolimatta, tilanteen niin vaatiessa."
+
+#: lib/updates-page.php:62
+msgid "Automatic updates"
+msgstr "Automaattiset päivitykset"
+
+#: lib/updates-page.php:66
+msgid "Update Notifications with a Slack Webhook"
+msgstr "Päivitysilmoitukset Slackin webhookin avulla"
+
+#: lib/updates-page.php:67
+msgid ""
+"By defining a Slack webhook address below, Seravo can send you notifications "
+"about every update attempt, whether successful or not, to the Slack channel "
+"you have defined in your webhook. <a href=\"https://api.slack.com/incoming-"
+"webhooks\">Read more about webhooks</a>."
 msgstr ""
 
-#: modules/reports.php:191
-msgid "WP Mini"
+#: lib/updates-page.php:69
+msgid "Send a Test Notification"
+msgstr "Lähetä testi-ilmoitus"
+
+#: lib/updates-page.php:72
+msgid "Technical Contacts"
+msgstr "Tekniset yhteyshenkilöt"
+
+#: lib/updates-page.php:73
+msgid ""
+"Seravo may use the email addresses defined here to send automatic "
+"notifications about technical problems with you site. Remember to use a "
+"properly formatted email address."
 msgstr ""
-
-#: modules/reports.php:190
-msgid "Demo"
-msgstr "Demo"
-
-#: modules/reports.php:133
-msgid "The total size of <code>/data</code> is"
-msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
-
-#: modules/reports.php:123
-msgid "Nginx HTTP Cache"
-msgstr "Nginx HTTP -välimuisti"
-
-#: modules/reports.php:118
-msgid "Redis Transient and Object Cache"
-msgstr "Oliovälimuisti"
-
-#: modules/reports.php:106
-msgid "Report"
-msgstr "Raportti"
-
-#: modules/reports.php:105
-msgid "HTTP Requests"
-msgstr "HTTP-pyynnöt"
-
-#: modules/reports.php:104
-msgid "Month"
-msgstr "Kuukausi"
-
-#: modules/reports.php:98
-msgid "These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>."
-msgstr "Nämä kuukausittaiset tilastot on tehty sivuston HTTP-liikennelokeista. Niihin sisältyy kaikki sivuston HTTP-pyynnöt, sekä ihmisten että erilaisten bottien tekemät. Palomuuritasolla estetyt HTTP-pyynnöt (esim DDOS-hyökkäyksen aikana) eivät tule lokiin. Lokitiedostoja voi selata suoraan myös palvelimella polussa <code>/data/slog/html/goaccess-*.html</code>."
-
-#: modules/reports.php:86
-msgid "View report"
-msgstr "Näytä raportti"
-
-#: modules/reports.php:85
-msgid "No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site."
-msgstr "Raportteja ei löytynyt polusta /data/slog/html/. Raportit tulisi olla saatavilla noin kuukauden kuluessa uuden sivuston perustamisesta."
-
-#: modules/reports.php:68
-msgid "Reports"
-msgstr "Raportit"
-
-#: modules/reports.php:60
-msgid "Site Information"
-msgstr "Sivuston tiedot"
-
-#: modules/reports.php:52
-msgid "Cache Status"
-msgstr "Välimuistin tila"
-
-#: modules/reports.php:43
-msgid "Disk Usage"
-msgstr "Levytilan käyttö"
-
-#: modules/reports.php:34
-msgid "HTTP Request Statistics"
-msgstr "HTTP-liikennetilastot"
-
-#: modules/purge-cache.php:90
-msgid "Error: the nonce did not verify."
-msgstr "Virhe: kertakäyttöavain ei täsmännyt."
-
-#: modules/purge-cache.php:75
-msgid "The cache was not flushed, please check your PHP error log for details."
-msgstr "Välimuistia ei tyhjennetty, lisätietoja virheestä löytyy PHP-virhelokista."
-
-#: modules/purge-cache.php:75
-msgid "Error:"
-msgstr "Virhe:"
-
-#: modules/purge-cache.php:71
-msgid "The cache was flushed."
-msgstr "Välimuisti tyhjennetty."
-
-#: modules/purge-cache.php:71
-msgid "Success:"
-msgstr "Onnistui:"
-
-#. translators: %s cache refresh interval
-#: modules/purge-cache.php:38
-msgid "Purge Cache"
-msgstr "Tyhjennä välimuisti"
-
-#. translators: %s cache refresh interval
-#: modules/purge-cache.php:37
-msgid "Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the front-end proxy immediately."
-msgstr "WP-palvelu.fi käyttää välipalvelinta, jotta sivuston kävijöille voidaan tarjota salamannopea sivunlataus. Välimuistitettuja sivuja päivitetään %s välein. Voit käyttää tätä näppäintä, jos haluat tyhjentää välimuistin heti."
-
-#: modules/optimize-images.php:155
-msgid "Save"
-msgstr "Tallenna"
-
-#. translators: %s numeric value for the minimum image height
-#: modules/optimize-images.php:136
-msgid "The minimum height for image optimisation is %s px."
-msgstr "Suurimman sallitun kuvan korkeuden tulee olla vähintään %s pikseliä."
-
-#. translators: %s numeric value for the minimum image width
-#: modules/optimize-images.php:125
-msgid "The minimum width for image optimisation is %s px."
-msgstr "Suurimman sallitun kuvan leveyden tulee olla vähintään %s pikseliä."
-
-#: modules/optimize-images.php:118
-msgid "Define the maximum image size for your site. Using optimized images significantly improves site performance and saves disk space."
-msgstr "Rajoita helposti sivustosi kuvien kokoa. Pienempi kuvakoko näkyy sivustolla nopeampina latausaikoina, sekä säästää levytilaa palvelimella."
-
-#: modules/optimize-images.php:110
-msgid "Height"
-msgstr "Korkeus"
-
-#: modules/optimize-images.php:104
-msgid "Width"
-msgstr "Leveys"
-
-#: modules/optimize-images.php:96
-msgid "Optimize Images"
-msgstr "Optimoi kuvia"
-
-#: modules/optimize-images.php:66
-msgid "Maximum Image Height (px)"
-msgstr "Suurin sallittu kuvan korkeus (px)"
-
-#: modules/optimize-images.php:62
-msgid "Maximum Image Width (px)"
-msgstr "Suurin sallittu kuvan leveys (px)"
-
-#: modules/optimize-images.php:58
-msgid "Limit Image Resolution"
-msgstr "Rajoita kuvien resoluutiota"
-
-#: modules/optimize-images.php:34
-msgid "Optimize Images (beta)"
-msgstr "Optimoi kuvia (beta)"
-
-#: modules/logs.php:199
-msgid "Scroll to load more lines from the log."
-msgstr "Selaa ladataksesi lisää rivejä lokista."
-
-#: modules/logs.php:197
-msgid "Log empty"
-msgstr "Loki on tyhjä"
-
-#. translators: $s name of the logfile
-#: modules/logs.php:192
-msgid "File %s does not exist or we don't have permissions to read it."
-msgstr "Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä."
-
-#: modules/logs.php:172
-msgid "Filter"
-msgstr "Hae"
-
-#: modules/logs.php:112
-msgid "No logs found in <code>/data/log/</code>."
-msgstr "Lokeja ei löytynyt hakemistosta <code>/data/log/</code>."
-
-#: modules/logs.php:68 modules/logs.php:69 modules/logs.php:133
-msgid "Logs"
-msgstr "Lokit"
-
-#. translators: * %1$s username of the current user * %2$s datetime of last
-#. login * %3$s timezone used to represent the datetime of the last login *
-#. %4$s IP address of the last login
-#: modules/login-notification.php:166
-msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
-msgstr "Tervetuloa, %1$s! Edellinen kirjautuminen: %2$s (%3$s) osoitteesta %4$s."
-
-#: modules/login-notification.php:54
-msgid "Site Error Count"
-msgstr "Sivuston virhemäärä"
-
-#: modules/instance-switcher.php:180
-msgid "Exit"
-msgstr "Poistu"
-
-#. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:178
-msgid "Your current shadow instance is %s."
-msgstr "Olet nyt varjossa %s."
-
-#: modules/instance-switcher.php:158
-msgid "Shadows explained at Seravo.com/docs"
-msgstr "Varjot selitettynä ohjeissa Seravo.com/docs"
-
-#: modules/instance-switcher.php:149
-msgid "Exit Shadow"
-msgstr "Poistu varjosta"
-
-#: modules/instance-switcher.php:118
-msgid "Now in"
-msgstr "Nyt käytössä"
-
-#: modules/database.php:213
-msgid "Run wp search-replace"
-msgstr "Aja wp search-replace"
-
-#: modules/database.php:207
-msgid "Network"
-msgstr "Network"
-
-#: modules/database.php:201
-msgid "All tables"
-msgstr "Kaikki taulut"
-
-#: modules/database.php:196
-msgid "Skip backups"
-msgstr "Ohita varmuuskopiointi"
-
-#: modules/database.php:190
-msgid "To:"
-msgstr "Mihin:"
-
-#: modules/database.php:189
-msgid "From:"
-msgstr "Mistä:"
-
-#: modules/database.php:177
-msgid "Open Adminer"
-msgstr "Siirry Admineriin"
-
-#. translators: %1$s url to www.adminer.org
-#: modules/database.php:134
-msgid "Adminer is a simple database management tool, like phpMyAdmin. <a href=\"%1$s\">Learn more about Adminer.</a>"
-msgstr "Adminer on yksinkertainen tietokannan hallintatyökalu kuten phpMyAdmin. <a href=\"%1$s\">Lue lisää Adminerista.</a>"
-
-#: modules/database.php:107
-msgid "Database"
-msgstr "Tietokanta"
-
-#: modules/database.php:70
-msgid "Database Size"
-msgstr "Tietokannan koko"
-
-#: modules/database.php:62
-msgid "Search-Replace Tool"
-msgstr "Etsi ja korvaa -työkalu"
-
-#: modules/database.php:54
-msgid "Manage the Database with Adminer"
-msgstr "Hallinnoi tietokantaa Adminerilla"
-
-#: modules/database.php:46
-msgid "Database Access"
-msgstr "Yhteys tietokantaan"
-
-#: modules/cruftfiles.php:228
-msgid "The following themes are inactive and can be removed."
-msgstr "Seuraavat teemat ovat epäaktiivisia ja ne voidaan poistaa."
-
-#: modules/cruftfiles.php:227
-msgid "There are currently no unused themes on the website."
-msgstr "Sivustolla ei tällä hetkellä ole tarpeettomia teemoja."
-
-#: modules/cruftfiles.php:226
-msgid "Failed to remove theme"
-msgstr "Teeman poistaminen epäonnistui"
-
-#: modules/cruftfiles.php:225
-msgid "Are you sure you want to remove this theme?"
-msgstr "Teema poistetaan pysyvästi. Oletko varma, että haluat jatkaa?"
-
-#: modules/cruftfiles.php:224
-msgid "is parent to: "
-msgstr "toimii vanhempana: "
-
-#: modules/cruftfiles.php:219
-msgid "Failed to remove plugin"
-msgstr "Lisäosan poistaminen epäonnistui"
-
-#: modules/cruftfiles.php:218
-msgid "Are you sure you want to remove this plugin?"
-msgstr "Lisäosat poistetaan pysyvästi. Oletko varma, että haluat jatkaa?"
-
-#: modules/cruftfiles.php:217
-msgid "The following plugins were found and are suggested to be removed:"
-msgstr "Seuraavat lisäosat löytyivät ja niiden poistamista suositellaan:"
-
-#: modules/cruftfiles.php:215
-msgid "These plugins have known issues with security."
-msgstr "Seuraavissa lisäosissa on havaittu ongelmia tietoturvan suhteen."
-
-#: modules/cruftfiles.php:212
-msgid "Unnecessary Backup Plugins:"
-msgstr "Tarpeettomat varmuuskopiointi-lisäosat:"
-
-#: modules/cruftfiles.php:211
-msgid "These plugins may cause issues with your database."
-msgstr "Seuraavat lisäosat voivat aiheuttaa ongelmia verkkosivusi tietokannassa."
-
-#: modules/cruftfiles.php:210
-msgid "Unnecessary Database Manipulation Plugins:"
-msgstr "Tarpeettomat tietokantaa muokkaavat lisäosat:"
-
-#: modules/cruftfiles.php:208
-msgid "Unnecessary Security Plugins:"
-msgstr "Tarpeettomat tietoturvalisäosat:"
-
-#: modules/cruftfiles.php:206
-msgid "Unnecessary Cache Plugins:"
-msgstr "Tarpeettomat välimuistilisäosat:"
-
-#: modules/cruftfiles.php:205
-msgid "These plugins are currently not in use. They can be removed to save disk storage space."
-msgstr "Seuraavat lisäosat eivät ole tällä hetkellä käytössä. Ne voidaan poistaa levytilan säästämiseksi."
-
-#: modules/cruftfiles.php:204
-msgid "Inactive Plugins:"
-msgstr "Epäaktiiviset lisäosat:"
-
-#: modules/cruftfiles.php:199
-msgid "File size"
-msgstr "Tiedostokoko"
-
-#: modules/cruftfiles.php:198
-msgid "Select all files"
-msgstr "Valitse kaikki tiedostot"
-
-#: modules/cruftfiles.php:197
-msgid "Last modified"
-msgstr "Viimeksi muokattu"
-
-#: modules/cruftfiles.php:196
-msgid "b"
-msgstr "b"
-
-#: modules/cruftfiles.php:195
-msgid "Delete"
-msgstr "Poista"
-
-#: modules/cruftfiles.php:193 modules/reports.php:84 modules/tests.php:53
-msgid "Failed to load. Please try again."
-msgstr "Lataaminen epäonnistui. Yritä uudelleen."
-
-#: modules/cruftfiles.php:192
-msgid "Are you sure you want to proceed? Deleted files can not be recovered."
-msgstr "Oletko varma, että haluat jatkaa? Tiedostot poistetaan pysyvästi."
-
-#: modules/cruftfiles.php:191 modules/reports.php:83 modules/tests.php:50
-msgid "No data returned for the section."
-msgstr "Testi ei palauttanut dataa."
-
-#: modules/cruftfiles.php:68 modules/cruftfiles.php:69
-msgid "Cruft Files"
-msgstr "Roskatiedostot"
-
-#: modules/cruftfiles.php:59
-msgid "Unnecessary themes"
-msgstr "Tarpeettomat teemat"
-
-#: modules/cruftfiles.php:50
-msgid "Unnecessary plugins"
-msgstr "Tarpeettomat lisäosat"
-
-#: modules/cruftfiles.php:41
-msgid "Cruft Files (beta)"
-msgstr "Roskatiedostot (beta)"
-
-#. translators: user's website url
-#: modules/check-https.php:38
-msgid "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please <a href=\"https://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/\">use HTTPS</a>."
+"Seravo voi käyttää tässä annettuja sähköpostiosoitteita ilmoittaakseen "
+"sivustoilla havaituista virhetilanteista. Ole hyvä ja lisää ainoastaan "
+"täydellisiä sähköpostiosoitteita."
+
+#: lib/updates-page.php:74
+msgid "example@example.com"
+msgstr "esimerkki@esimerkki.fi"
+
+#: lib/updates-page.php:75
+msgid "Add"
+msgstr "Lisää"
+
+#: lib/updates-page.php:76
+msgid "Email must be formatted as name@domain.com"
+msgstr "Sähköpostiosoite täytyy olla muodossa nimi@domain.com"
+
+#. translators: %1$s link to Newsletter for WordPress developers
+#: lib/updates-page.php:82
+msgid ""
+"P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-"
+"to-date information about our new features."
 msgstr ""
+"P.S. Tilaa Seravon %1$senglanninkielinen uutiskirje WordPress-kehittäjille"
+"%2$s pysyäksesi ajan tasalla uusimmista ominaisuuksistamme."
 
-#. translators: $s user's website url
-#: modules/check-default-email.php:35
-msgid "Warning: A generic admin email was detected in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please update it."
-msgstr "Varoitus: <a href=\"%s/wp-admin/options-general.php\">Sivuston asetuksissa</a> on käytössä oletussähköpostiosoite. Ole hyvä ja vaihda se."
+#: lib/updates-page.php:87
+msgid "Save settings"
+msgstr "Tallenna asetukset"
 
-#. translators: %s command used to list WordPress backups of the website
-#: modules/backups.php:127
-msgid "This list is produced by the command %s."
-msgstr "Luettelo on tuotettu komennolla %s."
+#: lib/updates-page.php:102 lib/updates-page.php:107
+msgid "Site Status"
+msgstr "Sivuston tila"
 
-#: modules/backups.php:96
-msgid "Backups are automatically created every night and preserved for 30 days. The data can be accessed on the server in under <code>/data/backups</code>."
-msgstr "Varmuuskopiot tehdään automaattisesti joka yö ja säilytetään 30 päivän ajan. Varmuuskopioita voi selata palvelimella kansiossa <code>/data/backups</code>."
-
-#: modules/backups.php:60
-msgid "Current Backups"
-msgstr "Nykyiset varmuuskopiot"
-
-#: modules/backups.php:44
-msgid "Create a New Backup"
-msgstr "Luo  uusi varmuuskopio"
-
-#: modules/backups.php:36 modules/backups.php:90
-msgid "Backups"
-msgstr "Varmuuskopiot"
-
-#: lib/updates-page.php:194
-msgid "No screenshots found. They will become available during the next attempted update."
-msgstr "Kuvakaappauksia ei löytynyt. Ne luodaan sivuston seuraavan päivityksen yhteydessä."
-
-#: lib/updates-page.php:130
-msgid "Screenshots"
-msgstr "Kuvakaappaukset"
+#: lib/updates-page.php:113 modules/reports.php:179
+msgid "Site Created"
+msgstr "Sivusto luotu"
 
 #: lib/updates-page.php:114
 msgid "Latest Successful Update"
@@ -768,128 +143,970 @@ msgstr "Viimeisin onnistunut päivitys"
 msgid "Latest Update Attempt"
 msgstr "Edellinen päivitysyritys"
 
-#: lib/updates-page.php:113 modules/reports.php:212
-msgid "Site Created"
-msgstr "Sivusto luotu"
+#: lib/updates-page.php:130
+msgid "Screenshots"
+msgstr "Kuvakaappaukset"
 
-#: lib/updates-page.php:102 lib/updates-page.php:107
-msgid "Site Status"
-msgstr "Sivuston tila"
+#: lib/updates-page.php:141
+msgid "Current State"
+msgstr "Sivuston nykytila"
 
-#: lib/updates-page.php:87
-msgid "Save settings"
-msgstr "Tallenna asetukset"
+#: lib/updates-page.php:142
+msgid "The Difference"
+msgstr "Eroavaisuudet"
 
-#. translators: %1$s link to Newsletter for WordPress developers
-#: lib/updates-page.php:82
-msgid "P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features."
-msgstr "P.S. Tilaa Seravon %1$senglanninkielinen uutiskirje WordPress-kehittäjille%2$s pysyäksesi ajan tasalla uusimmista ominaisuuksistamme."
+#: lib/updates-page.php:143
+msgid "Update Attempt"
+msgstr "Edellinen päivitysyritys"
 
-#: lib/updates-page.php:76
-msgid "Email must be formatted as name@domain.com"
-msgstr "Sähköpostiosoite täytyy olla muodossa nimi@domain.com"
+#: lib/updates-page.php:194
+msgid ""
+"No screenshots found. They will become available during the next attempted "
+"update."
+msgstr ""
+"Kuvakaappauksia ei löytynyt. Ne luodaan sivuston seuraavan päivityksen "
+"yhteydessä."
 
-#: lib/updates-page.php:75
-msgid "Add"
-msgstr "Lisää"
-
-#: lib/updates-page.php:74
-msgid "example@example.com"
-msgstr "esimerkki@esimerkki.fi"
-
-#: lib/updates-page.php:26 lib/updates-page.php:30
-msgid "Seravo Updates"
-msgstr "Seravon päivitykset"
-
-#: lib/shadows-page.php:56 lib/shadows-page.php:68
-msgid "Reset Shadow"
-msgstr "Resetoi varjo"
-
-#: lib/shadows-page.php:55
-msgid "Creation Date"
-msgstr "Luontipäivämäärä"
-
-#: lib/shadows-page.php:54
-msgid "SSH Port"
-msgstr "SSH-portti"
-
-#: lib/shadows-page.php:53
-msgid "Identifier"
-msgstr "Tunniste"
-
-#: lib/shadows-page.php:34
-msgid "Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href=\"https://seravo.com/docs/deployment/shadows/\">Developer documentation</a>."
-msgstr "Hallinnoi sivustosi kehitysympäristöjä. Varjon resetointi korvaa varjon tiedostot hakemistossa /data/wordpress/ ja tietokannan tuotantosivuston tiedostoilla ja tietokannalla. Lue lisää varjoista <a href=\"https://seravo.com/docs/deployment/shadows/\">kehittäjäohjeistamme</a>."
-
-#: lib/shadows-page.php:22 lib/shadows-page.php:28
-msgid "Shadows (beta)"
-msgstr "Varjot (beta)"
-
-#: lib/shadows-page.php:21
-msgid "Toggle panel:"
-msgstr "Näytä lisää:"
-
-#. translators: %s: Togglable postbox title
-#: lib/seravo-postbox.php:261
-msgid "Toggle panel: %s"
-msgstr "Näytä lisää: %s"
-
-#: lib/seravo-postbox.php:133
-msgid "Drag boxes here"
-msgstr "Raahaa laatikot tähän"
-
-#: lib/domains-page.php:267
-msgid "Domains routed to this WordPress site are listed below."
-msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
-
-#: lib/domains-page.php:265 modules/domains.php:33
-msgid "Domains"
-msgstr "Verkkotunnukset"
-
-#: lib/domains-page.php:121
-msgid "Managed by"
-msgstr "Hallinnoija"
-
-#: lib/domains-page.php:120
-msgid "DNS"
-msgstr "DNS"
-
-#: lib/domains-page.php:119
-msgid "Expires"
-msgstr "Erääntyy"
-
-#: lib/domains-page.php:118
-msgid "Domain"
-msgstr "Verkkotunnus"
+#: lib/api.php:32 lib/api.php:61
+msgid "API call failed. Aborting. The error has been logged."
+msgstr "Rajapintayhteys epäonnistui. Virhe on lisätty lokiin."
 
 #: lib/domains-page.php:10
 msgid "Sorry, you are not allowed to access domains."
 msgstr "Sinulla ei ole oikeuksia verkkotunnusten hallintaan."
 
-#: lib/domains-dns.php:30
-msgid "Value"
-msgstr "Arvo"
+#: lib/domains-page.php:71
+msgid "Primary Domain"
+msgstr ""
 
-#: lib/domains-dns.php:29
-msgid "Type"
-msgstr "Tyyppi"
+#. translators:  %1$s is opening tag for a link, %2$s a closing tag.
+#: lib/domains-page.php:76
+msgid "DNS not managed by Seravo, see %1$smore details%2$s"
+msgstr ""
 
-#: lib/domains-dns.php:27
-msgid "TTL"
-msgstr "TTL"
+#: lib/domains-page.php:80
+msgid "Subdomains don't have their own zone"
+msgstr ""
+
+#: lib/domains-page.php:86
+msgid "This domain doesn't have a zone"
+msgstr ""
+
+#: lib/domains-page.php:118
+msgid "Domain"
+msgstr "Verkkotunnus"
+
+#: lib/domains-page.php:119
+msgid "Expires"
+msgstr "Erääntyy"
+
+#: lib/domains-page.php:120
+msgid "DNS"
+msgstr "DNS"
+
+#: lib/domains-page.php:121
+msgid "Managed by"
+msgstr "Hallinnoija"
+
+#: lib/domains-page.php:265 modules/domains.php:33
+msgid "Domains"
+msgstr "Verkkotunnukset"
+
+#: lib/domains-page.php:267
+msgid "Domains routed to this WordPress site are listed below."
+msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
+
+#: lib/shadows-page.php:21
+msgid "Toggle panel:"
+msgstr "Näytä lisää:"
+
+#: lib/shadows-page.php:22 lib/shadows-page.php:28
+msgid "Shadows (beta)"
+msgstr "Varjot (beta)"
+
+#: lib/shadows-page.php:34
+msgid ""
+"Allow easy access to site shadows. Resetting a shadow copies the state of "
+"the production site to the shadow. All files under /data/wordpress/ will be "
+"replaced and the production database imported. For more information, visit "
+"our  <a href=\"https://seravo.com/docs/deployment/shadows/\">Developer "
+"documentation</a>."
+msgstr ""
+"Hallinnoi sivustosi kehitysympäristöjä. Varjon resetointi korvaa varjon "
+"tiedostot hakemistossa /data/wordpress/ ja tietokannan tuotantosivuston "
+"tiedostoilla ja tietokannalla. Lue lisää varjoista <a href=\"https://seravo."
+"com/docs/deployment/shadows/\">kehittäjäohjeistamme</a>."
 
 #: lib/shadows-page.php:52 lib/domains-dns.php:26
 msgid "Name"
 msgstr "Nimi"
 
-#: lib/domains-dns.php:23
-msgid "updated: "
-msgstr "päivitetty: "
+#: lib/shadows-page.php:53
+msgid "Identifier"
+msgstr "Tunniste"
+
+#: lib/shadows-page.php:54
+msgid "SSH Port"
+msgstr "SSH-portti"
+
+#: lib/shadows-page.php:55
+msgid "Creation Date"
+msgstr "Luontipäivämäärä"
+
+#: lib/shadows-page.php:56 lib/shadows-page.php:68
+msgid "Reset Shadow"
+msgstr "Resetoi varjo"
+
+#: lib/shadows-page.php:76
+msgid ""
+"No shadows found. If your plan is WP Pro or higher, you can request a shadow "
+"instance from Seravo admins at <a href=\"mailto:wordpress@seravo.com"
+"\">wordpress@seravo.com</a>."
+msgstr ""
 
 #: lib/domains-dns.php:23
 msgid "Zone for: "
 msgstr "Zone verkkotunnukselle: "
 
-#: lib/api.php:32 lib/api.php:61
-msgid "API call failed. Aborting. The error has been logged."
-msgstr "Rajapintayhteys epäonnistui. Virhe on lisätty lokiin."
+#: lib/domains-dns.php:23
+msgid "updated: "
+msgstr "päivitetty: "
+
+#: lib/domains-dns.php:27
+msgid "TTL"
+msgstr "TTL"
+
+#: lib/domains-dns.php:29
+msgid "Type"
+msgstr "Tyyppi"
+
+#: lib/domains-dns.php:30
+msgid "Value"
+msgstr "Arvo"
+
+#. translators: %s domain of the site
+#: lib/domains-dns.php:51
+msgid ""
+"Our systems have detected that <strong>%s</strong> does not point to the "
+"Seravo servers. For your protection, manual editing is disabled. Please "
+"contact the Seravo customer service if you want changes to be done to the "
+"zone in question. You can publish the site yourself when you so desire with "
+"the following button:"
+msgstr ""
+"Järjestelmiemme mukaan <strong>%s</strong> ei osoita Seravon palvelimille. "
+"Olemme varmuuden vuoksi estäneet muutokset. Ota yhteyttä Seravon "
+"asiakaspalveluun mikäli haluat muokata kyseisiä tietueita. Voit julkaista "
+"sivustosi silloin kuin haluat oheisen painikkeen avulla:"
+
+#: lib/domains-dns.php:58
+msgid "Publish"
+msgstr "Julkaise"
+
+#: lib/domains-dns.php:71
+msgid "Compulsory Records"
+msgstr "Pakolliset tietueet"
+
+#: lib/domains-dns.php:72
+msgid ""
+"It is not recommended to edit these records. Please contact the Seravo "
+"customer service if you want changes to be done to them."
+msgstr ""
+"Näiden tietueiden muokkaaminen ei ole suositeltavaa. Ota yhteyttä Seravon "
+"asiakaspalveluun mikäli tahdot niitä muutettavan."
+
+#: lib/domains-dns.php:74
+msgid "Editable records"
+msgstr "Muokattavat tietueet"
+
+#: lib/domains-dns.php:75
+msgid ""
+"Here you can add, edit and delete records. Please do not try to add records "
+"conflicting with the compulsory records. They will not be activated."
+msgstr ""
+"Täältä käsin voit lisätä, muokata tai poistaa tietueita. Ei kannata lisätä "
+"tietueita jotka ovat ristiriidassa pakollisten tietueiden kanssa. Niitä ei "
+"oteta huomioon."
+
+#: lib/domains-dns.php:87
+msgid "Update Zone"
+msgstr ""
+
+#: lib/domains-dns.php:96
+msgid "The zone was updated succesfully!"
+msgstr "Zonen päivitys onnistui!"
+
+#: lib/domains-dns.php:98
+msgid "The following modifications were done for the zone: "
+msgstr "Zonelle tehtiin seuraavat muutokset: "
+
+#: lib/domains-dns.php:106
+msgid "The zone update failed"
+msgstr "Zonen päivitys epäonnistui"
+
+#. translators: user's website url
+#: modules/check-https.php:38
+msgid ""
+"The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/"
+"options-general.php\">site settings</a>. Please <a href=\"https://make."
+"wordpress.org/support/user-manual/web-publishing/https-for-wordpress/\">use "
+"HTTPS</a>."
+msgstr ""
+
+#: modules/optimize-images.php:34
+msgid "Optimize Images (beta)"
+msgstr "Optimoi kuvia (beta)"
+
+#: modules/optimize-images.php:58 modules/optimize-images.php:96
+msgid "Optimize Images"
+msgstr "Optimoi kuvia"
+
+#: modules/optimize-images.php:62
+msgid "Maximum Image Width (px)"
+msgstr "Suurin sallittu kuvan leveys (px)"
+
+#: modules/optimize-images.php:66
+msgid "Maximum Image Height (px)"
+msgstr "Suurin sallittu kuvan korkeus (px)"
+
+#: modules/optimize-images.php:104
+msgid "Width"
+msgstr "Leveys"
+
+#: modules/optimize-images.php:110
+msgid "Height"
+msgstr "Korkeus"
+
+#: modules/optimize-images.php:118
+msgid ""
+"Optimization reduces image file size. This improves the performance and "
+"browsing experience of your site."
+msgstr ""
+"Kuvien optimointi pienentää kuvan tiedostokokoa. Tämä parantaa sivuston "
+"suorituskykyä ja sivuston selauskokemusta."
+
+#: modules/optimize-images.php:119
+msgid ""
+"By setting the maximum image resolution, you can determine the maximum "
+"allowed dimensions for images."
+msgstr "Voit asettaa haluamasi rajat sivuston kuvien maksimiresoluutiolle."
+
+#: modules/optimize-images.php:120
+msgid ""
+"For further information, refer to our <a href=\"https://help.seravo.com/en/"
+"knowledgebase/23-managing-wordpress/docs/119-seravo-plugin-optimize-images"
+"\">knowledgebase article</a>."
+msgstr ""
+"Lisäohjeita aiheesta on Seravon <a href=\"https://help.seravo.com/fi/"
+"knowledgebase/23-managing-wordpress/docs/119-seravo-plugin-optimize-images"
+"\">tietopankissa</a>."
+
+#. translators: %s numeric value for the minimum image width
+#: modules/optimize-images.php:127
+msgid ""
+"The minimum width for image optimisation is %1$s px. Setting suggested width "
+"of %2$s px."
+msgstr ""
+"Suurimman sallitun kuvan leveyden tulee olla vähintään %1$s pikseliä. "
+"Asetetaan suositeltu %2$s px leveys."
+
+#. translators: %s numeric value for the minimum image height
+#: modules/optimize-images.php:138
+msgid ""
+"The minimum height for image optimisation is %1$s px. Setting suggested "
+"height of %2$s px."
+msgstr ""
+"Suurimman sallitun kuvan korkeuden tulee olla vähintään %1$s pikseliä. "
+"Asetetaan suositeltu %2$s px korkeus."
+
+#: modules/optimize-images.php:157
+msgid "Save"
+msgstr "Tallenna"
+
+#: modules/logs.php:68 modules/logs.php:69 modules/logs.php:133
+msgid "Logs"
+msgstr "Lokit"
+
+#: modules/logs.php:112
+msgid "No logs found in <code>/data/log/</code>."
+msgstr "Lokeja ei löytynyt hakemistosta <code>/data/log/</code>."
+
+#: modules/logs.php:172
+msgid "Filter"
+msgstr "Hae"
+
+#. translators: $s name of the logfile
+#: modules/logs.php:192
+msgid "File %s does not exist or we don't have permissions to read it."
+msgstr ""
+"Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä."
+
+#: modules/logs.php:197
+msgid "Log empty"
+msgstr "Loki on tyhjä"
+
+#: modules/logs.php:199
+msgid "Scroll to load more lines from the log."
+msgstr "Selaa ladataksesi lisää rivejä lokista."
+
+#: modules/instance-switcher.php:119
+msgid "Now in"
+msgstr "Nyt käytössä"
+
+#: modules/instance-switcher.php:150
+msgid "Exit Shadow"
+msgstr "Poistu varjosta"
+
+#: modules/instance-switcher.php:159
+msgid "Shadows explained at Seravo.com/docs"
+msgstr "Varjot selitettynä ohjeissa Seravo.com/docs"
+
+#. translators: $s Identifier for the shadow instance in use
+#: modules/instance-switcher.php:179
+msgid "Your current shadow instance is %s."
+msgstr "Olet nyt varjossa %s."
+
+#: modules/instance-switcher.php:181
+msgid "Exit"
+msgstr "Poistu"
+
+#. translators: $s user's website url
+#: modules/check-default-email.php:35
+msgid ""
+"Warning: A generic admin email was detected in the <a href=\"%s/wp-admin/"
+"options-general.php\">site settings</a>. Please update it."
+msgstr ""
+"Varoitus: <a href=\"%s/wp-admin/options-general.php\">Sivuston asetuksissa</"
+"a> on käytössä oletussähköpostiosoite. Ole hyvä ja vaihda se."
+
+#: modules/shadows.php:36 modules/shadows.php:37
+msgid "Shadows"
+msgstr "Varjot"
+
+#: modules/shadows.php:54
+msgid "Success"
+msgstr "Onnistui"
+
+#: modules/shadows.php:55
+msgid "Failure"
+msgstr "Epäonnistui"
+
+#: modules/shadows.php:56
+msgid "Error"
+msgstr "Virhe"
+
+#: modules/shadows.php:57
+msgid ""
+"Are you sure? This replaces all information in the selected environment."
+msgstr "Oletko varma? Tämä toiminto korvaa kaiken valitussa ympäristössä."
+
+#: modules/login-notification.php:54
+msgid "Site Error Count"
+msgstr "Sivuston virhemäärä"
+
+#. translators: * %1$s username of the current user * %2$s datetime of last login * %3$s timezone used to represent the datetime of the last login * %4$s IP address of the last login
+#: modules/login-notification.php:166
+msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
+msgstr ""
+"Tervetuloa, %1$s! Edellinen kirjautuminen: %2$s (%3$s) osoitteesta %4$s."
+
+#. translators: %1$s number of errors in the log %2$s url for additional information
+#: modules/login-notification.php:182
+msgid ""
+"The PHP error log has more than %1$s entries this week. Please see %2$s for "
+"details. This is usually a sign that something is broken in the code. The "
+"developer of the site should be notified."
+msgstr ""
+"PHP:n virhelokissa on yli %1$s merkintää tällä viikolla. Ole hyvä ja "
+"tarkista yksityiskohdat täältä: %2$s. Tämä on tavallisesti merkki siitä, "
+"että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
+"sivuston kehittäjälle."
+
+#: modules/cruftfiles.php:41
+msgid "Cruft Files (beta)"
+msgstr "Roskatiedostot (beta)"
+
+#: modules/cruftfiles.php:50
+msgid "Unnecessary plugins"
+msgstr "Tarpeettomat lisäosat"
+
+#: modules/cruftfiles.php:59
+msgid "Unnecessary themes"
+msgstr "Tarpeettomat teemat"
+
+#: modules/cruftfiles.php:68 modules/cruftfiles.php:69
+msgid "Cruft Files"
+msgstr "Roskatiedostot"
+
+#: modules/cruftfiles.php:77
+msgid ""
+"Find and delete any extraneous and potentially harmful files taking up space "
+"in the file system."
+msgstr ""
+"Etsi ja poista tarpeettomia ja potentiaalisesti haitallisia tiedostoja "
+"palvelimelta levytilan säästämiseksi."
+
+#: modules/cruftfiles.php:86
+msgid "Searching for files..."
+msgstr "Etsitään tiedostoja…"
+
+#: modules/cruftfiles.php:97
+msgid ""
+"Find and remove any plugins that are currently inactive or otherwise "
+"potentially harmful. For more information, please read our <a href=\"https://"
+"help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-"
+"lisaosat-wp-palvelu-fi-ssa\">recommendations for plugins in our environment</"
+"a>."
+msgstr ""
+
+#: modules/cruftfiles.php:102
+msgid "Searching for plugins..."
+msgstr "Etsitään lisäosia…"
+
+#: modules/cruftfiles.php:113
+msgid ""
+"Find and remove themes that are inactive. For more information, please read "
+"our <a href=\"https://help.seravo.com/en/knowledgebase/19-themes-and-plugins"
+"\">documentation concerning themes and plugins</a>."
+msgstr ""
+
+#: modules/cruftfiles.php:118
+msgid "Searching for themes..."
+msgstr "Etsitään lisäosia…"
+
+#: modules/cruftfiles.php:191 modules/tests.php:50 modules/reports.php:83
+msgid "No data returned for the section."
+msgstr "Testi ei palauttanut dataa."
+
+#: modules/cruftfiles.php:192
+msgid "Are you sure you want to proceed? Deleted files can not be recovered."
+msgstr "Oletko varma, että haluat jatkaa? Tiedostot poistetaan pysyvästi."
+
+#: modules/cruftfiles.php:193 modules/tests.php:53 modules/reports.php:84
+msgid "Failed to load. Please try again."
+msgstr "Lataaminen epäonnistui. Yritä uudelleen."
+
+#: modules/cruftfiles.php:194
+msgid "Congratulations! You have do not have any unnecessary files around."
+msgstr "Hienoa! Sivustolta ei löytynyt roskatiedostoja."
+
+#: modules/cruftfiles.php:195
+msgid "Delete"
+msgstr "Poista"
+
+#: modules/cruftfiles.php:196
+msgid "b"
+msgstr "b"
+
+#: modules/cruftfiles.php:197
+msgid "Last modified"
+msgstr "Viimeksi muokattu"
+
+#: modules/cruftfiles.php:198
+msgid "Select all files"
+msgstr "Valitse kaikki tiedostot"
+
+#: modules/cruftfiles.php:199
+msgid "File size"
+msgstr "Tiedostokoko"
+
+#: modules/cruftfiles.php:204
+msgid "Inactive Plugins:"
+msgstr "Epäaktiiviset lisäosat:"
+
+#: modules/cruftfiles.php:205
+msgid ""
+"These plugins are currently not in use. They can be removed to save disk "
+"storage space."
+msgstr ""
+"Seuraavat lisäosat eivät ole tällä hetkellä käytössä. Ne voidaan poistaa "
+"levytilan säästämiseksi."
+
+#: modules/cruftfiles.php:206
+msgid "Unnecessary Cache Plugins:"
+msgstr "Tarpeettomat välimuistilisäosat:"
+
+#: modules/cruftfiles.php:207
+msgid ""
+"Your website is running on a server that does takes care of caching "
+"automatically. Any additional plugins that do caching will not improve the "
+"service."
+msgstr ""
+"Verkkosivuasi ylläpidetään palvelimella, jolla on toteutettu välimuistin "
+"hallinta palvelimella. Lisäosat, jotka tarjoavat välimuistipalvelua eivät "
+"paranna sivuston suorituskykyä."
+
+#: modules/cruftfiles.php:208
+msgid "Unnecessary Security Plugins:"
+msgstr "Tarpeettomat tietoturvalisäosat:"
+
+#: modules/cruftfiles.php:209
+msgid ""
+"Your website runs on a server that is designed to provide a high level of "
+"security. Any plugins providing additional security measures will likely "
+"just slow down your website."
+msgstr ""
+"Verkkosivuasi ylläpidetään palvelimella, jonka tietoturvaominaisuuksiin on "
+"jo panostettu runsaasti työtä. Seuraavat tietoturvalisäosat lähinnä "
+"hidastavat sivustosi toimintaa."
+
+#: modules/cruftfiles.php:210
+msgid "Unnecessary Database Manipulation Plugins:"
+msgstr "Tarpeettomat tietokantaa muokkaavat lisäosat:"
+
+#: modules/cruftfiles.php:211
+msgid "These plugins may cause issues with your database."
+msgstr ""
+"Seuraavat lisäosat voivat aiheuttaa ongelmia verkkosivusi tietokannassa."
+
+#: modules/cruftfiles.php:212
+msgid "Unnecessary Backup Plugins:"
+msgstr "Tarpeettomat varmuuskopiointi-lisäosat:"
+
+#: modules/cruftfiles.php:213
+msgid ""
+"Backups of your website are automatically run on the server on a daily "
+"basis. Any plugins creating additional backups are redundant and will "
+"unnecessesarily fill up your data storage space."
+msgstr ""
+"Sivustostasi otetaan automaattisesti varmuuskopio päivittäin. Lisäosat, "
+"jotka luovat varmuuskopioita tekevät ylimääräisiä varmuuskopioita, jotka "
+"täyttävät turhaan kiintolevytilaa."
+
+#: modules/cruftfiles.php:214
+msgid "Unsecure Plugins:"
+msgstr "Vaaralliset lisäosat:"
+
+#: modules/cruftfiles.php:215
+msgid "These plugins have known issues with security."
+msgstr "Seuraavissa lisäosissa on havaittu ongelmia tietoturvan suhteen."
+
+#: modules/cruftfiles.php:216
+msgid ""
+"All the plugins that were found are currently active and do not have any "
+"known issues."
+msgstr ""
+"Kaikki sivustolle asennetut lisäosat ovat käytössä ja niiden suhteen ei ole "
+"tiedossa olevia ongelmia."
+
+#: modules/cruftfiles.php:217
+msgid "The following plugins were found and are suggested to be removed:"
+msgstr "Seuraavat lisäosat löytyivät ja niiden poistamista suositellaan:"
+
+#: modules/cruftfiles.php:218
+msgid "Are you sure you want to remove this plugin?"
+msgstr "Lisäosat poistetaan pysyvästi. Oletko varma, että haluat jatkaa?"
+
+#: modules/cruftfiles.php:219
+msgid "Failed to remove plugin"
+msgstr "Lisäosan poistaminen epäonnistui"
+
+#: modules/cruftfiles.php:224
+msgid "is parent to: "
+msgstr "toimii vanhempana: "
+
+#: modules/cruftfiles.php:225
+msgid "Are you sure you want to remove this theme?"
+msgstr "Teema poistetaan pysyvästi. Oletko varma, että haluat jatkaa?"
+
+#: modules/cruftfiles.php:226
+msgid "Failed to remove theme"
+msgstr "Teeman poistaminen epäonnistui"
+
+#: modules/cruftfiles.php:227
+msgid "There are currently no unused themes on the website."
+msgstr "Sivustolla ei tällä hetkellä ole tarpeettomia teemoja."
+
+#: modules/cruftfiles.php:228
+msgid "The following themes are inactive and can be removed."
+msgstr "Seuraavat teemat ovat epäaktiivisia ja ne voidaan poistaa."
+
+#: modules/database.php:46
+msgid "Database Access"
+msgstr "Yhteys tietokantaan"
+
+#: modules/database.php:54
+msgid "Manage the Database with Adminer"
+msgstr "Hallinnoi tietokantaa Adminerilla"
+
+#: modules/database.php:62
+msgid "Search-Replace Tool"
+msgstr "Etsi ja korvaa -työkalu"
+
+#: modules/database.php:70
+msgid "Database Size"
+msgstr "Tietokannan koko"
+
+#: modules/database.php:107
+msgid "Database"
+msgstr "Tietokanta"
+
+#. translators: $s example of the command for getting user's database credentials
+#: modules/database.php:115
+msgid ""
+"You can find the database credentials by connecting to your site with SSH "
+"and running the command %s. These credentials can be used to connect to the "
+"server with an SSH tunnel. You can also use the web-based Adminer available "
+"on this page."
+msgstr ""
+"Löydät tietokantatunnukset ottamalla palvelimelle SSH-yhteyden ja "
+"suorittamalla komennon %s. Voit hyödyntää näitä tunnuksia, mikäli haluat "
+"ottaa yhteyden tietokantaan ulkoisella sovelluksella SSH-tunnelin kautta. "
+"Voit hallita tietokantaa myös Adminerin selainkäyttöliittymän avulla "
+"alempana."
+
+#. translators: $s url containing additional information on WordPress database tools
+#: modules/database.php:121
+msgid ""
+"When you have established an SSH connection you can use WP-CLI that features "
+"powerful database tools for example exports and imports. <a href=\"%s\">Read "
+"the documentation for wp db</a>."
+msgstr ""
+"Kun olet yhdistänyt palvelimelle SSH-yhteydellä, voit hyödyntää WP-CLI:n "
+"monipuolisia tietokantatyökaluja esimerkiksi tietokannan vientiin tai "
+"tuontiin. <a href=\"%s\">Lue dokumentaatio wp db -komennoille</a>."
+
+#. translators: %1$s url to www.adminer.org
+#: modules/database.php:134
+msgid ""
+"Adminer is a simple database management tool, like phpMyAdmin. <a href=\"%1$s"
+"\">Learn more about Adminer.</a>"
+msgstr ""
+"Adminer on yksinkertainen tietokannan hallintatyökalu kuten phpMyAdmin. <a "
+"href=\"%1$s\">Lue lisää Adminerista.</a>"
+
+#. translators: %1$s example url for accessing Adminer in production environment %2$s example url for accessing Adminer in local development
+#: modules/database.php:143
+msgid ""
+"Adminer can be located in the production environment at %1$s and in the "
+"local development environment at %2$s."
+msgstr ""
+"Löydät Adminerin tuotantosivustolta %1$s ja paikallisesta "
+"kehitysympäristöstä %2$s."
+
+#: modules/database.php:177
+msgid "Open Adminer"
+msgstr "Siirry Admineriin"
+
+#: modules/database.php:187
+msgid ""
+"You can use this tool to run <code>wp search-replace</code>. For safety "
+"reason a dry run is compulsory before the actual search-replace can be done."
+msgstr ""
+"Tämän työkalun avulla voit ajaa komennon <code>wp search-replace</code>. "
+"Turvallisuussyistä on ajettava kuiva-ajo (dry-run) ennen kuin on mahdollista "
+"tehdä muutoksia."
+
+#: modules/database.php:189
+msgid "From:"
+msgstr "Mistä:"
+
+#: modules/database.php:190
+msgid "To:"
+msgstr "Mihin:"
+
+#: modules/database.php:196
+msgid "Skip backups"
+msgstr "Ohita varmuuskopiointi"
+
+#: modules/database.php:201
+msgid "All tables"
+msgstr "Kaikki taulut"
+
+#: modules/database.php:207
+msgid "Network"
+msgstr "Network"
+
+#: modules/database.php:212
+msgid "Do a dry run"
+msgstr "Aja kuiva-ajo"
+
+#: modules/database.php:213
+msgid "Run wp search-replace"
+msgstr "Aja wp search-replace"
+
+#: modules/tests.php:30 modules/tests.php:38
+msgid "Tests"
+msgstr "Testit"
+
+#: modules/tests.php:51
+msgid "Tests were run without any errors!"
+msgstr "Testit suoritettu onnistuneesti ilman virheitä!"
+
+#: modules/tests.php:52
+msgid "At least one of the tests failed."
+msgstr "Ainakin yksi testeistä epäonnistui."
+
+#: modules/tests.php:54
+msgid "Running rspec tests..."
+msgstr "Testataan sivustoa…"
+
+#: modules/tests.php:70
+msgid ""
+"Here you can test the core functionality of your WordPress installation. "
+"Same results can be achieved via command line by running <code>wp-test</"
+"code> there. For further information, please refer to <a href=\"https://"
+"seravo.com/docs/tests/integration-tests/\"> Seravo Developer Documentation</"
+"a>."
+msgstr ""
+
+#: modules/tests.php:73
+msgid "Run Tests"
+msgstr "Suorita testit"
+
+#: modules/tests.php:76
+msgid "Click \"Run Tests\" to run the Rspec tests"
+msgstr "Klikkaa “Suorita testit” -nappia"
+
+#: modules/tests.php:82
+msgid "Toggle Details"
+msgstr "Näytä lisää"
+
+#. translators: %s cache refresh interval
+#: modules/purge-cache.php:37
+msgid ""
+"Seravo.com uses front-end proxies to deliver lightning fast response times "
+"for your visitors. Cached pages will be refreshed every %s. This button is "
+"used for clearing all cached pages from the front-end proxy immediately."
+msgstr ""
+"WP-palvelu.fi käyttää välipalvelinta, jotta sivuston kävijöille voidaan "
+"tarjota salamannopea sivunlataus. Välimuistitettuja sivuja päivitetään %s "
+"välein. Voit käyttää tätä näppäintä, jos haluat tyhjentää välimuistin heti."
+
+#. translators: %s cache refresh interval
+#: modules/purge-cache.php:38
+msgid "Purge Cache"
+msgstr "Tyhjennä välimuisti"
+
+#: modules/purge-cache.php:71
+msgid "Success:"
+msgstr "Onnistui:"
+
+#: modules/purge-cache.php:71
+msgid "The cache was flushed."
+msgstr "Välimuisti tyhjennetty."
+
+#: modules/purge-cache.php:75
+msgid "Error:"
+msgstr "Virhe:"
+
+#: modules/purge-cache.php:75
+msgid "The cache was not flushed, please check your PHP error log for details."
+msgstr ""
+"Välimuistia ei tyhjennetty, lisätietoja virheestä löytyy PHP-virhelokista."
+
+#: modules/purge-cache.php:90
+msgid "Error: the nonce did not verify."
+msgstr "Virhe: kertakäyttöavain ei täsmännyt."
+
+#. translators: %1$s: current php version, %2$s: recommended php version
+#: modules/check-php-version.php:49
+msgid ""
+"The PHP version %1$s currently in use is lower than the recommended %2$s. "
+"Support and security updates might not be available for the version in use. "
+"<a target=\"blank\" href=\"http://php.net/supported-versions.php\">Read "
+"more</a>."
+msgstr ""
+
+#: modules/reports.php:34
+msgid "HTTP Request Statistics"
+msgstr "HTTP-liikennetilastot"
+
+#: modules/reports.php:43
+msgid "Disk Usage"
+msgstr "Levytilan käyttö"
+
+#: modules/reports.php:52
+msgid "Cache Status"
+msgstr "Välimuistin tila"
+
+#: modules/reports.php:60
+msgid "Site Information"
+msgstr "Sivuston tiedot"
+
+#: modules/reports.php:68
+msgid "Reports"
+msgstr "Raportit"
+
+#: modules/reports.php:85
+msgid ""
+"No reports found at /data/slog/html/. Reports should be available within a "
+"month of the creation of a new site."
+msgstr ""
+"Raportteja ei löytynyt polusta /data/slog/html/. Raportit tulisi olla "
+"saatavilla noin kuukauden kuluessa uuden sivuston perustamisesta."
+
+#: modules/reports.php:86
+msgid "View report"
+msgstr "Näytä raportti"
+
+#: modules/reports.php:98
+msgid ""
+"These monthly reports are generated from the HTTP access logs of your site. "
+"All HTTP requests for the site are included, with traffic from both humans "
+"and bots. Requests blocked at the firewall level (for example during a DDOS "
+"attack) are not logged. The log files can also be accessed directly on the "
+"server at <code>/data/slog/html/goaccess-*.html</code>."
+msgstr ""
+"Nämä kuukausittaiset tilastot on tehty sivuston HTTP-liikennelokeista. "
+"Niihin sisältyy kaikki sivuston HTTP-pyynnöt, sekä ihmisten että erilaisten "
+"bottien tekemät. Palomuuritasolla estetyt HTTP-pyynnöt (esim DDOS-"
+"hyökkäyksen aikana) eivät tule lokiin. Lokitiedostoja voi selata suoraan "
+"myös palvelimella polussa <code>/data/slog/html/goaccess-*.html</code>."
+
+#: modules/reports.php:104
+msgid "Month"
+msgstr "Kuukausi"
+
+#: modules/reports.php:105
+msgid "HTTP Requests"
+msgstr "HTTP-pyynnöt"
+
+#: modules/reports.php:106
+msgid "Report"
+msgstr "Raportti"
+
+#: modules/reports.php:118
+msgid "Redis Transient and Object Cache"
+msgstr "Oliovälimuisti"
+
+#: modules/reports.php:123
+msgid "Nginx HTTP Cache"
+msgstr "Nginx HTTP -välimuisti"
+
+#: modules/reports.php:133
+msgid "The total size of <code>/data</code> is"
+msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
+
+#: modules/reports.php:139
+msgid "Disk usage by directory"
+msgstr "Levytilan käyttö"
+
+#: modules/reports.php:157
+msgid "Demo"
+msgstr "Demo"
+
+#: modules/reports.php:158
+msgid "WP Mini"
+msgstr ""
+
+#: modules/reports.php:159
+msgid "WP Pro"
+msgstr ""
+
+#: modules/reports.php:160
+msgid "WP Business"
+msgstr ""
+
+#: modules/reports.php:161
+msgid "WP Enterprise"
+msgstr ""
+
+#: modules/reports.php:165
+msgid "Finland"
+msgstr "Suomi"
+
+#: modules/reports.php:166
+msgid "Sweden"
+msgstr "Ruotsi"
+
+#: modules/reports.php:167
+msgid "Germany"
+msgstr "Saksa"
+
+#: modules/reports.php:168
+msgid "USA"
+msgstr "Yhdysvallat"
+
+#: modules/reports.php:169
+msgid "No preference"
+msgstr "Seravon valitsema"
+
+#: modules/reports.php:178
+msgid "Site Name"
+msgstr "Sivuston nimi"
+
+#: modules/reports.php:180
+msgid "Plan Termination"
+msgstr "Palvelupaketin päättyminen"
+
+#: modules/reports.php:181
+msgid "Site Location"
+msgstr "Sivuston sijainti"
+
+#: modules/reports.php:182
+msgid "Plan Type"
+msgstr "Palvelupaketti"
+
+#: modules/reports.php:183
+msgid "Account Manager"
+msgstr "Account Manager"
+
+#: modules/reports.php:189
+msgid "WordPress core"
+msgstr "WordPressin ydin"
+
+#: modules/updates.php:50
+msgid "Updates"
+msgstr "Päivitykset"
+
+#: modules/backups.php:36 modules/backups.php:90
+msgid "Backups"
+msgstr "Varmuuskopiot"
+
+#: modules/backups.php:44
+msgid "Create a New Backup"
+msgstr "Luo  uusi varmuuskopio"
+
+#: modules/backups.php:52
+msgid "Files Excluded from the Backups"
+msgstr "Varmuuskopioista pois jätettävät tiedostot"
+
+#: modules/backups.php:60
+msgid "Current Backups"
+msgstr "Nykyiset varmuuskopiot"
+
+#: modules/backups.php:96
+msgid ""
+"Backups are automatically created every night and preserved for 30 days. The "
+"data can be accessed on the server in under <code>/data/backups</code>."
+msgstr ""
+"Varmuuskopiot tehdään automaattisesti joka yö ja säilytetään 30 päivän ajan. "
+"Varmuuskopioita voi selata palvelimella kansiossa <code>/data/backups</code>."
+
+#: modules/backups.php:103
+msgid ""
+"You can also create backups manually by running <code>wp-backup</code> on "
+"the command line. We recommend that you get familiar with the command line "
+"option that is accessible to you via SSH. That way recovering a backup will "
+"be possible whether the WP Admin is accessible or not."
+msgstr ""
+"Voit tehdä varmuuskopioita komentoriviltä komennolla <code>wp-backup</code>. "
+"Suosittelemme tutustumaan komentorivin käyttöön SSH-yhteyden yli, jotta "
+"varmuuskopion palauttaminen ei olisi riippuvainen WP-adminin toimivuudesta."
+
+#: modules/backups.php:105
+msgid "Create a backup"
+msgstr "Ota uusi varmuuskopio"
+
+#. translators: %s name of the file shown
+#: modules/backups.php:114
+msgid "Below are the contents of %s."
+msgstr "Alla on tiedoston %s sisältö."
+
+#. translators: %s command used to list WordPress backups of the website
+#: modules/backups.php:127
+msgid "This list is produced by the command %s."
+msgstr "Luettelo on tuotettu komennolla %s."
+
+#~ msgid "Site Language"
+#~ msgstr "Sivuston kieli"
+
+#~ msgid ""
+#~ "Define the maximum image size for your site. Using optimized images "
+#~ "significantly improves site performance and saves disk space."
+#~ msgstr ""
+#~ "Rajoita helposti sivustosi kuvien kokoa. Pienempi kuvakoko näkyy "
+#~ "sivustolla nopeampina latausaikoina, sekä säästää levytilaa palvelimella."
+
+#~ msgid "Limit Image Resolution"
+#~ msgstr "Rajoita kuvien resoluutiota"
