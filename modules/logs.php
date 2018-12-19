@@ -90,12 +90,10 @@ if ( ! class_exists('Logs') ) {
         $regex = $_GET['regex'];
       }
 
-      $current_log = 0;
-      if ( isset( $_GET['log'] ) ) {
-        $current_log = (int) $_GET['log'];
-      }
+      // Default log view is the PHP error log as it is the most important one
+      $current_logfile = 'php-error.log';
 
-      $current_logfile = null;
+      // Use supplied log name if given
       if ( isset( $_GET['logfile'] ) ) {
         $current_logfile = $_GET['logfile'];
       }
@@ -119,14 +117,8 @@ if ( ! class_exists('Logs') ) {
         $logfiles[ basename( $log ) ] = $log;
       }
 
-      // Set logfile based on supplied log name if exists,
-      // otherwise fall back to using log index number
-      $logfile = null;
-      if ( isset( $logfiles[ $current_logfile ] ) ) {
-        $logfile = $logfiles[ $current_logfile ];
-      } elseif ( isset( $logs[ $current_log ] ) ) {
-        $logfile = $logs[ $current_log ];
-      }
+      // Set logfile based on supplied log name
+      $logfile = $logfiles[ $current_logfile ];
 
       ?>
   <div class="wrap">
@@ -203,6 +195,13 @@ if ( ! class_exists('Logs') ) {
 ?>
     <div class="log-view-active">
     </div>
+
+    <p>
+      <?php
+      // translators: $s full path of the logfile
+      printf( __('Full log files can be found on the server in the path %s.', 'seravo'), '<code>/data/log/</code>');
+      ?>
+    </p>
   </div>
 
       <?php
