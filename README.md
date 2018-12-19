@@ -56,6 +56,16 @@ function my_shadow_admin_notice($admin_notice, $current_screen) {
 add_filter( 'seravo_instance_switcher_admin_notice', 'my_shadow_admin_notice', 10, 2 );
 ```
 
+
+## Updating translations
+
+Remember to update translations of all public facing string by running inside Vagrant:
+```
+cd /data/wordpress/htdocs/wp-content/mu-plugins/seravo-plugin
+wp i18n make-pot . languages/seravo.pot
+```
+
+
 # Changelog
 
 See git history.
