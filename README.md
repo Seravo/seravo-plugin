@@ -34,17 +34,21 @@ Seravo's customers can simply run `wp-seravo-plugin-update` to get the latest (t
 
 # Features
 
+* Enforces canonical URLs
+* Enforces HTTPS, nags if PHP version is too low, shows a notice is object-cache is not enabled etc
 * Shows notifications from WP-palvelu.fi (@TODO: switch to Seravo.com)
 * Returns 401 (unauthorized) http status code after failed login.
+* Logs all login attempts to /data/log/wp-login.log
 * Hides Update nagging since that is handled by Seravo
-
 * Uses nocache headers if the site is in development mode
-
 * Adds Purge Cache -button in adminbar
-
 * Automatically shows the shadow instance switcher is there are any shadow instances.
-
+* Allows to list and reset shadow environments
 * Make urls in content relative for easier migration, but turn relative urls into absolute urls when using feeds (rss,atom...)
+* Finds and suggests cruft files to remove from a site
+* Shows information about the database, table sizes etc
+* Show information about disk usage, server logs, updates, tests etc
+* And lots, lots more!
 
 ## Filters
 
@@ -56,15 +60,32 @@ function my_shadow_admin_notice($admin_notice, $current_screen) {
 add_filter( 'seravo_instance_switcher_admin_notice', 'my_shadow_admin_notice', 10, 2 );
 ```
 
+Currently the velocity of development is so high that documentation lacks badly behind. To find more filters, just search the source code for `apply_filters`.
 
-## Updating translations
+## Development
+
+### Using a real site for development
+
+Some of the features in the Seravo Plugin depend on the API that is available only on a real production site, and thus cannot be tested inside a Vagrant box or the like.
+
+In order to have the git repository on your own computer and in your own editor, while still being able to see the code running on a test site (in the production environment) you can use the command below. It will watch all files for changes and automatically rsync them to the remote server:
+```
+seravo-plugin$ find * | entr rsync -avz -e 'ssh -q -p 12345' * \
+example@example.seravo.com:/data/wordpress/htdocs/wp-content/mu-plugins/seravo-plugin/
+sending incremental file list
+README.md
+
+sent 2,999 bytes  received 64 bytes  2,042.00 bytes/sec
+total size is 370,596  speedup is 120.99
+```
+
+### Updating translations
 
 Remember to update translations of all public facing string by running inside Vagrant:
 ```
 cd /data/wordpress/htdocs/wp-content/mu-plugins/seravo-plugin
 wp i18n make-pot . languages/seravo.pot
 ```
-
 
 # Changelog
 
