@@ -252,9 +252,11 @@ class Loader {
       /*
        * Optimize images
        */
-      if ( apply_filters('seravo_show_optimize_images_page', true) &&
-            current_user_can( 'administrator' ) ) {
-        require_once dirname( __FILE__ ) . '/modules/optimize-images.php';
+      if ( ! is_multisite() || current_user_can( 'manage_network' ) ) {
+        if ( apply_filters('seravo_show_optimize_images_page', true) &&
+              current_user_can( 'administrator' ) ) {
+          require_once dirname( __FILE__ ) . '/modules/optimize-images.php';
+        }
       }
     }
 
