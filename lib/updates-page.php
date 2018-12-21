@@ -79,7 +79,7 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
                 <p><small class="seravo-developer-letter-hint">
                 <?php
                   // translators: %1$s link to Newsletter for WordPress developers
-                  echo wp_sprintf( __('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
+                  printf( __('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
                 ?>
                 </small></p>
                 <br>

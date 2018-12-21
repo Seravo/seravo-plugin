@@ -258,7 +258,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
         <button type="button" class="handlediv button-link" aria-expanded="<?php echo $closed ? 'false' : 'true'; ?> ">
           <span class="screen-reader-text">
             <?php /* translators: %s: Togglable postbox title */ ?>
-            <?php echo wp_sprintf(__('Toggle panel: %s', 'seravo'), $postbox_content['title']); ?>
+            <?php printf(__('Toggle panel: %s', 'seravo'), $postbox_content['title']); ?>
           </span>
           <span class="toggle-indicator" aria-hidden="true"></span>
         </button>

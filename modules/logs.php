@@ -181,7 +181,7 @@ if ( ! class_exists('Logs') ) {
         <p>
           <?php
             // translators: $s name of the logfile
-            echo wp_sprintf( __("File %s does not exist or we don't have permissions to read it.", 'seravo' ), $logfile );
+            printf( __("File %s does not exist or we don't have permissions to read it.", 'seravo' ), $logfile );
           ?>
         </p>
       </div>

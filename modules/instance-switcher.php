@@ -176,7 +176,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       <div id="shadow-indicator">
       <?php
         // translators: $s Identifier for the shadow instance in use
-        echo wp_sprintf( __('Your current shadow instance is %s.', 'seravo'), $shadow_title );
+        printf( __('Your current shadow instance is %s.', 'seravo'), $shadow_title );
       ?>
       <a class="clearlink" href="/?wpp_shadow=clear&seravo_shadow=clear"><?php _e('Exit', 'seravo'); ?></a>
       </div>

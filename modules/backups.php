@@ -111,7 +111,7 @@ if ( ! class_exists('Backups') ) {
 
     public static function backups_excludes_postbox() {
       // translators: %s name of the file shown
-      echo wp_sprintf( __('Below are the contents of %s.', 'seravo'), '<code>/data/backups/exclude.filelist</code>' );
+      printf( __('Below are the contents of %s.', 'seravo'), '<code>/data/backups/exclude.filelist</code>' );
       ?>
       <p>
         <div id="backup_exclude_loading">
@@ -124,7 +124,7 @@ if ( ! class_exists('Backups') ) {
 
     public static function backups_list_postbox() {
       // translators: %s command used to list WordPress backups of the website
-      echo wp_sprintf( __('This list is produced by the command %s.', 'seravo'), '<code>wp-backup-status</code>' );
+      printf( __('This list is produced by the command %s.', 'seravo'), '<code>wp-backup-status</code>' );
       ?>
       <p>
         <div id="backup_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
