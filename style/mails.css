@@ -1,0 +1,16 @@
+.seravo-mails-postbox {
+  padding: 15px 15px;
+  max-width: 45%;
+}
+
+@media screen and (max-width:1600px) {
+  .seravo-mails-postbox {
+    max-width: 75%;
+  }
+}
+
+@media screen and (max-width:1200px) {
+  .seravo-mails-postbox {
+    max-width: 100%;
+  }
+}
