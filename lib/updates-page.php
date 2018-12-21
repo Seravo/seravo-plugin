@@ -110,10 +110,10 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
         <div class="inside">
           <?php if ( gettype($site_info) === 'array' ) : ?>
           <ul>
-            <li><?php _e('Site Created', 'seravo'); ?>: <?php echo $site_info['created']; ?></li>
-            <li><?php _e('Latest Successful Update', 'seravo'); ?>: <?php echo $site_info['update_success']; ?></li>
+            <li><?php _e('Site Created', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['created'])); ?></li>
+            <li><?php _e('Latest Successful Update', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_success'])); ?></li>
             <?php if ( ! empty( $site_info['update_attempt'] ) ) { ?>
-            <li><?php _e('Latest Update Attempt', 'seravo'); ?>: <?php echo $site_info['update_attempt']; ?></li>'
+            <li><?php _e('Latest Update Attempt', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_attempt'])); ?></li>'
             <?php } ?>
           </ul>
             <?php
