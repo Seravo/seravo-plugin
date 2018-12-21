@@ -21,7 +21,7 @@ class Seravo_Domains_DNS_Table {
     }
     $timestamp = date_create_from_format( 'Y-m-d\TH:i:s.uO', $this->records['timestamp'] );
     echo '<div><p style="margin-left: 3px;"><b>' . __( 'Zone for: ', 'seravo' ) . $this->records['name'] . '</b> <i>(' . __( 'updated: ', 'seravo' ) . date_format( $timestamp, 'Y-m-d H:i O' ) . ')</i></p></div>';
-    echo '<table style="margin-bottom: 8px;" class="wp-list-table widefat fixed striped domains" id="dns_zone">';
+    echo '<table style="margin-bottom: 8px; max-width: 80em;" class="wp-list-table widefat fixed striped domains" id="dns_zone">';
     echo '<thead>
       <th>' . __( 'Name', 'seravo' ) . '</th>
       <th>' . __( 'TTL', 'seravo' ) . '</th>
@@ -52,7 +52,7 @@ class Seravo_Domains_DNS_Table {
       wp_nonce_field( 'seravo-zone-nonce' );
       echo '<input type="hidden" name="action" value="change_zone_file">';
       echo '<input type="hidden" name="domain" value="' . $this->records['name'] . '">';
-      echo '<textarea type="hidden" name="zonefile" style="display:none;">' .
+      echo '<textarea type="hidden" name="zonefile" style="display: none; font-family: monospace;">' .
       $this->compulsory_as_string() . "\n" . $this->editable_as_string() .
       '</textarea>';
       echo '<input style="margin-bottom:8px;" type="submit" value="' . __( 'Publish', 'seravo' ) . '"" formaction="' . esc_url( admin_url( 'admin-post.php' ) ) . '" formmethod="post" >';
@@ -75,15 +75,15 @@ class Seravo_Domains_DNS_Table {
       echo '<p>' . __( 'Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated.', 'seravo') . '</p>';
       echo '</td></tr>';
       echo '<tr><td style="width:50%">';
-      echo '<textarea name="compulsory" readonly style="width:100%" rows="15">';
+      echo '<textarea name="compulsory" readonly style="width: 100%; font-family: monospace;" rows="15">';
       echo $this->compulsory_as_string();
       echo '</textarea>';
       echo '</td><td style="width:50%">';
-      echo '<textarea name="zonefile" style="width:100%" rows="15">';
+      echo '<textarea name="zonefile" style="width: 100%; font-family: monospace;" rows="15">';
       echo $this->editable_as_string();
       echo '</textarea>';
       echo '</td></tr>';
-      echo '<tr><td></td><td><input type="submit" class="button alignright" formaction="' . esc_url( admin_url( 'admin-post.php' ) ) . '" 
+      echo '<tr><td></td><td><input type="submit" class="button alignright" formaction="' . esc_url( admin_url( 'admin-post.php' ) ) . '"
             formmethod="post" value="' . __( 'Update Zone', 'seravo' ) . '"></td></tr>';
       echo '</table>';
       echo '<hr>';
