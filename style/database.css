@@ -1,6 +1,7 @@
 .seravo-wb-db-info-table {
   margin-bottom: 1rem;
 }
+
 .seravo-wb-db-info-table td {
   padding-right: 1rem;
 }
@@ -31,7 +32,8 @@ span.dashicons-external {
   .label_buttons {
     display: block;
   }
-  .to_button, .adminer_button {
+  .to_button,
+  .adminer_button {
     padding-top: 15px;
   }
   .optionboxes {
@@ -48,16 +50,16 @@ span.dashicons-external {
 @media only screen and (max-width: 376px) {
   .pie_container {
     margin: -90px;
+    overflow-wrap: break-word;
     padding-top: 90px;
     white-space: pre-line;
-    overflow-wrap: break-word;
   }
   .section_chart_mobile {
     padding-bottom: 25%;
   }
   canvas {
-    width: 253px!important;
     height: 198px!important;
     margin: auto;
+    width: 253px!important;
   }
 }

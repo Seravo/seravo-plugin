@@ -47,7 +47,7 @@ jQuery(document).ready(function($) {
 
           $( '#cruftfiles_entries' ).parents(':eq(0)').prepend('<thead><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>' + seravo_cruftfiles_loc.select_all + '</b></td><td class="cruft-tool-selector">' + seravo_cruftfiles_loc.mod_date + '</td><td class="cruft-tool-selector">' + seravo_cruftfiles_loc.filesize + '</td></tr></thead>');
           $( '#cruftfiles_entries' ).parents(':eq(0)').append('<tfoot class="less-than"><tr><td><input class="cruftfile-select-all" type="checkbox" ></td><td class="cruft-tool-selector"><b>' + seravo_cruftfiles_loc.select_all + '</b></td><td class="cruft-tool-selector">' + seravo_cruftfiles_loc.mod_date + '</td><td class="cruft-tool-selector">' + seravo_cruftfiles_loc.filesize + '</td></tr></tfoot>');
-          $( '#cruftfiles_status' ).append('<button class="cruftfile-delete-button button" type="button">' + seravo_cruftfiles_loc.delete + '</b>');
+          $( '#cruftfiles_status' ).append('<button class="cruftfile-delete-button" type="button">' + seravo_cruftfiles_loc.delete + '</b>');
           if ( filecount < 30 ) {
             $( '.less-than' ).hide();
           }
