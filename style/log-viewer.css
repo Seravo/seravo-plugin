@@ -1,52 +1,61 @@
 .log-view input[name=regex] {
-    height: 28px;
-    margin: 0 4px 0 0;
+  height: 28px;
+  margin: 0 4px 0 0;
 }
+
 .log-view .log-table-view {
-    position: relative;
-    width: 100%;
-    max-height: 450px;
-    min-height: 25px;
-    overflow: auto;
-    resize: both;
-    border: 1px solid #e5e5e5;
+  border: 1px solid #e5e5e5;
+  max-height: 450px;
+  min-height: 25px;
+  overflow: auto;
+  position: relative;
+  resize: both;
+  width: 100%;
 }
+
 .log-view .log-table-view table {
-    border: 0;
-    white-space: nowrap;
-    font-family: monospace;
+  border: 0;
+  font-family: monospace;
+  white-space: nowrap;
 }
+
 .log-view .log-table-view table td {
-    padding-top: 0;
-    padding-bottom: 0;
+  padding-bottom: 0;
+  padding-top: 0;
 }
+
 .log-view .log-table-view table td:hover {
-    background-color: #44A1CB;
+  background-color: #44A1CB;
 }
+
 .log-view .log-table-view table td span.highlight {
-    background-color: #ff0;
+  background-color: #ff0;
 }
+
 .log-view .log-table-view .overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 300%;
-    background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, .5);
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 300%;
 }
+
 .log-view .log-table-view .logrow {
   display: block;
 }
+
 .logrow:hover {
-    background-color: #44A1CB;
-    color: white;
-    cursor: pointer;
+  background-color: #44A1CB;
+  color: white;
+  cursor: pointer;
 }
+
 .log-view-active {
-    border: 1px solid #e5e5e5;
-    background-color: #fff;
-    height: 100%;
-    padding: 20px;
-    word-wrap: break-word;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  height: 100%;
+  padding: 20px;
+  word-wrap: break-word;
 }

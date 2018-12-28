@@ -107,7 +107,7 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
             <span class="hide-if-no-js"><?php _e('Site Status', 'seravo'); ?></span>
           </span>
         </h2>
-        <div class="inside">
+        <div class="inside seravo-updates-postbox">
           <?php if ( gettype($site_info) === 'array' ) : ?>
           <ul>
             <li><?php _e('Site Created', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['created'])); ?></li>

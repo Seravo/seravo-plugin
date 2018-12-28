@@ -1,6 +1,6 @@
 .seravo-mails-postbox {
-  padding: 15px 15px;
   max-width: 45%;
+  padding: 15px 15px;
 }
 
 @media screen and (max-width:1600px) {

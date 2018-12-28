@@ -1,18 +1,20 @@
 #wpadminbar #wp-admin-bar-nginx-helper-purge-all .ab-item .seravo-purge-cache-icon {
-  padding: 0px !important;
-  margin-top: 5px;
   transform-origin: center center;
 }
+
 #wp-admin-bar-nginx-helper-purge-all .ab-item:hover {
   cursor: pointer;
 }
+
 #wpadminbar #wp-admin-bar-nginx-helper-purge-all .ab-item .seravo-purge-cache-icon:before {
   content: "\f463";
 }
+
 #wpadminbar #wp-admin-bar-nginx-helper-purge-all .spin {
   animation: purge-cache-spin 1.2s infinite;
   animation-timing-function: linear;
 }
+
 @moz-keyframes purge-cache-spin {
   0% {
     transform: rotate( 0deg );
@@ -21,6 +23,7 @@
     transform: rotate( 360deg );
   }
 }
+
 @webkit-keyframes purge-cache-spin {
   0% {
     transform: rotate( 0deg );
@@ -29,6 +32,7 @@
     transform: rotate( 360deg );
   }
 }
+
 @keyframes purge-cache-spin {
   0% {
     transform: rotate( 0deg );
@@ -37,6 +41,7 @@
     transform: rotate( 360deg );
   }
 }
+
 @media screen and (max-width:782px) {
   #wp-admin-bar-nginx-helper-purge-all {
     display: block !important;
@@ -45,9 +50,9 @@
     margin-top: 0px;
   }
   #wpadminbar #wp-admin-bar-nginx-helper-purge-all .ab-item .seravo-purge-cache-icon:before {
-    top: -3px;
+    height: 45px;
     line-height: 53px;
-    height: 45px !important;
+    top: -3px;
     width: 52px;
   }
 }

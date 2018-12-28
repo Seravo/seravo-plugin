@@ -1,76 +1,96 @@
 .cruftfile-delete-button {
-  color: #a00;
+  background: #f7f7f7;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #cccccc;
+  color: #555;
+  cursor: pointer;
+  height: 28px;
+  line-height: 22px;
+  margin-top: 20px;
+  padding: 0 10px 1px;
 }
 
 .cruftfile-delete-button:hover {
-  color: #EA6161 !important;
-  outline: none;
   box-shadow: none;
+  color: #EA6161;
+  outline: none;
 }
 
 .cruftfile-delete-button:active,
 .cruftfile-delete-button:focus,
 .cruftfile-delete-button:visited {
+  box-shadow: none;
   color: #a00;
   outline: none;
-  box-shadow: none;
 }
+
 .cruft-plugin-set {
   padding-top: 15px;
 }
+
 .postbox-container-max {
   width: 100%;
 }
+
 .cruft-tool-selector {
   background-color: antiquewhite;
 }
+
 table {
   border: collapse;
 }
+
 .cruft-theme-table {
-    border-bottom: 2px solid black;
+  border-bottom: 2px solid black;
 }
+
 .crufttheme {
-    padding: 1px 1px 1px 1px;
-    display: flex;
-    border-top: 2px solid black;
+  border-top: 2px solid black;
+  display: flex;
+  padding: 1px 1px 1px 1px;
 }
 
 .crufttheme-child {
-    border-top: none;
+  border-top: none;
 }
 
 .child-delete-button {
-    margin-left: 30px;
+  margin-left: 30px;
 }
+
 table {
-  border: collapse;
+border: collapse;
 }
+
 .cruft-theme-table {
-    border-bottom: 2px solid black;
+  border-bottom: 2px solid black;
 }
+
 .crufttheme {
-    padding: 1px 1px 1px 1px;
-    display: flex;
-    border-top: 2px solid black;
-    flex-direction: row;
+  border-top: 2px solid black;
+  display: flex;
+  flex-direction: row;
+  padding: 1px 1px 1px 1px;
 }
 
 .crufttheme-child {
-    border-top: none;
+  border-top: none;
 }
+
 /* TODO check this  */
 .child-delete-button {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 
 .cruft-button-hide {
   clip-path: polygon(0px 0px, 0px 0px, 0px 0px, 0px 0px) !important;
-    color: #CCC;
+  color: #CCC;
 }
+
 .cruft-highlight {
   background: red !important;
 }
+
 .crufttheme-delete {
   padding-right: 10px;
 }
@@ -79,7 +99,8 @@ table {
   .label_buttons {
     display: block;
   }
-  .to_button, .adminer_button {
+  .to_button,
+  .adminer_button {
     padding-top: 15px;
   }
   .optionboxes {
