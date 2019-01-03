@@ -144,6 +144,11 @@ class Loader {
     require_once dirname( __FILE__ ) . '/modules/noindex-domain-alias.php';
 
     /*
+     * Allow automated login for user 'seravotest' if necessary
+     */
+    require_once dirname( __FILE__ ) . '/modules/seravotest-auth-bypass.php';
+
+    /*
      * Use relative urls in post content but absolute urls in feeds
      * This helps migrating the content between development and production
      */
