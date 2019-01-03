@@ -147,7 +147,6 @@ jQuery(window).load(function(){
       var cur = jQuery(this);
       // Adjust the slider
       var width = cur.width() + 'px';
-      console.log(cur);
       cur.find('.ba-resize img').css('width', width);
       // Bind dragging events
       drags(cur.find('.ba-handle'), cur.find('.ba-resize'), cur);

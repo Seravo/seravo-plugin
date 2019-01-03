@@ -125,5 +125,5 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
       </div>
     </div>
   </div>
+  <?php echo Seravo\Updates::seravo_admin_image_comparison(); ?>
 </div>
-<?php echo Seravo\Updates::seravo_admin_image_comparison(); ?>
