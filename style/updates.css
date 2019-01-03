@@ -96,10 +96,19 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
   width:4px;
 }
 
-.ba-slider .ba-handle:after {  /* Big orange knob  */
+.ba-slider.difference .ba-handle:after {  /* Big orange knob  */
   background: #ffb800; /* @orange */
-  border-radius: 50%;
   border:1px solid #e6a600; /* darken(@orange, 5%) */
+  box-shadow:
+    0 2px 6px rgba(0,0,0,.3),
+    inset 0 2px 0 rgba(255,255,255,.5),
+    inset 0 60px 50px -30px #ffd466; /* lighten(@orange, 20%)*/
+}
+
+.ba-slider .ba-handle:after  {  /* Big knob  */
+  background: #404040; /* @gray */
+  border-radius: 50%;
+  border:1px solid #383838; /* darken(@gray ) */
   color:white;
   content:'\21d4';
   font-size:36px;
@@ -115,7 +124,7 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
   box-shadow:
     0 2px 6px rgba(0,0,0,.3),
     inset 0 2px 0 rgba(255,255,255,.5),
-    inset 0 60px 50px -30px #ffd466; /* lighten(@orange, 20%)*/
+    inset 0 60px 50px -30px #808080; /* lighten(@gray, 20%)*/
 }
 
 .ba-slider .ba-handle.ba-draggable:after {

@@ -63,7 +63,17 @@ if ( ! class_exists('Updates') ) {
     public static function seravo_admin_image_comparison( $atts = [], $content = null, $tag = 'seravo_admin_image_comparison' ) {
       ob_start();
       ?>
-      <h2 class="clear"><?php _e('Screenshots', 'seravo'); ?></h2>
+      <div class="postbox-container">
+        <div id="normal-sortables" class="meta-box-sortables ui-sortable">
+          <div id="dashboard_right_now" class="postbox">
+            <button type="button" class="handlediv button-link" aria-expanded="true">
+              <span class="screen-reader-text">Toggle panel: <?php _e('Screenshots', 'seravo'); ?></span>
+              <span class="toggle-indicator" aria-hidden="true"></span>
+            </button>
+            <h2 class="hndle ui-sortable-handle">
+              <span><?php _e('Screenshots', 'seravo'); ?></span>
+            </h2>
+            <div class="inside seravo-updates-postbox">
       <?php
       $screenshots = glob( '/data/reports/tests/debug/*.png' );
       $showing = 0;
@@ -73,7 +83,7 @@ if ( ! class_exists('Updates') ) {
         echo '
       <table>
         <tr>
-          <th style="background-color: yellow;">' . __('The Difference', 'seravo') . '</th>
+          <th>' . __('The Difference', 'seravo') . '</th>
         </tr>
           <tbody  style="vertical-align: top; text-align: center;">';
 
@@ -107,18 +117,22 @@ if ( ! class_exists('Updates') ) {
 
           echo '
             <tr>
-              <td style="background-color: yellow;">
-              ';
+              <td>
+              <hr class="seravo-updates-hr">
+              <a href="/.seravo/screenshots-ng/debug/' . $name . '.diff.png" class="diff-img-title">' . $name . '</a>
+              <span';
+              // Make the difference number stand out if it is non-zero
+          if ( $diff > 0.011 ) {
+            echo ' style="background-color: yellow;color: red;"';
+          }
+              echo '>' . round( $diff * 100, 2 ) . ' %</span>';
+
               echo self::seravo_admin_image_comparison_slider(array(
+                'difference' => $diff,
                 'img_right' => "/.seravo/screenshots-ng/debug/$name.shadow.png",
                 'img_left' => "/.seravo/screenshots-ng/debug/$name.png",
               ));
-              echo '<br><span';
-              // Make the difference number stand out if it is non-zero
-          if ( $diff > 0.011 ) {
-            echo ' style="color: red;"';
-          }
-              echo '>' . round( $diff * 100, 2 ) . ' %</span>
+              echo '
               </td>
             </tr>';
             $showing++;
@@ -134,7 +148,11 @@ if ( ! class_exists('Updates') ) {
           __('No screenshots found. They will become available during the next attempted update.', 'seravo') .
           '</td></tr>';
       }
-
+      echo '
+            </div>
+          </div>
+        </div>
+      </div>';
       return ob_get_clean();
     }
 
@@ -144,6 +162,7 @@ if ( ! class_exists('Updates') ) {
       $atts = array_change_key_case( (array) $atts, CASE_LOWER);
 
       $img_comp_atts = shortcode_atts([
+        'difference'  => '',
         'img_left'    => '',
         'img_right'   => '',
         'desc_left' => __('Current State', 'seravo'),
@@ -153,9 +172,14 @@ if ( ! class_exists('Updates') ) {
         'desc_left_txt_color' => 'white',
         'desc_right_txt_color' => 'white',
 	  ], $atts, $tag);
+      if ( floatval( $img_comp_atts['difference'] ) > 0.011 ) {
+        $knob_style = 'difference';
+      } else {
+        $knob_style = '';
+      }
       ob_start();
       ?>
-      <div class="ba-slider">
+      <div class="ba-slider <?php echo $knob_style; ?>">
        <img src="<?php echo $img_comp_atts['img_right']; ?>">
        <div class="ba-text-block" style="background-color:<?php echo $img_comp_atts['desc_right_bg_color']; ?>;color:<?php echo $img_comp_atts['desc_right_txt_color']; ?>;">
             <?php echo $img_comp_atts['desc_right']; ?>
