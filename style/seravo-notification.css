@@ -1,0 +1,41 @@
+/*
+  Styles regaring admin notifications created by the Seravo-plugin
+*/
+
+/* The notice bar */
+div.seravo-notice {
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 0 1px rgba(200,215,225,.5),0 1px 2px #e9eff3;
+}
+
+/* Banner element containing the logo */
+div.seravo-banner {
+  display: flex;
+  align-items: center;
+  margin: 1em;
+}
+
+/* The Seravo logo */
+div.seravo-emblem {
+    display: flex;
+    align-items: center;
+    width: 2em;
+    height: 2em;
+    margin: auto;
+}
+
+/* Notice text content */
+div.seravo-notice-content {
+  display: flex;
+  padding-top: 1em;
+  padding-bottom:  1em;
+
+}
+
+svg {
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}

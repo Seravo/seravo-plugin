@@ -43,6 +43,11 @@ require_once dirname( __FILE__ ) . '/lib/api.php';
  */
 require_once dirname( __FILE__ ) . '/lib/seravo-postbox.php';
 
+/**
+ * Load Seravo notifications functionalities
+ */
+require_once dirname( __FILE__ ) . '/lib/seravo-notification.php';
+
 /*
  * Load Canonical Domain and HTTPS. Check first that WP CLI is not defined so the module will not
  * perform any redirections locally.
