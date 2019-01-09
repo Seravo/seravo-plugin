@@ -63,7 +63,10 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     // $actions['delete'] = sprintf( $action_request, 'delete', 'Delete');
     */
 
-    $action_request = '<a href="?page=' . $_REQUEST['page'] . '&domain=' . $item['domain'] . '&paged=' . $_REQUEST['paged'] . '&action=%s">%s</a>';
+    $page = ! empty( $_REQUEST['page'] ) ? $_REQUEST['page'] : 'domains_page';
+    $paged_str = ! empty( $_REQUEST['paged'] ) ? '&paged=' . $_REQUEST['paged'] : '';
+
+    $action_request = '<a href="?page=' . $page . '&domain=' . $item['domain'] . $paged_str . '&action=%s">%s</a>';
 
     $actions['view'] = sprintf( $action_request, 'view', 'View' );
     $actions['edit'] = sprintf( $action_request, 'edit', 'Edit' );
@@ -233,7 +236,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     echo '</tr>';
 
     // If there was a DNS table request for the previously printed domain
-    if ( $item['domain'] === $_REQUEST['domain'] && ! is_null($this->dns) ) {
+    if ( ! empty( $_REQUEST['domain']) && $item['domain'] === $_REQUEST['domain'] && ! is_null($this->dns) ) {
 
       // Add empty row to keep the row color same as the one above
       echo '<tr></tr>';
