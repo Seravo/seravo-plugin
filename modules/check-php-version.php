@@ -44,11 +44,13 @@ if ( ! class_exists('CheckPHPVersion') ) {
 		<div class="notice notice-error">
 	  <?php
 
-        printf(
-			// translators: %1$s: current php version, %2$s: recommended php version
-			__('The PHP version %1$s currently in use is lower than the recommended %2$s. Support and security updates might not be available for the version in use. <a target="blank" href="http://php.net/supported-versions.php">Read more</a>.', 'seravo'),
-			PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, $recommended_version
-		);
+      // The line below is very long, but PHPCS standards requires translation
+      // strings to be one one line
+      printf(
+        // translators: %1$s: current php version, %2$s: recommended php version
+        __('The PHP version %1$s currently in use is lower than the recommended %2$s. Security updates might not be available for the version in use. Please consider <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">updating the PHP version</a>.', 'seravo'),
+        PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, $recommended_version
+      );
 
 	  ?>
 		</div>
