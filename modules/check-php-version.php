@@ -18,37 +18,40 @@ if ( ! class_exists('CheckPHPVersion') ) {
 
   class CheckPHPVersion {
 
+    // Get the php version and check if it is supported, if not, show a warning
+    private static $recommended_version = '7.2';
+
     public static function load() {
 
-      add_action('admin_notices', array( __CLASS__, '_seravo_check_php_version' ));
+      add_action('admin_notices', array( __CLASS__, 'seravo_check_php_version' ));
 
     }
 
-    public static function _seravo_check_php_version() {
+    public static function seravo_check_php_version() {
 
-      // Get the php version and check if it is supported, if not, show a warning
+      if ( version_compare( PHP_VERSION, self::$recommended_version, '<' ) ) {
 
-      $recommended_version = '7.2';
-
-      if ( version_compare( PHP_VERSION, $recommended_version, '<' ) ) {
-
-        self::_seravo_show_php_warning( $recommended_version );
+        seravo_add_notification(
+          'check-php-version',
+          array( __CLASS__, 'seravo_show_php_warning' )
+        );
 
       }
 
     }
 
-    public static function _seravo_show_php_warning( $recommended_version ) {
-      seravo_show_notification(
-            // translators: %1$s: current php version, %2$s: recommended php version
-            __('The PHP version %1$s currently in use is lower than the recommended %2$s. Security updates might not be available for the version in use. Please consider <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">updating the PHP version</a>.', 'seravo'),
-            PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, $recommended_version
-          );
-        );
-    }
+    public static function seravo_show_php_warning() {
+
+      // The line below is very long, but PHPCS standards requires translation
+      // strings to be one one line
+      printf(
+        // translators: %1$s: current php version, %2$s: recommended php version
+        __('The PHP version %1$s currently in use is lower than the recommended %2$s. Security updates might not be available for the version in use. Please consider <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">updating the PHP version</a>.', 'seravo'),
+        PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, self::$recommended_version
+      );
 
   }
-
+}
   CheckPHPVersion::load();
 
 }

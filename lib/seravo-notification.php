@@ -30,7 +30,7 @@ if ( ! class_exists('Seravo_Notification') ) {
       The class notice-error will display the message with a white background and a red left border.
       Use notice-warning for a yellow/orange, and notice-info for a blue left border.
     */
-    private function show_notification( $notification_content ) {
+    public function add_notification( $notification_content ) {
       ?>
 
   		<div class="notice notice-error seravo-notice">
@@ -51,11 +51,7 @@ if ( ! class_exists('Seravo_Notification') ) {
         </div>
         <div class="seravo-notice-content">
           <span>
-        	  <?php
-
-            printf( $notification_content );
-
-        	  ?>
+            <?php call_user_func_array($notification_content['callback'], $notification_content['callback_args']); ?>
           </span>
         </div>
   		</div>
@@ -74,7 +70,7 @@ if ( ! class_exists('Seravo_Notification') ) {
     }
 
     /**
-     * Enqueue necessary scripts and styles for Seravo postbox functionality.
+     * Enqueue necessary scripts and styles for Seravo notification functionality.
      */
     public static function enqueue_notification_scripts() {
         wp_enqueue_style('seravo_notification', plugin_dir_url(__DIR__) . 'style/seravo-notification.css', array(), Helpers::seravo_plugin_version());
@@ -91,7 +87,22 @@ if ( ! class_exists('Seravo_Notification') ) {
 /**
  * Create singleton class for Seravo notifications if not set.
  */
-global $seravo_notification;
-if ( ! isset($seravo_notification) ) {
-  $seravo_notification = Seravo_Notification::get_instance();
+global $seravo_notification_factory;
+if ( ! isset($seravo_notification_factory) ) {
+  $seravo_notification_factory = Seravo_Notification::get_instance();
+}
+
+/**
+ * Add a Seravo notification. This function is only a wrapper for Seravo_notification_Factory::add_notification.
+ * @param string       $id            Unique id/slug of the notification.
+ * @param string       $title         Display title of the notification.
+ * @param callable     $callback      A function that outputs the notification content.
+ * @param string       $screen        Admin screen id where the notification should be displayed in.
+ * @param string       $context       Default admin dashboard context where the notification should be displayed in.
+ * @param array[mixed] $callback_args Array of arguments that will get passed to the callback function.
+ */
+function seravo_add_notification( $id, $callback, $callback_args = array() ) {
+  global $seravo_notification_factory;
+  error_log( 'pppspdp');
+  $seravo_notification_factory->add_notification($id, $callback, $callback_args);
 }
