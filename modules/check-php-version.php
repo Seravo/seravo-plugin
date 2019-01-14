@@ -30,10 +30,10 @@ if ( ! class_exists('CheckPHPVersion') ) {
     public static function seravo_check_php_version() {
 
       if ( version_compare( PHP_VERSION, self::$recommended_version, '<' ) ) {
-
         seravo_add_notification(
           'check-php-version',
-          array( __CLASS__, 'seravo_show_php_warning' )
+          array( __CLASS__, 'seravo_show_php_warning' ),
+          self::$recommended_version
         );
 
       }
@@ -41,7 +41,6 @@ if ( ! class_exists('CheckPHPVersion') ) {
     }
 
     public static function seravo_show_php_warning() {
-
       // The line below is very long, but PHPCS standards requires translation
       // strings to be one one line
       printf(

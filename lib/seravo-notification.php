@@ -19,6 +19,22 @@ if ( ! class_exists('Seravo_Notification') ) {
     private static $instance = null;
 
     /**
+     * Store data of added postboxes.
+     */
+    private $notifications = array();
+
+    /**
+     * Get singleton instance.
+     * @return Seravo_Notification_Factory Instance of the Seravo_Notification_Factory class
+     */
+    public static function get_instance() {
+      if ( self::$instance === null ) {
+        self::$instance = new Seravo_Notification_Factory();
+      }
+      return self::$instance;
+    }
+
+    /**
      * Class constructor.
      */
     private function __construct() {
@@ -26,14 +42,63 @@ if ( ! class_exists('Seravo_Notification') ) {
     }
 
     /*
+      TODO:
+      filtering or some other checking?
+    */
+    public function add_notification( $id, $callback, $callback_args ) {
+
+      $this->notifications[ $id ] = array(
+        'title'         => $title,
+        'callback'      => $callback,
+        'callback_args' => $callback_args,
+      );
+    }
+
+    /**
+     * Enqueue necessary scripts and styles for Seravo notification functionality.
+     */
+    public static function enqueue_notification_scripts() {
+        wp_enqueue_style('seravo_notification', plugin_dir_url(__DIR__) . 'style/seravo-notification.css', array(), Helpers::seravo_plugin_version());
+    }
+
+    public static function load() {
+      if ( is_admin() ) {
+        add_action( 'admin_enqueue_scripts', array(  __CLASS__,  'enqueue_notification_scripts' ) );
+      }
+    }
+
+    /*
+    * Display Seravo notifications that are registered
+    */
+    public function display_notifications() {
+      if ( isset($this->notifications) && ! empty($this->notifications) ){
+        foreach ( $this->notifications as $notification_id => &$notification_content ){
+          $this->display_single_notification( $notification_id, $notification_content );
+        }
+      }
+    }
+
+    /*
+    *
+    */
+    public function display_notification_field() {
+      $current_screen = get_current_screen()->id;
+      ?>
+      <div class="seravo-notification-field">
+        <?php $this->display_notifications(); ?>
+      </div>
+      <?php
+    }
+
+    /*
       Parameters for errors etc
       The class notice-error will display the message with a white background and a red left border.
       Use notice-warning for a yellow/orange, and notice-info for a blue left border.
     */
-    public function add_notification( $notification_content ) {
+    public function display_single_notification( $notification_id, $notification_content ) {
       ?>
 
-  		<div class="notice notice-error seravo-notice">
+  		<div class="notice notice-error seravo-notice seravo-notification-<?php echo $notification_id; ?>">
         <div class="seravo-banner">
           <div class="seravo-emblem">
             <a href="https://seravo.com">
@@ -58,29 +123,6 @@ if ( ! class_exists('Seravo_Notification') ) {
   	  <?php
     }
 
-    /**
-     * Get singleton instance.
-     * @return Seravo_Notification Instance of the Seravo_Notification class
-     */
-    public static function get_instance() {
-      if ( self::$instance === null ) {
-        self::$instance = new Seravo_Notification();
-      }
-      return self::$instance;
-    }
-
-    /**
-     * Enqueue necessary scripts and styles for Seravo notification functionality.
-     */
-    public static function enqueue_notification_scripts() {
-        wp_enqueue_style('seravo_notification', plugin_dir_url(__DIR__) . 'style/seravo-notification.css', array(), Helpers::seravo_plugin_version());
-    }
-
-    public static function load() {
-      if ( is_admin() ) {
-        add_action( 'admin_enqueue_scripts', array(  __CLASS__,  'enqueue_notification_scripts' ) );
-      }
-    }
   }
 }
 
@@ -103,6 +145,13 @@ if ( ! isset($seravo_notification_factory) ) {
  */
 function seravo_add_notification( $id, $callback, $callback_args = array() ) {
   global $seravo_notification_factory;
-  error_log( 'pppspdp');
   $seravo_notification_factory->add_notification($id, $callback, $callback_args);
+}
+
+/*
+* Display Seravo notifcations on a page with registered notifications
+*/
+function seravo_notification_field() {
+  global $seravo_notification_factory;
+  $seravo_notification_factory->display_notification_field();
 }
