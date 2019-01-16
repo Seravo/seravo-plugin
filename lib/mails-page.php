@@ -79,11 +79,11 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
         return;
     }
 
-      // Fetch the mail data
-      $api_query = '/domain/' . $url . '/mailforwards';
+		// Fetch the mail data
+  	$api_query = '/domain/' . $url . '/mailforwards';
 	  $fetch_data = Seravo\API::get_site_data($api_query);
-    if ( is_wp_error($data) ) {
-      die($data->get_error_message());
+    if ( is_wp_error($fetch_data) ) {
+      die($fetch_data->get_error_message());
     }
 	  $data = $fetch_data['forwards'];
 
@@ -127,22 +127,32 @@ function list_domains() {
     die($data->get_error_message());
   }
 
+  // Parse valid domains
+  $valid_data = array();
+  foreach ( $data as $row ) {
+  	if ( $row['management'] == 'Seravo' || $row['management'] == 'Customer' ) {
+  		array_push($valid_data, $row);
+  	}
+  }
+
   // Reorder domains
   function domain_reorder( $a, $b ) {
 		return strcmp($a['domain'], $b['domain']);
   }
-  usort($data, 'domain_reorder');
+  usort($valid_data, 'domain_reorder');
 
   // Render the list
-  echo '<select name="domain" style="min-width: 150px;">';
-  foreach ( $data as $row ) {
-  	$management = $row['management'];
-  	if ( $management == 'Seravo' || $management == 'Customer' ) {
-  		$domain = ! empty( $_GET['domain'] ) ? $_GET['domain'] : '';
-  		printf('<option value="%1$s" %2$s>%1$s</option>', $row['domain'], $domain == $row['domain'] ? 'selected' : '');
-  	}
+  if ( ! empty($valid_data) ) {
+  	echo '<input type="submit" value="' . __('Fetch Forwards', 'seravo') . '" class="button" style="float: right; margin-left: 15px;">';
+  	echo '<div style="width: auto; overflow-x: hidden; padding-right: 5px;"><select name="domain" style="width: 100%;">';
+    foreach ( $valid_data as $row ) {
+		  $domain = ! empty( $_GET['domain'] ) ? $_GET['domain'] : '';
+		  printf( '<option value="%1$s" %2$s>%1$s</option>', $row['domain'], $domain == $row['domain'] ? 'selected' : '' );
+    }
+	echo '</select></div>';
+  } else {
+  	echo __( 'No valid domains were found!', 'seravo' );
   }
-  echo '</select>';
 }
 
 // Create an instance of mail forwards class
@@ -152,33 +162,35 @@ $forwards_table->prepare_items();
 
 ?>
 
-<div class="wrap">
-
-	<h1><?php _e('Mails', 'seravo'); ?> (beta)</h1>
-
-	<p><?php _e('Mail addresses with forwards on this WordPress site are listed below.', 'seravo'); ?></p>
-
-	<div class="postbox seravo-mails-postbox" style="">
-
-		<form id="mail-domains" action="#" method="get">
-	  	<input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
-	  	<?php list_domains(); ?>
-	  	<input type="submit" value="<?php echo __('Fetch Forwards', 'seravo'); ?>" class="button" style="margin-left: 15px;">
-	  </form>
-
-	  <!-- Forms are NOT created automatically, so you need to wrap
-	    the table in one to use features like bulk actions -->
-	  <form id="mail-filter" method="get">
-	    <!-- For plugins, we also need to ensure that the form posts back to our current page -->
-	    <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
-	    <!-- Now we can render the completed list table -->
-			<?php
-			if ( ! empty( $_GET['domain'] ) ) {
-				$forwards_table->display();
-			}
-			?>
-	  </form>
-
+<!-- Postbox wrapper -->
+<div id="dashboard-widgets" class="metabox-holder">
+	<div class="postbox-container">
+		<div id="normal-sortables" class="meta-box-sortables ui-sortable">
+			<div class="postbox">
+				<!-- Handle for toggling postbox panel -->
+				<button class="handlediv button-link" type="button" aria-expanded="true">
+					<span class="screen-reader-text">Toggle panel: <?php _e('Mails', 'seravo'); ?></span>
+					<span class="toggle-indicator" aria-hidden="true"></span>
+				</button>
+				<!-- Postbox title -->
+				<h2 class="hndle ui-sortable-handle">
+					<span><?php _e('Mails', 'seravo'); ?> (beta)</span>
+				</h2>
+				<div class="inside seravo-mails-postbox">
+					<form action="#" method="get" style="width: 100%; margin-bottom: 10px;">
+						<input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>"/>
+						<?php list_domains(); ?>
+					</form>
+					<form>
+						<input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>"/>
+						<?php
+						if ( ! empty ( $_GET['domain'] ) ) {
+							$forwards_table->display();
+						}
+						?>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
-
 </div>

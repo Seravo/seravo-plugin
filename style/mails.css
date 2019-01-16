@@ -1,16 +1,5 @@
-.seravo-mails-postbox {
-  max-width: 45%;
-  padding: 15px 15px;
-}
-
-@media screen and (max-width:1600px) {
-  .seravo-mails-postbox {
-    max-width: 75%;
-  }
-}
-
-@media screen and (max-width:1200px) {
-  .seravo-mails-postbox {
-    max-width: 100%;
+@media only screen and (min-width: 1500px) {
+  #wpbody-content #dashboard-widgets .postbox-container {
+    width: 50%;
   }
 }
