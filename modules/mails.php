@@ -19,10 +19,19 @@ if ( ! class_exists('Mails') ) {
     public static function load() {
       add_action( 'admin_menu', array( __CLASS__, 'register_mails_page' ) );
       add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_styles' ) );
+
+      seravo_add_postbox(
+        'mail-forwards',
+        __('Mails', 'seravo') . ' (beta)',
+        array( __CLASS__, 'mails_postbox' ),
+        'tools_page_mails_page',
+        'normal'
+      );
+
     }
 
     public static function register_mails_page() {
-      add_submenu_page( 'tools.php', __('Mails', 'seravo'), __('Mails', 'seravo'), 'manage_options', 'mails_page', array( __CLASS__, 'load_mails_page' ) );
+      add_submenu_page( 'tools.php', __('Mails', 'seravo'), __('Mails', 'seravo'), 'manage_options', 'mails_page', array( __CLASS__, 'load_mails_page' ), 'Seravo\seravo_postboxes_page' );
     }
 
     public static function load_mails_page() {
@@ -38,9 +47,11 @@ if ( ! class_exists('Mails') ) {
      */
     public static function admin_enqueue_styles( $hook ) {
       wp_register_style( 'mails_page', plugin_dir_url( __DIR__ ) . '/style/mails.css', '', Helpers::seravo_plugin_version() );
+      wp_register_script( 'mails_page', plugin_dir_url( __DIR__ ) . '/js/mails.js', '', Helpers::seravo_plugin_version() );
 
       if ( $hook === 'tools_page_mails_page' ) {
         wp_enqueue_style( 'mails_page' );
+        wp_enqueue_script( 'mails_page' );
       }
     }
 
