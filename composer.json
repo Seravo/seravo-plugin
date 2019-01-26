@@ -23,6 +23,6 @@
     "wordpress", "wp", "wp-palvelu", "seravo", "seravo.com"
   ],
   "require": {
-    "composer/installers": "v1.0.12"
+    "composer/installers": "^1.0"
   }
 }
