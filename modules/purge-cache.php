@@ -104,5 +104,9 @@ if ( ! class_exists('Purge_Cache') ) {
       wp_send_json($response);
     }
   }
-  Purge_Cache::load();
+
+  /* Caching happens in general only in production */
+  if ( Helpers::is_production() ) {
+    Purge_Cache::load();
+  }
 }

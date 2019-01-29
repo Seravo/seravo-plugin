@@ -21,13 +21,9 @@ if ( ! class_exists('Shadows') ) {
   class Shadows {
 
     public static function load() {
-      // Load only in production
-      if ( Helpers::is_production() ) {
-        add_action( 'admin_menu', array( __CLASS__, 'register_shadows_page' ) );
-        add_action('admin_enqueue_scripts', array( __CLASS__, 'register_shadows_scripts' ));
-        add_action( 'wp_ajax_seravo_reset_shadow', 'seravo_reset_shadow' );
-
-      }
+      add_action( 'admin_menu', array( __CLASS__, 'register_shadows_page' ) );
+      add_action( 'admin_enqueue_scripts', array( __CLASS__, 'register_shadows_scripts' ));
+      add_action( 'wp_ajax_seravo_reset_shadow', 'seravo_reset_shadow' );
     }
 
     public static function register_shadows_page() {
@@ -66,5 +62,9 @@ if ( ! class_exists('Shadows') ) {
       require_once dirname( __FILE__ ) . '/../lib/shadows-page.php';
     }
   }
-  Shadows::load();
+
+  // Only show shadows overview in production
+  if ( Helpers::is_production() ) {
+    Shadows::load();
+  }
 }

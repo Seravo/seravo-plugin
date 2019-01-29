@@ -17,9 +17,7 @@ if ( ! class_exists('Domains') ) {
 
     public static function load() {
       add_action( 'admin_menu', array( __CLASS__, 'register_domains_page' ) );
-
       add_action( 'admin_post_change_zone_file', array( 'Seravo\Domains', 'seravo_admin_change_zone_file' ), 20 );
-
     }
 
     public static function register_scripts( $page ) {
@@ -84,5 +82,8 @@ if ( ! class_exists('Domains') ) {
     }
   }
 
-  Domains::load();
+  /* Only show domains page in production */
+  if ( Helpers::is_production() ) {
+    Domains::load();
+  }
 }

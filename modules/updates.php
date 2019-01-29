@@ -257,5 +257,8 @@ if ( ! class_exists('Updates') ) {
 
   }
 
-  Updates::load();
+  // Show updates page only in production
+  if ( Helpers::is_production() ) {
+    Updates::load();
+  }
 }

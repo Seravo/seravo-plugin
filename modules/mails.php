@@ -57,5 +57,8 @@ if ( ! class_exists('Mails') ) {
 
   }
 
-  Mails::load();
+  /* Only show emails page in production */
+  if ( Helpers::is_production() ) {
+    Mails::load();
+  }
 }
