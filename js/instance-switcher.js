@@ -9,13 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (instance === 'exit') {
       // If exit selected, clear cookies.
       e.preventDefault();
-      document.cookie = "wpp_shadow=;path=/";
-      document.cookie = "seravo_shadow=;path=/";
+      document.cookie = "wpp_shadow=; Max-Age=0; Path=/";
+      document.cookie = "seravo_shadow=; Max-Age=0; Path=/";
     } else if (instance.length === 6) {
       // If shadow selected, set cookies.
       e.preventDefault();
-      document.cookie = "wpp_shadow=" + instance + ";path=/";
-      document.cookie = "seravo_shadow=" + instance + ";path=/";
+      // 43200 seconds is 12 hours
+      document.cookie = "wpp_shadow=" + instance + "; Max-Age=43200; Path=/";
+      document.cookie = "seravo_shadow=" + instance + "; Max-Age=43200; Path=/";
     }
 
     // Clean away potential old shadow query strings and reload page
