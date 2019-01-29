@@ -93,6 +93,9 @@ if ( ! class_exists('Reports') ) {
     }
 
     public static function seravo_http_request_statistics() {
+      if ( ! Helpers::is_production() ) {
+        __('This feature is available only on live production sites.', 'seravo');
+      }
       ?>
       <div style="padding: 0px 15px;">
         <p><?php _e('These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo'); ?></p>
@@ -146,6 +149,10 @@ if ( ! class_exists('Reports') ) {
     }
 
     public static function seravo_site_info() {
+      if ( ! Helpers::is_production() ) {
+        __('This feature is available only on live production sites.', 'seravo');
+      }
+
       $site_info = Updates::seravo_admin_get_site_info();
 
       // If you are devloping locally and want to mock a api request, uncomment the code below and add a valid json response
