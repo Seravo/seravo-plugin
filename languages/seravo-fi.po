@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2019-01-14T11:04:34+02:00\n"
-"PO-Revision-Date: 2019-01-14 11:04+0200\n"
+"POT-Creation-Date: 2019-02-05T16:35:35+02:00\n"
+"PO-Revision-Date: 2019-02-05 16:56+0200\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -141,6 +141,10 @@ msgid ""
 "lisaosat-wp-palvelu-fi-ssa\">recommendations for plugins in our environment</"
 "a>."
 msgstr ""
+"Etsi ja poista lisäosia, jotka tällä hetkellä ei ole aktiivisena tai jotka "
+"ovat mahdollisesti haitallisia. Lue lisätiedot <a href=\"https://help.seravo."
+"com/fi/docs/51-mita-lisaosia-seravo-suosittelee\">suositelluista lisäosista "
+"palvelinympäristössämme</a>."
 
 #: modules/cruftfiles.php:102
 msgid "Searching for plugins..."
@@ -152,12 +156,15 @@ msgid ""
 "our <a href=\"https://help.seravo.com/en/knowledgebase/19-themes-and-plugins"
 "\">documentation concerning themes and plugins</a>."
 msgstr ""
+"Etsi ja poista ulkoasuteemoja, jotka eivät ole käytössä. Lue lisätiedot <a "
+"href=\"https://help.seravo.com/fi/knowledgebase/19-teemat-ja-lisaosat"
+"\">ulkoasuteemoja ja lisäosia koskevista ohjeistamme</a>."
 
 #: modules/cruftfiles.php:118
 msgid "Searching for themes..."
 msgstr "Etsitään lisäosia…"
 
-#: modules/cruftfiles.php:191 modules/tests.php:50 modules/reports.php:83
+#: modules/cruftfiles.php:191 modules/tests.php:59 modules/reports.php:83
 msgid "No data returned for the section."
 msgstr "Testi ei palauttanut dataa."
 
@@ -165,7 +172,7 @@ msgstr "Testi ei palauttanut dataa."
 msgid "Are you sure you want to proceed? Deleted files can not be recovered."
 msgstr "Oletko varma, että haluat jatkaa? Tiedostot poistetaan pysyvästi."
 
-#: modules/cruftfiles.php:193 modules/tests.php:53 modules/reports.php:84
+#: modules/cruftfiles.php:193 modules/tests.php:62 modules/reports.php:84
 msgid "Failed to load. Please try again."
 msgstr "Lataaminen epäonnistui. Yritä uudelleen."
 
@@ -308,10 +315,14 @@ msgstr "Seuraavat teemat ovat epäaktiivisia ja ne voidaan poistaa."
 #: modules/check-https.php:38
 msgid ""
 "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/"
-"options-general.php\">site settings</a>. Please <a href=\"https://make."
-"wordpress.org/support/user-manual/web-publishing/https-for-wordpress/\">use "
-"HTTPS</a>."
+"options-general.php\">site settings</a>. Please <a href=\"https://help."
+"seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-"
+"website\">use HTTPS</a>."
 msgstr ""
+"<a href=\"%s/wp-admin/options-general.php\">Sivuston asetuksissa</a> ei ole "
+"HTTPS-suojattu osoite tällä hetkellä käytössä. Lue lisää <a href=\"https://"
+"help.seravo.com/fi/knowledgebase/23/docs/55-miten-otan-https-n-kayttoon-"
+"wordpress-sivustolla\">HTTPS:n käyttöönotosta</a>."
 
 #. translators: %1$s: current php version, %2$s: recommended php version
 #: modules/check-php-version.php:51
@@ -328,7 +339,8 @@ msgstr ""
 "knowledgebase/13/docs/107-uusimpaan-php-versioon-siirtyminen\">uudemman PHP-"
 "version käyttöönottoa</a>."
 
-#: modules/mails.php:25 lib/mails-page.php:157
+#: modules/mails.php:25 modules/mails.php:34 lib/mails-page.php:172
+#: lib/mails-page.php:177
 msgid "Mails"
 msgstr "Sähköpostit"
 
@@ -354,42 +366,71 @@ msgstr ""
 "että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 "sivuston kehittäjälle."
 
-#: modules/tests.php:30 modules/tests.php:38
+#: modules/tests.php:30
+msgid "Tests (new Codeception)"
+msgstr "Testit (uusi Codeception)"
+
+#: modules/tests.php:38
+msgid "Tests (legacy Rspec)"
+msgstr "Testit (vanha Rspec)"
+
+#: modules/tests.php:47
 msgid "Tests"
 msgstr "Testit"
 
-#: modules/tests.php:51
+#: modules/tests.php:60
 msgid "Tests were run without any errors!"
 msgstr "Testit suoritettu onnistuneesti ilman virheitä!"
 
-#: modules/tests.php:52
+#: modules/tests.php:61
 msgid "At least one of the tests failed."
 msgstr "Ainakin yksi testeistä epäonnistui."
 
-#: modules/tests.php:54
+#: modules/tests.php:63
 msgid "Running rspec tests..."
 msgstr "Testataan sivustoa…"
 
-#: modules/tests.php:70
+#: modules/tests.php:79
 msgid ""
 "Here you can test the core functionality of your WordPress installation. "
-"Same results can be achieved via command line by running <code>wp-test</"
+"Same results can be achieved via command line by running <code>wp-test-ng</"
 "code> there. For further information, please refer to <a href=\"https://"
-"seravo.com/docs/tests/integration-tests/\"> Seravo Developer Documentation</"
-"a>."
+"seravo.com/docs/tests/ng-integration-tests/\"> Seravo Developer "
+"Documentation</a>."
 msgstr ""
+"Suorita sivuston toimivuustestit ja tarkista tulokset. Saman testin voi "
+"suorittaa myös komentoriviltä komennolla <code>wp-test-ng</code>. Lue "
+"lisätietoja <a href=\"https://seravo.com/docs/tests/ng-integration-tests/"
+"\">Seravon kehittäjäohjeista</a>."
 
-#: modules/tests.php:73
+#: modules/tests.php:82 modules/tests.php:107
 msgid "Run Tests"
 msgstr "Suorita testit"
 
-#: modules/tests.php:76
-msgid "Click \"Run Tests\" to run the Rspec tests"
-msgstr "Klikkaa “Suorita testit” -nappia"
+#: modules/tests.php:85
+msgid "Click \"Run Tests\" to run the Codeception tests"
+msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Codeception-testit"
 
-#: modules/tests.php:82
+#: modules/tests.php:91 modules/tests.php:116
 msgid "Toggle Details"
 msgstr "Näytä lisää"
+
+#: modules/tests.php:104
+msgid ""
+"Here you can test the core functionality of your WordPress installation. "
+"Same results can be achieved via command line by running <code>wp-test-"
+"legacy</code> there. For further information, please refer to <a href="
+"\"https://seravo.com/docs/tests/integration-tests/\"> Seravo Developer "
+"Documentation</a>."
+msgstr ""
+"Suorita sivuston toimivuustestit ja tarkista tulokset. Saman testin voi "
+"suorittaa myös komentoriviltä komennolla <code>wp-test-legacy</code>. Lue "
+"lisätietoja <a href=\"https://seravo.com/docs/tests/integration-tests/"
+"\">Seravon kehittäjäohjeista</a>."
+
+#: modules/tests.php:110
+msgid "Click \"Run Tests\" to run the Rspec tests"
+msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Rspec-testit"
 
 #: modules/logs.php:68 modules/logs.php:69 modules/logs.php:125
 msgid "Logs"
@@ -422,7 +463,7 @@ msgstr "Selaa ladataksesi lisää rivejä lokista."
 msgid "Full log files can be found on the server in the path %s."
 msgstr "Lokitiedostot kokonaisuudessaan löytyy palvelimelta polusta %s."
 
-#: modules/domains.php:33 lib/domains-page.php:265
+#: modules/domains.php:31 lib/domains-page.php:268
 msgid "Domains"
 msgstr "Verkkotunnukset"
 
@@ -544,7 +585,11 @@ msgstr ""
 msgid "View report"
 msgstr "Näytä raportti"
 
-#: modules/reports.php:98
+#: modules/reports.php:97 modules/reports.php:153
+msgid "This feature is available only on live production sites."
+msgstr "Tämä toiminto on saatavilla vain oikeilla tuotantosivustoilla."
+
+#: modules/reports.php:101
 msgid ""
 "These monthly reports are generated from the HTTP access logs of your site. "
 "All HTTP requests for the site are included, with traffic from both humans "
@@ -558,99 +603,99 @@ msgstr ""
 "hyökkäyksen aikana) eivät tule lokiin. Lokitiedostoja voi selata suoraan "
 "myös palvelimella polussa <code>/data/slog/html/goaccess-*.html</code>."
 
-#: modules/reports.php:104
+#: modules/reports.php:107
 msgid "Month"
 msgstr "Kuukausi"
 
-#: modules/reports.php:105
+#: modules/reports.php:108
 msgid "HTTP Requests"
 msgstr "HTTP-pyynnöt"
 
-#: modules/reports.php:106
+#: modules/reports.php:109
 msgid "Report"
 msgstr "Raportti"
 
-#: modules/reports.php:118
+#: modules/reports.php:121
 msgid "Redis Transient and Object Cache"
 msgstr "Oliovälimuisti"
 
-#: modules/reports.php:123
+#: modules/reports.php:126
 msgid "Nginx HTTP Cache"
 msgstr "Nginx HTTP -välimuisti"
 
-#: modules/reports.php:133
+#: modules/reports.php:136
 msgid "The total size of <code>/data</code> is"
 msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
 
-#: modules/reports.php:139
+#: modules/reports.php:142
 msgid "Disk usage by directory"
 msgstr "Levytilan käyttö"
 
-#: modules/reports.php:157
+#: modules/reports.php:164
 msgid "Demo"
 msgstr "Demo"
 
-#: modules/reports.php:158
+#: modules/reports.php:165
 msgid "WP Mini"
 msgstr ""
 
-#: modules/reports.php:159
+#: modules/reports.php:166
 msgid "WP Pro"
 msgstr ""
 
-#: modules/reports.php:160
+#: modules/reports.php:167
 msgid "WP Business"
 msgstr ""
 
-#: modules/reports.php:161
+#: modules/reports.php:168
 msgid "WP Enterprise"
 msgstr ""
 
-#: modules/reports.php:165
+#: modules/reports.php:172
 msgid "Finland"
 msgstr "Suomi"
 
-#: modules/reports.php:166
+#: modules/reports.php:173
 msgid "Sweden"
 msgstr "Ruotsi"
 
-#: modules/reports.php:167
+#: modules/reports.php:174
 msgid "Germany"
 msgstr "Saksa"
 
-#: modules/reports.php:168
+#: modules/reports.php:175
 msgid "USA"
 msgstr "Yhdysvallat"
 
-#: modules/reports.php:169
+#: modules/reports.php:176
 msgid "No preference"
 msgstr "Seravon valitsema"
 
-#: modules/reports.php:178
+#: modules/reports.php:185
 msgid "Site Name"
 msgstr "Sivuston nimi"
 
-#: modules/reports.php:179 lib/updates-page.php:113
+#: modules/reports.php:186 lib/updates-page.php:113
 msgid "Site Created"
 msgstr "Sivusto luotu"
 
-#: modules/reports.php:180
+#: modules/reports.php:187
 msgid "Plan Termination"
 msgstr "Palvelupaketin päättyminen"
 
-#: modules/reports.php:181
+#: modules/reports.php:188
 msgid "Site Location"
 msgstr "Sivuston sijainti"
 
-#: modules/reports.php:182
+#: modules/reports.php:189
 msgid "Plan Type"
 msgstr "Palvelupaketti"
 
-#: modules/reports.php:183
+#: modules/reports.php:190
 msgid "Account Manager"
 msgstr "Account Manager"
 
-#: modules/reports.php:189
+#: modules/reports.php:196
 msgid "WordPress core"
 msgstr "WordPressin ydin"
 
@@ -684,23 +729,23 @@ msgstr ""
 "Varoitus: <a href=\"%s/wp-admin/options-general.php\">Sivuston asetuksissa</"
 "a> on käytössä oletussähköpostiosoite. Ole hyvä ja vaihda se."
 
-#: modules/shadows.php:36 modules/shadows.php:37
+#: modules/shadows.php:32 modules/shadows.php:33
 msgid "Shadows"
 msgstr "Varjot"
 
-#: modules/shadows.php:54
+#: modules/shadows.php:50
 msgid "Success"
 msgstr "Onnistui"
 
-#: modules/shadows.php:55
+#: modules/shadows.php:51
 msgid "Failure"
 msgstr "Epäonnistui"
 
-#: modules/shadows.php:56
+#: modules/shadows.php:52
 msgid "Error"
 msgstr "Virhe"
 
-#: modules/shadows.php:57
+#: modules/shadows.php:53
 msgid ""
 "Are you sure? This replaces all information in the selected environment."
 msgstr "Oletko varma? Tämä toiminto korvaa kaiken valitussa ympäristössä."
@@ -906,39 +951,47 @@ msgid "Sorry, you are not allowed to access domains."
 msgstr "Sinulla ei ole oikeuksia verkkotunnusten hallintaan."
 
 #: lib/domains-page.php:71
+msgid "View"
+msgstr "Näytä"
+
+#: lib/domains-page.php:72
+msgid "Edit"
+msgstr "Muokkaa"
+
+#: lib/domains-page.php:74
 msgid "Primary Domain"
 msgstr "Ensisijainen verkkotunnus"
 
 #. translators:  %1$s is opening tag for a link, %2$s a closing tag.
-#: lib/domains-page.php:76
+#: lib/domains-page.php:79
 msgid "DNS not managed by Seravo, see %1$smore details%2$s"
 msgstr "Seravo ei hallinnoi nimipalveluita. Katso %1$slisätiedot%2$s"
 
-#: lib/domains-page.php:80
+#: lib/domains-page.php:83
 msgid "Subdomains don't have their own zone"
 msgstr "Aliverkkotunnuksilla ei ole omia verkkotunnustietoja"
 
-#: lib/domains-page.php:86
+#: lib/domains-page.php:89
 msgid "This domain doesn't have a zone"
 msgstr "Verkkotunnuksella ei ole verkkotunnustietoja"
 
-#: lib/domains-page.php:118
+#: lib/domains-page.php:121
 msgid "Domain"
 msgstr "Verkkotunnus"
 
-#: lib/domains-page.php:119
+#: lib/domains-page.php:122
 msgid "Expires"
 msgstr "Erääntyy"
 
-#: lib/domains-page.php:120
+#: lib/domains-page.php:123
 msgid "DNS"
 msgstr "Nimipalvelut"
 
-#: lib/domains-page.php:121
+#: lib/domains-page.php:124
 msgid "Managed by"
 msgstr "Hallinnoija"
 
-#: lib/domains-page.php:267
+#: lib/domains-page.php:270
 msgid "Domains routed to this WordPress site are listed below."
 msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
 
@@ -950,15 +1003,13 @@ msgstr "Lähde"
 msgid "Destinations"
 msgstr "Kohde"
 
-#: lib/mails-page.php:159
-#, fuzzy
-#| msgid "Domains routed to this WordPress site are listed below."
-msgid "Mail addresses with forwards on this WordPress site are listed below."
-msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
-
-#: lib/mails-page.php:166
+#: lib/mails-page.php:146
 msgid "Fetch Forwards"
 msgstr "Hae edelleenohjaukset"
+
+#: lib/mails-page.php:154
+msgid "No valid domains were found!"
+msgstr "Verkkotunnuksia ei löytynyt!"
 
 #: lib/domains-dns.php:23
 msgid "Zone for: "
@@ -1044,28 +1095,28 @@ msgid "Seravo Updates"
 msgstr "Seravon päivitykset"
 
 #: lib/updates-page.php:37
-msgid "Automatic Updates by Seravo"
-msgstr "Seravon automaattiset päivitykset"
+msgid "Opt-out from updates by Seravo"
+msgstr "Kiellä Seravoa päivittämästä sivustoa ja vastaa päivityksistä itse"
 
 #: lib/updates-page.php:57
 msgid ""
-"The Seravo upkeep service includes automatic updates to your WordPress site, "
-"keeping your site current with security patches and frequent tested updates "
-"to both the WordPress core and plugins. If you want full control of updates "
-"to yourself, you should opt out from automatic updates by unchecking the "
-"checkbox below."
+"The Seravo upkeep service includes core and plugin updates to your WordPress "
+"site, keeping your site current with security patches and frequent tested "
+"updates to both the WordPress core and plugins. If you want full control of "
+"updates to yourself, you should opt out from Seravo's updates by unchecking "
+"the checkbox below."
 msgstr ""
 "Seravon ylläpitopalvelu pitää WordPress-asennuksesi ajan tasalla asentamalla "
 "tietoturvapäivityksiä aina kun sellaisia on tarjolla, sekä säännöllisesti ja "
 "testatusti muita saatavilla olevia päivityksiä WordPressin ytimeen ja "
 "lisäosiin. Jos haluat pitää päivitykset kokonaan omassa hallinnassasi, voit "
-"estää Seravon automaattiset päivitykset sivustollesi poistamalla ruksin "
-"allaolevasta ruudusta. HUOM! Tietoturvapäivityksiä saatamme tehdä "
-"päivityskiellosta huolimatta, tilanteen niin vaatiessa."
+"estää Seravon päivitykset sivustollesi poistamalla ruksin allaolevasta "
+"ruudusta. HUOM! Tietoturvapäivityksiä saatamme tehdä päivityskiellosta "
+"huolimatta, tilanteen niin vaatiessa."
 
 #: lib/updates-page.php:62
-msgid "Automatic updates"
-msgstr "Automaattiset päivitykset"
+msgid "Seravo updates enabled"
+msgstr "Seravon päivitykset sallittu"
 
 #: lib/updates-page.php:66
 msgid "Update Notifications with a Slack Webhook"
@@ -1132,9 +1183,51 @@ msgid "Site Status"
 msgstr "Sivuston tila"
 
 #: lib/updates-page.php:114
-msgid "Latest Successful Update"
-msgstr "Viimeisin onnistunut päivitys"
+msgid "Latest Successful Full Update"
+msgstr "Viimeisin onnistunut kaikenkattava päivitys"
 
 #: lib/updates-page.php:116
 msgid "Latest Update Attempt"
 msgstr "Edellinen päivitysyritys"
+
+#: lib/updates-page.php:124
+msgid "Last 5 partial or attempted updates:"
+msgstr "Edelliset osittaiset tai päivitysten yritykset:"
+
+#. translators: event count and updates.log and security.log paths
+#: lib/updates-page.php:137
+msgid ""
+"For details about last %1$s update attempts by Seravo, see %2$s and %3$s."
+msgstr ""
+"Lisätiedot edellisiin %1$s päivitysyrityksiin löytyy lokitiedostoista %2$s "
+"ja %3$s."
+
+#: lib/updates-page.php:152 lib/updates-page.php:157
+msgid "Tests Status"
+msgstr "Testien tila"
+
+#: lib/updates-page.php:164
+msgid "Success!"
+msgstr "Onnistui!"
+
+#. translators: Link to Tests page
+#: lib/updates-page.php:166
+msgid ""
+"Site baseline <a href=\"%s\">tests</a> have passed and updates can run "
+"normally."
+msgstr ""
+"Sivuston lähtötilanteessa <a href=\"%s\">testit</a> toimivat ja päivitykset "
+"voi tapahtua normaalisti."
+
+#: lib/updates-page.php:168
+msgid "Failure!"
+msgstr "Epäonnistui!"
+
+#. translators: Link to Tests page
+#: lib/updates-page.php:170
+msgid ""
+"Site baseline <a href=\"%s\">tests</a> are failing and needs to be fixed "
+"before further updates are run."
+msgstr ""
+"Sivuston lähtötilanteessa <a href=\"%s\">testit</a> epäonnistuvat ja ne "
+"tulee korjata ennen kuin päivitykset voivat jatkua normaalisti."
