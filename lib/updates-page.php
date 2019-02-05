@@ -34,7 +34,7 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
           //WP_error-object
           if ( gettype($site_info) === 'array' ) {
             ?>
-              <h2><?php _e('Automatic Updates by Seravo', 'seravo'); ?></h2>
+              <h2><?php _e('Opt-out from updates by Seravo', 'seravo'); ?></h2>
             <?php
             if ( $site_info['seravo_updates'] === true ) {
               $checked = 'checked="checked"';
@@ -54,12 +54,12 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
               $contact_emails = $site_info['contact_emails'];
             }
             ?>
-            <p><?php _e('The Seravo upkeep service includes automatic updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from automatic updates by unchecking the checkbox below.', 'seravo'); ?></p>
+            <p><?php _e('The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo\'s updates by unchecking the checkbox below.', 'seravo'); ?></p>
               <form name="seravo_updates_form" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="post">
                 <?php wp_nonce_field( 'seravo-updates-nonce' ); ?>
                 <input type="hidden" name="action" value="toggle_seravo_updates">
                 <div class="checkbox allow_updates_checkbox">
-                  <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Automatic updates', 'seravo'); ?><br>
+                  <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo'); ?><br>
                 </div>
 
                 <hr class="seravo-updates-hr">
