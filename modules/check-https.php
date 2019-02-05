@@ -35,7 +35,7 @@ if ( ! class_exists('CheckHttps') ) {
       <?php
       printf(
       // translators: user's website url
-      __('The HTTPS protocol is not currently active in the <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://make.wordpress.org/support/user-manual/web-publishing/https-for-wordpress/">use HTTPS</a>.', 'seravo'),
+      __('The HTTPS protocol is not currently active in the <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://help.seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-website">use HTTPS</a>.', 'seravo'),
       esc_url( $siteurl )
       );
       ?>
