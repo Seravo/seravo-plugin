@@ -111,7 +111,7 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
           <?php if ( gettype($site_info) === 'array' ) : ?>
           <ul>
             <li><?php _e('Site Created', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['created'])); ?></li>
-            <li><?php _e('Latest Successful Update', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_success'])); ?></li>
+            <li><?php _e('Latest Successful Full Update', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_success'])); ?></li>
             <?php if ( ! empty( $site_info['update_attempt'] ) ) { ?>
             <li><?php _e('Latest Update Attempt', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_attempt'])); ?></li>'
             <?php } ?>
@@ -121,6 +121,55 @@ $site_info = Seravo\Updates::seravo_admin_get_site_info();
               echo $site_info->get_error_message();
               ?>
           <?php endif; ?>
+          <h3><?php _e('Last 5 partial or attempted updates:', 'seravo'); ?><h3>
+          <ul>
+            <?php
+            exec('zgrep -h "Started updates for" /data/log/update.log*', $output);
+            foreach ( array_slice($output, 0, 5) as $key => $value ) {
+              echo '<li>' . substr($value, 1, 16) . '</li>';
+            }
+            ?>
+          </ul>
+          <p>
+            <?php
+            printf(
+              // translators: event count and updates.log and security.log paths
+              __('For details about last %1$s update attempts by Seravo, see %2$s and %3$s.', 'seravo'),
+              count($output),
+              '<code>/data/log/update.log*</code>',
+              '<code>/data/log/security.log*</code>'
+            );
+            ?>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="postbox-container">
+    <div id="side-sortables" class="meta-box-sortables ui-sortable">
+      <div id="dashboard_quick_press" class="postbox">
+        <button type="button" class="handlediv button-link" aria-expanded="true">
+          <span class="screen-reader-text">Toggle panel: <?php _e('Tests Status', 'seravo'); ?></span>
+          <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+        <h2 class="hndle ui-sortable-handle">
+          <span>
+            <span class="hide-if-no-js"><?php _e('Tests Status', 'seravo'); ?></span>
+          </span>
+        </h2>
+        <div class="inside">
+          <?php
+          exec('zgrep -h -A 1 "Running initial tests in production" /data/log/update.log* | tail -n 1 | cut -d " " -f 4-8', $test_status);
+          if ( $test_status[0] == 'Success! Initial tests have passed.' ) {
+            echo '<p style="color: green;">' . __('Success!', 'seravo') . '</p>';
+            // translators: Link to Tests page
+            echo '<p>' . sprintf( __('Site baseline <a href="%s">tests</a> have passed and updates can run normally.', 'seravo'), 'tools.php?page=tests_page') . '</p>';
+          } else {
+            echo '<p style="color: red;">' . __('Failure!', 'seravo') . '</p>';
+            // translators: Link to Tests page
+            echo '<p>' . sprintf( __('Site baseline <a href="%s">tests</a> are failing and needs to be fixed before further updates are run.', 'seravo'), 'tools.php?page=tests_page') . '</p>';
+          }
+          ?>
         </div>
       </div>
     </div>
