@@ -1,4 +1,4 @@
-.seravo-test-result-wrapper {
+.seravo-test-result-wrapper, .seravo-test-legacy-result-wrapper {
   -moz-transition: border 1s ease-in;
   -o-transition: border 1s ease-in;
   -webkit-transition: border 1s ease-in;
@@ -13,7 +13,7 @@
   transition: border 1s ease-in;
 }
 
-.seravo-test-result {
+.seravo-test-result, .seravo-test-legacy-result {
   box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
   display: none;
   margin: 1em;
@@ -22,18 +22,19 @@
   padding: 1em;
 }
 
-.seravo-test-status {
+.seravo-test-status, .seravo-test-legacy-status {
   font-size: 15px;
   font-weight: bold;
   margin-top: 1.6em;
+  margin-left: 0.5em;
   padding-bottom: 7px;
   text-align: center;
 }
 
+/* @TODO: Use classes here, not ID selectors, as we can have many similar elements */
 #seravo_test_show_more_wrapper {
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
-  display: none;
   float: right;
   height: 1em;
   margin-right: 0.5em;
@@ -42,6 +43,7 @@
   transform: translateY(-50%);
 }
 
+/* @TODO: Use classes here, not ID selectors, as we can have many similar elements */
 #seravo_test_show_more,
 #seravo_test_show_more:hover,
 #seravo_test_show_more:active,
@@ -51,11 +53,8 @@
   text-decoration: none;
 }
 
+/* @TODO: Use classes here, not ID selectors, as we can have many similar elements */
 #seravo_tests_loading {
   margin: 0 auto;
   overflow: hidden;
-}
-
-.seravo-test-result {
-  margin-left: 0.5em;
 }

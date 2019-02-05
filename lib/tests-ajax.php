@@ -7,7 +7,12 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function seravo_tests() {
-  exec('wp-test', $output);
+  exec('wp-test-ng', $output);
+  return $output;
+}
+
+function seravo_tests_legacy() {
+  exec('wp-test-legacy', $output);
   return $output;
 }
 
@@ -16,6 +21,9 @@ function seravo_ajax_tests() {
   switch ( $_REQUEST['section'] ) {
     case 'seravo_tests':
       echo wp_json_encode(seravo_tests());
+      break;
+    case 'seravo_tests_legacy':
+      echo wp_json_encode(seravo_tests_legacy());
       break;
     default:
       error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
