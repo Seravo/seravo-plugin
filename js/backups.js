@@ -34,4 +34,43 @@ jQuery(document).ready(function($) {
     jQuery('#create_backup_button').hide();
     seravo_load_report('create_backup');
   });
+
+  // Load when clicked
+  jQuery('#download_backup').click(function () {
+
+    var increment = $('#backup_increment').val();
+
+    jQuery.get(
+        seravo_backups_loc.ajaxurl, {
+          'action': 'seravo_backup_download',
+          'increment': increment,
+          'nonce': seravo_backups_loc.ajax_nonce,
+        },
+        function (response) {
+          alert("noted");
+          jQuery('#backup_downloading img').show();
+          console.log(response);
+        }
+      )
+      .done(function(response) {
+        alert("done");
+        console.log(response);/*
+        var file_path = response[0];
+        var a = document.createElement('A');
+        a.href = file_path;
+        a.download = file_path.substr(file_path.lastIndexOf('/') + 1);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        */
+      })
+      .fail(function() {
+        alert("failed");
+      })
+      .always(function() {
+        alert("finished");
+        jQuery('#backup_downloading img').hide();
+      });
+  });
+
 });

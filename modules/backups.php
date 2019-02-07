@@ -20,6 +20,7 @@ if ( ! class_exists('Backups') ) {
     public static function load() {
       // Add AJAX endpoint for backups
       add_action('wp_ajax_seravo_backups', 'seravo_ajax_backups');
+      add_action('wp_ajax_seravo_backup_download', 'seravo_ajax_backup_download');
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_backups_scripts' ));
 
@@ -59,6 +60,14 @@ if ( ! class_exists('Backups') ) {
         'backups-list',
         __('Current Backups', 'seravo'),
         array( __CLASS__, 'backups_list_postbox' ),
+        'tools_page_backups_page',
+        'side'
+      );
+
+      seravo_add_postbox(
+        'backup-download',
+        __('Download Backup', 'seravo'),
+        array( __CLASS__, 'backups_download_postbox' ),
         'tools_page_backups_page',
         'side'
       );
@@ -130,6 +139,15 @@ if ( ! class_exists('Backups') ) {
         <div id="backup_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
         <pre id="backup_status"></pre>
       </p>
+      <?php
+    }
+
+    public static function backups_download_postbox() {
+      printf( __('Input the increment of the desired backup'), 'seravo')
+      ?>
+        <input type="text" name="backup_increment" id="backup_increment">
+        <button type="button" id="download_backup"><?php _e( 'Download', 'seravo' ); ?></button>
+        <div id="backup_downloading"><img hidden src="/wp-admin/images/spinner.gif"></div>
       <?php
     }
   }

@@ -41,3 +41,16 @@ function seravo_ajax_backups() {
 
   wp_die();
 }
+
+# currently testing this so that wp-backup-helper.py is located in htdocs/wordpress/wp-admin/
+function seravo_ajax_backup_download() {
+  check_ajax_referer( 'seravo_backups', 'nonce' );
+  error_log($_REQUEST['increment']);
+  exec('python3 wp-backup-helper.py ' . $_REQUEST['increment'] . ' zip 2>&1', $output );
+  error_log(wp_json_encode($output));
+  header('Content-Type: application/octet-stream');
+  header('Content-Description: File Transfer');
+  header('Content-Disposition: attachment; filename="' . $output . '";');
+  echo $output;
+  wp_die();
+}
