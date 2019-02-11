@@ -160,34 +160,37 @@ if ( ! class_exists('Reports') ) {
       // }';
       // $site_info = json_decode($response, true);
 
-      $plans = array(
-        'demo'       => __('Demo', 'seravo'),
-        'mini'       => __('WP Mini', 'seravo'),
-        'pro'        => __('WP Pro', 'seravo'),
-        'business'   => __('WP Business', 'seravo'),
-        'enterprise' => __('WP Enterprise', 'seravo'),
-      );
+      if ( ! is_wp_error($site_info) ) {
 
-      $countries = array(
-        'fi'       => __('Finland', 'seravo'),
-        'se'       => __('Sweden', 'seravo'),
-        'de'       => __('Germany', 'seravo'),
-        'us'       => __('USA', 'seravo'),
-        'anywhere' => __('No preference', 'seravo'),
-      );
+        $plans = array(
+          'demo'       => __('Demo', 'seravo'),
+          'mini'       => __('WP Mini', 'seravo'),
+          'pro'        => __('WP Pro', 'seravo'),
+          'business'   => __('WP Business', 'seravo'),
+          'enterprise' => __('WP Enterprise', 'seravo'),
+        );
 
-      function print_item( $value, $description ) {
-        if ( ! empty($value) && '1970-01-01' != $value ) {
-          echo '<p>' . $description . ': ' . $value . '</p>';
+        $countries = array(
+          'fi'       => __('Finland', 'seravo'),
+          'se'       => __('Sweden', 'seravo'),
+          'de'       => __('Germany', 'seravo'),
+          'us'       => __('USA', 'seravo'),
+          'anywhere' => __('No preference', 'seravo'),
+        );
+
+        function print_item( $value, $description ) {
+          if ( ! empty($value) && '1970-01-01' != $value ) {
+            echo '<p>' . $description . ': ' . $value . '</p>';
+          }
         }
-      }
 
-      print_item( $site_info['name'], __('Site Name', 'seravo') );
-      print_item( date('Y-m-d', strtotime($site_info['created'])), __('Site Created', 'seravo') );
-      print_item( date('Y-m-d', strtotime($site_info['termination'])), __('Plan Termination', 'seravo') );
-      print_item( $countries[ $site_info['country'] ], __('Site Location', 'seravo') );
-      print_item( $plans[ $site_info['plan']['type'] ], __('Plan Type', 'seravo') );
-      print_item( htmlentities($site_info['account_manager']), __('Account Manager', 'seravo') );
+        print_item( $site_info['name'], __('Site Name', 'seravo') );
+        print_item( date('Y-m-d', strtotime($site_info['created'])), __('Site Created', 'seravo') );
+        print_item( date('Y-m-d', strtotime($site_info['termination'])), __('Plan Termination', 'seravo') );
+        print_item( $countries[ $site_info['country'] ], __('Site Location', 'seravo') );
+        print_item( $plans[ $site_info['plan']['type'] ], __('Plan Type', 'seravo') );
+        print_item( htmlentities($site_info['account_manager']), __('Account Manager', 'seravo') );
+      }
     }
 
     public static function seravo_data_integrity() {
