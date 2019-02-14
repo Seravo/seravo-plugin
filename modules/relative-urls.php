@@ -62,7 +62,11 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
       return self::relativize_content_all( $url, $html );
     }
     public static function media_url_filter( $html, $id, $att ) {
-      return self::relativize_content_all( $att['url'], $html );
+      if ( isset($att['url']) ) {
+        return self::relativize_content_all( $att['url'], $html );
+      } else {
+        return $html;
+      }
     }
 
     /**
