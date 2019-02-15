@@ -27,11 +27,11 @@ if ( ! class_exists('Updates') ) {
 
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook( __FILE__, array( __CLASS__, 'register_view_updates_capability' ) );
-    
+
       seravo_add_postbox(
         'seravo-updates',
         __('Seravo Updates', 'seravo'),
-        array(__CLASS__, 'seravo_updates_postbox'),
+        array( __CLASS__, 'seravo_updates_postbox' ),
         'tools_page_updates_page',
         'side'
       );
@@ -39,7 +39,7 @@ if ( ! class_exists('Updates') ) {
       seravo_add_postbox(
         'site-status',
         __('Site Status', 'seravo'),
-        array(__CLASS__, 'site_status_postbox'),
+        array( __CLASS__, 'site_status_postbox' ),
         'tools_page_updates_page',
         'side'
       );
@@ -47,7 +47,15 @@ if ( ! class_exists('Updates') ) {
       seravo_add_postbox(
         'tests-status',
         __('Tests Status', 'seravo'),
-        array(__CLASS__, 'tests_status_postbox'),
+        array( __CLASS__, 'tests_status_postbox' ),
+        'tools_page_updates_page',
+        'side'
+      );
+
+      seravo_add_postbox(
+        'change-php-version',
+        __('PHP version', 'seravo'),
+        array( __CLASS__, 'change_php_version_postbox' ),
         'tools_page_updates_page',
         'side'
       );
@@ -204,6 +212,20 @@ if ( ! class_exists('Updates') ) {
         echo '<p>' . sprintf( __('Site baseline <a href="%s">tests</a> are failing and needs to be fixed before further updates are run.', 'seravo'), 'tools.php?page=tests_page') . '</p>';
       }
       ?>
+      <?php
+    }
+
+    public static function change_php_version_postbox() {
+      ?>
+      <p>Latest version is recommended if all plugins and theme support it. Check <a href="tools.php?page=logs_page&logfile=wp-php-compatibility.log">compatibility scan results.</a></p>
+      <div id="seravo_php_version_form">
+        <form action="" method="post">
+          <input type='radio' name="php-version" value="5.6" id="php_version_radio" <?php if ( (PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION) == '5.6') { echo 'checked'; };?> >PHP 5.6<br>
+          <input type='radio' name="php-version" value="7.0" id="php_version_radio" <?php if ( (PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION) == '7.0') { echo 'checked'; };?> >PHP 7.0<br>
+          <input type='radio' name="php-version" value="7.2" id="php_version_radio" <?php if ( (PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION) == '7.2') { echo 'checked'; };?> >PHP 7.2<br>
+          <input type='radio' name="php-version" value="7.3" id="php_version_radio" <?php if ( (PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION) == '7.3') { echo 'checked'; };?> >PHP 7.3<br>
+        </form>
+      </div>
       <?php
     }
 
