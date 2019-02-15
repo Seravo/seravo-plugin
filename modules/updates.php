@@ -71,9 +71,9 @@ if ( ! class_exists('Updates') ) {
       wp_register_style('seravo_updates', plugin_dir_url(__DIR__) . '/style/updates.css', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_updates_page' ) {
-          wp_enqueue_style('seravo_updates');
-          wp_enqueue_script( 'seravo_updates', plugins_url( '../js/updates.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
-      }
+        wp_enqueue_style('seravo_updates');
+        wp_enqueue_script( 'seravo_updates', plugins_url( '../js/updates.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
+    }
 
     }
 
@@ -219,11 +219,11 @@ if ( ! class_exists('Updates') ) {
       ?>
       <p>Latest version is recommended if all plugins and theme support it. Check <a href="tools.php?page=logs_page&logfile=wp-php-compatibility.log">compatibility scan results.</a></p>
       <div id="seravo_php_version_form">
-        <form action="" method="post">
-          <input type='radio' name="php-version" value="5.6" id="php_version_radio" <?php if ( (PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION) == '5.6') { echo 'checked'; };?> >PHP 5.6<br>
-          <input type='radio' name="php-version" value="7.0" id="php_version_radio" <?php if ( (PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION) == '7.0') { echo 'checked'; };?> >PHP 7.0<br>
-          <input type='radio' name="php-version" value="7.2" id="php_version_radio" <?php if ( (PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION) == '7.2') { echo 'checked'; };?> >PHP 7.2<br>
-          <input type='radio' name="php-version" value="7.3" id="php_version_radio" <?php if ( (PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION) == '7.3') { echo 'checked'; };?> >PHP 7.3<br>
+        <form name="seravo-php-version-form">
+          <input type='radio' name="php-version" value="5.6" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '5.6') { echo 'checked'; }; ?> >PHP 5.6<br>
+          <input type='radio' name="php-version" value="7.0" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.0') { echo 'checked'; }; ?> >PHP 7.0<br>
+          <input type='radio' name="php-version" value="7.2" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.2') { echo 'checked'; }; ?> >PHP 7.2<br>
+          <input type='radio' name="php-version" value="7.3" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.3') { echo 'checked'; }; ?> >PHP 7.3<br>
         </form>
       </div>
       <?php
