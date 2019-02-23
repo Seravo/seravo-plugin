@@ -91,11 +91,13 @@ if ( ! class_exists('Logs') ) {
       }
 
       // Default log view is the PHP error log as it is the most important one
-      $current_logfile = 'php-error.log';
+      $default_logfile = 'php-error.log';
 
       // Use supplied log name if given
       if ( isset( $_GET['logfile'] ) ) {
         $current_logfile = $_GET['logfile'];
+      } else {
+        $current_logfile = $default_logfile;
       }
 
       $max_num_of_rows = 50;
@@ -117,8 +119,14 @@ if ( ! class_exists('Logs') ) {
         $logfiles[ basename( $log ) ] = $log;
       }
 
-      // Set logfile based on supplied log name
-      $logfile = $logfiles[ $current_logfile ];
+      // Set logfile based on supplied log name if it's available
+      if ( isset( $logfiles[ $current_logfile ] ) ) {
+        $logfile = $logfiles[ $current_logfile ];
+      } else if ( isset( $logfiles[ $default_logfile ] ) ) {
+        $logfile = $logfiles[ $default_logfile ];
+      } else {
+        $logfile = null;
+      }
 
       ?>
   <div class="wrap">
