@@ -11,6 +11,7 @@ function seravo_change_php_version() {
   exec('echo ' . $php_version_string . ' | tee /data/wordpress/nginx/php_version.conf');
   exec('wp-restart-nginx');
   exec('wp-restart-php');
+  exec('wp-purge-cache');
 }
 
 function seravo_php_check_version() {
