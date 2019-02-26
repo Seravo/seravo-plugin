@@ -76,7 +76,7 @@ if ( ! class_exists('Updates') ) {
       if ( $page === 'tools_page_updates_page' ) {
         wp_enqueue_style( 'seravo_updates' );
         wp_enqueue_script( 'seravo_updates', plugins_url( '../js/updates.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
-      
+
         $loc_translation_updates = array(
           'ajaxurl'     => admin_url('admin-ajax.php'),
           'ajax_nonce'  => wp_create_nonce('seravo_updates'),
@@ -101,76 +101,76 @@ if ( ! class_exists('Updates') ) {
     public static function seravo_updates_postbox() {
       ?>
       <?php
-        $site_info = Updates::seravo_admin_get_site_info();
+        $site_info = seravo_admin_get_site_info();
       ?>
       <?php
         //WP_error-object
-        if ( gettype($site_info) === 'array' ) {
-          ?>
-            <h2><?php _e('Opt-out from updates by Seravo', 'seravo'); ?></h2>
-          <?php
-          if ( $site_info['seravo_updates'] === true ) {
-            $checked = 'checked="checked"';
-          } else {
-            $checked = '';
-          }
-
-          if ( isset( $site_info['notification_webhooks'][0]['url'] ) &&
-                $site_info['notification_webhooks'][0]['type'] === 'slack' ) {
-            $slack_webhook = $site_info['notification_webhooks'][0]['url'];
-          } else {
-            $slack_webhook = '';
-          }
-
-          $contact_emails = array();
-          if ( isset($site_info['contact_emails']) ) {
-            $contact_emails = $site_info['contact_emails'];
-          }
-          ?>
-          <p><?php _e('The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo\'s updates by unchecking the checkbox below.', 'seravo'); ?></p>
-            <form name="seravo_updates_form" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="post">
-              <?php wp_nonce_field( 'seravo-updates-nonce' ); ?>
-              <input type="hidden" name="action" value="toggle_seravo_updates">
-              <div class="checkbox allow_updates_checkbox">
-                <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo'); ?><br>
-              </div>
-
-              <hr class="seravo-updates-hr">
-              <h2><?php _e('Update Notifications with a Slack Webhook', 'seravo'); ?></h2>
-              <p><?php _e('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks">Read more about webhooks</a>.', 'seravo'); ?></p>
-              <input name="slack_webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="<?php echo $slack_webhook; ?>">
-              <button type="button" class="button" id="slack_webhook_test"><?php _e('Send a Test Notification', 'seravo'); ?></button>
-
-              <hr class="seravo-updates-hr">
-              <h2><?php _e('Technical Contacts', 'seravo'); ?></h2>
-              <p><?php _e('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo'); ?></p>
-              <input class="technical_contacts_input" type="email" multiple size="30" placeholder="<?php _e('example@example.com', 'seravo'); ?>" value="" data-emails="<?php echo htmlspecialchars(json_encode($contact_emails)); ?>">
-              <button type="button" class="technical_contacts_add button"><?php _e('Add', 'seravo'); ?></button>
-              <span class="technical_contacts_error"><?php _e('Email must be formatted as name@domain.com', 'seravo'); ?></span>
-              <input name="technical_contacts" type="hidden">
-              <div class="technical_contacts_buttons"></div>
-              <p><small class="seravo-developer-letter-hint">
-              <?php
-                // translators: %1$s link to Newsletter for WordPress developers
-                printf( __('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
-              ?>
-              </small></p>
-              <br>
-              <br>
-              <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
-            </form>
-          <?php
+      if ( gettype($site_info) === 'array' ) {
+        ?>
+        <h2><?php _e('Opt-out from updates by Seravo', 'seravo'); ?></h2>
+        <?php
+        if ( $site_info['seravo_updates'] === true ) {
+          $checked = 'checked="checked"';
         } else {
-          echo $site_info->get_error_message();
+          $checked = '';
+        }
+
+        if ( isset( $site_info['notification_webhooks'][0]['url'] ) &&
+              $site_info['notification_webhooks'][0]['type'] === 'slack' ) {
+          $slack_webhook = $site_info['notification_webhooks'][0]['url'];
+        } else {
+          $slack_webhook = '';
+        }
+
+        $contact_emails = array();
+        if ( isset($site_info['contact_emails']) ) {
+          $contact_emails = $site_info['contact_emails'];
         }
         ?>
+        <p><?php _e('The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo\'s updates by unchecking the checkbox below.', 'seravo'); ?></p>
+          <form name="seravo_updates_form" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="post">
+            <?php wp_nonce_field( 'seravo-updates-nonce' ); ?>
+            <input type="hidden" name="action" value="toggle_seravo_updates">
+            <div class="checkbox allow_updates_checkbox">
+              <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo'); ?><br>
+            </div>
+
+            <hr class="seravo-updates-hr">
+            <h2><?php _e('Update Notifications with a Slack Webhook', 'seravo'); ?></h2>
+            <p><?php _e('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks">Read more about webhooks</a>.', 'seravo'); ?></p>
+            <input name="slack_webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="<?php echo $slack_webhook; ?>">
+            <button type="button" class="button" id="slack_webhook_test"><?php _e('Send a Test Notification', 'seravo'); ?></button>
+
+            <hr class="seravo-updates-hr">
+            <h2><?php _e('Technical Contacts', 'seravo'); ?></h2>
+            <p><?php _e('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo'); ?></p>
+            <input class="technical_contacts_input" type="email" multiple size="30" placeholder="<?php _e('example@example.com', 'seravo'); ?>" value="" data-emails="<?php echo htmlspecialchars(json_encode($contact_emails)); ?>">
+            <button type="button" class="technical_contacts_add button"><?php _e('Add', 'seravo'); ?></button>
+            <span class="technical_contacts_error"><?php _e('Email must be formatted as name@domain.com', 'seravo'); ?></span>
+            <input name="technical_contacts" type="hidden">
+            <div class="technical_contacts_buttons"></div>
+            <p><small class="seravo-developer-letter-hint">
+            <?php
+              // translators: %1$s link to Newsletter for WordPress developers
+              printf( __('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
+            ?>
+            </small></p>
+            <br>
+            <br>
+            <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
+          </form>
+        <?php
+      } else {
+        echo $site_info->get_error_message();
+      }
+      ?>
       <?php
     }
 
     public static function site_status_postbox() {
       ?>
-      <?php 
-        $site_info = Updates::seravo_admin_get_site_info();
+      <?php
+        $site_info = seravo_admin_get_site_info();
       ?>
       <?php if ( gettype($site_info) === 'array' ) : ?>
       <ul>
@@ -230,10 +230,10 @@ if ( ! class_exists('Updates') ) {
       <p>Latest version is recommended if all plugins and theme support it. Check <a href="tools.php?page=logs_page&logfile=wp-php-compatibility.log">compatibility scan results.</a></p>
       
       <div id="seravo-php-version" visibility="visible">
-        <input type='radio' name="php-version" value="5" version_value="5.6" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '5.6') { echo 'checked'; }; ?> >PHP 5.6 (Upstream Security Updates Ended: 31.12.2018)<br>
-        <input type='radio' name="php-version" value="7.0" version_value="7.0" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.0') { echo 'checked'; }; ?> >PHP 7.0 (Upstream Security Updates Ended: 6.12.2018)<br>
-        <input type='radio' name="php-version" value="7.2" version_value="7.2" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.2') { echo 'checked'; }; ?> >PHP 7.2<br>
-        <input type='radio' name="php-version" value="7.3" version_value="7.3" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.3') { echo 'checked'; }; ?> >PHP 7.3<br>
+        <input type='radio' name="php-version" value="5" version_value="5.6" class='php-version-radio' <?php if ( ( PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ) == '5.6' ) { echo 'checked'; }; ?> >PHP 5.6 (Upstream Security Updates Ended: 31.12.2018)<br>
+        <input type='radio' name="php-version" value="7.0" version_value="7.0" class='php-version-radio' <?php if ( ( PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ) == '7.0' ) { echo 'checked'; }; ?> >PHP 7.0 (Upstream Security Updates Ended: 6.12.2018)<br>
+        <input type='radio' name="php-version" value="7.2" version_value="7.2" class='php-version-radio' <?php if ( ( PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ) == '7.2' ) { echo 'checked'; }; ?> >PHP 7.2<br>
+        <input type='radio' name="php-version" value="7.3" version_value="7.3" class='php-version-radio' <?php if ( ( PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ) == '7.3' ) { echo 'checked'; }; ?> >PHP 7.3<br>
         <br>
         <button id='change-version-button'>Change version</button>
         <br>

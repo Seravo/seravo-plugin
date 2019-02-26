@@ -106,7 +106,7 @@ jQuery(document).ready(function($) {
       url: document.getElementsByName('slack_webhook')[0].value
     });
   });
-  
+
   function insertEmail() {
     if (validateEmail($emailInput)) {
       emails.push($emailInput.val())
@@ -157,18 +157,18 @@ jQuery(document).ready(function($) {
 
     jQuery.post(
       seravo_updates_loc.ajaxurl, {
-      'action': 'seravo_ajax_updates',
-      'section': 'seravo_change_php_version',
-      'nonce': seravo_updates_loc.ajax_nonce,
-      'version': php_version
+        'action': 'seravo_ajax_updates',
+        'section': 'seravo_change_php_version',
+        'nonce': seravo_updates_loc.ajax_nonce,
+        'version': php_version
     });
     setTimeout(function() {
       jQuery.post(
         seravo_updates_loc.ajaxurl, {
-        'action': 'seravo_ajax_updates',
-        'section': 'seravo_php_check_version',
-        'nonce': seravo_updates_loc.ajax_nonce,
-        'version': php_version_value
+          'action': 'seravo_ajax_updates',
+          'section': 'seravo_php_check_version',
+          'nonce': seravo_updates_loc.ajax_nonce,
+          'version': php_version_value
       }, function(success) {
         jQuery("#version-change-status").fadeOut(400, function() {
           if (success) {
@@ -177,7 +177,7 @@ jQuery(document).ready(function($) {
             jQuery(this).html('<p>PHP version ' + php_version_value + ' activation failed! Using fallback PHP 5.6.</p>').fadeIn(400);
           }
         });
-        
+
         jQuery("#seravo-php-version").fadeIn(400, function() {
           $(this).show();
         });

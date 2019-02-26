@@ -7,7 +7,7 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function seravo_change_php_version() {
-  $php_version_string = ('"set \$mode php' . $_REQUEST['version'] . ';"');
+  $php_version_string = ( '"set \$mode php' . $_REQUEST['version'] . ';"' );
   exec('echo ' . $php_version_string . ' | tee /data/wordpress/nginx/php_version.conf');
   exec('wp-restart-nginx');
   exec('wp-restart-php');
@@ -15,9 +15,9 @@ function seravo_change_php_version() {
 }
 
 function seravo_php_check_version() {
-  $current_php_version = PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION;
-  
-  if ($current_php_version == $_REQUEST['version']) {
+  $current_php_version = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+
+  if ( $current_php_version == $_REQUEST['version'] ) {
     return true;
   } else {
     return false;
@@ -36,7 +36,7 @@ function seravo_ajax_updates() {
       break;
 
     default:
-      error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');;
+      error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
       break;
   }
 
