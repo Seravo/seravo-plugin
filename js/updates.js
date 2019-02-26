@@ -106,7 +106,7 @@ jQuery(document).ready(function($) {
       url: document.getElementsByName('slack_webhook')[0].value
     });
   });
-
+  
   function insertEmail() {
     if (validateEmail($emailInput)) {
       emails.push($emailInput.val())
@@ -140,6 +140,50 @@ jQuery(document).ready(function($) {
     jQuery(this).parent().parent().toggleClass("closed");
   });
 
+  jQuery('#change-version-button').click(function() {
+    jQuery("#version-change-status").fadeOut(400, function() {
+      jQuery(this).html('<img src="/wp-admin/images/spinner.gif" style="display:inline-block"> Activating... Please wait up to 15 seconds').fadeIn(400);
+    });
+    changePHPVersion();
+  });
+
+  function changePHPVersion() {
+    var php_version = $('[name=php-version]:checked').val();
+    var php_version_value = $('[name=php-version]:checked').attr("version_value");
+
+    jQuery("#seravo-php-version").fadeOut(400, function() {
+      $(this).hide();
+    });
+
+    jQuery.post(
+      seravo_updates_loc.ajaxurl, {
+      'action': 'seravo_ajax_updates',
+      'section': 'seravo_change_php_version',
+      'nonce': seravo_updates_loc.ajax_nonce,
+      'version': php_version
+    });
+    setTimeout(function() {
+      jQuery.post(
+        seravo_updates_loc.ajaxurl, {
+        'action': 'seravo_ajax_updates',
+        'section': 'seravo_php_check_version',
+        'nonce': seravo_updates_loc.ajax_nonce,
+        'version': php_version_value
+      }, function(success) {
+        jQuery("#version-change-status").fadeOut(400, function() {
+          if (success) {
+            jQuery(this).html('<p>PHP version ' + php_version_value + ' activated! Please check <a href=tools.php?page=logs_page&logfile=php-error.log>php-error.log</a> for regressions.</p>').fadeIn(400);
+          } else {
+            jQuery(this).html('<p>PHP version ' + php_version_value + ' activation failed! Using fallback PHP 5.6.</p>').fadeIn(400);
+          }
+        });
+        
+        jQuery("#seravo-php-version").fadeIn(400, function() {
+          $(this).show();
+        });
+      });
+    }, 15000);
+  }
 });
 
 jQuery(window).load(function(){

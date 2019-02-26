@@ -12,6 +12,8 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
+require_once dirname( __FILE__ ) . '/../lib/updates-ajax.php';
+
 if ( ! class_exists('Updates') ) {
   class Updates {
 
@@ -19,6 +21,7 @@ if ( ! class_exists('Updates') ) {
       add_action( 'admin_menu', array( __CLASS__, 'register_updates_page' ) );
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
+      add_action( 'wp_ajax_seravo_ajax_updates', 'seravo_ajax_updates' );
       /*
       * This will use the SWD api to toggle Seravo updates on/off and add
       * technical contact emails for this site.
@@ -71,9 +74,16 @@ if ( ! class_exists('Updates') ) {
       wp_register_style('seravo_updates', plugin_dir_url(__DIR__) . '/style/updates.css', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_updates_page' ) {
-        wp_enqueue_style('seravo_updates');
+        wp_enqueue_style( 'seravo_updates' );
         wp_enqueue_script( 'seravo_updates', plugins_url( '../js/updates.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
-    }
+      
+        $loc_translation_updates = array(
+          'ajaxurl'     => admin_url('admin-ajax.php'),
+          'ajax_nonce'  => wp_create_nonce('seravo_updates'),
+        );
+
+        wp_localize_script( 'seravo_updates', 'seravo_updates_loc', $loc_translation_updates );
+      }
 
     }
 
@@ -218,13 +228,17 @@ if ( ! class_exists('Updates') ) {
     public static function change_php_version_postbox() {
       ?>
       <p>Latest version is recommended if all plugins and theme support it. Check <a href="tools.php?page=logs_page&logfile=wp-php-compatibility.log">compatibility scan results.</a></p>
-      <div id="seravo_php_version_form">
-        <form name="seravo-php-version-form">
-          <input type='radio' name="php-version" value="5.6" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '5.6') { echo 'checked'; }; ?> >PHP 5.6<br>
-          <input type='radio' name="php-version" value="7.0" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.0') { echo 'checked'; }; ?> >PHP 7.0<br>
-          <input type='radio' name="php-version" value="7.2" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.2') { echo 'checked'; }; ?> >PHP 7.2<br>
-          <input type='radio' name="php-version" value="7.3" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.3') { echo 'checked'; }; ?> >PHP 7.3<br>
-        </form>
+      
+      <div id="seravo-php-version" visibility="visible">
+        <input type='radio' name="php-version" value="5" version_value="5.6" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '5.6') { echo 'checked'; }; ?> >PHP 5.6 (Upstream Security Updates Ended: 31.12.2018)<br>
+        <input type='radio' name="php-version" value="7.0" version_value="7.0" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.0') { echo 'checked'; }; ?> >PHP 7.0 (Upstream Security Updates Ended: 6.12.2018)<br>
+        <input type='radio' name="php-version" value="7.2" version_value="7.2" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.2') { echo 'checked'; }; ?> >PHP 7.2<br>
+        <input type='radio' name="php-version" value="7.3" version_value="7.3" class='php-version-radio' <?php if ( (PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION) == '7.3') { echo 'checked'; }; ?> >PHP 7.3<br>
+        <br>
+        <button id='change-version-button'>Change version</button>
+        <br>
+      </div>
+      <div id="version-change-status">
       </div>
       <?php
     }
