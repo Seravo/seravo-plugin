@@ -57,7 +57,7 @@ if ( ! class_exists('Updates') ) {
 
       seravo_add_postbox(
         'change-php-version',
-        __('PHP version', 'seravo'),
+        __('Change PHP Version', 'seravo'),
         array( __CLASS__, 'change_php_version_postbox' ),
         'tools_page_updates_page',
         'side'
