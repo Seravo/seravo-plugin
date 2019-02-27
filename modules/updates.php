@@ -101,7 +101,7 @@ if ( ! class_exists('Updates') ) {
     public static function seravo_updates_postbox() {
       ?>
       <?php
-        $site_info = seravo_admin_get_site_info();
+        $site_info = SELF::seravo_admin_get_site_info();
       ?>
       <?php
         //WP_error-object
@@ -170,7 +170,7 @@ if ( ! class_exists('Updates') ) {
     public static function site_status_postbox() {
       ?>
       <?php
-        $site_info = seravo_admin_get_site_info();
+        $site_info = SELF::seravo_admin_get_site_info();
       ?>
       <?php if ( gettype($site_info) === 'array' ) : ?>
       <ul>
@@ -228,12 +228,36 @@ if ( ! class_exists('Updates') ) {
     public static function change_php_version_postbox() {
       ?>
       <p>Latest version is recommended if all plugins and theme support it. Check <a href="tools.php?page=logs_page&logfile=wp-php-compatibility.log">compatibility scan results.</a></p>
-      
-      <div id="seravo-php-version" visibility="visible">
-        <input type='radio' name="php-version" value="5" version_value="5.6" class='php-version-radio' <?php if ( ( PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ) == '5.6' ) { echo 'checked'; }; ?> >PHP 5.6 (Upstream Security Updates Ended: 31.12.2018)<br>
-        <input type='radio' name="php-version" value="7.0" version_value="7.0" class='php-version-radio' <?php if ( ( PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ) == '7.0' ) { echo 'checked'; }; ?> >PHP 7.0 (Upstream Security Updates Ended: 6.12.2018)<br>
-        <input type='radio' name="php-version" value="7.2" version_value="7.2" class='php-version-radio' <?php if ( ( PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ) == '7.2' ) { echo 'checked'; }; ?> >PHP 7.2<br>
-        <input type='radio' name="php-version" value="7.3" version_value="7.3" class='php-version-radio' <?php if ( ( PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ) == '7.3' ) { echo 'checked'; }; ?> >PHP 7.3<br>
+
+      <div id="seravo-php-version">      
+        <?php
+        error_log('change_php_version_postbox function');
+        $php_versions = array(
+          '5.6' => array(
+            'value' => '5',
+            'name' => 'PHP 5.6 (EOL 31.12.2018)'
+          ),
+          '7.0' => array(
+            'value' => '7.0',
+            'name' => 'PHP 7.0 (EOL 3.12.2018)'
+          ),
+          '7.2' => array(
+            'value' => '7.2',
+            'name' => 'PHP 7.2'
+          ),
+          '7.3' => array(
+            'value' => '7.3',
+            'name' => 'PHP 7.3'
+          )
+        );
+        
+        foreach ($php_versions as $php) {
+          ?>
+          <input type='radio' name="php-version" value="<?php echo $php['value']; ?>" version_value="<?php echo $php; ?>" class='php-version-radio' <?php if ( ( PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ) == '5.6' ) { echo 'checked'; }; ?> ><?php echo $php['name']; ?><br>
+          <?php
+        }
+        ?>
+        
         <br>
         <button id='change-version-button'>Change version</button>
         <br>
