@@ -7,16 +7,27 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function seravo_change_php_version() {
-  $php_version_string = ( '"set \$mode php' . $_REQUEST['version'] . ';"' );
-  exec('echo ' . $php_version_string . ' | tee /data/wordpress/nginx/php_version.conf');
-  exec('wp-restart-nginx');
-  exec('wp-purge-cache');
+  $php_version = sanitize_text_field($_REQUEST['version']);
+
+  $php_version_array = array(
+    '5.6' => "5",
+    '7.0' => "7.0",
+    '7.2' => "7.2",
+    '7.3' => "7.3"
+  );
+
+  if (array_key_exists($php_version, $php_version_array)) {
+    $php_version_string = ( '"set \$mode php' . $php_version_array[$php_version] . ';"' );
+    exec('echo ' . $php_version_string . ' | tee /data/wordpress/nginx/php_version.conf');
+    exec('wp-restart-nginx');
+    exec('wp-purge-cache');
+  }
 }
 
 function seravo_php_check_version() {
   $current_php_version = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
 
-  if ( $current_php_version == $_REQUEST['version'] ) {
+  if ( $current_php_version == sanitize_text_field($_REQUEST['version']) ) {
     return true;
   } else {
     return false;
@@ -35,7 +46,7 @@ function seravo_ajax_updates() {
       break;
 
     default:
-      error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
+      error_log('ERROR: Section ' . sanitize_text_field($_REQUEST['section']) . ' not defined');
       break;
   }
 
