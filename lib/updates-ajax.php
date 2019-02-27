@@ -17,7 +17,6 @@ function seravo_change_php_version() {
   );
 
   if (array_key_exists($php_version, $php_version_array)) {
-    $php_version_string = ( '"set \$mode php' . $php_version_array[$php_version] . ';"' );
     file_put_contents( '/data/wordpress/nginx/php.conf', 'set $mode php' . $php_version_array[$php_version] . ';');
     exec('wp-restart-nginx');
     exec('wp-purge-cache');
