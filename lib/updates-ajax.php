@@ -18,7 +18,7 @@ function seravo_change_php_version() {
 
   if (array_key_exists($php_version, $php_version_array)) {
     $php_version_string = ( '"set \$mode php' . $php_version_array[$php_version] . ';"' );
-    exec('echo ' . $php_version_string . ' | tee /data/wordpress/nginx/php_version.conf');
+    file_put_contents( '/data/wordpress/nginx/php.conf', 'set $mode php' . $php_version_array[$php_version] . ';');
     exec('wp-restart-nginx');
     exec('wp-purge-cache');
   }
@@ -38,7 +38,7 @@ function seravo_ajax_updates() {
   check_ajax_referer( 'seravo_updates', 'nonce' );
   switch ( $_REQUEST['section'] ) {
     case 'seravo_change_php_version':
-      seravo_change_php_version();
+      echo seravo_change_php_version();
       break;
 
     case 'seravo_php_check_version':
