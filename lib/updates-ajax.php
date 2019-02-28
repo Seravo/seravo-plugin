@@ -35,7 +35,7 @@ function seravo_php_check_version() {
 
 function seravo_ajax_updates() {
   check_ajax_referer( 'seravo_updates', 'nonce' );
-  switch ( $_REQUEST['section'] ) {
+  switch ( sanitize_text_field($_REQUEST['section']) ) {
     case 'seravo_change_php_version':
       echo seravo_change_php_version();
       break;
