@@ -149,7 +149,6 @@ jQuery(document).ready(function($) {
 
   function changePHPVersion() {
     var php_version = $('[name=php-version]:checked').val();
-    var php_version_value = $('[name=php-version]:checked').attr("version_value");
 
     jQuery("#seravo-php-version").fadeOut(400, function() {
       $(this).hide();
@@ -168,13 +167,13 @@ jQuery(document).ready(function($) {
           'action': 'seravo_ajax_updates',
           'section': 'seravo_php_check_version',
           'nonce': seravo_updates_loc.ajax_nonce,
-          'version': php_version_value
+          'version': php_version
       }, function(success) {
         jQuery("#version-change-status").fadeOut(400, function() {
           if (success) {
-            jQuery(this).html('<p>PHP version ' + php_version_value + ' activated! Please check <a href=tools.php?page=logs_page&logfile=php-error.log>php-error.log</a> for regressions.</p>').fadeIn(400);
+            jQuery(this).html('<p>PHP version ' + php_version + ' activated! Please check <a href=tools.php?page=logs_page&logfile=php-error.log>php-error.log</a> for regressions.</p>').fadeIn(400);
           } else {
-            jQuery(this).html('<p>PHP version ' + php_version_value + ' activation failed! Using fallback PHP 5.6.</p>').fadeIn(400);
+            jQuery(this).html('<p>PHP version ' + php_version + ' activation failed! Using fallback PHP 5.6.</p>').fadeIn(400);
           }
         });
 
