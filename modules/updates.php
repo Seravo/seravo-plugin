@@ -229,12 +229,11 @@ if ( ! class_exists('Updates') ) {
       ?>
       <p>Latest version is recommended if all plugins and theme support it. Check <a href="tools.php?page=logs_page&logfile=wp-php-compatibility.log">compatibility scan results.</a></p>
 
-      <div id="seravo-php-version">      
+      <div id="seravo-php-version">
         <?php
-        error_log('change_php_version_postbox function');
         $php_versions = array(
           '5.6' => array(
-            'value' => '5',
+            'value' => '5.6',
             'name' => 'PHP 5.6 (EOL 31.12.2018)'
           ),
           '7.0' => array(
@@ -250,14 +249,15 @@ if ( ! class_exists('Updates') ) {
             'name' => 'PHP 7.3'
           )
         );
-        
+
+        $curVer = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+
         foreach ($php_versions as $php) {
           ?>
-          <input type='radio' name="php-version" value="<?php echo $php['value']; ?>" version_value="<?php echo $php; ?>" class='php-version-radio' <?php if ( ( PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION ) == '5.6' ) { echo 'checked'; }; ?> ><?php echo $php['name']; ?><br>
+          <input type='radio' name="php-version" value="<?php echo $php['value']; ?>" class='php-version-radio' <?php if ($curVer == $php['value']) { echo 'checked'; }; ?> ><?php echo $php['name']?><br>
           <?php
         }
         ?>
-        
         <br>
         <button id='change-version-button'>Change version</button>
         <br>
