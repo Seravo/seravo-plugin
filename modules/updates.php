@@ -101,7 +101,7 @@ if ( ! class_exists('Updates') ) {
     public static function seravo_updates_postbox() {
       ?>
       <?php
-        $site_info = SELF::seravo_admin_get_site_info();
+        $site_info = self::seravo_admin_get_site_info();
       ?>
       <?php
         //WP_error-object
@@ -170,7 +170,7 @@ if ( ! class_exists('Updates') ) {
     public static function site_status_postbox() {
       ?>
       <?php
-        $site_info = SELF::seravo_admin_get_site_info();
+        $site_info = self::seravo_admin_get_site_info();
       ?>
       <?php if ( gettype($site_info) === 'array' ) : ?>
       <ul>
@@ -234,27 +234,33 @@ if ( ! class_exists('Updates') ) {
         $php_versions = array(
           '5.6' => array(
             'value' => '5.6',
-            'name' => 'PHP 5.6 (EOL 31.12.2018)'
+            'name' => 'PHP 5.6 (EOL 31.12.2018)',
           ),
           '7.0' => array(
             'value' => '7.0',
-            'name' => 'PHP 7.0 (EOL 3.12.2018)'
+            'name' => 'PHP 7.0 (EOL 3.12.2018)',
           ),
           '7.2' => array(
             'value' => '7.2',
-            'name' => 'PHP 7.2'
+            'name' => 'PHP 7.2',
           ),
           '7.3' => array(
             'value' => '7.3',
-            'name' => 'PHP 7.3'
-          )
+            'name' => 'PHP 7.3',
+          ),
         );
 
-        $curVer = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+        $curver = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
 
-        foreach ($php_versions as $php) {
+        foreach ( $php_versions as $php ) {
           ?>
-          <input type='radio' name="php-version" value="<?php echo $php['value']; ?>" class='php-version-radio' <?php if ($curVer == $php['value']) { echo 'checked'; }; ?> ><?php echo $php['name']?><br>
+          <input type='radio' name="php-version" value="<?php echo $php['value']; ?>" class='php-version-radio'
+          <?php
+          if ( $curver == $php['value'] ) {
+            echo 'checked';
+          };
+          ?>
+          ><?php echo $php['name']; ?><br>
           <?php
         }
         ?>
