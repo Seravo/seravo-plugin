@@ -36,7 +36,7 @@ if ( ! class_exists('Helpers') ) {
     }
 
     public static function human_file_size( $size, $precision = 2 ) {
-  	  $size = (int) $size; // 'wp db size' returns value with non-numeric characters
+      $size = (int) $size; // 'wp db size' returns value with non-numeric characters
       for ( $i = 0; ( $size / 1024 ) > 0.9; ) {
         $i++;
         $size /= 1024;

@@ -153,22 +153,22 @@ if ( ! class_exists('Login_Notifications') ) {
     /**
     * Display the latest login of the current user logged in.
     */
-	public static function display_admin_logins_notification() {
-		$user_data = get_userdata(wp_get_current_user()->ID);
-		echo '<div class="seravo-last-login notice notice-info is-dismissible">' .
-		wp_sprintf(
-			/* translators:
-			* %1$s username of the current user
-			* %2$s datetime of last login
-			* %3$s timezone used to represent the datetime of the last login
-			* %4$s IP address of the last login
-			*/
-			__('Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s.', 'seravo' ),
-			$user_data->user_firstname == '' ? $user_data->user_login : $user_data->user_firstname,
-			preg_replace('/:/', ' ', self::$login['date'], 1), date_default_timezone_get(), self::$login['ip']
-		) .
-		'</div>';
-	}
+  public static function display_admin_logins_notification() {
+    $user_data = get_userdata(wp_get_current_user()->ID);
+    echo '<div class="seravo-last-login notice notice-info is-dismissible">' .
+    wp_sprintf(
+      /* translators:
+      * %1$s username of the current user
+      * %2$s datetime of last login
+      * %3$s timezone used to represent the datetime of the last login
+      * %4$s IP address of the last login
+      */
+      __('Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s.', 'seravo' ),
+      $user_data->user_firstname == '' ? $user_data->user_login : $user_data->user_firstname,
+      preg_replace('/:/', ' ', self::$login['date'], 1), date_default_timezone_get(), self::$login['ip']
+    ) .
+    '</div>';
+  }
     /**
     * Display the amount of php-error.log lines that have appeared this week.
     */

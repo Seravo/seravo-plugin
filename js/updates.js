@@ -19,7 +19,7 @@ function validateEmail ($emailInput) {
   if ( ! result ) {
     $form.addClass('has-errors');
   } else {
-		$form.removeClass('has-errors');
+    $form.removeClass('has-errors');
   }
   return result;
 }

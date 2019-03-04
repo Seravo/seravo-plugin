@@ -16,7 +16,7 @@ function seravo_ajax_list_cruft_plugins() {
         'wp-fastest-cache',
         'litespeed-cache',
         'comet-cache',
-	  ),
+    ),
       'security_plugins' => array(                            //False sense of security
         'better-wp-security',                                 //iThemes Security aka Better WP Security
         'wordfence',

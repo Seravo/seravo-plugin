@@ -159,12 +159,12 @@ class Loader {
     /*
      * Log all login attempts, failed or successful. Use no filters, as this should be mandatory
      */
-      require_once dirname( __FILE__ ) . '/modules/wp-login-log.php';
+    require_once dirname( __FILE__ ) . '/modules/wp-login-log.php';
 
-     /*
-      * Enforce strong passwords
-      */
-      require_once dirname( __FILE__ ) . '/modules/passwords.php';
+    /*
+     * Enforce strong passwords
+     */
+    require_once dirname( __FILE__ ) . '/modules/passwords.php';
 
     /*
      * Instance switcher
@@ -175,16 +175,16 @@ class Loader {
 
     /*
      * Check that https is enabled in siteurl
-	 */
-	if ( current_user_can( 'administrator' ) ) {
-      require_once dirname( __FILE__ ) . '/modules/check-https.php';
-	}
+     */
+    if ( current_user_can( 'administrator' ) ) {
+        require_once dirname( __FILE__ ) . '/modules/check-https.php';
+    }
 
-	/*
-	 * Check that the PHP version is 7.2
-   * Disabled for now due to too many miscommunications. This can be enabled
-   * later when the notification and help docs have been updated
-   */
+    /*
+     * Check that the PHP version is 7.2
+     * Disabled for now due to too many miscommunications. This can be enabled
+     * later when the notification and help docs have been updated
+     */
     // if ( current_user_can( 'administrator' ) ) {
     //  require_once dirname( __FILE__ ) . '/modules/check-php-version.php';
     // }

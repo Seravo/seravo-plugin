@@ -171,7 +171,7 @@ if ( ! class_exists('Updates') ) {
         'desc_right_bg_color' => 'red',
         'desc_left_txt_color' => 'white',
         'desc_right_txt_color' => 'white',
-	  ], $atts, $tag);
+    ], $atts, $tag);
       if ( floatval( $img_comp_atts['difference'] ) > 0.011 ) {
         $knob_style = 'difference';
       } else {

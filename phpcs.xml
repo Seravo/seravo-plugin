@@ -95,5 +95,7 @@
     </properties>
   </rule>
 
+  <!-- Explicitly forbid tabs -->
+  <rule ref="Generic.WhiteSpace.DisallowTabIndent" />
 
 </ruleset>
