@@ -122,7 +122,7 @@ if ( ! class_exists('Logs') ) {
       // Set logfile based on supplied log name if it's available
       if ( isset( $logfiles[ $current_logfile ] ) ) {
         $logfile = $logfiles[ $current_logfile ];
-      } else if ( isset( $logfiles[ $default_logfile ] ) ) {
+      } elseif ( isset( $logfiles[ $default_logfile ] ) ) {
         $logfile = $logfiles[ $default_logfile ];
       } else {
         $logfile = null;

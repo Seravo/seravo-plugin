@@ -40,9 +40,9 @@ if ( ! class_exists('CheckPHPVersion') ) {
 
     public static function _seravo_show_php_warning( $recommended_version ) {
 
-    ?>
-    <div class="notice notice-error">
-    <?php
+      ?>
+      <div class="notice notice-error">
+      <?php
 
       // The line below is very long, but PHPCS standards requires translation
       // strings to be one one line
@@ -52,9 +52,9 @@ if ( ! class_exists('CheckPHPVersion') ) {
         PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, $recommended_version
       );
 
-    ?>
-    </div>
-    <?php
+      ?>
+      </div>
+      <?php
 
     }
 

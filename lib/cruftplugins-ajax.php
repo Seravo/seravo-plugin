@@ -9,14 +9,14 @@ function seravo_ajax_list_cruft_plugins() {
   exec('wp plugin list --fields=name,title,status --format=json --skip-plugins --skip-themes', $output);
     //https://help.seravo.com/en/knowledgebase/19-themes-and-plugins/docs/51-wordpress-plugins-in-seravo-com
     $plugins_list = array(
-      'cache_plugins' => array(                               //Unneeded cache plugins
+      'cache_plugins'    => array(                               //Unneeded cache plugins
         'w3-total-cache',
         'wp-super-cache',
         'wp-file-cache',
         'wp-fastest-cache',
         'litespeed-cache',
         'comet-cache',
-    ),
+      ),
       'security_plugins' => array(                            //False sense of security
         'better-wp-security',                                 //iThemes Security aka Better WP Security
         'wordfence',
@@ -24,11 +24,11 @@ function seravo_ajax_list_cruft_plugins() {
         'wp-limit-login-attempts',
         'wordfence-assistant',
       ),
-      'db_plugins' => array(                                  //Known to mess up your DB
+      'db_plugins'       => array(                                  //Known to mess up your DB
         'broken-link-checker',                               //Broken Link Checker
         'tweet-blender',                                     //Tweet Blender
       ),
-      'backup_plugins' => array(                             //A list of most used backup-plugins
+      'backup_plugins'   => array(                             //A list of most used backup-plugins
         'updraftplus',
         'backwpup',
         'jetpack',
@@ -40,7 +40,7 @@ function seravo_ajax_list_cruft_plugins() {
         'really-simple-ssl',
         'xcloner-backup-and-restore',
       ),
-      'poor_security' => array(                             //Known for poor security
+      'poor_security'    => array(                             //Known for poor security
         'wp-phpmyadmin-extension',                          //phpMyAdmin
         'ari-adminer',                                      //Adminer
         'sweetcaptcha-revolutionary-free-captcha-service',  //Sweet Captcha
@@ -48,12 +48,12 @@ function seravo_ajax_list_cruft_plugins() {
         'sucuri-scanner',
         'wp-simple-firewall',
       ),
-      'bad_code' => array(                                  //Hard to differentiate from actual malicious
+      'bad_code'         => array(                                  //Hard to differentiate from actual malicious
         'wp-client',
         'wp-filebase-pro',
         'miniorange-oauth-client-premium',
       ),
-      'foolish_plugins' => array(                            //Not malicious but do unwanted things
+      'foolish_plugins'  => array(                            //Not malicious but do unwanted things
         'all-in-one-wp-migration',
         'video-capture',
         'simple-subscribe',

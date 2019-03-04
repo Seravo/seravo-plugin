@@ -120,7 +120,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
         'href'  => ! empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#',
         'meta'  => [
           'class' => $menuclass,
-    ],
+        ],
       ]);
 
       $instances = self::load_shadow_list();

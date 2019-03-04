@@ -149,7 +149,7 @@ function list_domains() {
       $domain = ! empty( $_GET['domain'] ) ? $_GET['domain'] : '';
       printf( '<option value="%1$s" %2$s>%1$s</option>', $row['domain'], $domain == $row['domain'] ? 'selected' : '' );
     }
-  echo '</select></div>';
+    echo '</select></div>';
   } else {
     echo __( 'No valid domains were found!', 'seravo' );
   }

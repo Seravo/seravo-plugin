@@ -244,7 +244,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
       if ( 'view' === $this->current_action() ) {
         $this->dns->display();
-      } else if ( 'edit' === $this->current_action() ) {
+      } elseif ( 'edit' === $this->current_action() ) {
         $this->dns->display_edit();
       } elseif ( isset( $_REQUEST['zone-updated'] ) ) {
         if ( $_REQUEST['zone-updated'] === 'true' ) {

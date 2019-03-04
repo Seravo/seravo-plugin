@@ -129,8 +129,8 @@ if ( ! class_exists('Updates') ) {
 
               echo self::seravo_admin_image_comparison_slider(array(
                 'difference' => $diff,
-                'img_right' => "/.seravo/screenshots-ng/debug/$name.shadow.png",
-                'img_left' => "/.seravo/screenshots-ng/debug/$name.png",
+                'img_right'  => "/.seravo/screenshots-ng/debug/$name.shadow.png",
+                'img_left'   => "/.seravo/screenshots-ng/debug/$name.png",
               ));
               echo '
               </td>
@@ -162,16 +162,16 @@ if ( ! class_exists('Updates') ) {
       $atts = array_change_key_case( (array) $atts, CASE_LOWER);
 
       $img_comp_atts = shortcode_atts([
-        'difference'  => '',
-        'img_left'    => '',
-        'img_right'   => '',
-        'desc_left' => __('Current State', 'seravo'),
-        'desc_right'  => __('Update Attempt', 'seravo'),
-        'desc_left_bg_color' => 'green',
-        'desc_right_bg_color' => 'red',
-        'desc_left_txt_color' => 'white',
+        'difference'           => '',
+        'img_left'             => '',
+        'img_right'            => '',
+        'desc_left'            => __('Current State', 'seravo'),
+        'desc_right'           => __('Update Attempt', 'seravo'),
+        'desc_left_bg_color'   => 'green',
+        'desc_right_bg_color'  => 'red',
+        'desc_left_txt_color'  => 'white',
         'desc_right_txt_color' => 'white',
-    ], $atts, $tag);
+      ], $atts, $tag);
       if ( floatval( $img_comp_atts['difference'] ) > 0.011 ) {
         $knob_style = 'difference';
       } else {
