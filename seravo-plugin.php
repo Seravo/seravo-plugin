@@ -182,10 +182,12 @@ class Loader {
 
 	/*
 	 * Check that the PHP version is 7.2
-     */
-    if ( current_user_can( 'administrator' ) ) {
-      require_once dirname( __FILE__ ) . '/modules/check-php-version.php';
-    }
+   * Disabled for now due to too many miscommunications. This can be enabled
+   * later when the notification and help docs have been updated
+   */
+    // if ( current_user_can( 'administrator' ) ) {
+    //  require_once dirname( __FILE__ ) . '/modules/check-php-version.php';
+    // }
 
     /*
      * Check that user has changed admin email to something else from no-reply@seravo
