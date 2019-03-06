@@ -1,13 +1,31 @@
-.cruftfile-delete-button {
-  background: #f7f7f7;
+.cruftfile-delete-button, .cruftplugin-delete-button, .crufttheme-delete-button {
+  background: #DA534F;
   border-radius: 3px;
-  box-shadow: 0 1px 0 #cccccc;
-  color: #555;
+  border-color: #AA5955;
+  box-shadow: 0 1px 0 #AA5955;
+  color: #ffffff;
   cursor: pointer;
   height: 28px;
   line-height: 22px;
   margin-top: 20px;
   padding: 0 10px 1px;
+}
+
+.cruftplugin-delete-button {
+  margin-bottom: 20px;
+}
+
+.plugin-separation-line {
+  margin: 30px 0px;
+  border-top: 2px solid #F9F9F9;
+}
+
+.cruft-plugin-td {
+  width: 100%;
+}
+
+.cruft-themes-td {
+  width: 100%;
 }
 
 .cruftfile-delete-button:hover {
@@ -16,6 +34,9 @@
   outline: none;
 }
 
+.cruftfile-delete-button:active,
+.cruftfile-delete-button:focus,
+.cruftfile-delete-button:visited,
 .cruftfile-delete-button:active,
 .cruftfile-delete-button:focus,
 .cruftfile-delete-button:visited {
@@ -33,7 +54,10 @@
 }
 
 .cruft-tool-selector {
-  background-color: antiquewhite;
+  background-color: #F9F9F9;
+  padding-left: 7px;
+  font-weight: 600;
+  height: 45px;
 }
 
 table {
@@ -45,8 +69,7 @@ table {
 }
 
 .crufttheme {
-  border-top: 2px solid black;
-  display: flex;
+  flex-direction: row;
   padding: 1px 1px 1px 1px;
 }
 
@@ -59,18 +82,11 @@ table {
 }
 
 table {
-border: collapse;
+  border: collapse;
 }
 
 .cruft-theme-table {
   border-bottom: 2px solid black;
-}
-
-.crufttheme {
-  border-top: 2px solid black;
-  display: flex;
-  flex-direction: row;
-  padding: 1px 1px 1px 1px;
 }
 
 .crufttheme-child {
@@ -93,6 +109,19 @@ border: collapse;
 
 .crufttheme-delete {
   padding-right: 10px;
+}
+
+.crufttheme[data-active="true"] {
+  display: none;
+}
+
+[data-childs="true"] .crufttheme-path {
+  padding-top: 1em;
+  font-weight: bold;
+}
+
+[data-childs="true"] .crufttheme-delete {
+  display: none;
 }
 
 @media only screen and (max-width: 1025px) {
