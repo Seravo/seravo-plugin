@@ -177,7 +177,7 @@ if ( ! class_exists('Updates') ) {
         <li><?php _e('Site Created', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['created'])); ?></li>
         <li><?php _e('Latest Successful Full Update', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_success'])); ?></li>
         <?php if ( ! empty( $site_info['update_attempt'] ) ) { ?>
-        <li><?php _e('Latest Update Attempt', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_attempt'])); ?></li>'
+        <li><?php _e('Latest Update Attempt', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_attempt'])); ?></li>
         <?php } ?>
       </ul>
         <?php
