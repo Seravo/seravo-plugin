@@ -102,6 +102,10 @@ if ( ! class_exists('Cruftfiles') ) {
             <?php _e( 'Searching for plugins...', 'seravo' ); ?>
             <img src="/wp-admin/images/spinner.gif">
           </div>
+          <!-- Filled by JS -->
+          <div id="cruftplugins_status_loading" style="display: none;">
+            Searching for files... <img src="/wp-admin/images/spinner.gif">
+          </div>
         </div>
       </p>
       <?php
