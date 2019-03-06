@@ -132,14 +132,6 @@ jQuery(document).ready(function($) {
     $buttonsDiv.html(generateButtons(emails));
   });
 
-  // Accordion script
-  jQuery('.ui-sortable-handle').on('click', function () {
-    jQuery(this).parent().toggleClass("closed");
-  });
-  jQuery('.toggle-indicator').on('click', function () {
-    jQuery(this).parent().parent().toggleClass("closed");
-  });
-
   jQuery('#change-version-button').click(function() {
     jQuery("#version-change-status").fadeOut(400, function() {
       jQuery(this).html('<img src="/wp-admin/images/spinner.gif" style="display:inline-block"> Activating... Please wait up to 15 seconds').fadeIn(400);
