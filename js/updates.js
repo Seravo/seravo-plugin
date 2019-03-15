@@ -134,7 +134,7 @@ jQuery(document).ready(function($) {
 
   jQuery('#change-version-button').click(function() {
     jQuery("#version-change-status").fadeOut(400, function() {
-      jQuery(this).html('<img src="/wp-admin/images/spinner.gif" style="display:inline-block"> Activating... Please wait up to 15 seconds').fadeIn(400);
+      jQuery(this).html('<img src="/wp-admin/images/spinner.gif" style="display:inline-block"> Activating... Please wait up to 30 seconds').fadeIn(400);
     });
     changePHPVersion();
   });
@@ -173,7 +173,7 @@ jQuery(document).ready(function($) {
           $(this).show();
         });
       });
-    }, 15000);
+    }, 30000);
   }
 });
 
