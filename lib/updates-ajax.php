@@ -17,7 +17,7 @@ function seravo_change_php_version() {
   );
 
   if ( array_key_exists($php_version, $php_version_array) ) {
-    file_put_contents( '/data/wordpress/nginx/php.conf', 'set $mode php' . $php_version_array[ $php_version ] . ';');
+    file_put_contents( '/data/wordpress/nginx/php.conf', 'set $mode php' . $php_version_array[ $php_version ] . ';' . PHP_EOL);
     exec('wp-restart-nginx && wp-purge-cache 2>&1');
   }
 }
