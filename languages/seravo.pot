@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Seravo Plugin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.9.6\n"
+"Project-Id-Version: Seravo Plugin 1.9.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-02-05T16:35:35+02:00\n"
+"POT-Creation-Date: 2019-03-19T13:14:56+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.1.0\n"
 "X-Domain: seravo\n"
@@ -271,7 +271,7 @@ msgstr ""
 msgid "Site Error Count"
 msgstr ""
 
-#. translators: * %1$s username of the current user * %2$s datetime of last login * %3$s timezone used to represent the datetime of the last login * %4$s IP address of the last login
+#. translators: %1$s username of the current user %2$s datetime of last login %3$s timezone used to represent the datetime of the last login %4$s IP address of the last login
 #: modules/login-notification.php:166
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
@@ -333,38 +333,38 @@ msgstr ""
 
 #: modules/logs.php:68
 #: modules/logs.php:69
-#: modules/logs.php:125
+#: modules/logs.php:133
 msgid "Logs"
 msgstr ""
 
-#: modules/logs.php:110
+#: modules/logs.php:112
 msgid "No logs found in <code>/data/log/</code>."
 msgstr ""
 
-#: modules/logs.php:164
+#: modules/logs.php:172
 msgid "Filter"
 msgstr ""
 
 #. translators: $s name of the logfile
-#: modules/logs.php:184
+#: modules/logs.php:192
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 
-#: modules/logs.php:189
+#: modules/logs.php:197
 msgid "Log empty"
 msgstr ""
 
-#: modules/logs.php:191
+#: modules/logs.php:199
 msgid "Scroll to load more lines from the log."
 msgstr ""
 
 #. translators: $s full path of the logfile
-#: modules/logs.php:202
+#: modules/logs.php:210
 msgid "Full log files can be found on the server in the path %s."
 msgstr ""
 
 #: modules/domains.php:31
-#: lib/domains-page.php:268
+#: lib/domains-page.php:272
 msgid "Domains"
 msgstr ""
 
@@ -547,6 +547,7 @@ msgid "Site Name"
 msgstr ""
 
 #: modules/reports.php:186
+#: modules/updates.php:177
 #: lib/updates-page.php:113
 msgid "Site Created"
 msgstr ""
@@ -618,28 +619,168 @@ msgstr ""
 msgid "Are you sure? This replaces all information in the selected environment."
 msgstr ""
 
-#: modules/updates.php:50
+#: modules/updates.php:36
+#: lib/updates-page.php:26
+#: lib/updates-page.php:30
+msgid "Seravo Updates"
+msgstr ""
+
+#: modules/updates.php:44
+#: lib/updates-page.php:102
+#: lib/updates-page.php:107
+msgid "Site Status"
+msgstr ""
+
+#: modules/updates.php:52
+#: lib/updates-page.php:152
+#: lib/updates-page.php:157
+msgid "Tests Status"
+msgstr ""
+
+#: modules/updates.php:60
+msgid "Change PHP Version"
+msgstr ""
+
+#: modules/updates.php:92
 msgid "Updates"
 msgstr ""
 
-#: modules/updates.php:70
-#: modules/updates.php:74
-msgid "Screenshots"
+#: modules/updates.php:110
+#: lib/updates-page.php:37
+msgid "Opt-out from updates by Seravo"
 msgstr ""
 
-#: modules/updates.php:86
-msgid "The Difference"
+#: modules/updates.php:130
+#: lib/updates-page.php:57
+msgid "The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below."
+msgstr ""
+
+#: modules/updates.php:135
+#: lib/updates-page.php:62
+msgid "Seravo updates enabled"
+msgstr ""
+
+#: modules/updates.php:139
+#: lib/updates-page.php:66
+msgid "Update Notifications with a Slack Webhook"
+msgstr ""
+
+#: modules/updates.php:140
+#: lib/updates-page.php:67
+msgid "By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href=\"https://api.slack.com/incoming-webhooks\">Read more about webhooks</a>."
+msgstr ""
+
+#: modules/updates.php:142
+#: lib/updates-page.php:69
+msgid "Send a Test Notification"
+msgstr ""
+
+#: modules/updates.php:145
+#: lib/updates-page.php:72
+msgid "Technical Contacts"
+msgstr ""
+
+#: modules/updates.php:146
+#: lib/updates-page.php:73
+msgid "Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address."
+msgstr ""
+
+#: modules/updates.php:147
+#: lib/updates-page.php:74
+msgid "example@example.com"
 msgstr ""
 
 #: modules/updates.php:148
+#: lib/updates-page.php:75
+msgid "Add"
+msgstr ""
+
+#: modules/updates.php:149
+#: lib/updates-page.php:76
+msgid "Email must be formatted as name@domain.com"
+msgstr ""
+
+#. translators: %1$s link to Newsletter for WordPress developers
+#: modules/updates.php:155
+#: lib/updates-page.php:82
+msgid "P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features."
+msgstr ""
+
+#: modules/updates.php:160
+#: lib/updates-page.php:87
+msgid "Save settings"
+msgstr ""
+
+#: modules/updates.php:178
+#: lib/updates-page.php:114
+msgid "Latest Successful Full Update"
+msgstr ""
+
+#: modules/updates.php:180
+#: lib/updates-page.php:116
+msgid "Latest Update Attempt"
+msgstr ""
+
+#: modules/updates.php:188
+#: lib/updates-page.php:124
+msgid "Last 5 partial or attempted updates:"
+msgstr ""
+
+#. translators: event count and updates.log and security.log paths
+#: modules/updates.php:201
+#: lib/updates-page.php:137
+msgid "For details about last %1$s update attempts by Seravo, see %2$s and %3$s."
+msgstr ""
+
+#: modules/updates.php:216
+#: lib/updates-page.php:164
+msgid "Success!"
+msgstr ""
+
+#. translators: Link to Tests page
+#: modules/updates.php:218
+#: lib/updates-page.php:166
+msgid "Site baseline <a href=\"%s\">tests</a> have passed and updates can run normally."
+msgstr ""
+
+#: modules/updates.php:220
+#: lib/updates-page.php:168
+msgid "Failure!"
+msgstr ""
+
+#. translators: Link to Tests page
+#: modules/updates.php:222
+#: lib/updates-page.php:170
+msgid "Site baseline <a href=\"%s\">tests</a> are failing and needs to be fixed before further updates are run."
+msgstr ""
+
+#. translators: link to log file
+#: modules/updates.php:234
+msgid "Latest version is recommended if all plugins and theme support it. Check <a href=\"%s\">compatibility scan results.</a>"
+msgstr ""
+
+#: modules/updates.php:284
+msgid "Change version"
+msgstr ""
+
+#: modules/updates.php:299
+#: modules/updates.php:303
+msgid "Screenshots"
+msgstr ""
+
+#: modules/updates.php:315
+msgid "The Difference"
+msgstr ""
+
+#: modules/updates.php:377
 msgid "No screenshots found. They will become available during the next attempted update."
 msgstr ""
 
-#: modules/updates.php:168
+#: modules/updates.php:397
 msgid "Current State"
 msgstr ""
 
-#: modules/updates.php:169
+#: modules/updates.php:398
 msgid "Update Attempt"
 msgstr ""
 
@@ -818,7 +959,7 @@ msgstr ""
 msgid "Managed by"
 msgstr ""
 
-#: lib/domains-page.php:270
+#: lib/domains-page.php:274
 msgid "Domains routed to this WordPress site are listed below."
 msgstr ""
 
@@ -897,107 +1038,4 @@ msgstr ""
 
 #: lib/domains-dns.php:106
 msgid "The zone update failed"
-msgstr ""
-
-#: lib/updates-page.php:26
-#: lib/updates-page.php:30
-msgid "Seravo Updates"
-msgstr ""
-
-#: lib/updates-page.php:37
-msgid "Opt-out from updates by Seravo"
-msgstr ""
-
-#: lib/updates-page.php:57
-msgid "The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below."
-msgstr ""
-
-#: lib/updates-page.php:62
-msgid "Seravo updates enabled"
-msgstr ""
-
-#: lib/updates-page.php:66
-msgid "Update Notifications with a Slack Webhook"
-msgstr ""
-
-#: lib/updates-page.php:67
-msgid "By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href=\"https://api.slack.com/incoming-webhooks\">Read more about webhooks</a>."
-msgstr ""
-
-#: lib/updates-page.php:69
-msgid "Send a Test Notification"
-msgstr ""
-
-#: lib/updates-page.php:72
-msgid "Technical Contacts"
-msgstr ""
-
-#: lib/updates-page.php:73
-msgid "Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address."
-msgstr ""
-
-#: lib/updates-page.php:74
-msgid "example@example.com"
-msgstr ""
-
-#: lib/updates-page.php:75
-msgid "Add"
-msgstr ""
-
-#: lib/updates-page.php:76
-msgid "Email must be formatted as name@domain.com"
-msgstr ""
-
-#. translators: %1$s link to Newsletter for WordPress developers
-#: lib/updates-page.php:82
-msgid "P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features."
-msgstr ""
-
-#: lib/updates-page.php:87
-msgid "Save settings"
-msgstr ""
-
-#: lib/updates-page.php:102
-#: lib/updates-page.php:107
-msgid "Site Status"
-msgstr ""
-
-#: lib/updates-page.php:114
-msgid "Latest Successful Full Update"
-msgstr ""
-
-#: lib/updates-page.php:116
-msgid "Latest Update Attempt"
-msgstr ""
-
-#: lib/updates-page.php:124
-msgid "Last 5 partial or attempted updates:"
-msgstr ""
-
-#. translators: event count and updates.log and security.log paths
-#: lib/updates-page.php:137
-msgid "For details about last %1$s update attempts by Seravo, see %2$s and %3$s."
-msgstr ""
-
-#: lib/updates-page.php:152
-#: lib/updates-page.php:157
-msgid "Tests Status"
-msgstr ""
-
-#: lib/updates-page.php:164
-msgid "Success!"
-msgstr ""
-
-#. translators: Link to Tests page
-#: lib/updates-page.php:166
-msgid "Site baseline <a href=\"%s\">tests</a> have passed and updates can run normally."
-msgstr ""
-
-#: lib/updates-page.php:168
-msgid "Failure!"
-msgstr ""
-
-#. translators: Link to Tests page
-#: lib/updates-page.php:170
-msgid "Site baseline <a href=\"%s\">tests</a> are failing and needs to be fixed before further updates are run."
 msgstr ""

@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2019-02-05T16:35:35+02:00\n"
-"PO-Revision-Date: 2019-02-05 16:56+0200\n"
+"POT-Creation-Date: 2019-03-19T13:14:56+02:00\n"
+"PO-Revision-Date: 2019-03-19 13:20+0200\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -348,7 +348,7 @@ msgstr "Sähköpostit"
 msgid "Site Error Count"
 msgstr "Sivuston virhemäärä"
 
-#. translators: * %1$s username of the current user * %2$s datetime of last login * %3$s timezone used to represent the datetime of the last login * %4$s IP address of the last login
+#. translators: %1$s username of the current user %2$s datetime of last login %3$s timezone used to represent the datetime of the last login %4$s IP address of the last login
 #: modules/login-notification.php:166
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
@@ -432,38 +432,38 @@ msgstr ""
 msgid "Click \"Run Tests\" to run the Rspec tests"
 msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Rspec-testit"
 
-#: modules/logs.php:68 modules/logs.php:69 modules/logs.php:125
+#: modules/logs.php:68 modules/logs.php:69 modules/logs.php:133
 msgid "Logs"
 msgstr "Lokit"
 
-#: modules/logs.php:110
+#: modules/logs.php:112
 msgid "No logs found in <code>/data/log/</code>."
 msgstr "Lokeja ei löytynyt hakemistosta <code>/data/log/</code>."
 
-#: modules/logs.php:164
+#: modules/logs.php:172
 msgid "Filter"
 msgstr "Hae"
 
 #. translators: $s name of the logfile
-#: modules/logs.php:184
+#: modules/logs.php:192
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 "Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä."
 
-#: modules/logs.php:189
+#: modules/logs.php:197
 msgid "Log empty"
 msgstr "Loki on tyhjä"
 
-#: modules/logs.php:191
+#: modules/logs.php:199
 msgid "Scroll to load more lines from the log."
 msgstr "Selaa ladataksesi lisää rivejä lokista."
 
 #. translators: $s full path of the logfile
-#: modules/logs.php:202
+#: modules/logs.php:210
 msgid "Full log files can be found on the server in the path %s."
 msgstr "Lokitiedostot kokonaisuudessaan löytyy palvelimelta polusta %s."
 
-#: modules/domains.php:31 lib/domains-page.php:268
+#: modules/domains.php:31 lib/domains-page.php:272
 msgid "Domains"
 msgstr "Verkkotunnukset"
 
@@ -675,7 +675,7 @@ msgstr "Seravon valitsema"
 msgid "Site Name"
 msgstr "Sivuston nimi"
 
-#: modules/reports.php:186 lib/updates-page.php:113
+#: modules/reports.php:186 modules/updates.php:177 lib/updates-page.php:113
 msgid "Site Created"
 msgstr "Sivusto luotu"
 
@@ -750,19 +750,178 @@ msgid ""
 "Are you sure? This replaces all information in the selected environment."
 msgstr "Oletko varma? Tämä toiminto korvaa kaiken valitussa ympäristössä."
 
-#: modules/updates.php:50
+#: modules/updates.php:36 lib/updates-page.php:26 lib/updates-page.php:30
+msgid "Seravo Updates"
+msgstr "Seravon päivitykset"
+
+#: modules/updates.php:44 lib/updates-page.php:102 lib/updates-page.php:107
+msgid "Site Status"
+msgstr "Sivuston tila"
+
+#: modules/updates.php:52 lib/updates-page.php:152 lib/updates-page.php:157
+msgid "Tests Status"
+msgstr "Testien tila"
+
+#: modules/updates.php:60
+msgid "Change PHP Version"
+msgstr "Vaihda PHP-versiota"
+
+#: modules/updates.php:92
 msgid "Updates"
 msgstr "Päivitykset"
 
-#: modules/updates.php:70 modules/updates.php:74
+#: modules/updates.php:110 lib/updates-page.php:37
+msgid "Opt-out from updates by Seravo"
+msgstr "Kiellä Seravoa päivittämästä sivustoa ja vastaa päivityksistä itse"
+
+#: modules/updates.php:130 lib/updates-page.php:57
+msgid ""
+"The Seravo upkeep service includes core and plugin updates to your WordPress "
+"site, keeping your site current with security patches and frequent tested "
+"updates to both the WordPress core and plugins. If you want full control of "
+"updates to yourself, you should opt out from Seravo's updates by unchecking "
+"the checkbox below."
+msgstr ""
+"Seravon ylläpitopalvelu pitää WordPress-asennuksesi ajan tasalla asentamalla "
+"tietoturvapäivityksiä aina kun sellaisia on tarjolla, sekä säännöllisesti ja "
+"testatusti muita saatavilla olevia päivityksiä WordPressin ytimeen ja "
+"lisäosiin. Jos haluat pitää päivitykset kokonaan omassa hallinnassasi, voit "
+"estää Seravon päivitykset sivustollesi poistamalla ruksin allaolevasta "
+"ruudusta. HUOM! Tietoturvapäivityksiä saatamme tehdä päivityskiellosta "
+"huolimatta, tilanteen niin vaatiessa."
+
+#: modules/updates.php:135 lib/updates-page.php:62
+msgid "Seravo updates enabled"
+msgstr "Seravon päivitykset sallittu"
+
+#: modules/updates.php:139 lib/updates-page.php:66
+msgid "Update Notifications with a Slack Webhook"
+msgstr "Päivitysilmoitukset Slackin webhookin avulla"
+
+#: modules/updates.php:140 lib/updates-page.php:67
+msgid ""
+"By defining a Slack webhook address below, Seravo can send you notifications "
+"about every update attempt, whether successful or not, to the Slack channel "
+"you have defined in your webhook. <a href=\"https://api.slack.com/incoming-"
+"webhooks\">Read more about webhooks</a>."
+msgstr ""
+"Määrittelemälä Slack webhookin alla mahdollistat sen, että Seravo voi "
+"lähettää ilmoituksen jokaisesta päivitysyrityksestä, riippumatta onnistuiko "
+"se, sille Slack-kanavalle jonka ole määritellyt Slack-hookissa. <a href="
+"\"https://api.slack.com/incoming-webhooks\">Lue lisää Slackin "
+"ohjeistuksesta</a>."
+
+#: modules/updates.php:142 lib/updates-page.php:69
+msgid "Send a Test Notification"
+msgstr "Lähetä testi-ilmoitus"
+
+#: modules/updates.php:145 lib/updates-page.php:72
+msgid "Technical Contacts"
+msgstr "Tekniset yhteyshenkilöt"
+
+#: modules/updates.php:146 lib/updates-page.php:73
+msgid ""
+"Seravo may use the email addresses defined here to send automatic "
+"notifications about technical problems with you site. Remember to use a "
+"properly formatted email address."
+msgstr ""
+"Seravo voi käyttää tässä annettuja sähköpostiosoitteita ilmoittaakseen "
+"sivustoilla havaituista virhetilanteista. Ole hyvä ja lisää ainoastaan "
+"täydellisiä sähköpostiosoitteita."
+
+#: modules/updates.php:147 lib/updates-page.php:74
+msgid "example@example.com"
+msgstr "esimerkki@esimerkki.fi"
+
+#: modules/updates.php:148 lib/updates-page.php:75
+msgid "Add"
+msgstr "Lisää"
+
+#: modules/updates.php:149 lib/updates-page.php:76
+msgid "Email must be formatted as name@domain.com"
+msgstr "Sähköpostiosoite täytyy olla muodossa nimi@domain.com"
+
+#. translators: %1$s link to Newsletter for WordPress developers
+#: modules/updates.php:155 lib/updates-page.php:82
+msgid ""
+"P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-"
+"to-date information about our new features."
+msgstr ""
+"P.S. Tilaa Seravon %1$senglanninkielinen uutiskirje WordPress-kehittäjille"
+"%2$s pysyäksesi ajan tasalla uusimmista ominaisuuksistamme."
+
+#: modules/updates.php:160 lib/updates-page.php:87
+msgid "Save settings"
+msgstr "Tallenna asetukset"
+
+#: modules/updates.php:178 lib/updates-page.php:114
+msgid "Latest Successful Full Update"
+msgstr "Viimeisin onnistunut kaikenkattava päivitys"
+
+#: modules/updates.php:180 lib/updates-page.php:116
+msgid "Latest Update Attempt"
+msgstr "Edellinen päivitysyritys"
+
+#: modules/updates.php:188 lib/updates-page.php:124
+msgid "Last 5 partial or attempted updates:"
+msgstr "Edelliset osittaiset tai päivitysten yritykset:"
+
+#. translators: event count and updates.log and security.log paths
+#: modules/updates.php:201 lib/updates-page.php:137
+msgid ""
+"For details about last %1$s update attempts by Seravo, see %2$s and %3$s."
+msgstr ""
+"Lisätiedot edellisiin %1$s päivitysyrityksiin löytyy lokitiedostoista %2$s "
+"ja %3$s."
+
+#: modules/updates.php:216 lib/updates-page.php:164
+msgid "Success!"
+msgstr "Onnistui!"
+
+#. translators: Link to Tests page
+#: modules/updates.php:218 lib/updates-page.php:166
+msgid ""
+"Site baseline <a href=\"%s\">tests</a> have passed and updates can run "
+"normally."
+msgstr ""
+"Sivuston lähtötilanteessa <a href=\"%s\">testit</a> toimivat ja päivitykset "
+"voi tapahtua normaalisti."
+
+#: modules/updates.php:220 lib/updates-page.php:168
+msgid "Failure!"
+msgstr "Epäonnistui!"
+
+#. translators: Link to Tests page
+#: modules/updates.php:222 lib/updates-page.php:170
+msgid ""
+"Site baseline <a href=\"%s\">tests</a> are failing and needs to be fixed "
+"before further updates are run."
+msgstr ""
+"Sivuston lähtötilanteessa <a href=\"%s\">testit</a> epäonnistuvat ja ne "
+"tulee korjata ennen kuin päivitykset voivat jatkua normaalisti."
+
+#. translators: link to log file
+#: modules/updates.php:234
+msgid ""
+"Latest version is recommended if all plugins and theme support it. Check <a "
+"href=\"%s\">compatibility scan results.</a>"
+msgstr ""
+"Uusin versio on suositeltu mikäli kaikki lisäosat ja teema tukevat sitä. "
+"Katso myös <a href=\"%s\">yhteentoimivuustarkistuksen tulokset</a>."
+
+#: modules/updates.php:284
+msgid "Change version"
+msgstr "Vaihda versiota"
+
+#: modules/updates.php:299 modules/updates.php:303
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
-#: modules/updates.php:86
+#: modules/updates.php:315
 msgid "The Difference"
 msgstr "Eroavaisuudet"
 
-#: modules/updates.php:148
+#: modules/updates.php:377
 msgid ""
 "No screenshots found. They will become available during the next attempted "
 "update."
@@ -770,11 +929,11 @@ msgstr ""
 "Kuvakaappauksia ei löytynyt. Ne luodaan sivuston seuraavan päivityksen "
 "yhteydessä."
 
-#: modules/updates.php:168
+#: modules/updates.php:397
 msgid "Current State"
 msgstr "Sivuston nykytila"
 
-#: modules/updates.php:169
+#: modules/updates.php:398
 msgid "Update Attempt"
 msgstr "Edellinen päivitysyritys"
 
@@ -991,7 +1150,7 @@ msgstr "Nimipalvelut"
 msgid "Managed by"
 msgstr "Hallinnoija"
 
-#: lib/domains-page.php:270
+#: lib/domains-page.php:274
 msgid "Domains routed to this WordPress site are listed below."
 msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
 
@@ -1089,145 +1248,3 @@ msgstr "Zonelle tehtiin seuraavat muutokset: "
 #: lib/domains-dns.php:106
 msgid "The zone update failed"
 msgstr "Zonen päivitys epäonnistui"
-
-#: lib/updates-page.php:26 lib/updates-page.php:30
-msgid "Seravo Updates"
-msgstr "Seravon päivitykset"
-
-#: lib/updates-page.php:37
-msgid "Opt-out from updates by Seravo"
-msgstr "Kiellä Seravoa päivittämästä sivustoa ja vastaa päivityksistä itse"
-
-#: lib/updates-page.php:57
-msgid ""
-"The Seravo upkeep service includes core and plugin updates to your WordPress "
-"site, keeping your site current with security patches and frequent tested "
-"updates to both the WordPress core and plugins. If you want full control of "
-"updates to yourself, you should opt out from Seravo's updates by unchecking "
-"the checkbox below."
-msgstr ""
-"Seravon ylläpitopalvelu pitää WordPress-asennuksesi ajan tasalla asentamalla "
-"tietoturvapäivityksiä aina kun sellaisia on tarjolla, sekä säännöllisesti ja "
-"testatusti muita saatavilla olevia päivityksiä WordPressin ytimeen ja "
-"lisäosiin. Jos haluat pitää päivitykset kokonaan omassa hallinnassasi, voit "
-"estää Seravon päivitykset sivustollesi poistamalla ruksin allaolevasta "
-"ruudusta. HUOM! Tietoturvapäivityksiä saatamme tehdä päivityskiellosta "
-"huolimatta, tilanteen niin vaatiessa."
-
-#: lib/updates-page.php:62
-msgid "Seravo updates enabled"
-msgstr "Seravon päivitykset sallittu"
-
-#: lib/updates-page.php:66
-msgid "Update Notifications with a Slack Webhook"
-msgstr "Päivitysilmoitukset Slackin webhookin avulla"
-
-#: lib/updates-page.php:67
-msgid ""
-"By defining a Slack webhook address below, Seravo can send you notifications "
-"about every update attempt, whether successful or not, to the Slack channel "
-"you have defined in your webhook. <a href=\"https://api.slack.com/incoming-"
-"webhooks\">Read more about webhooks</a>."
-msgstr ""
-"Määrittelemälä Slack webhookin alla mahdollistat sen, että Seravo voi "
-"lähettää ilmoituksen jokaisesta päivitysyrityksestä, riippumatta onnistuiko "
-"se, sille Slack-kanavalle jonka ole määritellyt Slack-hookissa. <a href="
-"\"https://api.slack.com/incoming-webhooks\">Lue lisää Slackin "
-"ohjeistuksesta</a>."
-
-#: lib/updates-page.php:69
-msgid "Send a Test Notification"
-msgstr "Lähetä testi-ilmoitus"
-
-#: lib/updates-page.php:72
-msgid "Technical Contacts"
-msgstr "Tekniset yhteyshenkilöt"
-
-#: lib/updates-page.php:73
-msgid ""
-"Seravo may use the email addresses defined here to send automatic "
-"notifications about technical problems with you site. Remember to use a "
-"properly formatted email address."
-msgstr ""
-"Seravo voi käyttää tässä annettuja sähköpostiosoitteita ilmoittaakseen "
-"sivustoilla havaituista virhetilanteista. Ole hyvä ja lisää ainoastaan "
-"täydellisiä sähköpostiosoitteita."
-
-#: lib/updates-page.php:74
-msgid "example@example.com"
-msgstr "esimerkki@esimerkki.fi"
-
-#: lib/updates-page.php:75
-msgid "Add"
-msgstr "Lisää"
-
-#: lib/updates-page.php:76
-msgid "Email must be formatted as name@domain.com"
-msgstr "Sähköpostiosoite täytyy olla muodossa nimi@domain.com"
-
-#. translators: %1$s link to Newsletter for WordPress developers
-#: lib/updates-page.php:82
-msgid ""
-"P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-"
-"to-date information about our new features."
-msgstr ""
-"P.S. Tilaa Seravon %1$senglanninkielinen uutiskirje WordPress-kehittäjille"
-"%2$s pysyäksesi ajan tasalla uusimmista ominaisuuksistamme."
-
-#: lib/updates-page.php:87
-msgid "Save settings"
-msgstr "Tallenna asetukset"
-
-#: lib/updates-page.php:102 lib/updates-page.php:107
-msgid "Site Status"
-msgstr "Sivuston tila"
-
-#: lib/updates-page.php:114
-msgid "Latest Successful Full Update"
-msgstr "Viimeisin onnistunut kaikenkattava päivitys"
-
-#: lib/updates-page.php:116
-msgid "Latest Update Attempt"
-msgstr "Edellinen päivitysyritys"
-
-#: lib/updates-page.php:124
-msgid "Last 5 partial or attempted updates:"
-msgstr "Edelliset osittaiset tai päivitysten yritykset:"
-
-#. translators: event count and updates.log and security.log paths
-#: lib/updates-page.php:137
-msgid ""
-"For details about last %1$s update attempts by Seravo, see %2$s and %3$s."
-msgstr ""
-"Lisätiedot edellisiin %1$s päivitysyrityksiin löytyy lokitiedostoista %2$s "
-"ja %3$s."
-
-#: lib/updates-page.php:152 lib/updates-page.php:157
-msgid "Tests Status"
-msgstr "Testien tila"
-
-#: lib/updates-page.php:164
-msgid "Success!"
-msgstr "Onnistui!"
-
-#. translators: Link to Tests page
-#: lib/updates-page.php:166
-msgid ""
-"Site baseline <a href=\"%s\">tests</a> have passed and updates can run "
-"normally."
-msgstr ""
-"Sivuston lähtötilanteessa <a href=\"%s\">testit</a> toimivat ja päivitykset "
-"voi tapahtua normaalisti."
-
-#: lib/updates-page.php:168
-msgid "Failure!"
-msgstr "Epäonnistui!"
-
-#. translators: Link to Tests page
-#: lib/updates-page.php:170
-msgid ""
-"Site baseline <a href=\"%s\">tests</a> are failing and needs to be fixed "
-"before further updates are run."
-msgstr ""
-"Sivuston lähtötilanteessa <a href=\"%s\">testit</a> epäonnistuvat ja ne "
-"tulee korjata ennen kuin päivitykset voivat jatkua normaalisti."

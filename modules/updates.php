@@ -227,7 +227,15 @@ if ( ! class_exists('Updates') ) {
 
     public static function change_php_version_postbox() {
       ?>
-      <p>Latest version is recommended if all plugins and theme support it. Check <a href="tools.php?page=logs_page&logfile=wp-php-compatibility.log">compatibility scan results.</a></p>
+      <p>
+      <?php
+      sprintf(
+        // translators: link to log file
+        __('Latest version is recommended if all plugins and theme support it. Check <a href="%s">compatibility scan results.</a>', 'seravo'),
+        'tools.php?page=logs_page&logfile=wp-php-compatibility.log'
+      );
+      ?>
+      </p>
 
       <div id="seravo-php-version">
         <?php
@@ -235,10 +243,12 @@ if ( ! class_exists('Updates') ) {
           '5.6' => array(
             'value' => '5.6',
             'name' => 'PHP 5.6 (EOL 31.12.2018)',
+            'disabled' => true,
           ),
           '7.0' => array(
             'value' => '7.0',
             'name' => 'PHP 7.0 (EOL 3.12.2018)',
+            'disabled' => true,
           ),
           '7.2' => array(
             'value' => '7.2',
@@ -254,7 +264,13 @@ if ( ! class_exists('Updates') ) {
 
         foreach ( $php_versions as $php ) {
           ?>
-          <input type='radio' name="php-version" value="<?php echo $php['value']; ?>" class='php-version-radio'
+          <input type='radio' name="php-version"
+          <?php
+          if ( $php['disabled'] ) {
+            echo 'disabled';
+          };
+          ?>
+          value="<?php echo $php['value']; ?>" class='php-version-radio'
           <?php
           if ( $curver == $php['value'] ) {
             echo 'checked';
@@ -265,7 +281,7 @@ if ( ! class_exists('Updates') ) {
         }
         ?>
         <br>
-        <button id='change-version-button'>Change version</button>
+        <button id='change-version-button'><?php _e('Change version', 'seravo'); ?></button>
         <br>
       </div>
       <div id="version-change-status">
