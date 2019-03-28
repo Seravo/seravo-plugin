@@ -51,6 +51,11 @@ if ( ! defined('WP_CLI') ) {
   require_once dirname( __FILE__ ) . '/lib/canonical-domain-and-https.php';
 }
 
+/*
+ * Restrict XML-RPC and/or REST-API user enumeration
+ */
+require_once dirname( __FILE__ ) . '/lib/security-restrictions.php';
+
 class Loader {
   private static $_single; // Let's make this a singleton.
   private static $domain = 'seravo';
@@ -261,6 +266,13 @@ class Loader {
        */
       if ( apply_filters('seravo_show_tests_page', true) && current_user_can( 'administrator' ) ) {
         require_once dirname( __FILE__ ) . '/modules/tests.php';
+      }
+
+      /*
+       * Security page
+       */
+      if ( apply_filters('seravo_show_security_page', true) && current_user_can( 'administrator' ) ) {
+        require_once dirname( __FILE__ ) . '/modules/security.php';
       }
 
       /*
