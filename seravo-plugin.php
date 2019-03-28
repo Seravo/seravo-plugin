@@ -113,8 +113,8 @@ class Loader {
     $locale = apply_filters( 'plugin_locale', get_locale(), self::$domain );
 
     load_textdomain(
-        self::$domain,
-        WP_LANG_DIR . '/seravo-plugin/' . self::$domain . '-' . $locale . '.mo'
+      self::$domain,
+      WP_LANG_DIR . '/seravo-plugin/' . self::$domain . '-' . $locale . '.mo'
     );
 
     // And then from this plugin folder
@@ -177,7 +177,7 @@ class Loader {
      * Check that https is enabled in siteurl
      */
     if ( current_user_can( 'administrator' ) ) {
-        require_once dirname( __FILE__ ) . '/modules/check-https.php';
+      require_once dirname( __FILE__ ) . '/modules/check-https.php';
     }
 
     /*
@@ -260,7 +260,7 @@ class Loader {
        * Tests page for wp-test
        */
       if ( apply_filters('seravo_show_tests_page', true) && current_user_can( 'administrator' ) ) {
-          require_once dirname( __FILE__ ) . '/modules/tests.php';
+        require_once dirname( __FILE__ ) . '/modules/tests.php';
       }
 
       /*

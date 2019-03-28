@@ -87,7 +87,14 @@ if ( ! class_exists('Backups') ) {
     }
 
     public static function register_backups_page() {
-      add_submenu_page( 'tools.php', __('Backups', 'seravo'), __('Backups', 'seravo'), 'manage_options', 'backups_page', 'Seravo\seravo_postboxes_page' );
+      add_submenu_page(
+        'tools.php',
+        __('Backups', 'seravo'),
+        __('Backups', 'seravo'),
+        'manage_options',
+        'backups_page',
+        'Seravo\seravo_postboxes_page'
+      );
     }
 
     public static function backups_info_postbox() {
@@ -134,5 +141,5 @@ if ( ! class_exists('Backups') ) {
     }
   }
 
-  backups::load();
+  Backups::load();
 }

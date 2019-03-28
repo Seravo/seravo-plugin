@@ -173,7 +173,7 @@ $forwards_table->prepare_items();
           <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
         <!-- Postbox title -->
-        <h2 class="hndle ui-sortable-handle">
+        <h2 class="handle ui-sortable-handle">
           <span><?php _e('Mails', 'seravo'); ?> (beta)</span>
         </h2>
         <div class="inside seravo-mails-postbox">
