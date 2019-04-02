@@ -165,13 +165,13 @@ jQuery(document).ready(function($) {
       }, function(success) {
         jQuery("#version-change-status").fadeOut(400, function() {
           if (success) {
-	    jQuery("#activated-line").fadeIn(400, function() {
+            jQuery("#activated-line").fadeIn(400, function() {
               jQuery(this).show();
-	    });
+            });
           } else {
-	    jQuery("#activation-failed-line").fadeIn(400, function() {
+            jQuery("#activation-failed-line").fadeIn(400, function() {
               jQuery(this).show();
-	    });
+            });
           }
         });
 

@@ -281,7 +281,7 @@ if ( ! class_exists('Updates') ) {
             echo 'checked';
           };
           ?>
-          <?php echo $php['name']; ?><br>
+          ><?php echo $php['name']; ?><br>
           <?php
         }
         ?>
@@ -291,23 +291,23 @@ if ( ! class_exists('Updates') ) {
       </div>
       <div id="version-change-status" class="hidden">
         <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
-	<?php _e('Activating... Please wait up to 30 seconds', 'seravo'); ?>
+        <?php _e('Activating... Please wait up to 30 seconds', 'seravo'); ?>
       </div>
       <div id="php-change-end">
         <p id="activated-line" class="hidden">
-	<?php
-	printf(
-	  __('PHP version %1$s activated! Please check <a href="%2$s">php_error.log</a> for regressions.', 'seravo'), '7.2', 'tools.php?page=logs_page&logfile=php-error.log'
-	);
-	?>
-	</p>
-	<p id="activation-failed-line" class="hidden">
-	<?php
-	printf(
-	  __('PHP version %1$s activation failed. Using fallback PHP 5.6. See <a href="%2$s">php_error.log</a> for more information.', 'seravo') , '7.2', 'tools.php?page=logs_page&logfile=php-error.log'
-	);
-	?>
-	</p>
+        <?php
+        printf(
+          __('PHP version %1$s activated! Please check <a href="%2$s">php_error.log</a> for regressions.', 'seravo'), '7.2', 'tools.php?page=logs_page&logfile=php-error.log'
+        );
+        ?>
+        </p>
+        <p id="activation-failed-line" class="hidden">
+        <?php
+        printf(
+          __('PHP version %1$s activation failed. Using fallback PHP 5.6. See <a href="%2$s">php_error.log</a> for more information.', 'seravo') , '7.2', 'tools.php?page=logs_page&logfile=php-error.log'
+        );
+        ?>
+        </p>
       <?php
     }
 
