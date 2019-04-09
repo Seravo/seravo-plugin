@@ -92,8 +92,8 @@ if ( ! class_exists('Database') ) {
         wp_enqueue_script( 'seravo_database', plugins_url( '../js/database.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
 
         $loc_translation_database = array(
-          'ajaxurl'     => admin_url('admin-ajax.php'),
-          'ajax_nonce'  => wp_create_nonce('seravo_database'),
+          'ajaxurl'    => admin_url('admin-ajax.php'),
+          'ajax_nonce' => wp_create_nonce('seravo_database'),
         );
         wp_localize_script( 'seravo_database', 'seravo_database_loc', $loc_translation_database );
       }

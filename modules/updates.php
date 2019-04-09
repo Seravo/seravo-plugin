@@ -86,8 +86,8 @@ if ( ! class_exists('Updates') ) {
         wp_enqueue_script( 'seravo_updates', plugins_url( '../js/updates.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
 
         $loc_translation_updates = array(
-          'ajaxurl'     => admin_url('admin-ajax.php'),
-          'ajax_nonce'  => wp_create_nonce('seravo_updates'),
+          'ajaxurl'    => admin_url('admin-ajax.php'),
+          'ajax_nonce' => wp_create_nonce('seravo_updates'),
         );
 
         wp_localize_script( 'seravo_updates', 'seravo_updates_loc', $loc_translation_updates );
@@ -246,22 +246,22 @@ if ( ! class_exists('Updates') ) {
         <?php
         $php_versions = array(
           '5.6' => array(
-            'value' => '5.6',
-            'name' => 'PHP 5.6 (EOL 31.12.2018)',
+            'value'    => '5.6',
+            'name'     => 'PHP 5.6 (EOL 31.12.2018)',
             'disabled' => true,
           ),
           '7.0' => array(
-            'value' => '7.0',
-            'name' => 'PHP 7.0 (EOL 3.12.2018)',
+            'value'    => '7.0',
+            'name'     => 'PHP 7.0 (EOL 3.12.2018)',
             'disabled' => true,
           ),
           '7.2' => array(
             'value' => '7.2',
-            'name' => 'PHP 7.2',
+            'name'  => 'PHP 7.2',
           ),
           '7.3' => array(
             'value' => '7.3',
-            'name' => 'PHP 7.3',
+            'name'  => 'PHP 7.3',
           ),
         );
 

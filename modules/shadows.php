@@ -47,12 +47,12 @@ if ( ! class_exists('Shadows') ) {
         wp_enqueue_script( 'seravo_shadows' );
 
         $loc_translation = array(
-          'success'     => __('Success', 'seravo'),
-          'failure'     => __('Failure', 'seravo'),
-          'error'       => __('Error', 'seravo'),
-          'confirm'     => __('Are you sure? This replaces all information in the selected environment.', 'seravo'),
-          'ajaxurl'     => admin_url('admin-ajax.php'),
-          'ajax_nonce'  => wp_create_nonce('seravo_shadows'),
+          'success'    => __('Success', 'seravo'),
+          'failure'    => __('Failure', 'seravo'),
+          'error'      => __('Error', 'seravo'),
+          'confirm'    => __('Are you sure? This replaces all information in the selected environment.', 'seravo'),
+          'ajaxurl'    => admin_url('admin-ajax.php'),
+          'ajax_nonce' => wp_create_nonce('seravo_shadows'),
         );
 
         wp_localize_script( 'seravo_shadows', 'seravo_shadows_loc', $loc_translation );
