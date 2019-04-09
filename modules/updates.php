@@ -19,14 +19,14 @@ if ( ! class_exists('Updates') ) {
 
     public static function load() {
       add_action( 'admin_menu', array( __CLASS__, 'register_updates_page' ) );
-
-      add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
+      add_action( 'admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
       add_action( 'wp_ajax_seravo_ajax_updates', 'seravo_ajax_updates' );
+
       /*
-      * This will use the SWD api to toggle Seravo updates on/off and add
-      * technical contact emails for this site.
+      * This POST handler will use the SWD API to toggle Seravo updates on/off
+      * and add technical contact emails for this site.
       */
-      add_action( 'admin_post_toggle_seravo_updates', array( 'Seravo\Updates', 'seravo_admin_toggle_seravo_updates' ), 20 );
+      add_action( 'admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20 );
 
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook( __FILE__, array( __CLASS__, 'register_view_updates_capability' ) );
@@ -36,7 +36,7 @@ if ( ! class_exists('Updates') ) {
         __('Seravo Updates', 'seravo'),
         array( __CLASS__, 'seravo_updates_postbox' ),
         'tools_page_updates_page',
-        'side'
+        'normal'
       );
 
       seravo_add_postbox(
@@ -44,7 +44,7 @@ if ( ! class_exists('Updates') ) {
         __('Site Status', 'seravo'),
         array( __CLASS__, 'site_status_postbox' ),
         'tools_page_updates_page',
-        'side'
+        'normal'
       );
 
       seravo_add_postbox(
@@ -52,7 +52,15 @@ if ( ! class_exists('Updates') ) {
         __('Tests Status', 'seravo'),
         array( __CLASS__, 'tests_status_postbox' ),
         'tools_page_updates_page',
-        'side'
+        'normal'
+      );
+
+      seravo_add_postbox(
+        'screenshots',
+        __('Screenshots', 'seravo'),
+        array( __CLASS__, 'screenshots_postbox' ),
+        'tools_page_updates_page',
+        'normal'
       );
 
       seravo_add_postbox(
@@ -60,7 +68,7 @@ if ( ! class_exists('Updates') ) {
         __('Change PHP Version', 'seravo'),
         array( __CLASS__, 'change_php_version_postbox' ),
         'tools_page_updates_page',
-        'side'
+        'normal'
       );
     }
 
@@ -88,9 +96,14 @@ if ( ! class_exists('Updates') ) {
     }
 
     public static function register_updates_page() {
-      if ( getenv('SERAVO_API_KEY') !== '' ) {
-        add_submenu_page( 'tools.php', __('Updates', 'seravo'), __('Updates', 'seravo'), 'manage_options', 'updates_page', 'Seravo\seravo_postboxes_page' );
-      }
+      add_submenu_page(
+        'tools.php',
+        __('Updates', 'seravo'),
+        __('Updates', 'seravo'),
+        'manage_options',
+        'updates_page',
+        'Seravo\seravo_postboxes_page'
+      );
     }
 
     public static function seravo_admin_get_site_info() {
@@ -99,12 +112,10 @@ if ( ! class_exists('Updates') ) {
     }
 
     public static function seravo_updates_postbox() {
-      ?>
-      <?php
-        $site_info = self::seravo_admin_get_site_info();
-      ?>
-      <?php
-        //WP_error-object
+
+      $site_info = self::seravo_admin_get_site_info();
+
+      // WP_error-object
       if ( gettype($site_info) === 'array' ) {
         ?>
         <h2><?php _e('Opt-out from updates by Seravo', 'seravo'); ?></h2>
@@ -163,14 +174,11 @@ if ( ! class_exists('Updates') ) {
       } else {
         echo $site_info->get_error_message();
       }
-      ?>
-      <?php
     }
 
     public static function site_status_postbox() {
-      ?>
-      <?php
-        $site_info = self::seravo_admin_get_site_info();
+
+      $site_info = self::seravo_admin_get_site_info();
       ?>
       <?php if ( gettype($site_info) === 'array' ) : ?>
       <ul>
@@ -209,9 +217,8 @@ if ( ! class_exists('Updates') ) {
     }
 
     public static function tests_status_postbox() {
-      ?>
-      <?php
       exec('zgrep -h -A 1 "Running initial tests in production" /data/log/update.log* | tail -n 1 | cut -d " " -f 4-8', $test_status);
+
       if ( $test_status[0] == 'Success! Initial tests have passed.' ) {
         echo '<p style="color: green;">' . __('Success!', 'seravo') . '</p>';
         // translators: Link to Tests page
@@ -221,8 +228,6 @@ if ( ! class_exists('Updates') ) {
         // translators: Link to Tests page
         echo '<p>' . sprintf( __('Site baseline <a href="%s">tests</a> are failing and needs to be fixed before further updates are run.', 'seravo'), 'tools.php?page=tests_page') . '</p>';
       }
-      ?>
-      <?php
     }
 
     public static function change_php_version_postbox() {
@@ -289,21 +294,8 @@ if ( ! class_exists('Updates') ) {
       <?php
     }
 
-    public static function seravo_admin_image_comparison( $atts = [], $content = null, $tag = 'seravo_admin_image_comparison' ) {
-      ob_start();
-      ?>
-      <div class="postbox-container">
-        <div id="normal-sortables" class="meta-box-sortables ui-sortable">
-          <div id="dashboard_right_now" class="postbox">
-            <button type="button" class="handlediv button-link" aria-expanded="true">
-              <span class="screen-reader-text">Toggle panel: <?php _e('Screenshots', 'seravo'); ?></span>
-              <span class="toggle-indicator" aria-hidden="true"></span>
-            </button>
-            <h2 class="hndle ui-sortable-handle">
-              <span><?php _e('Screenshots', 'seravo'); ?></span>
-            </h2>
-            <div class="inside seravo-updates-postbox">
-      <?php
+    public static function screenshots_postbox() {
+
       $screenshots = glob( '/data/reports/tests/debug/*.png' );
       $showing = 0;
       # Shows a comparison of any and all image pair of *.png and *.shadow.png found.
@@ -373,16 +365,8 @@ if ( ! class_exists('Updates') ) {
       }
 
       if ( $showing == 0 ) {
-        echo '<tr><td colspan="3">' .
-          __('No screenshots found. They will become available during the next attempted update.', 'seravo') .
-          '</td></tr>';
+        echo __('No screenshots found. They will become available during the next attempted update.', 'seravo');
       }
-      echo '
-            </div>
-          </div>
-        </div>
-      </div>';
-      return ob_get_clean();
     }
 
     public static function seravo_admin_image_comparison_slider( $atts = [], $content = null, $tag = 'seravo_admin_image_comparison_slider' ) {
