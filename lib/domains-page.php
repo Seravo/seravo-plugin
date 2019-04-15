@@ -147,10 +147,10 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     if ( 'delete' === $this->current_action() ) {
       wp_die('Items deleted (or they would be if we had items to delete)!');
     } elseif ( 'view' === $this->current_action() ) {
-      $this->dns->fetch_dns_records($_REQUEST['domain']);
+      $this->dns->records = Seravo_Domains_DNS_Table::fetch_dns_records($_REQUEST['domain']);
     } elseif ( 'edit' === $this->current_action() ) {
       // Fetch something to edit
-      $this->dns->fetch_dns_records($_REQUEST['domain']);
+      $this->dns->records = Seravo_Domains_DNS_Table::fetch_dns_records($_REQUEST['domain']);
     }
   }
 
@@ -246,12 +246,6 @@ class Seravo_Domains_List_Table extends WP_List_Table {
         $this->dns->display();
       } elseif ( 'edit' === $this->current_action() ) {
         $this->dns->display_edit();
-      } elseif ( isset( $_REQUEST['zone-updated'] ) ) {
-        if ( $_REQUEST['zone-updated'] === 'true' ) {
-          $modifications = isset( $_REQUEST['modifications'] ) ? $_REQUEST['modifications'] : false;
-          $error = isset( $_REQUEST['error'] ) ? $_REQUEST['error'] : false;
-          $this->dns->display_results( $modifications, $error );
-        }
       }
 
       echo '</td></tr>';
