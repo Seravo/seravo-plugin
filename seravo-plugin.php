@@ -128,6 +128,8 @@ class Loader {
 
   public static function load_all_modules() {
 
+    require_once dirname( __FILE__ ) . '/modules/control-center.php';
+
     /*
      * Helpers for hiding useless notifications and small fixes in logging
      */
