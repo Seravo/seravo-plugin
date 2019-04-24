@@ -297,17 +297,12 @@ if ( ! class_exists('Updates') ) {
         <p id="activated-line" class="hidden">
         <?php
         printf(
-          __('PHP version %1$s activated! Please check <a href="%2$s">php_error.log</a> for regressions.', 'seravo'), '7.2', 'tools.php?page=logs_page&logfile=php-error.log'
+          // translators: link to log file
+          __('PHP version has been changed succesfully! Please check <a href="%s">php_error.log</a> for regressions.', 'seravo'), 'tools.php?page=logs_page&logfile=php-error.log'
         );
         ?>
         </p>
-        <p id="activation-failed-line" class="hidden">
-        <?php
-        printf(
-          __('PHP version %1$s activation failed. Using fallback PHP 5.6. See <a href="%2$s">php_error.log</a> for more information.', 'seravo') , '7.2', 'tools.php?page=logs_page&logfile=php-error.log'
-        );
-        ?>
-        </p>
+        <p id="activation-failed-line" class="hidden"><?php _e('PHP version change failed. Using fallback PHP 5.6.', 'seravo'); ?></p>
       <?php
     }
 
