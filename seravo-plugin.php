@@ -128,6 +128,8 @@ class Loader {
 
   public static function load_all_modules() {
 
+    require_once dirname( __FILE__ ) . '/modules/dashboard-widget.php';
+
     require_once dirname( __FILE__ ) . '/modules/control-center.php';
 
     /*
