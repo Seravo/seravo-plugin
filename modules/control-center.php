@@ -80,7 +80,7 @@ if ( ! class_exists('Control_Center') ) {
     public static function seravo_security_postbox() {
       ?>
       <p>This is postbox</p>
-      <?php 
+      <?php
     }
 
   }
