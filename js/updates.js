@@ -134,8 +134,10 @@ jQuery(document).ready(function($) {
 
   jQuery('#change-version-button').click(function() {
     jQuery("#version-change-status").fadeOut(400, function() {
-      jQuery(this).html('<img src="/wp-admin/images/spinner.gif" style="display:inline-block"> Activating... Please wait up to 30 seconds').fadeIn(400);
+      jQuery(this).show();
     });
+    jQuery("#activated-line").hide();
+    jQuery("#activation-failed-line").hide();
     changePHPVersion();
   });
 
@@ -163,9 +165,13 @@ jQuery(document).ready(function($) {
       }, function(success) {
         jQuery("#version-change-status").fadeOut(400, function() {
           if (success) {
-            jQuery(this).html('<p>PHP version ' + php_version + ' activated! Please check <a href=tools.php?page=logs_page&logfile=php-error.log>php-error.log</a> for regressions.</p>').fadeIn(400);
+            jQuery("#activated-line").fadeIn(400, function() {
+              jQuery(this).show();
+            });
           } else {
-            jQuery(this).html('<p>PHP version ' + php_version + ' activation failed! Using fallback PHP 5.6.</p>').fadeIn(400);
+            jQuery("#activation-failed-line").fadeIn(400, function() {
+              jQuery(this).show();
+            });
           }
         });
 

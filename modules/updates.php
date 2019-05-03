@@ -289,8 +289,20 @@ if ( ! class_exists('Updates') ) {
         <button id='change-version-button'><?php _e('Change version', 'seravo'); ?></button>
         <br>
       </div>
-      <div id="version-change-status">
+      <div id="version-change-status" class="hidden">
+        <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
+        <?php _e('Activating... Please wait up to 30 seconds', 'seravo'); ?>
       </div>
+      <div id="php-change-end">
+        <p id="activated-line" class="hidden">
+        <?php
+        printf(
+          // translators: link to log file
+          __('PHP version has been changed succesfully! Please check <a href="%s">php_error.log</a> for regressions.', 'seravo'), 'tools.php?page=logs_page&logfile=php-error.log'
+        );
+        ?>
+        </p>
+        <p id="activation-failed-line" class="hidden"><?php _e('PHP version change failed. Using fallback PHP 5.6.', 'seravo'); ?></p>
       <?php
     }
 
