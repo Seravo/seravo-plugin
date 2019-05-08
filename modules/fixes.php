@@ -33,6 +33,7 @@ if ( ! class_exists('Fixes') ) {
       if ( ! Helpers::is_development() ) {
         add_action( 'admin_menu', array( __CLASS__, 'hide_update_notifications' ) );
         add_filter( 'wp_get_update_data', array( __CLASS__, 'hide_update_data' ) );
+        add_filter( 'site_status_tests', array( __CLASS__, 'remove_update_check' ) );
       }
 
       /**
@@ -135,6 +136,14 @@ if ( ! class_exists('Fixes') ) {
         ),
         'title'  => '',
       );
+    }
+
+    /**
+     * Removes Site Health update check
+     */
+    public static function remove_update_check( $tests ) {
+      unset( $tests['async']['background_updates'] );
+      return $tests;
     }
 
     /**
