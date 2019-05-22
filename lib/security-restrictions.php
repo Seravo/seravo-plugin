@@ -54,6 +54,13 @@ if ( ! class_exists('Security_Restrictions') ) {
     }
 
     public static function disable_user_endpoints( $endpoints ) {
+      // Don't disable API for logged in users, otherwise e.g. the author change
+      // dropdown in Gutenberg will emit JavaScript errors and fail to render.
+      if ( is_user_logged_in() ) {
+        // Bail out without filtering anything
+        return $endpoints;
+      }
+
       // Disable listing users
       if ( isset($endpoints['/wp/v2/users']) ) {
         unset($endpoints['/wp/v2/users']);
