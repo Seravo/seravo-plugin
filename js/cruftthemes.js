@@ -27,7 +27,7 @@ jQuery(document).ready(function ($) {
       '</tr>' +
       '</tfoot>' +
       '</table>' +
-      '<button class="crufttheme-delete-button ' + section + '_delete" type="button">Delete</button>';
+      '<button class="crufttheme-delete-button ' + section + '_delete" type="button">' + seravo_cruftfiles_loc.delete + '</button>';
     $body.append(html)
     $entries = $('.' + section + '_entries');
     return $entries;

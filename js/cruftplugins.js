@@ -164,7 +164,7 @@ jQuery(document).ready(function ($) {
       '</tr>' +
       '</tfoot>' +
       '</table>' +
-      '<button class="cruftplugin-delete-button" data-status="' + status + '" type="button">Delete</button>' +
+      '<button class="cruftplugin-delete-button" data-status="' + status + '" type="button">' + seravo_cruftfiles_loc.delete + '</button>' +
       '</br>';
     $element.append(html)
   }
