@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the Seravo Plugin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.9.7\n"
+"Project-Id-Version: Seravo Plugin 1.9.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-03-19T13:14:56+02:00\n"
+"POT-Creation-Date: 2019-05-23T01:25:41+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.1.0\n"
+"X-Generator: WP-CLI 2.2.0\n"
 "X-Domain: seravo\n"
 
 #. Plugin Name of the plugin
@@ -34,407 +34,329 @@ msgstr ""
 msgid "https://seravo.com/"
 msgstr ""
 
-#: modules/optimize-images.php:34
-msgid "Optimize Images (beta)"
+#: lib/domains-dns.php:23
+msgid "Zone for: "
 msgstr ""
 
-#: modules/optimize-images.php:58
-#: modules/optimize-images.php:96
-msgid "Optimize Images"
+#: lib/domains-dns.php:23
+msgid "updated: "
 msgstr ""
 
-#: modules/optimize-images.php:62
-msgid "Maximum Image Width (px)"
+#: lib/domains-dns.php:26
+#: lib/shadows-page.php:52
+msgid "Name"
 msgstr ""
 
-#: modules/optimize-images.php:66
-msgid "Maximum Image Height (px)"
+#: lib/domains-dns.php:27
+msgid "TTL"
 msgstr ""
 
-#: modules/optimize-images.php:104
-msgid "Width"
+#: lib/domains-dns.php:29
+msgid "Type"
 msgstr ""
 
-#: modules/optimize-images.php:110
-msgid "Height"
+#: lib/domains-dns.php:30
+msgid "Value"
 msgstr ""
 
-#: modules/optimize-images.php:118
-msgid "Optimization reduces image file size. This improves the performance and browsing experience of your site."
+#. translators: %s domain of the site
+#: lib/domains-dns.php:51
+msgid "Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:"
 msgstr ""
 
-#: modules/optimize-images.php:119
-msgid "By setting the maximum image resolution, you can determine the maximum allowed dimensions for images."
+#: lib/domains-dns.php:58
+msgid "Publish"
 msgstr ""
 
-#: modules/optimize-images.php:120
-msgid "For further information, refer to our <a href=\"https://help.seravo.com/en/knowledgebase/23-managing-wordpress/docs/119-seravo-plugin-optimize-images\">knowledgebase article</a>."
+#: lib/domains-dns.php:71
+msgid "Compulsory Records"
 msgstr ""
 
-#. translators: %s numeric value for the minimum image width
-#: modules/optimize-images.php:127
-msgid "The minimum width for image optimisation is %1$s px. Setting suggested width of %2$s px."
+#: lib/domains-dns.php:72
+msgid "It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them."
 msgstr ""
 
-#. translators: %s numeric value for the minimum image height
-#: modules/optimize-images.php:138
-msgid "The minimum height for image optimisation is %1$s px. Setting suggested height of %2$s px."
+#: lib/domains-dns.php:74
+msgid "Editable records"
 msgstr ""
 
-#: modules/optimize-images.php:157
-msgid "Save"
+#: lib/domains-dns.php:75
+msgid "Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated."
 msgstr ""
 
-#: modules/cruftfiles.php:41
-msgid "Cruft Files (beta)"
+#: lib/domains-dns.php:87
+msgid "Update Zone"
 msgstr ""
 
-#: modules/cruftfiles.php:50
-msgid "Unnecessary plugins"
+#: lib/domains-dns.php:96
+msgid "The zone was updated succesfully!"
 msgstr ""
 
-#: modules/cruftfiles.php:59
-msgid "Unnecessary themes"
+#: lib/domains-dns.php:98
+msgid "The following modifications were done for the zone: "
 msgstr ""
 
-#: modules/cruftfiles.php:68
-#: modules/cruftfiles.php:69
-msgid "Cruft Files"
+#: lib/domains-dns.php:106
+msgid "The zone update failed"
 msgstr ""
 
-#: modules/cruftfiles.php:77
-msgid "Find and delete any extraneous and potentially harmful files taking up space in the file system."
+#: lib/updates-page.php:26
+#: lib/updates-page.php:30
+#: modules/updates.php:36
+msgid "Seravo Updates"
 msgstr ""
 
-#: modules/cruftfiles.php:86
-msgid "Searching for files..."
+#: lib/updates-page.php:37
+#: modules/updates.php:121
+msgid "Opt-out from updates by Seravo"
 msgstr ""
 
-#: modules/cruftfiles.php:97
-msgid "Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-lisaosat-wp-palvelu-fi-ssa\">recommendations for plugins in our environment</a>."
+#: lib/updates-page.php:57
+#: modules/updates.php:141
+msgid "The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below."
 msgstr ""
 
-#: modules/cruftfiles.php:102
-msgid "Searching for plugins..."
+#: lib/updates-page.php:62
+#: modules/updates.php:146
+msgid "Seravo updates enabled"
 msgstr ""
 
-#: modules/cruftfiles.php:113
-msgid "Find and remove themes that are inactive. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-themes-and-plugins\">documentation concerning themes and plugins</a>."
+#: lib/updates-page.php:66
+#: modules/updates.php:150
+msgid "Update Notifications with a Slack Webhook"
 msgstr ""
 
-#: modules/cruftfiles.php:118
-msgid "Searching for themes..."
+#: lib/updates-page.php:67
+#: modules/updates.php:151
+msgid "By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href=\"https://api.slack.com/incoming-webhooks\">Read more about webhooks</a>."
 msgstr ""
 
-#: modules/cruftfiles.php:191
-#: modules/tests.php:59
-#: modules/reports.php:83
-msgid "No data returned for the section."
+#: lib/updates-page.php:69
+#: modules/updates.php:153
+msgid "Send a Test Notification"
 msgstr ""
 
-#: modules/cruftfiles.php:192
-msgid "Are you sure you want to proceed? Deleted files can not be recovered."
+#: lib/updates-page.php:72
+#: modules/updates.php:156
+msgid "Technical Contacts"
 msgstr ""
 
-#: modules/cruftfiles.php:193
-#: modules/tests.php:62
-#: modules/reports.php:84
-msgid "Failed to load. Please try again."
+#: lib/updates-page.php:73
+#: modules/updates.php:157
+msgid "Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address."
 msgstr ""
 
-#: modules/cruftfiles.php:194
-msgid "Congratulations! You have do not have any unnecessary files around."
+#: lib/updates-page.php:74
+#: modules/updates.php:158
+msgid "example@example.com"
 msgstr ""
 
-#: modules/cruftfiles.php:195
-msgid "Delete"
+#: lib/updates-page.php:75
+#: modules/updates.php:159
+msgid "Add"
 msgstr ""
 
-#: modules/cruftfiles.php:196
-msgid "b"
+#: lib/updates-page.php:76
+#: modules/updates.php:160
+msgid "Email must be formatted as name@domain.com"
 msgstr ""
 
-#: modules/cruftfiles.php:197
-msgid "Last modified"
+#. translators: %1$s link to Newsletter for WordPress developers
+#: lib/updates-page.php:82
+#: modules/updates.php:166
+msgid "P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features."
 msgstr ""
 
-#: modules/cruftfiles.php:198
-msgid "Select all files"
+#: lib/updates-page.php:87
+#: modules/updates.php:171
+msgid "Save settings"
 msgstr ""
 
-#: modules/cruftfiles.php:199
-msgid "File size"
+#: lib/updates-page.php:102
+#: lib/updates-page.php:107
+#: modules/updates.php:44
+msgid "Site Status"
 msgstr ""
 
-#: modules/cruftfiles.php:204
-msgid "Inactive Plugins:"
+#: lib/updates-page.php:113
+#: modules/reports.php:186
+#: modules/updates.php:185
+msgid "Site Created"
 msgstr ""
 
-#: modules/cruftfiles.php:205
-msgid "These plugins are currently not in use. They can be removed to save disk storage space."
+#: lib/updates-page.php:114
+#: modules/updates.php:186
+msgid "Latest Successful Full Update"
 msgstr ""
 
-#: modules/cruftfiles.php:206
-msgid "Unnecessary Cache Plugins:"
+#: lib/updates-page.php:116
+#: modules/updates.php:188
+msgid "Latest Update Attempt"
 msgstr ""
 
-#: modules/cruftfiles.php:207
-msgid "Your website is running on a server that does takes care of caching automatically. Any additional plugins that do caching will not improve the service."
+#: lib/updates-page.php:124
+#: modules/updates.php:196
+msgid "Last 5 partial or attempted updates:"
 msgstr ""
 
-#: modules/cruftfiles.php:208
-msgid "Unnecessary Security Plugins:"
+#. translators: event count and updates.log and security.log paths
+#: lib/updates-page.php:137
+#: modules/updates.php:209
+msgid "For details about last %1$s update attempts by Seravo, see %2$s and %3$s."
 msgstr ""
 
-#: modules/cruftfiles.php:209
-msgid "Your website runs on a server that is designed to provide a high level of security. Any plugins providing additional security measures will likely just slow down your website."
+#: lib/updates-page.php:152
+#: lib/updates-page.php:157
+#: modules/updates.php:52
+msgid "Tests Status"
 msgstr ""
 
-#: modules/cruftfiles.php:210
-msgid "Unnecessary Database Manipulation Plugins:"
+#: lib/updates-page.php:164
+#: modules/updates.php:223
+msgid "Success!"
 msgstr ""
 
-#: modules/cruftfiles.php:211
-msgid "These plugins may cause issues with your database."
+#. translators: Link to Tests page
+#: lib/updates-page.php:166
+#: modules/updates.php:225
+msgid "Site baseline <a href=\"%s\">tests</a> have passed and updates can run normally."
 msgstr ""
 
-#: modules/cruftfiles.php:212
-msgid "Unnecessary Backup Plugins:"
+#: lib/updates-page.php:168
+#: modules/updates.php:227
+msgid "Failure!"
 msgstr ""
 
-#: modules/cruftfiles.php:213
-msgid "Backups of your website are automatically run on the server on a daily basis. Any plugins creating additional backups are redundant and will unnecessesarily fill up your data storage space."
+#. translators: Link to Tests page
+#: lib/updates-page.php:170
+#: modules/updates.php:229
+msgid "Site baseline <a href=\"%s\">tests</a> are failing and needs to be fixed before further updates are run."
 msgstr ""
 
-#: modules/cruftfiles.php:214
-msgid "Unsecure Plugins:"
+#: lib/mails-page.php:5
+#: lib/domains-page.php:10
+msgid "Sorry, you are not allowed to access domains."
 msgstr ""
 
-#: modules/cruftfiles.php:215
-msgid "These plugins have known issues with security."
+#: lib/mails-page.php:36
+msgid "Source"
 msgstr ""
 
-#: modules/cruftfiles.php:216
-msgid "All the plugins that were found are currently active and do not have any known issues."
+#: lib/mails-page.php:37
+msgid "Destinations"
 msgstr ""
 
-#: modules/cruftfiles.php:217
-msgid "The following plugins were found and are suggested to be removed:"
+#: lib/mails-page.php:146
+msgid "Fetch Forwards"
 msgstr ""
 
-#: modules/cruftfiles.php:218
-msgid "Are you sure you want to remove this plugin?"
+#: lib/mails-page.php:154
+msgid "No valid domains were found!"
 msgstr ""
 
-#: modules/cruftfiles.php:219
-msgid "Failed to remove plugin"
-msgstr ""
-
-#: modules/cruftfiles.php:224
-msgid "is parent to: "
-msgstr ""
-
-#: modules/cruftfiles.php:225
-msgid "Are you sure you want to remove this theme?"
-msgstr ""
-
-#: modules/cruftfiles.php:226
-msgid "Failed to remove theme"
-msgstr ""
-
-#: modules/cruftfiles.php:227
-msgid "There are currently no unused themes on the website."
-msgstr ""
-
-#: modules/cruftfiles.php:228
-msgid "The following themes are inactive and can be removed."
-msgstr ""
-
-#. translators: user's website url
-#: modules/check-https.php:38
-msgid "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please <a href=\"https://help.seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-website\">use HTTPS</a>."
-msgstr ""
-
-#. translators: %1$s: current php version, %2$s: recommended php version
-#: modules/check-php-version.php:51
-msgid "The PHP version %1$s currently in use is lower than the recommended %2$s. Security updates might not be available for the version in use. Please consider <a target=\"_blank\" href=\"https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version\">updating the PHP version</a>."
-msgstr ""
-
-#: modules/mails.php:25
-#: modules/mails.php:34
 #: lib/mails-page.php:172
 #: lib/mails-page.php:177
+#: modules/mails.php:25
+#: modules/mails.php:34
 msgid "Mails"
 msgstr ""
 
-#: modules/login-notification.php:54
-msgid "Site Error Count"
+#: lib/seravo-postbox.php:133
+msgid "Drag boxes here"
 msgstr ""
 
-#. translators: %1$s username of the current user %2$s datetime of last login %3$s timezone used to represent the datetime of the last login %4$s IP address of the last login
-#: modules/login-notification.php:166
-msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
+#. translators: %s: Togglable postbox title
+#: lib/seravo-postbox.php:261
+msgid "Toggle panel: %s"
 msgstr ""
 
-#. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:182
-msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
+#: lib/api.php:32
+#: lib/api.php:61
+msgid "API call failed. Aborting. The error has been logged."
 msgstr ""
 
-#: modules/tests.php:30
-msgid "Tests (new Codeception)"
+#: lib/domains-page.php:71
+msgid "View"
 msgstr ""
 
-#: modules/tests.php:38
-msgid "Tests (legacy Rspec)"
+#: lib/domains-page.php:72
+msgid "Edit"
 msgstr ""
 
-#: modules/tests.php:47
-msgid "Tests"
+#: lib/domains-page.php:74
+msgid "Primary Domain"
 msgstr ""
 
-#: modules/tests.php:60
-msgid "Tests were run without any errors!"
+#. translators:  %1$s is opening tag for a link, %2$s a closing tag.
+#: lib/domains-page.php:79
+msgid "DNS not managed by Seravo, see %1$smore details%2$s"
 msgstr ""
 
-#: modules/tests.php:61
-msgid "At least one of the tests failed."
+#: lib/domains-page.php:83
+msgid "Subdomains don't have their own zone"
 msgstr ""
 
-#: modules/tests.php:63
-msgid "Running rspec tests..."
+#: lib/domains-page.php:89
+msgid "This domain doesn't have a zone"
 msgstr ""
 
-#: modules/tests.php:79
-msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test-ng</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\"> Seravo Developer Documentation</a>."
+#: lib/domains-page.php:121
+msgid "Domain"
 msgstr ""
 
-#: modules/tests.php:82
-#: modules/tests.php:107
-msgid "Run Tests"
+#: lib/domains-page.php:122
+msgid "Expires"
 msgstr ""
 
-#: modules/tests.php:85
-msgid "Click \"Run Tests\" to run the Codeception tests"
+#: lib/domains-page.php:123
+msgid "DNS"
 msgstr ""
 
-#: modules/tests.php:91
-#: modules/tests.php:116
-msgid "Toggle Details"
+#: lib/domains-page.php:124
+msgid "Managed by"
 msgstr ""
 
-#: modules/tests.php:104
-msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test-legacy</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/integration-tests/\"> Seravo Developer Documentation</a>."
-msgstr ""
-
-#: modules/tests.php:110
-msgid "Click \"Run Tests\" to run the Rspec tests"
-msgstr ""
-
-#: modules/logs.php:68
-#: modules/logs.php:69
-#: modules/logs.php:133
-msgid "Logs"
-msgstr ""
-
-#: modules/logs.php:112
-msgid "No logs found in <code>/data/log/</code>."
-msgstr ""
-
-#: modules/logs.php:172
-msgid "Filter"
-msgstr ""
-
-#. translators: $s name of the logfile
-#: modules/logs.php:192
-msgid "File %s does not exist or we don't have permissions to read it."
-msgstr ""
-
-#: modules/logs.php:197
-msgid "Log empty"
-msgstr ""
-
-#: modules/logs.php:199
-msgid "Scroll to load more lines from the log."
-msgstr ""
-
-#. translators: $s full path of the logfile
-#: modules/logs.php:210
-msgid "Full log files can be found on the server in the path %s."
-msgstr ""
-
-#: modules/domains.php:31
 #: lib/domains-page.php:272
+#: modules/domains.php:31
 msgid "Domains"
 msgstr ""
 
-#. translators: %s cache refresh interval
-#: modules/purge-cache.php:37
-msgid "Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the front-end proxy immediately."
+#: lib/domains-page.php:274
+msgid "Domains routed to this WordPress site are listed below."
 msgstr ""
 
-#. translators: %s cache refresh interval
-#: modules/purge-cache.php:38
-msgid "Purge Cache"
+#: lib/shadows-page.php:21
+msgid "Toggle panel:"
 msgstr ""
 
-#: modules/purge-cache.php:71
-msgid "Success:"
+#: lib/shadows-page.php:22
+#: lib/shadows-page.php:28
+msgid "Shadows (beta)"
 msgstr ""
 
-#: modules/purge-cache.php:71
-msgid "The cache was flushed."
+#: lib/shadows-page.php:34
+msgid "Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href=\"https://seravo.com/docs/deployment/shadows/\">Developer documentation</a>."
 msgstr ""
 
-#: modules/purge-cache.php:75
-msgid "Error:"
+#: lib/shadows-page.php:53
+msgid "Identifier"
 msgstr ""
 
-#: modules/purge-cache.php:75
-msgid "The cache was not flushed, please check your PHP error log for details."
+#: lib/shadows-page.php:54
+msgid "SSH Port"
 msgstr ""
 
-#: modules/purge-cache.php:90
-msgid "Error: the nonce did not verify."
+#: lib/shadows-page.php:55
+msgid "Creation Date"
 msgstr ""
 
-#: modules/backups.php:36
-#: modules/backups.php:90
-msgid "Backups"
+#: lib/shadows-page.php:56
+#: lib/shadows-page.php:68
+msgid "Reset Shadow"
 msgstr ""
 
-#: modules/backups.php:44
-msgid "Create a New Backup"
-msgstr ""
-
-#: modules/backups.php:52
-msgid "Files Excluded from the Backups"
-msgstr ""
-
-#: modules/backups.php:60
-msgid "Current Backups"
-msgstr ""
-
-#: modules/backups.php:96
-msgid "Backups are automatically created every night and preserved for 30 days. The data can be accessed on the server in under <code>/data/backups</code>."
-msgstr ""
-
-#: modules/backups.php:103
-msgid "You can also create backups manually by running <code>wp-backup</code> on the command line. We recommend that you get familiar with the command line option that is accessible to you via SSH. That way recovering a backup will be possible whether the WP Admin is accessible or not."
-msgstr ""
-
-#: modules/backups.php:105
-msgid "Create a backup"
-msgstr ""
-
-#. translators: %s name of the file shown
-#: modules/backups.php:114
-msgid "Below are the contents of %s."
-msgstr ""
-
-#. translators: %s command used to list WordPress backups of the website
-#: modules/backups.php:127
-msgid "This list is produced by the command %s."
+#: lib/shadows-page.php:76
+msgid "No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href=\"mailto:wordpress@seravo.com\">wordpress@seravo.com</a>."
 msgstr ""
 
 #: modules/reports.php:34
@@ -455,6 +377,18 @@ msgstr ""
 
 #: modules/reports.php:68
 msgid "Reports"
+msgstr ""
+
+#: modules/reports.php:83
+#: modules/tests.php:59
+#: modules/cruftfiles.php:195
+msgid "No data returned for the section."
+msgstr ""
+
+#: modules/reports.php:84
+#: modules/tests.php:62
+#: modules/cruftfiles.php:197
+msgid "Failed to load. Please try again."
 msgstr ""
 
 #: modules/reports.php:85
@@ -546,12 +480,6 @@ msgstr ""
 msgid "Site Name"
 msgstr ""
 
-#: modules/reports.php:186
-#: modules/updates.php:177
-#: lib/updates-page.php:113
-msgid "Site Created"
-msgstr ""
-
 #: modules/reports.php:187
 msgid "Plan Termination"
 msgstr ""
@@ -570,6 +498,25 @@ msgstr ""
 
 #: modules/reports.php:196
 msgid "WordPress core"
+msgstr ""
+
+#. translators: %1$s: current php version, %2$s: recommended php version
+#: modules/check-php-version.php:51
+msgid "The PHP version %1$s currently in use is lower than the recommended %2$s. Security updates might not be available for the version in use. Please consider <a target=\"_blank\" href=\"https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version\">updating the PHP version</a>."
+msgstr ""
+
+#: modules/login-notification.php:54
+msgid "Site Error Count"
+msgstr ""
+
+#. translators: %1$s username of the current user %2$s datetime of last login %3$s timezone used to represent the datetime of the last login %4$s IP address of the last login
+#: modules/login-notification.php:166
+msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
+msgstr ""
+
+#. translators: %1$s number of errors in the log %2$s url for additional information
+#: modules/login-notification.php:182
+msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
 #: modules/instance-switcher.php:119
@@ -593,11 +540,6 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
-#. translators: $s user's website url
-#: modules/check-default-email.php:35
-msgid "Warning: A generic admin email was detected in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please update it."
-msgstr ""
-
 #: modules/shadows.php:32
 #: modules/shadows.php:33
 msgid "Shadows"
@@ -617,171 +559,6 @@ msgstr ""
 
 #: modules/shadows.php:53
 msgid "Are you sure? This replaces all information in the selected environment."
-msgstr ""
-
-#: modules/updates.php:36
-#: lib/updates-page.php:26
-#: lib/updates-page.php:30
-msgid "Seravo Updates"
-msgstr ""
-
-#: modules/updates.php:44
-#: lib/updates-page.php:102
-#: lib/updates-page.php:107
-msgid "Site Status"
-msgstr ""
-
-#: modules/updates.php:52
-#: lib/updates-page.php:152
-#: lib/updates-page.php:157
-msgid "Tests Status"
-msgstr ""
-
-#: modules/updates.php:60
-msgid "Change PHP Version"
-msgstr ""
-
-#: modules/updates.php:92
-msgid "Updates"
-msgstr ""
-
-#: modules/updates.php:110
-#: lib/updates-page.php:37
-msgid "Opt-out from updates by Seravo"
-msgstr ""
-
-#: modules/updates.php:130
-#: lib/updates-page.php:57
-msgid "The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below."
-msgstr ""
-
-#: modules/updates.php:135
-#: lib/updates-page.php:62
-msgid "Seravo updates enabled"
-msgstr ""
-
-#: modules/updates.php:139
-#: lib/updates-page.php:66
-msgid "Update Notifications with a Slack Webhook"
-msgstr ""
-
-#: modules/updates.php:140
-#: lib/updates-page.php:67
-msgid "By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href=\"https://api.slack.com/incoming-webhooks\">Read more about webhooks</a>."
-msgstr ""
-
-#: modules/updates.php:142
-#: lib/updates-page.php:69
-msgid "Send a Test Notification"
-msgstr ""
-
-#: modules/updates.php:145
-#: lib/updates-page.php:72
-msgid "Technical Contacts"
-msgstr ""
-
-#: modules/updates.php:146
-#: lib/updates-page.php:73
-msgid "Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address."
-msgstr ""
-
-#: modules/updates.php:147
-#: lib/updates-page.php:74
-msgid "example@example.com"
-msgstr ""
-
-#: modules/updates.php:148
-#: lib/updates-page.php:75
-msgid "Add"
-msgstr ""
-
-#: modules/updates.php:149
-#: lib/updates-page.php:76
-msgid "Email must be formatted as name@domain.com"
-msgstr ""
-
-#. translators: %1$s link to Newsletter for WordPress developers
-#: modules/updates.php:155
-#: lib/updates-page.php:82
-msgid "P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features."
-msgstr ""
-
-#: modules/updates.php:160
-#: lib/updates-page.php:87
-msgid "Save settings"
-msgstr ""
-
-#: modules/updates.php:178
-#: lib/updates-page.php:114
-msgid "Latest Successful Full Update"
-msgstr ""
-
-#: modules/updates.php:180
-#: lib/updates-page.php:116
-msgid "Latest Update Attempt"
-msgstr ""
-
-#: modules/updates.php:188
-#: lib/updates-page.php:124
-msgid "Last 5 partial or attempted updates:"
-msgstr ""
-
-#. translators: event count and updates.log and security.log paths
-#: modules/updates.php:201
-#: lib/updates-page.php:137
-msgid "For details about last %1$s update attempts by Seravo, see %2$s and %3$s."
-msgstr ""
-
-#: modules/updates.php:216
-#: lib/updates-page.php:164
-msgid "Success!"
-msgstr ""
-
-#. translators: Link to Tests page
-#: modules/updates.php:218
-#: lib/updates-page.php:166
-msgid "Site baseline <a href=\"%s\">tests</a> have passed and updates can run normally."
-msgstr ""
-
-#: modules/updates.php:220
-#: lib/updates-page.php:168
-msgid "Failure!"
-msgstr ""
-
-#. translators: Link to Tests page
-#: modules/updates.php:222
-#: lib/updates-page.php:170
-msgid "Site baseline <a href=\"%s\">tests</a> are failing and needs to be fixed before further updates are run."
-msgstr ""
-
-#. translators: link to log file
-#: modules/updates.php:234
-msgid "Latest version is recommended if all plugins and theme support it. Check <a href=\"%s\">compatibility scan results.</a>"
-msgstr ""
-
-#: modules/updates.php:284
-msgid "Change version"
-msgstr ""
-
-#: modules/updates.php:299
-#: modules/updates.php:303
-msgid "Screenshots"
-msgstr ""
-
-#: modules/updates.php:315
-msgid "The Difference"
-msgstr ""
-
-#: modules/updates.php:377
-msgid "No screenshots found. They will become available during the next attempted update."
-msgstr ""
-
-#: modules/updates.php:397
-msgid "Current State"
-msgstr ""
-
-#: modules/updates.php:398
-msgid "Update Attempt"
 msgstr ""
 
 #: modules/database.php:46
@@ -860,182 +637,476 @@ msgstr ""
 msgid "Run wp search-replace"
 msgstr ""
 
-#: lib/api.php:32
-#: lib/api.php:61
-msgid "API call failed. Aborting. The error has been logged."
+#: modules/backups.php:36
+#: modules/backups.php:92
+#: modules/backups.php:93
+msgid "Backups"
 msgstr ""
 
-#: lib/shadows-page.php:21
-msgid "Toggle panel:"
+#: modules/backups.php:44
+msgid "Create a New Backup"
 msgstr ""
 
-#: lib/shadows-page.php:22
-#: lib/shadows-page.php:28
-msgid "Shadows (beta)"
+#: modules/backups.php:52
+msgid "Files Excluded from the Backups"
 msgstr ""
 
-#: lib/shadows-page.php:34
-msgid "Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href=\"https://seravo.com/docs/deployment/shadows/\">Developer documentation</a>."
+#: modules/backups.php:60
+msgid "Current Backups"
 msgstr ""
 
-#: lib/shadows-page.php:52
-#: lib/domains-dns.php:26
-msgid "Name"
+#: modules/backups.php:103
+msgid "Backups are automatically created every night and preserved for 30 days. The data can be accessed on the server in under <code>/data/backups</code>."
 msgstr ""
 
-#: lib/shadows-page.php:53
-msgid "Identifier"
+#: modules/backups.php:110
+msgid "You can also create backups manually by running <code>wp-backup</code> on the command line. We recommend that you get familiar with the command line option that is accessible to you via SSH. That way recovering a backup will be possible whether the WP Admin is accessible or not."
 msgstr ""
 
-#: lib/shadows-page.php:54
-msgid "SSH Port"
+#: modules/backups.php:112
+msgid "Create a backup"
 msgstr ""
 
-#: lib/shadows-page.php:55
-msgid "Creation Date"
+#. translators: %s name of the file shown
+#: modules/backups.php:121
+msgid "Below are the contents of %s."
 msgstr ""
 
-#: lib/shadows-page.php:56
-#: lib/shadows-page.php:68
-msgid "Reset Shadow"
+#. translators: %s command used to list WordPress backups of the website
+#: modules/backups.php:134
+msgid "This list is produced by the command %s."
 msgstr ""
 
-#: lib/shadows-page.php:76
-msgid "No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href=\"mailto:wordpress@seravo.com\">wordpress@seravo.com</a>."
+#. translators: user's website url
+#: modules/check-https.php:38
+msgid "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please <a href=\"https://help.seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-website\">use HTTPS</a>."
 msgstr ""
 
-#: lib/seravo-postbox.php:133
-msgid "Drag boxes here"
+#: modules/updates.php:60
+msgid "Screenshots"
 msgstr ""
 
-#. translators: %s: Togglable postbox title
-#: lib/seravo-postbox.php:261
-msgid "Toggle panel: %s"
+#: modules/updates.php:68
+msgid "Change PHP Version"
 msgstr ""
 
-#: lib/domains-page.php:10
-#: lib/mails-page.php:5
-msgid "Sorry, you are not allowed to access domains."
+#: modules/updates.php:101
+#: modules/updates.php:102
+msgid "Updates"
 msgstr ""
 
-#: lib/domains-page.php:71
-msgid "View"
+#. translators: link to log file
+#: modules/updates.php:239
+msgid "Latest version is recommended if all plugins and theme support it. Check <a href=\"%s\">compatibility scan results.</a>"
 msgstr ""
 
-#: lib/domains-page.php:72
-msgid "Edit"
+#: modules/updates.php:289
+msgid "Change version"
 msgstr ""
 
-#: lib/domains-page.php:74
-msgid "Primary Domain"
+#: modules/updates.php:294
+msgid "Activating... Please wait up to 30 seconds"
 msgstr ""
 
-#. translators:  %1$s is opening tag for a link, %2$s a closing tag.
-#: lib/domains-page.php:79
-msgid "DNS not managed by Seravo, see %1$smore details%2$s"
+#. translators: link to log file
+#: modules/updates.php:301
+msgid "PHP version has been changed succesfully! Please check <a href=\"%s\">php_error.log</a> for regressions."
 msgstr ""
 
-#: lib/domains-page.php:83
-msgid "Subdomains don't have their own zone"
+#: modules/updates.php:305
+msgid "PHP version change failed. Using fallback PHP 5.6."
 msgstr ""
 
-#: lib/domains-page.php:89
-msgid "This domain doesn't have a zone"
+#: modules/updates.php:319
+msgid "The Difference"
 msgstr ""
 
-#: lib/domains-page.php:121
-msgid "Domain"
+#: modules/updates.php:380
+msgid "No screenshots found. They will become available during the next attempted update."
 msgstr ""
 
-#: lib/domains-page.php:122
-msgid "Expires"
+#: modules/updates.php:393
+msgid "Current State"
 msgstr ""
 
-#: lib/domains-page.php:123
-msgid "DNS"
+#: modules/updates.php:394
+msgid "Update Attempt"
 msgstr ""
 
-#: lib/domains-page.php:124
-msgid "Managed by"
+#. translators: $s user's website url
+#: modules/check-default-email.php:35
+msgid "Warning: A generic admin email was detected in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please update it."
 msgstr ""
 
-#: lib/domains-page.php:274
-msgid "Domains routed to this WordPress site are listed below."
+#: modules/security.php:26
+msgid "Security (beta)"
 msgstr ""
 
-#: lib/mails-page.php:36
-msgid "Source"
+#: modules/security.php:37
+#: modules/security.php:38
+msgid "Security"
 msgstr ""
 
-#: lib/mails-page.php:37
-msgid "Destinations"
+#: modules/security.php:56
+msgid "Automatic backups"
 msgstr ""
 
-#: lib/mails-page.php:146
-msgid "Fetch Forwards"
+#: modules/security.php:64
+msgid "Quick security updates"
 msgstr ""
 
-#: lib/mails-page.php:154
-msgid "No valid domains were found!"
+#: modules/security.php:72
+msgid "Monitoring of malicius code and database contents"
 msgstr ""
 
-#: lib/domains-dns.php:23
-msgid "Zone for: "
+#: modules/security.php:80
+msgid "Denial-of-service protection"
 msgstr ""
 
-#: lib/domains-dns.php:23
-msgid "updated: "
+#: modules/security.php:88
+msgid "Brute-force login protection"
 msgstr ""
 
-#: lib/domains-dns.php:27
-msgid "TTL"
+#: modules/security.php:97
+msgid "Disable XML-RPC"
 msgstr ""
 
-#: lib/domains-dns.php:29
-msgid "Type"
+#: modules/security.php:105
+msgid "Disable WP-JSON user enumeration"
 msgstr ""
 
-#: lib/domains-dns.php:30
-msgid "Value"
+#: modules/security.php:113
+msgid "Disable GET author enumeration"
 msgstr ""
 
-#. translators: %s domain of the site
-#: lib/domains-dns.php:51
-msgid "Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:"
+#: modules/security.php:125
+msgid ""
+"Seravo has security built-in. There are however a few extra measures\n"
+"        that the site owner can choose to do if their site will not miss any functionality\n"
+"        because of it."
 msgstr ""
 
-#: lib/domains-dns.php:58
-msgid "Publish"
+#: modules/security.php:153
+#: modules/optimize-images.php:157
+msgid "Save"
 msgstr ""
 
-#: lib/domains-dns.php:71
-msgid "Compulsory Records"
+#: modules/optimize-images.php:34
+msgid "Optimize Images (beta)"
 msgstr ""
 
-#: lib/domains-dns.php:72
-msgid "It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them."
+#: modules/optimize-images.php:58
+#: modules/optimize-images.php:96
+msgid "Optimize Images"
 msgstr ""
 
-#: lib/domains-dns.php:74
-msgid "Editable records"
+#: modules/optimize-images.php:62
+msgid "Maximum Image Width (px)"
 msgstr ""
 
-#: lib/domains-dns.php:75
-msgid "Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated."
+#: modules/optimize-images.php:66
+msgid "Maximum Image Height (px)"
 msgstr ""
 
-#: lib/domains-dns.php:87
-msgid "Update Zone"
+#: modules/optimize-images.php:104
+msgid "Width"
 msgstr ""
 
-#: lib/domains-dns.php:96
-msgid "The zone was updated succesfully!"
+#: modules/optimize-images.php:110
+msgid "Height"
 msgstr ""
 
-#: lib/domains-dns.php:98
-msgid "The following modifications were done for the zone: "
+#: modules/optimize-images.php:118
+msgid "Optimization reduces image file size. This improves the performance and browsing experience of your site."
 msgstr ""
 
-#: lib/domains-dns.php:106
-msgid "The zone update failed"
+#: modules/optimize-images.php:119
+msgid "By setting the maximum image resolution, you can determine the maximum allowed dimensions for images."
+msgstr ""
+
+#: modules/optimize-images.php:120
+msgid "For further information, refer to our <a href=\"https://help.seravo.com/en/knowledgebase/23-managing-wordpress/docs/119-seravo-plugin-optimize-images\">knowledgebase article</a>."
+msgstr ""
+
+#. translators: %s numeric value for the minimum image width
+#: modules/optimize-images.php:127
+msgid "The minimum width for image optimisation is %1$s px. Setting suggested width of %2$s px."
+msgstr ""
+
+#. translators: %s numeric value for the minimum image height
+#: modules/optimize-images.php:138
+msgid "The minimum height for image optimisation is %1$s px. Setting suggested height of %2$s px."
+msgstr ""
+
+#. translators: %s cache refresh interval
+#: modules/purge-cache.php:37
+msgid "Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the front-end proxy immediately."
+msgstr ""
+
+#. translators: %s cache refresh interval
+#: modules/purge-cache.php:38
+msgid "Purge Cache"
+msgstr ""
+
+#: modules/purge-cache.php:71
+msgid "Success:"
+msgstr ""
+
+#: modules/purge-cache.php:71
+msgid "The cache was flushed."
+msgstr ""
+
+#: modules/purge-cache.php:75
+msgid "Error:"
+msgstr ""
+
+#: modules/purge-cache.php:75
+msgid "The cache was not flushed, please check your PHP error log for details."
+msgstr ""
+
+#: modules/purge-cache.php:90
+msgid "Error: the nonce did not verify."
+msgstr ""
+
+#: modules/tests.php:30
+msgid "Tests (new Codeception)"
+msgstr ""
+
+#: modules/tests.php:38
+msgid "Tests (legacy Rspec)"
+msgstr ""
+
+#: modules/tests.php:47
+msgid "Tests"
+msgstr ""
+
+#: modules/tests.php:60
+msgid "Tests were run without any errors!"
+msgstr ""
+
+#: modules/tests.php:61
+msgid "At least one of the tests failed."
+msgstr ""
+
+#: modules/tests.php:63
+msgid "Running rspec tests..."
+msgstr ""
+
+#: modules/tests.php:79
+msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test-ng</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\"> Seravo Developer Documentation</a>."
+msgstr ""
+
+#: modules/tests.php:82
+#: modules/tests.php:107
+msgid "Run Tests"
+msgstr ""
+
+#: modules/tests.php:85
+msgid "Click \"Run Tests\" to run the Codeception tests"
+msgstr ""
+
+#: modules/tests.php:91
+#: modules/tests.php:116
+msgid "Toggle Details"
+msgstr ""
+
+#: modules/tests.php:104
+msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test-legacy</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/integration-tests/\"> Seravo Developer Documentation</a>."
+msgstr ""
+
+#: modules/tests.php:110
+msgid "Click \"Run Tests\" to run the Rspec tests"
+msgstr ""
+
+#: modules/logs.php:68
+#: modules/logs.php:69
+#: modules/logs.php:133
+msgid "Logs"
+msgstr ""
+
+#: modules/logs.php:112
+msgid "No logs found in <code>/data/log/</code>."
+msgstr ""
+
+#: modules/logs.php:172
+msgid "Filter"
+msgstr ""
+
+#. translators: $s name of the logfile
+#: modules/logs.php:192
+msgid "File %s does not exist or we don't have permissions to read it."
+msgstr ""
+
+#: modules/logs.php:197
+msgid "Log empty"
+msgstr ""
+
+#: modules/logs.php:199
+msgid "Scroll to load more lines from the log."
+msgstr ""
+
+#. translators: $s full path of the logfile
+#: modules/logs.php:210
+msgid "Full log files can be found on the server in the path %s."
+msgstr ""
+
+#: modules/cruftfiles.php:41
+msgid "Cruft Files (beta)"
+msgstr ""
+
+#: modules/cruftfiles.php:50
+msgid "Unnecessary plugins"
+msgstr ""
+
+#: modules/cruftfiles.php:59
+msgid "Unnecessary themes"
+msgstr ""
+
+#: modules/cruftfiles.php:68
+#: modules/cruftfiles.php:69
+msgid "Cruft Files"
+msgstr ""
+
+#: modules/cruftfiles.php:77
+msgid "Find and delete any extraneous and potentially harmful files taking up space in the file system."
+msgstr ""
+
+#: modules/cruftfiles.php:86
+msgid "Searching for files..."
+msgstr ""
+
+#: modules/cruftfiles.php:97
+msgid "Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-lisaosat-wp-palvelu-fi-ssa\">recommendations for plugins in our environment</a>."
+msgstr ""
+
+#: modules/cruftfiles.php:102
+msgid "Searching for plugins..."
+msgstr ""
+
+#: modules/cruftfiles.php:117
+msgid "Find and remove themes that are inactive. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-themes-and-plugins\">documentation concerning themes and plugins</a>."
+msgstr ""
+
+#: modules/cruftfiles.php:122
+msgid "Searching for themes..."
+msgstr ""
+
+#: modules/cruftfiles.php:196
+msgid "Are you sure you want to proceed? Deleted files can not be recovered."
+msgstr ""
+
+#: modules/cruftfiles.php:198
+msgid "Congratulations! You have do not have any unnecessary files around."
+msgstr ""
+
+#: modules/cruftfiles.php:199
+msgid "Delete"
+msgstr ""
+
+#: modules/cruftfiles.php:200
+msgid "b"
+msgstr ""
+
+#: modules/cruftfiles.php:201
+msgid "Last modified"
+msgstr ""
+
+#: modules/cruftfiles.php:202
+msgid "Select all files"
+msgstr ""
+
+#: modules/cruftfiles.php:203
+msgid "File size"
+msgstr ""
+
+#: modules/cruftfiles.php:208
+msgid "Inactive Plugins:"
+msgstr ""
+
+#: modules/cruftfiles.php:209
+msgid "These plugins are currently not in use. They can be removed to save disk storage space."
+msgstr ""
+
+#: modules/cruftfiles.php:210
+msgid "Unnecessary Cache Plugins:"
+msgstr ""
+
+#: modules/cruftfiles.php:211
+msgid "Your website is running on a server that does takes care of caching automatically. Any additional plugins that do caching will not improve the service."
+msgstr ""
+
+#: modules/cruftfiles.php:212
+msgid "Unnecessary Security Plugins:"
+msgstr ""
+
+#: modules/cruftfiles.php:213
+msgid "Your website runs on a server that is designed to provide a high level of security. Any plugins providing additional security measures will likely just slow down your website."
+msgstr ""
+
+#: modules/cruftfiles.php:214
+msgid "Unnecessary Database Manipulation Plugins:"
+msgstr ""
+
+#: modules/cruftfiles.php:215
+msgid "These plugins may cause issues with your database."
+msgstr ""
+
+#: modules/cruftfiles.php:216
+msgid "Unnecessary Backup Plugins:"
+msgstr ""
+
+#: modules/cruftfiles.php:217
+msgid "Backups of your website are automatically run on the server on a daily basis. Any plugins creating additional backups are redundant and will unnecessesarily fill up your data storage space."
+msgstr ""
+
+#: modules/cruftfiles.php:218
+msgid "Unsecure Plugins:"
+msgstr ""
+
+#: modules/cruftfiles.php:219
+msgid "These plugins have known issues with security."
+msgstr ""
+
+#: modules/cruftfiles.php:220
+msgid "Foolish Plugins:"
+msgstr ""
+
+#: modules/cruftfiles.php:221
+msgid "These plugins are known to do foolish things."
+msgstr ""
+
+#: modules/cruftfiles.php:222
+msgid "All the plugins that were found are currently active and do not have any known issues."
+msgstr ""
+
+#: modules/cruftfiles.php:223
+msgid "The following plugins were found and are suggested to be removed:"
+msgstr ""
+
+#: modules/cruftfiles.php:224
+msgid "Are you sure you want to remove this plugin?"
+msgstr ""
+
+#: modules/cruftfiles.php:225
+msgid "Failed to remove plugin"
+msgstr ""
+
+#: modules/cruftfiles.php:230
+msgid "is parent to: "
+msgstr ""
+
+#: modules/cruftfiles.php:231
+msgid "Are you sure you want to remove this theme?"
+msgstr ""
+
+#: modules/cruftfiles.php:232
+msgid "Failed to remove theme"
+msgstr ""
+
+#: modules/cruftfiles.php:233
+msgid "There are currently no unused themes on the website."
+msgstr ""
+
+#: modules/cruftfiles.php:234
+msgid "The following themes are inactive and can be removed."
 msgstr ""
