@@ -46,6 +46,30 @@ if ( ! class_exists('Security_Restrictions') ) {
         add_filter('rest_endpoints', array( __CLASS__, 'disable_user_endpoints' ), 1000);
       }
 
+      if ( get_option( 'seravo-disable-get-author-enumeration' ) ) {
+        /*
+         * When this is active any request like
+         *   curl -iL -H Pragma:no-cache https://<siteurl>/?author=7
+         * will not redirect to /author/<name>/ and thus not translate used ids
+         * to usernames, which some consider as a data leak.
+         *
+         * In the admin area this must still work otherwise user editing screens
+         * stop working.
+         */
+        if ( ! is_admin() ) {
+          add_filter(
+            'query_vars',
+            function ( $public_query_vars ) {
+              $key = array_search( 'author', $public_query_vars, true );
+              if ( false !== $key ) {
+                unset( $public_query_vars[ $key ] );
+              }
+              return $public_query_vars;
+            }
+          );
+        }
+      }
+
     }
 
     public static function disable_x_pingback( $headers ) {
