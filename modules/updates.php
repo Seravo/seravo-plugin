@@ -56,20 +56,21 @@ if ( ! class_exists('Updates') ) {
       );
 
       seravo_add_postbox(
-        'screenshots',
-        __('Screenshots', 'seravo'),
-        array( __CLASS__, 'screenshots_postbox' ),
-        'tools_page_updates_page',
-        'normal'
-      );
-
-      seravo_add_postbox(
         'change-php-version',
         __('Change PHP Version', 'seravo'),
         array( __CLASS__, 'change_php_version_postbox' ),
         'tools_page_updates_page',
-        'normal'
+        'side'
       );
+
+      seravo_add_postbox(
+        'screenshots',
+        __('Screenshots', 'seravo'),
+        array( __CLASS__, 'screenshots_postbox' ),
+        'tools_page_updates_page',
+        'side'
+      );
+
     }
 
     /**
