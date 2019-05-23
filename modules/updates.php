@@ -303,6 +303,7 @@ if ( ! class_exists('Updates') ) {
         ?>
         </p>
         <p id="activation-failed-line" class="hidden"><?php _e('PHP version change failed. Using fallback PHP 5.6.', 'seravo'); ?></p>
+      </div>
       <?php
     }
 
