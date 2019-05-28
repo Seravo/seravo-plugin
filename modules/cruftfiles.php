@@ -217,6 +217,8 @@ if ( ! class_exists('Cruftfiles') ) {
           'backup_plugins_desc'   => __( 'Backups of your website are automatically run on the server on a daily basis. Any plugins creating additional backups are redundant and will unnecessesarily fill up your data storage space.', 'seravo' ),
           'poor_security'         => __( 'Unsecure Plugins:', 'seravo' ),
           'poor_security_desc'    => __( 'These plugins have known issues with security.', 'seravo' ),
+          'foolish_plugins'       => __( 'Foolish Plugins:', 'seravo' ),
+          'foolish_plugins_desc'  => __( 'These plugins are known to do foolish things.', 'seravo' ),
           'no_cruftplugins'       => __( 'All the plugins that were found are currently active and do not have any known issues.', 'seravo' ),
           'cruftplugins'          => __( 'The following plugins were found and are suggested to be removed:', 'seravo' ),
           'confirm'               => __( 'Are you sure you want to remove this plugin?', 'seravo' ),

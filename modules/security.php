@@ -52,8 +52,24 @@ if ( ! class_exists('Security') ) {
 
       /* Dummy settings that cannot be changed */
       add_settings_field(
-        'seravo-brute-force-protection',
-        __( 'Brute-force login protection', 'seravo' ),
+        'seravo-automatic-backups',
+        __( 'Automatic backups', 'seravo' ),
+        array( __CLASS__, 'seravo_security_checked_field' ),
+        'tools_page_security_page',
+        'seravo_security_settings'
+      );
+
+      add_settings_field(
+        'seravo-security-updates',
+        __( 'Quick security updates', 'seravo' ),
+        array( __CLASS__, 'seravo_security_checked_field' ),
+        'tools_page_security_page',
+        'seravo_security_settings'
+      );
+
+      add_settings_field(
+        'seravo-malicious-code-monitoring',
+        __( 'Monitoring of malicius code and database contents', 'seravo' ),
         array( __CLASS__, 'seravo_security_checked_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -68,8 +84,8 @@ if ( ! class_exists('Security') ) {
       );
 
       add_settings_field(
-        'seravo-automatic-backups',
-        __( 'Automatic backups', 'seravo' ),
+        'seravo-brute-force-protection',
+        __( 'Brute-force login protection', 'seravo' ),
         array( __CLASS__, 'seravo_security_checked_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -92,8 +108,17 @@ if ( ! class_exists('Security') ) {
         'seravo_security_settings'
       );
 
+      add_settings_field(
+        'seravo-disable-get-author-enumeration',
+        __( 'Disable GET author enumeration', 'seravo' ),
+        array( __CLASS__, 'seravo_security_get_author_enum_field' ),
+        'tools_page_security_page',
+        'seravo_security_settings'
+      );
+
       register_setting( 'seravo_security_settings', 'seravo-disable-xml-rpc' );
       register_setting( 'seravo_security_settings', 'seravo-disable-json-user-enumeration' );
+      register_setting( 'seravo_security_settings', 'seravo-disable-get-author-enumeration' );
     }
 
     public static function security_settings_description() {
@@ -114,6 +139,10 @@ if ( ! class_exists('Security') ) {
 
     public static function seravo_security_json_user_enum_field() {
       echo '<input type="checkbox" name="seravo-disable-json-user-enumeration" id="disable-json-user-enumaration" ' . checked( 'on', get_option( 'seravo-disable-json-user-enumeration' ), false ) . '>';
+    }
+
+    public static function seravo_security_get_author_enum_field() {
+      echo '<input type="checkbox" name="seravo-disable-get-author-enumeration" id="disable-get-author-enumeration" ' . checked( 'on', get_option( 'seravo-disable-get-author-enumeration' ), false ) . '>';
     }
 
     public static function security_info_postbox() {
