@@ -19,7 +19,7 @@ if ( ! class_exists('Seravotest_User_Login') ) {
 
       // Check for permission to enter only if flag is set
       if ( isset($_GET['seravotest-auth-bypass']) ) {
-        add_action( 'login_form', array( __CLASS__, 'attempt_login' ), 10, 2 );
+        add_action( 'login_init', array( __CLASS__, 'attempt_login' ), 10, 2 );
       }
 
     }
