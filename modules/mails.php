@@ -31,11 +31,14 @@ if ( ! class_exists('Mails') ) {
     }
 
     public static function register_mails_page() {
-      add_submenu_page( 'tools.php', __('Mails', 'seravo'), __('Mails', 'seravo'), 'manage_options', 'mails_page', array( __CLASS__, 'load_mails_page' ), 'Seravo\seravo_postboxes_page' );
-    }
-
-    public static function load_mails_page() {
-      require_once dirname( __FILE__ ) . '/../lib/mails-page.php';
+      add_submenu_page(
+        'tools.php',
+        __('Mails', 'seravo'),
+        __('Mails', 'seravo'),
+        'manage_options',
+        'mails_page',
+        'Seravo\seravo_postboxes_page'
+      );
     }
 
     /**
@@ -53,6 +56,27 @@ if ( ! class_exists('Mails') ) {
         wp_enqueue_style( 'mails_page' );
         wp_enqueue_script( 'mails_page' );
       }
+    }
+
+    public static function mails_postbox() {
+      require_once dirname( __FILE__ ) . '/../lib/mails-page.php';
+
+      ?>
+      <div class="mails-postbox">
+        <form action="#" method="get" style="width: 100%; margin-bottom: 10px;">
+          <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>"/>
+          <?php list_domains(); ?>
+        </form>
+        <form>
+          <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>"/>
+          <?php
+          if ( ! empty ( $_GET['domain'] ) ) {
+            display_forwards_table();
+          }
+          ?>
+        </form>
+      </div>
+      <?php
     }
 
   }
