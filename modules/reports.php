@@ -62,6 +62,14 @@ if ( ! class_exists('Reports') ) {
         'tools_page_reports_page',
         'normal'
       );
+
+       seravo_add_postbox(
+        'data-integrity',
+        __('Data Integrity', 'seravo'),
+        array( __CLASS__, 'seravo_data_integrity' ),
+        'tools_page_reports_page',
+        'normal'
+      );
     }
 
     public static function register_reports_page() {
