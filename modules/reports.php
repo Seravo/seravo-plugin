@@ -62,14 +62,6 @@ if ( ! class_exists('Reports') ) {
         'tools_page_reports_page',
         'normal'
       );
-
-       seravo_add_postbox(
-        'data-integrity',
-        __('Data Integrity', 'seravo'),
-        array( __CLASS__, 'seravo_data_integrity' ),
-        'tools_page_reports_page',
-        'normal'
-      );
     }
 
     public static function register_reports_page() {
@@ -158,8 +150,7 @@ if ( ! class_exists('Reports') ) {
 
     public static function seravo_site_info() {
       if ( ! Helpers::is_production() ) {
-        _e('This feature is available only on live production sites.', 'seravo');
-        return;
+        __('This feature is available only on live production sites.', 'seravo');
       }
 
       $site_info = Updates::seravo_admin_get_site_info();
@@ -191,10 +182,13 @@ if ( ! class_exists('Reports') ) {
         }
       }
 
+      // Nested arrays need to be checked seperately
+      $country = ! empty($site_info['country']) ? $countries[ $site_info['country'] ] : '';
+
       print_item( $site_info['name'], __('Site Name', 'seravo') );
       print_item( date('Y-m-d', strtotime($site_info['created'])), __('Site Created', 'seravo') );
       print_item( date('Y-m-d', strtotime($site_info['termination'])), __('Plan Termination', 'seravo') );
-      print_item( $countries[ $site_info['country'] ], __('Site Location', 'seravo') );
+      print_item( $country, __('Site Location', 'seravo') );
       print_item( $plans[ $site_info['plan']['type'] ], __('Plan Type', 'seravo') );
       print_item( htmlentities($site_info['account_manager']), __('Account Manager', 'seravo') );
     }
