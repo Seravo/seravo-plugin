@@ -155,42 +155,14 @@ function list_domains() {
   }
 }
 
-// Create an instance of mail forwards class
-$forwards_table = new Seravo_Mails_Forward_Table();
-// Fetch, prepare and sort our data...
-$forwards_table->prepare_items();
+/**
+ * Display mail forwards table
+ */
+function display_forwards_table() {
+  // Create an instance of mail forwards class
+  $forwards_table = new Seravo_Mails_Forward_Table();
+  // Fetch, prepare and sort our data...
+  $forwards_table->prepare_items();
 
-?>
-
-<!-- Postbox wrapper -->
-<div id="dashboard-widgets" class="metabox-holder">
-  <div class="postbox-container">
-    <div id="normal-sortables" class="meta-box-sortables ui-sortable">
-      <div class="postbox">
-        <!-- Handle for toggling postbox panel -->
-        <button class="handlediv button-link" type="button" aria-expanded="true">
-          <span class="screen-reader-text">Toggle panel: <?php _e('Mails', 'seravo'); ?></span>
-          <span class="toggle-indicator" aria-hidden="true"></span>
-        </button>
-        <!-- Postbox title -->
-        <h2 class="handle ui-sortable-handle">
-          <span><?php _e('Mails', 'seravo'); ?> (beta)</span>
-        </h2>
-        <div class="inside seravo-mails-postbox">
-          <form action="#" method="get" style="width: 100%; margin-bottom: 10px;">
-            <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>"/>
-            <?php list_domains(); ?>
-          </form>
-          <form>
-            <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>"/>
-            <?php
-            if ( ! empty ( $_GET['domain'] ) ) {
-              $forwards_table->display();
-            }
-            ?>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  $forwards_table->display();
+}
