@@ -186,7 +186,7 @@ if ( ! class_exists('Database') ) {
       <?php if ( exec( 'which wp' ) && apply_filters('seravo_search_replace', true) ) : ?>
         <p> <?php _e('You can use this tool to run <code>wp search-replace</code>. For safety reason a dry run is compulsory before the actual search-replace can be done.', 'seravo'); ?></p>
         <div class="sr-navbar">
-          <span class="label_buttons"><label class="from_label" for="sr-from"><?php _e('From:', 'seravo'); ?></label> <input type="text" id="sr-from" value=""></span>
+          <span class="label_buttons"><label class="from_label" for="sr-from"><?php _e('From:', 'seravo'); ?></label> <input type="text" id="sr-from" value=""></span><br>
           <span class="label_buttons to_button"><label class="to_label" for="sr-to"><?php _e('To:', 'seravo'); ?></label> <input type="text" id="sr-to" value=""></span>
           <!-- To add new arbitrary option put it below. Use class optionbox
               Custom options will be overriden upon update -->
