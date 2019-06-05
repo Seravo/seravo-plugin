@@ -281,7 +281,7 @@ if ( ! class_exists('Updates') ) {
           ?>
           <input type='radio' name="php-version"
           <?php
-          if ( $php['disabled'] ) {
+          if ( isset( $php['disabled'] ) && $php['disabled'] ) {
             echo 'disabled';
           };
           ?>
