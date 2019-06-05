@@ -158,7 +158,8 @@ if ( ! class_exists('Reports') ) {
 
     public static function seravo_site_info() {
       if ( ! Helpers::is_production() ) {
-        __('This feature is available only on live production sites.', 'seravo');
+        _e('This feature is available only on live production sites.', 'seravo');
+        return;
       }
 
       $site_info = Updates::seravo_admin_get_site_info();
