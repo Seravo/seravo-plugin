@@ -33,14 +33,6 @@ if ( ! class_exists('Tests') ) {
         'normal'
       );
 
-      seravo_add_postbox(
-        'tests-legacy',
-        __('Tests (legacy Rspec)', 'seravo'),
-        array( __CLASS__, 'tests_postbox_legacy' ),
-        'tools_page_tests_page',
-        'normal'
-      );
-
     }
 
     public static function register_tests_page() {
@@ -90,31 +82,6 @@ if ( ! class_exists('Tests') ) {
         <div id="seravo_test_show_more_wrapper" class="hidden">
           <a href="" id="seravo_test_show_more"><?php _e('Toggle Details', 'seravo'); ?>
             <div class="dashicons dashicons-arrow-down-alt2" id="seravo_arrow_show_more">
-            </div>
-          </a>
-        </div>
-      </div>
-      <?php
-    }
-
-    public static function tests_postbox_legacy() {
-      ?>
-      <p>
-        <?php
-        _e('Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test-legacy</code> there. For further information, please refer to <a href="https://seravo.com/docs/tests/integration-tests/"> Seravo Developer Documentation</a>.', 'seravo');
-        ?>
-      </p>
-      <button type="button" class="button-primary" id="run-wp-tests-legacy"><?php _e('Run Tests', 'seravo'); ?></button>
-      <div class="seravo-test-legacy-result-wrapper">
-        <div class="seravo-test-legacy-status" id="seravo_tests_legacy_status">
-          <?php _e('Click "Run Tests" to run the Rspec tests', 'seravo'); ?>
-        </div>
-        <div class="seravo-test-legacy-result">
-          <pre id="seravo_tests_legacy"></pre>
-        </div>
-        <div id="seravo_test_legacy_show_more_wrapper" class="hidden">
-          <a href="" id="seravo_test_legacy_show_more"><?php _e('Toggle Details', 'seravo'); ?>
-            <div class="dashicons dashicons-arrow-down-alt2" id="seravo_legacy_arrow_show_more">
             </div>
           </a>
         </div>
