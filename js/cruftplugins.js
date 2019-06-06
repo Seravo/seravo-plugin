@@ -152,7 +152,7 @@ jQuery(document).ready(function ($) {
       '<thead>' +
       '<tr>' +
       '<td><input class="cruftplugin-select-all_' + status + '" type="checkbox"></td>' +
-      '<td class="cruft-tool-selector cruft-plugin-td"><b>Select all files</b></td>' +
+      '<td class="cruft-tool-selector cruft-plugin-td"><b>' + seravo_cruftfiles_loc.select_all + '</b></td>' +
       '</tr>' +
       '</thead>' +
       '<tbody class="cruftplugins_entries_' + status + '">' +
@@ -160,7 +160,7 @@ jQuery(document).ready(function ($) {
       '<tfoot class="cruftplugins_less-than_' + status + '" style="display: none;">' +
       '<tr>' +
       '<td><input class="cruftplugin-select-all_' + status + '" type="checkbox"></td>' +
-      '<td class="cruft-tool-selector cruft-plugin-td"><b>Select all files</b></td>' +
+      '<td class="cruft-tool-selector cruft-plugin-td"><b>' + seravo_cruftfiles_loc.select_all + '</b></td>' +
       '</tr>' +
       '</tfoot>' +
       '</table>' +
