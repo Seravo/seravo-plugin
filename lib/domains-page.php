@@ -4,14 +4,6 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! current_user_can( 'level_10' ) ) {
-  wp_die(
-    '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>
-    <p>' . __( 'Sorry, you are not allowed to access domains.', 'seravo' ) . '</p>',
-    403
-  );
-}
-
 if ( ! class_exists( 'Seravo_Domains_DNS_Table' ) ) {
   require_once dirname( __FILE__ ) . '/domains-dns.php';
 }

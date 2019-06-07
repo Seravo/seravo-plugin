@@ -237,14 +237,14 @@ class Loader {
       /*
        * Mails page for Seravo customers
        */
-      if ( apply_filters('seravo_show_mails_page', true) && getenv('CONTAINER') ) {
+      if ( apply_filters('seravo_show_mails_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
         require_once dirname( __FILE__ ) . '/modules/mails.php';
       }
 
       /*
        * Allow Seravo customers to manage their domains
        */
-      if ( apply_filters('seravo_show_domains_page', true) && getenv('CONTAINER') ) {
+      if ( apply_filters('seravo_show_domains_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
         require_once dirname( __FILE__ ) . '/modules/domains.php';
       }
 

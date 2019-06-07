@@ -1,10 +1,7 @@
 <?php
-if ( ! current_user_can( 'level_10' ) ) {
-  wp_die(
-     '<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-     '<p>' . __( 'Sorry, you are not allowed to access domains.', 'seravo' ) . '</p>',
-     403
-  );
+// Deny direct access to this file
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
 }
 
 if ( ! class_exists('WP_List_Table') ) {
