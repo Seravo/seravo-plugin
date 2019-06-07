@@ -234,13 +234,22 @@ if ( ! class_exists('Updates') ) {
     public static function change_php_version_postbox() {
       ?>
       <p>
-      <?php
-      sprintf(
-        // translators: link to log file
-        __('Latest version is recommended if all plugins and theme support it. Check <a href="%s">compatibility scan results.</a>', 'seravo'),
-        'tools.php?page=logs_page&logfile=wp-php-compatibility.log'
-      );
-      ?>
+        <?php
+        printf(
+          // translators: link to log file
+          __('Latest version is recommended if all plugins and theme support it. Check <a href="%s">compatibility scan results.</a>', 'seravo'),
+          'tools.php?page=logs_page&logfile=wp-php-compatibility.log'
+        );
+        ?>
+      </p>
+      <p>
+        <?php
+        printf(
+          // translators: %1$s: current php version, %2$s: recommended php version
+          __('See also <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo'),
+          $recommended_version
+        );
+        ?>
       </p>
 
       <div id="seravo-php-version">
@@ -253,7 +262,7 @@ if ( ! class_exists('Updates') ) {
           ),
           '7.0' => array(
             'value'    => '7.0',
-            'name'     => 'PHP 7.0 (EOL 3.12.2018)',
+            'name'     => 'PHP 7.0 (EOL 31.12.2018)',
             'disabled' => true,
           ),
           '7.2' => array(

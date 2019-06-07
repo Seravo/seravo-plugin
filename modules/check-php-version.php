@@ -1,8 +1,7 @@
 <?php
 /**
  * Plugin name: Seravo Check PHP version
- * Description: Checks that the PHP version is supported. If the version is lower than recommended,
- * it displays a warning on the dashboard.
+ * Description: Encourage site admins to upgrade the PHP version.
  */
 
 namespace Seravo;
@@ -26,33 +25,40 @@ if ( ! class_exists('CheckPHPVersion') ) {
 
     public static function _seravo_check_php_version() {
 
+      // Show only on main dashboard once directly after login so it
+      // will not clutter too much.
+      if ( strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') === false ) {
+        return false;
+      }
+
       // Get the php version and check if it is supported, if not, show a warning
 
-      $recommended_version = '7.2';
+      $recommended_version = '7.3';
 
       if ( version_compare( PHP_VERSION, $recommended_version, '<' ) ) {
 
-        self::_seravo_show_php_warning( $recommended_version );
+        self::_seravo_show_php_recommendation( $recommended_version );
 
       }
 
     }
 
-    public static function _seravo_show_php_warning( $recommended_version ) {
+    public static function _seravo_show_php_recommendation( $recommended_version ) {
 
       ?>
-      <div class="notice notice-error">
+      <div class="notice notice-info">
+      <p>
       <?php
 
       // The line below is very long, but PHPCS standards requires translation
       // strings to be one one line
       printf(
         // translators: %1$s: current php version, %2$s: recommended php version
-        __('The PHP version %1$s currently in use is lower than the recommended %2$s. Security updates might not be available for the version in use. Please consider <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">updating the PHP version</a>.', 'seravo'),
-        PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, $recommended_version
+        __('PHP %s is available but not used on this site. Developers might want to <a href="tools.php?page=updates_page">upgrade the latest PHP version</a> for faster performance and new features. Read more about <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">PHP version upgrades</a>.', 'seravo'),
+        $recommended_version
       );
-
       ?>
+      </p>
       </div>
       <?php
 
