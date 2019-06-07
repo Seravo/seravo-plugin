@@ -27,6 +27,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
         'ajax'     => false,
       )
     );
+
   }
 
   public function column_default( $item, $column_name ) {
@@ -61,7 +62,9 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     $action_request = '<a href="?page=' . $page . '&domain=' . $item['domain'] . $paged_str . '&action=%s">%s</a>';
 
     $actions['view'] = sprintf( $action_request, 'view', __( 'View', 'seravo' ) );
-    $actions['edit'] = sprintf( $action_request, 'edit', __( 'Edit', 'seravo' ) );
+    if ( get_option( 'seravo-domain-edit' ) !== 'disabled' ) {
+      $actions['edit'] = sprintf( $action_request, 'edit', __( 'Edit', 'seravo' ) );
+    }
 
     $primary_str = ! empty( $item['primary'] ) ? ' — ' . __( 'Primary Domain', 'seravo' ) : '';
 
