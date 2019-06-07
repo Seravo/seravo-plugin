@@ -35,7 +35,7 @@ jQuery(document).ready(function ($) {
 
   function appendLine($element, theme, isChild) {
     var html =
-    '<tr class="crufttheme" data-plugin-name="' + theme.name + '" data-active="' + theme.active + '" data-childs="' + (theme.childs ? 'true' : 'false') + '"  data-is-child="' + (isChild ? 'true' : 'false') + '">';
+    '<tr class="crufttheme" data-plugin-name="' + theme.name + '" data-active="' + ( theme.active && ! theme.childs ) + '" data-childs="' + (theme.childs ? 'true' : 'false') + '"  data-is-child="' + (isChild ? 'true' : 'false') + '">';
       html += '<td class="crufttheme-delete">' +
       '<input data-plugin-name="' + theme.name + '" class="crufttheme-check" type="checkbox">' +
       '</td>';
@@ -45,8 +45,11 @@ jQuery(document).ready(function ($) {
     // Apply childs
     if (theme.childs) {
       theme.childs.forEach(function (child) {
-        appendLine($element, child, true)
+        if ( ! child.active ) {
+          appendLine($element, child, true)
+        }
       })
+      $element.append('<tr><td style="padding: 5px 0 0 0;"></td></tr>');
     }
   }
 
@@ -111,8 +114,10 @@ jQuery(document).ready(function ($) {
       var parsedArray = [];
       data.forEach(function (theme) {
         if ( ! theme.parent.length) {
-          parsedArray[theme.name] = {}
-          Object.assign(parsedArray[theme.name], theme)
+          if (parsedArray[theme.name] == undefined) {
+            parsedArray[theme.name] = {}
+          }
+          parsedArray[theme.name] = Object.assign({}, parsedArray[theme.name], theme);
         } else {
           // Create array if not yet created'
           if ( ! parsedArray[theme.parent]) {
