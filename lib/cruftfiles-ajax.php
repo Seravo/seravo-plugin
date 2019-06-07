@@ -104,6 +104,7 @@ function seravo_ajax_list_cruft_files() {
         '/data/wordpress/htdocs/wp-content/plugins',
         '/data/wordpress/htdocs/wp-content/mu-plugins',
         '/data/wordpress/htdocs/wp-content/themes',
+        '/data/wordpress/node_modules',
       );
       $white_list_files = array(
         '/data/wordpress/vagrant-base.sql',
