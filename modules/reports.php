@@ -176,21 +176,37 @@ if ( ! class_exists('Reports') ) {
         'anywhere' => __('No preference', 'seravo'),
       );
 
+      $contact_emails = array();
+      if ( isset($site_info['contact_emails']) ) {
+        $contact_emails = $site_info['contact_emails'];
+      }
+
       function print_item( $value, $description ) {
-        if ( ! empty($value) && '1970-01-01' != $value ) {
-          echo '<p>' . $description . ': ' . $value . '</p>';
+        if ( is_array( $value ) ) {
+          echo '<p>' . $description . ': ';
+          $mails = implode(", ", $value);
+          echo $mails . '</p>';
+        } elseif ( ! empty($value) && '1970-01-01' != $value ) {
+            echo '<p>' . $description . ': ' . $value . '</p>';
         }
       }
 
       // Nested arrays need to be checked seperately
       $country = ! empty($site_info['country']) ? $countries[ $site_info['country'] ] : '';
-
+      
       print_item( $site_info['name'], __('Site Name', 'seravo') );
       print_item( date('Y-m-d', strtotime($site_info['created'])), __('Site Created', 'seravo') );
       print_item( date('Y-m-d', strtotime($site_info['termination'])), __('Plan Termination', 'seravo') );
       print_item( $country, __('Site Location', 'seravo') );
       print_item( $plans[ $site_info['plan']['type'] ], __('Plan Type', 'seravo') );
-      print_item( htmlentities($site_info['account_manager']), __('Account Manager', 'seravo') );
+
+      if ( isset($site_info['account_manager']) ) {
+        print_item( htmlentities($site_info['account_manager']), __('Account Manager', 'seravo') );
+      } else {
+        echo '<p>' . __('No Account Manager found. Account Manager is only included in Seravo Enterprise plans.', 'seravo') . '</p>';
+      }
+
+      print_item( $contact_emails, __('<a href="tools.php?page=updates_page">Technical Contacts</a>', 'seravo') );
     }
 
     public static function seravo_data_integrity() {
