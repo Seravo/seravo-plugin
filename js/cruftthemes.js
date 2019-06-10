@@ -72,14 +72,14 @@ jQuery(document).ready(function ($) {
           if ( data ) {
             $('table#' + section).remove();
             $('.' + section + '_delete').remove();
-            // Clear entries
-            $entries = null;
-            getData();
           } else {
             confirm(seravo_cruftthemes_loc.failure);
           }
         });
       })
+      // Clear entries
+      $entries = null;
+      getData();
       // Create triggers
       createOnClick();
     })
