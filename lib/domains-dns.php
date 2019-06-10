@@ -50,13 +50,20 @@ class Seravo_Domains_DNS_Table {
 
     if ( ! $error && $this->records['pending_activation'] ) {
       echo '<hr>';
-      // translators: %s domain of the site
-      echo '<p style="max-width:50%;">' . wp_sprintf( __( 'Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:', 'seravo'), $this->records['name'] ) . '</p>';
-      wp_nonce_field( 'seravo-zone-nonce' );
       echo '<input type="hidden" name="action" value="change_zone_file">';
       echo '<input type="hidden" name="domain" value="' . $this->records['name'] . '">';
+      echo '<table>';
+      echo '<tr><td style="padding-bottom: 0px;">';
+      // translators: %s domain of the site
+      echo '<p style="max-width:50%;">' . wp_sprintf( __( 'Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:', 'seravo'), $this->records['name'] ) . '</p>';
+      echo '</td></tr>';
+      echo '<tr><td>';
       echo '<textarea type="hidden" name="zonefile" style="display: none; font-family: monospace;">' . ( $this->compulsory_as_string() . "\n" . $this->editable_as_string() ) . '</textarea>';
-      echo '<input style="margin-bottom:8px;" type="submit" value="' . __( 'Publish', 'seravo' ) . '"" formaction="' . esc_url( admin_url( 'admin-post.php' ) ) . '" formmethod="post" >';
+      echo '<div id="zone-edit-response"></div/>';
+      echo '<button id="publish-zone-btn" class="button"' . ( $error ? ' disabled' : '' ) . '>' . __( 'Publish', 'seravo' ) . '</button>';
+      echo '<div id="zone-update-spinner" style="margin: 4px 10px 0 0"></div>';
+      echo '</td></tr>';
+      echo '</table>';
       echo '<hr>';
     } else {
 
