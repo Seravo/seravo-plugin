@@ -18,7 +18,14 @@ function seravo_change_php_version() {
 
   if ( array_key_exists($php_version, $php_version_array) ) {
     file_put_contents( '/data/wordpress/nginx/php.conf', 'set $mode php' . $php_version_array[ $php_version ] . ';' . PHP_EOL);
-    exec('wp-restart-nginx && wp-purge-cache 2>&1');
+    // NOTE! The exec below must end with '&' so that subprocess is sent to the
+    // background and the rest of the PHP execution continues. Otherwise the Nginx
+    // restart will kill this PHP file, and when this PHP files dies, the Nginx
+    // restart will not complete, leaving the server state broken so it can only
+    // recover if wp-restart-nginx is run manually.
+    exec('echo "--> Setting to mode ' . $php_version_array[ $php_version ] .
+         '" >> /data/log/php-version-change.log');
+    exec('wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &');
   }
 }
 

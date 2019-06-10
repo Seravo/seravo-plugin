@@ -296,10 +296,10 @@ if ( ! class_exists('Updates') ) {
         }
         ?>
         <br>
-        <button id='change-version-button'><?php _e('Change version', 'seravo'); ?></button>
+        <button id='change-php-version-button'><?php _e('Change version', 'seravo'); ?></button>
         <br>
       </div>
-      <div id="version-change-status" class="hidden">
+      <div id="change-php-version-status" class="hidden">
         <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
         <?php _e('Activating... Please wait up to 30 seconds', 'seravo'); ?>
       </div>

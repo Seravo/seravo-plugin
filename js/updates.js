@@ -132,8 +132,8 @@ jQuery(document).ready(function($) {
     $buttonsDiv.html(generateButtons(emails));
   });
 
-  jQuery('#change-version-button').click(function() {
-    jQuery("#version-change-status").fadeOut(400, function() {
+  jQuery('#change-php-version-button').click(function() {
+    jQuery("#change-php-version-status").fadeOut(400, function() {
       jQuery(this).show();
     });
     jQuery("#activated-line").hide();
@@ -163,7 +163,7 @@ jQuery(document).ready(function($) {
           'nonce': seravo_updates_loc.ajax_nonce,
           'version': php_version
       }, function(success) {
-        jQuery("#version-change-status").fadeOut(400, function() {
+        jQuery("#change-php-version-status").fadeOut(400, function() {
           if (success) {
             jQuery("#activated-line").fadeIn(400, function() {
               jQuery(this).show();
@@ -179,7 +179,7 @@ jQuery(document).ready(function($) {
           $(this).show();
         });
       });
-    }, 30000);
+    }, 5000);
   }
 });
 
