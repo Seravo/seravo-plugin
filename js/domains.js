@@ -3,8 +3,9 @@
 jQuery(document).ready(function($) {
 
   var update_zone_button = jQuery('#update-zone-btn');
+  var publish_zone_button = jQuery('#publish-zone-btn');
 
-  update_zone_button.click(function (event) {
+  update_zone_button.add(publish_zone_button).click(function (event) {
 
     event.preventDefault();
 
@@ -26,7 +27,6 @@ jQuery(document).ready(function($) {
     },
 
     function (rawData) {
-
       if (rawData == 0) {
         // If eg. AJAX callback not found
         response_div.html('<p><b>No data returned for the update request.</b></p>');
@@ -40,6 +40,11 @@ jQuery(document).ready(function($) {
           response_div.html("<p><b>" + seravo_domains_loc.zone_update_failed + ":</b></p><p>" + response['reason'] + "</p>");
 
         } else {
+
+          // If the domain was published, reload the page
+          if (publish_zone_button.length) {
+            location.reload();
+          }
 
           var response_html = "<p><b>" + seravo_domains_loc.zone_update_success + "</b></p>";
           // Add modifications to response_html as an ordered list
