@@ -34,7 +34,7 @@ if ( ! class_exists('Reports') ) {
         __('HTTP Request Statistics', 'seravo'),
         array( __CLASS__, 'seravo_http_request_statistics' ),
         'tools_page_reports_page',
-        'side'
+        'normal'
       );
 
       // Add disk usage postbox
@@ -184,7 +184,7 @@ if ( ! class_exists('Reports') ) {
       function print_item( $value, $description ) {
         if ( is_array( $value ) ) {
           echo '<p>' . $description . ': ';
-          $mails = implode(", ", $value);
+          $mails = implode(', ', $value);
           echo $mails . '</p>';
         } elseif ( ! empty($value) && '1970-01-01' != $value ) {
             echo '<p>' . $description . ': ' . $value . '</p>';

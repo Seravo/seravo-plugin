@@ -180,10 +180,62 @@ if ( ! class_exists('Updates') ) {
     public static function site_status_postbox() {
 
       $site_info = self::seravo_admin_get_site_info();
+      // Calculate the approx. amount of days since last succesful FULL update
+      // 86400 is used to get days out of seconds (60*60*24)
+      $interval = round( ( strtotime(date('Y-m-d')) - strtotime($site_info['update_success']) ) / 86400 );
+
+      // Check if update.log exists and if not fetch the name of the rotated log instead
+      // for linking to correct log on the logs page as well as fetching the failed lines
+      // from the log if needed in the update notification
+      $update_logs_arr = glob( '/data/log/update.log' );
+      if ( empty( $update_logs_arr ) ) {
+        $update_logs_arr = preg_grep( '/([0-9]){8}$/', glob( '/data/log/update.log-*' ) );
+      }
+      $update_log_name = substr( end( $update_logs_arr ), 10 );
+
       ?>
       <?php if ( gettype($site_info) === 'array' ) : ?>
       <ul>
         <li><?php _e('Site Created', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['created'])); ?></li>
+
+        <?php
+
+        // Show notification if FULL site update hasn't been succesful in 30 or more days
+        // and the site is using Seravo updates
+        if ( $site_info['seravo_updates'] === true && $interval >= 30 ) {
+          if ( empty( $update_logs_arr ) ) {
+            echo '<p>' . __('Unable to fetch the latest update log.', 'seravo') . '</p>';
+          } else {
+            // Get last item from logs array
+            $update_log_fp = fopen( end( $update_logs_arr ), 'r' );
+            if ( $update_log_fp != false ) {
+              $index = 0;
+              while ( ! feof( $update_log_fp ) ) {
+                // Strip timestamps from log lines
+                // Show only lines with 'Updates failed!'
+                $buffer = substr( fgets( $update_log_fp ), 28 );
+                if ( substr( $buffer, 0, 15 ) === 'Updates failed!' ) {
+                  $update_log_contents[ $index ] = $buffer;
+                  $index++;
+                }
+              }
+            }
+            fclose( $update_log_fp );
+            $update_log_output = implode( '<br>', $update_log_contents );
+          }
+
+          echo '<p>' .
+              __('Last succesful full site update was over a month ago. A developer should take
+              a look at the update log and fix the issue preventing the site from updating.', 'seravo') .
+              '</p><p><b>' . __('Latest update.log:', 'seravo') . '</b></p><p>' .
+              $update_log_output . '</p>' .
+              '<p><a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">See the logs page for more info.</a></p>';
+        }
+      } elseif ( $site_info['seravo_updates'] === false ){
+        echo '<p>' . __('Seravo updates are disabled. Enable at <a href="tools.php?page=updates_page">Updates page</a>', 'seravo') . '</p>';
+      }
+         ?>
+        
         <li><?php _e('Latest Successful Full Update', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_success'])); ?></li>
         <?php if ( ! empty( $site_info['update_attempt'] ) ) { ?>
         <li><?php _e('Latest Update Attempt', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_attempt'])); ?></li>
@@ -206,11 +258,12 @@ if ( ! class_exists('Updates') ) {
       <p>
         <?php
         printf(
-          // translators: event count and updates.log and security.log paths
-          __('For details about last %1$s update attempts by Seravo, see %2$s and %3$s.', 'seravo'),
+          // translators: event count and update.log filename and updates.log and security.log paths
+          __('For details about last %1$s update attempts by Seravo, see %2$s
+           and %3$s', 'seravo'),
           count($output),
-          '<code>/data/log/update.log*</code>',
-          '<code>/data/log/security.log*</code>'
+          '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>/data/log/update.log*</code><a/>',
+          '<a href="tools.php?page=logs_page&logfile=security.log&max_num_of_rows=50"><code>/data/log/security.log*</code>.</a>'
         );
         ?>
       </p>
