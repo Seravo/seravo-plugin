@@ -200,6 +200,13 @@ class Loader {
     }
 
     /*
+     * Optimize images on upload. Only logged in users make uploads.
+     */
+    if ( is_user_logged_in() ) {
+      require_once dirname( __FILE__ ) . '/modules/optimize-on-upload.php';
+    }
+
+    /*
      * Hide some functionality in multisites from normal admins
      */
     if ( ! is_multisite() || current_user_can( 'manage_network' ) ) {
