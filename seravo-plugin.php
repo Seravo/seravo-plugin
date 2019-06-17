@@ -128,6 +128,8 @@ class Loader {
 
   public static function load_all_modules() {
 
+    require_once dirname( __FILE__ ) . '/modules/carinbot-widget.php';
+
     /*
      * Helpers for hiding useless notifications and small fixes in logging
      */
@@ -244,6 +246,13 @@ class Loader {
        */
       if ( apply_filters('seravo_show_mails_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
         require_once dirname( __FILE__ ) . '/modules/mails.php';
+      }
+
+      /*
+       * Allow Seravo customers to manage their domains
+       */
+      if ( apply_filters('seravo_show_domains_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
+        require_once dirname( __FILE__ ) . '/modules/domains.php';
       }
 
       /*
