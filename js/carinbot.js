@@ -1,31 +1,27 @@
 'use strict';
 
 jQuery(document).ready(function($) {
-  function seravo_load_report(section) {
+  console.log("moi");
+  function launch_carinbot() {
     jQuery.post(
       seravo_carinbot_loc.ajaxurl, {
         'action': 'seravo_carinbot',
-        'section': section,
         'nonce': seravo_carinbot_loc.ajax_nonce,
       },
-      function (rawData) {
-        if (rawData.length == 0) {
-          jQuery('#' + section).html('No data returned for section.');
-        }
-
-        jQuery('#' + section + '_loading').fadeOut();
-        var data = JSON.parse(rawData);
-        jQuery('#' + section).append(data.join("\n"));
+      function () {
+        jQuery('#carinbot_loading').fadeOut();
+        jQuery('#carinbot').append("moi");
       }
     ).fail(function () {
-      jQuery('#' + section + '_loading').html('Failed to load. Please try again.');
+      jQuery('#carinbot_loading').html('Failed to load. Please try again.');
     });
   }
 
-  // Load when clicked
+  // Launch when clicked
   jQuery('#carinbot_button').click(function () {
+    console.log("moimoi");
     jQuery('#carinbot_loading img').show();
     jQuery('#carinbot_button').hide();
-    seravo_load_report('carinbot');
+    launch_carinbot();
   });
 });
