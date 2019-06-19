@@ -1,0 +1,15 @@
+.login_info_table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.login_info_th {
+  text-align: left;
+}
+
+.username_tooltip {
+  width: 90px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
