@@ -12,7 +12,7 @@ function seravo_carinbot() {
 }
 */
 function seravo_ajax_carinbot() {
-  debug_to_console("ajjjaxxx");
+  debug_to_console("ajax");
   //check_ajax_referer( 'seravo_carinbot', 'nonce' );
   //echo wp_json_encode(seravo_carinbot());
   //wp_die();
