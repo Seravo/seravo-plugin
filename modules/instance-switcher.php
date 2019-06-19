@@ -24,7 +24,20 @@ if ( ! class_exists('InstanceSwitcher') ) {
         add_action('wp_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
         add_action('login_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
         add_action('admin_notices', array( 'Seravo\InstanceSwitcher', 'render_shadow_admin_notice' ) );
+
+        if ( isset($_GET['seravo_production']) ) {
+            $production_domain = $_GET['seravo_production'];
+          if ( $production_domain !== 'clear' ) {
+            setcookie('seravo_production', $production_domain, time() + 43200, '/');
+          } else {
+            setcookie('seravo_production', '', 0, '/');
+          }
+        }
       }
+
+      // styles and scripts for the switcher and the banner
+      add_action( 'admin_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
+      add_action( 'wp_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
 
       // Check permission
       if ( ! current_user_can( self::custom_capability() ) ) {
@@ -34,10 +47,6 @@ if ( ! class_exists('InstanceSwitcher') ) {
       // admin ajax action
       add_action( 'wp_ajax_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ) );
       add_action( 'wp_ajax_nopriv_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ) );
-
-      // styles and scripts for the switcher
-      add_action( 'admin_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
-      add_action( 'wp_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
 
       // add the instance switcher menu
       add_action( 'admin_bar_menu', array( 'Seravo\InstanceSwitcher', 'add_switcher' ), 999 );
@@ -52,13 +61,11 @@ if ( ! class_exists('InstanceSwitcher') ) {
     }
 
     /**
-    * Load JavaScript and stylesheets for the switcher only if WP Admin bar visible
+    * Load JavaScript and stylesheets for the switcher and the banner
     */
     public static function assets() {
-      if ( function_exists('is_admin_bar_showing') && is_admin_bar_showing() ) {
-        wp_enqueue_script( 'seravo', plugins_url( '../js/instance-switcher.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
-        wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css', __FILE__), null, Helpers::seravo_plugin_version(), 'all' );
-      }
+      wp_enqueue_script( 'seravo', plugins_url( '../js/instance-switcher.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
+      wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css', __FILE__), null, Helpers::seravo_plugin_version(), 'all' );
     }
 
     /**
@@ -134,23 +141,41 @@ if ( ! class_exists('InstanceSwitcher') ) {
             $title .= ' (' . $instance['info'] . ')';
           }
 
-          $wp_admin_bar->add_menu([
-            'parent' => $id,
-            'title'  => $title,
-            'id'     => $instance['name'],
-            'href'   => '#' . substr($instance['name'], -6),
-          ]);
+          $domain = self::get_shadow_domain( $instance['name'] );
+          // 'null' from get_shadow_domain indicates API error
+          // Hide the shadow entry from instance-switcher
+          if ( $domain !== null ) {
+
+            $href = ! empty($domain) ? 'https://' . $domain : '#' . substr($instance['name'], -6);
+
+            $wp_admin_bar->add_menu([
+              'parent' => $id,
+              'title'  => $title,
+              'id'     => $instance['name'],
+              'href'   => $href,
+              'meta'   => [
+                'class' => 'shadow-link',
+              ],
+            ]);
+
+          }
         }
       }
 
       // If in a shadow, always show exit link
       if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
-        $wp_admin_bar->add_menu(array(
+        $domain = self::get_production_domain();
+        $exit_href = ! empty($domain) ? 'https://' . $domain : '#exit';
+
+        $wp_admin_bar->add_menu([
           'parent' => $id,
           'title'  => __('Exit Shadow', 'seravo'),
           'id'     => 'exit-shadow',
-          'href'   => '#exit',
-        ));
+          'href'   => $exit_href,
+          'meta'   => [
+            'class' => 'shadow-exit',
+          ],
+        ]);
       }
 
       // Last item is always docs link
@@ -174,11 +199,13 @@ if ( ! class_exists('InstanceSwitcher') ) {
       ?>
       <style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px } #shadow-indicator a.clearlink { text-decoration: underline; color: #fff; }</style>
       <div id="shadow-indicator">
-      <?php
+        <?php
+        $domain = self::get_production_domain();
+        $exit_href = ! empty($domain) ? 'https://' . $domain : '#exit';
         // translators: $s Identifier for the shadow instance in use
         printf( __('Your current shadow instance is %s.', 'seravo'), $shadow_title );
-      ?>
-      <a class="clearlink" href="/?wpp_shadow=clear&seravo_shadow=clear"><?php _e('Exit', 'seravo'); ?></a>
+        printf( ' <a class="clearlink shadow-exit" href="%s">%s</a> ', $exit_href, __('Exit', 'seravo') );
+        ?>
       </div>
       <?php
     }
@@ -193,6 +220,43 @@ if ( ! class_exists('InstanceSwitcher') ) {
         echo $admin_notice_content;
       }
     }
+
+    public static function get_shadow_domain( $identifier ) {
+      $domain_list = API::get_site_data('/domains');
+      if ( is_wp_error( $domain_list ) ) {
+        return null;
+      }
+
+      foreach ( $domain_list as $domain ) {
+        if ( $domain['primary'] === $identifier ) {
+          return $domain['domain'];
+        }
+      }
+      return '';
+    }
+
+    public static function get_production_domain() {
+      if ( ! empty($_COOKIE['seravo_shadow']) ) {
+        // Seravo_shadow cookie indicates cookie based access, no separate domain
+        return '';
+      } elseif ( ! empty($_GET['seravo_production']) && $_GET['seravo_production'] !== 'clear' ) {
+        // With seravo_production param, shadow uses domain based access
+        // Tested before cookie as it may contain newer data
+        return $_GET['seravo_production'];
+      } elseif ( ! empty($_COOKIE['seravo_production']) ) {
+        // With seravo_production cookie, shadow uses domain based access
+        return $_COOKIE['seravo_production'];
+      } elseif ( $_SERVER['SERVER_NAME'] !== getenv('DEFAULT_DOMAIN') && substr_count($_SERVER['SERVER_NAME'], '.') >= 2 ) {
+        // If domain consists of 3 or more parts, remove the downmost
+        // Notice that this DOES NOT necessarily work for multilevel TLD (eg. co.uk)
+        // Slash at end means that only hostname should be used (no path/query etc)
+        // It should be used when redirecting might be needed
+        return explode('.', $_SERVER['SERVER_NAME'], 2)[1] . '/';
+      }
+      // If none of the others work, trust in redirecting
+      return getenv('DEFAULT_DOMAIN') . '/';
+    }
+
   }
 
   InstanceSwitcher::load();
