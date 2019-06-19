@@ -9,6 +9,8 @@
 
 namespace Seravo;
 
+require_once dirname( __FILE__ ) . '/../lib/security-ajax.php';
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -20,6 +22,9 @@ if ( ! class_exists('Security') ) {
     public static function load() {
       add_action( 'admin_menu', array( __CLASS__, 'register_security_page' ) );
       add_action( 'admin_init', array( __CLASS__, 'register_security_settings' ) );
+      add_action('wp_ajax_seravo_security', 'seravo_ajax_security');
+
+      add_action('admin_enqueue_scripts', array( __CLASS__, 'register_security_scripts' ));
 
       seravo_add_postbox(
         'security_info',
@@ -28,6 +33,35 @@ if ( ! class_exists('Security') ) {
         'tools_page_security_page',
         'normal'
       );
+      seravo_add_postbox(
+        'logins_info',
+        __('Recent successful logins', 'seravo'),
+        array( __CLASS__, 'logins_info_postbox' ),
+        'tools_page_security_page',
+        'side'
+      );
+
+    }
+
+    /**
+     * Register scripts
+     *
+     * @param string $page hook name
+     */
+    public static function register_security_scripts( $page ) {
+      wp_register_script('seravo_security', plugin_dir_url(__DIR__) . '/js/security.js', '', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_security', plugin_dir_url(__DIR__) . '/style/security.css', '', Helpers::seravo_plugin_version() );
+
+      if ( $page === 'tools_page_security_page' ) {
+        wp_enqueue_script( 'seravo_security' );
+        wp_enqueue_style( 'seravo_security' );
+
+        $loc_translation_security = array(
+          'ajaxurl'    => admin_url('admin-ajax.php'),
+          'ajax_nonce' => wp_create_nonce('seravo_security'),
+        );
+        wp_localize_script( 'seravo_security', 'seravo_security_loc', $loc_translation_security );
+      }
 
     }
 
@@ -152,6 +186,16 @@ if ( ! class_exists('Security') ) {
       do_settings_sections( 'tools_page_security_page' );
       submit_button( __( 'Save', 'seravo' ), 'primary', 'btnSubmit' );
       echo '</form>';
+    }
+    public static function logins_info_postbox() {
+      ?>
+
+      <div id="logins_info_loading">
+        <img src="/wp-admin/images/spinner.gif">
+      </div>
+
+      <pre id="logins_info"></pre>
+      <?php
     }
   }
   Security::load();
