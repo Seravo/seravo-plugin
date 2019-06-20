@@ -53,6 +53,10 @@ function seravo_plugin_version_check() {
   }
 }
 
+function seravo_plugin_version_update() {
+  exec('wp-seravo-plugin-update &');
+}
+
 function seravo_ajax_updates() {
   check_ajax_referer( 'seravo_updates', 'nonce' );
   switch ( sanitize_text_field($_REQUEST['section']) ) {

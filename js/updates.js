@@ -189,11 +189,24 @@ jQuery(document).ready(function($) {
       'nonce': seravo_updates_loc.ajax_nonce
     }, function(is_uptodate_version) {
       if (is_uptodate_version) {
+        $('#uptodate_seravo_plugin_version').show();
         console.log("Up to date");
       } else {
+        $('#old_seravo_plugin_version').show();
+        $("#seravo_plugin_update_button").show();
         console.log("Old version");
       }
     });
+
+    function update_seravo_plugin() {
+      jQuery.post(
+        seravo_updates_loc.ajaxurl, {
+          'action': 'seravo_ajax_updates',
+          'section': 'seravo_plugin_version_update',
+          'nonce': seravo_updates_loc.ajax_nonce
+        }
+      );
+    }
 });
 
 jQuery(window).load(function(){
