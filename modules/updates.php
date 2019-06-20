@@ -244,11 +244,7 @@ if ( ! class_exists('Updates') ) {
       </p>
       <p>
         <?php
-        printf(
-          // translators: %1$s: current php version, %2$s: recommended php version
-          __('See also <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo'),
-          $recommended_version
-        );
+        _e('See also <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo');
         ?>
       </p>
 
