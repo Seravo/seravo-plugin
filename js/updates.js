@@ -181,6 +181,19 @@ jQuery(document).ready(function($) {
       });
     }, 5000);
   }
+
+  jQuery.post(
+    seravo_updates_loc.ajaxurl, {
+      'action': 'seravo_ajax_updates',
+      'section': 'seravo_plugin_version_check',
+      'nonce': seravo_updates_loc.ajax_nonce
+    }, function(is_uptodate_version) {
+      if (is_uptodate_version) {
+        console.log("Up to date");
+      } else {
+        console.log("Old version");
+      }
+    });
 });
 
 jQuery(window).load(function(){

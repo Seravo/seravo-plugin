@@ -39,6 +39,20 @@ function seravo_php_check_version() {
   }
 }
 
+function seravo_plugin_version_check() {
+  error_log('Start');
+  $current_version = Seravo\Helpers::seravo_plugin_version();
+  $upstream_version = exec('curl -s https://api.github.com/repos/seravo/seravo-plugin/tags | python3 -c "import sys, json; print(json.load(sys.stdin)[0][\'tarball_url\'])" | rev | cut -d / -f -1 | rev');
+
+  error_log("Current version: " . $current_version . " Latest version: " . $upstream_version);
+
+  if ( $upstream_version == $current_version ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function seravo_ajax_updates() {
   check_ajax_referer( 'seravo_updates', 'nonce' );
   switch ( sanitize_text_field($_REQUEST['section']) ) {
@@ -48,6 +62,10 @@ function seravo_ajax_updates() {
 
     case 'seravo_php_check_version':
       echo seravo_php_check_version();
+      break;
+
+    case 'seravo_plugin_version_check':
+      echo seravo_plugin_version_check();
       break;
 
     default:
