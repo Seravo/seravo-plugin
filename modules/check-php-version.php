@@ -27,7 +27,7 @@ if ( ! class_exists('CheckPHPVersion') ) {
 
       // Show only on main dashboard once directly after login so it
       // will not clutter too much.
-      if ( strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') === false ) {
+      if ( ! isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') === false ) {
         return false;
       }
 
