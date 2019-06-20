@@ -71,6 +71,13 @@ if ( ! class_exists('Updates') ) {
         'side'
       );
 
+      seravo_add_postbox(
+        'seravo-plugin-updater',
+        __('Seravo Plugin Updater', 'seravo'),
+        array( __CLASS__, 'seravo_plugin_updater_postbox' ),
+        'tools_page_updates_page',
+        'normal'
+      );
     }
 
     /**
@@ -314,6 +321,13 @@ if ( ! class_exists('Updates') ) {
         </p>
         <p id="activation-failed-line" class="hidden"><?php _e('PHP version change failed. Using fallback PHP 5.6.', 'seravo'); ?></p>
       </div>
+      <?php
+    }
+
+    public static function seravo_plugin_updater_postbox() {
+      ?>
+      <p><?php printf( __("Current version: %s", 'seravo'), Helpers::seravo_plugin_version() ); ?></p>
+      <button id='seravo_plugin_update_button' hidden='false'><?php _e('Update', 'seravo'); ?></button>
       <?php
     }
 
