@@ -65,7 +65,13 @@ if ( ! class_exists('Reports') ) {
     }
 
     public static function register_reports_page() {
-      add_submenu_page( 'tools.php', __('Reports', 'seravo'), __('Reports', 'seravo'), 'manage_options', 'reports_page', 'Seravo\seravo_postboxes_page' );
+      add_submenu_page(
+        'tools.php',
+        __('Reports', 'seravo'),
+        __('Reports', 'seravo'),
+        'manage_options',
+        'reports_page',
+        'Seravo\seravo_postboxes_page' );
     }
 
     public static function enqueue_reports_scripts( $page ) {
@@ -193,7 +199,7 @@ if ( ! class_exists('Reports') ) {
 
       // Nested arrays need to be checked seperately
       $country = ! empty($site_info['country']) ? $countries[ $site_info['country'] ] : '';
-      
+
       print_item( $site_info['name'], __('Site Name', 'seravo') );
       print_item( date('Y-m-d', strtotime($site_info['created'])), __('Site Created', 'seravo') );
       print_item( date('Y-m-d', strtotime($site_info['termination'])), __('Plan Termination', 'seravo') );

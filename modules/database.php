@@ -104,7 +104,13 @@ if ( ! class_exists('Database') ) {
      * Add admin menu item
      */
     public static function register_database_page() {
-      add_submenu_page( 'tools.php', __('Database', 'seravo'), __('Database', 'seravo'), 'manage_options', 'database_page', 'Seravo\seravo_postboxes_page' );
+      add_submenu_page(
+        'tools.php',
+        __('Database', 'seravo'),
+        __('Database', 'seravo'),
+        'manage_options',
+        'database_page',
+        'Seravo\seravo_postboxes_page' );
     }
 
     public static function database_access_postbox() {

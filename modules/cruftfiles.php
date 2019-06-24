@@ -65,8 +65,11 @@ if ( ! class_exists('Cruftfiles') ) {
 
     public static function register_cruftfiles_page() {
       add_submenu_page(
-        'tools.php', __( 'Cruft Files', 'seravo' ),
-        __( 'Cruft Files', 'seravo' ), 'manage_options', 'cruftfiles_page',
+        'tools.php',
+        __( 'Cruft Files', 'seravo' ),
+        __( 'Cruft Files', 'seravo' ),
+        'manage_options',
+        'cruftfiles_page',
         'Seravo\seravo_postboxes_page'
       );
     }
