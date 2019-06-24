@@ -199,16 +199,29 @@ if ( ! class_exists('Updates') ) {
         <li><?php _e('Site Created', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['created'])); ?></li>
 
         <?php
+<<<<<<< HEAD
 
         // Show notification if FULL site update hasn't been succesful in 30 or more days
         // and the site is using Seravo updates
         if ( $site_info['seravo_updates'] === true && $interval >= 30 ) {
+=======
+        if ( $site_info['seravo_updates'] === true && $interval >= 30 ) {
+          // Get the latest update log contents
+          $update_logs_arr = glob( '/data/log/update.log' );
+          if ( empty( $update_logs_arr ) ) {
+            $update_logs_arr = preg_grep( '/([0-9]){8}$/', glob( '/data/log/update.log-*' ) );
+          }
+>>>>>>> 22a54e7... Add fetching of rotated logs if any .log file is missing
           if ( empty( $update_logs_arr ) ) {
             echo '<p>' . __('Unable to fetch the latest update log.', 'seravo') . '</p>';
           } else {
             // Get last item from logs array
             $update_log_fp = fopen( end( $update_logs_arr ), 'r' );
             if ( $update_log_fp != false ) {
+<<<<<<< HEAD
+=======
+              $update_log_array = array();
+>>>>>>> 22a54e7... Add fetching of rotated logs if any .log file is missing
               $index = 0;
               while ( ! feof( $update_log_fp ) ) {
                 // Strip timestamps from log lines
@@ -219,22 +232,20 @@ if ( ! class_exists('Updates') ) {
                   $index++;
                 }
               }
+              fclose( $update_log_fp );
+              $update_log_output = implode( '<br>', $update_log_contents );
             }
-            fclose( $update_log_fp );
-            $update_log_output = implode( '<br>', $update_log_contents );
-          }
 
-          echo '<p>' .
-              __('Last succesful full site update was over a month ago. A developer should take
-              a look at the update log and fix the issue preventing the site from updating.', 'seravo') .
-              '</p><p><b>' . __('Latest update.log:', 'seravo') . '</b></p><p>' .
-              $update_log_output . '</p>' .
-              '<p><a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">See the logs page for more info.</a></p>';
+            echo '<p>' .
+                __('Last succesful full site update was over a month ago. A developer should take
+                a look at the update log and fix the issue preventing the site from updating.', 'seravo') .
+                '</p><p><b>' . __('Latest update.log:', 'seravo') . '</b></p><p>' .
+                $update_log_output . '</p>' .
+                '<p><a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">See the logs page for more info.</a></p>';
+          }
         }
-      } elseif ( $site_info['seravo_updates'] === false ){
-        echo '<p>' . __('Seravo updates are disabled. Enable at <a href="tools.php?page=updates_page">Updates page</a>', 'seravo') . '</p>';
-      }
-         ?>
+
+        ?>
         
         <li><?php _e('Latest Successful Full Update', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_success'])); ?></li>
         <?php if ( ! empty( $site_info['update_attempt'] ) ) { ?>

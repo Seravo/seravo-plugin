@@ -55,7 +55,6 @@ if ( ! class_exists('Logs') ) {
       }
     }
 
-
     /**
      * Adds the submenu page for Server Logs under tools
      *
@@ -72,7 +71,6 @@ if ( ! class_exists('Logs') ) {
           array( $this, 'render_tools_page' )
       );
     }
-
 
     /**
      * Renders the admin tools page content
@@ -107,11 +105,36 @@ if ( ! class_exists('Logs') ) {
 
       // Automatically fetch all logs from /data/log/*.log
       $logs = glob( '/data/log/*.log' );
-      if ( empty( $logs ) ) :
+
+      // Check for missing .log files and fetch rotated .log-12345678 file instead
+      // using an array of possible log names to compare fetched array against
+      $log_names = array(
+        '/data/log/chromedriver.log',
+        '/data/log/mail.log',
+        '/data/log/nginx-access.log',
+        '/data/log/nginx-error.log',
+        '/data/log/php-error.log',
+        '/data/log/runit.log',
+        '/data/log/security.log',
+        '/data/log/update.log',
+        '/data/log/wp-login.log',
+        '/data/log/wp-theme-security.log',
+      );
+
+      // Store all missing log names to an array
+      $missing_logs = array_diff( $log_names, $logs );
+
+      // Fetch rotated logs for each missing log and append them to $logs
+      if ( ! empty( $missing_logs ) ) {
+        foreach ( $missing_logs as $log ) {
+          array_push( $logs, implode( '', preg_grep( '/([0-9]){8}$/', glob( '{' . $log . '}-*', GLOB_BRACE ) ) ) );
+        }
+      }
+
+      if ( empty( $logs ) ) {
           echo '<div class="notice notice-warning" style="padding:1em;margin:1em;">' .
           __('No logs found in <code>/data/log/</code>.', 'seravo') . '</div>';
-          return;
-      endif;
+      }
 
       // Create an array of the logfiles with basename of log as key
       $logfiles = array();
@@ -147,7 +170,6 @@ if ( ! class_exists('Logs') ) {
   </div>
       <?php
     }
-
 
     /**
      * Renders the log view for a specific $logfile on the tools page
