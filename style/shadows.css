@@ -1,3 +1,27 @@
 #wpbody-content #dashboard-widgets .postbox-container {
   width: 100%;
 }
+
+.rs-table th input, .rs-table tr td, .rs-table tr th {
+  margin: 0;
+  padding: 0;
+}
+
+.rs-table tr th {
+  padding-bottom: 6px;
+}
+
+.rs-table {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.shadow-data-actions span:before {
+  font: normal 13px/1 dashicons;
+  content: " \f142";
+}
+
+.shadow-data-actions.closed span:before {
+  content: " \f140";
+}
+

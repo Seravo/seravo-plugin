@@ -33,7 +33,7 @@ if ( ! class_exists('Shadows') ) {
         'normal'
       );
     }
-
+    
     public static function register_shadows_page() {
       add_submenu_page(
         'tools.php',
@@ -93,7 +93,7 @@ if ( ! class_exists('Shadows') ) {
               <th><?php _e('Identifier', 'seravo'); ?></th>
               <th><?php _e('SSH Port', 'seravo'); ?></th>
               <th><?php _e('Creation Date', 'seravo'); ?></th>
-              <th><?php _e('Reset Shadow', 'seravo'); ?></th>
+              <th><?php _e('Toiminnot', 'seravo'); ?></th>
             </thead>
             <tbody>
                 <?php foreach ( $shadow_list as $shadow_data ) : ?>
@@ -105,7 +105,7 @@ if ( ! class_exists('Shadows') ) {
                       <?php endif; ?>
                     </td>
                     <?php endforeach; ?>
-                    <td><button data-shadow-name="<?php echo $shadow_data['name']; ?>" class="shadow-reset button" type="button"><?php _e('Reset Shadow', 'seravo'); ?></button></td>
+                    <td><a class="shadow-data-actions closed" href="">Move Data<span></span></a></td>
                   </tr>
                 <?php endforeach; ?>
 
