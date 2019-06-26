@@ -38,6 +38,30 @@ function seravo_php_check_version() {
   }
 }
 
+function seravo_plugin_version_check() {
+  $current_version = Seravo\Helpers::seravo_plugin_version();
+
+  if ( $current_version == seravo_plugin_upstream_version() ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function seravo_plugin_upstream_version() {
+  $upstream_version = get_transient('seravo_plugin_upstream_version');
+  if ( $upstream_version === false ) {
+    $upstream_version = exec('curl -s https://api.github.com/repos/seravo/seravo-plugin/tags | grep "name" -m 1 | awk \'{gsub("\"","")}; {gsub(",","")}; {print $2}\'');
+    set_transient('seravo_plugin_upstream_version', $upstream_version, 10800);
+  }
+
+  return $upstream_version;
+}
+
+function seravo_plugin_version_update() {
+  exec('wp-seravo-plugin-update &');
+}
+
 function seravo_ajax_updates() {
   check_ajax_referer('seravo_updates', 'nonce');
   switch ( sanitize_text_field($_REQUEST['section']) ) {
@@ -47,6 +71,14 @@ function seravo_ajax_updates() {
 
     case 'seravo_php_check_version':
       echo seravo_php_check_version();
+      break;
+
+    case 'seravo_plugin_version_check':
+      echo seravo_plugin_version_check();
+      break;
+
+    case 'seravo_plugin_version_update':
+      echo seravo_plugin_version_update();
       break;
 
     default:

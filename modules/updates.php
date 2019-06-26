@@ -71,6 +71,13 @@ if ( ! class_exists('Updates') ) {
         'side'
       );
 
+      seravo_add_postbox(
+        'seravo-plugin-updater',
+        __('Seravo Plugin Updater', 'seravo'),
+        array( __CLASS__, 'seravo_plugin_updater_postbox' ),
+        'tools_page_updates_page',
+        'normal'
+      );
     }
 
     /**
@@ -366,6 +373,38 @@ if ( ! class_exists('Updates') ) {
         </p>
         <p id="activation-failed-line" class="hidden"><?php _e('PHP version change failed. Using fallback PHP 5.6.', 'seravo'); ?></p>
       </div>
+      <?php
+    }
+
+    public static function seravo_plugin_updater_postbox() {
+      ?>
+      <p><?php _e('Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here.', 'seravo'); ?></p>
+      <p>
+      <?php
+      printf(
+        // translators: current Seravo plugin version
+        __('Current version: %s', 'seravo'),
+        Helpers::seravo_plugin_version()
+      );
+      ?>
+      </p>
+      <p>
+      <?php
+      printf(
+        // translators: upstream Seravo plugin version
+        __('Upstream version: %s', 'seravo'),
+        seravo_plugin_upstream_version()
+      );
+      ?>
+      </p>
+      <p id='uptodate_seravo_plugin_version' class='hidden' style='color: green'><?php _e('The currently installed version is the same as the latest available version.', 'seravo'); ?></p>
+      <p id='old_seravo_plugin_version' class='hidden' style='color: orange'><?php _e('There is a new version available', 'seravo'); ?></p>
+      <p id='seravo_plugin_updated' class='hidden' style='color: green'><?php _e('Seravo Plugin updated', 'seravo'); ?></p>
+      <div id="update_seravo_plugin_status" class="hidden">
+        <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
+        <?php _e('Updating... Please wait up to 5 seconds', 'seravo'); ?>
+      </div>
+      <button id='seravo_plugin_update_button' class='hidden'><?php _e('Update plugin now', 'seravo'); ?></button>
       <?php
     }
 
