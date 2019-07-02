@@ -1,3 +1,53 @@
-#wpbody-content #dashboard-widgets .postbox-container {
+#shadow-table th, #shadow-rs-table th {
+  text-align: left;
+  padding-right: 20px;
+}
+
+.shadow-row table th {
+  text-align: left;
+  padding-right: 20px;
+}
+
+.shadow-hidden {
+  display: none;
+}
+
+#shadow-selector {
   width: 100%;
+  margin-bottom: 10px;
+}
+
+#shadow-reset {
+  margin-top: 10px;
+}
+
+.data-actions th, .data-actions td {
+  padding-top: 10px;
+}
+
+.action-link span:before {
+  position: relative;
+  top: 1px;
+  font: normal 13px/1 dashicons;
+  content: " \f142";
+}
+
+.action-link.closed span:before {
+  content: " \f140";
+}
+
+#shadow-data-actions {
+  padding: 15px;
+}
+
+#shadow-rs-table {
+  margin: 20px 0 5px 0;
+}
+
+.shadow-reset-row {
+  margin-top: 20px;
+}
+
+#shadow-reset {
+  margin: 0;
 }

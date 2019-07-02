@@ -6,11 +6,10 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function seravo_reset_shadow() {
-  check_ajax_referer('seravo_shadows', 'nonce');
-  if ( isset($_POST['resetshadow']) && ! empty($_POST['resetshadow']) ) {
-    $shadow = $_POST['resetshadow'];
+  if ( isset($_POST['shadow']) && ! empty($_POST['shadow']) ) {
+    $shadow = $_POST['shadow'];
     $output = array();
-    // check if the shadow is known
+    // Check if the shadow is known
     foreach ( Seravo\API::get_site_data('/shadows') as $data ) {
       if ( $data['name'] == $shadow ) {
         exec('wp-shadow-reset ' . $shadow . ' --force 2>&1', $output);
@@ -20,4 +19,21 @@ function seravo_reset_shadow() {
     }
   }
   wp_die();
+}
+
+function seravo_ajax_shadows() {
+  check_ajax_referer('seravo_shadows', 'nonce');
+
+  switch ( $_REQUEST['section'] ) {
+    case 'seravo_reset_shadow':
+      seravo_reset_shadow();
+      break;
+
+    default:
+      error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
+      break;
+  }
+
+  wp_die();
+
 }
