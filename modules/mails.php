@@ -46,11 +46,11 @@ if ( ! class_exists('Mails') ) {
       ?>
       <div class="mails-postbox">
         <form action="#" method="get" style="width: 100%; margin-bottom: 10px;">
-          <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>"/>
+          <input type="hidden" name="page" value="<?php echo htmlspecialchars($_REQUEST['page']); ?>"/>
           <?php list_domains(); ?>
         </form>
         <form>
-          <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>"/>
+          <input type="hidden" name="page" value="<?php echo htmlspecialchars($_REQUEST['page']); ?>"/>
           <?php
           if ( ! empty($_GET['domain']) ) {
             display_forwards_table();

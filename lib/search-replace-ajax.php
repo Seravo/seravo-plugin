@@ -51,13 +51,12 @@ function seravo_ajax_search_replace() {
   check_ajax_referer('seravo_database', 'nonce');
   switch ( $_REQUEST['section'] ) {
     case 'search_replace':
-      echo wp_json_encode(
-        seravo_search_replace(
-          $_REQUEST['from'],
-          $_REQUEST['to'],
-          $_REQUEST['options']
-        )
+      $search_replace_result = seravo_search_replace(
+        $_REQUEST['from'],
+        $_REQUEST['to'],
+        $_REQUEST['options']
       );
+      echo wp_json_encode($search_replace_result);
       break;
 
     default:
