@@ -17,7 +17,7 @@ if ( ! class_exists('Mails') ) {
   class Mails {
 
     public static function load() {
-      add_action( 'admin_menu', array( __CLASS__, 'register_mails_page' ) );
+      add_action('admin_menu', array( __CLASS__, 'register_mails_page' ));
 
       seravo_add_postbox(
         'mail-forwards',
@@ -41,7 +41,7 @@ if ( ! class_exists('Mails') ) {
     }
 
     public static function mails_postbox() {
-      require_once dirname( __FILE__ ) . '/../lib/mails-page.php';
+      require_once dirname(__FILE__) . '/../lib/mails-page.php';
 
       ?>
       <div class="mails-postbox">
@@ -52,7 +52,7 @@ if ( ! class_exists('Mails') ) {
         <form>
           <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>"/>
           <?php
-          if ( ! empty ( $_GET['domain'] ) ) {
+          if ( ! empty($_GET['domain']) ) {
             display_forwards_table();
           }
           ?>

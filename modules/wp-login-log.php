@@ -22,7 +22,7 @@ if ( ! class_exists('LoginLog') ) {
       // wp_signon has finished. Unfortunately it also fires on every single
       // wp-login.php load, so we shall not process it unless we really detect a
       // login in progress.
-      add_filter( 'login_redirect', array( __CLASS__, 'wp_login_redirect_log' ), 10, 3 );
+      add_filter('login_redirect', array( __CLASS__, 'wp_login_redirect_log' ), 10, 3);
 
     }
 
@@ -64,15 +64,15 @@ if ( ! class_exists('LoginLog') ) {
       $http_user_agent = $_SERVER['HTTP_USER_AGENT'];
 
       // Finally write the log to disk
-      $log_directory = dirname( ini_get('error_log') );
+      $log_directory = dirname(ini_get('error_log'));
       if ( empty($log_directory) ) {
         // If there is no log directory, just log one directory above WordPress
         // and hope that directory is writeable but not accessible from the web
         $log_directory = '..';
       }
-      $log_fp = fopen( $log_directory . '/wp-login.log', 'a' );
-      fwrite( $log_fp, "$remote_addr - $remote_user [$time_local] \"$request\" $status_code 1000 \"$http_referer\" \"$http_user_agent\" $login_status \n" );
-      fclose( $log_fp );
+      $log_fp = fopen($log_directory . '/wp-login.log', 'a');
+      fwrite($log_fp, "$remote_addr - $remote_user [$time_local] \"$request\" $status_code 1000 \"$http_referer\" \"$http_user_agent\" $login_status \n");
+      fclose($log_fp);
 
       return $redirect_to;
     }

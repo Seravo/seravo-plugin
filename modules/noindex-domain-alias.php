@@ -16,7 +16,7 @@ if ( ! class_exists('Noindex') ) {
 
     public static function load() {
 
-      add_filter( 'robots_txt', array( __CLASS__, 'maybe_hide_domain_alias' ), 10, 2 );
+      add_filter('robots_txt', array( __CLASS__, 'maybe_hide_domain_alias' ), 10, 2);
 
     }
 
@@ -27,13 +27,13 @@ if ( ! class_exists('Noindex') ) {
       }
 
       // if $_SERVER['HTTP_HOST'] is in form of *.wp-palvelu.fi, don't index
-      if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+      if ( isset($_SERVER['HTTP_HOST']) ) {
 
-        if ( preg_match( '/^.*\.wp-palvelu\.fi$/', $_SERVER['HTTP_HOST'] ) ||
-             preg_match( '/^.*\.seravo\.fi$/', $_SERVER['HTTP_HOST'] ) ||
-             preg_match( '/^.*\.seravo\.com$/', $_SERVER['HTTP_HOST'] ) ||
-             preg_match( '/^.*\.wp\..*$/', $_SERVER['HTTP_HOST'] ) ||
-             preg_match( '/^.*\.dev\..*$/', $_SERVER['HTTP_HOST'] )
+        if ( preg_match('/^.*\.wp-palvelu\.fi$/', $_SERVER['HTTP_HOST']) ||
+             preg_match('/^.*\.seravo\.fi$/', $_SERVER['HTTP_HOST']) ||
+             preg_match('/^.*\.seravo\.com$/', $_SERVER['HTTP_HOST']) ||
+             preg_match('/^.*\.wp\..*$/', $_SERVER['HTTP_HOST']) ||
+             preg_match('/^.*\.dev\..*$/', $_SERVER['HTTP_HOST'])
            ) {
 
           $output = "User-agent: *\n";

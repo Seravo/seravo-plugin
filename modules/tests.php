@@ -12,7 +12,7 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once dirname( __FILE__ ) . '/../lib/tests-ajax.php';
+require_once dirname(__FILE__) . '/../lib/tests-ajax.php';
 
 if ( ! class_exists('Tests') ) {
   class Tests {
@@ -42,7 +42,8 @@ if ( ! class_exists('Tests') ) {
         __('Tests', 'seravo'),
         'manage_options',
         'tests_page',
-        'Seravo\seravo_postboxes_page' );
+        'Seravo\seravo_postboxes_page'
+      );
     }
 
     public static function register_tests_scripts( $page ) {

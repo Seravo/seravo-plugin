@@ -95,13 +95,13 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
     public function ajax_save_closed_postboxes() {
       check_ajax_referer('seravo-save-closed-postboxes', 'seravo_closed_postboxes_nonce');
 
-      $closed = isset( $_POST['closed'] ) ? explode( ',', $_POST['closed'] ) : array();
-      $closed = array_filter( $closed );
-      $page = isset( $_POST['page'] ) ? sanitize_key($_POST['page']) : '';
+      $closed = isset($_POST['closed']) ? explode(',', $_POST['closed']) : array();
+      $closed = array_filter($closed);
+      $page = isset($_POST['page']) ? sanitize_key($_POST['page']) : '';
 
       $user_id = get_current_user_id();
       if ( $user_id !== 0 ) {
-        update_user_option( $user_id, 'seravo-closed-postboxes_' . $page, $closed, true );
+        update_user_option($user_id, 'seravo-closed-postboxes_' . $page, $closed, true);
       }
       wp_die();
     }
@@ -112,13 +112,13 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
     public function ajax_save_postbox_order() {
       check_ajax_referer('seravo-save-postbox-order', 'seravo_save_postbox_order_nonce');
 
-      $order = isset( $_POST['order'] ) ? array_filter($_POST['order']) : false;
-      $page = isset( $_POST['page'] ) ? sanitize_key($_POST['page']) : '';
+      $order = isset($_POST['order']) ? array_filter($_POST['order']) : false;
+      $page = isset($_POST['page']) ? sanitize_key($_POST['page']) : '';
 
       $user_id = get_current_user_id();
 
       if ( $user_id !== 0 && $order && $page ) {
-        update_user_option( $user_id, 'seravo-postbox-order_' . $page, $order, true );
+        update_user_option($user_id, 'seravo-postbox-order_' . $page, $order, true);
       }
       wp_die();
     }

@@ -5,7 +5,7 @@ if ( ! defined('ABSPATH') ) {
 }
 // [plugin, reason, size]
 function seravo_ajax_list_cruft_plugins() {
-  check_ajax_referer( 'seravo_cruftplugins', 'nonce' );
+  check_ajax_referer('seravo_cruftplugins', 'nonce');
   exec('wp plugin list --fields=name,title,status --format=json --skip-plugins --skip-themes', $output);
     //https://help.seravo.com/en/knowledgebase/19-themes-and-plugins/docs/51-wordpress-plugins-in-seravo-com
     $plugins_list = array(
@@ -74,7 +74,9 @@ function seravo_ajax_list_cruft_plugins() {
       $remove_from_list[] = $plugin;
     }
   }
-    $output = array_udiff($output, $remove_from_list,
+    $output = array_udiff(
+      $output,
+      $remove_from_list,
       function ( $obj_a, $obj_b ) {
         return strcmp($obj_a->name, $obj_b->name);
       }
@@ -86,7 +88,7 @@ function seravo_ajax_list_cruft_plugins() {
 }
 
 function seravo_ajax_remove_plugins() {
-  check_ajax_referer( 'seravo_cruftplugins', 'nonce' );
+  check_ajax_referer('seravo_cruftplugins', 'nonce');
   if ( isset($_POST['removeplugin']) && ! empty($_POST['removeplugin']) ) {
     $plugins = $_POST['removeplugin'];
     if ( is_string($plugins) ) {
@@ -98,7 +100,7 @@ function seravo_ajax_remove_plugins() {
         $legit_removeable_plugins = get_transient('cruft_plugins_found');
         foreach ( $legit_removeable_plugins as $legit_plugin ) {
           if ( $legit_plugin->name == $plugin ) {
-            exec( 'wp plugin deactivate ' . $plugin . ' --skip-plugins --skip-themes && wp plugin delete ' . $plugin . ' --skip-plugins --skip-themes', $output );
+            exec('wp plugin deactivate ' . $plugin . ' --skip-plugins --skip-themes && wp plugin delete ' . $plugin . ' --skip-plugins --skip-themes', $output);
           }
         }
       }

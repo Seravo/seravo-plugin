@@ -12,24 +12,24 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once dirname( __FILE__ ) . '/../lib/updates-ajax.php';
+require_once dirname(__FILE__) . '/../lib/updates-ajax.php';
 
 if ( ! class_exists('Updates') ) {
   class Updates {
 
     public static function load() {
-      add_action( 'admin_menu', array( __CLASS__, 'register_updates_page' ) );
-      add_action( 'admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
-      add_action( 'wp_ajax_seravo_ajax_updates', 'seravo_ajax_updates' );
+      add_action('admin_menu', array( __CLASS__, 'register_updates_page' ));
+      add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
+      add_action('wp_ajax_seravo_ajax_updates', 'seravo_ajax_updates');
 
       /*
       * This POST handler will use the SWD API to toggle Seravo updates on/off
       * and add technical contact emails for this site.
       */
-      add_action( 'admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20 );
+      add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
 
       // TODO: check if this hook actually ever fires for mu-plugins
-      register_activation_hook( __FILE__, array( __CLASS__, 'register_view_updates_capability' ) );
+      register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
 
       seravo_add_postbox(
         'seravo-updates',
@@ -83,15 +83,15 @@ if ( ! class_exists('Updates') ) {
       wp_register_style('seravo_updates', plugin_dir_url(__DIR__) . '/style/updates.css', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_updates_page' ) {
-        wp_enqueue_style( 'seravo_updates' );
-        wp_enqueue_script( 'seravo_updates', plugins_url( '../js/updates.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
+        wp_enqueue_style('seravo_updates');
+        wp_enqueue_script('seravo_updates', plugins_url('../js/updates.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
 
         $loc_translation_updates = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),
           'ajax_nonce' => wp_create_nonce('seravo_updates'),
         );
 
-        wp_localize_script( 'seravo_updates', 'seravo_updates_loc', $loc_translation_updates );
+        wp_localize_script('seravo_updates', 'seravo_updates_loc', $loc_translation_updates);
       }
 
     }
@@ -127,7 +127,7 @@ if ( ! class_exists('Updates') ) {
           $checked = '';
         }
 
-        if ( isset( $site_info['notification_webhooks'][0]['url'] ) &&
+        if ( isset($site_info['notification_webhooks'][0]['url']) &&
               $site_info['notification_webhooks'][0]['type'] === 'slack' ) {
           $slack_webhook = $site_info['notification_webhooks'][0]['url'];
         } else {
@@ -140,8 +140,8 @@ if ( ! class_exists('Updates') ) {
         }
         ?>
         <p><?php _e('The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo\'s updates by unchecking the checkbox below.', 'seravo'); ?></p>
-          <form name="seravo_updates_form" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="post">
-            <?php wp_nonce_field( 'seravo-updates-nonce' ); ?>
+          <form name="seravo_updates_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
+            <?php wp_nonce_field('seravo-updates-nonce'); ?>
             <input type="hidden" name="action" value="toggle_seravo_updates">
             <div class="checkbox allow_updates_checkbox">
               <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo'); ?><br>
@@ -166,7 +166,7 @@ if ( ! class_exists('Updates') ) {
             <p><small class="seravo-developer-letter-hint">
             <?php
               // translators: %1$s link to Newsletter for WordPress developers
-              printf( __('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
+              printf(__('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
             ?>
             </small></p>
             <br>
@@ -182,16 +182,16 @@ if ( ! class_exists('Updates') ) {
       $site_info = self::seravo_admin_get_site_info();
       // Calculate the approx. amount of days since last succesful FULL update
       // 86400 is used to get days out of seconds (60*60*24)
-      $interval = round( ( strtotime(date('Y-m-d')) - strtotime($site_info['update_success']) ) / 86400 );
+      $interval = round((strtotime(date('Y-m-d')) - strtotime($site_info['update_success'])) / 86400);
 
       // Check if update.log exists and if not fetch the name of the rotated log instead
       // for linking to correct log on the logs page as well as fetching the failed lines
       // from the log if needed in the update notification
-      $update_logs_arr = glob( '/data/log/update.log' );
-      if ( empty( $update_logs_arr ) ) {
-        $update_logs_arr = preg_grep( '/([0-9]){8}$/', glob( '/data/log/update.log-*' ) );
+      $update_logs_arr = glob('/data/log/update.log');
+      if ( empty($update_logs_arr) ) {
+        $update_logs_arr = preg_grep('/([0-9]){8}$/', glob('/data/log/update.log-*'));
       }
-      $update_log_name = substr( end( $update_logs_arr ), 10 );
+      $update_log_name = substr(end($update_logs_arr), 10);
 
       if ( gettype($site_info) === 'array' ) {
         ?>
@@ -203,29 +203,32 @@ if ( ! class_exists('Updates') ) {
         // Show notification if FULL site update hasn't been succesful in 30 or more days
         // and the site is using Seravo updates
         if ( $site_info['seravo_updates'] === true && $interval >= 30 ) {
-          if ( empty( $update_logs_arr ) ) {
+          if ( empty($update_logs_arr) ) {
             echo '<p>' . __('Unable to fetch the latest update log.', 'seravo') . '</p>';
           } else {
             // Get last item from logs array
-            $update_log_fp = fopen( end( $update_logs_arr ), 'r' );
+            $update_log_fp = fopen(end($update_logs_arr), 'r');
             if ( $update_log_fp != false ) {
               $index = 0;
-              while ( ! feof( $update_log_fp ) ) {
+              while ( ! feof($update_log_fp) ) {
                 // Strip timestamps from log lines
                 // Show only lines with 'Updates failed!'
-                $buffer = substr( fgets( $update_log_fp ), 28 );
-                if ( substr( $buffer, 0, 15 ) === 'Updates failed!' ) {
+                $buffer = substr(fgets($update_log_fp), 28);
+                if ( substr($buffer, 0, 15) === 'Updates failed!' ) {
                   $update_log_contents[ $index ] = $buffer;
                   $index++;
                 }
               }
-              fclose( $update_log_fp );
-              $update_log_output = implode( '<br>', $update_log_contents );
+              fclose($update_log_fp);
+              $update_log_output = implode('<br>', $update_log_contents);
             }
 
             echo '<p>' .
-                __('Last succesful full site update was over a month ago. A developer should take
-                a look at the update log and fix the issue preventing the site from updating.', 'seravo') .
+                __(
+                  'Last succesful full site update was over a month ago. A developer should take
+                a look at the update log and fix the issue preventing the site from updating.',
+                  'seravo'
+                ) .
                 '</p><p><h3>' . __('Latest update.log:', 'seravo') . '</h3></p><p>' .
                 $update_log_output . '</p>' .
                 '<p><a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">See the logs page for more info.</a></p>';
@@ -237,7 +240,7 @@ if ( ! class_exists('Updates') ) {
         <p><?php _e('Latest successful full update', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_success'])); ?></p>
 
         <?php
-        if ( ! empty( $site_info['update_attempt'] ) ) {
+        if ( ! empty($site_info['update_attempt']) ) {
           echo '<p>' . __('Latest attempted full update', 'seravo') . ': ';
           echo date('Y-m-d', strtotime($site_info['update_attempt'])) . '</p>';
         }
@@ -274,11 +277,11 @@ if ( ! class_exists('Updates') ) {
       if ( $test_status[0] == 'Success! Initial tests have passed.' ) {
         echo '<p style="color: green;">' . __('Success!', 'seravo') . '</p>';
         // translators: Link to Tests page
-        echo '<p>' . sprintf( __('Site baseline <a href="%s">tests</a> have passed and updates can run normally.', 'seravo'), 'tools.php?page=tests_page') . '</p>';
+        echo '<p>' . sprintf(__('Site baseline <a href="%s">tests</a> have passed and updates can run normally.', 'seravo'), 'tools.php?page=tests_page') . '</p>';
       } else {
         echo '<p style="color: red;">' . __('Failure!', 'seravo') . '</p>';
         // translators: Link to Tests page
-        echo '<p>' . sprintf( __('Site baseline <a href="%s">tests</a> are failing and needs to be fixed before further updates are run.', 'seravo'), 'tools.php?page=tests_page') . '</p>';
+        echo '<p>' . sprintf(__('Site baseline <a href="%s">tests</a> are failing and needs to be fixed before further updates are run.', 'seravo'), 'tools.php?page=tests_page') . '</p>';
       }
     }
 
@@ -328,7 +331,7 @@ if ( ! class_exists('Updates') ) {
           ?>
           <input type='radio' name="php-version"
           <?php
-          if ( isset( $php['disabled'] ) && $php['disabled'] ) {
+          if ( isset($php['disabled']) && $php['disabled'] ) {
             echo 'disabled';
           };
           ?>
@@ -355,7 +358,8 @@ if ( ! class_exists('Updates') ) {
         <?php
         printf(
           // translators: link to log file
-          __('PHP version has been changed succesfully! Please check <a href="%s">php_error.log</a> for regressions.', 'seravo'), 'tools.php?page=logs_page&logfile=php-error.log'
+          __('PHP version has been changed succesfully! Please check <a href="%s">php_error.log</a> for regressions.', 'seravo'),
+          'tools.php?page=logs_page&logfile=php-error.log'
         );
         ?>
         </p>
@@ -366,32 +370,32 @@ if ( ! class_exists('Updates') ) {
 
     public static function screenshots_postbox() {
 
-      $screenshots = glob( '/data/reports/tests/debug/*.png' );
+      $screenshots = glob('/data/reports/tests/debug/*.png');
       $showing = 0;
       # Shows a comparison of any and all image pair of *.png and *.shadow.png found.
       if ( count($screenshots) > 3 ) {
 
         echo '
-      <table>
-        <tr>
-          <th>' . __('The Difference', 'seravo') . '</th>
-        </tr>
-          <tbody  style="vertical-align: top; text-align: center;">';
+          <table>
+            <tr>
+              <th>' . __('The Difference', 'seravo') . '</th>
+            </tr>
+            <tbody  style="vertical-align: top; text-align: center;">';
 
         foreach ( $screenshots as $key => $screenshot ) {
           // Skip *.shadow.png files from this loop
-          if ( strpos( $screenshot, '.shadow.png') || strpos( $screenshot, '.diff.png') ) {
+          if ( strpos($screenshot, '.shadow.png') || strpos($screenshot, '.diff.png') ) {
             continue;
           }
 
-          $name = substr( basename( $screenshot ), 0, -4);
+          $name = substr(basename($screenshot), 0, -4);
 
           // Check whether the *.shadow.png exists in the set
           // Do not show the comparison if both images are not found.
           $exists_shadow = false;
           foreach ( $screenshots as $key => $screenshotshadow ) {
                 // Increment over the known images. Stop when match found
-            if ( strpos( $screenshotshadow, $name . '.shadow.png' ) !== false ) {
+            if ( strpos($screenshotshadow, $name . '.shadow.png') !== false ) {
                 $exists_shadow = true;
                 break;
             }
@@ -401,7 +405,7 @@ if ( ! class_exists('Updates') ) {
             continue;
           }
 
-          $diff_txt = file_get_contents( substr( $screenshot, 0, -4) . '.diff.txt' );
+          $diff_txt = file_get_contents(substr($screenshot, 0, -4) . '.diff.txt');
           if ( preg_match('/Total: ([0-9.]+)/', $diff_txt, $matches) ) {
             $diff = (float) $matches[1];
           }
@@ -416,13 +420,15 @@ if ( ! class_exists('Updates') ) {
           if ( $diff > 0.011 ) {
             echo ' style="background-color: yellow;color: red;"';
           }
-              echo '>' . round( $diff * 100, 2 ) . ' %</span>';
+              echo '>' . round($diff * 100, 2) . ' %</span>';
 
-              echo self::seravo_admin_image_comparison_slider(array(
-                'difference' => $diff,
-                'img_right'  => "/.seravo/screenshots-ng/debug/$name.shadow.png",
-                'img_left'   => "/.seravo/screenshots-ng/debug/$name.png",
-              ));
+              echo self::seravo_admin_image_comparison_slider(
+                array(
+                  'difference' => $diff,
+                  'img_right'  => "/.seravo/screenshots-ng/debug/$name.shadow.png",
+                  'img_left'   => "/.seravo/screenshots-ng/debug/$name.png",
+                )
+              );
               echo '
               </td>
             </tr>';
@@ -442,20 +448,24 @@ if ( ! class_exists('Updates') ) {
     public static function seravo_admin_image_comparison_slider( $atts = [], $content = null, $tag = 'seravo_admin_image_comparison_slider' ) {
 
       // normalize attribute keys, lowercase
-      $atts = array_change_key_case( (array) $atts, CASE_LOWER);
+      $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
-      $img_comp_atts = shortcode_atts([
-        'difference'           => '',
-        'img_left'             => '',
-        'img_right'            => '',
-        'desc_left'            => __('Current State', 'seravo'),
-        'desc_right'           => __('Update Attempt', 'seravo'),
-        'desc_left_bg_color'   => 'green',
-        'desc_right_bg_color'  => 'red',
-        'desc_left_txt_color'  => 'white',
-        'desc_right_txt_color' => 'white',
-      ], $atts, $tag);
-      if ( floatval( $img_comp_atts['difference'] ) > 0.011 ) {
+      $img_comp_atts = shortcode_atts(
+        [
+          'difference'           => '',
+          'img_left'             => '',
+          'img_right'            => '',
+          'desc_left'            => __('Current State', 'seravo'),
+          'desc_right'           => __('Update Attempt', 'seravo'),
+          'desc_left_bg_color'   => 'green',
+          'desc_right_bg_color'  => 'red',
+          'desc_left_txt_color'  => 'white',
+          'desc_right_txt_color' => 'white',
+        ],
+        $atts,
+        $tag
+      );
+      if ( floatval($img_comp_atts['difference']) > 0.011 ) {
         $knob_style = 'difference';
       } else {
         $knob_style = '';
@@ -481,7 +491,7 @@ if ( ! class_exists('Updates') ) {
     }
 
     public static function seravo_admin_toggle_seravo_updates() {
-      check_admin_referer( 'seravo-updates-nonce' );
+      check_admin_referer('seravo-updates-nonce');
 
       if ( isset($_POST['seravo_updates']) && $_POST['seravo_updates'] === 'on' ) {
         $seravo_updates = 'true';
@@ -504,7 +514,7 @@ if ( ! class_exists('Updates') ) {
 
         if ( ! empty($_POST['technical_contacts']) ) {
 
-          $contact_addresses = explode( ',', $_POST['technical_contacts']);
+          $contact_addresses = explode(',', $_POST['technical_contacts']);
 
           // Perform email validation before making API request
           foreach ( $contact_addresses as $contact_address ) {
@@ -534,7 +544,7 @@ if ( ! class_exists('Updates') ) {
         die($response->get_error_message());
       }
 
-      wp_redirect( admin_url('tools.php?page=updates_page&settings-updated=true') );
+      wp_redirect(admin_url('tools.php?page=updates_page&settings-updated=true'));
       die();
     }
 

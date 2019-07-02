@@ -26,7 +26,7 @@ function seravo_wp_db_info_to_table( $array ) {
       $columns = explode("\t", $value);
       $output .= '<tr>';
       foreach ( $columns as $j => $column ) {
-        $output .= '<td>' . ( ( Helpers::human_file_size($column) == '0B' ) ? $column : Helpers::human_file_size($column) ) . '</td>';
+        $output .= '<td>' . ((Helpers::human_file_size($column) == '0B') ? $column : Helpers::human_file_size($column)) . '</td>';
       }
       $output .= '</tr>';
     }
@@ -67,7 +67,7 @@ function seravo_get_wp_db_info_tables() {
   foreach ( $tables as $table ) {
     $size = preg_replace('/[^0-9]/', '', $table['Size']);
     $data_folders[ $table['Name'] ] = array(
-      'percentage' => ( ( $size / $total[0] ) * 100 ),
+      'percentage' => (($size / $total[0]) * 100),
       'human'      => Helpers::human_file_size($size),
       'size'       => $size,
     );
@@ -101,7 +101,7 @@ function seravo_get_wp_db_info() {
  * Run AJAX request
  */
 function seravo_ajax_get_wp_db_info() {
-  check_ajax_referer( 'seravo_database', 'nonce' );
+  check_ajax_referer('seravo_database', 'nonce');
   switch ( $_REQUEST['section'] ) {
     case 'seravo_wp_db_info':
       echo wp_json_encode(seravo_get_wp_db_info());

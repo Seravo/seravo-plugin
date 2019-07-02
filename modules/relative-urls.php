@@ -35,8 +35,8 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
       */
       if ( ! defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL') && defined('WP_CONTENT_URL') && substr(WP_CONTENT_URL, 0, 1) !== '/' ) {
         // Makes post content url relative
-        add_filter( 'image_send_to_editor', array( __CLASS__, 'image_url_filter' ), 10, 9 );
-        add_filter( 'media_send_to_editor', array( __CLASS__, 'media_url_filter' ), 10, 3 );
+        add_filter('image_send_to_editor', array( __CLASS__, 'image_url_filter' ), 10, 9);
+        add_filter('media_send_to_editor', array( __CLASS__, 'media_url_filter' ), 10, 3);
 
         // Change urls in wp-admin
         //add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_link_adder_js_fix'), 10, 1 );
@@ -44,14 +44,14 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
 
       // When using feeds like rss the content should have absolute urls
       // These are quite easy to generate afterwards inside html content
-      add_filter( 'the_content_feed', array( __CLASS__, 'content_return_absolute_url_filter' ), 10, 1 );
+      add_filter('the_content_feed', array( __CLASS__, 'content_return_absolute_url_filter' ), 10, 1);
 
       /**
        * Check post content on save for absolute links
        * To activate this you need to filter: add_filter('seravo_make_content_relative',__return_true);
        */
       if ( apply_filters('seravo_make_post_content_relative', false) ) {
-        add_filter( 'content_save_pre', array( __CLASS__, 'content_url_filter' ), 10, 1);
+        add_filter('content_save_pre', array( __CLASS__, 'content_url_filter' ), 10, 1);
       }
     }
 
@@ -59,10 +59,10 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
      * Media gallery images should be handled with relative urls
      */
     public static function image_url_filter( $html, $id, $caption, $title, $align, $url, $size, $alt ) {
-      return self::relativize_content_all( $url, $html );
+      return self::relativize_content_all($url, $html);
     }
     public static function media_url_filter( $html, $id, $att ) {
-      return self::relativize_content_all( $att['url'], $html );
+      return self::relativize_content_all($att['url'], $html);
     }
 
     /**
@@ -71,7 +71,7 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
     public static function enqueue_link_adder_js_fix( $hook ) {
       if ( 'post.php' === $hook || 'post-new.php' === $hook ) {
         // we only need to use this fix in post.php
-        wp_enqueue_script( 'link-relative', plugin_dir_url( __FILE__ ) . '../js/link-relative.js', '', Helpers::seravo_plugin_version() );
+        wp_enqueue_script('link-relative', plugin_dir_url(__FILE__) . '../js/link-relative.js', '', Helpers::seravo_plugin_version());
       }
     }
 
@@ -85,10 +85,10 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
        * When using https-domain-alias the real siteurl is stored in HTTPS_DOMAIN_ALIAS_FRONTEND_URL
        */
       if ( defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL') ) {
-        $content = self::relativize_content_attributes( HTTPS_DOMAIN_ALIAS_FRONTEND_URL, $content );
+        $content = self::relativize_content_attributes(HTTPS_DOMAIN_ALIAS_FRONTEND_URL, $content);
       }
 
-      return self::relativize_content_attributes( self::$siteurl, $content );
+      return self::relativize_content_attributes(self::$siteurl, $content);
     }
 
     /**
@@ -102,17 +102,17 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
       $transient_key = 'seravo_feed_' . $letter_count . '_' . $hash;
 
       // Use transient to store the results
-      $transient = get_transient( $transient_key );
-      if ( ( isset($_SERVER['HTTP_PRAGMA'] ) && $_SERVER['HTTP_PRAGMA'] === 'no-cache' ) || false === ( $transient ) ) {
+      $transient = get_transient($transient_key);
+      if ( (isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] === 'no-cache') || false === ($transient) ) {
 
         // Again integrate with https://github.com/seravo/https-domain-alias
-        $url = ( defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL') ? HTTPS_DOMAIN_ALIAS_FRONTEND_URL : self::$siteurl );
+        $url = (defined('HTTPS_DOMAIN_ALIAS_FRONTEND_URL') ? HTTPS_DOMAIN_ALIAS_FRONTEND_URL : self::$siteurl);
 
         // Regex replace all relative urls
-        $content = self::unrelativize_content( $url, $content );
+        $content = self::unrelativize_content($url, $content);
 
         // Save to transient
-        set_transient( $transient_key, $content, 15 * MINUTE_IN_SECONDS );
+        set_transient($transient_key, $content, 15 * MINUTE_IN_SECONDS);
 
       } else {
         $content = $transient;
@@ -129,20 +129,20 @@ if ( ! class_exists(__NAMESPACE__ . '\\RelativeUrls') ) {
     public static function relativize_content_all( $url, $html ) {
       // links may be scheme agnostic (starting with //)
       // in this case we want to temporarily add a scheme for parse_url to work
-      if ( substr( $url, 0, 2 ) === '//' ) {
+      if ( substr($url, 0, 2) === '//' ) {
         $url = 'http:' . $url; // -> is now a full-form url.
         // scheme doesn't matter since it's removed anyways during the next step
       }
 
       // If url is already relative, do nothing
-      if ( substr( $url, 0, 4 ) !== 'http' ) {
+      if ( substr($url, 0, 4) !== 'http' ) {
         return $html;
       }
 
       // Otherwise take the scheme and host part away from the start of the url
-      $p = parse_url( $url );
+      $p = parse_url($url);
       $root = $p['scheme'] . '://' . $p['host'];
-      $html = str_ireplace( $root, '', $html );
+      $html = str_ireplace($root, '', $html);
 
       return $html;
     }

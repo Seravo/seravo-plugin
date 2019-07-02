@@ -42,16 +42,16 @@ function seravo_logins_info( $max = 10 ) {
   $total_row_count = count($login_data);
   for ( $i = 0; $i < $total_row_count; $i++ ) {
     // Remove succesful login lines that exceed $max. The oldest lines are first.
-    if ( strpos($login_data[ $i ], 'SUCCESS' ) && count(preg_grep('/SUCCESS/', $login_data)) > $max ) {
+    if ( strpos($login_data[ $i ], 'SUCCESS') && count(preg_grep('/SUCCESS/', $login_data)) > $max ) {
       unset($login_data[ $i ]);
-    } else if ( strpos($login_data[ $i ], 'SUCCESS' ) ) {
+    } else if ( strpos($login_data[ $i ], 'SUCCESS') ) {
 
       // Get IP. IP address is in the beginning of log line and ends to " -"
       $ip = substr($login_data[ $i ], 0, strpos($login_data[ $i ], ' -'));
 
       // Get the username. Username in log files between first "-" and "["
       $username_start = strpos($login_data[ $i ], '-') + 1;
-      $username = substr($login_data[ $i ], $username_start, strpos($login_data[ $i ], '[') - $username_start );
+      $username = substr($login_data[ $i ], $username_start, strpos($login_data[ $i ], '[') - $username_start);
 
       // Clean up succesful login lines, remove unnecessary characters
       $login_data[ $i ] = substr($login_data[ $i ], 0, strpos($login_data[ $i ], ' +0000]'));
@@ -79,10 +79,10 @@ function seravo_logins_info( $max = 10 ) {
   $login_data = array_values($login_data);
   // Adding column titles and table tags
   $column_titles = '<table class="login_info_table"><tr>' .
-    '<th class="login_info_th">' . __( 'IP address', 'seravo' ) . '</th>' .
-    '<th class="login_info_th">' . __( 'User', 'seravo' ) . '</th>' .
-    '<th class="login_info_th">' . __( 'Date', 'seravo' ) . '</th>' .
-    '<th class="login_info_th">' . __( 'Time', 'seravo' ) . ' (UTC)</th></tr>';
+    '<th class="login_info_th">' . __('IP address', 'seravo') . '</th>' .
+    '<th class="login_info_th">' . __('User', 'seravo') . '</th>' .
+    '<th class="login_info_th">' . __('Date', 'seravo') . '</th>' .
+    '<th class="login_info_th">' . __('Time', 'seravo') . ' (UTC)</th></tr>';
 
   $login_data = array_merge(array( $column_titles ), $login_data);
   $login_data = array_merge($login_data, array( '</table>' ));
@@ -91,7 +91,7 @@ function seravo_logins_info( $max = 10 ) {
 }
 
 function seravo_ajax_security() {
-  check_ajax_referer( 'seravo_security', 'nonce' );
+  check_ajax_referer('seravo_security', 'nonce');
   switch ( $_REQUEST['section'] ) {
     case 'logins_info':
       echo wp_json_encode(seravo_logins_info());

@@ -7,7 +7,7 @@ if ( ! defined('ABSPATH') ) {
 use Seravo\Helpers;
 
 function seravo_ajax_report_http_requests() {
-  check_ajax_referer( 'seravo_reports', 'nonce' );
+  check_ajax_referer('seravo_reports', 'nonce');
   $reports = glob('/data/slog/html/goaccess-*.html');
   // Create array of months with total request sums
   $months = array();
@@ -33,7 +33,8 @@ function seravo_ajax_report_http_requests() {
       $months,
       array(
         'max_requests' => $max_requests,
-      ));
+      )
+    );
   }
   echo wp_json_encode($months);
   wp_die();
@@ -41,7 +42,7 @@ function seravo_ajax_report_http_requests() {
 
 
 function seravo_report_folders() {
-  exec ('du -sb /data', $data_folder);
+  exec('du -sb /data', $data_folder);
   list($data_size, $data_name) = preg_split('/\s+/', $data_folder[0]);
   exec('du -sb /data/* | sort -hr', $data_sub);
   // Generate sub folder array
@@ -49,7 +50,7 @@ function seravo_report_folders() {
   foreach ( $data_sub as $folder ) {
     list($folder_size, $folder_name) = preg_split('/\s+/', $folder);
     $data_folders[ $folder_name ] = array(
-      'percentage' => ( ( $folder_size / $data_size ) * 100 ),
+      'percentage' => (($folder_size / $data_size) * 100),
       'human'      => Helpers::human_file_size($folder_size),
       'size'       => $folder_size,
     );
@@ -121,7 +122,7 @@ function seravo_report_front_cache_status() {
 }
 
 function seravo_ajax_reports() {
-  check_ajax_referer( 'seravo_reports', 'nonce' );
+  check_ajax_referer('seravo_reports', 'nonce');
   switch ( $_REQUEST['section'] ) {
     case 'folders_chart':
       echo wp_json_encode(seravo_report_folders());

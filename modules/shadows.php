@@ -14,16 +14,16 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once dirname( __FILE__ ) . '/../lib/helpers.php';
-require_once dirname( __FILE__ ) . '/../lib/shadows-ajax.php';
+require_once dirname(__FILE__) . '/../lib/helpers.php';
+require_once dirname(__FILE__) . '/../lib/shadows-ajax.php';
 
 if ( ! class_exists('Shadows') ) {
   class Shadows {
 
     public static function load() {
-      add_action( 'admin_menu', array( __CLASS__, 'register_shadows_page' ) );
-      add_action( 'admin_enqueue_scripts', array( __CLASS__, 'register_shadows_scripts' ));
-      add_action( 'wp_ajax_seravo_reset_shadow', 'seravo_reset_shadow' );
+      add_action('admin_menu', array( __CLASS__, 'register_shadows_page' ));
+      add_action('admin_enqueue_scripts', array( __CLASS__, 'register_shadows_scripts' ));
+      add_action('wp_ajax_seravo_reset_shadow', 'seravo_reset_shadow');
 
       seravo_add_postbox(
         'shadows',
@@ -47,12 +47,12 @@ if ( ! class_exists('Shadows') ) {
     }
 
     public static function register_shadows_scripts( $page ) {
-      wp_register_style('seravo_shadows', plugin_dir_url( __DIR__ ) . '/style/shadows.css', '', Helpers::seravo_plugin_version() );
-      wp_register_script( 'seravo_shadows', plugin_dir_url( __DIR__ ) . '/js/shadows.js', '', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_shadows', plugin_dir_url(__DIR__) . '/style/shadows.css', '', Helpers::seravo_plugin_version());
+      wp_register_script('seravo_shadows', plugin_dir_url(__DIR__) . '/js/shadows.js', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_shadows_page' ) {
-        wp_enqueue_style( 'seravo_shadows' );
-        wp_enqueue_script( 'seravo_shadows' );
+        wp_enqueue_style('seravo_shadows');
+        wp_enqueue_script('seravo_shadows');
 
         $loc_translation = array(
           'success'    => __('Success', 'seravo'),
@@ -63,7 +63,7 @@ if ( ! class_exists('Shadows') ) {
           'ajax_nonce' => wp_create_nonce('seravo_shadows'),
         );
 
-        wp_localize_script( 'seravo_shadows', 'seravo_shadows_loc', $loc_translation );
+        wp_localize_script('seravo_shadows', 'seravo_shadows_loc', $loc_translation);
       }
     }
 

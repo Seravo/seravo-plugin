@@ -12,8 +12,8 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once dirname( __FILE__ ) . '/../lib/search-replace-ajax.php';
-require_once dirname( __FILE__ ) . '/../lib/database-ajax.php';
+require_once dirname(__FILE__) . '/../lib/search-replace-ajax.php';
+require_once dirname(__FILE__) . '/../lib/database-ajax.php';
 
 if ( ! class_exists('Database') ) {
   class Database {
@@ -26,7 +26,7 @@ if ( ! class_exists('Database') ) {
       if ( ! is_multisite() ) {
         $GLOBALS['sr_networkvisibility'] = false;
         $GLOBALS['sr_alltables'] = true;
-      } elseif ( current_user_can( 'manage_network' ) ) {
+      } elseif ( current_user_can('manage_network') ) {
         $GLOBALS['sr_networkvisibility'] = true;
         $GLOBALS['sr_alltables'] = true;
       } else {
@@ -35,11 +35,11 @@ if ( ! class_exists('Database') ) {
       }
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_database_scripts' ));
-      add_action( 'admin_menu', array( __CLASS__, 'register_database_page' ) );
+      add_action('admin_menu', array( __CLASS__, 'register_database_page' ));
 
       // Add AJAX endpoints for wp search-replace and database info
-      add_action( 'wp_ajax_seravo_search_replace', 'seravo_ajax_search_replace' );
-      add_action( 'wp_ajax_seravo_wp_db_info', 'seravo_ajax_get_wp_db_info' );
+      add_action('wp_ajax_seravo_search_replace', 'seravo_ajax_search_replace');
+      add_action('wp_ajax_seravo_wp_db_info', 'seravo_ajax_get_wp_db_info');
 
       seravo_add_postbox(
         'database-access',
@@ -82,20 +82,20 @@ if ( ! class_exists('Database') ) {
     public static function enqueue_database_scripts( $page ) {
 
       wp_register_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css', '', Helpers::seravo_plugin_version());
-      wp_register_script( 'chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', '', Helpers::seravo_plugin_version(), true );
+      wp_register_script('chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', '', Helpers::seravo_plugin_version(), true);
 
       if ( $page === 'tools_page_database_page' ) {
         wp_enqueue_style('seravo_database');
         wp_enqueue_script('chart-js');
-        wp_enqueue_script( 'color-hash', plugins_url( '../js/color-hash.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
-        wp_enqueue_script( 'reports-chart', plugins_url( '../js/reports-chart.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
-        wp_enqueue_script( 'seravo_database', plugins_url( '../js/database.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
+        wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('seravo_database', plugins_url('../js/database.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
 
         $loc_translation_database = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),
           'ajax_nonce' => wp_create_nonce('seravo_database'),
         );
-        wp_localize_script( 'seravo_database', 'seravo_database_loc', $loc_translation_database );
+        wp_localize_script('seravo_database', 'seravo_database_loc', $loc_translation_database);
       }
 
     }
@@ -110,7 +110,8 @@ if ( ! class_exists('Database') ) {
         __('Database', 'seravo'),
         'manage_options',
         'database_page',
-        'Seravo\seravo_postboxes_page' );
+        'Seravo\seravo_postboxes_page'
+      );
     }
 
     public static function database_access_postbox() {
@@ -118,13 +119,13 @@ if ( ! class_exists('Database') ) {
       <p>
         <?php
         // translators: $s example of the command for getting user's database credentials
-        printf( __( 'You can find the database credentials by connecting to your site with SSH and running the command %s. These credentials can be used to connect to the server with an SSH tunnel. You can also use the web-based Adminer available on this page.', 'seravo' ), '<code>wp-list-env</code>' );
+        printf(__('You can find the database credentials by connecting to your site with SSH and running the command %s. These credentials can be used to connect to the server with an SSH tunnel. You can also use the web-based Adminer available on this page.', 'seravo'), '<code>wp-list-env</code>');
         ?>
       </p>
       <p>
         <?php
         // translators: $s url containing additional information on WordPress database tools
-        printf( __( 'When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href="%s">Read the documentation for wp db</a>.', 'seravo' ), 'https://developer.wordpress.org/cli/commands/db/' );
+        printf(__('When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href="%s">Read the documentation for wp db</a>.', 'seravo'), 'https://developer.wordpress.org/cli/commands/db/');
         ?>
       </p>
       <?php
@@ -137,7 +138,7 @@ if ( ! class_exists('Database') ) {
         /* translators:
         * %1$s url to www.adminer.org
         */
-        printf( __( 'Adminer is a simple database management tool, like phpMyAdmin. <a href="%1$s">Learn more about Adminer.</a>', 'seravo' ), 'https://www.adminer.org' );
+        printf(__('Adminer is a simple database management tool, like phpMyAdmin. <a href="%1$s">Learn more about Adminer.</a>', 'seravo'), 'https://www.adminer.org');
         ?>
       </p>
       <p>
@@ -146,7 +147,7 @@ if ( ! class_exists('Database') ) {
         * %1$s example url for accessing Adminer in production environment
         * %2$s example url for accessing Adminer in local development
         */
-        printf( __( 'Adminer can be located in the production environment at %1$s and in the local development environment at %2$s.', 'seravo' ), '<code>sitename.com/.seravo/adminer</code>', '<code>adminer.sitename.local</code>' );
+        printf(__('Adminer can be located in the production environment at %1$s and in the local development environment at %2$s.', 'seravo'), '<code>sitename.com/.seravo/adminer</code>', '<code>adminer.sitename.local</code>');
         ?>
       </p>
       <?php
@@ -180,7 +181,7 @@ if ( ! class_exists('Database') ) {
 
       <p class="adminer_button">
         <a href="<?php echo esc_url($adminer_url); ?>" class="button" target="_blank">
-          <?php _e( 'Open Adminer', 'seravo' ); ?>
+          <?php _e('Open Adminer', 'seravo'); ?>
           <span aria-hidden="true" class="dashicons dashicons-external"></span>
         </a>
       </p>
@@ -189,7 +190,7 @@ if ( ! class_exists('Database') ) {
 
     public static function database_search_replace_postbox() {
       ?>
-      <?php if ( exec( 'which wp' ) && apply_filters('seravo_search_replace', true) ) : ?>
+      <?php if ( exec('which wp') && apply_filters('seravo_search_replace', true) ) : ?>
         <p> <?php _e('You can use this tool to run <code>wp search-replace</code>. For safety reason a dry run is compulsory before the actual search-replace can be done.', 'seravo'); ?></p>
         <div class="sr-navbar">
           <span class="label_buttons"><label class="from_label" for="sr-from"><?php _e('From:', 'seravo'); ?></label> <input type="text" id="sr-from" value=""></span><br>
@@ -228,7 +229,7 @@ if ( ! class_exists('Database') ) {
 
     public static function database_size_postbox() {
       ?>
-      <?php if ( exec( 'which wp' ) ) : ?>
+      <?php if ( exec('which wp') ) : ?>
         <div class="section_chart_mobile">
           <p>
             <div id="seravo_wp_db_info_loading"><img src="/wp-admin/images/spinner.gif"></div>

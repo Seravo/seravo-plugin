@@ -4,8 +4,8 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists( 'Seravo_Domains_DNS_Table' ) ) {
-  require_once dirname( __FILE__ ) . '/domains-dns.php';
+if ( ! class_exists('Seravo_Domains_DNS_Table') ) {
+  require_once dirname(__FILE__) . '/domains-dns.php';
 }
 
 if ( ! class_exists('WP_List_Table') ) {
@@ -56,56 +56,60 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     // $actions['delete'] = sprintf( $action_request, 'delete', 'Delete');
     */
 
-    $page = ! empty( $_REQUEST['page'] ) ? $_REQUEST['page'] : 'domains_page';
-    $paged_str = ! empty( $_REQUEST['paged'] ) ? '&paged=' . $_REQUEST['paged'] : '';
+    $page = ! empty($_REQUEST['page']) ? $_REQUEST['page'] : 'domains_page';
+    $paged_str = ! empty($_REQUEST['paged']) ? '&paged=' . $_REQUEST['paged'] : '';
 
     $action_request = '<a href="?page=' . $page . '&domain=' . $item['domain'] . $paged_str . '&action=%s">%s</a>';
 
-    $actions['view'] = sprintf( $action_request, 'view', __( 'View', 'seravo' ) );
-    if ( get_option( 'seravo-domain-edit' ) !== 'disabled' ) {
-      $actions['edit'] = sprintf( $action_request, 'edit', __( 'Edit', 'seravo' ) );
+    $actions['view'] = sprintf($action_request, 'view', __('View', 'seravo'));
+    if ( get_option('seravo-domain-edit') !== 'disabled' ) {
+      $actions['edit'] = sprintf($action_request, 'edit', __('Edit', 'seravo'));
     }
 
-    $primary_str = ! empty( $item['primary'] ) ? ' — ' . __( 'Primary Domain', 'seravo' ) : '';
+    $primary_str = ! empty($item['primary']) ? ' — ' . __('Primary Domain', 'seravo') : '';
 
     switch ( $item['management'] ) {
       case 'Customer':
-        // translators:  %1$s is opening tag for a link, %2$s a closing tag.
-        $action_row_msg = sprintf( __( 'DNS not managed by Seravo, see %1$smore details%2$s', 'seravo' ),
-                                       '<a href="https://help.seravo.com/en/docs/18-can-i-use-my-own-dns" target="_blank">', '</a>' );
+        $action_row_msg = sprintf(
+          // translators:  %1$s is opening tag for a link, %2$s a closing tag.
+          __('DNS not managed by Seravo, see %1$smore details%2$s', 'seravo'),
+          '<a href="https://help.seravo.com/en/docs/18-can-i-use-my-own-dns" target="_blank">',
+          '</a>'
+        );
         break;
       case null:
-        $action_row_msg = __( "Subdomains don't have their own zone", 'seravo' );
+        $action_row_msg = __("Subdomains don't have their own zone", 'seravo');
         break;
       case 'Seravo':
         $action_row_msg = '';
         break;
       default:
-        $action_row_msg = __( "This domain doesn't have a zone", 'seravo' );
+        $action_row_msg = __("This domain doesn't have a zone", 'seravo');
     }
 
-    return sprintf( '<strong class="row-title">%1$s<small>%2$s</small></strong> %3$s',
-        /*$1%s*/ $item['domain'],
-        /*$2%s*/ $primary_str,
-        /*$3%s*/ empty( $action_row_msg ) ? $this->row_actions($actions) : '<div class="row-actions" style="color:#8e8d8d"><b>' . $action_row_msg . '</b></div>'
+    return sprintf(
+      '<strong class="row-title">%1$s<small>%2$s</small></strong> %3$s',
+      /*$1%s*/ $item['domain'],
+      /*$2%s*/ $primary_str,
+      /*$3%s*/ empty($action_row_msg) ? $this->row_actions($actions) : '<div class="row-actions" style="color:#8e8d8d"><b>' . $action_row_msg . '</b></div>'
     );
 
   }
 
   public function column_cb( $item ) {
     return sprintf(
-        '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-          // Let's simply repurpose the table's singular label ("domain")
-        /*$1%s*/ $this->_args['singular'],
-          // The value of the checkbox should be the domain name
-        /*$2%s*/ $item['domain']
+      '<input type="checkbox" name="%1$s[]" value="%2$s" />',
+      // Let's simply repurpose the table's singular label ("domain")
+      /*$1%s*/ $this->_args['singular'],
+      // The value of the checkbox should be the domain name
+      /*$2%s*/ $item['domain']
     );
   }
 
   public function column_dns( $item ) {
     $dns = $item['dns'];
-    if ( ! empty ( $dns ) ) {
-      return implode( '<br>', $dns );
+    if ( ! empty($dns) ) {
+      return implode('<br>', $dns);
     }
     return '';
   }
@@ -181,13 +185,13 @@ class Seravo_Domains_List_Table extends WP_List_Table {
      */
     function usort_reorder( $a, $b ) {
       // If no sort, default to domain name
-      $orderby = ( ! empty($_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'domain';
+      $orderby = (! empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'domain';
         // If no order, default to asc
-      $order = ( ! empty($_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'asc';
+      $order = (! empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc';
         // Determine sort order
       $result = strcmp($a[ $orderby ], $b[ $orderby ]);
         // Send final sort direction to usort
-      return ( $order === 'asc' ) ? $result : -$result;
+      return ($order === 'asc') ? $result : -$result;
     }
     usort($data, 'usort_reorder');
 
@@ -200,7 +204,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
      * to ensure that the data is trimmed to only the current page. We can use
      * array_slice() to
      */
-    $data = array_slice( $data, ( ( $current_page - 1 ) * $per_page ), $per_page );
+    $data = array_slice($data, (($current_page - 1) * $per_page), $per_page);
 
     /**
      * REQUIRED. Now we can add our *sorted* data to the items property, where
@@ -227,11 +231,11 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     // Print the rows normally
     echo '<tr>';
-    $this->single_row_columns( $item );
+    $this->single_row_columns($item);
     echo '</tr>';
 
     // If there was a DNS table request for the previously printed domain
-    if ( ! empty( $_REQUEST['domain']) && $item['domain'] === $_REQUEST['domain'] && ! is_null($this->dns) ) {
+    if ( ! empty($_REQUEST['domain']) && $item['domain'] === $_REQUEST['domain'] && ! is_null($this->dns) ) {
 
       // Add empty row to keep the row color same as the one above
       echo '<tr></tr>';

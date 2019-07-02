@@ -19,14 +19,14 @@ if ( ! class_exists('API') ) {
     */
     public static function get_site_data( $api_query = '', $handled_http_codes = [ 200 ] ) {
       $site = getenv('USER');
-      $ch = curl_init('http://localhost:8888/v1/site/' . $site . $api_query );
+      $ch = curl_init('http://localhost:8888/v1/site/' . $site . $api_query);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'X-Api-Key: ' . getenv('SERAVO_API_KEY') ));
       $response = curl_exec($ch);
       $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
       // Check for errors
-      if ( curl_error($ch) || ! in_array( $httpcode, $handled_http_codes ) ) {
+      if ( curl_error($ch) || ! in_array($httpcode, $handled_http_codes) ) {
         error_log('SWD API (' . $api_query . ') error ' . $httpcode . ': ' . curl_error($ch));
         curl_close($ch);
         return new \WP_Error('seravo-api-get-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
@@ -44,18 +44,22 @@ if ( ! class_exists('API') ) {
 
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'X-Api-Key: ' . getenv('SERAVO_API_KEY'),
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($data_json),
-      ));
+      curl_setopt(
+        $ch,
+        CURLOPT_HTTPHEADER,
+        array(
+          'X-Api-Key: ' . getenv('SERAVO_API_KEY'),
+          'Content-Type: application/json',
+          'Content-Length: ' . strlen($data_json),
+        )
+      );
       curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
 
       $response = curl_exec($ch);
       $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
       // Check for errors
-      if ( curl_error($ch) || ! in_array( $httpcode, $handled_http_codes ) ) {
+      if ( curl_error($ch) || ! in_array($httpcode, $handled_http_codes) ) {
         error_log('SWD API (' . $api_query . ') error ' . $httpcode . ': ' . curl_error($ch));
         curl_close($ch);
         return new \WP_Error('seravo-api-put-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));

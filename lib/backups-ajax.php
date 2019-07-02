@@ -20,7 +20,7 @@ function seravo_create_backup() {
 }
 
 function seravo_ajax_backups() {
-  check_ajax_referer( 'seravo_backups', 'nonce' );
+  check_ajax_referer('seravo_backups', 'nonce');
   switch ( $_REQUEST['section'] ) {
     case 'backup_status':
       echo wp_json_encode(seravo_backup_status());

@@ -7,7 +7,7 @@
 
 namespace Seravo;
 
-require_once dirname( __FILE__ ) . '/../lib/backups-ajax.php';
+require_once dirname(__FILE__) . '/../lib/backups-ajax.php';
 
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
@@ -25,11 +25,11 @@ if ( ! class_exists('Backups') ) {
 
       // Only show the menu item on systems where wp-backup is available
       if ( exec('which wp-backup-status') ) {
-        add_action( 'admin_menu', array( __CLASS__, 'register_backups_page' ) );
+        add_action('admin_menu', array( __CLASS__, 'register_backups_page' ));
       }
 
       // TODO: check if this hook actually ever fires for mu-plugins
-      register_activation_hook( __FILE__, array( __CLASS__, 'register_view_backups_capability' ) );
+      register_activation_hook(__FILE__, array( __CLASS__, 'register_view_backups_capability' ));
 
       seravo_add_postbox(
         'backups-info',
@@ -74,14 +74,14 @@ if ( ! class_exists('Backups') ) {
       wp_register_style('seravo_backups', plugin_dir_url(__DIR__) . '/style/backups.css', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_backups_page' ) {
-        wp_enqueue_script( 'seravo_backups' );
+        wp_enqueue_script('seravo_backups');
         wp_enqueue_style('seravo_backups');
 
         $loc_translation_backups = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),
           'ajax_nonce' => wp_create_nonce('seravo_backups'),
         );
-        wp_localize_script( 'seravo_backups', 'seravo_backups_loc', $loc_translation_backups );
+        wp_localize_script('seravo_backups', 'seravo_backups_loc', $loc_translation_backups);
       }
 
     }
@@ -118,7 +118,7 @@ if ( ! class_exists('Backups') ) {
 
     public static function backups_excludes_postbox() {
       // translators: %s name of the file shown
-      printf( __('Below are the contents of %s.', 'seravo'), '<code>/data/backups/exclude.filelist</code>' );
+      printf(__('Below are the contents of %s.', 'seravo'), '<code>/data/backups/exclude.filelist</code>');
       ?>
       <p>
         <div id="backup_exclude_loading">
@@ -131,7 +131,7 @@ if ( ! class_exists('Backups') ) {
 
     public static function backups_list_postbox() {
       // translators: %s command used to list WordPress backups of the website
-      printf( __('This list is produced by the command %s.', 'seravo'), '<code>wp-backup-status</code>' );
+      printf(__('This list is produced by the command %s.', 'seravo'), '<code>wp-backup-status</code>');
       ?>
       <p>
         <div id="backup_status_loading"><img src="/wp-admin/images/spinner.gif"></div>
