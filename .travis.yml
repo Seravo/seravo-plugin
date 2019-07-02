@@ -12,7 +12,7 @@ php:
 matrix:
   include:
     # Arbitrary PHP version to run the sniffs against.
-    - php: '7.2'
+    - php: '7.3'
       env: SNIFF=1
   allow_failures:
   - php: nightly  # Old phpunit not compatible with PHP 8.0.0 yet
