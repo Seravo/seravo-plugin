@@ -1,3 +1,4 @@
+// phpcs:disable PEAR.Functions.FunctionCallSignature
 /**
  * This makes the Wordpress TinyMCE editor link adder use relative URLs
  *

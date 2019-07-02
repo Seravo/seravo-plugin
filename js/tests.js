@@ -1,3 +1,4 @@
+// phpcs:disable PEAR.Functions.FunctionCallSignature
 jQuery(window).on('load', function() {
 
   function seravo_load_test_report() {

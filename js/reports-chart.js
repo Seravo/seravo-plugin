@@ -1,3 +1,4 @@
+// phpcs:disable PEAR.Functions.FunctionCallSignature
 function generateChart(JSONdata) {
   var data = [];
   var labels = [];
