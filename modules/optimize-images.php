@@ -93,8 +93,12 @@ if ( ! class_exists('Optimize_Images') ) {
 
     public static function register_optimize_images_page() {
       add_submenu_page(
-        'tools.php', __( 'Optimize Images', 'seravo' ), __( 'Optimize Images', 'seravo' ),
-        'manage_options', 'optimize_images_page', 'Seravo\seravo_postboxes_page'
+        'tools.php',
+        __( 'Optimize Images', 'seravo' ),
+        __( 'Optimize Images', 'seravo' ),
+        'manage_options',
+        'optimize_images_page',
+        'Seravo\seravo_postboxes_page'
       );
     }
 

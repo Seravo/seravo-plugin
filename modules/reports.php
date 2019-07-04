@@ -34,7 +34,7 @@ if ( ! class_exists('Reports') ) {
         __('HTTP Request Statistics', 'seravo'),
         array( __CLASS__, 'seravo_http_request_statistics' ),
         'tools_page_reports_page',
-        'side'
+        'normal'
       );
 
       // Add disk usage postbox
@@ -65,7 +65,13 @@ if ( ! class_exists('Reports') ) {
     }
 
     public static function register_reports_page() {
-      add_submenu_page( 'tools.php', __('Reports', 'seravo'), __('Reports', 'seravo'), 'manage_options', 'reports_page', 'Seravo\seravo_postboxes_page' );
+      add_submenu_page(
+        'tools.php',
+        __('Reports', 'seravo'),
+        __('Reports', 'seravo'),
+        'manage_options',
+        'reports_page',
+        'Seravo\seravo_postboxes_page' );
     }
 
     public static function enqueue_reports_scripts( $page ) {
@@ -176,9 +182,18 @@ if ( ! class_exists('Reports') ) {
         'anywhere' => __('No preference', 'seravo'),
       );
 
+      $contact_emails = array();
+      if ( isset($site_info['contact_emails']) ) {
+        $contact_emails = $site_info['contact_emails'];
+      }
+
       function print_item( $value, $description ) {
-        if ( ! empty($value) && '1970-01-01' != $value ) {
-          echo '<p>' . $description . ': ' . $value . '</p>';
+        if ( is_array( $value ) ) {
+          echo '<p>' . $description . ': ';
+          $mails = implode(', ', $value);
+          echo $mails . '</p>';
+        } elseif ( ! empty($value) && '1970-01-01' != $value ) {
+            echo '<p>' . $description . ': ' . $value . '</p>';
         }
       }
 
@@ -190,7 +205,14 @@ if ( ! class_exists('Reports') ) {
       print_item( date('Y-m-d', strtotime($site_info['termination'])), __('Plan Termination', 'seravo') );
       print_item( $country, __('Site Location', 'seravo') );
       print_item( $plans[ $site_info['plan']['type'] ], __('Plan Type', 'seravo') );
-      print_item( htmlentities($site_info['account_manager']), __('Account Manager', 'seravo') );
+
+      if ( isset($site_info['account_manager']) ) {
+        print_item( htmlentities($site_info['account_manager']), __('Account Manager', 'seravo') );
+      } else {
+        echo '<p>' . __('No Account Manager found. Account Manager is only included in Seravo Enterprise plans.', 'seravo') . '</p>';
+      }
+
+      print_item( $contact_emails, __('<a href="tools.php?page=updates_page">Technical Contacts</a>', 'seravo') );
     }
 
     public static function seravo_data_integrity() {

@@ -36,7 +36,13 @@ if ( ! class_exists('Tests') ) {
     }
 
     public static function register_tests_page() {
-      add_submenu_page('tools.php', __('Tests', 'seravo'), __('Tests', 'seravo'), 'manage_options', 'tests_page', 'Seravo\seravo_postboxes_page' );
+      add_submenu_page(
+        'tools.php',
+        __('Tests', 'seravo'),
+        __('Tests', 'seravo'),
+        'manage_options',
+        'tests_page',
+        'Seravo\seravo_postboxes_page' );
     }
 
     public static function register_tests_scripts( $page ) {

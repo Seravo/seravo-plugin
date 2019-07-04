@@ -44,7 +44,13 @@ if ( ! class_exists('Domains') ) {
     }
 
     public static function register_domains_page() {
-      add_submenu_page( 'tools.php', __('Domains', 'seravo'), __('Domains', 'seravo'), 'manage_options', 'domains_page', array( __CLASS__, 'load_domains_page' ) );
+      add_submenu_page(
+        'tools.php',
+        __('Domains', 'seravo'),
+        __('Domains', 'seravo'),
+        'manage_options',
+        'domains_page',
+        array( __CLASS__, 'load_domains_page' ) );
     }
 
     public static function load_domains_page() {
