@@ -6,9 +6,12 @@
 .login_info_th {
   text-align: left;
 }
-
+.ip_tooltip {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .username_tooltip {
-  width: 90px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

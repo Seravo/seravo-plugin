@@ -46,6 +46,9 @@ function seravo_logins_info( $max = 10 ) {
       unset($login_data[ $i ]);
     } else if ( strpos($login_data[ $i ], 'SUCCESS' ) ) {
 
+      // Get IP. IP address is in the beginning of log line and ends to " -"
+      $ip = substr($login_data[ $i ], 0, strpos($login_data[ $i ], ' -'));
+
       // Get the username. Username in log files between first "-" and "["
       $username_start = strpos($login_data[ $i ], '-') + 1;
       $username = substr($login_data[ $i ], $username_start, strpos($login_data[ $i ], '[') - $username_start );
@@ -54,7 +57,8 @@ function seravo_logins_info( $max = 10 ) {
       $login_data[ $i ] = substr($login_data[ $i ], 0, strpos($login_data[ $i ], ' +0000]'));
 
       // Insert table elements to every row
-      $login_data[ $i ] = '<tr><td>' . $login_data[ $i ] . '</td></tr>';
+      // Add tooltip for IP. CSS ellipsis will shorten IP if it doesn't fit the postbox otherwise
+      $login_data[ $i ] = '<tr><td class="ip_tooltip" title="' . $ip . '">' . $login_data[ $i ] . '</td></tr>';
 
       // Log file data is in the format: IP - username [ date : time
       // Insert table elements in place of characters - [ :
