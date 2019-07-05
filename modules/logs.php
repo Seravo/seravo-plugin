@@ -107,19 +107,21 @@ if ( ! class_exists('Logs') ) {
       $logs = glob( '/data/log/*.log' );
 
       // Check for missing .log files and fetch rotated .log-12345678 file instead
-      // using an array of possible log names to compare fetched array against
+      // using an array of possible log names to compare fetched array against.
       $log_names = array(
         '/data/log/chromedriver.log',
         '/data/log/mail.log',
         '/data/log/nginx-access.log',
         '/data/log/nginx-error.log',
         '/data/log/php-error.log',
-        '/data/log/runit.log',
         '/data/log/security.log',
+        '/data/log/tideways.log',
         '/data/log/update.log',
         '/data/log/wp-login.log',
         '/data/log/wp-theme-security.log',
       );
+      // Skip runit.log and bootstrap.log and other logs that are not relevant
+      // for customers and only list the ones a UI user might be interested in.
 
       // Store all missing log names to an array
       $missing_logs = array_diff( $log_names, $logs );
