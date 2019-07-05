@@ -212,7 +212,7 @@ if ( ! class_exists('Reports') ) {
         echo '<p>' . __('No Account Manager found. Account Manager is only included in Seravo Enterprise plans.', 'seravo') . '</p>';
       }
 
-      print_item( $contact_emails, __('<a href="tools.php?page=updates_page">Technical Contacts</a>', 'seravo') );
+      print_item( $contact_emails, '<a href="tools.php?page=updates_page">' . __('Technical Contacts', 'seravo') . '</a>' );
     }
 
     public static function seravo_data_integrity() {
