@@ -257,11 +257,10 @@ if ( ! class_exists('Updates') ) {
         <?php
         printf(
           // translators: event count and update.log filename and updates.log and security.log paths
-          __('For details about last %1$s update attempts by Seravo, see %2$s
-           and %3$s', 'seravo'),
+          __('For details about last %1$s update attempts by Seravo, see %2$s and %3$s', 'seravo'),
           count($output),
-          '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>/data/log/update.log*</code><a/>',
-          '<a href="tools.php?page=logs_page&logfile=security.log&max_num_of_rows=50"><code>/data/log/security.log*</code>.</a>'
+          '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>/data/log/update.log*</code></a>',
+          '<a href="tools.php?page=logs_page&logfile=security.log&max_num_of_rows=50"><code>/data/log/security.log*</code></a>'
         );
         ?>
       </p>
