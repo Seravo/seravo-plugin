@@ -18,7 +18,6 @@ if ( ! class_exists('Mails') ) {
 
     public static function load() {
       add_action( 'admin_menu', array( __CLASS__, 'register_mails_page' ) );
-      add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_styles' ) );
 
       seravo_add_postbox(
         'mail-forwards',
@@ -39,23 +38,6 @@ if ( ! class_exists('Mails') ) {
         'mails_page',
         'Seravo\seravo_postboxes_page'
       );
-    }
-
-    /**
-     * Enqueues styles and scripts for the admin tools page
-     *
-     * @param mixed $hook
-     * @access public
-     * @return void
-     */
-    public static function admin_enqueue_styles( $hook ) {
-      wp_register_style( 'mails_page', plugin_dir_url( __DIR__ ) . '/style/mails.css', '', Helpers::seravo_plugin_version() );
-      wp_register_script( 'mails_page', plugin_dir_url( __DIR__ ) . '/js/mails.js', '', Helpers::seravo_plugin_version() );
-
-      if ( $hook === 'tools_page_mails_page' ) {
-        wp_enqueue_style( 'mails_page' );
-        wp_enqueue_script( 'mails_page' );
-      }
     }
 
     public static function mails_postbox() {
