@@ -49,7 +49,7 @@ jQuery(document).ready(function ($) {
           appendLine($element, child, true)
         }
       })
-      $element.append('<tr><td style="padding: 5px 0 0 0;"></td></tr>');
+      $element.append('<tr><td colspan="2" style="padding: 5px 0 0 0;"></td></tr>');
     }
   }
 

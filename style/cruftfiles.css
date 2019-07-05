@@ -120,7 +120,8 @@ table {
   font-weight: bold;
 }
 
-[data-childs="true"] .crufttheme-delete {
+/* If theme has children, hide the checkbox so the parent cannot be deleted */
+[data-childs="true"] .crufttheme-delete input {
   display: none;
 }
 
