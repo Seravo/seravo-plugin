@@ -143,6 +143,11 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
   top: 20px;
 }
 
+#seravo-postbox-site-status ul {
+  list-style-type: disc;
+  padding-left: 18px;
+}
+
 @media only screen and (max-width:1445px) {
   #dashboard_right_now .seravo-updates-postbox,
   #dashboard_quick_press .seravo-updates-postbox{

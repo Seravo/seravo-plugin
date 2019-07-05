@@ -161,6 +161,8 @@ if ( ! class_exists('Updates') ) {
             <span class="technical_contacts_error"><?php _e('Email must be formatted as name@domain.com', 'seravo'); ?></span>
             <input name="technical_contacts" type="hidden">
             <div class="technical_contacts_buttons"></div>
+            <br>
+            <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
             <p><small class="seravo-developer-letter-hint">
             <?php
               // translators: %1$s link to Newsletter for WordPress developers
@@ -168,8 +170,6 @@ if ( ! class_exists('Updates') ) {
             ?>
             </small></p>
             <br>
-            <br>
-            <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
           </form>
         <?php
       } else {
@@ -193,13 +193,13 @@ if ( ! class_exists('Updates') ) {
       }
       $update_log_name = substr( end( $update_logs_arr ), 10 );
 
-      ?>
-      <?php if ( gettype($site_info) === 'array' ) : ?>
-      <ul>
-        <li><?php _e('Site Created', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['created'])); ?></li>
-
+      if ( gettype($site_info) === 'array' ) {
+        ?>
+        <p>
+          <?php _e('Site created', 'seravo'); ?>:
+          <?php echo date('Y-m-d', strtotime($site_info['created'])); ?>
+        </p>
         <?php
-
         // Show notification if FULL site update hasn't been succesful in 30 or more days
         // and the site is using Seravo updates
         if ( $site_info['seravo_updates'] === true && $interval >= 30 ) {
@@ -226,30 +226,32 @@ if ( ! class_exists('Updates') ) {
             echo '<p>' .
                 __('Last succesful full site update was over a month ago. A developer should take
                 a look at the update log and fix the issue preventing the site from updating.', 'seravo') .
-                '</p><p><b>' . __('Latest update.log:', 'seravo') . '</b></p><p>' .
+                '</p><p><h3>' . __('Latest update.log:', 'seravo') . '</h3></p><p>' .
                 $update_log_output . '</p>' .
                 '<p><a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">See the logs page for more info.</a></p>';
           }
         }
 
         ?>
-        
-        <li><?php _e('Latest Successful Full Update', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_success'])); ?></li>
-        <?php if ( ! empty( $site_info['update_attempt'] ) ) { ?>
-        <li><?php _e('Latest Update Attempt', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_attempt'])); ?></li>
-        <?php } ?>
-      </ul>
+
+        <p><?php _e('Latest successful full update', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_success'])); ?></p>
+
         <?php
-        else :
-          echo $site_info->get_error_message();
-          ?>
-      <?php endif; ?>
-      <h3><?php _e('Last 5 partial or attempted updates:', 'seravo'); ?><h3>
+        if ( ! empty( $site_info['update_attempt'] ) ) {
+          echo '<p>' . __('Latest attempted full update', 'seravo') . ': ';
+          echo date('Y-m-d', strtotime($site_info['update_attempt'])) . '</p>';
+        }
+      } else {
+        echo $site_info->get_error_message();
+      }
+      ?>
+      <h3><?php _e('Last 5 partial or attempted updates:', 'seravo'); ?></h3>
       <ul>
         <?php
-        exec('zgrep -h "Started updates for" /data/log/update.log*', $output);
+        exec('zgrep -h -e "Started updates for" -e "Installing urgent security" /data/log/update.log*', $output);
         foreach ( array_slice($output, 0, 5) as $key => $value ) {
-          echo '<li>' . substr($value, 1, 16) . '</li>';
+          // Show only date ad the hour and minute are irrelevant
+          echo '<li>' . substr($value, 1, 11) . '</li>';
         }
         ?>
       </ul>
@@ -257,10 +259,9 @@ if ( ! class_exists('Updates') ) {
         <?php
         printf(
           // translators: event count and update.log filename and updates.log and security.log paths
-          __('For details about last %1$s update attempts by Seravo, see %2$s and %3$s', 'seravo'),
+          __('For details about last %1$s update attempts by Seravo, see %2$s.', 'seravo'),
           count($output),
-          '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>/data/log/update.log*</code></a>',
-          '<a href="tools.php?page=logs_page&logfile=security.log&max_num_of_rows=50"><code>/data/log/security.log*</code></a>'
+          '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>update.log*</code></a>'
         );
         ?>
       </p>

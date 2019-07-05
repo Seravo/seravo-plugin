@@ -27,7 +27,7 @@ if ( ! class_exists('Tests') ) {
 
       seravo_add_postbox(
         'tests',
-        __('Tests (new Codeception)', 'seravo'),
+        __('Update tests', 'seravo'),
         array( __CLASS__, 'tests_postbox' ),
         'tools_page_tests_page',
         'normal'
@@ -74,7 +74,7 @@ if ( ! class_exists('Tests') ) {
       ?>
       <p>
         <?php
-        _e('Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test-ng</code> there. For further information, please refer to <a href="https://seravo.com/docs/tests/ng-integration-tests/"> Seravo Developer Documentation</a>.', 'seravo');
+        _e('Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href="https://seravo.com/docs/tests/ng-integration-tests/"> Seravo Developer Documentation</a>.', 'seravo');
         ?>
       </p>
       <button type="button" class="button-primary" id="run-wp-tests"><?php _e('Run Tests', 'seravo'); ?></button>

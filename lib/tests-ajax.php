@@ -7,7 +7,7 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function seravo_tests() {
-  exec('wp-test-ng', $output);
+  exec('wp-test', $output);
   return $output;
 }
 
