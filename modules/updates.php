@@ -223,15 +223,16 @@ if ( ! class_exists('Updates') ) {
               $update_log_output = implode('<br>', $update_log_contents);
             }
 
-            echo '<p>' .
-                __(
-                  'Last succesful full site update was over a month ago. A developer should take
-                a look at the update log and fix the issue preventing the site from updating.',
-                  'seravo'
-                ) .
-                '</p><p><h3>' . __('Latest update.log:', 'seravo') . '</h3></p><p>' .
-                $update_log_output . '</p>' .
-                '<p><a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">See the logs page for more info.</a></p>';
+            echo '<p>' . __(
+              'Last succesful full site update was over a month ago. A developer should take
+              a look at the update log and fix the issue preventing the site from updating.',
+              'seravo'
+            ) . '</p>';
+            if ( ! empty($update_log_contents) ) {
+              echo '<p><b>' . __('Latest update.log:', 'seravo') . '</b></p><p>' .
+              $update_log_output . '</p>';
+            }
+            echo '<p><a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">' . __('See the logs page for more info.', 'seravo') . '</a></p>';
           }
         }
 
