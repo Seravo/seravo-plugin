@@ -20,7 +20,7 @@ matrix:
 before_install:
   # Set the target directories and versions for PHP_CodeSniffer, WP Coding Standards and PHPCS Security Audit.
   - if [[ "$SNIFF" == "1" ]]; then export PHPCS_DIR=/tmp/phpcs; export PHPCS_VERSION=3.3.2; fi
-  - if [[ "$SNIFF" == "1" ]]; then export WP_SNIFFS_DIR=/tmp/wp-sniffs; export WP_SNIFFS_VERSION=1.0.0; fi
+  - if [[ "$SNIFF" == "1" ]]; then export WP_SNIFFS_DIR=/tmp/wp-sniffs; export WP_SNIFFS_VERSION=2.1.0; fi
   - if [[ "$SNIFF" == "1" ]]; then export SECURITY_SNIFFS_DIR=/tmp/security-sniffs; export SECURITY_SNIFFS_VERSION=2.0.0; fi
   - if [[ "$SNIFF" == "1" ]]; then export PHP_COMPATIBILITY_SNIFFS_DIR=/tmp/compatibility-sniffs; export PHP_COMPATIBILITY_SNIFFS_VERSION=9.1.1; fi
   # Install PHP_CodeSniffer.
