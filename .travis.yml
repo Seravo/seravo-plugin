@@ -42,4 +42,4 @@ script:
   # Syntax check all php files and fail for any error text in STDERR
   - '! find . -type f -name "*.php" -exec php -d error_reporting=32767 -l {} \; 2>&1 >&- | grep "^"'
   # More extensive PHP Style Check
-  - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/bin/phpcs -i; $PHPCS_DIR/bin/phpcs -n --standard=phpcs.xml; fi
+  - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/bin/phpcs -i; $PHPCS_DIR/bin/phpcs -ns --standard=phpcs.xml; fi
