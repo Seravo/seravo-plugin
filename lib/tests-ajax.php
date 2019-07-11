@@ -7,8 +7,12 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function seravo_tests() {
-  exec('wp-test', $output);
-  return $output;
+  exec('wp-test', $output, $return_variable);
+  $return_arr = array(
+    'test_result' => $output,
+    'exit_code' => $return_variable,
+  );
+  return $return_arr;
 }
 
 function seravo_ajax_tests() {

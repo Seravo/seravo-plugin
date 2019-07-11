@@ -12,14 +12,14 @@ jQuery(window).on('load', function() {
         }
         jQuery('#seravo_tests_status').fadeOut('slow', function() {
           var data = JSON.parse(rawData);
-          var data_joined = data.join("\n");
+          var data_joined = data['test_result'].join("\n");
 
-          if ( ! (/Failed examples.*/g).test(data_joined) ) {
-            // No failures, if the string "Failed examples" was not found in data
+          if ( data['exit_code'] === 0 ) {
+            // No failures, if the return value from wp-test was 0
             jQuery(this).html(seravo_tests_loc.test_success).fadeIn('slow');
             jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #038103');
           } else {
-            // At least 1 failure, if the string "Failed examples" was found
+            // At least 1 failure, if the return value was non-zero
             jQuery(this).html(seravo_tests_loc.test_fail).fadeIn('slow');
             jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #e74c3c');
           }
