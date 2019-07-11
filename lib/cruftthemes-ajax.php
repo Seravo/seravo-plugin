@@ -5,17 +5,36 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function seravo_ajax_list_cruft_themes() {
-  check_ajax_referer('seravo_cruftthemes', 'nonce');
-  //get an array of WP_Theme -objects
-  $current = wp_get_theme();
+  check_ajax_referer( 'seravo_cruftthemes', 'nonce' );
+  if ( is_multisite() ) {
+    if ( wp_is_large_network() ) {
+      // Can't get the needed data for large network (1000+ sites)
+      delete_transient('cruft_themes_found');
+      echo wp_json_encode(array());
+      wp_die();
+    } else {
+      // Gets all active themes across the sites
+      $active_themes = array();
+      foreach ( get_sites() as $site ) {
+        switch_to_blog( $site->blog_id );
+        $theme = wp_get_theme();
+        if ( ! in_array ( $theme, $active_themes ) ) {
+          array_push( $active_themes, $theme->get_stylesheet() );
+        }
+        restore_current_blog();
+      }
+    }
+  } else {
+    $active_themes = array( wp_get_theme()->get_stylesheet() );
+  }
+  // Get an array of WP_Theme -objects
   foreach ( wp_get_themes() as $theme ) {
     $output[] = array(
       'name'   => $theme->get_stylesheet(),
-      'title'  => $theme->get('Name'),
-      'parent' => $theme->get('Template'),
-      'active' => ($theme->get('Name') === $current->get('Name')),
+      'title'  => $theme->get( 'Name' ),
+      'parent' => $theme->get( 'Template' ),
+      'active' => ( in_array( $theme->get_stylesheet(), $active_themes ) ),
     );
-
   }
   set_transient('cruft_themes_found', $output, 600);
   echo wp_json_encode($output);
