@@ -7,6 +7,7 @@ jQuery(document).ready(function ($) {
   // Entries variable fill be filled when table is appended
   var $entries;
   function appendTable() {
+    $body.empty();
     // If table is appended return entries
     if ($entries) {
       return $entries;
@@ -40,7 +41,7 @@ jQuery(document).ready(function ($) {
       html += '<td class="crufttheme-delete">' +
       '<input data-plugin-name="' + theme.name + '" class="crufttheme-check" type="checkbox">' +
       '</td>';
-    html += '<td class="crufttheme-path">' + theme.name + '</td>' +
+    html += '<td class="crufttheme-path">' + theme.name + ( theme.childs ? ' ' + seravo_cruftthemes_loc.isparentto : '') + '</td>' +
     '</tr>';
     $element.append(html)
     // Apply childs
@@ -48,9 +49,11 @@ jQuery(document).ready(function ($) {
       theme.childs.forEach(function (child) {
         if ( ! child.active ) {
           appendLine($element, child, true)
+        } else {
+          $element.append('<tr><td></td><td>' + child.name + '</td></tr>');
         }
       })
-      $element.append('<tr><td colspan="2" style="padding: 5px 0 0 0;"></td></tr>');
+      $element.append('<tr><td colspan="2"><hr></td></tr>');
     }
   }
 
@@ -62,32 +65,42 @@ jQuery(document).ready(function ($) {
       if ( ! is_user_sure ) {
         return;
       }
+      var remove_themes = [];
       $('.crufttheme-delete .crufttheme-check:checked').each(function (key, obj) {
+        remove_themes.push( obj.dataset.pluginName );
+      });
+      if ( remove_themes.length ) {
         $.post(seravo_cruftthemes_loc.ajaxurl, {
           type: 'POST',
           action: 'seravo_remove_themes',
-          removetheme: obj.dataset.pluginName,
+          removethemes: JSON.stringify(remove_themes),
           nonce: seravo_cruftthemes_loc.ajax_nonce
         }, function( rawData ) {
-          var data = JSON.parse(rawData);
-          if ( data ) {
-            $('table#' + section).remove();
-            $('.' + section + '_delete').remove();
+          if ( rawData ) {
+            var data = JSON.parse(rawData);
+            var errors = false;
+            remove_themes.forEach(function(theme) {
+              if ( data[theme] !== true ) {
+                errors = true;
+              }
+            });
+            // Tell if errors deleting themes
+            if ( errors ) {
+              $('#' + section).html('<b>' + seravo_cruftthemes_loc.failure + '</b>');
+            } else {
+              // Refresh the table
+              getData();
+            }
           } else {
-            confirm(seravo_cruftthemes_loc.failure);
+            $('#' + section).html('<b>' + seravo_cruftfiles_loc.no_data + '</b>');
           }
         });
-      })
-      // Clear entries
-      $entries = null;
-      getData();
-      // Create triggers
-      createOnClick();
-    })
+      }
+    });
     // Select all checkbox
     var $selectAll = $('.cruftthemes_status_select-all');
     $selectAll.click(function () {
-      var $checkboxes = $('.crufttheme[data-active="false"] .crufttheme-check');
+      var $checkboxes = $('.crufttheme[data-active="false"][data-childs="false"] .crufttheme-check');
       if ($selectAll.attr('checked')) {
         $checkboxes.prop( "checked", true );
       } else {
@@ -105,15 +118,15 @@ jQuery(document).ready(function ($) {
     }, function(rawData) {
       var data = JSON.parse(rawData);
       $('#' + section + '_loading').fadeOut();
-      if (data.length == 1) {
-        $('#' + section).html('<b>' + seravo_cruftthemes_loc.no_cruftthemes + '</b>');
-        return
-      }
+      // Remove old data
+      $entries = null;
       // Create table
       appendTable();
       // Create parsed array where we can create table from
       var parsedArray = [];
+      var allActive = true;
       data.forEach(function (theme) {
+        allActive = allActive && theme.active;
         if ( ! theme.parent.length) {
           if (parsedArray[theme.name] == undefined) {
             parsedArray[theme.name] = {}
@@ -130,6 +143,9 @@ jQuery(document).ready(function ($) {
           parsedArray[theme.parent]['childs'].push(theme)
         }
       })
+      if (allActive) {
+        $('#' + section).html('<b>' + seravo_cruftthemes_loc.no_cruftthemes + '</b>');
+      }
       // Create lines
       Object.keys(parsedArray).forEach(function (theme) {
         appendLine($entries, parsedArray[theme])
@@ -137,8 +153,11 @@ jQuery(document).ready(function ($) {
       // Create delete function
       createOnClick();
     }).fail(function() {
-      $('#' + section + '_loading').html(seravo_cruftthemes_loc.fail);
+      $('#' + section + '_loading').html(seravo_cruftfiles_loc.fail);
     });
   }
+  // Create triggers
+  createOnClick();
+  // Populate table
   getData();
 });
