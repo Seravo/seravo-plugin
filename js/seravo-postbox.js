@@ -1,3 +1,4 @@
+// phpcs:disable PEAR.Functions.FunctionCallSignature
 /**
  * Contains the Seravo postboxes logic, opening and closing Seravo postboxes, reordering and saving
  * the state and ordering to the database.

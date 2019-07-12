@@ -23,18 +23,18 @@ class Seravo_WP_CLI extends WP_CLI_Command {
    */
   public function updates( $args, $assoc_args ) {
 
-    require_once dirname( __FILE__ ) . '/../modules/updates.php';
+    require_once dirname(__FILE__) . '/../modules/updates.php';
     $site_info = Seravo\Updates::seravo_admin_get_site_info();
 
     if ( $site_info['seravo_updates'] === true ) {
-      WP_CLI::success( 'Seravo Updates: enabled' );
+      WP_CLI::success('Seravo Updates: enabled');
     } elseif ( $site_info['seravo_updates'] === true ) {
-      WP_CLI::success('Seravo Updates: disabled' );
+      WP_CLI::success('Seravo Updates: disabled');
     } else {
-      WP_CLI::error( 'Seravo API failed to return information about updates.' );
+      WP_CLI::error('Seravo API failed to return information about updates.');
     }
 
   }
 }
 
-WP_CLI::add_command( 'seravo', 'Seravo_WP_CLI' );
+WP_CLI::add_command('seravo', 'Seravo_WP_CLI');

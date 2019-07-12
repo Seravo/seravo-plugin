@@ -10,12 +10,12 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists( 'ThirdpartyFixes' ) ) {
+if ( ! class_exists('ThirdpartyFixes') ) {
   class ThirdpartyFixes {
     public static $instance;
 
     public static function init() {
-      if ( is_null( self::$instance ) ) {
+      if ( is_null(self::$instance) ) {
         self::$instance = new ThirdpartyFixes();
       }
       return self::$instance;
@@ -23,7 +23,7 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
 
     public function __construct() {
       // Jetpack whitelisting
-      add_filter( 'jpp_allow_login', array( $this, 'jetpack_whitelist_seravo' ), 10, 1 );
+      add_filter('jpp_allow_login', array( $this, 'jetpack_whitelist_seravo' ), 10, 1);
     }
 
     /**
@@ -37,19 +37,19 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
      **/
     public function retrieve_whitelist() {
       $url = 'https://api.seravo.com/v0/infrastructure/monitoring-hosts.json';
-      $key = 'seravo_jetpack_whitelist_' . md5( $url );
+      $key = 'seravo_jetpack_whitelist_' . md5($url);
 
       // Try to fetch data from cache
-      $data = get_transient( $key );
+      $data = get_transient($key);
 
       // If cachet data wasn't found, fetch it (otherwise, just use cached data)
-      if ( ( $data === false ) || count( $data ) < 1 ) {
+      if ( ($data === false) || count($data) < 1 ) {
         // Retrieve data from API
-        $response = wp_remote_get( esc_url_raw( $url ) );
-        $data = json_decode( wp_remote_retrieve_body( $response ) );
+        $response = wp_remote_get(esc_url_raw($url));
+        $data = json_decode(wp_remote_retrieve_body($response));
 
         // Cache for 24 hours (DAY_IN_SECONDS)
-        set_transient( $key, $data, DAY_IN_SECONDS );
+        set_transient($key, $data, DAY_IN_SECONDS);
       }
       return $data;
     }
@@ -70,12 +70,12 @@ if ( ! class_exists( 'ThirdpartyFixes' ) ) {
      * @see <https://developer.jetpack.com/tag/jpp_allow_login/>
      **/
     public function jetpack_whitelist_seravo( $ip ) {
-      if ( ! function_exists( 'jetpack_protect_get_ip' ) ) {
+      if ( ! function_exists('jetpack_protect_get_ip') ) {
         return false;
       }
       $ip = jetpack_protect_get_ip();
       $whitelist = $this->retrieve_whitelist();
-      return in_array( $ip, $whitelist );
+      return in_array($ip, $whitelist);
     }
   }
   ThirdpartyFixes::init();

@@ -1,3 +1,4 @@
+// phpcs:disable PEAR.Functions.FunctionCallSignature
 'use strict';
 
 (function($) {

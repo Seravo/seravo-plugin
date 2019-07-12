@@ -5,15 +5,15 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function seravo_ajax_list_cruft_themes() {
-  check_ajax_referer( 'seravo_cruftthemes', 'nonce' );
+  check_ajax_referer('seravo_cruftthemes', 'nonce');
   //get an array of WP_Theme -objects
   $current = wp_get_theme();
   foreach ( wp_get_themes() as $theme ) {
     $output[] = array(
       'name'   => $theme->get_stylesheet(),
-      'title'  => $theme->get( 'Name' ),
-      'parent' => $theme->get( 'Template' ),
-      'active' => ( $theme->get('Name') === $current->get('Name') ),
+      'title'  => $theme->get('Name'),
+      'parent' => $theme->get('Template'),
+      'active' => ($theme->get('Name') === $current->get('Name')),
     );
 
   }
@@ -23,7 +23,7 @@ function seravo_ajax_list_cruft_themes() {
 }
 
 function seravo_ajax_remove_themes() {
-  check_ajax_referer( 'seravo_cruftthemes', 'nonce' );
+  check_ajax_referer('seravo_cruftthemes', 'nonce');
   if ( isset($_POST['removetheme']) && ! empty($_POST['removetheme']) ) {
     $theme = $_POST['removetheme'];
     $legit_removeable_themes = get_transient('cruft_themes_found');

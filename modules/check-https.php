@@ -31,16 +31,17 @@ if ( ! class_exists('CheckHttps') ) {
 
     public static function _seravo_show_https_warning() {
       $siteurl = get_option('siteurl'); ?>
-      <div class="notice notice-error"><p>
-      <?php
-      printf(
-      // translators: user's website url
-      __('The HTTPS protocol is not currently active in the <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://help.seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-website">use HTTPS</a>.', 'seravo'),
-      esc_url( $siteurl )
-      );
-      ?>
-      </p>
-    </div>
+      <div class="notice notice-error">
+        <p>
+          <?php
+          printf(
+            // translators: user's website url
+            __('The HTTPS protocol is not currently active in the <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://help.seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-website">use HTTPS</a>.', 'seravo'),
+            esc_url($siteurl)
+          );
+          ?>
+        </p>
+      </div>
       <?php
     }
   }

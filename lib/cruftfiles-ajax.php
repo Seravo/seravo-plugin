@@ -5,7 +5,7 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function add_file_information( $file ) {
-  exec( 'du ' . $file . ' -h --time', $output );
+  exec('du ' . $file . ' -h --time', $output);
   $size = explode("\t", $output[0]);
 
   $data['size'] = $size[0];
@@ -33,7 +33,7 @@ function find_cruft_core() {
   // Lines beginning with: "Warning: File should not exist: "
   $temp = explode("\n", $temp);
   foreach ( $temp as $line ) {
-    if ( strpos( $line, 'Warning: File should not exist: ' ) !== false ) {
+    if ( strpos($line, 'Warning: File should not exist: ') !== false ) {
       $line = '/data/wordpress/htdocs/wordpress/' . substr($line, 32);
       array_push($output, $line);
     }
@@ -68,7 +68,7 @@ function rmdir_recursive( $dir, $recursive ) {
 }
 
 function seravo_ajax_list_cruft_files() {
-  check_ajax_referer( 'seravo_cruftfiles', 'nonce' );
+  check_ajax_referer('seravo_cruftfiles', 'nonce');
   switch ( $_REQUEST['section'] ) {
     case 'cruftfiles_status':
       // List of known types of cruft files
@@ -133,7 +133,7 @@ function seravo_ajax_list_cruft_files() {
             array_push($keep, $filename);
           }
         }
-        $crufts = array_diff( $crufts, $keep );
+        $crufts = array_diff($crufts, $keep);
       }
       foreach ( $white_list_files as $filename ) {
         // Some files are whitelisted as it is not necessary to delete them
@@ -143,7 +143,7 @@ function seravo_ajax_list_cruft_files() {
             array_push($keep, $cruftname);
           }
         }
-        $crufts = array_diff( $crufts, $keep );
+        $crufts = array_diff($crufts, $keep);
       }
 
       foreach ( $list_known_files as $dirname ) {
@@ -159,14 +159,17 @@ function seravo_ajax_list_cruft_files() {
         }
       }
 
-      $crufts = array_filter($crufts, function( $item ) use ( $crufts ) {
-        foreach ( $crufts as $substring ) {
-          if ( strpos($item, $substring) === 0 && $item !== $substring ) {
-            return false;
+      $crufts = array_filter(
+        $crufts,
+        function( $item ) use ( $crufts ) {
+          foreach ( $crufts as $substring ) {
+            if ( strpos($item, $substring) === 0 && $item !== $substring ) {
+              return false;
+            }
           }
+          return true;
         }
-        return true;
-      });
+      );
 
       $crufts = array_unique($crufts);
       set_transient('cruft_files_found', $crufts, 600);
@@ -188,7 +191,7 @@ function seravo_ajax_list_cruft_files() {
  * or it can contain an array containing strings denoting files.
  */
 function seravo_ajax_delete_cruft_files() {
-  check_ajax_referer( 'seravo_cruftfiles', 'nonce' );
+  check_ajax_referer('seravo_cruftfiles', 'nonce');
   if ( isset($_POST['deletefile']) && ! empty($_POST['deletefile']) ) {
     $files = $_POST['deletefile'];
     if ( is_string($files) ) {
@@ -199,7 +202,7 @@ function seravo_ajax_delete_cruft_files() {
       $results = array();
       foreach ( $files as $file ) {
         $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
-        if ( in_array( $file, $legit_cruft_files, true ) ) {
+        if ( in_array($file, $legit_cruft_files, true) ) {
           if ( is_dir($file) ) {
             $unlink_result = rmdir_recursive($file, 0);
           } else {
@@ -208,7 +211,7 @@ function seravo_ajax_delete_cruft_files() {
           // else - Backwards compatible with old UI
           $result['success'] = (bool) $unlink_result;
           $result['filename'] = $file;
-          array_push( $results, $result );
+          array_push($results, $result);
         }
       }
       echo wp_json_encode($results);

@@ -20,10 +20,10 @@ if ( ! class_exists('InstanceSwitcher') ) {
       # Don't show the banner in Vagrant or other local development environments
       # or in update shadows where the red banner would just be annoying.
       if ( getenv('WP_ENV') && getenv('WP_ENV') === 'staging' ) {
-        add_action('admin_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
-        add_action('wp_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
-        add_action('login_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ) );
-        add_action('admin_notices', array( 'Seravo\InstanceSwitcher', 'render_shadow_admin_notice' ) );
+        add_action('admin_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ));
+        add_action('wp_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ));
+        add_action('login_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ));
+        add_action('admin_notices', array( 'Seravo\InstanceSwitcher', 'render_shadow_admin_notice' ));
 
         if ( isset($_GET['seravo_production']) ) {
             $production_domain = $_GET['seravo_production'];
@@ -36,20 +36,20 @@ if ( ! class_exists('InstanceSwitcher') ) {
       }
 
       // styles and scripts for the switcher and the banner
-      add_action( 'admin_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
-      add_action( 'wp_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
+      add_action('admin_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
+      add_action('wp_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
 
       // Check permission
-      if ( ! current_user_can( self::custom_capability() ) ) {
+      if ( ! current_user_can(self::custom_capability()) ) {
         return;
       }
 
       // admin ajax action
-      add_action( 'wp_ajax_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ) );
-      add_action( 'wp_ajax_nopriv_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ) );
+      add_action('wp_ajax_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ));
+      add_action('wp_ajax_nopriv_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ));
 
       // add the instance switcher menu
-      add_action( 'admin_bar_menu', array( 'Seravo\InstanceSwitcher', 'add_switcher' ), 999 );
+      add_action('admin_bar_menu', array( 'Seravo\InstanceSwitcher', 'add_switcher' ), 999);
 
     }
 
@@ -57,15 +57,15 @@ if ( ! class_exists('InstanceSwitcher') ) {
     * Make capability filterable
     */
     public static function custom_capability() {
-      return apply_filters( 'seravo_instance_switcher_capability', 'edit_posts' );
+      return apply_filters('seravo_instance_switcher_capability', 'edit_posts');
     }
 
     /**
     * Load JavaScript and stylesheets for the switcher and the banner
     */
     public static function assets() {
-      wp_enqueue_script( 'seravo', plugins_url( '../js/instance-switcher.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false );
-      wp_enqueue_style( 'seravo', plugins_url( '../style/instance-switcher.css', __FILE__), null, Helpers::seravo_plugin_version(), 'all' );
+      wp_enqueue_script('seravo', plugins_url('../js/instance-switcher.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
+      wp_enqueue_style('seravo', plugins_url('../style/instance-switcher.css', __FILE__), null, Helpers::seravo_plugin_version(), 'all');
     }
 
     /**
@@ -79,15 +79,15 @@ if ( ! class_exists('InstanceSwitcher') ) {
         return false;
       }
 
-      $shadow_list = get_transient( 'shadow_list' );
-      if ( ( $shadow_list ) === false ) {
+      $shadow_list = get_transient('shadow_list');
+      if ( ($shadow_list) === false ) {
         $api_query = '/shadows';
         $shadow_list = API::get_site_data($api_query);
         if ( is_wp_error($shadow_list) ) {
           return false; // Exit with empty result and let later flow handle it
           // Don't break page load here or everything would be broken.
         }
-        set_transient( 'shadow_list', $shadow_list, 10 * MINUTE_IN_SECONDS );
+        set_transient('shadow_list', $shadow_list, 10 * MINUTE_IN_SECONDS);
       }
 
       return $shadow_list;
@@ -99,7 +99,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
     public static function add_switcher( $wp_admin_bar ) {
 
       // Bail out if there is no WP Admin bar
-      if ( ! function_exists( 'is_admin_bar_showing' ) || ! is_admin_bar_showing() ) {
+      if ( ! function_exists('is_admin_bar_showing') || ! is_admin_bar_showing() ) {
         return;
       }
 
@@ -120,15 +120,17 @@ if ( ! class_exists('InstanceSwitcher') ) {
       }
 
       // create the parent menu here
-      $wp_admin_bar->add_menu([
-        'id'    => $id,
-        'title' => '<span class="ab-icon seravo-instance-switcher-icon"></span>' .
-                   '<span class="ab-label seravo-instance-switcher-text">' . __('Now in', 'seravo') . ': ' . $current_title . '</span>',
-        'href'  => ! empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#',
-        'meta'  => [
-          'class' => $menuclass,
-        ],
-      ]);
+      $wp_admin_bar->add_menu(
+        [
+          'id'    => $id,
+          'title' => '<span class="ab-icon seravo-instance-switcher-icon"></span>' .
+                    '<span class="ab-label seravo-instance-switcher-text">' . __('Now in', 'seravo') . ': ' . $current_title . '</span>',
+          'href'  => ! empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#',
+          'meta'  => [
+            'class' => $menuclass,
+          ],
+        ]
+      );
 
       $instances = self::load_shadow_list();
 
@@ -137,26 +139,28 @@ if ( ! class_exists('InstanceSwitcher') ) {
         foreach ( $instances as $key => $instance ) {
           $title = strtoupper($instance['env']);
 
-          if ( strlen( $instance['info'] ) > 0 ) {
+          if ( strlen($instance['info']) > 0 ) {
             $title .= ' (' . $instance['info'] . ')';
           }
 
-          $domain = self::get_shadow_domain( $instance['name'] );
+          $domain = self::get_shadow_domain($instance['name']);
           // 'null' from get_shadow_domain indicates API error
           // Hide the shadow entry from instance-switcher
           if ( $domain !== null ) {
 
             $href = ! empty($domain) ? 'https://' . $domain : '#' . substr($instance['name'], -6);
 
-            $wp_admin_bar->add_menu([
-              'parent' => $id,
-              'title'  => $title,
-              'id'     => $instance['name'],
-              'href'   => $href,
-              'meta'   => [
-                'class' => 'shadow-link',
-              ],
-            ]);
+            $wp_admin_bar->add_menu(
+              [
+                'parent' => $id,
+                'title'  => $title,
+                'id'     => $instance['name'],
+                'href'   => $href,
+                'meta'   => [
+                  'class' => 'shadow-link',
+                ],
+              ]
+            );
 
           }
         }
@@ -167,24 +171,28 @@ if ( ! class_exists('InstanceSwitcher') ) {
         $domain = self::get_production_domain();
         $exit_href = ! empty($domain) ? 'https://' . $domain : '#exit';
 
-        $wp_admin_bar->add_menu([
-          'parent' => $id,
-          'title'  => __('Exit Shadow', 'seravo'),
-          'id'     => 'exit-shadow',
-          'href'   => $exit_href,
-          'meta'   => [
-            'class' => 'shadow-exit',
-          ],
-        ]);
+        $wp_admin_bar->add_menu(
+          [
+            'parent' => $id,
+            'title'  => __('Exit Shadow', 'seravo'),
+            'id'     => 'exit-shadow',
+            'href'   => $exit_href,
+            'meta'   => [
+              'class' => 'shadow-exit',
+            ],
+          ]
+        );
       }
 
       // Last item is always docs link
-      $wp_admin_bar->add_menu(array(
-        'parent' => $id,
-        'title'  => __('Shadows explained at Seravo.com/docs', 'seravo'),
-        'id'     => 'shadow-info',
-        'href'   => 'https://seravo.com/docs/deployment/shadows/',
-      ));
+      $wp_admin_bar->add_menu(
+        array(
+          'parent' => $id,
+          'title'  => __('Shadows explained at Seravo.com/docs', 'seravo'),
+          'id'     => 'shadow-info',
+          'href'   => 'https://seravo.com/docs/deployment/shadows/',
+        )
+      );
 
     }
 
@@ -193,7 +201,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
     */
     public static function render_shadow_indicator() {
       $shadow_title = strtoupper(getenv('WP_ENV'));
-      if ( getenv('WP_ENV_COMMENT') && ! empty( getenv('WP_ENV_COMMENT') ) ) {
+      if ( getenv('WP_ENV_COMMENT') && ! empty(getenv('WP_ENV_COMMENT')) ) {
         $shadow_title = $shadow_title . ' (' . getenv('WP_ENV_COMMENT') . ')';
       }
       ?>
@@ -203,8 +211,8 @@ if ( ! class_exists('InstanceSwitcher') ) {
         $domain = self::get_production_domain();
         $exit_href = ! empty($domain) ? 'https://' . $domain : '#exit';
         // translators: $s Identifier for the shadow instance in use
-        printf( __('Your current shadow instance is %s.', 'seravo'), $shadow_title );
-        printf( ' <a class="clearlink shadow-exit" href="%s">%s</a> ', $exit_href, __('Exit', 'seravo') );
+        printf(__('Your current shadow instance is %s.', 'seravo'), $shadow_title);
+        printf(' <a class="clearlink shadow-exit" href="%s">%s</a> ', $exit_href, __('Exit', 'seravo'));
         ?>
       </div>
       <?php
@@ -215,7 +223,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
     */
     public static function render_shadow_admin_notice( $current_screen ) {
       $current_screen = get_current_screen();
-      $admin_notice_content = apply_filters( 'seravo_instance_switcher_admin_notice', '', $current_screen );
+      $admin_notice_content = apply_filters('seravo_instance_switcher_admin_notice', '', $current_screen);
       if ( ! empty($admin_notice_content) ) {
         echo $admin_notice_content;
       }
@@ -223,7 +231,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
 
     public static function get_shadow_domain( $identifier ) {
       $domain_list = API::get_site_data('/domains');
-      if ( is_wp_error( $domain_list ) ) {
+      if ( is_wp_error($domain_list) ) {
         return null;
       }
 

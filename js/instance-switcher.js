@@ -1,3 +1,4 @@
+// phpcs:disable PEAR.Functions.FunctionCallSignature
 document.addEventListener('DOMContentLoaded', function() {
   // Select all links for entering shadow in admin bar dropdown
   var shadow_links = jQuery('#wp-admin-bar-instance-switcher li.shadow-link > a');

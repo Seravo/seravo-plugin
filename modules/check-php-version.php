@@ -35,9 +35,9 @@ if ( ! class_exists('CheckPHPVersion') ) {
 
       $recommended_version = '7.3';
 
-      if ( version_compare( PHP_VERSION, $recommended_version, '<' ) ) {
+      if ( version_compare(PHP_VERSION, $recommended_version, '<') ) {
 
-        self::_seravo_show_php_recommendation( $recommended_version );
+        self::_seravo_show_php_recommendation($recommended_version);
 
       }
 

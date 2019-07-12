@@ -22,7 +22,7 @@ function seravo_search_replace( $from, $to, $options ) {
   // wp-backup output line 4 should have "Success: Exported to '<name>_<id>.sql'."
   if ( $options['dry_run'] === 'true' ||
         $options['skip_backup'] === 'true' ||
-        strpos( $output[3], 'Success:') !== false ) {
+        strpos($output[3], 'Success:') !== false ) {
     array_push($output, '<b>$ ' . $command . '</b>');
     exec($command . ' 2>&1', $output);
   } else {
@@ -48,15 +48,15 @@ function seravo_search_replace_set_flags( $options ) {
 }
 
 function seravo_ajax_search_replace() {
-  check_ajax_referer( 'seravo_database', 'nonce' );
+  check_ajax_referer('seravo_database', 'nonce');
   switch ( $_REQUEST['section'] ) {
     case 'search_replace':
-      echo wp_json_encode(seravo_search_replace(
+      $search_replace_result = seravo_search_replace(
         $_REQUEST['from'],
         $_REQUEST['to'],
         $_REQUEST['options']
-        )
       );
+      echo wp_json_encode($search_replace_result);
       break;
 
     default:

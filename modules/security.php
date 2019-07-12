@@ -9,7 +9,7 @@
 
 namespace Seravo;
 
-require_once dirname( __FILE__ ) . '/../lib/security-ajax.php';
+require_once dirname(__FILE__) . '/../lib/security-ajax.php';
 
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
@@ -20,8 +20,8 @@ if ( ! class_exists('Security') ) {
   class Security {
 
     public static function load() {
-      add_action( 'admin_menu', array( __CLASS__, 'register_security_page' ) );
-      add_action( 'admin_init', array( __CLASS__, 'register_security_settings' ) );
+      add_action('admin_menu', array( __CLASS__, 'register_security_page' ));
+      add_action('admin_init', array( __CLASS__, 'register_security_settings' ));
       add_action('wp_ajax_seravo_security', 'seravo_ajax_security');
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_security_scripts' ));
@@ -50,17 +50,17 @@ if ( ! class_exists('Security') ) {
      */
     public static function register_security_scripts( $page ) {
       wp_register_script('seravo_security', plugin_dir_url(__DIR__) . '/js/security.js', '', Helpers::seravo_plugin_version());
-      wp_register_style('seravo_security', plugin_dir_url(__DIR__) . '/style/security.css', '', Helpers::seravo_plugin_version() );
+      wp_register_style('seravo_security', plugin_dir_url(__DIR__) . '/style/security.css', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_security_page' ) {
-        wp_enqueue_script( 'seravo_security' );
-        wp_enqueue_style( 'seravo_security' );
+        wp_enqueue_script('seravo_security');
+        wp_enqueue_style('seravo_security');
 
         $loc_translation_security = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),
           'ajax_nonce' => wp_create_nonce('seravo_security'),
         );
-        wp_localize_script( 'seravo_security', 'seravo_security_loc', $loc_translation_security );
+        wp_localize_script('seravo_security', 'seravo_security_loc', $loc_translation_security);
       }
 
     }
@@ -68,8 +68,8 @@ if ( ! class_exists('Security') ) {
     public static function register_security_page() {
       add_submenu_page(
         'tools.php',
-        __( 'Security', 'seravo' ),
-        __( 'Security', 'seravo' ),
+        __('Security', 'seravo'),
+        __('Security', 'seravo'),
         'manage_options',
         'security_page',
         'Seravo\seravo_postboxes_page'
@@ -87,7 +87,7 @@ if ( ! class_exists('Security') ) {
       /* Dummy settings that cannot be changed */
       add_settings_field(
         'seravo-automatic-backups',
-        __( 'Automatic backups', 'seravo' ),
+        __('Automatic backups', 'seravo'),
         array( __CLASS__, 'seravo_security_checked_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -95,7 +95,7 @@ if ( ! class_exists('Security') ) {
 
       add_settings_field(
         'seravo-security-updates',
-        __( 'Quick security updates', 'seravo' ),
+        __('Quick security updates', 'seravo'),
         array( __CLASS__, 'seravo_security_checked_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -103,7 +103,7 @@ if ( ! class_exists('Security') ) {
 
       add_settings_field(
         'seravo-malicious-code-monitoring',
-        __( 'Monitoring of malicius code and database contents', 'seravo' ),
+        __('Monitoring of malicius code and database contents', 'seravo'),
         array( __CLASS__, 'seravo_security_checked_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -111,7 +111,7 @@ if ( ! class_exists('Security') ) {
 
       add_settings_field(
         'seravo-dos-protection',
-        __( 'Denial-of-service protection', 'seravo' ),
+        __('Denial-of-service protection', 'seravo'),
         array( __CLASS__, 'seravo_security_checked_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -119,7 +119,7 @@ if ( ! class_exists('Security') ) {
 
       add_settings_field(
         'seravo-brute-force-protection',
-        __( 'Brute-force login protection', 'seravo' ),
+        __('Brute-force login protection', 'seravo'),
         array( __CLASS__, 'seravo_security_checked_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -128,7 +128,7 @@ if ( ! class_exists('Security') ) {
       /* Real settings below */
       add_settings_field(
         'seravo-disable-xml-rpc',
-        __( 'Disable XML-RPC', 'seravo' ),
+        __('Disable XML-RPC', 'seravo'),
         array( __CLASS__, 'seravo_security_xmlrpc_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -136,7 +136,7 @@ if ( ! class_exists('Security') ) {
 
       add_settings_field(
         'seravo-disable-json-user-enumeration',
-        __( 'Disable WP-JSON user enumeration', 'seravo' ),
+        __('Disable WP-JSON user enumeration', 'seravo'),
         array( __CLASS__, 'seravo_security_json_user_enum_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -144,23 +144,25 @@ if ( ! class_exists('Security') ) {
 
       add_settings_field(
         'seravo-disable-get-author-enumeration',
-        __( 'Disable GET author enumeration', 'seravo' ),
+        __('Disable GET author enumeration', 'seravo'),
         array( __CLASS__, 'seravo_security_get_author_enum_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
       );
 
-      register_setting( 'seravo_security_settings', 'seravo-disable-xml-rpc' );
-      register_setting( 'seravo_security_settings', 'seravo-disable-json-user-enumeration' );
-      register_setting( 'seravo_security_settings', 'seravo-disable-get-author-enumeration' );
+      register_setting('seravo_security_settings', 'seravo-disable-xml-rpc');
+      register_setting('seravo_security_settings', 'seravo-disable-json-user-enumeration');
+      register_setting('seravo_security_settings', 'seravo-disable-get-author-enumeration');
     }
 
     public static function security_settings_description() {
-      echo '<p>' . __(
+      $msg = __(
         'Seravo has security built-in. There are however a few extra measures
         that the site owner can choose to do if their site will not miss any functionality
         because of it.',
-        'seravo') . '</p>';
+        'seravo'
+      );
+      echo '<p>' . $msg . '</p>';
     }
 
     public static function seravo_security_checked_field() {
@@ -168,23 +170,23 @@ if ( ! class_exists('Security') ) {
     }
 
     public static function seravo_security_xmlrpc_field() {
-      echo '<input type="checkbox" name="seravo-disable-xml-rpc" id="disable-xmlrpc" ' . checked( 'on', get_option( 'seravo-disable-xml-rpc' ), false ) . '>';
+      echo '<input type="checkbox" name="seravo-disable-xml-rpc" id="disable-xmlrpc" ' . checked('on', get_option('seravo-disable-xml-rpc'), false) . '>';
     }
 
     public static function seravo_security_json_user_enum_field() {
-      echo '<input type="checkbox" name="seravo-disable-json-user-enumeration" id="disable-json-user-enumaration" ' . checked( 'on', get_option( 'seravo-disable-json-user-enumeration' ), false ) . '>';
+      echo '<input type="checkbox" name="seravo-disable-json-user-enumeration" id="disable-json-user-enumaration" ' . checked('on', get_option('seravo-disable-json-user-enumeration'), false) . '>';
     }
 
     public static function seravo_security_get_author_enum_field() {
-      echo '<input type="checkbox" name="seravo-disable-get-author-enumeration" id="disable-get-author-enumeration" ' . checked( 'on', get_option( 'seravo-disable-get-author-enumeration' ), false ) . '>';
+      echo '<input type="checkbox" name="seravo-disable-get-author-enumeration" id="disable-get-author-enumeration" ' . checked('on', get_option('seravo-disable-get-author-enumeration'), false) . '>';
     }
 
     public static function security_info_postbox() {
       settings_errors();
       echo '<form method="post" action="options.php">';
-      settings_fields( 'seravo_security_settings' );
-      do_settings_sections( 'tools_page_security_page' );
-      submit_button( __( 'Save', 'seravo' ), 'primary', 'btnSubmit' );
+      settings_fields('seravo_security_settings');
+      do_settings_sections('tools_page_security_page');
+      submit_button(__('Save', 'seravo'), 'primary', 'btnSubmit');
       echo '</form>';
     }
     public static function logins_info_postbox() {

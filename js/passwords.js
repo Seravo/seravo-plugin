@@ -1,3 +1,4 @@
+// phpcs:disable PEAR.Functions.FunctionCallSignature
 /*
  * Custom function to disallow weak passwords on the password reset screen.
  *

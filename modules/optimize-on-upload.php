@@ -24,7 +24,7 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
        * untouched at upload time, and optimize it only after backups have run
        * and the batch optimization run executes.
        */
-      add_filter( 'image_make_intermediate_size', array( __CLASS__, 'optimize_images_on_upload' ), 10, 1 );
+      add_filter('image_make_intermediate_size', array( __CLASS__, 'optimize_images_on_upload' ), 10, 1);
     }
 
     /**
@@ -45,7 +45,7 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
   }
 
   // Only load if image optimization is enabled
-  if ( get_option( 'seravo-enable-optimize-images' ) == 'on' ) {
+  if ( get_option('seravo-enable-optimize-images') == 'on' ) {
     OptimizeImagesOnUpload::load();
   }
 }

@@ -13,11 +13,11 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
   public function __construct() {
       // Set parent defaults
     parent::__construct(
-    array(
-      'singular' => 'mail-forward',
-      'plural'   => 'mail-forwards',
-      'ajax'     => false,
-    )
+      array(
+        'singular' => 'mail-forward',
+        'plural'   => 'mail-forwards',
+        'ajax'     => false,
+      )
     );
   }
 
@@ -30,8 +30,8 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
   public function get_columns() {
     $columns = array(
       'cb'           => '<input type="checkbox">', // Render a checkbox instead of text
-      'source'       => __( 'Source', 'seravo' ),
-      'destinations' => __( 'Destinations', 'seravo' ),
+      'source'       => __('Source', 'seravo'),
+      'destinations' => __('Destinations', 'seravo'),
     );
     return $columns;
   }
@@ -40,7 +40,7 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
     switch ( $column_name ) {
       case 'source':
       case 'destionations':
-         return $item[ $column_name ];
+        return $item[ $column_name ];
       default:
         return print_r($item, true); // Show the whole array for troubleshooting purposes
     }
@@ -52,11 +52,11 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
 
   public function column_cb( $item ) {
     return sprintf(
-        '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-          // Let's simply repurpose the table's singular label ("domain")
-        /*$1%s*/ $this->_args['singular'],
-          // The value of the checkbox should be the source
-        /*$2%s*/ $item['source']
+      '<input type="checkbox" name="%1$s[]" value="%2$s" />',
+      // Let's simply repurpose the table's singular label ("domain")
+      /*$1%s*/ $this->_args['singular'],
+      // The value of the checkbox should be the source
+      /*$2%s*/ $item['source']
     );
   }
 
@@ -65,12 +65,12 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
   }
 
   public function column_destinations( $item ) {
-      return implode( '<br>', $item['destinations'] );
+      return implode('<br>', $item['destinations']);
   }
 
   public function prepare_items() {
       // The url we want to get the mail data for
-    if ( ! empty( $_GET['domain'] ) ) {
+    if ( ! empty($_GET['domain']) ) {
         $url = $_GET['domain'];
     } else {
         return;
@@ -100,13 +100,13 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
      */
     function usort_reorder( $a, $b ) {
       // If no sort, default to domain name
-      $orderby = ( ! empty($_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'source';
+      $orderby = (! empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'source';
       // If no order, default to asc
-      $order = ( ! empty($_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'asc';
+      $order = (! empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc';
       // Determine sort order
       $result = strcmp($a[ $orderby ], $b[ $orderby ]);
       // Send final sort direction to usort
-        return ( $order === 'asc' ) ? $result : -$result;
+        return ($order === 'asc') ? $result : -$result;
     }
     usort($data, 'usort_reorder');
 
@@ -143,12 +143,12 @@ function list_domains() {
     echo '<input type="submit" value="' . __('Fetch Forwards', 'seravo') . '" class="button" style="float: right; margin-left: 15px;">';
     echo '<div style="width: auto; overflow-x: hidden; padding-right: 5px;"><select name="domain" style="width: 100%;">';
     foreach ( $valid_data as $row ) {
-      $domain = ! empty( $_GET['domain'] ) ? $_GET['domain'] : '';
-      printf( '<option value="%1$s" %2$s>%1$s</option>', $row['domain'], $domain == $row['domain'] ? 'selected' : '' );
+      $domain = ! empty($_GET['domain']) ? $_GET['domain'] : '';
+      printf('<option value="%1$s" %2$s>%1$s</option>', $row['domain'], $domain == $row['domain'] ? 'selected' : '');
     }
     echo '</select></div>';
   } else {
-    echo __( 'No valid domains were found!', 'seravo' );
+    echo __('No valid domains were found!', 'seravo');
   }
 }
 

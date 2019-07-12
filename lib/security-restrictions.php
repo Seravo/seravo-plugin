@@ -22,7 +22,7 @@ if ( ! class_exists('Security_Restrictions') ) {
 
     public static function load() {
 
-      if ( get_option( 'seravo-disable-xml-rpc' ) ) {
+      if ( get_option('seravo-disable-xml-rpc') ) {
         /*
          * When this is active any request like:
          *   curl -d '<?xml version="1.0"?> <methodCall> <methodName>wp.getUsersBlogs</methodName> \
@@ -30,14 +30,14 @@ if ( ! class_exists('Security_Restrictions') ) {
          *    </params> </methodCall>' https://<siteurl>/xmlrpc.php
          * will yield 'faultCode 405' and 'XML-RPC is not available'
          */
-        add_filter( 'xmlrpc_enabled', '__return_false' );
+        add_filter('xmlrpc_enabled', '__return_false');
 
         // Disable X-Pingback to header
         // since when XML-RPC is disabled pingbacks will not work anyway
-        add_filter( 'wp_headers', array( __CLASS__, 'disable_x_pingback' ) );
+        add_filter('wp_headers', array( __CLASS__, 'disable_x_pingback' ));
       }
 
-      if ( get_option( 'seravo-disable-json-user-enumeration' ) ) {
+      if ( get_option('seravo-disable-json-user-enumeration') ) {
         /*
          * When this is active any request like
          *   curl -iL https://<siteurl>/wp-json/wp/v2/users/ -H Pragma:no-cache
@@ -46,7 +46,7 @@ if ( ! class_exists('Security_Restrictions') ) {
         add_filter('rest_endpoints', array( __CLASS__, 'disable_user_endpoints' ), 1000);
       }
 
-      if ( get_option( 'seravo-disable-get-author-enumeration' ) ) {
+      if ( get_option('seravo-disable-get-author-enumeration') ) {
         /*
          * When this is active any request like
          *   curl -iL -H Pragma:no-cache https://<siteurl>/?author=7
@@ -60,9 +60,9 @@ if ( ! class_exists('Security_Restrictions') ) {
           add_filter(
             'query_vars',
             function ( $public_query_vars ) {
-              $key = array_search( 'author', $public_query_vars, true );
+              $key = array_search('author', $public_query_vars, true);
               if ( false !== $key ) {
-                unset( $public_query_vars[ $key ] );
+                unset($public_query_vars[ $key ]);
               }
               return $public_query_vars;
             }
@@ -73,7 +73,7 @@ if ( ! class_exists('Security_Restrictions') ) {
     }
 
     public static function disable_x_pingback( $headers ) {
-      unset( $headers['X-Pingback'] );
+      unset($headers['X-Pingback']);
       return $headers;
     }
 

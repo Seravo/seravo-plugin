@@ -21,7 +21,7 @@ if ( ! class_exists('Login_Notifications') ) {
     private static $max_rows = 200;
 
     public static function load() {
-      add_action('load-index.php', array( __CLASS__, 'retrieve_notification_data' ) );
+      add_action('load-index.php', array( __CLASS__, 'retrieve_notification_data' ));
     }
 
     /**
@@ -39,7 +39,7 @@ if ( ! class_exists('Login_Notifications') ) {
 
       // Display logins and/or errors if retrieved succesfully
       if ( ! empty(self::$login) ) {
-        add_action('admin_notices', array( __CLASS__, 'display_admin_logins_notification' ) );
+        add_action('admin_notices', array( __CLASS__, 'display_admin_logins_notification' ));
       }
 
       // Show site error count dashboard widget only to site admins
@@ -50,10 +50,16 @@ if ( ! class_exists('Login_Notifications') ) {
         }
 
         if ( self::$errors > 0 ) {
-          add_action('wp_dashboard_setup', function() {
-            wp_add_dashboard_widget('seravo-error-widget', __('Site Error Count', 'seravo'),
-            array( __CLASS__, 'display_admin_errors_notification' ));
-          });
+          add_action(
+            'wp_dashboard_setup',
+            function() {
+              wp_add_dashboard_widget(
+                'seravo-error-widget',
+                __('Site Error Count', 'seravo'),
+                array( __CLASS__, 'display_admin_errors_notification' )
+              );
+            }
+          );
         }
       }
     }
@@ -94,7 +100,7 @@ if ( ! class_exists('Login_Notifications') ) {
       // Loop through all the log lines
       foreach ( $output_reversed as $line ) {
         // Split the line from spaces and retrieve the error date from line
-        $output_array = explode( ' ', $line );
+        $output_array = explode(' ', $line);
         $date_str = substr($output_array[0], 1, strlen($output_array[0]));
 
         // Just jump over the lines that don't contain dates, add an error though
@@ -127,8 +133,8 @@ if ( ! class_exists('Login_Notifications') ) {
 
       foreach ( $output_reversed as $line ) {
         $output_array = explode(' ', $line);
-        $is_successful_login = (bool) preg_match(  '/.*SUCCESS.*/', $output_array[ count($output_array) - 1 ]);
-        $is_current_user_login = ( get_userdata( wp_get_current_user()->ID )->user_login === $output_array[2] );
+        $is_successful_login = (bool) preg_match('/.*SUCCESS.*/', $output_array[ count($output_array) - 1 ]);
+        $is_current_user_login = (get_userdata(wp_get_current_user()->ID)->user_login === $output_array[2]);
 
         // Handle only successful logins
         if ( $is_successful_login && $is_current_user_login ) {
@@ -155,19 +161,20 @@ if ( ! class_exists('Login_Notifications') ) {
     */
     public static function display_admin_logins_notification() {
       $user_data = get_userdata(wp_get_current_user()->ID);
-      echo '<div class="seravo-last-login notice notice-info is-dismissible">' .
-      wp_sprintf(
-      /* translators:
-      * %1$s username of the current user
-      * %2$s datetime of last login
-      * %3$s timezone used to represent the datetime of the last login
-      * %4$s IP address of the last login
-      */
-      __('Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s.', 'seravo' ),
-      $user_data->user_firstname == '' ? $user_data->user_login : $user_data->user_firstname,
-      preg_replace('/:/', ' ', self::$login['date'], 1), date_default_timezone_get(), self::$login['ip']
-      ) .
-      '</div>';
+      $msg = wp_sprintf(
+        /* translators:
+        * %1$s username of the current user
+        * %2$s datetime of last login
+        * %3$s timezone used to represent the datetime of the last login
+        * %4$s IP address of the last login
+        */
+        __('Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s.', 'seravo'),
+        $user_data->user_firstname == '' ? $user_data->user_login : $user_data->user_firstname,
+        preg_replace('/:/', ' ', self::$login['date'], 1),
+        date_default_timezone_get(),
+        self::$login['ip']
+      );
+      echo '<div class="seravo-last-login notice notice-info is-dismissible">' . $msg . '</div>';
     }
     /**
     * Display the amount of php-error.log lines that have appeared this week.
@@ -179,9 +186,9 @@ if ( ! class_exists('Login_Notifications') ) {
         * %1$s number of errors in the log
         * %2$s url for additional information
         */
-        __('The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified.',
-           'seravo'),
-        self::$errors, $url
+        __('The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified.', 'seravo'),
+        self::$errors,
+        $url
       );
       echo '<div>' . $msg . '</div>';
     }

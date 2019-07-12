@@ -5,22 +5,24 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists( 'Seravo_Domains_DNS_Table' ) ) {
-  require_once dirname( __FILE__ ) . '/domains-dns.php';
+if ( ! class_exists('Seravo_Domains_DNS_Table') ) {
+  require_once dirname(__FILE__) . '/domains-dns.php';
 }
 
 function seravo_respond_error_json( $reason = '' ) {
-  return json_encode( array(
-    'status' => 400,
-    'reason' => $reason,
-  ) );
+  return json_encode(
+    array(
+      'status' => 400,
+      'reason' => $reason,
+    )
+  );
 }
 
 function seravo_admin_change_zone_file() {
 
   $response = '';
 
-  if ( isset( $_REQUEST['zonefile'] ) && isset( $_REQUEST['domain'] ) ) {
+  if ( isset($_REQUEST['zonefile']) && isset($_REQUEST['domain']) ) {
     // Attach the editable records to the compulsory
     if ( $_REQUEST['compulsory'] ) {
       $zone = $_REQUEST['compulsory'] . "\n" . $_REQUEST['zonefile'];
@@ -30,14 +32,14 @@ function seravo_admin_change_zone_file() {
 
     // Remove the escapes that are not needed.
     // This makes \" into "
-    $data_str = str_replace( '\"', '"', $zone );
+    $data_str = str_replace('\"', '"', $zone);
     // This makes \\\\" into \"
-    $data_str = str_replace( '\\\\"', '\"', $data_str );
-    $data = explode( "\r\n", $data_str );
+    $data_str = str_replace('\\\\"', '\"', $data_str);
+    $data = explode("\r\n", $data_str);
 
-    $response = Seravo\API::update_site_data( $data, '/domain/' . $_REQUEST['domain'] . '/zone', [ 200, 400 ] );
-    if ( is_wp_error( $response ) ) {
-      return seravo_respond_error_json( $response->get_error_message() );
+    $response = Seravo\API::update_site_data($data, '/domain/' . $_REQUEST['domain'] . '/zone', [ 200, 400 ]);
+    if ( is_wp_error($response) ) {
+      return seravo_respond_error_json($response->get_error_message());
       wp_die();
     }
   } else {
@@ -53,10 +55,10 @@ function seravo_admin_change_zone_file() {
 
 function seravo_fetch_dns() {
 
-  if ( isset( $_REQUEST['domain'] ) ) {
-    $records = Seravo_Domains_DNS_Table::fetch_dns_records( $_REQUEST['domain'] );
-    if ( is_wp_error( $records ) ) {
-      return seravo_respond_error_json( $records->get_error_message() );
+  if ( isset($_REQUEST['domain']) ) {
+    $records = Seravo_Domains_DNS_Table::fetch_dns_records($_REQUEST['domain']);
+    if ( is_wp_error($records) ) {
+      return seravo_respond_error_json($records->get_error_message());
       wp_die();
     }
     return json_encode($records);
@@ -71,7 +73,7 @@ function seravo_fetch_dns() {
 
 function seravo_ajax_domains() {
 
-  check_ajax_referer( 'seravo_domains', 'nonce' );
+  check_ajax_referer('seravo_domains', 'nonce');
 
   switch ( $_REQUEST['section'] ) {
     case 'update_zone':

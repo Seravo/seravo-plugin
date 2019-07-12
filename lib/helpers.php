@@ -16,19 +16,19 @@ if ( ! class_exists('Helpers') ) {
 
     // Check if this if the site is running in Vagrant
     public static function is_development() {
-      return ( getenv('WP_ENV') && getenv('WP_ENV') === 'development' );
+      return (getenv('WP_ENV') && getenv('WP_ENV') === 'development');
     }
 
     // Check if this is a live production site
     public static function is_production() {
-      return ( getenv('WP_ENV') && getenv('WP_ENV') === 'production' );
+      return (getenv('WP_ENV') && getenv('WP_ENV') === 'production');
     }
 
     // Check if this is staging shadow
     // There shouldn't be difference between this and production,
     // but might be useful in the future.
     public static function is_staging() {
-      return ( getenv('WP_ENV') && getenv('WP_ENV') === 'staging' );
+      return (getenv('WP_ENV') && getenv('WP_ENV') === 'staging');
     }
 
     public static function seravo_plugin_version() {
@@ -37,7 +37,7 @@ if ( ! class_exists('Helpers') ) {
 
     public static function human_file_size( $size, $precision = 2 ) {
       $size = (int) $size; // 'wp db size' returns value with non-numeric characters
-      for ( $i = 0; ( $size / 1024 ) > 0.9; ) {
+      for ( $i = 0; ($size / 1024) > 0.9; ) {
         $i++;
         $size /= 1024;
       }

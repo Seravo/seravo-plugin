@@ -6,7 +6,7 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function seravo_reset_shadow() {
-  check_ajax_referer( 'seravo_shadows', 'nonce' );
+  check_ajax_referer('seravo_shadows', 'nonce');
   if ( isset($_POST['resetshadow']) && ! empty($_POST['resetshadow']) ) {
     $shadow = $_POST['resetshadow'];
     $output = array();
