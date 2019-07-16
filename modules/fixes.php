@@ -69,15 +69,13 @@ if ( ! class_exists('Fixes') ) {
      */
     public static function maybe_clear_alloptions_cache( $option ) {
 
-      // error_log("added/updated/deleted option: $option");
-
       if ( wp_installing() === false ) {
         $alloptions = wp_load_alloptions(); // alloptions should be cached at this point
 
-        // If option is part of the alloptions collection then clear it.
+        // If alloptions collection has $option key, clear the collection from cache
+        // because it can't be trusted to be correct after modifications in options.
         if ( array_key_exists($option, $alloptions) ) {
-          wp_cache_delete($option, 'options');
-          // error_log("deleted from cache group 'options': $option");
+          wp_cache_delete('alloptions', 'options');
         }
       }
     }
