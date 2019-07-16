@@ -27,7 +27,7 @@ if ( ! class_exists('Domains') ) {
 
       if ( $page === 'tools_page_domains_page' ) {
 
-        wp_enqueue_script('seravo_domains', plugins_url('../js/domains.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('seravo_domains', plugins_url('../js/domains.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
 
         $loc_translation_domains = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),

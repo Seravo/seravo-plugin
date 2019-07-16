@@ -82,8 +82,8 @@ if ( ! class_exists('Reports') ) {
       if ( $page === 'tools_page_reports_page' ) {
         wp_enqueue_style('seravo_reports');
         wp_enqueue_script('chart-js');
-        wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
-        wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('seravo_reports');
 
         $loc_translation = array(

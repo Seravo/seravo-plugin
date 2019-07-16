@@ -84,7 +84,7 @@ if ( ! class_exists('Updates') ) {
 
       if ( $page === 'tools_page_updates_page' ) {
         wp_enqueue_style('seravo_updates');
-        wp_enqueue_script('seravo_updates', plugins_url('../js/updates.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('seravo_updates', plugins_url('../js/updates.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
 
         $loc_translation_updates = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),

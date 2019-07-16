@@ -64,7 +64,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
     * Load JavaScript and stylesheets for the switcher and the banner
     */
     public static function assets() {
-      wp_enqueue_script('seravo', plugins_url('../js/instance-switcher.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
+      wp_enqueue_script('seravo', plugins_url('../js/instance-switcher.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
       wp_enqueue_style('seravo', plugins_url('../style/instance-switcher.css', __FILE__), null, Helpers::seravo_plugin_version(), 'all');
     }
 

@@ -87,9 +87,9 @@ if ( ! class_exists('Database') ) {
       if ( $page === 'tools_page_database_page' ) {
         wp_enqueue_style('seravo_database');
         wp_enqueue_script('chart-js');
-        wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
-        wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
-        wp_enqueue_script('seravo_database', plugins_url('../js/database.js', __FILE__), 'jquery', Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('seravo_database', plugins_url('../js/database.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
 
         $loc_translation_database = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),
