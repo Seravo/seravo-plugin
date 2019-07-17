@@ -235,7 +235,7 @@ if ( ! class_exists('Cruftfiles') ) {
         $loc_translation_themes = array(
           'isparentto'     => __('is parent to: ', 'seravo'),
           'confirm'        => __('Are you sure you want to remove this theme?', 'seravo'),
-          'failure'        => __('Failed to remove theme', 'seravo'),
+          'failure'        => __('Failed to remove some themes!', 'seravo'),
           'no_cruftthemes' => __('There are currently no unused themes on the website.', 'seravo'),
           'cruftthemes'    => __('The following themes are inactive and can be removed.', 'seravo'),
           'ajaxurl'        => admin_url('admin-ajax.php'),
