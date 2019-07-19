@@ -313,7 +313,7 @@ if ( ! class_exists('Updates') ) {
           ),
           '7.0' => array(
             'value'    => '7.0',
-            'name'     => 'PHP 7.0 (EOL 31.12.2018)',
+            'name'     => 'PHP 7.0 (EOL 10.1.2019)',
             'disabled' => true,
           ),
           '7.2' => array(
