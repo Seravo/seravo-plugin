@@ -153,6 +153,8 @@ class Loader {
      */
     require_once dirname(__FILE__) . '/modules/seravotest-auth-bypass.php';
 
+    require_once dirname(__FILE__) . '/modules/welcome-widget.php';
+
     /*
      * Use relative urls in post content but absolute urls in feeds
      * This helps migrating the content between development and production
