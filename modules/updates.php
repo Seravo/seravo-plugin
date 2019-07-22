@@ -366,6 +366,13 @@ if ( ! class_exists('Updates') ) {
         }
         ?>
         <br>
+        <span id="overwrite-config-files-span">
+          <input type="checkbox" id="overwrite-config-files" class="hidden">
+          <?php
+            _e('I\'m aware of the risks associated with edits to the PHP configuration files and want to proceed with the change.', 'seravo');
+          ?>
+          <br>
+        </span>
         <button id='change-php-version-button'><?php _e('Change version', 'seravo'); ?></button>
         <br>
       </div>
