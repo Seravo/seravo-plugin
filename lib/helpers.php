@@ -31,6 +31,21 @@ if ( ! class_exists('Helpers') ) {
       return (getenv('WP_ENV') && getenv('WP_ENV') === 'staging');
     }
 
+    // Check if this is whitelabel site
+    public static function is_whitelabel() {
+      $whitelabel = constant('USE_SERAVO_WHITELABEL');
+
+      error_log($whitelabel);
+
+      if ( $whitelabel ) {
+        error_log('Whitelabel enabled!');
+        return true;
+      } else {
+        error_log('Whitelabel disabled!');
+        return false;
+      }
+    }
+
     public static function seravo_plugin_version() {
       return get_file_data(plugin_dir_path(dirname(__FILE__)) . 'seravo-plugin.php', array( 'Version' ), 'plugin')[0];
     }
