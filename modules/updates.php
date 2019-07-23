@@ -22,6 +22,12 @@ if ( ! class_exists('Updates') ) {
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
       add_action('wp_ajax_seravo_ajax_updates', 'seravo_ajax_updates');
 
+      if ( Helpers::is_whitelabel() ) {
+        $provider = __('Provider', 'seravo');
+      } else {
+        $provider = 'Seravo';
+      }
+
       /*
       * This POST handler will use the SWD API to toggle Seravo updates on/off
       * and add technical contact emails for this site.
@@ -33,7 +39,7 @@ if ( ! class_exists('Updates') ) {
 
       seravo_add_postbox(
         'seravo-updates',
-        __('Seravo Updates', 'seravo'),
+        $provider . ' ' . __('Updates', 'seravo'),
         array( __CLASS__, 'seravo_updates_postbox' ),
         'tools_page_updates_page',
         'normal'
@@ -126,7 +132,15 @@ if ( ! class_exists('Updates') ) {
       // WP_error-object
       if ( gettype($site_info) === 'array' ) {
         ?>
-        <h2><?php _e('Opt-out from updates by Seravo', 'seravo'); ?></h2>
+        <h2>
+        <?php
+        printf(
+          // Translators: Service provider
+          __('Opt-out from updates by %s', 'seravo'),
+          $provider
+        );
+        ?>
+        </h2>
         <?php
         if ( $site_info['seravo_updates'] === true ) {
           $checked = 'checked="checked"';

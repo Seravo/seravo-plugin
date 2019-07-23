@@ -33,17 +33,17 @@ if ( ! class_exists('Helpers') ) {
 
     // Check if this is whitelabel site
     public static function is_whitelabel() {
-      $whitelabel = constant('USE_SERAVO_WHITELABEL');
-
-      error_log($whitelabel);
+      $whitelabel = constant('SERAVO_WHITELABEL');
 
       if ( $whitelabel ) {
-        error_log('Whitelabel enabled!');
         return true;
       } else {
-        error_log('Whitelabel disabled!');
         return false;
       }
+    }
+
+    public static function whitelabel_name() {
+      return defined('WHITELABEL_NAME') ? constant('WHITELABEL_NAME') : 'Provider';
     }
 
     public static function seravo_plugin_version() {
