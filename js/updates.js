@@ -133,6 +133,53 @@ jQuery(document).ready(function($) {
     $buttonsDiv.html(generateButtons(emails));
   });
 
+  jQuery('#check-php-compatibility-button').click(function() {
+    jQuery(this).fadeOut(400, function(){
+      jQuery(this).hide();
+    });
+    jQuery("#check-php-compatibility-status").fadeOut(400, function() {
+      jQuery(this).html('<img src="/wp-admin/images/spinner.gif" style="display:inline-block"> ' + seravo_updates_loc.compatibility_check_running).fadeIn(400);
+    });
+    checkPHPCompatibility();
+  });
+
+  function checkPHPCompatibility() {
+    jQuery.post(
+      seravo_updates_loc.ajaxurl, {
+        'action': 'seravo_ajax_updates',
+        'section': 'seravo_check_php_compatibility',
+        'nonce': seravo_updates_loc.ajax_nonce,
+      },
+      function(rawData) {
+        if ( rawData.length == 0 ) {
+          jQuery('#check-php-compatibility-status').html(seravo_updates_loc.compatiblity_no_data);
+        }
+        var data = JSON.parse(rawData);
+
+        /* Display error if wp-php-compatibility-check returns non-zero exit code
+        * Else display the number of errors found.
+        * If output string is empty, show green light for PHP version change
+        */
+        if ( data['exit_code'] != 0 ) {
+          jQuery("#check-php-compatibility-button").fadeOut(400, function() {
+            jQuery(this).show();
+          });
+          jQuery("#check-php-compatibility-status").fadeOut(400, function() {
+            jQuery(this).html('<div>' + seravo_updates_loc.compatibility_run_fail + '</div>').fadeIn(400);
+          });
+        } else if ( data['output'].length ) {
+          jQuery("#check-php-compatibility-status").fadeOut(400, function() {
+            jQuery(this).html('<div style="color:red;font-weight:bold">' + data['output'] + seravo_updates_loc.compatibility_check_error + '</div>').fadeIn(400);
+          });
+        } else {
+          jQuery("#check-php-compatibility-status").fadeOut(400, function() {
+            jQuery(this).html('<div style="color:green;font-weight:bold">' + seravo_updates_loc.compatibility_check_clear + '</div>').fadeIn(400);
+          });
+        }
+      }
+    );
+  }
+
   jQuery('#change-php-version-button').click(function() {
     jQuery("#change-php-version-status").fadeOut(400, function() {
       jQuery(this).show();

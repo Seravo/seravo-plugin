@@ -62,6 +62,15 @@ function seravo_plugin_version_update() {
   exec('wp-seravo-plugin-update &');
 }
 
+function seravo_check_php_compatibility() {
+  exec('wp-php-compatibility-check | grep "FOUND.*ERRORS AFFECTING.*" | awk \'{ print $2 }\'', $output, $return_value);
+  $return_arr = array(
+    'output' => $output,
+    'exit_code' => $return_value,
+  );
+  return $return_arr;
+}
+
 function seravo_ajax_updates() {
   check_ajax_referer('seravo_updates', 'nonce');
   switch ( sanitize_text_field($_REQUEST['section']) ) {
@@ -79,6 +88,10 @@ function seravo_ajax_updates() {
 
     case 'seravo_plugin_version_update':
       echo seravo_plugin_version_update();
+      break;
+
+    case 'seravo_check_php_compatibility':
+      echo wp_json_encode(seravo_check_php_compatibility());
       break;
 
     default:

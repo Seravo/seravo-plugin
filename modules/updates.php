@@ -94,6 +94,11 @@ if ( ! class_exists('Updates') ) {
         wp_enqueue_script('seravo_updates', plugins_url('../js/updates.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
 
         $loc_translation_updates = array(
+          'compatibility_check_running' => __('Running PHP compatibility check, this can take a while depending on the number of plugins and themes installed.', 'seravo'),
+          'compatibility_check_error' => __(' errors found. See logs for more information.', 'seravo'),
+          'compatibility_check_clear' => __('&#x2705; No errors found! See logs for more information.', 'seravo'),
+          'compatibility_run_fail' => __('There was an error starting the compatibility check.', 'seravo'),
+          'compatibility_no_data' => __('No data returned for the section.', 'seravo'),
           'ajaxurl'    => admin_url('admin-ajax.php'),
           'ajax_nonce' => wp_create_nonce('seravo_updates'),
         );
@@ -304,6 +309,13 @@ if ( ! class_exists('Updates') ) {
         );
         ?>
       </p>
+        
+      <button id='check-php-compatibility-button'><?php _e('Check PHP compatibility', 'seravo'); ?></button>
+      
+      <div id="check-php-compatibility-status" class="hidden">
+        <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
+      </div>
+      
       <p>
         <?php
         _e('See also <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo');
