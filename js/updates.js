@@ -182,6 +182,44 @@ jQuery(document).ready(function($) {
       });
     }, 5000);
   }
+
+  jQuery.post(
+    seravo_updates_loc.ajaxurl, {
+      'action': 'seravo_ajax_updates',
+      'section': 'seravo_plugin_version_check',
+      'nonce': seravo_updates_loc.ajax_nonce
+    }, function(is_uptodate_version) {
+      if (is_uptodate_version) {
+        $('#uptodate_seravo_plugin_version').show();
+      } else {
+        $('#old_seravo_plugin_version').show();
+        $("#seravo_plugin_update_button").show();
+      }
+    });
+
+  jQuery('#seravo_plugin_update_button').click(function() {
+    jQuery("#old_seravo_plugin_version").hide();
+    jQuery("#seravo_plugin_update_button").hide();
+    jQuery("#update_seravo_plugin_status").fadeIn(400, function() {
+      jQuery(this).show();
+    });
+    update_seravo_plugin();
+  });
+
+  function update_seravo_plugin() {
+    jQuery.post(
+      seravo_updates_loc.ajaxurl, {
+        'action': 'seravo_ajax_updates',
+        'section': 'seravo_plugin_version_update',
+        'nonce': seravo_updates_loc.ajax_nonce
+      });
+      setTimeout(function() {
+        jQuery("#update_seravo_plugin_status").fadeOut(400, function() {
+          jQuery(this).hide();
+        });
+        jQuery("#seravo_plugin_updated").show();
+      }, 5000);
+  }
 });
 
 jQuery(window).load(function(){
