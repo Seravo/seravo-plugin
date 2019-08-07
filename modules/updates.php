@@ -259,7 +259,7 @@ if ( ! class_exists('Updates') ) {
       <h3><?php _e('Last 5 partial or attempted updates:', 'seravo'); ?></h3>
       <ul>
         <?php
-        exec('zgrep -h -e "Started updates for" -e "Installing urgent security" /data/log/update.log*', $output);
+        exec('zgrep -h -e "Started updates for" -e "Installing urgent security" /data/log/update.log* | sort -r', $output);
         foreach ( array_slice($output, 0, 5) as $key => $value ) {
           // Show only date ad the hour and minute are irrelevant
           echo '<li>' . substr($value, 1, 11) . '</li>';
