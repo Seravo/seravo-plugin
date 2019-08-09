@@ -33,7 +33,6 @@ if ( ! class_exists('Logs') ) {
         $this->capability_required = 'manage_network';
       }
 
-      add_action('admin_menu', array( $this, 'add_submenu_page' ));
       add_action('admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ));
       add_action('wp_ajax_fetch_log_rows', array( $this, 'ajax_fetch_log_rows' ));
     }
@@ -53,23 +52,6 @@ if ( ! class_exists('Logs') ) {
         wp_enqueue_style('log_viewer');
         wp_enqueue_script('log_viewer');
       }
-    }
-
-    /**
-     * Adds the submenu page for Server Logs under tools
-     *
-     * @access public
-     * @return void
-     */
-    public function add_submenu_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Logs', 'seravo'),
-        __('Logs', 'seravo'),
-        $this->capability_required,
-        'logs_page',
-        array( $this, 'render_tools_page' )
-      );
     }
 
     /**
