@@ -17,8 +17,14 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('Domains') ) {
   class Domains {
 
-    public static function load() {
-      add_action('admin_menu', array( __CLASS__, 'register_domains_page' ));
+    public static $instance;
+
+    public static function init() {
+      self::$instance = new Domains();
+      return self::$instance;
+    }
+
+    public function __construct() {
       add_action('wp_ajax_seravo_ajax_domains', 'seravo_ajax_domains');
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
     }
@@ -43,17 +49,6 @@ if ( ! class_exists('Domains') ) {
 
     }
 
-    public static function register_domains_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Domains', 'seravo'),
-        __('Domains', 'seravo'),
-        'manage_options',
-        'domains_page',
-        array( __CLASS__, 'load_domains_page' )
-      );
-    }
-
     public static function load_domains_page() {
       require_once dirname(__FILE__) . '/../lib/domains-page.php';
     }
@@ -62,6 +57,6 @@ if ( ! class_exists('Domains') ) {
 
   /* Only show domains page in production */
   if ( Helpers::is_production() ) {
-    Domains::load();
+    Domains::init();
   }
 }

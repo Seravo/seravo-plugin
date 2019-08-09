@@ -129,6 +129,11 @@ class Loader {
   public static function load_all_modules() {
 
     /*
+     * Load toolbox menu
+     */
+    require_once dirname(__FILE__) . '/modules/toolbox.php';
+
+    /*
      * Helpers for hiding useless notifications and small fixes in logging
      */
     require_once dirname(__FILE__) . '/modules/fixes.php';
