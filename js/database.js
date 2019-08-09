@@ -93,7 +93,7 @@ jQuery(document).ready(function($) {
         var data = JSON.parse(rawData);
         if (section === 'seravo_wp_db_info') {
           jQuery('#seravo_wp_db_info').append(data.totals);
-          generateChart(data.tables.data_folders);
+          generateChart(data.tables.data_folders, 'pie_chart_db');
         } else {
           jQuery('#' + section).text(data.join("\n"));
         }

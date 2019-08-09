@@ -17,8 +17,6 @@ if ( ! class_exists('Reports') ) {
   class Reports {
 
     public static function load() {
-      add_action('admin_menu', array( __CLASS__, 'register_reports_page' ));
-
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_reports_scripts' ));
 
       // Add AJAX endpoint for receiving data for various reports
@@ -33,7 +31,7 @@ if ( ! class_exists('Reports') ) {
         'http-request-statistics',
         __('HTTP Request Statistics', 'seravo'),
         array( __CLASS__, 'seravo_http_request_statistics' ),
-        'tools_page_reports_page',
+        'tools_page_site_status_page',
         'normal'
       );
 
@@ -42,7 +40,7 @@ if ( ! class_exists('Reports') ) {
         'disk-usage',
         __('Disk Usage', 'seravo'),
         array( __CLASS__, 'seravo_disk_usage' ),
-        'tools_page_reports_page',
+        'tools_page_site_status_page',
         'normal'
       );
 
@@ -51,7 +49,7 @@ if ( ! class_exists('Reports') ) {
         'cache-status',
         __('Cache Status', 'seravo'),
         array( __CLASS__, 'seravo_cache_status' ),
-        'tools_page_reports_page',
+        'tools_page_development_page',
         'normal'
       );
 
@@ -59,19 +57,8 @@ if ( ! class_exists('Reports') ) {
         'site-info',
         __('Site Information', 'seravo'),
         array( __CLASS__, 'seravo_site_info' ),
-        'tools_page_reports_page',
+        'tools_page_site_status_page',
         'normal'
-      );
-    }
-
-    public static function register_reports_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Reports', 'seravo'),
-        __('Reports', 'seravo'),
-        'manage_options',
-        'reports_page',
-        'Seravo\seravo_postboxes_page'
       );
     }
 
@@ -79,7 +66,7 @@ if ( ! class_exists('Reports') ) {
       wp_register_script('chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, Helpers::seravo_plugin_version(), true);
       wp_register_script('seravo_reports', plugin_dir_url(__DIR__) . '/js/reports.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_reports', plugin_dir_url(__DIR__) . '/style/reports.css', '', Helpers::seravo_plugin_version());
-      if ( $page === 'tools_page_reports_page' ) {
+      if ( $page == 'tools_page_development_page' || $page == 'tools_page_site_status_page' ) {
         wp_enqueue_style('seravo_reports');
         wp_enqueue_script('chart-js');
         wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
@@ -150,7 +137,9 @@ if ( ! class_exists('Reports') ) {
         <div class="folders_chart_loading">
           <img src="/wp-admin/images/spinner.gif">
         </div>
-        <canvas id="pie_chart" style="width: 10%; height: 4vh;"></canvas>
+        <div class="pie_container">
+          <canvas id="pie_chart_disk" style="width: 10%; height: 4vh;"></canvas>
+        </div>
       </p>
       <?php
     }

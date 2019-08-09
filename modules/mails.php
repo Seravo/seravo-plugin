@@ -17,8 +17,6 @@ if ( ! class_exists('Mails') ) {
   class Mails {
 
     public static function load() {
-      add_action('admin_menu', array( __CLASS__, 'register_mails_page' ));
-
       seravo_add_postbox(
         'mail-forwards',
         __('Mails', 'seravo') . ' (beta)',
@@ -27,17 +25,6 @@ if ( ! class_exists('Mails') ) {
         'normal'
       );
 
-    }
-
-    public static function register_mails_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Mails', 'seravo'),
-        __('Mails', 'seravo'),
-        'manage_options',
-        'mails_page',
-        'Seravo\seravo_postboxes_page'
-      );
     }
 
     public static function mails_postbox() {

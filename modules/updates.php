@@ -18,7 +18,6 @@ if ( ! class_exists('Updates') ) {
   class Updates {
 
     public static function load() {
-      add_action('admin_menu', array( __CLASS__, 'register_updates_page' ));
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
       add_action('wp_ajax_seravo_ajax_updates', 'seravo_ajax_updates');
 
@@ -35,7 +34,7 @@ if ( ! class_exists('Updates') ) {
         'seravo-updates',
         __('Seravo Updates', 'seravo'),
         array( __CLASS__, 'seravo_updates_postbox' ),
-        'tools_page_updates_page',
+        'tools_page_upkeep_page',
         'normal'
       );
 
@@ -43,7 +42,7 @@ if ( ! class_exists('Updates') ) {
         'site-status',
         __('Site Status', 'seravo'),
         array( __CLASS__, 'site_status_postbox' ),
-        'tools_page_updates_page',
+        'tools_page_upkeep_page',
         'normal'
       );
 
@@ -51,7 +50,7 @@ if ( ! class_exists('Updates') ) {
         'tests-status',
         __('Tests Status', 'seravo'),
         array( __CLASS__, 'tests_status_postbox' ),
-        'tools_page_updates_page',
+        'tools_page_upkeep_page',
         'normal'
       );
 
@@ -59,7 +58,7 @@ if ( ! class_exists('Updates') ) {
         'change-php-version',
         __('Change PHP Version', 'seravo'),
         array( __CLASS__, 'change_php_version_postbox' ),
-        'tools_page_updates_page',
+        'tools_page_upkeep_page',
         'normal'
       );
 
@@ -67,7 +66,7 @@ if ( ! class_exists('Updates') ) {
         'screenshots',
         __('Screenshots', 'seravo'),
         array( __CLASS__, 'screenshots_postbox' ),
-        'tools_page_updates_page',
+        'tools_page_upkeep_page',
         'side'
       );
 
@@ -75,7 +74,7 @@ if ( ! class_exists('Updates') ) {
         'seravo-plugin-updater',
         __('Seravo Plugin Updater', 'seravo'),
         array( __CLASS__, 'seravo_plugin_updater_postbox' ),
-        'tools_page_updates_page',
+        'tools_page_upkeep_page',
         'normal'
       );
     }
@@ -89,7 +88,7 @@ if ( ! class_exists('Updates') ) {
 
       wp_register_style('seravo_updates', plugin_dir_url(__DIR__) . '/style/updates.css', '', Helpers::seravo_plugin_version());
 
-      if ( $page === 'tools_page_updates_page' ) {
+      if ( $page === 'tools_page_upkeep_page' ) {
         wp_enqueue_style('seravo_updates');
         wp_enqueue_script('seravo_updates', plugins_url('../js/updates.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
 
@@ -101,17 +100,6 @@ if ( ! class_exists('Updates') ) {
         wp_localize_script('seravo_updates', 'seravo_updates_loc', $loc_translation_updates);
       }
 
-    }
-
-    public static function register_updates_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Updates', 'seravo'),
-        __('Updates', 'seravo'),
-        'manage_options',
-        'updates_page',
-        'Seravo\seravo_postboxes_page'
-      );
     }
 
     public static function seravo_admin_get_site_info() {

@@ -20,7 +20,6 @@ if ( ! class_exists('Security') ) {
   class Security {
 
     public static function load() {
-      add_action('admin_menu', array( __CLASS__, 'register_security_page' ));
       add_action('admin_init', array( __CLASS__, 'register_security_settings' ));
       add_action('wp_ajax_seravo_security', 'seravo_ajax_security');
 
@@ -63,17 +62,6 @@ if ( ! class_exists('Security') ) {
         wp_localize_script('seravo_security', 'seravo_security_loc', $loc_translation_security);
       }
 
-    }
-
-    public static function register_security_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Security', 'seravo'),
-        __('Security', 'seravo'),
-        'manage_options',
-        'security_page',
-        'Seravo\seravo_postboxes_page'
-      );
     }
 
     public static function register_security_settings() {

@@ -1,5 +1,5 @@
 // phpcs:disable PEAR.Functions.FunctionCallSignature
-function generateChart(JSONdata) {
+function generateChart(JSONdata, elementId) {
   var data = [];
   var labels = [];
   var background = [];
@@ -10,7 +10,7 @@ function generateChart(JSONdata) {
     background.push((new ColorHash({ saturation: [0.9, 0, 1] })).hex(folder));
   });
   // Generate chart
-  var ctx = document.getElementById('pie_chart');
+  var ctx = document.getElementById(elementId);
   var myPieChart = new Chart(ctx, {
     type: 'pie',
     data: {

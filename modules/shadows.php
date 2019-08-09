@@ -22,7 +22,6 @@ if ( ! class_exists('Shadows') ) {
   class Shadows {
 
     public static function load() {
-      add_action('admin_menu', array( __CLASS__, 'register_shadows_page' ));
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_shadows_scripts' ));
       add_action('wp_ajax_seravo_ajax_shadows', 'seravo_ajax_shadows');
 
@@ -30,21 +29,9 @@ if ( ! class_exists('Shadows') ) {
         'shadows',
         __('Shadows', 'seravo') . ' (beta)',
         array( __CLASS__, 'seravo_shadows_postbox' ),
-        'tools_page_shadows_page',
+        'tools_page_development_page',
         'normal'
       );
-    }
-
-    public static function register_shadows_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Shadows', 'seravo'),
-        __('Shadows', 'seravo'),
-        'manage_options',
-        'shadows_page',
-        'Seravo\seravo_postboxes_page'
-      );
-
     }
 
     public static function register_shadows_scripts( $page ) {

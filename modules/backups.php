@@ -23,45 +23,43 @@ if ( ! class_exists('Backups') ) {
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_backups_scripts' ));
 
-      // Only show the menu item on systems where wp-backup is available
-      if ( exec('which wp-backup-status') ) {
-        add_action('admin_menu', array( __CLASS__, 'register_backups_page' ));
-      }
-
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_backups_capability' ));
 
-      seravo_add_postbox(
-        'backups-info',
-        __('Backups', 'seravo'),
-        array( __CLASS__, 'backups_info_postbox' ),
-        'tools_page_backups_page',
-        'normal'
-      );
+      // Only show postboxes on systems where wp-backup is available
+      if ( exec('which wp-backup-status') ) {
+        seravo_add_postbox(
+          'backups-info',
+          __('Backups', 'seravo'),
+          array( __CLASS__, 'backups_info_postbox' ),
+          'tools_page_upkeep_page',
+          'normal'
+        );
 
-      seravo_add_postbox(
-        'backups-create',
-        __('Create a New Backup', 'seravo'),
-        array( __CLASS__, 'backups_create_postbox' ),
-        'tools_page_backups_page',
-        'normal'
-      );
+        seravo_add_postbox(
+          'backups-create',
+          __('Create a New Backup', 'seravo'),
+          array( __CLASS__, 'backups_create_postbox' ),
+          'tools_page_upkeep_page',
+          'normal'
+        );
 
-      seravo_add_postbox(
-        'backups-excludes',
-        __('Files Excluded from the Backups', 'seravo'),
-        array( __CLASS__, 'backups_excludes_postbox' ),
-        'tools_page_backups_page',
-        'side'
-      );
+        seravo_add_postbox(
+          'backups-excludes',
+          __('Files Excluded from the Backups', 'seravo'),
+          array( __CLASS__, 'backups_excludes_postbox' ),
+          'tools_page_upkeep_page',
+          'side'
+        );
 
-      seravo_add_postbox(
-        'backups-list',
-        __('Current Backups', 'seravo'),
-        array( __CLASS__, 'backups_list_postbox' ),
-        'tools_page_backups_page',
-        'side'
-      );
+        seravo_add_postbox(
+          'backups-list',
+          __('Current Backups', 'seravo'),
+          array( __CLASS__, 'backups_list_postbox' ),
+          'tools_page_upkeep_page',
+          'side'
+        );
+      }
     }
 
     /**
@@ -73,7 +71,7 @@ if ( ! class_exists('Backups') ) {
       wp_register_script('seravo_backups', plugin_dir_url(__DIR__) . '/js/backups.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_backups', plugin_dir_url(__DIR__) . '/style/backups.css', '', Helpers::seravo_plugin_version());
 
-      if ( $page === 'tools_page_backups_page' ) {
+      if ( $page === 'tools_page_upkeep_page' ) {
         wp_enqueue_script('seravo_backups');
         wp_enqueue_style('seravo_backups');
 

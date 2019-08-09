@@ -66,7 +66,7 @@ jQuery(document).ready(function($) {
       if (section === 'folders_chart') {
         var allData = JSON.parse(rawData);
         jQuery('#total_disk_usage').text(allData.data.human);
-        generateChart(allData.dataFolders);
+        generateChart(allData.dataFolders, "pie_chart_disk");
       } else {
         var data = JSON.parse(rawData);
         jQuery('#' + section).text(data.join("\n"));

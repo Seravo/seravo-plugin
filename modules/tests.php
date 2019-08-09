@@ -18,8 +18,6 @@ if ( ! class_exists('Tests') ) {
   class Tests {
 
     public static function load() {
-      add_action('admin_menu', array( __CLASS__, 'register_tests_page' ));
-
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_tests_scripts' ));
 
       // Add AJAX endpoint for running tests
@@ -29,28 +27,17 @@ if ( ! class_exists('Tests') ) {
         'tests',
         __('Update tests', 'seravo'),
         array( __CLASS__, 'tests_postbox' ),
-        'tools_page_tests_page',
+        'tools_page_upkeep_page',
         'normal'
       );
 
-    }
-
-    public static function register_tests_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Tests', 'seravo'),
-        __('Tests', 'seravo'),
-        'manage_options',
-        'tests_page',
-        'Seravo\seravo_postboxes_page'
-      );
     }
 
     public static function register_tests_scripts( $page ) {
       wp_register_style('seravo_tests', plugin_dir_url(__DIR__) . '/style/tests.css', '', Helpers::seravo_plugin_version());
       wp_register_script('seravo_tests', plugin_dir_url(__DIR__) . '/js/tests.js', '', Helpers::seravo_plugin_version());
 
-      if ( $page === 'tools_page_tests_page' ) {
+      if ( $page === 'tools_page_upkeep_page' ) {
         wp_enqueue_style('seravo_tests');
         wp_enqueue_script('seravo_tests');
 
@@ -65,10 +52,6 @@ if ( ! class_exists('Tests') ) {
         );
         wp_localize_script('seravo_tests', 'seravo_tests_loc', $loc_translation);
       }
-    }
-
-    public static function load_tests_page() {
-      require_once dirname(__FILE__) . '/../lib/tests-page.php';
     }
 
     public static function tests_postbox() {

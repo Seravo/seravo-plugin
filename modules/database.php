@@ -35,7 +35,6 @@ if ( ! class_exists('Database') ) {
       }
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_database_scripts' ));
-      add_action('admin_menu', array( __CLASS__, 'register_database_page' ));
 
       // Add AJAX endpoints for wp search-replace and database info
       add_action('wp_ajax_seravo_search_replace', 'seravo_ajax_search_replace');
@@ -45,7 +44,7 @@ if ( ! class_exists('Database') ) {
         'database-access',
         __('Database Access', 'seravo'),
         array( __CLASS__, 'database_access_postbox' ),
-        'tools_page_database_page',
+        'tools_page_site_status_page',
         'normal'
       );
 
@@ -53,7 +52,7 @@ if ( ! class_exists('Database') ) {
         'database-adminer',
         __('Manage the Database with Adminer', 'seravo'),
         array( __CLASS__, 'database_adminer_postbox' ),
-        'tools_page_database_page',
+        'tools_page_site_status_page',
         'normal'
       );
 
@@ -61,7 +60,7 @@ if ( ! class_exists('Database') ) {
         'database-search-replace',
         __('Search-Replace Tool', 'seravo'),
         array( __CLASS__, 'database_search_replace_postbox' ),
-        'tools_page_database_page',
+        'tools_page_development_page',
         'side'
       );
 
@@ -69,7 +68,7 @@ if ( ! class_exists('Database') ) {
         'database-size',
         __('Database Size', 'seravo'),
         array( __CLASS__, 'database_size_postbox' ),
-        'tools_page_database_page',
+        'tools_page_site_status_page',
         'side'
       );
     }
@@ -84,7 +83,7 @@ if ( ! class_exists('Database') ) {
       wp_register_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css', '', Helpers::seravo_plugin_version());
       wp_register_script('chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', '', Helpers::seravo_plugin_version(), true);
 
-      if ( $page === 'tools_page_database_page' ) {
+      if ( $page === 'tools_page_site_status_page' ) {
         wp_enqueue_style('seravo_database');
         wp_enqueue_script('chart-js');
         wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
@@ -235,7 +234,7 @@ if ( ! class_exists('Database') ) {
             <div id="seravo_wp_db_info_loading"><img src="/wp-admin/images/spinner.gif"></div>
             <pre><div id="seravo_wp_db_info"></div></pre>
             <div class="pie_container">
-              <canvas id="pie_chart" style="width: 10%; height: 4vh;"></canvas>
+              <canvas id="pie_chart_db" style="width: 10%; height: 4vh;"></canvas>
             </div>
           </p>
         </div>
