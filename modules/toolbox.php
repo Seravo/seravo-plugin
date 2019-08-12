@@ -13,8 +13,25 @@ if ( ! class_exists('Toolbox') && current_user_can('administrator') ) {
     }
 
     public static function register_toolbox_pages() {
+      $image = '/htdocs/wp-content/mu-plugins/seravo-plugin/seravo_logo.png';
+      $name = 'Seravo Toolbox';
+
+      if ( Helpers::is_whitelabel() ) {
+        $image = '';
+        $name = 'Toolbox';
+      }
+
+      add_menu_page(
+        $name,
+        $name,
+        'manage_options',
+        'toolbox_page',
+        'Seravo\seravo_toolbox_page',
+        $image
+      );
+
       add_submenu_page(
-        'tools.php',
+        'toolbox_page',
         __('Site Status', 'seravo'),
         __('Site Status', 'seravo'),
         'manage_options',
