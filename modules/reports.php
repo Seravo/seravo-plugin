@@ -31,7 +31,7 @@ if ( ! class_exists('Reports') ) {
         'http-request-statistics',
         __('HTTP Request Statistics', 'seravo'),
         array( __CLASS__, 'seravo_http_request_statistics' ),
-        'tools_page_site_status_page',
+        'toolbox_page_site_status_page',
         'normal'
       );
 
@@ -40,7 +40,7 @@ if ( ! class_exists('Reports') ) {
         'disk-usage',
         __('Disk Usage', 'seravo'),
         array( __CLASS__, 'seravo_disk_usage' ),
-        'tools_page_site_status_page',
+        'toolbox_page_site_status_page',
         'normal'
       );
 
@@ -49,7 +49,7 @@ if ( ! class_exists('Reports') ) {
         'cache-status',
         __('Cache Status', 'seravo'),
         array( __CLASS__, 'seravo_cache_status' ),
-        'tools_page_development_page',
+        'toolbox_page_development_page',
         'normal'
       );
 
@@ -57,7 +57,7 @@ if ( ! class_exists('Reports') ) {
         'site-info',
         __('Site Information', 'seravo'),
         array( __CLASS__, 'seravo_site_info' ),
-        'tools_page_site_status_page',
+        'toolbox_page_site_status_page',
         'normal'
       );
     }
@@ -66,7 +66,7 @@ if ( ! class_exists('Reports') ) {
       wp_register_script('chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, Helpers::seravo_plugin_version(), true);
       wp_register_script('seravo_reports', plugin_dir_url(__DIR__) . '/js/reports.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_reports', plugin_dir_url(__DIR__) . '/style/reports.css', '', Helpers::seravo_plugin_version());
-      if ( $page == 'tools_page_development_page' || $page == 'tools_page_site_status_page' ) {
+      if ( $page == 'toolbox_page_development_page' || $page == 'toolbox_page_site_status_page' ) {
         wp_enqueue_style('seravo_reports');
         wp_enqueue_script('chart-js');
         wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);

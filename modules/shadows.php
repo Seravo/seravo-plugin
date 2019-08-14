@@ -29,7 +29,7 @@ if ( ! class_exists('Shadows') ) {
         'shadows',
         __('Shadows', 'seravo') . ' (beta)',
         array( __CLASS__, 'seravo_shadows_postbox' ),
-        'tools_page_development_page',
+        'toolbox_page_development_page',
         'normal'
       );
     }
@@ -38,7 +38,7 @@ if ( ! class_exists('Shadows') ) {
       wp_register_style('seravo_shadows', plugin_dir_url(__DIR__) . '/style/shadows.css', '', Helpers::seravo_plugin_version());
       wp_register_script('seravo_shadows', plugin_dir_url(__DIR__) . '/js/shadows.js', '', Helpers::seravo_plugin_version());
 
-      if ( $page === 'tools_page_shadows_page' ) {
+      if ( $page === 'toolbox_page_shadows_page' ) {
         wp_enqueue_style('seravo_shadows');
         wp_enqueue_script('seravo_shadows');
 
@@ -137,10 +137,10 @@ if ( ! class_exists('Shadows') ) {
             </table>
           </form>
           <div id="shadow-reset-sr-alert" class="shadow-hidden">
-            <?php _e("This shadow uses a custom domain. Search-replace can't currently be ran automatically with shadow reset. Please run it manually afterwards with the values above or the shadow can't be accessed. Instructions can be found in <a href='https://help.seravo.com/en/docs/151'>here</a>.", 'seravo'); ?> 
+            <?php _e("This shadow uses a custom domain. Search-replace can't currently be ran automatically with shadow reset. Please run it manually afterwards with the values above or the shadow can't be accessed. Instructions can be found in <a href='https://help.seravo.com/en/docs/151'>here</a>.", 'seravo'); ?>
           </div>
           <div id="shadow-reset-nosr-alert">
-            <?php _e("This shadow doesn't need search-replace to be ran afterwards for it to work.", 'seravo'); ?> 
+            <?php _e("This shadow doesn't need search-replace to be ran afterwards for it to work.", 'seravo'); ?>
           </div>
           <table class="shadow-reset-row">
             <tr>

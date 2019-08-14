@@ -34,7 +34,7 @@ if ( ! class_exists('Updates') ) {
         'seravo-updates',
         __('Seravo Updates', 'seravo'),
         array( __CLASS__, 'seravo_updates_postbox' ),
-        'tools_page_upkeep_page',
+        'toolbox_page_upkeep_page',
         'normal'
       );
 
@@ -42,7 +42,7 @@ if ( ! class_exists('Updates') ) {
         'site-status',
         __('Site Status', 'seravo'),
         array( __CLASS__, 'site_status_postbox' ),
-        'tools_page_upkeep_page',
+        'toolbox_page_upkeep_page',
         'normal'
       );
 
@@ -50,7 +50,7 @@ if ( ! class_exists('Updates') ) {
         'tests-status',
         __('Tests Status', 'seravo'),
         array( __CLASS__, 'tests_status_postbox' ),
-        'tools_page_upkeep_page',
+        'toolbox_page_upkeep_page',
         'normal'
       );
 
@@ -58,7 +58,7 @@ if ( ! class_exists('Updates') ) {
         'change-php-version',
         __('Change PHP Version', 'seravo'),
         array( __CLASS__, 'change_php_version_postbox' ),
-        'tools_page_upkeep_page',
+        'toolbox_page_upkeep_page',
         'normal'
       );
 
@@ -66,7 +66,7 @@ if ( ! class_exists('Updates') ) {
         'screenshots',
         __('Screenshots', 'seravo'),
         array( __CLASS__, 'screenshots_postbox' ),
-        'tools_page_upkeep_page',
+        'toolbox_page_upkeep_page',
         'side'
       );
 
@@ -74,7 +74,7 @@ if ( ! class_exists('Updates') ) {
         'seravo-plugin-updater',
         __('Seravo Plugin Updater', 'seravo'),
         array( __CLASS__, 'seravo_plugin_updater_postbox' ),
-        'tools_page_upkeep_page',
+        'toolbox_page_upkeep_page',
         'normal'
       );
     }
@@ -88,7 +88,7 @@ if ( ! class_exists('Updates') ) {
 
       wp_register_style('seravo_updates', plugin_dir_url(__DIR__) . '/style/updates.css', '', Helpers::seravo_plugin_version());
 
-      if ( $page === 'tools_page_upkeep_page' ) {
+      if ( $page === 'toolbox_page_upkeep_page' ) {
         wp_enqueue_style('seravo_updates');
         wp_enqueue_script('seravo_updates', plugins_url('../js/updates.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
 

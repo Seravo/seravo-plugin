@@ -31,7 +31,7 @@ if ( ! class_exists('Domains') ) {
 
     public static function register_scripts( $page ) {
 
-      if ( $page === 'tools_page_domains_page' ) {
+      if ( $page === 'toolbox_page_domains_page' ) {
 
         wp_enqueue_script('seravo_domains', plugins_url('../js/domains.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
 

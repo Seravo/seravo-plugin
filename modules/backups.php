@@ -32,7 +32,7 @@ if ( ! class_exists('Backups') ) {
           'backups-info',
           __('Backups', 'seravo'),
           array( __CLASS__, 'backups_info_postbox' ),
-          'tools_page_upkeep_page',
+          'toolbox_page_upkeep_page',
           'normal'
         );
 
@@ -40,7 +40,7 @@ if ( ! class_exists('Backups') ) {
           'backups-create',
           __('Create a New Backup', 'seravo'),
           array( __CLASS__, 'backups_create_postbox' ),
-          'tools_page_upkeep_page',
+          'toolbox_page_upkeep_page',
           'normal'
         );
 
@@ -48,7 +48,7 @@ if ( ! class_exists('Backups') ) {
           'backups-excludes',
           __('Files Excluded from the Backups', 'seravo'),
           array( __CLASS__, 'backups_excludes_postbox' ),
-          'tools_page_upkeep_page',
+          'toolbox_page_upkeep_page',
           'side'
         );
 
@@ -56,7 +56,7 @@ if ( ! class_exists('Backups') ) {
           'backups-list',
           __('Current Backups', 'seravo'),
           array( __CLASS__, 'backups_list_postbox' ),
-          'tools_page_upkeep_page',
+          'toolbox_page_upkeep_page',
           'side'
         );
       }

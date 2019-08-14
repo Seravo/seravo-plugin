@@ -21,7 +21,7 @@ if ( ! class_exists('Mails') ) {
         'mail-forwards',
         __('Mails', 'seravo') . ' (beta)',
         array( __CLASS__, 'mails_postbox' ),
-        'tools_page_mails_page',
+        'toolbox_page_mails_page',
         'normal'
       );
 

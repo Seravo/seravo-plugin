@@ -29,14 +29,14 @@ if ( ! class_exists('Security') ) {
         'security_info',
         __('Security (beta)', 'seravo'),
         array( __CLASS__, 'security_info_postbox' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'normal'
       );
       seravo_add_postbox(
         'logins_info',
         __('Recent successful logins', 'seravo'),
         array( __CLASS__, 'logins_info_postbox' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'side'
       );
 
@@ -51,7 +51,7 @@ if ( ! class_exists('Security') ) {
       wp_register_script('seravo_security', plugin_dir_url(__DIR__) . '/js/security.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_security', plugin_dir_url(__DIR__) . '/style/security.css', '', Helpers::seravo_plugin_version());
 
-      if ( $page === 'tools_page_security_page' ) {
+      if ( $page === 'toolbox_page_security_page' ) {
         wp_enqueue_script('seravo_security');
         wp_enqueue_style('seravo_security');
 
@@ -69,7 +69,7 @@ if ( ! class_exists('Security') ) {
         'seravo_security_settings',
         '', // Empty on purpose, postbox title is enough
         array( __CLASS__, 'security_settings_description' ),
-        'tools_page_security_page'
+        'toolbox_page_security_page'
       );
 
       /* Dummy settings that cannot be changed */
@@ -77,7 +77,7 @@ if ( ! class_exists('Security') ) {
         'seravo-automatic-backups',
         __('Automatic backups', 'seravo'),
         array( __CLASS__, 'seravo_security_checked_field' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'seravo_security_settings'
       );
 
@@ -85,7 +85,7 @@ if ( ! class_exists('Security') ) {
         'seravo-security-updates',
         __('Quick security updates', 'seravo'),
         array( __CLASS__, 'seravo_security_checked_field' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'seravo_security_settings'
       );
 
@@ -93,7 +93,7 @@ if ( ! class_exists('Security') ) {
         'seravo-malicious-code-monitoring',
         __('Monitoring of malicius code and database contents', 'seravo'),
         array( __CLASS__, 'seravo_security_checked_field' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'seravo_security_settings'
       );
 
@@ -101,7 +101,7 @@ if ( ! class_exists('Security') ) {
         'seravo-dos-protection',
         __('Denial-of-service protection', 'seravo'),
         array( __CLASS__, 'seravo_security_checked_field' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'seravo_security_settings'
       );
 
@@ -109,7 +109,7 @@ if ( ! class_exists('Security') ) {
         'seravo-brute-force-protection',
         __('Brute-force login protection', 'seravo'),
         array( __CLASS__, 'seravo_security_checked_field' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'seravo_security_settings'
       );
 
@@ -118,7 +118,7 @@ if ( ! class_exists('Security') ) {
         'seravo-disable-xml-rpc',
         __('Disable XML-RPC', 'seravo'),
         array( __CLASS__, 'seravo_security_xmlrpc_field' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'seravo_security_settings'
       );
 
@@ -126,7 +126,7 @@ if ( ! class_exists('Security') ) {
         'seravo-disable-json-user-enumeration',
         __('Disable WP-JSON user enumeration', 'seravo'),
         array( __CLASS__, 'seravo_security_json_user_enum_field' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'seravo_security_settings'
       );
 
@@ -134,7 +134,7 @@ if ( ! class_exists('Security') ) {
         'seravo-disable-get-author-enumeration',
         __('Disable GET author enumeration', 'seravo'),
         array( __CLASS__, 'seravo_security_get_author_enum_field' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'seravo_security_settings'
       );
 
@@ -173,7 +173,7 @@ if ( ! class_exists('Security') ) {
       settings_errors();
       echo '<form method="post" action="options.php">';
       settings_fields('seravo_security_settings');
-      do_settings_sections('tools_page_security_page');
+      do_settings_sections('toolbox_page_security_page');
       submit_button(__('Save', 'seravo'), 'primary', 'btnSubmit');
       echo '</form>';
     }

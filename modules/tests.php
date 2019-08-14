@@ -27,7 +27,7 @@ if ( ! class_exists('Tests') ) {
         'tests',
         __('Update tests', 'seravo'),
         array( __CLASS__, 'tests_postbox' ),
-        'tools_page_upkeep_page',
+        'toolbox_page_upkeep_page',
         'normal'
       );
 
@@ -37,7 +37,7 @@ if ( ! class_exists('Tests') ) {
       wp_register_style('seravo_tests', plugin_dir_url(__DIR__) . '/style/tests.css', '', Helpers::seravo_plugin_version());
       wp_register_script('seravo_tests', plugin_dir_url(__DIR__) . '/js/tests.js', '', Helpers::seravo_plugin_version());
 
-      if ( $page === 'tools_page_upkeep_page' ) {
+      if ( $page === 'toolbox_page_upkeep_page' ) {
         wp_enqueue_style('seravo_tests');
         wp_enqueue_script('seravo_tests');
 

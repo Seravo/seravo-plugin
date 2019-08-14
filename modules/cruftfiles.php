@@ -39,7 +39,7 @@ if ( ! class_exists('Cruftfiles') ) {
         'cruft-files',
         __('Cruft Files (beta)', 'seravo'),
         array( __CLASS__, 'cruftfiles_postbox' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'side'
       );
 
@@ -48,7 +48,7 @@ if ( ! class_exists('Cruftfiles') ) {
         'cruft-plugins',
         __('Unnecessary plugins', 'seravo'),
         array( __CLASS__, 'cruftplugins_postbox' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'normal'
       );
 
@@ -57,7 +57,7 @@ if ( ! class_exists('Cruftfiles') ) {
         'cruft-themes',
         __('Unnecessary themes', 'seravo'),
         array( __CLASS__, 'cruftthemes_postbox' ),
-        'tools_page_security_page',
+        'toolbox_page_security_page',
         'normal'
       );
     }
@@ -176,7 +176,7 @@ if ( ! class_exists('Cruftfiles') ) {
       wp_register_script('seravo_cruftplugins', plugin_dir_url(__DIR__) . '/js/cruftplugins.js', '', Helpers::seravo_plugin_version());
       wp_register_script('seravo_cruftthemes', plugin_dir_url(__DIR__) . '/js/cruftthemes.js', '', Helpers::seravo_plugin_version());
 
-      if ( $hook === 'tools_page_security_page' ) {
+      if ( $hook === 'toolbox_page_security_page' ) {
         wp_enqueue_style('seravo_cruftfiles');
         wp_enqueue_script('seravo_cruftfiles');
         wp_enqueue_script('seravo_cruftplugins');

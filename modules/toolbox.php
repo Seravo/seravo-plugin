@@ -13,8 +13,20 @@ if ( ! class_exists('Toolbox') && current_user_can('administrator') ) {
     }
 
     public static function register_toolbox_pages() {
+      $name = __('Toolbox', 'seravo');
+      $icon = '/wp-content/mu-plugins/seravo-plugin/seravo_logo.png';
+
+      add_menu_page(
+        $name,
+        $name,
+        'manage_options',
+        'toolbox_page',
+        'Seravo/seravo_postboxes_page',
+        $icon
+      );
+
       add_submenu_page(
-        'tools.php',
+        'toolbox_page',
         __('Site Status', 'seravo'),
         __('Site Status', 'seravo'),
         'manage_options',
@@ -23,7 +35,7 @@ if ( ! class_exists('Toolbox') && current_user_can('administrator') ) {
       );
 
       add_submenu_page(
-        'tools.php',
+        'toolbox_page',
         __('Upkeep', 'seravo'),
         __('Upkeep', 'seravo'),
         'manage_options',
@@ -32,7 +44,7 @@ if ( ! class_exists('Toolbox') && current_user_can('administrator') ) {
       );
 
       add_submenu_page(
-        'tools.php',
+        'toolbox_page',
         __('Logs', 'seravo'),
         __('Logs', 'seravo'),
         'manage_options',
@@ -41,7 +53,7 @@ if ( ! class_exists('Toolbox') && current_user_can('administrator') ) {
       );
 
       add_submenu_page(
-        'tools.php',
+        'toolbox_page',
         __('Security', 'seravo'),
         __('Security', 'seravo'),
         'manage_options',
@@ -50,7 +62,7 @@ if ( ! class_exists('Toolbox') && current_user_can('administrator') ) {
       );
 
       add_submenu_page(
-        'tools.php',
+        'toolbox_page',
         __('Domains', 'seravo'),
         __('Domains', 'seravo'),
         'manage_options',
@@ -59,7 +71,7 @@ if ( ! class_exists('Toolbox') && current_user_can('administrator') ) {
       );
 
       add_submenu_page(
-        'tools.php',
+        'toolbox_page',
         __('Mails', 'seravo'),
         __('Mails', 'seravo'),
         'manage_options',
@@ -68,7 +80,7 @@ if ( ! class_exists('Toolbox') && current_user_can('administrator') ) {
       );
 
       add_submenu_page(
-        'tools.php',
+        'toolbox_page',
         __('Development', 'seravo'),
         __('Development', 'seravo'),
         'manage_options',
