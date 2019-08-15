@@ -31,9 +31,15 @@ if ( ! class_exists('Updates') ) {
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
 
+      if ( ! Helpers::is_whitelabel() ) {
+        $seravo_updates_name = __('Seravo Updates', 'seravo');
+      } else {
+        $seravo_updates_name = __('Hosting Provider Updates', 'seravo');
+      }
+
       seravo_add_postbox(
         'seravo-updates',
-        __('Seravo Updates', 'seravo'),
+        $seravo_updates_name,
         array( __CLASS__, 'seravo_updates_postbox' ),
         'tools_page_updates_page',
         'normal'
@@ -71,13 +77,15 @@ if ( ! class_exists('Updates') ) {
         'side'
       );
 
-      seravo_add_postbox(
-        'seravo-plugin-updater',
-        __('Seravo Plugin Updater', 'seravo'),
-        array( __CLASS__, 'seravo_plugin_updater_postbox' ),
-        'tools_page_updates_page',
-        'normal'
-      );
+      if ( ! Helpers::is_whitelabel() ) {
+        seravo_add_postbox(
+          'seravo-plugin-updater',
+          __('Seravo Plugin Updater', 'seravo'),
+          array( __CLASS__, 'seravo_plugin_updater_postbox' ),
+          'tools_page_updates_page',
+          'normal'
+        );
+      }
     }
 
     /**
@@ -120,7 +128,6 @@ if ( ! class_exists('Updates') ) {
     }
 
     public static function seravo_updates_postbox() {
-
       $site_info = self::seravo_admin_get_site_info();
 
       // WP_error-object
@@ -128,7 +135,11 @@ if ( ! class_exists('Updates') ) {
         ?>
         <h2>
         <?php
-          __('Opt-out from updates by Seravo', 'seravo')
+          if ( ! Helpers::is_whitelabel() ) {
+            __('Opt-out from updates by Seravo', 'seravo');
+          } else {
+            __('Opt out from updates by hosting provider', 'seravo');
+          }
         ?>
         </h2>
         <?php
@@ -150,12 +161,28 @@ if ( ! class_exists('Updates') ) {
           $contact_emails = $site_info['contact_emails'];
         }
         ?>
-        <p><?php _e('The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo\'s updates by unchecking the checkbox below.', 'seravo'); ?></p>
+        <p>
+          <?php
+          if ( ! Helpers::is_whitelabel() ) {
+            _e('The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo\'s updates by unchecking the checkbox below.', 'seravo');
+          } else {
+            _e('The hosting provider upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from hosting provider\'s updates by unchecking the checkbox below.', 'seravo');
+          }
+          ?>
+        </p>
           <form name="seravo_updates_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
             <?php wp_nonce_field('seravo-updates-nonce'); ?>
             <input type="hidden" name="action" value="toggle_seravo_updates">
             <div class="checkbox allow_updates_checkbox">
-              <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo'); ?><br>
+              <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>>
+              <?php
+              if ( ! Helpers::is_whitelabel() ) {
+                _e('Seravo updates enabled', 'seravo');
+              } else {
+                _e('Hosting provider updates enabled', 'seravo');
+              }
+              ?>
+              <br>
             </div>
 
             <hr class="seravo-updates-hr">
@@ -176,8 +203,10 @@ if ( ! class_exists('Updates') ) {
             <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
             <p><small class="seravo-developer-letter-hint">
             <?php
-              // translators: %1$s link to Newsletter for WordPress developers
-              printf(__('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
+              if ( ! Helpers::is_whitelabel() ) {
+                // translators: %1$s link to Newsletter for WordPress developers
+                printf(__('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
+              }
             ?>
             </small></p>
             <br>
@@ -272,12 +301,21 @@ if ( ! class_exists('Updates') ) {
       </ul>
       <p>
         <?php
-        printf(
-          // translators: event count and update.log filename and updates.log and security.log paths
-          __('For details about last %1$s update attempts by Seravo, see %2$s.', 'seravo'),
-          count($output),
-          '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>update.log*</code></a>'
-        );
+        if ( ! Helpers::is_whitelabel() ) {
+          printf(
+            // translators: event count and update.log filename and updates.log and security.log paths
+            __('For details about last %1$s update attempts by Seravo, see %2$s.', 'seravo'),
+            count($output),
+            '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>update.log*</code></a>'
+          );
+        } else {
+          printf(
+            // translators: event count and update.log filename and updates.log and security.log paths
+            __('For details about last %1$s update attempts by Seravo, see %2$s.', 'seravo'),
+            count($output),
+            '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>update.log*</code></a>'
+          );
+        }
         ?>
       </p>
       <?php
@@ -310,7 +348,9 @@ if ( ! class_exists('Updates') ) {
       </p>
       <p>
         <?php
-        _e('See also <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo');
+          if ( ! Helpers::is_whitelabel() ) {
+            _e('See also <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo');
+          }
         ?>
       </p>
 
@@ -382,7 +422,8 @@ if ( ! class_exists('Updates') ) {
 
     public static function seravo_plugin_updater_postbox() {
       ?>
-      <p><?php _e('Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here.', 'seravo'); ?></p>
+      <p>
+        <?php _e('Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here.', 'seravo'); ?></p>
       <p>
       <?php
       printf(

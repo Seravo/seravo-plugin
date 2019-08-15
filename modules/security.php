@@ -162,6 +162,16 @@ if ( ! class_exists('Security') ) {
         because of it.',
         'seravo'
       );
+
+      if ( Helpers::is_whitelabel() ) {
+        $msg = __(
+          'Host provider has security built-in. There are however a few extra measures
+        that the site owner can choose to do if their site will not miss any functionality
+        because of it.',
+          'seravo'
+        );
+      }
+
       echo '<p>' . $msg . '</p>';
     }
 

@@ -55,13 +55,15 @@ if ( ! class_exists('Reports') ) {
         'normal'
       );
 
-      seravo_add_postbox(
-        'site-info',
-        __('Site Information', 'seravo'),
-        array( __CLASS__, 'seravo_site_info' ),
-        'tools_page_reports_page',
-        'normal'
-      );
+      if ( ! Helpers::is_whitelabel() ) {
+        seravo_add_postbox(
+          'site-info',
+          __('Site Information', 'seravo'),
+          array( __CLASS__, 'seravo_site_info' ),
+          'tools_page_reports_page',
+          'normal'
+        );
+      }
     }
 
     public static function register_reports_page() {

@@ -72,7 +72,15 @@ if ( ! class_exists('Shadows') ) {
       ?>
       <div class="seravo-section">
         <div style="padding: 0px 15px">
-          <p><?php _e('Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/">Developer documentation</a>.', 'seravo'); ?></p>
+          <p>
+            <?php
+            if ( ! Helpers::is_whitelabel() ) {
+              _e('Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/">Developer documentation</a>.', 'seravo');
+            } else {
+              _e('Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow.', 'seravo');
+            }
+            ?>
+          </p>
           <hr>
         </div>
         <div style="padding: 5px 15px 0 15px">
@@ -150,10 +158,10 @@ if ( ! class_exists('Shadows') ) {
             </table>
           </form>
           <div id="shadow-reset-sr-alert" class="shadow-hidden">
-            <?php _e("This shadow uses a custom domain. Search-replace can't currently be ran automatically with shadow reset. Please run it manually afterwards with the values above or the shadow can't be accessed. Instructions can be found in <a href='https://help.seravo.com/en/docs/151'>here</a>.", 'seravo'); ?> 
+            <?php _e("This shadow uses a custom domain. Search-replace can't currently be ran automatically with shadow reset. Please run it manually afterwards with the values above or the shadow can't be accessed. Instructions can be found in <a href='https://help.seravo.com/en/docs/151'>here</a>.", 'seravo'); ?>
           </div>
           <div id="shadow-reset-nosr-alert">
-            <?php _e("This shadow doesn't need search-replace to be ran afterwards for it to work.", 'seravo'); ?> 
+            <?php _e("This shadow doesn't need search-replace to be ran afterwards for it to work.", 'seravo'); ?>
           </div>
           <table class="shadow-reset-row">
             <tr>
