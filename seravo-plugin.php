@@ -219,6 +219,11 @@ class Loader {
       }
 
       /*
+       * Show custom welcome panel
+       */
+      require_once dirname(__FILE__) . '/modules/welcome-panel.php';
+
+      /*
        * Backups view for Seravo customers
        */
       if ( apply_filters('seravo_show_backups_page', true) && getenv('CONTAINER') ) {

@@ -1,0 +1,68 @@
+.seravo-text-center {
+  padding: 15px;
+  text-align: center;
+  word-break: break-word;
+  width: 20vw;
+}
+
+#seravo-welcome-panel-contact-support-button {
+  padding: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+  background-color: #ef7c1a;
+  color: white;
+  border: 1px solid #ef7c1a;
+  border-radius: 25px;
+  text-align: center;
+}
+
+#seravo-welcome-panel-subscribe-button {
+  padding: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+  background-color: #47aedc;
+  color: white;
+  border: 1px solid #47aedc;
+  border-radius: 25px;
+  text-align: center;
+}
+
+.seravo-welcome-panel-links {
+  padding-left: 10px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 870px) {
+  .seravo-text-center {
+    width: 55vw;
+    margin-left: 15vw;
+  }
+
+  .seravo-welcome-panel-links {
+    padding-left: 10px;
+    text-align: center;
+  }
+
+  .seravo-welcome-panel-welcome-text {
+    text-align: center;
+    word-break: break-word;
+  }
+}
+
+@media only screen and (max-width: 659px) {
+  ul.seravo-welcome-panel-links {
+    display: inline-grid;
+  }
+}
+
+@media only screen and (max-width: 559px) {
+  .seravo-welcome-panel-links {
+    padding-left: 10px;
+    text-align: center;
+  }
+
+  .seravo-welcome-panel-welcome-text {
+    margin-left: 10vw;
+    width: 70vw;
+  }
+}
