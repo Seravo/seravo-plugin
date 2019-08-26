@@ -26,6 +26,10 @@ function seravo_change_php_version() {
     exec('echo "--> Setting to mode ' . $php_version_array[ $php_version ] . '" >> /data/log/php-version-change.log');
     exec('wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &');
   }
+
+  if ( file_exists('/data/wordpress/.git') ) {
+    exec('cd /data/wordpress/ && git add nginx/*.conf && s-git-commit -m "Set new PHP version" && cd /data/wordpress/htdocs/wordpress/wp-admin');
+  }
 }
 
 function seravo_php_check_version() {
