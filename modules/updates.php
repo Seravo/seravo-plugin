@@ -309,13 +309,13 @@ if ( ! class_exists('Updates') ) {
         );
         ?>
       </p>
-        
+
       <button id='check-php-compatibility-button'><?php _e('Check PHP compatibility', 'seravo'); ?></button>
-      
+
       <div id="check-php-compatibility-status" class="hidden">
         <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
       </div>
-      
+
       <p>
         <?php
         _e('See also <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo');
@@ -366,6 +366,13 @@ if ( ! class_exists('Updates') ) {
         }
         ?>
         <br>
+        <span id="overwrite-config-files-span">
+          <input type="checkbox" id="overwrite-config-files" class="hidden">
+          <?php
+            _e('I\'m aware of the risks associated with edits to the PHP configuration files and want to proceed with the change.', 'seravo');
+          ?>
+          <br>
+        </span>
         <button id='change-php-version-button'><?php _e('Change version', 'seravo'); ?></button>
         <br>
       </div>
@@ -378,7 +385,7 @@ if ( ! class_exists('Updates') ) {
         <?php
         printf(
           // translators: link to log file
-          __('PHP version has been changed succesfully! Please check <a href="%s">php_error.log</a> for regressions.', 'seravo'),
+          __('PHP version has been changed succesfully! Please check <a href="%s">php-error.log</a> for regressions.', 'seravo'),
           'tools.php?page=logs_page&logfile=php-error.log'
         );
         ?>

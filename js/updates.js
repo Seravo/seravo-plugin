@@ -133,6 +133,28 @@ jQuery(document).ready(function($) {
     $buttonsDiv.html(generateButtons(emails));
   });
 
+  jQuery.post(
+    seravo_updates_loc.ajaxurl, {
+      'action': 'seravo_ajax_updates',
+      'section': 'seravo_default_config_file',
+      'nonce': seravo_updates_loc.ajax_nonce
+    },function(defaul_config_file) {
+      if ( ! defaul_config_file ) {
+        jQuery("#change-php-version-button").hide();
+      } else {
+        jQuery("#overwrite-config-files-span").hide();
+      }
+    }
+  );
+
+  jQuery('#overwrite-config-files').change(function() {
+    if (jQuery('#overwrite-config-files').is(':checked')) {
+        jQuery("#change-php-version-button").show();
+    } else {
+      jQuery("#change-php-version-button").hide();
+    }
+  });
+
   jQuery('#check-php-compatibility-button').click(function() {
     jQuery(this).fadeOut(400, function(){
       jQuery(this).hide();
@@ -186,15 +208,26 @@ jQuery(document).ready(function($) {
     });
     jQuery("#activated-line").hide();
     jQuery("#activation-failed-line").hide();
-    changePHPVersion();
-  });
+    jQuery("#overwrite-config-files-span").hide();
 
-  function changePHPVersion() {
-    var php_version = $('[name=php-version]:checked').val();
+    jQuery.post(
+      seravo_updates_loc.ajaxurl, {
+        'action': 'seravo_ajax_updates',
+        'section': 'check_php_config_files',
+        'nonce': seravo_updates_loc.ajax_nonce
+    });
 
     jQuery("#seravo-php-version").fadeOut(400, function() {
       $(this).hide();
     });
+
+    setTimeout(function() {
+      changePHPVersion();
+    }, 500);
+  });
+
+  function changePHPVersion() {
+    var php_version = $('[name=php-version]:checked').val();
 
     jQuery.post(
       seravo_updates_loc.ajaxurl, {
