@@ -203,7 +203,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
       // Loop through the postboxes for this context
       if ( isset($this->postboxes[ $screen ][ $context ]) && ! empty($this->postboxes[ $screen ][ $context ]) ) {
         foreach ( $this->postboxes[ $screen ][ $context ] as $postbox_id => &$postbox_content ) {
-          $this->display_single_postbox($postbox_id, $postbox_content);
+          $this->display_single_postbox($postbox_id, $context, $postbox_content);
         }
       }
     }
@@ -224,6 +224,15 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
       <!-- Postbox wrapper -->
       <div class="dashboard-widgets-wrap">
+
+        <!-- Full-width postboxes first with full_width context -->
+        <div class="metabox-holder seravo-postbox-holder full-width">
+          <div class="postbox-container">
+            <?php $this->do_postboxes($current_screen, 'full_width'); ?>
+          </div>
+        </div>
+
+        <!-- Sortable smaller postboxes -->
         <div id="dashboard-widgets" class="metabox-holder seravo-postbox-holder">
           <?php foreach ( $container_contexts as $container_context ) : ?>
             <div id="postbox-container-<?php echo $context_index; ?>" class="postbox-container">
@@ -247,7 +256,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
       do_action('after_seravo_postboxes_' . $current_screen);
     }
 
-    private function display_single_postbox( $postbox_id, $postbox_content ) {
+    private function display_single_postbox( $postbox_id, $postbox_context, $postbox_content ) {
       $closed = in_array($postbox_id, $this->closed_postboxes);
       ?>
 
@@ -263,8 +272,15 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
           <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
 
+        <?php
+        // All other contexts but full_width are sortable
+        $handle_class = 'hndle';
+        if ( $postbox_context !== 'full_width' ) {
+          $handle_class .= ' ui-sortable-handle';
+        }
+        ?>
         <!-- Postbox title -->
-        <h2 class="hndle ui-sortable-handle">
+        <h2 class="<?php echo $handle_class; ?>">
           <span><?php echo $postbox_content['title']; ?></span>
         </h2>
 
