@@ -35,6 +35,26 @@
   border-radius: 10px;
 }
 
+#wpbody-content .dashboard-widgets-wrap .seravo-postbox-holder {
+  padding-top: 0;
+}
+
+#wpbody-content .dashboard-widgets-wrap .seravo-postbox-holder.full-width {
+  padding-top: 10px;
+}
+
+.seravo-postbox-holder.full-width .postbox-container {
+  float: none;
+  margin: 0 8px 0px 8px;
+}
+
+.seravo-postbox .toggle-indicator:before {
+  content: "\f142";
+  display: inline-block;
+  font: normal 20px/1 dashicons;
+  speak: none;
+}
+
 @media only screen and (min-width:1430px) {
   .seravo-postbox .inside {
     padding: 10px 15px 0px 15px;
