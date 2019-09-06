@@ -156,7 +156,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
     /**
      * Filter the postboxes in such a way that they are in the user specified order.
      */
-    private function apply_user_postbox_settings() {
+    private function apply_user_postbox_settings( $column_count = 'four_column' ) {
       $screen = get_current_screen()->id;
 
       // Preload closed postboxes. If the setting is not set, WP returns an empty string, so don't
@@ -184,9 +184,18 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
                 // Move the postbox data to the new context
                 if ( in_array($postbox_id, array_keys($postboxes_array)) ) {
-                  $postbox_data = $postboxes_array[ $postbox_id ];
-                  unset($postboxes_array[ $postbox_id ]);
-                  $this->postboxes[ $screen ][ $custom_context ][ $postbox_id ] = $postbox_data;
+
+                  if ( $column_count === 'two_column' ) {
+                    if ( $custom_context === 'column3' ) {
+                      $custom_context = 'normal';
+                    } elseif ( $custom_context === 'column4' ) {
+                      $custom_context = 'side';
+                    }
+                  }
+
+                  $postbox_data = $postboxes_array[$postbox_id];
+                  unset($postboxes_array[$postbox_id]);
+                  $this->postboxes[$screen][$custom_context][$postbox_id] = $postbox_data;
                   break;
                 }
               }
@@ -211,12 +220,17 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
     /**
      * Display a page with all currently registered postboxes.
      */
-    public function display_postboxes_page() {
+    public function display_postboxes_page( $column_count = 'four_column' ) {
       // These are the same postbox contexts that are used in WP core.
       $container_contexts = array( 'normal', 'side', 'column3', 'column4' );
+
+      if ( $column_count === 'two_column' ) {
+        $container_contexts = array( 'normal', 'side' );
+      }
+
       $context_index = 1;
       $current_screen = get_current_screen()->id;
-      $this->apply_user_postbox_settings();
+      $this->apply_user_postbox_settings($column_count);
 
       // Fire pre-postbox action
       do_action('before_seravo_postboxes_' . $current_screen);
@@ -226,7 +240,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
       <div class="dashboard-widgets-wrap">
         <div id="dashboard-widgets" class="metabox-holder seravo-postbox-holder">
           <?php foreach ( $container_contexts as $container_context ) : ?>
-            <div id="postbox-container-<?php echo $context_index; ?>" class="postbox-container">
+            <div id="postbox-container-<?php echo $context_index; ?>" class="postbox-container <?php echo $column_count === 'two_column' ? 'two-column-layout' : ''; ?>">
               <div id="<?php echo $container_context; ?>-sortables" class="meta-box-sortables ui-sortable">
                 <?php $this->do_postboxes($current_screen, $container_context); ?>
               </div>
@@ -308,5 +322,10 @@ function seravo_add_postbox( $id, $title, $callback, $screen = 'tools_page', $co
  */
 function seravo_postboxes_page() {
   global $seravo_postbox_factory;
-  $seravo_postbox_factory->display_postboxes_page();
+  $seravo_postbox_factory->display_postboxes_page('four_column');
+}
+
+function seravo_two_column_postboxes_page() {
+  global $seravo_postbox_factory;
+  $seravo_postbox_factory->display_postboxes_page('two_column');
 }
