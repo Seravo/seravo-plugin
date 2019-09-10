@@ -1,49 +1,29 @@
 <?php
-/*
- * Plugin name: Updates
- * Description: Enable users to manage their Seravo WordPress updates
- * Version: 1.0
- */
 
 namespace Seravo;
 
-// Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once dirname(__FILE__) . '/../lib/updates-ajax.php';
+require_once dirname(__FILE__) . '/../lib/upkeep-ajax.php';
 
-if ( ! class_exists('Updates') ) {
-  class Updates {
-
+if ( ! class_exists('Upkeep') ) {
+  class Upkeep {
     public static function load() {
-      add_action('admin_menu', array( __CLASS__, 'register_updates_page' ));
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
-      add_action('wp_ajax_seravo_ajax_updates', 'seravo_ajax_updates');
+      add_action('wp_ajax_seravo_ajax_upkeep', 'seravo_ajax_upkeep');
 
-      /*
-      * This POST handler will use the SWD API to toggle Seravo updates on/off
-      * and add technical contact emails for this site.
-      */
-      add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
+      add_action('admin_post_toogle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
 
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
 
       seravo_add_postbox(
-        'seravo-updates',
-        __('Seravo Updates', 'seravo'),
-        array( __CLASS__, 'seravo_updates_postbox' ),
-        'tools_page_updates_page',
-        'normal'
-      );
-
-      seravo_add_postbox(
         'site-status',
         __('Site Status', 'seravo'),
         array( __CLASS__, 'site_status_postbox' ),
-        'tools_page_updates_page',
+        'tools_page_upkeep_page',
         'normal'
       );
 
@@ -51,15 +31,23 @@ if ( ! class_exists('Updates') ) {
         'tests-status',
         __('Tests Status', 'seravo'),
         array( __CLASS__, 'tests_status_postbox' ),
-        'tools_page_updates_page',
+        'tools_page_upkeep_page',
         'normal'
       );
 
       seravo_add_postbox(
-        'change-php-version',
-        __('Change PHP Version', 'seravo'),
-        array( __CLASS__, 'change_php_version_postbox' ),
-        'tools_page_updates_page',
+        'tests',
+        __('Update tests', 'seravo'),
+        array( __CLASS__, 'tests_postbox' ),
+        'tools_page_upkeep_page',
+        'normal'
+      );
+
+      seravo_add_postbox(
+        'seravo-updates',
+        __('Seravo Updates', 'seravo'),
+        array( __CLASS__, 'seravo_updates_postbox' ),
+        'tools_page_upkeep_page',
         'normal'
       );
 
@@ -67,7 +55,15 @@ if ( ! class_exists('Updates') ) {
         'screenshots',
         __('Screenshots', 'seravo'),
         array( __CLASS__, 'screenshots_postbox' ),
-        'tools_page_updates_page',
+        'tools_page_upkeep_page',
+        'side'
+      );
+
+      seravo_add_postbox(
+        'change-php-version',
+        __('Change PHP Version', 'seravo'),
+        array( __CLASS__, 'change_php_version_postbox' ),
+        'tools_page_upkeep_page',
         'side'
       );
 
@@ -75,8 +71,8 @@ if ( ! class_exists('Updates') ) {
         'seravo-plugin-updater',
         __('Seravo Plugin Updater', 'seravo'),
         array( __CLASS__, 'seravo_plugin_updater_postbox' ),
-        'tools_page_updates_page',
-        'normal'
+        'tools_page_upkeep_page',
+        'side'
       );
     }
 
@@ -87,36 +83,30 @@ if ( ! class_exists('Updates') ) {
      */
     public static function register_scripts( $page ) {
 
-      wp_register_style('seravo_updates', plugin_dir_url(__DIR__) . '/style/updates.css', '', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_upkeep', plugin_dir_url(__DIR__) . '/style/upkeep.css', '', Helpers::seravo_plugin_version());
+      wp_register_script('seravo_upkeep', plugin_dir_url(__DIR__) . '/js/upkeep.js', 'jquery', Helpers::seravo_plugin_version());
 
-      if ( $page === 'tools_page_updates_page' ) {
-        wp_enqueue_style('seravo_updates');
-        wp_enqueue_script('seravo_updates', plugins_url('../js/updates.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+      if ( $page === 'tools_page_upkeep_page' ) {
+        wp_enqueue_style('seravo_upkeep');
+        wp_enqueue_script('seravo_upkeep');
 
-        $loc_translation_updates = array(
+        $loc_translation = array(
           'compatibility_check_running' => __('Running PHP compatibility check, this can take a while depending on the number of plugins and themes installed.', 'seravo'),
           'compatibility_check_error' => __(' errors found. See logs for more information.', 'seravo'),
           'compatibility_check_clear' => __('&#x2705; No errors found! See logs for more information.', 'seravo'),
           'compatibility_run_fail' => __('There was an error starting the compatibility check.', 'seravo'),
-          'compatibility_no_data' => __('No data returned for the section.', 'seravo'),
+          'no_data'       => __('No data returned for the section.', 'seravo'),
+          'test_success'  => __('Tests were run without any errors!', 'seravo'),
+          'test_fail'     => __('At least one of the tests failed.', 'seravo'),
+          'run_fail'      => __('Failed to load. Please try again.', 'seravo'),
+          'running_tests' => __('Running rspec tests...', 'seravo'),
           'ajaxurl'    => admin_url('admin-ajax.php'),
-          'ajax_nonce' => wp_create_nonce('seravo_updates'),
+          'ajax_nonce' => wp_create_nonce('seravo_upkeep'),
         );
 
-        wp_localize_script('seravo_updates', 'seravo_updates_loc', $loc_translation_updates);
+        wp_localize_script('seravo_upkeep', 'seravo_upkeep_loc', $loc_translation);
       }
 
-    }
-
-    public static function register_updates_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Updates', 'seravo'),
-        __('Updates', 'seravo'),
-        'manage_options',
-        'updates_page',
-        'Seravo\seravo_postboxes_page'
-      );
     }
 
     public static function seravo_admin_get_site_info() {
@@ -140,7 +130,7 @@ if ( ! class_exists('Updates') ) {
         }
 
         if ( isset($site_info['notification_webhooks'][0]['url']) &&
-              $site_info['notification_webhooks'][0]['type'] === 'slack' ) {
+          $site_info['notification_webhooks'][0]['type'] === 'slack' ) {
           $slack_webhook = $site_info['notification_webhooks'][0]['url'];
         } else {
           $slack_webhook = '';
@@ -152,37 +142,37 @@ if ( ! class_exists('Updates') ) {
         }
         ?>
         <p><?php _e('The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo\'s updates by unchecking the checkbox below.', 'seravo'); ?></p>
-          <form name="seravo_updates_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
-            <?php wp_nonce_field('seravo-updates-nonce'); ?>
-            <input type="hidden" name="action" value="toggle_seravo_updates">
-            <div class="checkbox allow_updates_checkbox">
-              <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo'); ?><br>
-            </div>
+        <form name="seravo_updates_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
+          <?php wp_nonce_field('seravo-updates-nonce'); ?>
+          <input type="hidden" name="action" value="toggle_seravo_updates">
+          <div class="checkbox allow_updates_checkbox">
+            <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo'); ?><br>
+          </div>
 
-            <hr class="seravo-updates-hr">
-            <h2><?php _e('Update Notifications with a Slack Webhook', 'seravo'); ?></h2>
-            <p><?php _e('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks">Read more about webhooks</a>.', 'seravo'); ?></p>
-            <input name="slack_webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="<?php echo $slack_webhook; ?>">
-            <button type="button" class="button" id="slack_webhook_test"><?php _e('Send a Test Notification', 'seravo'); ?></button>
+          <hr class="seravo-updates-hr">
+          <h2><?php _e('Update Notifications with a Slack Webhook', 'seravo'); ?></h2>
+          <p><?php _e('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks">Read more about webhooks</a>.', 'seravo'); ?></p>
+          <input name="slack_webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="<?php echo $slack_webhook; ?>">
+          <button type="button" class="button" id="slack_webhook_test"><?php _e('Send a Test Notification', 'seravo'); ?></button>
 
-            <hr class="seravo-updates-hr">
-            <h2><?php _e('Technical Contacts', 'seravo'); ?></h2>
-            <p><?php _e('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo'); ?></p>
-            <input class="technical_contacts_input" type="email" multiple size="30" placeholder="<?php _e('example@example.com', 'seravo'); ?>" value="" data-emails="<?php echo htmlspecialchars(json_encode($contact_emails)); ?>">
-            <button type="button" class="technical_contacts_add button"><?php _e('Add', 'seravo'); ?></button>
-            <span class="technical_contacts_error"><?php _e('Email must be formatted as name@domain.com', 'seravo'); ?></span>
-            <input name="technical_contacts" type="hidden">
-            <div class="technical_contacts_buttons"></div>
-            <br>
-            <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
-            <p><small class="seravo-developer-letter-hint">
-            <?php
+          <hr class="seravo-updates-hr">
+          <h2><?php _e('Technical Contacts', 'seravo'); ?></h2>
+          <p><?php _e('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo'); ?></p>
+          <input class="technical_contacts_input" type="email" multiple size="30" placeholder="<?php _e('example@example.com', 'seravo'); ?>" value="" data-emails="<?php echo htmlspecialchars(json_encode($contact_emails)); ?>">
+          <button type="button" class="technical_contacts_add button"><?php _e('Add', 'seravo'); ?></button>
+          <span class="technical_contacts_error"><?php _e('Email must be formatted as name@domain.com', 'seravo'); ?></span>
+          <input name="technical_contacts" type="hidden">
+          <div class="technical_contacts_buttons"></div>
+          <br>
+          <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
+          <p><small class="seravo-developer-letter-hint">
+              <?php
               // translators: %1$s link to Newsletter for WordPress developers
               printf(__('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
-            ?>
+              ?>
             </small></p>
-            <br>
-          </form>
+          <br>
+        </form>
         <?php
       } else {
         echo $site_info->get_error_message();
@@ -242,7 +232,7 @@ if ( ! class_exists('Updates') ) {
             ) . '</p>';
             if ( ! empty($update_log_contents) ) {
               echo '<p><b>' . __('Latest update.log:', 'seravo') . '</b></p><p>' .
-              $update_log_output . '</p>';
+                $update_log_output . '</p>';
             }
             echo '<p><a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">' . __('See the logs page for more info.', 'seravo') . '</a></p>';
           }
@@ -355,7 +345,7 @@ if ( ! class_exists('Updates') ) {
             echo 'disabled';
           };
           ?>
-          value="<?php echo $php['value']; ?>" class='php-version-radio'
+                 value="<?php echo $php['value']; ?>" class='php-version-radio'
           <?php
           if ( $curver == $php['value'] ) {
             echo 'checked';
@@ -369,7 +359,7 @@ if ( ! class_exists('Updates') ) {
         <span id="overwrite-config-files-span">
           <input type="checkbox" id="overwrite-config-files" class="hidden">
           <?php
-            _e('I\'m aware of the risks associated with edits to the PHP configuration files and want to proceed with the change.', 'seravo');
+          _e('I\'m aware of the risks associated with edits to the PHP configuration files and want to proceed with the change.', 'seravo');
           ?>
           <br>
         </span>
@@ -382,13 +372,13 @@ if ( ! class_exists('Updates') ) {
       </div>
       <div id="php-change-end">
         <p id="activated-line" class="hidden">
-        <?php
-        printf(
-          // translators: link to log file
-          __('PHP version has been changed succesfully! Please check <a href="%s">php-error.log</a> for regressions.', 'seravo'),
-          'tools.php?page=logs_page&logfile=php-error.log'
-        );
-        ?>
+          <?php
+          printf(
+            // translators: link to log file
+            __('PHP version has been changed succesfully! Please check <a href="%s">php-error.log</a> for regressions.', 'seravo'),
+            'tools.php?page=logs_page&logfile=php-error.log'
+          );
+          ?>
         </p>
         <p id="activation-failed-line" class="hidden"><?php _e('PHP version change failed. Using fallback PHP 5.6.', 'seravo'); ?></p>
       </div>
@@ -399,22 +389,22 @@ if ( ! class_exists('Updates') ) {
       ?>
       <p><?php _e('Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here.', 'seravo'); ?></p>
       <p>
-      <?php
-      printf(
-        // translators: current Seravo plugin version
-        __('Current version: %s', 'seravo'),
-        Helpers::seravo_plugin_version()
-      );
-      ?>
+        <?php
+        printf(
+          // translators: current Seravo plugin version
+          __('Current version: %s', 'seravo'),
+          Helpers::seravo_plugin_version()
+        );
+        ?>
       </p>
       <p>
-      <?php
-      printf(
-        // translators: upstream Seravo plugin version
-        __('Upstream version: %s', 'seravo'),
-        seravo_plugin_upstream_version()
-      );
-      ?>
+        <?php
+        printf(
+          // translators: upstream Seravo plugin version
+          __('Upstream version: %s', 'seravo'),
+          seravo_plugin_upstream_version()
+        );
+        ?>
       </p>
       <p id='uptodate_seravo_plugin_version' class='hidden' style='color: green'><?php _e('The currently installed version is the same as the latest available version.', 'seravo'); ?></p>
       <p id='old_seravo_plugin_version' class='hidden' style='color: orange'><?php _e('There is a new version available', 'seravo'); ?></p>
@@ -453,10 +443,10 @@ if ( ! class_exists('Updates') ) {
           // Do not show the comparison if both images are not found.
           $exists_shadow = false;
           foreach ( $screenshots as $key => $screenshotshadow ) {
-                // Increment over the known images. Stop when match found
+            // Increment over the known images. Stop when match found
             if ( strpos($screenshotshadow, $name . '.shadow.png') !== false ) {
-                $exists_shadow = true;
-                break;
+              $exists_shadow = true;
+              break;
             }
           }
           // Only shot the comparison if both images are available
@@ -475,23 +465,23 @@ if ( ! class_exists('Updates') ) {
               <hr class="seravo-updates-hr">
               <a href="/.seravo/screenshots-ng/debug/' . $name . '.diff.png" class="diff-img-title">' . $name . '</a>
               <span';
-              // Make the difference number stand out if it is non-zero
+          // Make the difference number stand out if it is non-zero
           if ( $diff > 0.011 ) {
             echo ' style="background-color: yellow;color: red;"';
           }
-              echo '>' . round($diff * 100, 2) . ' %</span>';
+          echo '>' . round($diff * 100, 2) . ' %</span>';
 
-              echo self::seravo_admin_image_comparison_slider(
-                array(
-                  'difference' => $diff,
-                  'img_right'  => "/.seravo/screenshots-ng/debug/$name.shadow.png",
-                  'img_left'   => "/.seravo/screenshots-ng/debug/$name.png",
-                )
-              );
-              echo '
+          echo self::seravo_admin_image_comparison_slider(
+            array(
+              'difference' => $diff,
+              'img_right'  => "/.seravo/screenshots-ng/debug/$name.shadow.png",
+              'img_left'   => "/.seravo/screenshots-ng/debug/$name.png",
+            )
+          );
+          echo '
               </td>
             </tr>';
-            $showing++;
+          $showing++;
         }
         echo '
         </tbody>
@@ -532,18 +522,18 @@ if ( ! class_exists('Updates') ) {
       ob_start();
       ?>
       <div class="ba-slider <?php echo $knob_style; ?>">
-       <img src="<?php echo $img_comp_atts['img_right']; ?>">
-       <div class="ba-text-block" style="background-color:<?php echo $img_comp_atts['desc_right_bg_color']; ?>;color:<?php echo $img_comp_atts['desc_right_txt_color']; ?>;">
-            <?php echo $img_comp_atts['desc_right']; ?>
+        <img src="<?php echo $img_comp_atts['img_right']; ?>">
+        <div class="ba-text-block" style="background-color:<?php echo $img_comp_atts['desc_right_bg_color']; ?>;color:<?php echo $img_comp_atts['desc_right_txt_color']; ?>;">
+          <?php echo $img_comp_atts['desc_right']; ?>
+        </div>
+        <div class="ba-resize">
+          <img src="<?php echo $img_comp_atts['img_left']; ?>">
+          <div class="ba-text-block" style="background-color:<?php echo $img_comp_atts['desc_left_bg_color']; ?>;color:<?php echo $img_comp_atts['desc_left_txt_color']; ?>;">
+            <?php echo $img_comp_atts['desc_left']; ?>
+          </div>
+        </div>
+        <span class="ba-handle"></span>
       </div>
-       <div class="ba-resize">
-           <img src="<?php echo $img_comp_atts['img_left']; ?>">
-           <div class="ba-text-block" style="background-color:<?php echo $img_comp_atts['desc_left_bg_color']; ?>;color:<?php echo $img_comp_atts['desc_left_txt_color']; ?>;">
-              <?php echo $img_comp_atts['desc_left']; ?>
-           </div>
-       </div>
-       <span class="ba-handle"></span>
-     </div>
       <?php
 
       return ob_get_clean();
@@ -607,10 +597,34 @@ if ( ! class_exists('Updates') ) {
       die();
     }
 
+    public static function tests_postbox() {
+      ?>
+      <p>
+        <?php
+        _e('Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href="https://seravo.com/docs/tests/ng-integration-tests/"> Seravo Developer Documentation</a>.', 'seravo');
+        ?>
+      </p>
+      <button type="button" class="button-primary" id="run-wp-tests"><?php _e('Run Tests', 'seravo'); ?></button>
+      <div class="seravo-test-result-wrapper">
+        <div class="seravo-test-status" id="seravo_tests_status">
+          <?php _e('Click "Run Tests" to run the Codeception tests', 'seravo'); ?>
+        </div>
+        <div class="seravo-test-result">
+          <pre id="seravo_tests"></pre>
+        </div>
+        <div id="seravo_test_show_more_wrapper" class="hidden">
+          <a href="" id="seravo_test_show_more"><?php _e('Toggle Details', 'seravo'); ?>
+            <div class="dashicons dashicons-arrow-down-alt2" id="seravo_arrow_show_more">
+            </div>
+          </a>
+        </div>
+      </div>
+      <?php
+    }
   }
 
   // Show updates page only in production
   if ( Helpers::is_production() ) {
-    Updates::load();
+    Upkeep::load();
   }
 }

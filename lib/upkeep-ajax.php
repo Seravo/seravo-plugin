@@ -107,8 +107,17 @@ function check_php_config_files() {
   }
 }
 
-function seravo_ajax_updates() {
-  check_ajax_referer('seravo_updates', 'nonce');
+function seravo_tests() {
+  exec('wp-test', $output, $return_variable);
+  $return_arr = array(
+    'test_result' => $output,
+    'exit_code' => $return_variable,
+  );
+  return $return_arr;
+}
+
+function seravo_ajax_upkeep() {
+  check_ajax_referer('seravo_upkeep', 'nonce');
   switch ( sanitize_text_field($_REQUEST['section']) ) {
     case 'seravo_change_php_version':
       echo seravo_change_php_version();
@@ -136,6 +145,10 @@ function seravo_ajax_updates() {
 
     case 'check_php_config_files':
       echo check_php_config_files();
+      break;
+
+    case 'seravo_tests':
+      echo wp_json_encode(seravo_tests());
       break;
 
     default:
