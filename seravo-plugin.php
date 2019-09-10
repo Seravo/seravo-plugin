@@ -230,14 +230,7 @@ class Loader {
       }
 
       /*
-       * Updates page for site admins only
-       */
-      if ( apply_filters('seravo_show_updates_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
-        require_once dirname(__FILE__) . '/modules/updates.php';
-      }
-
-      /*
-       * Allow Seravo customers to manage their domains
+       * Allow Seravo customers to manage their domains & emails
        */
       if ( apply_filters('seravo_show_domains_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
         require_once dirname(__FILE__) . '/modules/domains.php';
@@ -257,10 +250,10 @@ class Loader {
       require_once dirname(__FILE__) . '/modules/login-notification.php';
 
       /*
-       * Tests page for wp-test
+       * Upkeep page
        */
-      if ( apply_filters('seravo_show_tests_page', true) && current_user_can('administrator') ) {
-        require_once dirname(__FILE__) . '/modules/tests.php';
+      if ( apply_filters('seravo_show_upkeep_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
+        require_once dirname(__FILE__) . '/modules/upkeep.php';
       }
 
       /*
