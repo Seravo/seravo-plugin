@@ -16,9 +16,25 @@ if ( ! defined('ABSPATH') ) {
 
 if ( ! class_exists('Domains') ) {
   class Domains {
+    private $capability_required;
 
-    public static function load() {
-      add_action('admin_menu', array( __CLASS__, 'register_domains_page' ));
+    public static $instance;
+
+    public static function init() {
+      if ( is_null(self::$instance) ) {
+        self::$instance = new Domains();
+      }
+
+      return self::$instance;
+    }
+
+    public function __construct() {
+      $this->capability_required = 'activate_plugins';
+
+      if ( is_multisite() ) {
+        $this->capability_required = 'manage_network';
+      }
+
       add_action('wp_ajax_seravo_ajax_domains', 'seravo_ajax_domains');
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
     }
@@ -28,6 +44,7 @@ if ( ! class_exists('Domains') ) {
       if ( $page === 'tools_page_domains_page' ) {
 
         wp_enqueue_script('seravo_domains', plugins_url('../js/domains.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_style('seravo_domains', plugins_url('../style/domains.css', __FILE__), '', Helpers::seravo_plugin_version(), false);
 
         $loc_translation_domains = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),
@@ -38,20 +55,8 @@ if ( ! class_exists('Domains') ) {
         );
 
         wp_localize_script('seravo_domains', 'seravo_domains_loc', $loc_translation_domains);
-
       }
 
-    }
-
-    public static function register_domains_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Domains', 'seravo'),
-        __('Domains', 'seravo'),
-        'manage_options',
-        'domains_page',
-        array( __CLASS__, 'load_domains_page' )
-      );
     }
 
     public static function load_domains_page() {
@@ -62,6 +67,6 @@ if ( ! class_exists('Domains') ) {
 
   /* Only show domains page in production */
   if ( Helpers::is_production() ) {
-    Domains::load();
+    Domains::init();
   }
 }

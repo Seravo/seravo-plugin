@@ -1,0 +1,85 @@
+<?php
+
+namespace Seravo;
+
+if ( ! defined('ABSPATH') ) {
+  die('Access denied!');
+}
+
+if ( ! class_exists('Toolbox') ) {
+  class Toolbox {
+    public static function load() {
+      add_action('admin_menu', array( __CLASS__, 'register_toolbox_subpages' ));
+    }
+
+    public static function register_toolbox_subpages() {
+      add_submenu_page(
+        'tools.php',
+        __('Site Status', 'seravo'),
+        __('Site Status', 'seravo'),
+        'manage_options',
+        'site_status_page',
+        'Seravo\seravo_postboxes_page'
+      );
+
+      add_submenu_page(
+        'tools.php',
+        __('Upkeep', 'seravo'),
+        __('Upkeep', 'seravo'),
+        'manage_options',
+        'upkeep_page',
+        'Seravo\seravo_postboxes_page'
+      );
+
+      add_submenu_page(
+        'tools.php',
+        __('Database', 'seravo'),
+        __('Database', 'seravo'),
+        'manage_options',
+        'database_page',
+        'Seravo\seravo_postboxes_page'
+      );
+
+      // Only show the menu item on systems where wp-backup is available
+      if ( exec('which wp-backup-status') ) {
+        add_submenu_page(
+          'tools.php',
+          __('Backups', 'seravo'),
+          __('Backups', 'seravo'),
+          'manage_options',
+          'backups_page',
+          'Seravo\seravo_postboxes_page'
+        );
+      }
+
+      add_submenu_page(
+        'tools.php',
+        __('Security', 'seravo'),
+        __('Security', 'seravo'),
+        'manage_options',
+        'security_page',
+        'Seravo\seravo_postboxes_page'
+      );
+
+      add_submenu_page(
+        'tools.php',
+        __('Domain Services', 'seravo'),
+        __('Domain Services', 'seravo'),
+        'manage_options',
+        'domains_page',
+        array( Domains::init(), 'load_domains_page' )
+      );
+
+      add_submenu_page(
+        'tools.php',
+        __('Logs', 'seravo'),
+        __('Logs', 'seravo'),
+        'manage_options',
+        'logs_page',
+        array( Logs::init(), 'render_tools_page' )
+      );
+    }
+  }
+
+  Toolbox::load();
+}

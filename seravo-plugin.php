@@ -206,6 +206,10 @@ class Loader {
       require_once dirname(__FILE__) . '/modules/optimize-on-upload.php';
     }
 
+    if ( current_user_can('administrator') ) {
+      require_once dirname(__FILE__) . '/modules/toolbox.php';
+    }
+
     /*
      * Hide some functionality in multisites from normal admins
      */
@@ -240,16 +244,9 @@ class Loader {
       }
 
       /*
-       * Mails page for Seravo customers
-       */
-      if ( apply_filters('seravo_show_mails_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
-        require_once dirname(__FILE__) . '/modules/mails.php';
-      }
-
-      /*
        * Allow Seravo customers to manage their domains
        */
-      if ( apply_filters('seravo_show_domains_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
+      if ( apply_filters('seravo_show_domains_mails_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
         require_once dirname(__FILE__) . '/modules/domains.php';
       }
 
