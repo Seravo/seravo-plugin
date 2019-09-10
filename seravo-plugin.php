@@ -214,14 +214,6 @@ class Loader {
      * Hide some functionality in multisites from normal admins
      */
     if ( ! is_multisite() || current_user_can('manage_network') ) {
-
-      /*
-       * View various reports for Seravo customers
-       */
-      if ( apply_filters('seravo_show_reports_page', true) ) {
-        require_once dirname(__FILE__) . '/modules/reports.php';
-      }
-
       /*
        * Backups view for Seravo customers
        */
@@ -257,20 +249,17 @@ class Loader {
       }
 
       /*
+       * Site Status page
+       */
+      if ( apply_filters('seravo_show_site_status_page', true) && current_user_can('administrator') ) {
+        require_once dirname(__FILE__) . '/modules/sitestatus.php';
+      }
+
+      /*
        * Security page
        */
       if ( apply_filters('seravo_show_security_page', true) && current_user_can('administrator') ) {
         require_once dirname(__FILE__) . '/modules/security.php';
-      }
-
-      /*
-       * Optimize images
-       */
-      if ( ! is_multisite() || current_user_can('manage_network') ) {
-        if ( apply_filters('seravo_show_optimize_images_page', true) &&
-              current_user_can('administrator') ) {
-          require_once dirname(__FILE__) . '/modules/optimize-images.php';
-        }
       }
     }
 
@@ -285,15 +274,6 @@ class Loader {
     // Load WP-CLI module 'wp seravo'
     if ( defined('WP_CLI') && WP_CLI ) {
       require_once dirname(__FILE__) . '/modules/wp-cli.php';
-    }
-
-    /**
-     * Shadows page
-     */
-    if ( ! is_multisite() || current_user_can('manage_network') ) {
-      if ( apply_filters('seravo_show_shadows_page', true) && current_user_can('administrator') ) {
-        require_once dirname(__FILE__) . '/modules/shadows.php';
-      }
     }
   }
 }
