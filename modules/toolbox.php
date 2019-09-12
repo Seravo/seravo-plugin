@@ -28,7 +28,7 @@ if ( ! class_exists('Toolbox') ) {
         __('Upkeep', 'seravo'),
         'manage_options',
         'upkeep_page',
-        'Seravo\seravo_postboxes_page'
+        'Seravo\seravo_two_column_postboxes_page'
       );
 
       add_submenu_page(
@@ -48,7 +48,7 @@ if ( ! class_exists('Toolbox') ) {
           __('Backups', 'seravo'),
           'manage_options',
           'backups_page',
-          'Seravo\seravo_postboxes_page'
+          'Seravo\seravo_two_column_postboxes_page'
         );
       }
 
