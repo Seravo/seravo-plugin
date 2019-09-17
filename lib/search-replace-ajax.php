@@ -16,13 +16,13 @@ function seravo_search_replace( $from, $to, $options ) {
   if ( $options['dry_run'] === 'false' && $options['skip_backup'] === 'false' ) {
     $backup = 'wp-backup';
     array_push($output, '<b>$ ' . $backup . '</b>');
-    exec($backup . ' 2>&1', $output);
+    exec($backup . ' 2>&1', $output, $return_code);
   }
   // Only way this is not true, is if the backups fail
-  // wp-backup output line 4 should have "Success: Exported to '<name>_<id>.sql'."
   if ( $options['dry_run'] === 'true' ||
         $options['skip_backup'] === 'true' ||
-        strpos($output[3], 'Success:') !== false ) {
+    $return_code === 0
+  ) {
     array_push($output, '<b>$ ' . $command . '</b>');
     exec($command . ' 2>&1', $output);
   } else {
