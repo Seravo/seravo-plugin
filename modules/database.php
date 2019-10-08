@@ -35,7 +35,6 @@ if ( ! class_exists('Database') ) {
       }
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_database_scripts' ));
-      add_action('admin_menu', array( __CLASS__, 'register_database_page' ));
 
       // Add AJAX endpoints for wp search-replace and database info
       add_action('wp_ajax_seravo_search_replace', 'seravo_ajax_search_replace');
@@ -98,20 +97,6 @@ if ( ! class_exists('Database') ) {
         wp_localize_script('seravo_database', 'seravo_database_loc', $loc_translation_database);
       }
 
-    }
-
-    /**
-     * Add admin menu item
-     */
-    public static function register_database_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Database', 'seravo'),
-        __('Database', 'seravo'),
-        'manage_options',
-        'database_page',
-        'Seravo\seravo_postboxes_page'
-      );
     }
 
     public static function database_access_postbox() {

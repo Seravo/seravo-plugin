@@ -1,4 +1,5 @@
 <?php
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -7,7 +8,7 @@ if ( ! defined('ABSPATH') ) {
 use Seravo\Helpers;
 
 function seravo_ajax_report_http_requests() {
-  check_ajax_referer('seravo_reports', 'nonce');
+  check_ajax_referer('seravo_site_status', 'nonce');
   $reports = glob('/data/slog/html/goaccess-*.html');
   // Create array of months with total request sums
   $months = array();
@@ -121,9 +122,26 @@ function seravo_report_front_cache_status() {
   return $output;
 }
 
-function seravo_ajax_reports() {
-  check_ajax_referer('seravo_reports', 'nonce');
-  switch ( $_REQUEST['section'] ) {
+function seravo_reset_shadow() {
+  if ( isset($_POST['shadow']) && ! empty($_POST['shadow']) ) {
+    $shadow = $_POST['shadow'];
+    $output = array();
+    // Check if the shadow is known
+    foreach ( Seravo\API::get_site_data('/shadows') as $data ) {
+      if ( $data['name'] == $shadow ) {
+        exec('wp-shadow-reset ' . $shadow . ' --force 2>&1', $output);
+        echo json_encode($output);
+        wp_die();
+      }
+    }
+  }
+  wp_die();
+}
+
+function seravo_ajax_site_status() {
+  check_ajax_referer('seravo_site_status', 'nonce');
+
+  switch ( sanitize_text_field($_REQUEST['section']) ) {
     case 'folders_chart':
       echo wp_json_encode(seravo_report_folders());
       break;
@@ -144,10 +162,15 @@ function seravo_ajax_reports() {
       echo wp_json_encode(seravo_report_front_cache_status());
       break;
 
+    case 'seravo_reset_shadow':
+      seravo_reset_shadow();
+      break;
+
     default:
       error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
       break;
   }
 
   wp_die();
+
 }

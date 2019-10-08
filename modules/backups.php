@@ -23,11 +23,6 @@ if ( ! class_exists('Backups') ) {
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_backups_scripts' ));
 
-      // Only show the menu item on systems where wp-backup is available
-      if ( exec('which wp-backup-status') ) {
-        add_action('admin_menu', array( __CLASS__, 'register_backups_page' ));
-      }
-
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_backups_capability' ));
 
@@ -84,17 +79,6 @@ if ( ! class_exists('Backups') ) {
         wp_localize_script('seravo_backups', 'seravo_backups_loc', $loc_translation_backups);
       }
 
-    }
-
-    public static function register_backups_page() {
-      add_submenu_page(
-        'tools.php',
-        __('Backups', 'seravo'),
-        __('Backups', 'seravo'),
-        'manage_options',
-        'backups_page',
-        'Seravo\seravo_postboxes_page'
-      );
     }
 
     public static function backups_info_postbox() {
