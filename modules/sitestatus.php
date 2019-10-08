@@ -332,7 +332,7 @@ if ( ! class_exists('Site_Status') ) {
           } else {
             ?>
             <p style="padding: 15px 15px 0 15px;">
-              <?php _e('No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href="mailto:wordpress@seravo.com"    >wordpress@seravo.com</a>.', 'seravo'); ?>
+              <?php _e('No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href="mailto:help@seravo.com"    >help@seravo.com</a>.', 'seravo'); ?>
             </p>
             <?php
           }
