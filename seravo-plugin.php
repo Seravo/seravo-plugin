@@ -206,14 +206,14 @@ class Loader {
       require_once dirname(__FILE__) . '/modules/optimize-on-upload.php';
     }
 
-    if ( current_user_can('administrator') ) {
-      require_once dirname(__FILE__) . '/modules/toolbox.php';
-    }
-
     /*
      * Hide some functionality in multisites from normal admins
      */
     if ( ! is_multisite() || current_user_can('manage_network') ) {
+      if ( current_user_can('administrator') ) {
+        require_once dirname(__FILE__) . '/modules/toolbox.php';
+      }
+
       /*
        * Backups view for Seravo customers
        */
