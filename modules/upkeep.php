@@ -19,21 +19,23 @@ if ( ! class_exists('Upkeep') ) {
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
 
-      seravo_add_postbox(
-        'site-status',
-        __('Site Status', 'seravo'),
-        array( __CLASS__, 'site_status_postbox' ),
-        'tools_page_upkeep_page',
-        'normal'
-      );
+      if ( getenv('WP_ENV') === 'productiom' ) {
+        seravo_add_postbox(
+          'site-status',
+          __('Site Status', 'seravo'),
+          array( __CLASS__, 'site_status_postbox' ),
+          'tools_page_upkeep_page',
+          'normal'
+        );
 
-      seravo_add_postbox(
-        'tests-status',
-        __('Tests Status', 'seravo'),
-        array( __CLASS__, 'tests_status_postbox' ),
-        'tools_page_upkeep_page',
-        'normal'
-      );
+        seravo_add_postbox(
+          'tests-status',
+          __('Tests Status', 'seravo'),
+          array( __CLASS__, 'tests_status_postbox' ),
+          'tools_page_upkeep_page',
+          'normal'
+        );
+      }
 
       seravo_add_postbox(
         'tests',
@@ -43,29 +45,31 @@ if ( ! class_exists('Upkeep') ) {
         'normal'
       );
 
-      seravo_add_postbox(
-        'seravo-updates',
-        __('Seravo Updates', 'seravo'),
-        array( __CLASS__, 'seravo_updates_postbox' ),
-        'tools_page_upkeep_page',
-        'normal'
-      );
+      if ( getenv('WP_ENV') === 'production' ) {
+        seravo_add_postbox(
+          'seravo-updates',
+          __('Seravo Updates', 'seravo'),
+          array( __CLASS__, 'seravo_updates_postbox' ),
+          'tools_page_upkeep_page',
+          'normal'
+        );
 
-      seravo_add_postbox(
-        'screenshots',
-        __('Screenshots', 'seravo'),
-        array( __CLASS__, 'screenshots_postbox' ),
-        'tools_page_upkeep_page',
-        'side'
-      );
+        seravo_add_postbox(
+          'screenshots',
+          __('Screenshots', 'seravo'),
+          array( __CLASS__, 'screenshots_postbox' ),
+          'tools_page_upkeep_page',
+          'side'
+        );
 
-      seravo_add_postbox(
-        'change-php-version',
-        __('Change PHP Version', 'seravo'),
-        array( __CLASS__, 'change_php_version_postbox' ),
-        'tools_page_upkeep_page',
-        'side'
-      );
+        seravo_add_postbox(
+          'change-php-version',
+          __('Change PHP Version', 'seravo'),
+          array( __CLASS__, 'change_php_version_postbox' ),
+          'tools_page_upkeep_page',
+          'side'
+        );
+      }
 
       seravo_add_postbox(
         'seravo-plugin-updater',
@@ -623,8 +627,5 @@ if ( ! class_exists('Upkeep') ) {
     }
   }
 
-  // Show updates page only in production
-  if ( Helpers::is_production() ) {
-    Upkeep::load();
-  }
+  Upkeep::load();
 }

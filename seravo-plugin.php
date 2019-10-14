@@ -244,7 +244,7 @@ class Loader {
       /*
        * Upkeep page
        */
-      if ( apply_filters('seravo_show_upkeep_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
+      if ( apply_filters('seravo_show_upkeep_page', true) && current_user_can('administrator') ) {
         require_once dirname(__FILE__) . '/modules/upkeep.php';
       }
 
