@@ -312,14 +312,12 @@ jQuery(window).load(function(){
   });
 
   function seravo_load_test_report() {
-    console.log('load test report');
     jQuery.post(
       seravo_upkeep_loc.ajaxurl,
       { 'action': 'seravo_ajax_upkeep',
         'section': 'seravo_tests',
         'nonce': seravo_upkeep_loc.ajax_nonce },
       function(rawData) {
-        console.log(rawData);
         if ( rawData.length == 0 ) {
           jQuery('#seravo_tests').html(seravo_upkeep_loc.no_data);
         }

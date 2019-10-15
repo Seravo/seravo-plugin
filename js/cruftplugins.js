@@ -12,7 +12,7 @@ jQuery(document).ready(function ($) {
       },
       function (rawData) {
         var data = JSON.parse(rawData);
-        console.log(data)
+
         if (data[data.length - 1].indexOf('Success: Deleted 1 of 1 plugins.') != -1) {
           callback();
         } else {

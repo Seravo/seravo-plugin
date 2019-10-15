@@ -24,13 +24,15 @@ if ( ! class_exists('Site_Status') ) {
       add_action('wp_ajax_seravo_ajax_site_status', 'seravo_ajax_site_status');
       add_action('wp_ajax_seravo_report_http_requests', 'seravo_ajax_report_http_requests');
 
-      seravo_add_postbox(
-        'site-info',
-        __('Site Information', 'seravo'),
-        array( __CLASS__, 'seravo_site_info' ),
-        'tools_page_site_status_page',
-        'normal'
-      );
+      if ( getenv('WP_ENV') === 'production' ) {
+        seravo_add_postbox(
+          'site-info',
+          __('Site Information', 'seravo'),
+          array( __CLASS__, 'seravo_site_info' ),
+          'tools_page_site_status_page',
+          'normal'
+        );
+      }
 
       // Add HTTP request stats postbox
       seravo_add_postbox(
@@ -50,13 +52,15 @@ if ( ! class_exists('Site_Status') ) {
         'normal'
       );
 
-      seravo_add_postbox(
-        'shadows',
-        __('Shadows', 'seravo') . ' (beta)',
-        array( __CLASS__, 'seravo_shadows_postbox' ),
-        'tools_page_site_status_page',
-        'side'
-      );
+      if ( getenv('WP_ENV') === 'production' ) {
+        seravo_add_postbox(
+          'shadows',
+          __('Shadows', 'seravo') . ' (beta)',
+          array( __CLASS__, 'seravo_shadows_postbox' ),
+          'tools_page_site_status_page',
+          'side'
+        );
+      }
 
       // Add disk usage postbox
       seravo_add_postbox(

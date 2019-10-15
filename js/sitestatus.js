@@ -1,6 +1,16 @@
 // phpcs:disable PEAR.Functions.FunctionCallSignature
 'use strict';
 
+(function($) {
+  $(window).on('load', function() {
+    $('#enable-optimize-images').click(function() {
+      $('.max-resolution-field').each(function() {
+        $(this).prop( "disabled", ! $(this).prop( "disabled" ) );
+      });
+    });
+  });
+})(jQuery);
+
 jQuery(document).ready(function($) {
   function seravo_load_http_request_reports(){
     $.post(
@@ -147,7 +157,7 @@ jQuery(document).ready(function($) {
   function seravo_ajax_reset_shadow(shadow, animate) {
     animate('progress');
     $.post(
-      seravo_shadows_loc.ajaxurl,
+      seravo_site_status_loc.ajaxurl,
       { type: 'POST',
         'action': 'seravo_ajax_site_status',
         'section': 'seravo_reset_shadow',

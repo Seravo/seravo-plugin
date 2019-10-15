@@ -61,14 +61,16 @@ if ( ! class_exists('Toolbox') ) {
         'Seravo\seravo_postboxes_page'
       );
 
-      add_submenu_page(
-        'tools.php',
-        __('Domains', 'seravo'),
-        __('Domains', 'seravo'),
-        'manage_options',
-        'domains_page',
-        array( Domains::init(), 'load_domains_page' )
-      );
+      if ( getenv('WP_ENV') === 'production' ) {
+        add_submenu_page(
+          'tools.php',
+          __('Domains', 'seravo'),
+          __('Domains', 'seravo'),
+          'manage_options',
+          'domains_page',
+          array( Domains::init(), 'load_domains_page' )
+        );
+      }
 
       add_submenu_page(
         'tools.php',
