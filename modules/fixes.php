@@ -21,13 +21,6 @@ if ( ! class_exists('Fixes') ) {
     public static function load() {
 
       /**
-       * Show Seravo.com notifications if this is Seravo.com instance
-       */
-      if ( Helpers::is_production() || Helpers::is_staging() ) {
-        add_action('admin_notices', array( __CLASS__, 'show_admin_notification' ));
-      }
-
-      /**
        * Hide update nofications if this is not development
        */
       if ( ! Helpers::is_development() ) {
@@ -81,39 +74,6 @@ if ( ! class_exists('Fixes') ) {
     }
 
     /**
-     * This is used to add notifications from Seravo.com for users
-     */
-    public static function show_admin_notification() {
-      // get notification
-      $response = get_transient('seravo_notification');
-      if ( false === ($response) || (isset($_SERVER['HTTP_PRAGMA']) && $_SERVER['HTTP_PRAGMA'] === 'no-cache') ) {
-
-        // Download notification
-        $response = self::get_global_notification();
-        set_transient('seravo_notification', $response, HOUR_IN_SECONDS);
-        // allow some html tags but strip most
-      }
-
-      $message = '';
-      if ( isset($response->message) ) {
-        $message = $response->message;
-        $message = strip_tags(trim($message), '<br><br/><a><b><strong><i>');
-      }
-      // control alert type
-      $type = '';
-      if ( isset($response->type) ) {
-        $type = $response->type;
-      }
-      if ( ! empty($message) ) {
-        ?>
-        <div class="<?php echo esc_attr($type); ?> notice is-dismissible">
-          <p><?php echo $message; ?> <button type="button" class="notice-dismiss"></button></p>
-        </div>
-        <?php
-      }
-    }
-
-    /**
      * Removes core update notifications
      */
     public static function hide_update_notifications() {
@@ -151,15 +111,6 @@ if ( ! class_exists('Fixes') ) {
      */
     public static function change_http_code_to_unauthorized() {
       status_header(401);
-    }
-
-    /**
-     * Loads global Notification message from central server
-     */
-    public static function get_global_notification() {
-      // use @file_get_contents to suppress the warning when network is down.
-      // Usually this happens on offline local development
-      return json_decode(@file_get_contents('https://wp-palvelu.fi/ilmoitus/'));
     }
 
     public static function send_no_cache_headers() {
