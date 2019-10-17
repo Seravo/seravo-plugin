@@ -193,7 +193,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
         // Send final sort direction to usort
       return ($order === 'asc') ? $result : -$result;
     }
-    usort($data, 'usort_reorder');
+    usort($data, array( __CLASS__, 'usort_reorder' ));
 
     // Required for pagnation
     $current_page = $this->get_pagenum();
@@ -344,7 +344,7 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
      * to a custom query. The returned data will be pre-sorted, and this array
      * sorting technique would be unnecessary.
      */
-    function usort_reorder( $a, $b ) {
+    function usort_reorder_mail( $a, $b ) {
       // If no sort, default to domain name
       $orderby = (! empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'source';
       // If no order, default to asc
@@ -354,7 +354,7 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
       // Send final sort direction to usort
       return ($order === 'asc') ? $result : -$result;
     }
-    usort($data, 'usort_reorder');
+    usort($data, 'usort_reorder_mail');
 
     $this->items = $data;
 
