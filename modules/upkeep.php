@@ -14,12 +14,12 @@ if ( ! class_exists('Upkeep') ) {
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
       add_action('wp_ajax_seravo_ajax_upkeep', 'seravo_ajax_upkeep');
 
-      add_action('admin_post_toogle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
+      add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
 
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
 
-      if ( getenv('WP_ENV') === 'productiom' ) {
+      if ( getenv('WP_ENV') === 'production' ) {
         seravo_add_postbox(
           'site-status',
           __('Site Status', 'seravo'),
@@ -597,7 +597,7 @@ if ( ! class_exists('Upkeep') ) {
         die($response->get_error_message());
       }
 
-      wp_redirect(admin_url('tools.php?page=updates_page&settings-updated=true'));
+      wp_redirect(admin_url('tools.php?page=upkeep_page&settings-updated=true'));
       die();
     }
 
