@@ -389,6 +389,7 @@ if ( ! class_exists('Logs') ) {
         while ( $offset < -1 && $limit > 0 ) {
           array_pop($complete_lines);
           $offset++;
+          $limit--;
         }
 
         // apply a regex filter
