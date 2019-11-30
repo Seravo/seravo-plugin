@@ -51,3 +51,56 @@
 #shadow-reset {
   margin: 0;
 }
+
+.seravo-cache-test-result-wrapper {
+  -moz-transition: border 1s ease-in;
+  -o-transition: border 1s ease-in;
+  -webkit-transition: border 1s ease-in;
+  background-color: white;
+  border-left: solid 0.5em #e8ba1b;
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.12);
+  display: block;
+  margin-top: 2em;
+  max-width: 55em;
+  min-height: 5em;
+  overflow: hidden;
+  transition: border 1s ease-in;
+}
+
+.seravo-cache-test-result {
+  box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
+  display: none;
+  margin: 1em;
+  max-height: 25em;
+  overflow: auto;
+  padding: 1em;
+}
+
+.seravo_cache_tests_status {
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 1.6em;
+  margin-left: 0.5em;
+  padding-bottom: 7px;
+  text-align: center;
+}
+
+.seravo_cache_test_show_more_wrapper {
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  float: right;
+  height: 1em;
+  margin-right: 0.5em;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.seravo_cache_test_show_more,
+.seravo_cache_test_show_more:hover,
+.seravo_cache_test_show_more:active,
+.seravo_cache_test_show_more:focus {
+  box-shadow: none;
+  color: inherit;
+  text-decoration: none;
+}

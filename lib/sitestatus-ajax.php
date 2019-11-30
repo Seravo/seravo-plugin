@@ -116,32 +116,13 @@ function seravo_report_redis_info() {
 }
 
 function seravo_report_front_cache_status() {
-  exec('curl -ILk ' . get_site_url(), $output);
-  array_unshift($output, '$ curl -ILk ' . get_site_url());
+  exec('wp-check-http-cache ' . get_site_url(), $output);
+  array_unshift($output, '$ wp-check-http-cache ' . get_site_url());
 
-  if ( preg_match('/X-Proxy-Cache: ([A-Z]+)/', implode("\n", $output), $matches) ) {
-
-    switch ( $matches[1] ) {
-      case 'HIT':
-      case 'EXPIRED':
-        $result = 'Front cache is working correctly.';
-        break;
-
-      case 'MISS':
-        $result = 'Front page is not cached due to cookies or expiry headers emitted from the site.';
-        break;
-
-      default:
-        $result = 'Unable to detect front cache status.';
-        break;
-    }
-  } else {
-    $result = 'No front cache available in this WordPress instance.';
-  }
-
-  array_unshift($output, $result, '');
-
-  return $output;
+  return [
+    'success' => strpos(implode("\n", $output), "\nSUCCESS: ") == true,
+    'test_result' => $output,
+  ];
 }
 
 function seravo_reset_shadow() {
