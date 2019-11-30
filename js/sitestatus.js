@@ -108,6 +108,7 @@ jQuery(document).ready(function($) {
   seravo_load_report('wp_core_verify');
   seravo_load_report('git_status');
   seravo_load_report('redis_info');
+  seravo_load_report('longterm_cache');
 
   jQuery('#run-cache-tests').click(function() {
     jQuery('#seravo_cache_tests').html('');

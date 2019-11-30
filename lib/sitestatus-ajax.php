@@ -115,6 +115,41 @@ function seravo_report_redis_info() {
   return $output;
 }
 
+function seravo_report_longterm_cache_stats() {
+  $access_logs = glob('/data/slog/*_total-access.log');
+
+  $hit = 0;
+  $miss = 0;
+  $stale = 0;
+  $bypass = 0;
+
+  foreach ( $access_logs as $access_log ) {
+    $file = fopen($access_log, 'r');
+    if ( $file ) {
+      while ( ! feof($file) ) {
+        $line = fgets($file);
+        if ( strpos($line, '"Seravo" HIT') ) {
+          $hit++;
+        } else if ( strpos($line, '"Seravo" MISS') ) {
+          $miss++;
+        } else if ( strpos($line, '"Seravo" STALE') ) {
+          $stale++;
+        } else if ( strpos($line, '"Seravo" BYPASS') ) {
+          $bypass++;
+        }
+      }
+    }
+  }
+
+  return [
+    'Hits: ' . $hit,
+    'Misses: ' . $miss,
+    'Stales: ' . $stale,
+    'Bypasses: ' . $bypass,
+    'Hit rate: ' . round($hit / ($hit + $miss + $stale) * 100) . '%',
+  ];
+}
+
 function seravo_report_front_cache_status() {
   exec('wp-check-http-cache ' . get_site_url(), $output);
   array_unshift($output, '$ wp-check-http-cache ' . get_site_url());
@@ -159,6 +194,10 @@ function seravo_ajax_site_status() {
 
     case 'redis_info':
       echo wp_json_encode(seravo_report_redis_info());
+      break;
+
+    case 'longterm_cache':
+      echo wp_json_encode(seravo_report_longterm_cache_stats());
       break;
 
     case 'front_cache_status':

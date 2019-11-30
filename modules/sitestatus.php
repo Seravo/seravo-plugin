@@ -187,6 +187,11 @@ if ( ! class_exists('Site_Status') ) {
         <img src="/wp-admin/images/spinner.gif">
       </div>
       <pre id="redis_info"></pre>
+      <h3><?php _e('Long-term HTTP Cache Stats', 'seravo'); ?></h3>
+      <div class="longterm_cache_loading">
+        <img src="/wp-admin/images/spinner.gif">
+      </div>
+      <pre id="longterm_cache"></pre>
       <h3><?php _e('Nginx HTTP Cache', 'seravo'); ?></h3>
       <div id="front_cache_status">
         <p>
