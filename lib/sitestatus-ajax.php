@@ -90,6 +90,28 @@ function seravo_report_git_status() {
 
 function seravo_report_redis_info() {
   exec('redis-cli info stats | grep keys', $output);
+
+  foreach ( $output as $line ) {
+    if ( strpos($line, 'keyspace_hits') === 0 ) {
+      $hits = explode(':', $line)[1];
+    } else if ( strpos($line, 'keyspace_misses') === 0 ) {
+      $misses = explode(':', $line)[1];
+    }
+  }
+
+  $output = str_replace(
+    [ 'expired_keys:', 'evicted_keys:', 'keyspace_hits:', 'keyspace_misses:' ],
+    [ 'Expired keys: ', 'Evicted keys: ', 'Keyspace hits: ', 'Keyspace misses: ' ],
+    $output
+  );
+
+  if ( isset($hits) && isset($misses) ) {
+    $total = $hits + $misses;
+    if ( $total > 0 ) {
+      array_push($output, 'Keyspace hit rate: ' . round(($hits / $total) * 100) . '%');
+    }
+  }
+
   return $output;
 }
 
