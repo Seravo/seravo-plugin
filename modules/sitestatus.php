@@ -415,7 +415,7 @@ if ( ! class_exists('Site_Status') ) {
     public static function optimize_images_settings_description() {
       echo '<p>' . __('Optimization reduces image file size. This improves the performance and browsing experience of your site.', 'seravo') . '</p>' .
         '<p>' . __('By setting the maximum image resolution, you can determine the maximum allowed dimensions for images.', 'seravo') . '</p>' .
-        '<p>' . __('For further information, refer to our <a href="https://help.seravo.com/en/knowledgebase/23-managing-wordpress/docs/119-seravo-plugin-optimize-images">knowledgebase article</a>.', 'seravo') . '</p>';
+        '<p>' . __('For further information, refer to our <a href="https://help.seravo.com/article/28-seravo-plugin-optimize-images">knowledgebase article</a>.', 'seravo') . '</p>';
     }
 
     public static function sanitize_image_width( $width ) {
