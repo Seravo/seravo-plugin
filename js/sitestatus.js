@@ -76,7 +76,25 @@ jQuery(document).ready(function($) {
         var allData = JSON.parse(rawData);
         jQuery('#total_disk_usage').text(allData.data.human);
         generateChart(allData.dataFolders);
-      } else {
+      } else if (section === 'front_cache_status') {
+        var data = JSON.parse(rawData);
+        var data_joined = data['test_result'].join("\n");
+
+        if ( data['success'] === true ) {
+          jQuery('.seravo_cache_tests_status').html(seravo_site_status_loc.cache_success).fadeIn('slow');
+          jQuery('.seravo-cache-test-result-wrapper').css('border-left', 'solid 0.5em #038103');
+        } else {
+          jQuery('.seravo_cache_tests_status').html(seravo_site_status_loc.cache_failure).fadeIn('slow');
+          jQuery('.seravo-cache-test-result-wrapper').css('border-left', 'solid 0.5em #e74c3c');
+        }
+
+        jQuery('#seravo_cache_tests').append(data_joined);
+        jQuery('#run-cache-tests').prop('disabled', false);
+
+        jQuery(this).fadeIn('slow', function() {
+          jQuery('.seravo_cache_test_show_more_wrapper').fadeIn('slow');
+        });
+      } else {
         var data = JSON.parse(rawData);
         jQuery('#' + section).text(data.join("\n"));
       }
@@ -90,7 +108,40 @@ jQuery(document).ready(function($) {
   seravo_load_report('wp_core_verify');
   seravo_load_report('git_status');
   seravo_load_report('redis_info');
-  seravo_load_report('front_cache_status');
+  seravo_load_report('longterm_cache');
+
+  jQuery('#run-cache-tests').click(function() {
+    jQuery('#seravo_cache_tests').html('');
+    jQuery('.seravo-cache-test-result-wrapper').css('border-left', 'solid 0.5em #e8ba1b');
+    jQuery('.seravo_cache_test_show_more_wrapper').hide();
+
+    if ( jQuery('#seravo_arrow_cache_show_more').hasClass('dashicons-arrow-up-alt2') ) {
+      jQuery('.seravo-cache-test-result').hide(function() {
+        jQuery('#seravo_arrow_cache_show_more').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
+      });
+    }
+
+    jQuery('.seravo_cache_tests_status').fadeOut(400, function() {
+      jQuery(this).html('<div class="front_cache_status_loading"><img src="/wp-admin/images/spinner.gif" style="display:inline-block"> ' + seravo_site_status_loc.running_cache_tests + '</div>').fadeIn(400);
+    });
+
+    jQuery(this).prop('disabled', true);
+    seravo_load_report('front_cache_status');
+  });
+
+  jQuery('.seravo_cache_test_show_more').click(function(event) {
+    event.preventDefault();
+
+    if ( jQuery('#seravo_arrow_cache_show_more').hasClass('dashicons-arrow-down-alt2') ) {
+      jQuery('.seravo-cache-test-result').slideDown('fast', function() {
+        jQuery('#seravo_arrow_cache_show_more').removeClass('dashicons-arrow-down-alt2').addClass('dashicons-arrow-up-alt2');
+      });
+    } else if ( jQuery('#seravo_arrow_cache_show_more').hasClass('dashicons-arrow-up-alt2') ) {
+      jQuery('.seravo-cache-test-result').hide(function() {
+        jQuery('#seravo_arrow_cache_show_more').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
+      });
+    }
+  });
 
   $('#shadow-selector').change(function() {
     var $shadow = $("[data-shadow=" + $(this).val() + "]");

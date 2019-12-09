@@ -137,16 +137,19 @@ if ( ! class_exists('Site_Status') ) {
         wp_enqueue_script('seravo_site_status');
 
         $loc_translation = array(
-          'no_data'     => __('No data returned for the section.', 'seravo'),
-          'failed'      => __('Failed to load. Please try again.', 'seravo'),
-          'no_reports'  => __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'),
-          'view_report' => __('View report', 'seravo'),
-          'success'    => __('Success!', 'seravo'),
-          'failure'    => __('Failure!', 'seravo'),
-          'error'      => __('Error!', 'seravo'),
-          'confirm'    => __('Are you sure? This replaces all information in the selected environment.', 'seravo'),
-          'ajaxurl'     => admin_url('admin-ajax.php'),
-          'ajax_nonce'  => wp_create_nonce('seravo_site_status'),
+          'no_data'             => __('No data returned for the section.', 'seravo'),
+          'failed'              => __('Failed to load. Please try again.', 'seravo'),
+          'no_reports'          => __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'),
+          'view_report'         => __('View report', 'seravo'),
+          'running_cache_tests' => __('Running cache tests...', 'seravo'),
+          'cache_success'       => __('HTTP cache working', 'seravo'),
+          'cache_failure'       => __('HTTP cache not working', 'seravo'),
+          'success'             => __('Success!', 'seravo'),
+          'failure'             => __('Failure!', 'seravo'),
+          'error'               => __('Error!', 'seravo'),
+          'confirm'             => __('Are you sure? This replaces all information in the selected environment.', 'seravo'),
+          'ajaxurl'             => admin_url('admin-ajax.php'),
+          'ajax_nonce'          => wp_create_nonce('seravo_site_status'),
 
         );
         wp_localize_script('seravo_site_status', 'seravo_site_status_loc', $loc_translation);
@@ -184,11 +187,34 @@ if ( ! class_exists('Site_Status') ) {
         <img src="/wp-admin/images/spinner.gif">
       </div>
       <pre id="redis_info"></pre>
-      <h3><?php _e('Nginx HTTP Cache', 'seravo'); ?></h3>
-      <div class="front_cache_status_loading">
+      <h3><?php _e('Long-term HTTP Cache Stats', 'seravo'); ?></h3>
+      <div class="longterm_cache_loading">
         <img src="/wp-admin/images/spinner.gif">
       </div>
-      <pre id="front_cache_status"></pre>
+      <pre id="longterm_cache"></pre>
+      <h3><?php _e('Nginx HTTP Cache', 'seravo'); ?></h3>
+      <div id="front_cache_status">
+        <p>
+          <?php
+          _e('Here you can test the functionality of front cache. Same results can be achieved via command line by running <code>wp-check-http-cache</code> there.', 'seravo');
+          ?>
+        </p>
+        <button type="button" class="button-primary" id="run-cache-tests"><?php _e('Run Tests', 'seravo'); ?></button>
+        <div class="seravo-cache-test-result-wrapper">
+          <div class="seravo_cache_tests_status front_cache_status">
+            <?php _e('Click "Run Tests" to run the cache tests', 'seravo'); ?>
+          </div>
+          <div class="seravo-cache-test-result">
+            <pre id="seravo_cache_tests"></pre>
+          </div>
+          <div class="seravo_cache_test_show_more_wrapper hidden">
+            <a href="" class="seravo_cache_test_show_more"><?php _e('Toggle Details', 'seravo'); ?>
+              <div class="dashicons dashicons-arrow-down-alt2" id="seravo_arrow_cache_show_more">
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
       <?php
     }
 

@@ -90,36 +90,74 @@ function seravo_report_git_status() {
 
 function seravo_report_redis_info() {
   exec('redis-cli info stats | grep keys', $output);
+
+  foreach ( $output as $line ) {
+    if ( strpos($line, 'keyspace_hits') === 0 ) {
+      $hits = explode(':', $line)[1];
+    } else if ( strpos($line, 'keyspace_misses') === 0 ) {
+      $misses = explode(':', $line)[1];
+    }
+  }
+
+  $output = str_replace(
+    [ 'expired_keys:', 'evicted_keys:', 'keyspace_hits:', 'keyspace_misses:' ],
+    [ 'Expired keys: ', 'Evicted keys: ', 'Keyspace hits: ', 'Keyspace misses: ' ],
+    $output
+  );
+
+  if ( isset($hits) && isset($misses) ) {
+    $total = $hits + $misses;
+    if ( $total > 0 ) {
+      array_push($output, 'Keyspace hit rate: ' . round(($hits / $total) * 100) . '%');
+    }
+  }
+
   return $output;
 }
 
-function seravo_report_front_cache_status() {
-  exec('curl -ILk ' . get_site_url(), $output);
-  array_unshift($output, '$ curl -ILk ' . get_site_url());
+function seravo_report_longterm_cache_stats() {
+  $access_logs = glob('/data/slog/*_total-access.log');
 
-  if ( preg_match('/X-Proxy-Cache: ([A-Z]+)/', implode("\n", $output), $matches) ) {
+  $hit = 0;
+  $miss = 0;
+  $stale = 0;
+  $bypass = 0;
 
-    switch ( $matches[1] ) {
-      case 'HIT':
-      case 'EXPIRED':
-        $result = 'Front cache is working correctly.';
-        break;
-
-      case 'MISS':
-        $result = 'Front page is not cached due to cookies or expiry headers emitted from the site.';
-        break;
-
-      default:
-        $result = 'Unable to detect front cache status.';
-        break;
+  foreach ( $access_logs as $access_log ) {
+    $file = fopen($access_log, 'r');
+    if ( $file ) {
+      while ( ! feof($file) ) {
+        $line = fgets($file);
+        if ( strpos($line, '"Seravo" HIT') ) {
+          $hit++;
+        } else if ( strpos($line, '"Seravo" MISS') ) {
+          $miss++;
+        } else if ( strpos($line, '"Seravo" STALE') ) {
+          $stale++;
+        } else if ( strpos($line, '"Seravo" BYPASS') ) {
+          $bypass++;
+        }
+      }
     }
-  } else {
-    $result = 'No front cache available in this WordPress instance.';
   }
 
-  array_unshift($output, $result, '');
+  return [
+    'Hits: ' . $hit,
+    'Misses: ' . $miss,
+    'Stales: ' . $stale,
+    'Bypasses: ' . $bypass,
+    'Hit rate: ' . round($hit / ($hit + $miss + $stale) * 100) . '%',
+  ];
+}
 
-  return $output;
+function seravo_report_front_cache_status() {
+  exec('wp-check-http-cache ' . get_site_url(), $output);
+  array_unshift($output, '$ wp-check-http-cache ' . get_site_url());
+
+  return [
+    'success' => strpos(implode("\n", $output), "\nSUCCESS: ") == true,
+    'test_result' => $output,
+  ];
 }
 
 function seravo_reset_shadow() {
@@ -156,6 +194,10 @@ function seravo_ajax_site_status() {
 
     case 'redis_info':
       echo wp_json_encode(seravo_report_redis_info());
+      break;
+
+    case 'longterm_cache':
+      echo wp_json_encode(seravo_report_longterm_cache_stats());
       break;
 
     case 'front_cache_status':
