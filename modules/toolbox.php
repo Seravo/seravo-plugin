@@ -6,8 +6,8 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists('Toolbox') ) {
-  class Toolbox {
+if ( ! class_exists('SeravoToolbox') ) {
+  class SeravoToolbox {
     public static function load() {
       add_action('admin_menu', array( __CLASS__, 'register_toolbox_subpages' ));
     }
@@ -83,5 +83,5 @@ if ( ! class_exists('Toolbox') ) {
     }
   }
 
-  Toolbox::load();
+  SeravoToolbox::load();
 }
