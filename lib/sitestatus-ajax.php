@@ -141,12 +141,17 @@ function seravo_report_longterm_cache_stats() {
     }
   }
 
+  $all_misses = $hit + $miss + $stale;
+  if ( $all_misses == 0 ) {
+    $all_misses = 1;
+  }
+
   return [
     'Hits: ' . $hit,
     'Misses: ' . $miss,
     'Stales: ' . $stale,
     'Bypasses: ' . $bypass,
-    'Hit rate: ' . round($hit / ($hit + $miss + $stale) * 100) . '%',
+    'Hit rate: ' . round($hit / $all_misses * 100) . '%',
   ];
 }
 
