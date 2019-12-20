@@ -8,18 +8,21 @@ if ( ! defined('ABSPATH') ) {
 // Returns IP, username and time of successful logins.
 // Number of results are limited by $max.
 function seravo_logins_info( $max = 10 ) {
-  // Get the latest logins from wp-loging.log
+  // Get the latest logins from wp-login.log
   $login_data = file('/data/log/wp-login.log');
 
   // If the wp-login.log has less than $max entries check older log files
   if ( count(preg_grep('/SUCCESS/', $login_data)) < $max ) {
     // Check the second newest log file (not gzipped yet)
     $login_data2_filename = glob('/data/log/wp-login.log-[0-9]*[?!\.gz]');
-    // There should be only one file matching previous criterion, but
+    // There should be only a maximum of one file matching previous criterion, but
     // count the files just in case and choose the biggest index
     $login_data2_count = count($login_data2_filename) - 1;
-    // Merge with the first log file
-    $login_data = array_merge(file($login_data2_filename[ $login_data2_count ]), $login_data);
+    // Merge log file if it exists
+    if ( $login_data2_count >= 0 ) {
+      // Merge with the first log file
+      $login_data = array_merge(file($login_data2_filename[$login_data2_count]), $login_data);
+    }
 
     // Opening necessary amount of gzipped log files
     // Find the gzip log files
