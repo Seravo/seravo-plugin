@@ -321,8 +321,10 @@ if ( ! class_exists('Site_Status') ) {
                   <select id="shadow-selector">
                     <option value="" disabled selected hidden><?php _e('Select shadow', 'seravo'); ?></option>
                     <?php
+                    // Query domains only once
+                    $domain_list = API::get_site_data('/domains');
                     foreach ( $shadow_list as $shadow => $shadow_data ) {
-                      $shadow_list[$shadow]['domain'] = InstanceSwitcher::get_shadow_domain($shadow_data['name']);
+                      $shadow_list[$shadow]['domain'] = InstanceSwitcher::get_shadow_domain($shadow_data['name'], $domain_list);
                       printf('<option value="%s">%s</option>', $shadow_data['name'], $shadow_data['info']);
                     }
                     ?>
