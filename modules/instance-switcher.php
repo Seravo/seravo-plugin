@@ -137,8 +137,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       $instances = self::load_shadow_list();
 
       if ( $instances ) {
-        // Query domains only once
-        $domain_list = API::get_site_data('/domains');
+        $domain_list = self::query_domains();
         // add menu entries for each shadow
         foreach ( $instances as $key => $instance ) {
           $title = strtoupper($instance['env']);
@@ -234,13 +233,11 @@ if ( ! class_exists('InstanceSwitcher') ) {
     }
 
     public static function get_shadow_domain( $identifier, $domain_list = null ) {
-
-      if ( $domain_list == null ) {
-        $domain_list = API::get_site_data('/domains');
-      }
-
-      if ( is_wp_error($domain_list) ) {
-        return null;
+      if ( $domain_list === null ) {
+        $domain_list = query_domains();
+        if ( $domain_list === null ) {
+          return null;
+        }
       }
 
       foreach ( $domain_list as $domain ) {
@@ -249,6 +246,19 @@ if ( ! class_exists('InstanceSwitcher') ) {
         }
       }
       return '';
+    }
+
+    public static function query_domains() {
+      $domain_list = get_transient('domain_list');
+      if ( $domain_list === false ) {
+        $domain_list = API::get_site_data('/domains');
+        set_transient('domain_list', $domain_list, 1800);
+      }
+
+      if ( is_wp_error($domain_list) ) {
+        return null;
+      }
+      return $domain_list;
     }
 
     public static function get_production_domain() {
