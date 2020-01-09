@@ -24,6 +24,33 @@ if ( ! class_exists('ThirdpartyFixes') ) {
     public function __construct() {
       // Jetpack whitelisting
       add_filter('jpp_allow_login', array( $this, 'jetpack_whitelist_seravo' ), 10, 1);
+
+      // Set options for Redirection plugin
+      // defined twice because Redirection code and documentation has conflicts,
+      // ie. just to be sure...
+      add_filter('red_default_options', array( $this, 'redirection_options_filter' ), 10, 1);
+      add_filter('red_save_options', array( $this, 'redirection_options_filter' ), 10, 1);
+      add_filter('redirection_default_options', array( $this, 'redirection_options_filter' ), 10, 1);
+      add_filter('redirection_save_options', array( $this, 'redirection_options_filter' ), 10, 1);
+    }
+
+    /**
+     * Set default options for Redirection plugin
+     *
+     * This disables redirect cache, at seems to cause redirect loops
+     * quite often, and we don't like that. Our infrastructure does
+     * caching anyways.
+     *
+     * @param array $options User-provided (or default) options
+     * @return array Updated options with our customizations
+     * @since 1.9.15
+     * @see <https://redirection.me/developer/wordpress-hooks/>
+     **/
+    public function redirection_options_filter( $options ) {
+      $updated = array(
+        'redirect_cache' => -1,
+      );
+      return array_merge($options, $updated);
     }
 
     /**
