@@ -411,7 +411,7 @@ $forwards_table->prepare_items();
 ?>
 <div class="wrap">
 
-  <h1><?php _e('Domains', 'seravo'); ?> (beta)</h1>
+  <h1><?php _e('Domains', 'seravo'); ?></h1>
 
   <p><?php _e('Domains routed to this WordPress site are listed below.', 'seravo'); ?></p>
 

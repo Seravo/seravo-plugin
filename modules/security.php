@@ -42,7 +42,7 @@ if ( ! class_exists('Security') ) {
 
       seravo_add_postbox(
         'security_info',
-        __('Security (beta)', 'seravo'),
+        __('Security', 'seravo'),
         array( __CLASS__, 'security_info_postbox' ),
         'tools_page_security_page',
         'normal'
@@ -60,7 +60,7 @@ if ( ! class_exists('Security') ) {
 
       seravo_add_postbox(
         'cruft-files',
-        __('Cruft Files (beta)', 'seravo'),
+        __('Cruft Files', 'seravo'),
         array( __CLASS__, 'cruftfiles_postbox' ),
         'tools_page_security_page',
         'column3'
