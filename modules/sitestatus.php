@@ -55,7 +55,7 @@ if ( ! class_exists('Site_Status') ) {
       if ( getenv('WP_ENV') === 'production' ) {
         seravo_add_postbox(
           'shadows',
-          __('Shadows', 'seravo') . ' (beta)',
+          __('Shadows', 'seravo'),
           array( __CLASS__, 'seravo_shadows_postbox' ),
           'tools_page_site_status_page',
           'side'
@@ -73,7 +73,7 @@ if ( ! class_exists('Site_Status') ) {
 
       seravo_add_postbox(
         'optimize-images',
-        __('Optimize Images (beta)', 'seravo'),
+        __('Optimize Images', 'seravo'),
         array( __CLASS__, 'optimize_images_postbox' ),
         'tools_page_site_status_page',
         'side'
