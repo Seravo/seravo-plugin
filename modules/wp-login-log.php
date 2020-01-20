@@ -60,7 +60,7 @@ if ( ! class_exists('LoginLog') ) {
       $remote_addr = $_SERVER['REMOTE_ADDR'];
       $time_local = date('j/M/Y:H:i:s O');
       $request = $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'];
-      $http_referer = $_SERVER['HTTP_REFERER'];
+      $http_referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
       $http_user_agent = $_SERVER['HTTP_USER_AGENT'];
 
       // Finally write the log to disk
