@@ -137,8 +137,6 @@ if ( ! class_exists('InstanceSwitcher') ) {
       $instances = self::load_shadow_list();
 
       if ( $instances ) {
-        // Query domains only once
-        $domain_list = API::get_site_data('/domains');
         // add menu entries for each shadow
         foreach ( $instances as $key => $instance ) {
           $title = strtoupper($instance['env']);
@@ -147,12 +145,16 @@ if ( ! class_exists('InstanceSwitcher') ) {
             $title .= ' (' . $instance['info'] . ')';
           }
 
-          $domain = self::get_shadow_domain($instance['name'], $domain_list);
-          // 'null' from get_shadow_domain indicates API error
-          // Hide the shadow entry from instance-switcher
-          if ( $domain !== null ) {
+          $primary_domain = '';
+            foreach ( $instance['domains'] as $domain ) {
+            if ( $domain['primary'] === $instance['name'] ) {
+              $primary_domain = $domain['domain'];
+              break;
+            }
+          }
 
-            $href = ! empty($domain) ? 'https://' . $domain : '#' . substr($instance['name'], -6);
+          if ( $primary_domain !== null ) {
+            $href = ! empty($primary_domain) ? 'https://' . $primary_domain : '#' . substr($instance['name'], -6);
 
             $wp_admin_bar->add_menu(
               [
@@ -231,24 +233,6 @@ if ( ! class_exists('InstanceSwitcher') ) {
       if ( ! empty($admin_notice_content) ) {
         echo $admin_notice_content;
       }
-    }
-
-    public static function get_shadow_domain( $identifier, $domain_list = null ) {
-
-      if ( $domain_list == null ) {
-        $domain_list = API::get_site_data('/domains');
-      }
-
-      if ( is_wp_error($domain_list) ) {
-        return null;
-      }
-
-      foreach ( $domain_list as $domain ) {
-        if ( $domain['primary'] === $identifier ) {
-          return $domain['domain'];
-        }
-      }
-      return '';
     }
 
     public static function get_production_domain() {
