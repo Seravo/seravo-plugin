@@ -279,7 +279,7 @@ if ( ! class_exists('Upkeep') ) {
     }
 
     public static function tests_status_postbox() {
-      exec('zgrep -h -A 1 "Running initial tests in production" /data/log/update.log* | tail -n 1 | cut -d " " -f 4-8', $test_status);
+      exec('zgrep -h -A 1 "Running initial tests in production" /data/log/update.log-* /data/log/update.log | tail -n 1 | cut -d " " -f 4-8', $test_status);
 
       if ( $test_status[0] == 'Success! Initial tests have passed.' ) {
         echo '<p style="color: green;">' . __('Success!', 'seravo') . '</p>';
