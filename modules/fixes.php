@@ -45,10 +45,16 @@ if ( ! class_exists('Fixes') ) {
       /**
        * Additional hooks to option updates to ensure they get refreshed in the
        * Redis object-cache when they change.
+       *
+       * WP core has implemented a similar fix in 5.3.1,
+       * this has been depreacted since that.
        */
-      add_action('added_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
-      add_action('updated_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
-      add_action('deleted_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
+
+      if ( version_compare(get_bloginfo('version'), '5.3.1', '<') ) {
+        add_action('added_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
+        add_action('updated_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
+        add_action('deleted_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
+      }
 
     }
 
