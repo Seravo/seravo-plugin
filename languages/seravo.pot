@@ -1,17 +1,17 @@
-# Copyright (C) 2019 Seravo Oy
+# Copyright (C) 2020 Seravo Oy
 # This file is distributed under the same license as the Seravo Plugin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.9.12\n"
+"Project-Id-Version: Seravo Plugin 1.9.14\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-10-15T13:06:29+03:00\n"
+"POT-Creation-Date: 2020-01-23T13:16:37+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.3.0\n"
+"X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
 
 #. Plugin Name of the plugin
@@ -48,7 +48,7 @@ msgid "updated: "
 msgstr ""
 
 #: lib/domains-dns.php:26
-#: modules/sitestatus.php:293
+#: modules/sitestatus.php:319
 msgid "Name"
 msgstr ""
 
@@ -119,7 +119,7 @@ msgid "This domain doesn't have a zone"
 msgstr ""
 
 #: lib/domains-page.php:120
-#: modules/sitestatus.php:312
+#: modules/sitestatus.php:344
 msgid "Domain"
 msgstr ""
 
@@ -166,19 +166,19 @@ msgstr ""
 msgid "Mails"
 msgstr ""
 
-#: lib/security-ajax.php:82
+#: lib/security-ajax.php:85
 msgid "IP address"
 msgstr ""
 
-#: lib/security-ajax.php:83
+#: lib/security-ajax.php:86
 msgid "User"
 msgstr ""
 
-#: lib/security-ajax.php:84
+#: lib/security-ajax.php:87
 msgid "Date"
 msgstr ""
 
-#: lib/security-ajax.php:85
+#: lib/security-ajax.php:88
 msgid "Time"
 msgstr ""
 
@@ -334,21 +334,21 @@ msgstr ""
 msgid "Now in"
 msgstr ""
 
-#: modules/instance-switcher.php:179
+#: modules/instance-switcher.php:183
 msgid "Exit Shadow"
 msgstr ""
 
-#: modules/instance-switcher.php:193
+#: modules/instance-switcher.php:197
 msgid "Shadows explained at Seravo.com/docs"
 msgstr ""
 
 #. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:216
+#: modules/instance-switcher.php:220
 msgid "Your current shadow instance is %s."
 msgstr ""
 
 #. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:217
+#: modules/instance-switcher.php:221
 msgid "Exit"
 msgstr ""
 
@@ -429,7 +429,9 @@ msgid "Error: the nonce did not verify."
 msgstr ""
 
 #: modules/security.php:45
-msgid "Security (beta)"
+#: modules/toolbox.php:57
+#: modules/toolbox.php:58
+msgid "Security"
 msgstr ""
 
 #: modules/security.php:54
@@ -437,7 +439,7 @@ msgid "Recent successful logins"
 msgstr ""
 
 #: modules/security.php:63
-msgid "Cruft Files (beta)"
+msgid "Cruft Files"
 msgstr ""
 
 #: modules/security.php:72
@@ -628,12 +630,12 @@ msgid ""
 msgstr ""
 
 #: modules/security.php:279
-#: modules/sitestatus.php:463
+#: modules/sitestatus.php:495
 msgid "Save"
 msgstr ""
 
 #: modules/security.php:296
-msgid "Find and delete any extraneous and potentially harmful files taking up space in the file system."
+msgid "Find and delete any extraneous and potentially harmful files taking up space in the file system. Note that not everything is necessarily safe to delete."
 msgstr ""
 
 #: modules/security.php:305
@@ -678,9 +680,6 @@ msgid "Disk Usage"
 msgstr ""
 
 #: modules/sitestatus.php:76
-msgid "Optimize Images (beta)"
-msgstr ""
-
 #: modules/sitestatus.php:105
 msgid "Optimize Images"
 msgstr ""
@@ -702,220 +701,254 @@ msgid "View report"
 msgstr ""
 
 #: modules/sitestatus.php:144
+msgid "Running cache tests..."
+msgstr ""
+
+#: modules/sitestatus.php:145
+msgid "HTTP cache working"
+msgstr ""
+
+#: modules/sitestatus.php:146
+msgid "HTTP cache not working"
+msgstr ""
+
+#: modules/sitestatus.php:147
 #: modules/upkeep.php:285
 msgid "Success!"
 msgstr ""
 
-#: modules/sitestatus.php:145
+#: modules/sitestatus.php:148
 #: modules/upkeep.php:289
 msgid "Failure!"
 msgstr ""
 
-#: modules/sitestatus.php:146
+#: modules/sitestatus.php:149
 msgid "Error!"
 msgstr ""
 
-#: modules/sitestatus.php:147
+#: modules/sitestatus.php:150
 msgid "Are you sure? This replaces all information in the selected environment."
 msgstr ""
 
-#: modules/sitestatus.php:158
-#: modules/sitestatus.php:214
+#: modules/sitestatus.php:161
+#: modules/sitestatus.php:240
 msgid "This feature is available only on live production sites."
 msgstr ""
 
-#: modules/sitestatus.php:162
+#: modules/sitestatus.php:165
 msgid "These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>."
 msgstr ""
 
-#: modules/sitestatus.php:168
+#: modules/sitestatus.php:171
 msgid "Month"
 msgstr ""
 
-#: modules/sitestatus.php:169
+#: modules/sitestatus.php:172
 msgid "HTTP Requests"
 msgstr ""
 
-#: modules/sitestatus.php:170
+#: modules/sitestatus.php:173
 msgid "Report"
 msgstr ""
 
-#: modules/sitestatus.php:182
+#: modules/sitestatus.php:185
 msgid "Redis Transient and Object Cache"
 msgstr ""
 
-#: modules/sitestatus.php:187
+#: modules/sitestatus.php:190
+msgid "Long-term HTTP Cache Stats"
+msgstr ""
+
+#: modules/sitestatus.php:195
 msgid "Nginx HTTP Cache"
 msgstr ""
 
-#: modules/sitestatus.php:197
+#: modules/sitestatus.php:199
+msgid "Here you can test the functionality of front cache. Same results can be achieved via command line by running <code>wp-check-http-cache</code> there."
+msgstr ""
+
+#: modules/sitestatus.php:202
+#: modules/upkeep.php:611
+msgid "Run Tests"
+msgstr ""
+
+#: modules/sitestatus.php:205
+msgid "Click \"Run Tests\" to run the cache tests"
+msgstr ""
+
+#: modules/sitestatus.php:211
+#: modules/upkeep.php:620
+msgid "Toggle Details"
+msgstr ""
+
+#: modules/sitestatus.php:223
 msgid "The total size of <code>/data</code> is"
 msgstr ""
 
-#: modules/sitestatus.php:203
+#: modules/sitestatus.php:229
 msgid "Disk usage by directory"
 msgstr ""
 
-#: modules/sitestatus.php:225
+#: modules/sitestatus.php:251
 msgid "Demo"
 msgstr ""
 
-#: modules/sitestatus.php:226
+#: modules/sitestatus.php:252
 msgid "WP Mini"
 msgstr ""
 
-#: modules/sitestatus.php:227
+#: modules/sitestatus.php:253
 msgid "WP Pro"
 msgstr ""
 
-#: modules/sitestatus.php:228
+#: modules/sitestatus.php:254
 msgid "WP Business"
 msgstr ""
 
-#: modules/sitestatus.php:229
+#: modules/sitestatus.php:255
 msgid "WP Enterprise"
 msgstr ""
 
-#: modules/sitestatus.php:233
+#: modules/sitestatus.php:259
 msgid "Finland"
 msgstr ""
 
-#: modules/sitestatus.php:234
+#: modules/sitestatus.php:260
 msgid "Sweden"
 msgstr ""
 
-#: modules/sitestatus.php:235
+#: modules/sitestatus.php:261
 msgid "Germany"
 msgstr ""
 
-#: modules/sitestatus.php:236
+#: modules/sitestatus.php:262
 msgid "USA"
 msgstr ""
 
-#: modules/sitestatus.php:237
+#: modules/sitestatus.php:263
 msgid "No preference"
 msgstr ""
 
-#: modules/sitestatus.php:258
+#: modules/sitestatus.php:284
 msgid "Site Name"
 msgstr ""
 
-#: modules/sitestatus.php:259
+#: modules/sitestatus.php:285
 msgid "Site Created"
 msgstr ""
 
-#: modules/sitestatus.php:260
+#: modules/sitestatus.php:286
 msgid "Plan Termination"
 msgstr ""
 
-#: modules/sitestatus.php:261
+#: modules/sitestatus.php:287
 msgid "Site Location"
 msgstr ""
 
-#: modules/sitestatus.php:262
+#: modules/sitestatus.php:288
 msgid "Plan Type"
 msgstr ""
 
-#: modules/sitestatus.php:265
+#: modules/sitestatus.php:291
 msgid "Account Manager"
 msgstr ""
 
-#: modules/sitestatus.php:267
+#: modules/sitestatus.php:293
 msgid "No Account Manager found. Account Manager is only included in Seravo Enterprise plans."
 msgstr ""
 
-#: modules/sitestatus.php:270
+#: modules/sitestatus.php:296
 #: modules/upkeep.php:163
 msgid "Technical Contacts"
 msgstr ""
 
-#: modules/sitestatus.php:277
+#: modules/sitestatus.php:303
 msgid "Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href=\"https://seravo.com/docs/deployment/shadows/\">Developer documentation</a>."
 msgstr ""
 
-#: modules/sitestatus.php:296
+#: modules/sitestatus.php:322
 msgid "Select shadow"
 msgstr ""
 
-#: modules/sitestatus.php:310
+#: modules/sitestatus.php:342
 msgid "Identifier"
 msgstr ""
 
-#: modules/sitestatus.php:311
+#: modules/sitestatus.php:343
 msgid "SSH Port"
 msgstr ""
 
-#: modules/sitestatus.php:313
+#: modules/sitestatus.php:345
 msgid "Creation Date"
 msgstr ""
 
-#: modules/sitestatus.php:317
+#: modules/sitestatus.php:349
 msgid "Actions"
 msgstr ""
 
-#: modules/sitestatus.php:317
+#: modules/sitestatus.php:349
 msgid "Move Data"
 msgstr ""
 
-#: modules/sitestatus.php:335
+#: modules/sitestatus.php:367
 msgid "No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href=\"mailto:help@seravo.com\"    >help@seravo.com</a>."
 msgstr ""
 
-#: modules/sitestatus.php:343
+#: modules/sitestatus.php:375
 msgid "Reset shadow from production"
 msgstr ""
 
-#: modules/sitestatus.php:345
+#: modules/sitestatus.php:377
 msgid "<b>Warning:</b> This will replace everything currently in the <i>/data/wordpress/</i> directory and the database of the shadow with a copy of production site. Be sure to know what you are doing."
 msgstr ""
 
-#: modules/sitestatus.php:349
+#: modules/sitestatus.php:381
 msgid "Execute search-replace"
 msgstr ""
 
-#: modules/sitestatus.php:355
+#: modules/sitestatus.php:387
 msgid "This shadow uses a custom domain. Search-replace can't currently be ran automatically with shadow reset. Please run it manually afterwards with the values above or the shadow can't be accessed. Instructions can be found in <a href='https://help.seravo.com/en/docs/151'>here</a>."
 msgstr ""
 
-#: modules/sitestatus.php:358
+#: modules/sitestatus.php:390
 msgid "This shadow doesn't need search-replace to be ran afterwards for it to work."
 msgstr ""
 
-#: modules/sitestatus.php:362
+#: modules/sitestatus.php:394
 msgid "Reset from production"
 msgstr ""
 
-#: modules/sitestatus.php:374
+#: modules/sitestatus.php:406
 msgid "WordPress core"
 msgstr ""
 
-#: modules/sitestatus.php:402
+#: modules/sitestatus.php:434
 msgid "Width"
 msgstr ""
 
-#: modules/sitestatus.php:408
+#: modules/sitestatus.php:440
 msgid "Height"
 msgstr ""
 
-#: modules/sitestatus.php:416
+#: modules/sitestatus.php:448
 msgid "Optimization reduces image file size. This improves the performance and browsing experience of your site."
 msgstr ""
 
-#: modules/sitestatus.php:417
+#: modules/sitestatus.php:449
 msgid "By setting the maximum image resolution, you can determine the maximum allowed dimensions for images."
 msgstr ""
 
-#: modules/sitestatus.php:418
-msgid "For further information, refer to our <a href=\"https://help.seravo.com/en/knowledgebase/23-managing-wordpress/docs/119-seravo-plugin-optimize-images\">knowledgebase article</a>."
+#: modules/sitestatus.php:450
+msgid "For further information, refer to our <a href=\"https://help.seravo.com/article/28-seravo-plugin-optimize-images\">knowledgebase article</a>."
 msgstr ""
 
 #. translators: %s numeric value for the minimum image width
-#: modules/sitestatus.php:428
+#: modules/sitestatus.php:460
 msgid "The minimum width for image optimisation is %1$s px. Setting suggested width of %2$s px."
 msgstr ""
 
 #. translators: %s numeric value for the minimum image height
-#: modules/sitestatus.php:444
+#: modules/sitestatus.php:476
 msgid "The minimum height for image optimisation is %1$s px. Setting suggested height of %2$s px."
 msgstr ""
 
@@ -933,11 +966,6 @@ msgstr ""
 #: modules/toolbox.php:36
 #: modules/toolbox.php:37
 msgid "Database"
-msgstr ""
-
-#: modules/toolbox.php:57
-#: modules/toolbox.php:58
-msgid "Security"
 msgstr ""
 
 #: modules/upkeep.php:33
@@ -1178,14 +1206,6 @@ msgstr ""
 msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\"> Seravo Developer Documentation</a>."
 msgstr ""
 
-#: modules/upkeep.php:611
-msgid "Run Tests"
-msgstr ""
-
 #: modules/upkeep.php:614
 msgid "Click \"Run Tests\" to run the Codeception tests"
-msgstr ""
-
-#: modules/upkeep.php:620
-msgid "Toggle Details"
 msgstr ""

@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2019-10-15T13:06:29+03:00\n"
-"PO-Revision-Date: 2019-10-15 14:29+0300\n"
+"POT-Creation-Date: 2020-01-23T13:16:37+02:00\n"
+"PO-Revision-Date: 2020-01-23 13:33+0200\n"
 "Last-Translator: Samuli Lehtonen <samuli@seravo.fi>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -47,7 +47,7 @@ msgstr "Zone verkkotunnukselle: "
 msgid "updated: "
 msgstr "päivitetty: "
 
-#: lib/domains-dns.php:26 modules/sitestatus.php:293
+#: lib/domains-dns.php:26 modules/sitestatus.php:319
 msgid "Name"
 msgstr "Nimi"
 
@@ -135,7 +135,7 @@ msgstr "Aliverkkotunnuksilla ei ole omia verkkotunnustietoja"
 msgid "This domain doesn't have a zone"
 msgstr "Verkkotunnuksella ei ole verkkotunnustietoja"
 
-#: lib/domains-page.php:120 modules/sitestatus.php:312
+#: lib/domains-page.php:120 modules/sitestatus.php:344
 msgid "Domain"
 msgstr "Verkkotunnus"
 
@@ -179,19 +179,19 @@ msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
 msgid "Mails"
 msgstr "Sähköpostit"
 
-#: lib/security-ajax.php:82
+#: lib/security-ajax.php:85
 msgid "IP address"
 msgstr "IP-osoite"
 
-#: lib/security-ajax.php:83
+#: lib/security-ajax.php:86
 msgid "User"
 msgstr "Käyttäjä"
 
-#: lib/security-ajax.php:84
+#: lib/security-ajax.php:87
 msgid "Date"
 msgstr "Pvm"
 
-#: lib/security-ajax.php:85
+#: lib/security-ajax.php:88
 msgid "Time"
 msgstr "Aika"
 
@@ -407,21 +407,21 @@ msgstr "Zonelle tehtiin seuraavat muutokset: "
 msgid "Now in"
 msgstr "Nyt käytössä"
 
-#: modules/instance-switcher.php:179
+#: modules/instance-switcher.php:183
 msgid "Exit Shadow"
 msgstr "Poistu varjosta"
 
-#: modules/instance-switcher.php:193
+#: modules/instance-switcher.php:197
 msgid "Shadows explained at Seravo.com/docs"
 msgstr "Varjot selitettynä ohjeissa Seravo.com/docs"
 
 #. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:216
+#: modules/instance-switcher.php:220
 msgid "Your current shadow instance is %s."
 msgstr "Olet nyt varjossa %s."
 
 #. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:217
+#: modules/instance-switcher.php:221
 msgid "Exit"
 msgstr "Poistu"
 
@@ -515,17 +515,17 @@ msgstr ""
 msgid "Error: the nonce did not verify."
 msgstr "Virhe: kertakäyttöavain ei täsmännyt."
 
-#: modules/security.php:45
-msgid "Security (beta)"
-msgstr "Tietoturva (beta)"
+#: modules/security.php:45 modules/toolbox.php:57 modules/toolbox.php:58
+msgid "Security"
+msgstr "Tietoturva"
 
 #: modules/security.php:54
 msgid "Recent successful logins"
 msgstr "Edelliset sisäänkirjautumiset"
 
 #: modules/security.php:63
-msgid "Cruft Files (beta)"
-msgstr "Roskatiedostot (beta)"
+msgid "Cruft Files"
+msgstr "Roskatiedostot"
 
 #: modules/security.php:72
 msgid "Unnecessary plugins"
@@ -742,17 +742,18 @@ msgstr ""
 "jonka sivuston omistaja voi halutessaan tehdä mikäli tietää\n"
 "että ei tarvitse tiettyjä toimintoja koskaan."
 
-#: modules/security.php:279 modules/sitestatus.php:463
+#: modules/security.php:279 modules/sitestatus.php:495
 msgid "Save"
 msgstr "Tallenna"
 
 #: modules/security.php:296
 msgid ""
 "Find and delete any extraneous and potentially harmful files taking up space "
-"in the file system."
+"in the file system. Note that not everything is necessarily safe to delete."
 msgstr ""
 "Etsi ja poista tarpeettomia ja potentiaalisesti haitallisia tiedostoja "
-"palvelimelta levytilan säästämiseksi."
+"palvelimelta levytilan säästämiseksi. Otathan huomioon, että kaikkia "
+"ehdotuksia ei ole välttämättä turvallista poistaa."
 
 #: modules/security.php:305 modules/security.php:326
 msgid "Searching for files..."
@@ -809,11 +810,7 @@ msgstr "Varjot"
 msgid "Disk Usage"
 msgstr "Levytilan käyttö"
 
-#: modules/sitestatus.php:76
-msgid "Optimize Images (beta)"
-msgstr "Optimoi kuvia (beta)"
-
-#: modules/sitestatus.php:105
+#: modules/sitestatus.php:76 modules/sitestatus.php:105
 msgid "Optimize Images"
 msgstr "Optimoi kuvia"
 
@@ -837,28 +834,40 @@ msgstr ""
 msgid "View report"
 msgstr "Näytä raportti"
 
-#: modules/sitestatus.php:144 modules/upkeep.php:285
+#: modules/sitestatus.php:144
+msgid "Running cache tests..."
+msgstr "Testataan välimuistia…"
+
+#: modules/sitestatus.php:145
+msgid "HTTP cache working"
+msgstr "HTTP -välimuisti toimii"
+
+#: modules/sitestatus.php:146
+msgid "HTTP cache not working"
+msgstr "HTTP -välimuisti ei toimi"
+
+#: modules/sitestatus.php:147 modules/upkeep.php:285
 msgid "Success!"
 msgstr "Onnistui!"
 
-#: modules/sitestatus.php:145 modules/upkeep.php:289
+#: modules/sitestatus.php:148 modules/upkeep.php:289
 msgid "Failure!"
 msgstr "Epäonnistui!"
 
-#: modules/sitestatus.php:146
+#: modules/sitestatus.php:149
 msgid "Error!"
 msgstr "Virhe!"
 
-#: modules/sitestatus.php:147
+#: modules/sitestatus.php:150
 msgid ""
 "Are you sure? This replaces all information in the selected environment."
 msgstr "Oletko varma? Tämä toiminto korvaa kaiken valitussa ympäristössä."
 
-#: modules/sitestatus.php:158 modules/sitestatus.php:214
+#: modules/sitestatus.php:161 modules/sitestatus.php:240
 msgid "This feature is available only on live production sites."
 msgstr "Tämä toiminto on saatavilla vain oikeilla tuotantosivustoilla."
 
-#: modules/sitestatus.php:162
+#: modules/sitestatus.php:165
 msgid ""
 "These monthly reports are generated from the HTTP access logs of your site. "
 "All HTTP requests for the site are included, with traffic from both humans "
@@ -872,99 +881,124 @@ msgstr ""
 "hyökkäyksen aikana) eivät tule lokiin. Lokitiedostoja voi selata suoraan "
 "myös palvelimella polussa <code>/data/slog/html/goaccess-*.html</code>."
 
-#: modules/sitestatus.php:168
+#: modules/sitestatus.php:171
 msgid "Month"
 msgstr "Kuukausi"
 
-#: modules/sitestatus.php:169
+#: modules/sitestatus.php:172
 msgid "HTTP Requests"
 msgstr "HTTP-pyynnöt"
 
-#: modules/sitestatus.php:170
+#: modules/sitestatus.php:173
 msgid "Report"
 msgstr "Raportti"
 
-#: modules/sitestatus.php:182
+#: modules/sitestatus.php:185
 msgid "Redis Transient and Object Cache"
 msgstr "Oliovälimuisti"
 
-#: modules/sitestatus.php:187
+#: modules/sitestatus.php:190
+msgid "Long-term HTTP Cache Stats"
+msgstr "Pitkäaikaiset HTTP -välimuisti tilastot"
+
+#: modules/sitestatus.php:195
 msgid "Nginx HTTP Cache"
 msgstr "Nginx HTTP -välimuisti"
 
-#: modules/sitestatus.php:197
+#: modules/sitestatus.php:199
+msgid ""
+"Here you can test the functionality of front cache. Same results can be "
+"achieved via command line by running <code>wp-check-http-cache</code> there."
+msgstr ""
+"Suorita sivuston välimuistin toimivuustestit ja tarkista tulokset. Saman "
+"testin voi suorittaa myös komentoriviltä komennolla <code>wp-check-http-"
+"cache</code>."
+
+#: modules/sitestatus.php:202 modules/upkeep.php:611
+msgid "Run Tests"
+msgstr "Suorita testit"
+
+#: modules/sitestatus.php:205
+msgid "Click \"Run Tests\" to run the cache tests"
+msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi välimuisti-testit"
+
+#: modules/sitestatus.php:211 modules/upkeep.php:620
+msgid "Toggle Details"
+msgstr "Näytä lisää"
+
+#: modules/sitestatus.php:223
 msgid "The total size of <code>/data</code> is"
 msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
 
-#: modules/sitestatus.php:203
+#: modules/sitestatus.php:229
 msgid "Disk usage by directory"
 msgstr "Levytilan käyttö"
 
-#: modules/sitestatus.php:225
+#: modules/sitestatus.php:251
 msgid "Demo"
 msgstr ""
 
-#: modules/sitestatus.php:226
+#: modules/sitestatus.php:252
 msgid "WP Mini"
 msgstr ""
 
-#: modules/sitestatus.php:227
+#: modules/sitestatus.php:253
 msgid "WP Pro"
 msgstr ""
 
-#: modules/sitestatus.php:228
+#: modules/sitestatus.php:254
 msgid "WP Business"
 msgstr ""
 
-#: modules/sitestatus.php:229
+#: modules/sitestatus.php:255
 msgid "WP Enterprise"
 msgstr ""
 
-#: modules/sitestatus.php:233
+#: modules/sitestatus.php:259
 msgid "Finland"
 msgstr "Suomi"
 
-#: modules/sitestatus.php:234
+#: modules/sitestatus.php:260
 msgid "Sweden"
 msgstr "Ruotsi"
 
-#: modules/sitestatus.php:235
+#: modules/sitestatus.php:261
 msgid "Germany"
 msgstr "Saksa"
 
-#: modules/sitestatus.php:236
+#: modules/sitestatus.php:262
 msgid "USA"
 msgstr "Yhdysvallat"
 
-#: modules/sitestatus.php:237
+#: modules/sitestatus.php:263
 msgid "No preference"
 msgstr "Seravon valitsema"
 
-#: modules/sitestatus.php:258
+#: modules/sitestatus.php:284
 msgid "Site Name"
 msgstr "Sivuston nimi"
 
-#: modules/sitestatus.php:259
+#: modules/sitestatus.php:285
 msgid "Site Created"
 msgstr "Sivusto luotu"
 
-#: modules/sitestatus.php:260
+#: modules/sitestatus.php:286
 msgid "Plan Termination"
 msgstr "Palvelupaketin päättyminen"
 
-#: modules/sitestatus.php:261
+#: modules/sitestatus.php:287
 msgid "Site Location"
 msgstr "Sivuston sijainti"
 
-#: modules/sitestatus.php:262
+#: modules/sitestatus.php:288
 msgid "Plan Type"
 msgstr "Palvelupaketti"
 
-#: modules/sitestatus.php:265
+#: modules/sitestatus.php:291
 msgid "Account Manager"
 msgstr "Account Manager"
 
-#: modules/sitestatus.php:267
+#: modules/sitestatus.php:293
 msgid ""
 "No Account Manager found. Account Manager is only included in Seravo "
 "Enterprise plans."
@@ -972,11 +1006,11 @@ msgstr ""
 "Account manageria ei löytynyt. Account manager kuuluu vain WP Enterprise -"
 "palvelupaketteihin."
 
-#: modules/sitestatus.php:270 modules/upkeep.php:163
+#: modules/sitestatus.php:296 modules/upkeep.php:163
 msgid "Technical Contacts"
 msgstr "Yhteystiedot teknisissä asioissa"
 
-#: modules/sitestatus.php:277
+#: modules/sitestatus.php:303
 msgid ""
 "Allow easy access to site shadows. Resetting a shadow copies the state of "
 "the production site to the shadow. All files under /data/wordpress/ will be "
@@ -989,31 +1023,31 @@ msgstr ""
 "tiedostoilla ja tietokannalla. Lue lisää varjoista <a href=\"https://seravo."
 "com/docs/deployment/shadows/\">kehittäjäohjeistamme</a>."
 
-#: modules/sitestatus.php:296
+#: modules/sitestatus.php:322
 msgid "Select shadow"
 msgstr "Valitse varjo"
 
-#: modules/sitestatus.php:310
+#: modules/sitestatus.php:342
 msgid "Identifier"
 msgstr "Tunniste"
 
-#: modules/sitestatus.php:311
+#: modules/sitestatus.php:343
 msgid "SSH Port"
 msgstr "SSH-portti"
 
-#: modules/sitestatus.php:313
+#: modules/sitestatus.php:345
 msgid "Creation Date"
 msgstr "Luontipäivämäärä"
 
-#: modules/sitestatus.php:317
+#: modules/sitestatus.php:349
 msgid "Actions"
 msgstr "Toiminnot"
 
-#: modules/sitestatus.php:317
+#: modules/sitestatus.php:349
 msgid "Move Data"
 msgstr "Siirrä tiedot"
 
-#: modules/sitestatus.php:335
+#: modules/sitestatus.php:367
 msgid ""
 "No shadows found. If your plan is WP Pro or higher, you can request a shadow "
 "instance from Seravo admins at <a href=\"mailto:help@seravo.com\"    "
@@ -1023,11 +1057,11 @@ msgstr ""
 "isompi, voit pyytää varjosivuston luomista Seravon <a href=\"mailto:"
 "help@seravo.com\">asiakaspalvelusta osoitteessta help@seravo.com</a>."
 
-#: modules/sitestatus.php:343
+#: modules/sitestatus.php:375
 msgid "Reset shadow from production"
 msgstr "Palauta varjoon kopio nykyisestä tuotannon tilasta"
 
-#: modules/sitestatus.php:345
+#: modules/sitestatus.php:377
 msgid ""
 "<b>Warning:</b> This will replace everything currently in the <i>/data/"
 "wordpress/</i> directory and the database of the shadow with a copy of "
@@ -1037,11 +1071,11 @@ msgstr ""
 "ja tietokannan tuotantosivun kopiolla. Varmista, että tiedät mitä olet "
 "tekemässä."
 
-#: modules/sitestatus.php:349
+#: modules/sitestatus.php:381
 msgid "Execute search-replace"
 msgstr "Aja wp search-replace"
 
-#: modules/sitestatus.php:355
+#: modules/sitestatus.php:387
 msgid ""
 "This shadow uses a custom domain. Search-replace can't currently be ran "
 "automatically with shadow reset. Please run it manually afterwards with the "
@@ -1054,28 +1088,28 @@ msgstr ""
 "varjoon ei pääse. Ohjeet löydät <a href='https://help.seravo.com/fi/"
 "docs/151'>täältä</a>."
 
-#: modules/sitestatus.php:358
+#: modules/sitestatus.php:390
 msgid ""
 "This shadow doesn't need search-replace to be ran afterwards for it to work."
 msgstr "Varjossa ei tarvitse ajaa jälkikäteen komentoa wp search-replace."
 
-#: modules/sitestatus.php:362
+#: modules/sitestatus.php:394
 msgid "Reset from production"
 msgstr "Palauta tuotannon tilasta"
 
-#: modules/sitestatus.php:374
+#: modules/sitestatus.php:406
 msgid "WordPress core"
 msgstr "WordPressin ydin"
 
-#: modules/sitestatus.php:402
+#: modules/sitestatus.php:434
 msgid "Width"
 msgstr "Leveys"
 
-#: modules/sitestatus.php:408
+#: modules/sitestatus.php:440
 msgid "Height"
 msgstr "Korkeus"
 
-#: modules/sitestatus.php:416
+#: modules/sitestatus.php:448
 msgid ""
 "Optimization reduces image file size. This improves the performance and "
 "browsing experience of your site."
@@ -1083,24 +1117,22 @@ msgstr ""
 "Kuvien optimointi pienentää kuvan tiedostokokoa. Tämä parantaa sivuston "
 "suorituskykyä ja sivuston selauskokemusta."
 
-#: modules/sitestatus.php:417
+#: modules/sitestatus.php:449
 msgid ""
 "By setting the maximum image resolution, you can determine the maximum "
 "allowed dimensions for images."
 msgstr "Voit asettaa haluamasi rajat sivuston kuvien maksimiresoluutiolle."
 
-#: modules/sitestatus.php:418
+#: modules/sitestatus.php:450
 msgid ""
-"For further information, refer to our <a href=\"https://help.seravo.com/en/"
-"knowledgebase/23-managing-wordpress/docs/119-seravo-plugin-optimize-images"
-"\">knowledgebase article</a>."
+"For further information, refer to our <a href=\"https://help.seravo.com/"
+"article/28-seravo-plugin-optimize-images\">knowledgebase article</a>."
 msgstr ""
-"Lisäohjeita aiheesta on Seravon <a href=\"https://help.seravo.com/fi/"
-"knowledgebase/23-managing-wordpress/docs/119-seravo-plugin-optimize-images"
-"\">tietopankissa</a>."
+"Lisäohjeita aiheesta on Seravon <a href=\"https://help.seravo.fi/article/206-"
+"seravo-plugin-optimoi-kuvia\">tietopankissa</a>."
 
 #. translators: %s numeric value for the minimum image width
-#: modules/sitestatus.php:428
+#: modules/sitestatus.php:460
 msgid ""
 "The minimum width for image optimisation is %1$s px. Setting suggested width "
 "of %2$s px."
@@ -1109,7 +1141,7 @@ msgstr ""
 "Asetetaan suositeltu %2$s px leveys."
 
 #. translators: %s numeric value for the minimum image height
-#: modules/sitestatus.php:444
+#: modules/sitestatus.php:476
 msgid ""
 "The minimum height for image optimisation is %1$s px. Setting suggested "
 "height of %2$s px."
@@ -1128,10 +1160,6 @@ msgstr "Ylläpito"
 #: modules/toolbox.php:36 modules/toolbox.php:37
 msgid "Database"
 msgstr "Tietokanta"
-
-#: modules/toolbox.php:57 modules/toolbox.php:58
-msgid "Security"
-msgstr "Tietoturva"
 
 #: modules/upkeep.php:33
 msgid "Tests Status"
@@ -1455,17 +1483,18 @@ msgstr ""
 "lisätietoja <a href=\"https://seravo.com/docs/tests/ng-integration-tests/"
 "\">Seravon kehittäjäohjeista</a>."
 
-#: modules/upkeep.php:611
-msgid "Run Tests"
-msgstr "Suorita testit"
-
 #: modules/upkeep.php:614
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Codeception-testit"
 
-#: modules/upkeep.php:620
-msgid "Toggle Details"
-msgstr "Näytä lisää"
+#~ msgid "Security (beta)"
+#~ msgstr "Tietoturva (beta)"
+
+#~ msgid "Cruft Files (beta)"
+#~ msgstr "Roskatiedostot (beta)"
+
+#~ msgid "Optimize Images (beta)"
+#~ msgstr "Optimoi kuvia (beta)"
 
 #~ msgid "Tests"
 #~ msgstr "Testit"
@@ -1475,9 +1504,6 @@ msgstr "Näytä lisää"
 
 #~ msgid "Updates"
 #~ msgstr "Päivitykset"
-
-#~ msgid "Cruft Files"
-#~ msgstr "Roskatiedostot"
 
 #~ msgid "Success"
 #~ msgstr "Onnistui"
@@ -1511,6 +1537,3 @@ msgstr "Näytä lisää"
 #~ "suorittaa myös komentoriviltä komennolla <code>wp-test-legacy</code>. Lue "
 #~ "lisätietoja <a href=\"https://seravo.com/docs/tests/integration-tests/"
 #~ "\">Seravon kehittäjäohjeista</a>."
-
-#~ msgid "Click \"Run Tests\" to run the Rspec tests"
-#~ msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Rspec-testit"
