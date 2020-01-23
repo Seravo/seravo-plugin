@@ -191,6 +191,10 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
                     } elseif ( $custom_context === 'column4' ) {
                       $custom_context = 'side';
                     }
+                  } else if ( $column_count === 'one_column' ) {
+                    if ( $custom_context !== 'normal' ) {
+                      $custom_context = 'normal';
+                    }
                   }
 
                   $postbox_data = $postboxes_array[$postbox_id];
@@ -226,11 +230,19 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
       if ( $column_count === 'two_column' ) {
         $container_contexts = array( 'normal', 'side' );
+      } else if ( $column_count === 'one_column' ) {
+        $container_contexts = array( 'normal' );
       }
 
       $context_index = 1;
       $current_screen = get_current_screen()->id;
       $this->apply_user_postbox_settings($column_count);
+
+      if ( $column_count === 'two_column' ) {
+        $container_class = 'two-column-layout';
+      } else if ( $column_count === 'one_column' ) {
+        $container_class = 'one-column-layout';
+      }
 
       // Fire pre-postbox action
       do_action('before_seravo_postboxes_' . $current_screen);
@@ -240,7 +252,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
       <div class="dashboard-widgets-wrap">
         <div id="dashboard-widgets" class="metabox-holder seravo-postbox-holder">
           <?php foreach ( $container_contexts as $container_context ) : ?>
-            <div id="postbox-container-<?php echo $context_index; ?>" class="postbox-container <?php echo $column_count === 'two_column' ? 'two-column-layout' : ''; ?>">
+            <div id="postbox-container-<?php echo $context_index; ?>" class="postbox-container <?php echo $container_class; ?>">
               <div id="<?php echo $container_context; ?>-sortables" class="meta-box-sortables ui-sortable">
                 <?php $this->do_postboxes($current_screen, $container_context); ?>
               </div>
@@ -328,4 +340,9 @@ function seravo_postboxes_page() {
 function seravo_two_column_postboxes_page() {
   global $seravo_postbox_factory;
   $seravo_postbox_factory->display_postboxes_page('two_column');
+}
+
+function seravo_wide_column_postboxes_page() {
+  global $seravo_postbox_factory;
+  $seravo_postbox_factory->display_postboxes_page('one_column');
 }

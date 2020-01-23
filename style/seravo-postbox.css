@@ -77,3 +77,33 @@
     width: 50.5%;
   }
 }
+
+#dashboard-widgets .postbox-container.one-column-layout {
+  width: 2100px;
+}
+
+@media only screen and (max-width: 2300px) {
+  #dashboard-widgets .postbox-container.one-column-layout {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 1500px) and (max-width: 1800px) {
+  #wpbody-content #dashboard-widgets #postbox-container-1.one-column-layout {
+    width: 100%;
+  }
+
+  #wpbody-content #dashboard-widgets .postbox-container.one-column-layout {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 800px) and (max-width: 1499px) {
+  #wpbody-content #dashboard-widgets .postbox-container.one-column-layout {
+    width: 100%;
+  }
+
+  #wpbody-content #dashboard-widgets #postbox-container-1.one-column-layout {
+    width: 100%;
+  }
+}
