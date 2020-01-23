@@ -16,13 +16,19 @@ function add_file_information( $file ) {
 }
 
 function find_cruft_file( $name ) {
-  exec('find /data/wordpress -name ' . $name, $output);
-  return $output;
+  $user = getenv('WP_USER');
+  exec('find /data/wordpress -name ' . $name, $data_files);
+  exec('find /home/' . $user . ' -maxdepth 1 -name ' . $name, $home_files);
+  $files = array_merge($data_files, $home_files);
+  return $files;
 }
 
 function find_cruft_dir( $name ) {
-  exec('find /data/wordpress -type d -name ' . $name, $output);
-  return $output;
+  $user = getenv('WP_USER');
+  exec('find /data/wordpress -type d -name ' . $name, $data_dirs);
+  exec('find /home/' . $user . ' -maxdepth 1 -type d -name ' . $name, $home_dirs);
+  $dirs = array_merge($data_dirs, $home_dirs);
+  return $dirs;
 }
 
 function find_cruft_core() {
@@ -76,11 +82,14 @@ function seravo_ajax_list_cruft_files() {
         '*.sql',
         '.hhvm.hhbc',
         '*.wpress',
+        'core',
+        '*.bak',
       );
       // List of known cruft directories
       $list_dirs = array(
         'siirto',
-        'palautus',
+        '*palautus*',
+        'before*',
         'vanha',
         '*-old',
         '*-copy',
@@ -92,6 +101,7 @@ function seravo_ajax_list_cruft_files() {
         '*.orig',
         '-backup',
         '*.backup',
+        getenv('WP_USER') . '_20*',
       );
       $list_known_files = array();
       $list_known_dirs = array(
