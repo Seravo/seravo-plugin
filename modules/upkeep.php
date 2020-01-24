@@ -337,6 +337,10 @@ if ( ! class_exists('Upkeep') ) {
             'value' => '7.3',
             'name'  => 'PHP 7.3',
           ),
+          '7.4' => array(
+            'value' => '7.4',
+            'name'  => 'PHP 7.4',
+          ),
         );
 
         $curver = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;

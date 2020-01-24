@@ -14,6 +14,7 @@ function seravo_change_php_version() {
     '7.0' => '7.0',
     '7.2' => '7.2',
     '7.3' => '7.3',
+    '7.4' => '7.4',
   );
 
   if ( array_key_exists($php_version, $php_version_array) ) {
