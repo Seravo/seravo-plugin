@@ -18,7 +18,9 @@
       var password = this.value;
       var strength = wp.passwordStrength.meter( password, wp.passwordStrength.userInputBlacklist(), password );
       var $submitButton = $('#wp-submit');
-      if ( strength > 2 ) {
+      // Levels: 0=very weak, 1=weak, 2=medium, 4=strong
+      // Require strong passwords
+      if ( strength > 3 ) {
         $submitButton.prop( 'disabled', false );
       } else {
         $submitButton.prop( 'disabled', true );
