@@ -4,27 +4,21 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists('Seravo_Domains_DNS_Table') ) {
-  require_once dirname(__FILE__) . '/domains-dns.php';
-}
-
 if ( ! class_exists('WP_List_Table') ) {
   require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 class Seravo_Domains_List_Table extends WP_List_Table {
-  public $dns;
 
   public function __construct() {
     global $status, $page;
-    $this->dns = new Seravo_Domains_DNS_Table();
 
     // Set parent defaults
     parent::__construct(
       array(
         'singular' => 'domain',
         'plural'   => 'domains',
-        'ajax'     => false,
+        'ajax'     => true,
       )
     );
 
@@ -46,64 +40,56 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     $actions = array();
 
-    /*
-    // Domains managed by Seravo can be added, edited or deleted
-    // if ( $item['management'] === 'Seravo' ) {
-    //     $actions['edit'] = sprintf( $action_request, 'edit', 'Edit');
-    }
-
-    // Domains managed by customers themselves can only be added, viewed or deleted
-    // $actions['delete'] = sprintf( $action_request, 'delete', 'Delete');
-    */
-
     $page = ! empty($_REQUEST['page']) ? $_REQUEST['page'] : 'domains_page';
     $paged_str = ! empty($_REQUEST['paged']) ? '&paged=' . $_REQUEST['paged'] : '';
 
     $action_request = '<a href="?page=' . $page . '&domain=' . $item['domain'] . $paged_str . '&action=%s">%s</a>';
+    $action_disabled = '<a class="action-link-disabled" title="%s">%s</a>';
 
-    $actions['view'] = sprintf($action_request, 'view', __('View', 'seravo'));
-    if ( get_option('seravo-domain-edit') !== 'disabled' ) {
-      $actions['edit'] = sprintf($action_request, 'edit', __('Edit', 'seravo'));
+    $primary_str = '';
+    if ( ! empty($item['primary']) ) {
+      if ( $item['primary'] === getenv('CONTAINER') ) {
+        $primary_str = __('Primary', 'seravo');
+      } else {
+        $primary_str = __('Primary', 'seravo') . '&nbsp(Staging&nbsp' . explode('_', $item['primary'])[1] . ')';
+      }
     }
 
-    $primary_str = ! empty($item['primary']) ? ' — ' . __('Primary Domain', 'seravo') : '';
-
-    switch ( $item['management'] ) {
-      case 'Customer':
-        $action_row_msg = sprintf(
-          // translators:  %1$s is opening tag for a link, %2$s a closing tag.
-          __('DNS not managed by Seravo, see %1$smore details%2$s', 'seravo'),
-          '<a href="https://help.seravo.com/en/docs/18-can-i-use-my-own-dns" target="_blank">',
-          '</a>'
-        );
-        break;
-      case null:
-        $action_row_msg = __("Subdomains don't have their own zone", 'seravo');
-        break;
-      case 'Seravo':
-        $action_row_msg = '';
-        break;
-      default:
-        $action_row_msg = __("This domain doesn't have a zone", 'seravo');
+    if ( $item['subdomain'] ) {
+      $actions['view'] = sprintf($action_disabled, __('Subdomains don\'t have their own zone.', 'seravo'), __('View', 'seravo'));
+      $actions['edit'] = sprintf($action_disabled, __('Subdomains don\'t have their own zone.', 'seravo'), __('Edit', 'seravo'));
+    } else {
+      if ( $item['management'] === 'Seravo' ) {
+        $actions['view'] = sprintf($action_request, 'view', __('View', 'seravo'));
+        if ( get_option('seravo-domain-edit') === 'disabled' ) {
+          $actions['edit'] = sprintf($action_disabled, __('DNS editing is disabled for this site.', 'seravo'), __('Edit', 'seravo'));
+        } else {
+          $actions['edit'] = sprintf($action_request, 'edit', __('Edit', 'seravo'));
+        }
+      } else if ( $item['management'] === 'Customer' ) {
+        $actions['view'] = sprintf($action_disabled, __('DNS not managed by Seravo.', 'seravo'), __('View', 'seravo'));
+        $actions['edit'] = sprintf($action_disabled, __('DNS not managed by Seravo.', 'seravo'), __('Edit', 'seravo'));
+      } else {
+        $actions['view'] = sprintf($action_disabled, __('This domain doesn\'t have a zone.', 'seravo'), __('View', 'seravo'));
+        $actions['edit'] = sprintf($action_disabled, __('This domain doesn\'t have a zone.', 'seravo'), __('Edit', 'seravo'));
+      }
     }
 
     return sprintf(
-      '<strong class="row-title">%1$s<small>%2$s</small></strong> %3$s',
+      '<p class="row-title">%1$s</p><small>%2$s</small> %3$s',
       /*$1%s*/ $item['domain'],
       /*$2%s*/ $primary_str,
-      /*$3%s*/ empty($action_row_msg) ? $this->row_actions($actions) : '<div class="row-actions" style="color:#8e8d8d"><b>' . $action_row_msg . '</b></div>'
+      /*$3%s*/ $this->row_actions($actions)
     );
 
   }
 
-  public function column_cb( $item ) {
-    return sprintf(
-      '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-      // Let's simply repurpose the table's singular label ("domain")
-      /*$1%s*/ $this->_args['singular'],
-      // The value of the checkbox should be the domain name
-      /*$2%s*/ $item['domain']
-    );
+  public function column_expires( $item ) {
+    $expires = $item['expires'];
+    if ( ! empty($expires) ) {
+      $timestamp = date_create_from_format('Y-m-d\TH:i:sO', $expires);
+      return date_format($timestamp, 'Y-m-d H:i O');
+    }
   }
 
   public function column_dns( $item ) {
@@ -116,7 +102,6 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
   public function get_columns() {
     $columns = array(
-      'cb'         => '<input type="checkbox">', // Render a checkbox instead of text
       'domain'     => __('Domain', 'seravo'),
       'expires'    => __('Expires', 'seravo'),
       'dns'        => __('DNS', 'seravo'),
@@ -142,17 +127,6 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     return $actions;
   }
 
-  public function process_bulk_action() {
-    if ( 'delete' === $this->current_action() ) {
-      wp_die('Items deleted (or they would be if we had items to delete)!');
-    } elseif ( 'view' === $this->current_action() ) {
-      $this->dns->records = Seravo_Domains_DNS_Table::fetch_dns_records($_REQUEST['domain']);
-    } elseif ( 'edit' === $this->current_action() ) {
-      // Fetch something to edit
-      $this->dns->records = Seravo_Domains_DNS_Table::fetch_dns_records($_REQUEST['domain']);
-    }
-  }
-
   public function prepare_items() {
     global $wpdb; // This is used only if making any database queries
 
@@ -175,6 +149,16 @@ class Seravo_Domains_List_Table extends WP_List_Table {
       die($data->get_error_message());
     }
 
+    foreach ( $data as $index => $entry ) {
+      if ( empty($entry['management']) ) {
+        // Mark domain as subdomain
+        $data[$index]['subdomain'] = true;
+      } else {
+        $data[$index]['subdomain'] = false;
+      }
+      $data[$index]['management'] = str_replace('Customer', __('Customer', 'seravo'), $data[$index]['management']);
+    }
+
     /**
      * This checks for sorting input and sorts the data in our array accordingly.
      *
@@ -193,7 +177,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
         // Send final sort direction to usort
       return ($order === 'asc') ? $result : -$result;
     }
-    usort($data, array( __CLASS__, 'usort_reorder' ));
+    usort($data, 'usort_reorder');
 
     // Required for pagnation
     $current_page = $this->get_pagenum();
@@ -228,30 +212,33 @@ class Seravo_Domains_List_Table extends WP_List_Table {
   }
 
   public function single_row( $item ) {
-
-    // Print the rows normally
-    echo '<tr>';
+    // Item row
+    echo '<tr data-domain="' . $item['domain'] . '">';
     $this->single_row_columns($item);
     echo '</tr>';
-
-    // If there was a DNS table request for the previously printed domain
-    if ( ! empty($_REQUEST['domain']) && $item['domain'] === $_REQUEST['domain'] && ! is_null($this->dns) ) {
-
-      // Add empty row to keep the row color same as the one above
-      echo '<tr></tr>';
-      echo '<tr><td style="padding-top:0px; padding-bottom:0px;" colspan="' . $this->get_column_count() . '">';
-
-      if ( 'view' === $this->current_action() ) {
-        $this->dns->display();
-      } elseif ( 'edit' === $this->current_action() ) {
-        $this->dns->display_edit();
-      }
-
-      echo '</td></tr>';
-
-    }
+    // Action row
+    echo '<tr class="pre-action-row"><td></td></tr>';
+    echo '<tr class="action-row" style="display:none;"><td class="action-row-data" colspan="4"></td></tr>';
   }
 
+  public function display() {
+    $singular = $this->_args['singular'];
+
+    $this->screen->render_screen_reader_content('heading_list');
+
+    ?>
+    <table class="wp-list-table <?php echo implode(' ', $this->get_table_classes()); ?>">
+      <thead>
+        <tr>
+          <?php $this->print_column_headers(); ?>
+        </tr>
+      </thead>
+      <tbody id="the-list" <?php echo $singular ? "data-wp-lists='list:$singular'" : ''; ?>>
+        <?php $this->display_rows_or_placeholder(); ?>
+      </tbody>
+    </table>
+    <?php
+  }
 }
 
 class Seravo_Mails_Forward_Table extends WP_List_Table {
@@ -362,6 +349,114 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
 
 }
 
+class Seravo_DNS_Table {
+
+  public static function display_zone_table( $domain ) {
+    $records = self::fetch_dns_records($domain);
+
+    if ( empty($records) ) {
+      return;
+    }
+    if ( isset($records['error']) ) {
+      echo '<div><p style="margin-left: 3px;"><b>' . $records['error'] . '</b></p></div>';
+      return;
+    }
+
+    $timestamp = date_create_from_format('Y-m-d\TH:i:s.uO', $records['timestamp']);
+
+    echo '<hr>';
+    echo '<p class="update-time"><b>' . __('Update time:', 'seravo') . ' ' . date_format($timestamp, 'Y-m-d H:i O') . '</b></p>';
+    echo '<div class="dns-wrapper">';
+    echo '<table class="wp-list-table widefat fixed striped" id="zone-table">';
+    echo '<thead>
+      <tr class="zone-titles">
+        <th width="20%">' . __('Name', 'seravo') . '</th>
+        <th width="15%">' . __('TTL', 'seravo') . '</th>
+        <th width="15%"> </th>
+        <th width="20%">' . __('Type', 'seravo') . '</th>
+        <th width="30%">' . __('Value', 'seravo') . '</th>
+      </tr>
+    </thead>';
+    foreach ( $records['records'] as $record ) {
+      echo '<tr>';
+      echo '<td>' . $record['name'] . '</td>
+        <td>' . $record['ttl'] . '</td>
+        <td></td>
+        <td>' . $record['type'] . '</td>
+        <td>' . $record['value'] . '</td>';
+      echo '</tr>';
+    }
+    echo '</table>';
+    echo '</div>';
+    echo '<hr>';
+  }
+
+  public static function display_zone_edit( $domain ) {
+    $records = self::fetch_dns_records($domain);
+
+    if ( empty($records) ) {
+      return;
+    }
+    if ( isset($records['error']) ) {
+      echo '<div><p style="margin-left: 3px;"><b>' . $records['error'] . '</b></p></div>';
+      return;
+    }
+
+    echo '<hr>';
+    if ( ! $error && $records['pending_activation'] ) {
+      echo '<input type="hidden" name="action" value="change_zone_file">';
+      echo '<input type="hidden" name="domain" value="' . $records['name'] . '">';
+      echo '<table id="zone-edit-table">';
+      echo '<tr><td style="padding-bottom: 0px;">';
+      // translators: %s domain of the site
+      echo '<p style="max-width:50%;">' . wp_sprintf(__('Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:', 'seravo'), $records['name']) . '</p>';
+      echo '</td></tr>';
+      echo '<tr><td>';
+      echo '<textarea type="hidden" name="zonefile" style="display: none; font-family: monospace;">' . (implode("\n", $records['compulsory']['records']) . "\n" . implode("\n", $records['editable']['records'])) . '</textarea>';
+      echo '<div id="zone-edit-response"></div/>';
+      echo '<button id="publish-zone-btn" class="button"' . ($error ? ' disabled' : '') . '>' . __('Publish', 'seravo') . '</button>';
+      echo '<div id="zone-update-spinner" style="margin: 4px 10px 0 0"></div>';
+      echo '</td></tr>';
+      echo '</table>';
+    } else {
+      echo '<input type="hidden" name="action" value="change_zone_file">';
+      // If $error is true, show empty / disabled fields
+      echo '<input type="hidden" name="domain" value="' . ($error ? '' : $records['name']) . '">';
+      echo '<table id="zone-edit-table">';
+      echo '<tr><td style="padding-bottom: 0px;">';
+      echo '<h2 style="margin: 0px 0px 5px 0px;">' . __('Compulsory Records', 'seravo') . '</h2>';
+      echo '<p>' . __('It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them.', 'seravo') . '</p>';
+      echo '</td><td style="padding-bottom: 0px;">';
+      echo '<h2 style="margin: 0px 0px 5px 0px;">' . __('Editable records', 'seravo') . '</h2>';
+      echo '<p>' . __('Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated.', 'seravo') . '</p>';
+      echo '</td></tr>';
+
+      echo '<tr><td style="padding:0 0 0 10px;"><div id="zone-fetch-response"><p style="margin:0;"><b>' . ($error ? $records['error'] : '') . '</p></b></div></td></tr>';
+      echo '<tr><td style="width:50%"><textarea name="compulsory" readonly style="width: 100%; font-family: monospace;" rows="15">' . ($error ? '' : implode("\n", $records['compulsory']['records'])) . '</textarea></td>';
+      echo '<td style="width:50%"><textarea name="zonefile" style="width: 100%; font-family: monospace;" rows="15"' . ($error ? ' readonly>' : '>' . implode("\n", $records['editable']['records'])) . '</textarea></td></tr>';
+      echo '<tr><td><div id="zone-edit-response"></div></td><td>';
+      echo '<button id="update-zone-btn" class="button alignright"' . ($error ? ' disabled' : '') . '>' . __('Update Zone', 'seravo') . '</button>';
+      echo '<div id="zone-update-spinner" class="alignright" style="margin: 4px 10px 0 0"></div></td></tr>';
+      echo '</table>';
+    }
+    echo '<hr>';
+
+ }
+
+  public static function fetch_dns_records( $domain ) {
+    $api_query = '/domain/' . $domain . '/zone';
+
+    $records = Seravo\API::get_site_data($api_query);
+
+    if ( is_wp_error($records) ) {
+      $records = array( 'error' => $records->get_error_message() );
+    }
+
+    return $records;
+  }
+
+}
+
 function list_domains() {
   // Fetch list of domains
   $api_query = '/domains';
@@ -398,63 +493,3 @@ function list_domains() {
   }
 }
 
-// Create an instance of our package class
-$domains_table = new Seravo_Domains_List_Table();
-// Fetch, prepare, sort, and filter our data...
-$domains_table->prepare_items();
-
-// Create an instance of mail forwards class
-$forwards_table = new Seravo_Mails_Forward_Table();
-// Fetch, prepare and sort our data...
-$forwards_table->prepare_items();
-
-?>
-<div class="wrap">
-
-  <h1><?php _e('Domains', 'seravo'); ?></h1>
-
-  <p><?php _e('Domains routed to this WordPress site are listed below.', 'seravo'); ?></p>
-
-  <!-- Forms are NOT created automatically, so you need to wrap
-    the table in one to use features like bulk actions -->
-  <form id="domains-filter" method="get">
-    <!-- For plugins, we also need to ensure that the form posts back to our current page -->
-    <input type="hidden" name="page" value="<?php echo htmlspecialchars($_REQUEST['page']); ?>" />
-    <!-- Now we can render the completed list table -->
-    <?php $domains_table->display(); ?>
-  </form>
-
-</div>
-
-<!-- Postbox wrapper -->
-<div id="dashboard-widgets" class="metabox-holder">
-  <div class="postbox-container">
-    <div id="normal-sortables" class="meta-box-sortables ui-sortable">
-      <div class="postbox">
-        <!-- Handle for toggling postbox panel -->
-        <button class="handlediv button-link" type="button" aria-expanded="true">
-          <span class="screen-reader-text">Toggle panel: <?php _e('Mails', 'seravo'); ?></span>
-          <span class="toggle-indicator" aria-hidden="true"></span>
-        </button>
-        <!-- Postbox title -->
-        <h2 class="handle ui-sortable-handle">
-          <span><?php _e('Mails', 'seravo'); ?> (beta)</span>
-        </h2>
-        <div class="inside seravo-mails-postbox">
-          <form action="#" method="get" style="width: 100%; margin-bottom: 10px;">
-            <input type="hidden" name="page" value="<?php echo htmlspecialchars($_REQUEST['page']); ?>"/>
-            <?php list_domains(); ?>
-          </form>
-          <form>
-            <input type="hidden" name="page" value="<?php echo htmlspecialchars($_REQUEST['page']); ?>"/>
-            <?php
-            if ( ! empty(isset($_GET['domain'])) ) {
-              $forwards_table->display();
-            }
-            ?>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>

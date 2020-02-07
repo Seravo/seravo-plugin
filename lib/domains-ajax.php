@@ -18,6 +18,36 @@ function seravo_respond_error_json( $reason = '' ) {
   );
 }
 
+function seravo_get_domains_table() {
+  if ( Seravo\Domains::$domains_table === null ) {
+    Seravo\Domains::$domains_table = new \Seravo_Domains_List_Table();
+  }
+
+  Seravo\Domains::$domains_table->prepare_items();
+  Seravo\Domains::$domains_table->display();
+  wp_die();
+}
+
+function seravo_get_dns_table() {
+  if ( ! isset($_REQUEST['domain']) ) {
+    return;
+    wp_die();
+  }
+
+  Seravo_DNS_Table::display_zone_table($_REQUEST['domain']);
+  wp_die();
+}
+
+function seravo_edit_dns_table() {
+  if ( ! isset($_REQUEST['domain']) ) {
+    return;
+    wp_die();
+  }
+
+  Seravo_DNS_Table::display_zone_edit($_REQUEST['domain']);
+  wp_die();
+}
+
 function seravo_admin_change_zone_file() {
 
   $response = '';
@@ -82,6 +112,18 @@ function seravo_ajax_domains() {
 
     case 'fetch_dns':
       echo seravo_fetch_dns();
+      break;
+
+    case 'get_domains_table':
+      seravo_get_domains_table();
+      break;
+
+    case 'get_dns_table':
+      seravo_get_dns_table();
+      break;
+
+    case 'edit_dns_table':
+      seravo_edit_dns_table();
       break;
 
     default:

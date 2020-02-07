@@ -68,7 +68,7 @@ if ( ! class_exists('SeravoToolbox') ) {
           __('Domains', 'seravo'),
           'manage_options',
           'domains_page',
-          array( Domains::init(), 'load_domains_page' )
+          'Seravo\seravo_wide_column_postboxes_page'
         );
       }
 
