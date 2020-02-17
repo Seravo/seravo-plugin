@@ -61,15 +61,15 @@ if ( ! class_exists('Upkeep') ) {
           'tools_page_upkeep_page',
           'side'
         );
-
-        seravo_add_postbox(
-          'change-php-version',
-          __('Change PHP Version', 'seravo'),
-          array( __CLASS__, 'change_php_version_postbox' ),
-          'tools_page_upkeep_page',
-          'side'
-        );
       }
+
+      seravo_add_postbox(
+        'change-php-version',
+        __('Change PHP Version', 'seravo'),
+        array( __CLASS__, 'change_php_version_postbox' ),
+        'tools_page_upkeep_page',
+        'side'
+      );
 
       seravo_add_postbox(
         'seravo-plugin-updater',
@@ -388,7 +388,7 @@ if ( ! class_exists('Upkeep') ) {
           );
           ?>
         </p>
-        <p id="activation-failed-line" class="hidden"><?php _e('PHP version change failed. Using fallback PHP 5.6.', 'seravo'); ?></p>
+        <p id="activation-failed-line" class="hidden"><?php _e('PHP version change failed.', 'seravo'); ?></p>
       </div>
       <?php
     }

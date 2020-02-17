@@ -75,6 +75,7 @@ if ( ! class_exists('Backups') ) {
         $loc_translation_backups = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),
           'ajax_nonce' => wp_create_nonce('seravo_backups'),
+          'no_entries' => __('No entries were found', 'seravo'),
         );
         wp_localize_script('seravo_backups', 'seravo_backups_loc', $loc_translation_backups);
       }

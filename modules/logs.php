@@ -73,13 +73,6 @@ if ( ! class_exists('Logs') ) {
       // Default log view is the PHP error log as it is the most important one
       $default_logfile = 'php-error.log';
 
-      // Use supplied log name if given
-      if ( isset($_GET['logfile']) ) {
-        $current_logfile = $_GET['logfile'];
-      } else {
-        $current_logfile = $default_logfile;
-      }
-
       $max_num_of_rows = 50;
       if ( isset($_GET['max_num_of_rows']) ) {
           $max_num_of_rows = (int) $_GET['max_num_of_rows'];
@@ -111,7 +104,14 @@ if ( ! class_exists('Logs') ) {
       // Fetch rotated logs for each missing log and append them to $logs
       if ( ! empty($missing_logs) ) {
         foreach ( $missing_logs as $log ) {
-          array_push($logs, implode('', preg_grep('/([0-9]){8}$/', glob('{' . $log . '}-*', GLOB_BRACE))));
+          $found_log = implode('', preg_grep('/([0-9]){8}$/', glob('{' . $log . '}-*', GLOB_BRACE)));
+          if ( ! empty($found_log) ) {
+            if ( $log === '/data/log/' . $default_logfile ) {
+              $found_log_path = explode('/', $found_log);
+              $default_logfile = end($found_log_path);
+            }
+            array_push($logs, $found_log);
+          }
         }
       }
 
@@ -124,6 +124,13 @@ if ( ! class_exists('Logs') ) {
       $logfiles = array();
       foreach ( $logs as $key => $log ) {
         $logfiles[ basename($log) ] = $log;
+      }
+
+      // Use supplied log name if given
+      if ( isset($_GET['logfile']) ) {
+        $current_logfile = $_GET['logfile'];
+      } else {
+        $current_logfile = $default_logfile;
       }
 
       // Set logfile based on supplied log name if it's available

@@ -28,8 +28,8 @@ function seravo_change_php_version() {
     exec('wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &');
   }
 
-  if ( file_exists('/data/wordpress/.git') ) {
-    exec('cd /data/wordpress/ && git add nginx/*.conf && s-git-commit -m "Set new PHP version" && cd /data/wordpress/htdocs/wordpress/wp-admin');
+  if ( is_executable('/usr/local/bin/s-git-commit') && file_exists('/data/wordpress/.git') ) {
+    exec('cd /data/wordpress/ && git add nginx/*.conf && /usr/local/bin/s-git-commit -m "Set new PHP version" && cd /data/wordpress/htdocs/wordpress/wp-admin');
   }
 }
 
@@ -55,7 +55,7 @@ function seravo_plugin_version_check() {
 
 function seravo_plugin_upstream_version() {
   $upstream_version = get_transient('seravo_plugin_upstream_version');
-  if ( $upstream_version === false ) {
+  if ( $upstream_version === false || empty($upstream_version) ) {
     $upstream_version = exec('curl -s https://api.github.com/repos/seravo/seravo-plugin/tags | grep "name" -m 1 | awk \'{gsub("\"","")}; {gsub(",","")}; {print $2}\'');
     set_transient('seravo_plugin_upstream_version', $upstream_version, 10800);
   }

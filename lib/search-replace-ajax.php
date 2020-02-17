@@ -33,13 +33,13 @@ function seravo_search_replace( $from, $to, $options ) {
 
 function seravo_search_replace_set_flags( $options ) {
   $flags = '';
-  if ( $options['dry_run'] === 'true' ) {
+  if ( ! isset($options['dry_run']) || $options['dry_run'] === 'true' ) {
     $flags .= '--dry-run ';
   }
-  if ( $options['all_tables'] === 'true' ) {
+  if ( isset($options['dry_run']) && $options['all_tables'] === 'true' ) {
     $flags .= '--all-tables ';
   }
-  if ( $options['network'] === 'true' ) {
+  if ( isset($options['network']) && $options['network'] === 'true' ) {
     $flags .= '--network ';
   } elseif ( is_multisite() ) {
     $flags .= '--url="' . get_site_url() . '" ';

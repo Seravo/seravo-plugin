@@ -8,8 +8,13 @@ if ( ! defined('ABSPATH') ) {
 // Returns IP, username and time of successful logins.
 // Number of results are limited by $max.
 function seravo_logins_info( $max = 10 ) {
-  // Get the latest logins from wp-login.log
-  $login_data = file('/data/log/wp-login.log');
+  $logfile = dirname(ini_get('error_log')) . '/wp-login.log';
+  if ( is_readable($logfile) ) {
+    // Get the latest logins from wp-login.log
+    $login_data = file($logfile);
+  } else {
+    $login_data = array();
+  }
 
   // If the wp-login.log has less than $max entries check older log files
   if ( count(preg_grep('/SUCCESS/', $login_data)) < $max ) {
@@ -66,6 +71,11 @@ function seravo_logins_info( $max = 10 ) {
 
   // Re-index the array after unsetting failed logins
   $login_data = array_values($login_data);
+
+  if ( empty($login_data) ) {
+    $login_data = array( '<tr><td colspan="4">' . __('No login data', 'seravo') . '</td></tr>' );
+  }
+
   // Adding column titles and table tags
   $column_titles = '<table class="login_info_table"><tr>' .
     '<th class="login_info_th">' . __('IP address', 'seravo') . '</th>' .

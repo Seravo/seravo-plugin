@@ -18,7 +18,11 @@ jQuery(document).ready(function($) {
 
         jQuery('#' + section + '_loading').fadeOut();
         var data = JSON.parse(rawData);
-        jQuery('#' + section).append(data.join("\n"));
+        if ( data.length > 0 ) {
+          jQuery('#' + section).append(data.join("\n"));
+        } else {
+          jQuery('#' + section).append('<p>' + seravo_backups_loc.no_entries + '</p>');
+        }
       }
     ).fail(function () {
       jQuery('#' + section + '_loading').html('Failed to load. Please try again.');

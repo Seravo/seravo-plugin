@@ -48,15 +48,13 @@ if ( ! class_exists('Security') ) {
         'normal'
       );
 
-      if ( getenv('WP_ENV') === 'production' ) {
-        seravo_add_postbox(
-          'logins_info',
-          __('Recent successful logins', 'seravo'),
-          array( __CLASS__, 'logins_info_postbox' ),
-          'tools_page_security_page',
-          'side'
-        );
-      }
+      seravo_add_postbox(
+        'logins_info',
+        __('Recent successful logins', 'seravo'),
+        array( __CLASS__, 'logins_info_postbox' ),
+        'tools_page_security_page',
+        'side'
+      );
 
       seravo_add_postbox(
         'cruft-files',

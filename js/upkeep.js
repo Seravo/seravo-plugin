@@ -4,6 +4,10 @@
 function generateButtons (emails) {
   var html = [];
 
+  if ( ! emails ) {
+    return;
+  }
+
   emails.forEach(function (email) {
     if (email) {
       html.push('<button type="button" class="button button-primary email-button"><span class="email-button-content">' + email + '</span><span class="delete-icon dashicons dashicons-no"></span></button>')
@@ -234,32 +238,53 @@ jQuery(document).ready(function($) {
         'section': 'seravo_change_php_version',
         'nonce': seravo_upkeep_loc.ajax_nonce,
         'version': php_version
-      });
-    setTimeout(function() {
-      jQuery.post(
-        seravo_upkeep_loc.ajaxurl, {
-          'action': 'seravo_ajax_upkeep',
-          'section': 'seravo_php_check_version',
-          'nonce': seravo_upkeep_loc.ajax_nonce,
-          'version': php_version
-        }, function(success) {
-          jQuery("#change-php-version-status").fadeOut(400, function() {
-            if (success) {
-              jQuery("#activated-line").fadeIn(400, function() {
-                jQuery(this).show();
-              });
-            } else {
-              jQuery("#activation-failed-line").fadeIn(400, function() {
-                jQuery(this).show();
-              });
-            }
-          });
+      }
+    );
 
-          jQuery("#seravo-php-version").fadeIn(400, function() {
-            $(this).show();
-          });
+    var changed = false;
+    var attempt = 0, max_attempts = 5;
+    function check_php_version() {
+      setTimeout(function() {
+        jQuery.post(
+          seravo_upkeep_loc.ajaxurl, {
+            'action': 'seravo_ajax_upkeep',
+            'section': 'seravo_php_check_version',
+            'nonce': seravo_upkeep_loc.ajax_nonce,
+            'version': php_version
+          }, function(success) {
+            if (success) {
+              changed = success;
+              attempt = max_attempts;
+            }
+          }
+        ).always(function () {
+          if ( ++attempt < max_attempts ) {
+            check_php_version();
+          } else {
+            show_result();
+          }
         });
-    }, 5000);
+      }, 5000);
+    }
+    check_php_version();
+
+    function show_result() {
+      jQuery("#change-php-version-status").fadeOut(400, function() {
+        if ( changed ) {
+          jQuery("#activated-line").fadeIn(400, function() {
+            jQuery(this).show();
+          });
+        } else {
+          jQuery("#activation-failed-line").fadeIn(400, function() {
+            jQuery(this).show();
+          });
+        }
+      });
+
+      jQuery("#seravo-php-version").fadeIn(400, function() {
+        $(this).show();
+      });
+    }
   }
 
   jQuery.post(
