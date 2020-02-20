@@ -44,6 +44,36 @@ if ( ! class_exists('Helpers') ) {
       return round($size, $precision) . [ 'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' ][ $i ];
     }
 
+    /**
+     * Get IP range limits from CIDR range format. Index 0
+     * is lower limit and index 1 upper limit.
+     *
+     * Example result:
+     *  [0] => 3221250250,
+     *  [1] => 3221254346,
+     *
+     * @param string IPv4 range in CIDR format (eg. xxx.xxx.xxx.xxx/20)
+     * @return array Upper and lower limits in ip2long format.
+     * @version 1.0
+     * @see https://gist.github.com/tott/7684443
+     **/
+    public static function cidr_to_range( $cidr ) {
+      $cidr = explode('/', $cidr);
+      $range = array();
+      $range[0] = (ip2long($cidr[0])) & ((-1 << (32 - (int) $cidr[1])));
+      $range[1] = $range[0] + pow(2, (32 - (int) $cidr[1])) - 1;
+      return $range;
+    }
+
+    public static function ip_in_range( $range, $ip ) {
+      foreach ( $range as $limits ) {
+        if ( $ip >= $limits[0] && $ip <= $limits[1] ) {
+          return true;
+        }
+      }
+      return false;
+    }
+
   }
 
 }

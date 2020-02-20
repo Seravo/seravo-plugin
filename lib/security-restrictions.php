@@ -22,19 +22,13 @@ if ( ! class_exists('Security_Restrictions') ) {
 
     public static function load() {
 
-      if ( get_option('seravo-disable-xml-rpc') ) {
-        /*
-         * When this is active any request like:
-         *   curl -d '<?xml version="1.0"?> <methodCall> <methodName>wp.getUsersBlogs</methodName> \
-         *    <params> <param> <value>username</value> </param> <param> <value>password</value> </param>\
-         *    </params> </methodCall>' https://<siteurl>/xmlrpc.php
-         * will yield 'faultCode 405' and 'XML-RPC is not available'
-         */
-        add_filter('xmlrpc_enabled', '__return_false');
+      add_action('activate_seravo-plugin/seravo-plugin.php', array( __CLASS__, 'maybe_enable_xml_rpc_blocking' ));
 
-        // Disable X-Pingback to header
-        // since when XML-RPC is disabled pingbacks will not work anyway
-        add_filter('wp_headers', array( __CLASS__, 'disable_x_pingback' ));
+      if ( get_option('seravo-disable-xml-rpc') ) {
+
+        // Block XML-RPC and X-pingback if IP not whitelisted
+        add_filter('xmlrpc_enabled', array( __CLASS__, 'maybe_block_xml_rpc' ));
+
       }
 
       if ( get_option('seravo-disable-json-user-enumeration') ) {
@@ -94,6 +88,57 @@ if ( ! class_exists('Security_Restrictions') ) {
         unset($endpoints['/wp/v2/users/(?P<id>[\d]+)']);
       }
       return $endpoints;
+    }
+
+    public static function maybe_enable_xml_rpc_blocking() {
+
+      // Add option used so no existing options will be overridden
+      add_option('seravo-disable-xml-rpc', 'on');
+
+    }
+
+    public function maybe_block_xml_rpc() {
+      $whitelist = self::get_jetpack_whitelist();
+      $whitelist = apply_filters('seravo_xml_rpc_whitelist', $whitelist);
+
+      $ip = ip2long($_SERVER['REMOTE_ADDR']);
+      if ( ! Helpers::ip_in_range($whitelist, $ip) ) {
+        // Disable X-Pingback to header
+        // since when XML-RPC is disabled pingbacks will not work anyway
+        add_filter('wp_headers', array( __CLASS__, 'disable_x_pingback' ));
+
+        /*
+         * When this is active any request like:
+         *  curl -d '<?xml version="1.0"?> <methodCall> <methodName>wp.getUsersBlogs</methodName> \
+         *    <params> <param> <value>username</value> </param> <param> <value>password</value> </param>\
+         *    </params> </methodCall>' https://<siteurl>/xmlrpc.php
+         * will yield 'faultCode 405' and 'XML-RPC is not available'
+         */
+        return false;
+      }
+    }
+
+    public function get_jetpack_whitelist() {
+      $url = 'https://jetpack.com/ips-v4.json';
+      $key = 'jetpack_xml_rpc_whitelist_' . md5($url);
+
+      // Try to fetch data from cache
+      $data = get_transient($key);
+
+      // If cachet data wasn't found, fetch it (otherwise, just use cached data)
+      if ( ($data === false) || count($data) < 1 ) {
+        $whitelist = array();
+        // Retrieve data from API
+        $response = wp_remote_get(esc_url_raw($url));
+        $data = json_decode(wp_remote_retrieve_body($response));
+        foreach ( $data as $ip ) {
+          array_push($whitelist, Helpers::cidr_to_range($ip));
+        }
+        // Cache for 24 hours (DAY_IN_SECONDS)
+        set_transient($key, $whitelist, DAY_IN_SECONDS);
+        return $whitelist;
+      }
+      return $data;
     }
 
   }

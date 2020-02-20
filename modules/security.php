@@ -216,9 +216,10 @@ if ( ! class_exists('Security') ) {
       );
 
       /* Real settings below */
-      add_settings_field(
+      self::add_settings_field_with_desc(
         'seravo-disable-xml-rpc',
         __('Disable XML-RPC', 'seravo'),
+        __('Disabling XML-RPC doesn\'t affect the Jetpack plugin. Jetpack IPs are whitelisted by default.', 'seravo'),
         array( __CLASS__, 'seravo_security_xmlrpc_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -396,6 +397,17 @@ if ( ! class_exists('Security') ) {
       if ( $recursive == 0 ) {
         return true; // when not called recursively
       }
+    }
+
+    public static function add_settings_field_with_desc( $id, $title, $description, $callback, $page, $section = 'default', $args = array() ) {
+      add_settings_field(
+        $id,
+        $title . '<br><i class="seravo_field_description">' . $description . '</i>',
+        $callback,
+        $page,
+        $section,
+        $args
+      );
     }
   }
   Security::load();

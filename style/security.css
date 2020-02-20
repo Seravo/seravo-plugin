@@ -16,3 +16,7 @@
   overflow: hidden;
   white-space: nowrap;
 }
+.seravo_field_description {
+  font-weight: normal;
+  font-size: 0.8em;
+}
