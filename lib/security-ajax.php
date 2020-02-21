@@ -23,6 +23,7 @@ function seravo_logins_info( $max = 10 ) {
       // Merge with the first log file
       $login_data = array_merge(file($login_data2_filename[$login_data2_count]), $login_data);
     }
+    $login_data = preg_grep('/SUCCESS/', $login_data);
 
     // Opening necessary amount of gzipped log files
     // Find the gzip log files
@@ -33,50 +34,43 @@ function seravo_logins_info( $max = 10 ) {
     // Opening gzips and merging to $login_data until enough logins or out of data
     $successful_logins_count = count(preg_grep('/SUCCESS/', $login_data));
     while ( $successful_logins_count < $max && $gz_count >= 0 ) {
-
-      $login_data = array_merge(gzfile($login_data_gz_filename[ $gz_count ]), $login_data);
+      $zipped_data = preg_grep('/SUCCESS/', gzfile($login_data_gz_filename[ $gz_count ]));
+      $login_data = array_merge($zipped_data, $login_data);
       --$gz_count;
     }
   }
 
-  // Remove succesful login lines that exceed $max
-  // Clean up succesful login lines, remove unnecessary characters
-  // Remove failed logins
+  // Limit amount of login lines to $max
+  $login_data = array_slice($login_data, -$max);
+
+  // Clean up login lines, remove unnecessary characters
   $total_row_count = count($login_data);
   for ( $i = 0; $i < $total_row_count; $i++ ) {
-    // Remove succesful login lines that exceed $max. The oldest lines are first.
-    if ( strpos($login_data[ $i ], 'SUCCESS') && count(preg_grep('/SUCCESS/', $login_data)) > $max ) {
-      unset($login_data[ $i ]);
-    } else if ( strpos($login_data[ $i ], 'SUCCESS') ) {
 
-      // Get IP. IP address is in the beginning of log line and ends to " -"
-      $ip = substr($login_data[ $i ], 0, strpos($login_data[ $i ], ' -'));
+    // Get IP. IP address is in the beginning of log line and ends to " -"
+    $ip = substr($login_data[ $i ], 0, strpos($login_data[ $i ], ' -'));
 
-      // Get the username. Username in log files between first "-" and "["
-      $username_start = strpos($login_data[ $i ], '-') + 1;
-      $username = substr($login_data[ $i ], $username_start, strpos($login_data[ $i ], '[') - $username_start);
+    // Get the username. Username in log files between first "-" and "["
+    $username_start = strpos($login_data[ $i ], '-') + 1;
+    $username = substr($login_data[ $i ], $username_start, strpos($login_data[ $i ], '[') - $username_start);
 
-      // Clean up succesful login lines, remove unnecessary characters
-      $login_data[ $i ] = substr($login_data[ $i ], 0, strpos($login_data[ $i ], ' +0000]'));
+    // Clean up succesful login lines, remove unnecessary characters
+    $login_data[ $i ] = substr($login_data[ $i ], 0, strpos($login_data[ $i ], ' +0000]'));
 
-      // Insert table elements to every row
-      // Add tooltip for IP. CSS ellipsis will shorten IP if it doesn't fit the postbox otherwise
-      $login_data[ $i ] = '<tr><td class="ip_tooltip" title="' . $ip . '">' . $login_data[ $i ] . '</td></tr>';
+    // Insert table elements to every row
+    // Add tooltip for IP. CSS ellipsis will shorten IP if it doesn't fit the postbox otherwise
+    $login_data[ $i ] = '<tr><td class="ip_tooltip" title="' . $ip . '">' . $login_data[ $i ] . '</td></tr>';
 
-      // Log file data is in the format: IP - username [ date : time
-      // Insert table elements in place of characters - [ :
+    // Log file data is in the format: IP - username [ date : time
+    // Insert table elements in place of characters - [ :
 
-      // Add username to tooltip. CSS ellipsis will shorten too long usernames
-      $login_data[ $i ] = preg_replace('/ - /', '</td><td><div class="username_tooltip" title="' . $username . '">', $login_data[ $i ], 1);
+    // Add username to tooltip. CSS ellipsis will shorten too long usernames
+    $login_data[ $i ] = preg_replace('/ - /', '</td><td><div class="username_tooltip" title="' . $username . '">', $login_data[ $i ], 1);
 
-      $login_data[ $i ] = preg_replace('/\[/', '</div></td><td>', $login_data[ $i ], 1);
+    $login_data[ $i ] = preg_replace('/\[/', '</div></td><td>', $login_data[ $i ], 1);
 
-      $login_data[ $i ] = preg_replace('/:/', '</td><td>', $login_data[ $i ], 1);
+    $login_data[ $i ] = preg_replace('/:/', '</td><td>', $login_data[ $i ], 1);
 
-    } else {
-      // Remove failed logins
-      unset($login_data[ $i ]);
-    }
   }
   // Re-index the array after unsetting failed logins
   $login_data = array_values($login_data);
@@ -87,6 +81,7 @@ function seravo_logins_info( $max = 10 ) {
     '<th class="login_info_th">' . __('Date', 'seravo') . '</th>' .
     '<th class="login_info_th">' . __('Time', 'seravo') . ' (UTC)</th></tr>';
 
+  $login_data = array_reverse($login_data);
   $login_data = array_merge(array( $column_titles ), $login_data);
   $login_data = array_merge($login_data, array( '</table>' ));
 
