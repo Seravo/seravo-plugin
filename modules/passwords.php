@@ -45,6 +45,10 @@ if ( ! class_exists('Passwords') ) {
         wp_enqueue_style('seravo_passwords');
       } elseif ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
         wp_enqueue_script('seravo_passwords');
+        // Password changing form
+        if ( isset($_GET['action']) && $_GET['action'] === 'rp' ) {
+          wp_enqueue_style('seravo_passwords');
+        }
       }
 
     }

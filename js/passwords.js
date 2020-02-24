@@ -24,5 +24,9 @@
         $submitButton.prop( 'disabled', true );
       }
     });
+    $('#pw-weak').change(function() {
+      var $submitButton = $('#wp-submit');
+      $submitButton.prop( 'disabled', true );
+    });
   });
 })(jQuery);
