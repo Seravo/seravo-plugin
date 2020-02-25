@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // instance[0] = #abc123, instance[1] = abc123
       if (instance && instance[1] && instance[1].length === 6) {
         // Set the cookies, 43200 seconds is 12 hours
-        document.cookie = "wpp_shadow=" + instance[1] + "; Max-Age=43200; Path=/";
         document.cookie = "seravo_shadow=" + instance[1] + "; Max-Age=43200; Path=/";
         // Clear potential old shadow query string
         new_location = new_location.replace(/[a-z]+_shadow=[a-z0-9]+/, '');
@@ -46,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var target = jQuery(this).attr('href');
     if (target === '#exit') {
       // Then using cookies to access shadow, clear them
-      document.cookie = "wpp_shadow=; Max-Age=0; Path=/";
       document.cookie = "seravo_shadow=; Max-Age=0; Path=/";
       // Clear potential old shadow query string
       new_location = new_location.replace(/[a-z]+_shadow=[a-z0-9]+/, '');

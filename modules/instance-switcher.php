@@ -127,7 +127,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
           'id'    => $id,
           'title' => '<span class="ab-icon seravo-instance-switcher-icon"></span>' .
                     '<span class="ab-label seravo-instance-switcher-text">' . __('Now in', 'seravo') . ': ' . $current_title . '</span>',
-          'href'  => ! empty($_COOKIE['wpp_shadow']) ? $current_url . 'wpp_shadow=' . $_COOKIE['wpp_shadow'] : '#',
+          'href'  => ! empty($_COOKIE['seravo_shadow']) ? $current_url . 'seravo_shadow=' . $_COOKIE['seravo_shadow'] : '#',
           'meta'  => [
             'class' => $menuclass,
           ],
