@@ -89,7 +89,7 @@ function seravo_report_git_status() {
 }
 
 function seravo_report_redis_info() {
-  exec('redis-cli info stats | grep keys', $output);
+  exec('redis-cli info stats | grep keys | grep -v slave', $output);
 
   foreach ( $output as $line ) {
     if ( strpos($line, 'keyspace_hits') === 0 ) {
