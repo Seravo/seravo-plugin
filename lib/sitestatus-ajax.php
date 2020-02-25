@@ -89,30 +89,28 @@ function seravo_report_git_status() {
 }
 
 function seravo_report_redis_info() {
-  exec('redis-cli info stats | grep keys | grep -v slave', $output);
+  $redis = new Redis();
+  $redis->connect('127.0.0.1', 6379);
+  $stats = $redis->info('stats');
 
-  foreach ( $output as $line ) {
-    if ( strpos($line, 'keyspace_hits') === 0 ) {
-      $hits = explode(':', $line)[1];
-    } else if ( strpos($line, 'keyspace_misses') === 0 ) {
-      $misses = explode(':', $line)[1];
-    }
-  }
+  $result = [
+    'Expired keys: ' . $stats['expired_keys'],
+    'Evicted keys: ' . $stats['evicted_keys'],
+    'Keyspace hits: ' . $stats['keyspace_hits'],
+    'Keyspace misses: ' . $stats['keyspace_misses'],
+  ];
 
-  $output = str_replace(
-    [ 'expired_keys:', 'evicted_keys:', 'keyspace_hits:', 'keyspace_misses:' ],
-    [ 'Expired keys: ', 'Evicted keys: ', 'Keyspace hits: ', 'Keyspace misses: ' ],
-    $output
-  );
+  $hits = $stats['keyspace_hits'];
+  $misses = $stats['keyspace_misses'];
 
   if ( isset($hits) && isset($misses) ) {
     $total = $hits + $misses;
     if ( $total > 0 ) {
-      array_push($output, 'Keyspace hit rate: ' . round(($hits / $total) * 100) . '%');
+      array_push($result, 'Keyspace hit rate: ' . round(($hits / $total) * 100) . '%');
     }
   }
 
-  return $output;
+  return $result;
 }
 
 function seravo_report_longterm_cache_stats() {
