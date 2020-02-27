@@ -47,31 +47,23 @@ function seravo_logins_info( $max = 10 ) {
   $total_row_count = count($login_data);
   for ( $i = 0; $i < $total_row_count; $i++ ) {
 
-    // Get IP. IP address is in the beginning of log line and ends to " -"
-    $ip = substr($login_data[ $i ], 0, strpos($login_data[ $i ], ' -'));
+    preg_match_all('/^(?<ip>[.0-9]+) - (?<name>\w+) \[(?<datetime>[\d\/\w: +]+)\]/', $login_data[ $i ], $matches);
 
-    // Get the username. Username in log files between first "-" and "["
-    $username_start = strpos($login_data[ $i ], '-') + 1;
-    $username = substr($login_data[ $i ], $username_start, strpos($login_data[ $i ], '[') - $username_start);
+    // If not invalid line
+    if ( isset($matches['ip'][0]) && isset($matches['name'][0]) && isset($matches['datetime'][0]) ) {
+      $datetime = DateTime::createFromFormat('d/M/Y:H:i:s T', $matches['datetime'][0]);
+      $datetime->setTimezone(new DateTimeZone(date('T')));
+      $date = $datetime->format(get_option('date_format'));
+      $time = $datetime->format(get_option('time_format'));
 
-    // Clean up succesful login lines, remove unnecessary characters
-    $login_data[ $i ] = substr($login_data[ $i ], 0, strpos($login_data[ $i ], ' +0000]'));
-
-    // Insert table elements to every row
-    // Add tooltip for IP. CSS ellipsis will shorten IP if it doesn't fit the postbox otherwise
-    $login_data[ $i ] = '<tr><td class="ip_tooltip" title="' . $ip . '">' . $login_data[ $i ] . '</td></tr>';
-
-    // Log file data is in the format: IP - username [ date : time
-    // Insert table elements in place of characters - [ :
-
-    // Add username to tooltip. CSS ellipsis will shorten too long usernames
-    $login_data[ $i ] = preg_replace('/ - /', '</td><td><div class="username_tooltip" title="' . $username . '">', $login_data[ $i ], 1);
-
-    $login_data[ $i ] = preg_replace('/\[/', '</div></td><td>', $login_data[ $i ], 1);
-
-    $login_data[ $i ] = preg_replace('/:/', '</td><td>', $login_data[ $i ], 1);
-
+      $login_data[ $i ] = '<tr>' .
+        '<td class="seravo-tooltip" title="' . $matches['ip'][0] . '">' . $matches['ip'][0] . '</td>' .
+        '<td class="seravo-tooltip" title="' . $matches['name'][0] . '">' . $matches['name'][0] . '</td>' .
+        '<td class="seravo-tooltip" title="' . $date . '">' . $date . '</td>' .
+        '<td class="seravo-tooltip" title="' . $time . '">' . $time . '</td>';
+    }
   }
+
   // Re-index the array after unsetting failed logins
   $login_data = array_values($login_data);
   // Adding column titles and table tags
@@ -79,7 +71,7 @@ function seravo_logins_info( $max = 10 ) {
     '<th class="login_info_th">' . __('IP address', 'seravo') . '</th>' .
     '<th class="login_info_th">' . __('User', 'seravo') . '</th>' .
     '<th class="login_info_th">' . __('Date', 'seravo') . '</th>' .
-    '<th class="login_info_th">' . __('Time', 'seravo') . ' (UTC)</th></tr>';
+    '<th class="login_info_th">' . __('Time', 'seravo') . ' (' . date('T') . ')</th></tr>';
 
   $login_data = array_reverse($login_data);
   $login_data = array_merge(array( $column_titles ), $login_data);

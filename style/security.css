@@ -6,12 +6,7 @@
 .login_info_th {
   text-align: left;
 }
-.ip_tooltip {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-.username_tooltip {
+.seravo-tooltip {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
