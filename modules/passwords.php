@@ -80,7 +80,7 @@ if ( ! class_exists('Passwords') ) {
           // Something went wrong
           error_log("Seravo Plugin couldn't run 'wp-check-haveibeenpwned'!");
           return $redirect_to;
-        } else if ( $result['found'] === false ) {
+        } else if ( $result['found'] !== false ) {
           // Password not pwned
           update_user_meta($user->ID, 'seravo_pwned_check', $time_now);
           return $redirect_to;
@@ -113,7 +113,7 @@ if ( ! class_exists('Passwords') ) {
           <p><?php _e('Automatic password security verification has found that your password has been pwned. Please follow the instructions below!', 'seravo'); ?></p>
           <h3><?php _e('What does this mean?', 'seravo'); ?></h3>
           <?php /* translators: %s: Hash of the users passwor1d. */ ?>
-          <p><?php printf(__('The hash of your password (%s) was found in the pwnedpasswords.com database. Getting your password pwned means your password has been a part of at least one data leak on some 3rd party service. That makes your WordPress account and the accounts on other services using the same password more vulnerable to possible hijackers.', 'seravo'), $hash); ?></p>
+          <p><?php printf(__('The hash of your password (%s) was found in the <a href="https://haveibeenpwned.com" target="_blank">haveibeenpwned.com</a> database. Getting your password pwned means your password has been a part of at least one data leak on some 3rd party service. That makes your WordPress account and the accounts on other services using the same password more vulnerable to possible hijackers.', 'seravo'), $hash); ?></p>
           <h3><?php _e('What actions to take?', 'seravo'); ?></h3>
           <p><?php _e('You should <b>change your password immediadly</b>. You can do that with the button below or by following <a href="https://help.seravo.com/article/29-managing-user-passwords-in-wordpress">these instructions</a>. If you have any issues related to chaging the password, please be in contact with Seravo support at <i>help@seravo.com</i>.', 'seravo'); ?></p>
           <h3><?php _e('How to prevent this in the future?', 'seravo'); ?></h3>
