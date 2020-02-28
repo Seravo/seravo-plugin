@@ -38,6 +38,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       // styles and scripts for the switcher and the banner
       add_action('admin_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
       add_action('wp_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
+      add_action('login_enqueue_scripts', array( 'Seravo\InstanceSwitcher', 'assets' ), 999);
 
       // Check permission
       if ( ! current_user_can(self::custom_capability()) ) {
