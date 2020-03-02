@@ -80,7 +80,7 @@ if ( ! class_exists('Passwords') ) {
           // Something went wrong
           error_log("Seravo Plugin couldn't run 'wp-check-haveibeenpwned'!");
           return $redirect_to;
-        } else if ( $result['found'] !== false ) {
+        } else if ( $result['found'] === false ) {
           // Password not pwned
           update_user_meta($user->ID, 'seravo_pwned_check', $time_now);
           return $redirect_to;
