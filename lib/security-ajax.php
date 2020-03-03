@@ -51,11 +51,10 @@ function seravo_logins_info( $max = 10 ) {
   // Clean up login lines, remove unnecessary characters
   $total_row_count = count($login_data);
   for ( $i = 0; $i < $total_row_count; $i++ ) {
+    preg_match_all('/^(?<ip>[.:0-9a-f]+) - (?<name>[\w\-_.*@ ]+) \[(?<datetime>[\d\/\w: +]+)\]/', $login_data[ $i ], $matches);
 
-    preg_match_all('/^(?<ip>[.0-9]+) - (?<name>\w+) \[(?<datetime>[\d\/\w: +]+)\]/', $login_data[ $i ], $matches);
-
-    // If not invalid line
     if ( isset($matches['ip'][0]) && isset($matches['name'][0]) && isset($matches['datetime'][0]) ) {
+      // If valid line
       $datetime = DateTime::createFromFormat('d/M/Y:H:i:s T', $matches['datetime'][0]);
       $datetime->setTimezone(new DateTimeZone(date('T')));
       $date = $datetime->format(get_option('date_format'));
@@ -66,10 +65,13 @@ function seravo_logins_info( $max = 10 ) {
         '<td class="seravo-tooltip" title="' . $matches['name'][0] . '">' . $matches['name'][0] . '</td>' .
         '<td class="seravo-tooltip" title="' . $date . '">' . $date . '</td>' .
         '<td class="seravo-tooltip" title="' . $time . '">' . $time . '</td>';
+    } else {
+      // If invalid line
+      unset($login_data[ $i ]);
     }
   }
 
-  // Re-index the array after unsetting failed logins
+  // Re-index the array after unsetting invalid lines
   $login_data = array_values($login_data);
 
   if ( empty($login_data) ) {
