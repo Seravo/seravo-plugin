@@ -44,7 +44,6 @@ Seravo's customers can simply run `wp-seravo-plugin-update` to get the latest (t
 * Adds Purge Cache -button in adminbar
 * Automatically shows the shadow instance switcher is there are any shadow instances.
 * Allows to list and reset shadow environments
-* Make urls in content relative for easier migration, but turn relative urls into absolute urls when using feeds (rss,atom...)
 * Finds and suggests cruft files to remove from a site
 * Shows information about the database, table sizes etc
 * Show information about disk usage, server logs, updates, tests etc

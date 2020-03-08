@@ -24,7 +24,7 @@ if ( ! defined('ABSPATH') ) {
  * by adding correct filter into your theme or plugin.
  * For example:
  *
- * add_filter('seravo_use_relative_urls', '__return_false');
+ * add_filter('seravo_show_instance_switcher', '__return_false');
  *
  */
 
@@ -152,14 +152,6 @@ class Loader {
      * Allow automated login for user 'seravotest' if necessary
      */
     require_once dirname(__FILE__) . '/modules/seravotest-auth-bypass.php';
-
-    /*
-     * Use relative urls in post content but absolute urls in feeds
-     * This helps migrating the content between development and production
-     */
-    if ( apply_filters('seravo_use_relative_urls', true) ) {
-      require_once dirname(__FILE__) . '/modules/relative-urls.php';
-    }
 
     /*
      * Log all login attempts, failed or successful. Use no filters, as this should be mandatory
