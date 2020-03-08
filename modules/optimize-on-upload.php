@@ -25,6 +25,12 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
        * and the batch optimization run executes.
        */
       add_filter('image_make_intermediate_size', array( __CLASS__, 'optimize_images_on_upload' ), 10, 1);
+
+      /*
+       * Modify the default jpeg_quality
+       * https://developer.wordpress.org/reference/hooks/jpeg_quality/
+       */
+      add_filter('jpeg_quality', array( __CLASS__, 'jpeg_thumbnail_quality' ), 10, 1);
     }
 
     /**
@@ -41,6 +47,14 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
     public static function optimize_images_on_upload( $filename ) {
       exec('wp-optimize-images ' . $filename . ' &');
       return $filename;
+    }
+
+    /*
+     * Default WordPress JPEG quality is 82, which some find too low.
+     * Override that with 90, which is almost always a high quality level.
+     */
+    public static function jpeg_thumbnail_quality() {
+      return 90;
     }
   }
 
