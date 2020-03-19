@@ -45,7 +45,8 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
      *
      */
     public static function optimize_images_on_upload( $filename ) {
-      exec('wp-optimize-images ' . $filename . ' &');
+      // @TODO: Enable this again once wp-optimize-images works wlll $arrayName = array('' => , );gain
+      // exec('wp-optimize-images ' . $filename . ' &');
       return $filename;
     }
 
