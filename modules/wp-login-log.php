@@ -61,7 +61,7 @@ if ( ! class_exists('LoginLog') ) {
       $time_local = date('j/M/Y:H:i:s O');
       $request = $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'];
       $http_referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-      $http_user_agent = $_SERVER['HTTP_USER_AGENT'];
+      $http_user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 
       // Finally write the log to disk
       $log_directory = dirname(ini_get('error_log'));
