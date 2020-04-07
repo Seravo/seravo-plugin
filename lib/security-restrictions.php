@@ -131,12 +131,17 @@ if ( ! class_exists('Security_Restrictions') ) {
         // Retrieve data from API
         $response = wp_remote_get(esc_url_raw($url));
         $data = json_decode(wp_remote_retrieve_body($response));
-        foreach ( $data as $ip ) {
-          array_push($whitelist, Helpers::cidr_to_range($ip));
+
+        if ( ! empty($data) ) {
+          foreach ( $data as $ip ) {
+            array_push($whitelist, Helpers::cidr_to_range($ip));
+          }
+          // Cache for 24 hours (DAY_IN_SECONDS)
+          set_transient($key, $whitelist, DAY_IN_SECONDS);
+          return $whitelist;
+        } else {
+          return array();
         }
-        // Cache for 24 hours (DAY_IN_SECONDS)
-        set_transient($key, $whitelist, DAY_IN_SECONDS);
-        return $whitelist;
       }
       return $data;
     }
