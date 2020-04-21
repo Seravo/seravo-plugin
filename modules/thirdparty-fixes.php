@@ -32,6 +32,8 @@ if ( ! class_exists('ThirdpartyFixes') ) {
       add_filter('red_save_options', array( $this, 'redirection_options_filter' ), 10, 1);
       add_filter('redirection_default_options', array( $this, 'redirection_options_filter' ), 10, 1);
       add_filter('redirection_save_options', array( $this, 'redirection_options_filter' ), 10, 1);
+
+      self::fix_wpml_caching();
     }
 
     /**
@@ -103,6 +105,16 @@ if ( ! class_exists('ThirdpartyFixes') ) {
       $ip = jetpack_protect_get_ip();
       $whitelist = $this->retrieve_whitelist();
       return in_array($ip, $whitelist);
+    }
+
+    public function fix_wpml_caching() {
+      if ( ! defined('ICL_LANGUAGE_CODE') ) {
+        return;
+      }
+
+      if ( ! defined('WP_CACHE_KEY_SALT') ) {
+        define('WP_CACHE_KEY_SALT', ICL_LANGUAGE_CODE . '-');
+      }
     }
   }
   ThirdpartyFixes::init();
