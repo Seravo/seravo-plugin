@@ -144,19 +144,69 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
     // Fetch list of domains
     $api_query = '/domains';
-    $data = Seravo\API::get_site_data($api_query);
-    if ( is_wp_error($data) ) {
-      die($data->get_error_message());
+    $rawdata = Seravo\API::get_site_data($api_query);
+    if ( is_wp_error($rawdata) ) {
+      die($rawdata->get_error_message());
     }
 
-    foreach ( $data as $index => $entry ) {
-      if ( empty($entry['management']) ) {
-        // Mark domain as subdomain
-        $data[$index]['subdomain'] = true;
-      } else {
-        $data[$index]['subdomain'] = false;
+    $data = array();
+    foreach ( $rawdata as $index => $entry ) {
+      // Check if subdomain
+      $rawdata[$index]['subdomain'] = empty($entry['management']);
+
+      // Try to figure out 'dns' if API couldn't
+      if ( empty($entry['dns']) ) {
+        $transient = 'domain_' . $entry['domain'] . '_ns';
+        $dns = get_transient($transient);
+        if ( empty($dns) ) {
+          // Nameserver weren't cached
+          if ( ! empty($entry['management']) ) {
+            // Get nameservers
+            $nameservers = dns_get_record($entry['domain'], DNS_NS);
+          } else {
+            // Get subdomain nameservers
+            $domain = $entry['domain'];
+            while ( substr_count($domain, '.') >= 1 ) {
+              $nameservers = dns_get_record($domain, DNS_NS);
+              if ( empty($nameservers) ) {
+                $domain = end(explode('.', $domain, 2));
+              } else {
+                break;
+              }
+            }
+          }
+          $dns = array();
+          if ( ! empty($nameservers) ) {
+            foreach ( $nameservers as $ns ) {
+              array_push($dns, $ns['target']);
+            }
+          }
+        }
+        set_transient($transient, $dns, 600);
+        $rawdata[$index]['dns'] = $dns;
       }
-      $data[$index]['management'] = str_replace('Customer', __('Customer', 'seravo'), $data[$index]['management']);
+
+      // Try to figure out 'expires' and 'management' if API couldn't
+      if ( $rawdata[$index]['subdomain'] === true ) {
+        if ( empty($entry['management']) || empty($entry['expires']) ) {
+          $domain = $entry['domain'];
+          while ( substr_count($domain, '.') >= 1 ) {
+            foreach ( $rawdata as $entry_compare ) {
+              if ( ! $entry_compare['subdomain'] && $domain === $entry_compare['domain'] ) {
+                $rawdata[$index]['expires'] = $entry_compare['expires'];
+                $rawdata[$index]['management'] = $entry_compare['management'];
+                break 2;
+              }
+            }
+            $domain = end(explode('.', $domain, 2));
+          }
+        }
+      }
+
+      // Translate management
+      $rawdata[$index]['management'] = str_replace('Customer', __('Customer', 'seravo'), $rawdata[$index]['management']);
+
+      array_push($data, $rawdata[$index]);
     }
 
     /**
