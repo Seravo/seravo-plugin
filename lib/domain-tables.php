@@ -88,7 +88,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     $expires = $item['expires'];
     if ( ! empty($expires) ) {
       $timestamp = date_create_from_format('Y-m-d\TH:i:sO', $expires);
-      return date_format($timestamp, 'Y-m-d H:i O');
+      return date_format($timestamp, get_option('date_format') . ' ' . get_option('time_format'));
     }
   }
 
@@ -362,10 +362,10 @@ class Seravo_DNS_Table {
       return;
     }
 
-    $timestamp = date_create_from_format('Y-m-d\TH:i:s.uO', $records['timestamp']);
+    $timestamp = date_create_from_format('Y-m-d H:i:s T', $records['timestamp']);
 
     echo '<hr>';
-    echo '<p class="update-time"><b>' . __('Update time:', 'seravo') . ' ' . date_format($timestamp, 'Y-m-d H:i O') . '</b></p>';
+    echo '<p class="update-time"><b>' . __('Update time:', 'seravo') . '</b> ' . date_format($timestamp, get_option('date_format') . ' ' . get_option('time_format')) . '</p>';
     echo '<div class="dns-wrapper">';
     echo '<table class="wp-list-table widefat fixed striped" id="zone-table">';
     echo '<thead>
