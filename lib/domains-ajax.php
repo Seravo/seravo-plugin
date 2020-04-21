@@ -34,7 +34,13 @@ function seravo_get_dns_table() {
     wp_die();
   }
 
-  Seravo_DNS_Table::display_zone_table($_REQUEST['domain']);
+  if ( $_REQUEST['section'] === 'get_dns_table' ) {
+    $action = 'zone';
+  } else {
+    $action = 'sniff';
+  }
+
+  Seravo_DNS_Table::display_zone_table($action, $_REQUEST['domain']);
   wp_die();
 }
 
@@ -119,6 +125,7 @@ function seravo_ajax_domains() {
       break;
 
     case 'get_dns_table':
+    case 'sniff_dns_table':
       seravo_get_dns_table();
       break;
 

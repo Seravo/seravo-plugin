@@ -79,6 +79,7 @@ jQuery(document).ready(function($) {
 
       action = action.replace('view', 'get_dns_table');
       action = action.replace('edit', 'edit_dns_table');
+      action = action.replace('sniff', 'sniff_dns_table');
 
       var action_row = $('tr[data-domain="' + domain + '"]').next().next();
       var data_row = $(action_row).find('.action-row-data');

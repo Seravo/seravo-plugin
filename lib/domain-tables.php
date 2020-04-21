@@ -67,7 +67,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
           $actions['edit'] = sprintf($action_request, 'edit', __('Edit', 'seravo'));
         }
       } else if ( $item['management'] === 'Customer' ) {
-        $actions['view'] = sprintf($action_disabled, __('DNS not managed by Seravo.', 'seravo'), __('View', 'seravo'));
+        $actions['view'] = sprintf($action_request, 'sniff', __('View', 'seravo'));
         $actions['edit'] = sprintf($action_disabled, __('DNS not managed by Seravo.', 'seravo'), __('Edit', 'seravo'));
       } else {
         $actions['view'] = sprintf($action_disabled, __('This domain doesn\'t have a zone.', 'seravo'), __('View', 'seravo'));
@@ -351,8 +351,8 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
 
 class Seravo_DNS_Table {
 
-  public static function display_zone_table( $domain ) {
-    $records = self::fetch_dns_records($domain);
+  public static function display_zone_table( $action, $domain ) {
+    $records = self::fetch_dns_records($action, $domain);
 
     if ( empty($records) ) {
       return;
@@ -392,7 +392,7 @@ class Seravo_DNS_Table {
   }
 
   public static function display_zone_edit( $domain ) {
-    $records = self::fetch_dns_records($domain);
+    $records = self::fetch_dns_records('zone', $domain);
 
     if ( empty($records) ) {
       return;
@@ -443,8 +443,8 @@ class Seravo_DNS_Table {
 
  }
 
-  public static function fetch_dns_records( $domain ) {
-    $api_query = '/domain/' . $domain . '/zone';
+  public static function fetch_dns_records( $action, $domain ) {
+    $api_query = '/domain/' . $domain . '/' . $action;
 
     $records = Seravo\API::get_site_data($api_query);
 
