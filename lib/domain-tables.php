@@ -482,9 +482,9 @@ class Seravo_DNS_Table {
       echo '</td></tr>';
 
       echo '<tr><td style="padding:0 0 0 10px;"><div id="zone-fetch-response"><p style="margin:0;"><b>' . ($error ? $records['error'] : '') . '</p></b></div></td></tr>';
-      echo '<tr><td style="width:50%"><textarea name="compulsory" readonly style="width: 100%; font-family: monospace;" rows="15">' . ($error ? '' : implode("\n", $records['compulsory']['records'])) . '</textarea></td>';
-      echo '<td style="width:50%"><textarea name="zonefile" style="width: 100%; font-family: monospace;" rows="15"' . ($error ? ' readonly>' : '>' . implode("\n", $records['editable']['records'])) . '</textarea></td></tr>';
-      echo '<tr><td><div id="zone-edit-response"></div></td><td>';
+      echo '<tr><td style="width:50%;padding-bottom:0;"><textarea name="compulsory" readonly style="width: 100%; font-family: monospace;" rows="15">' . ($error ? '' : implode("\n", $records['compulsory']['records'])) . '</textarea></td>';
+      echo '<td style="width:50%;padding-bottom:0;"><textarea name="zonefile" style="width: 100%; font-family: monospace;" rows="15"' . ($error ? ' readonly>' : '>' . implode("\n", $records['editable']['records'])) . '</textarea></td></tr>';
+      echo '<tr><td></td><td><div id="zone-edit-response"></div></td></tr><tr><td></td><td>';
       echo '<button id="update-zone-btn" class="button alignright"' . ($error ? ' disabled' : '') . '>' . __('Update Zone', 'seravo') . '</button>';
       echo '<div id="zone-update-spinner" class="alignright" style="margin: 4px 10px 0 0"></div></td></tr>';
       echo '</table>';

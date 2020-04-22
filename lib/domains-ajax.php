@@ -78,6 +78,38 @@ function seravo_admin_change_zone_file() {
       return seravo_respond_error_json($response->get_error_message());
       wp_die();
     }
+
+    // Create 'diff' field by combining modified lines with the
+    // the untouched records and remove the duplicate lines
+    $response_decoded = json_decode($response, true);
+    if ( isset($response_decoded['diff']) && strlen($response_decoded['diff']) > 0 ) {
+      $records = Seravo_DNS_Table::fetch_dns_records('zone', $_REQUEST['domain']);
+      if ( ! isset($records['error']) ) {
+        $zone_diff = array();
+        $diff = explode("\n", $response_decoded['diff']);
+        // Go through the diff lines
+        foreach ( $diff as $line ) {
+          // Only lines prefixed with + or - are accepted,
+          // not lines with +++ or ---
+          if ( substr($line, 0, 1) === '+' && substr($line, 1, 1) !== '+' ) {
+            // Find the line matching the modified one and prefix it with '+'
+            foreach ( $records['editable']['records'] as $index => $record ) {
+              if ( $line === '+' . $record ) {
+                $records['editable']['records'][$index] = $line;
+                break;
+              }
+            }
+          } else if ( substr($line, 0, 1) === '-' && substr($line, 1, 1) !== '-' ) {
+            // Removed lines (-) can be added as they are
+            array_push($zone_diff, $line);
+          }
+        }
+        $zone_diff = array_merge($records['editable']['records'], $zone_diff);
+
+        $response_decoded['diff'] = implode("\n", $zone_diff);
+        return json_encode($response_decoded);
+      }
+    }
   } else {
     // 'No data returned'
     return;

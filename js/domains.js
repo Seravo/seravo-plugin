@@ -165,36 +165,66 @@ jQuery(document).ready(function($) {
             }
 
             var response = JSON.parse(rawData);
-            if (response['status'] && response['status'] === 400) {
-              response_div.html("<p><b>" + seravo_domains_loc.zone_update_failed + ":</b></p><p>" + response['reason'] + "</p>");
-              return;
-            }
+            var response_text = '';
+            var response_class = 'success';
 
-            if ( publish_zone_button.length ) {
+            if ( response['status'] && response['status'] !== 200 && response['reason'].length ) {
+              response_text = response['reason'];
+              response_class = 'error';
+            } else if ( publish_zone_button.length ) {
               // Zone was published, show zone edit
               domains_table.show_action_row(domain, 'edit');
               return;
+            } else {
+              var diff = response['diff'];
+              if ( diff != null && diff.length > 0 ) {
+
+                response_text = seravo_domains_loc.zone_update_success;
+                response_class = 'success';
+
+                var diff_html = '<div class="zone-success-wrapper">';
+                diff.split('\n').forEach(line => {
+                  if ( line.startsWith('+') && line.substring(0, 3) !== '+++' ) {
+                    diff_html += '<span style="color:#009900">' + line.replace('+', '+&nbsp;') + '</span><br>';
+                  } else if ( line.startsWith('-') && line.substring(0, 3) !== '---' ) {
+                    diff_html += '<span style="color:#ff3333">' + line.replace('-', '-&nbsp;') + '</span><br>';
+                  } else {
+                    diff_html += '<span>' + line + '</span><br>';
+                  }
+                });
+                diff_html += '</div>';
+
+                $(editable).replaceWith(diff_html);
+              } else {
+                response_text = seravo_domains_loc.update_no_changes;
+                response_class = 'warning';
+              }
             }
-
-            var response_html = "<p><b>" + seravo_domains_loc.zone_update_success + "</b></p>";
-            // Add modifications to response_html as an ordered list
-            var modifications = response['modifications'];
-            if (modifications != null && modifications.length > 0) {
-              response_html += "<p>" + seravo_domains_loc.zone_modifications + "</p><ol>";
-              response_html += "<li>" + modifications.join("</li><li>") + "</li>";
-              response_html += "</ol>";
+            response_text = '<div class="notice notice-' +
+              response_class + ' is-dismissible" ' +
+              'style="margin:0;padding-right:0;"><p>' + response_text;
+            if ( ! $(action_row).find("textarea[name='zonefile']").length ) {
+              response_text += '';
+              response_text += '<button class="continue-button alignright">' + seravo_domains_loc.continue_edit +
+                '<img class="continue-edit-spinner" style="display:none;" src="/wp-admin/images/spinner.gif"></button>';
             }
+            response_text += '</div></p>';
+            response_div.html(response_text);
 
-            response_div.html(response_html);
-
-            // Refresh records for sanitized data
-            domains_table.zone.fetch_zone(domain, action_row);
+            $('.continue-button').click(function () {
+              $('.continue-edit-spinner').show();
+              domains_table.show_action_row(domain, 'edit');
+            });
           }
         ).fail(function (error) {
           editable.prop('readonly', true);
           update_zone_button.attr("disabled", true);
           publish_zone_button.attr("disabled", true);
-          response_div.html('<p><b>' + seravo_domains_loc.zone_update_failed + '</b></p>');
+          response_div.html(
+            '<div class="notice notice-error is-dismissible" style="margin:0;">' +
+            '<p><b>' + seravo_domains_loc.zone_update_failed + '</b></p>' +
+            '</div>'
+          );
         }).always(function () {
           $('.zone-spinner').remove();
         });

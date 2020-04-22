@@ -74,9 +74,10 @@ if ( ! class_exists('Domains') ) {
           'zone_update_no_data' => __('No data returned for the update request.', 'seravo'),
           'zone_update_failed'  => __('The zone update failed!', 'seravo'),
           'zone_update_success' => __('The zone was updated succesfully!', 'seravo'),
-          'zone_modifications'  => __('The following modifications were done for the zone: ', 'seravo'),
           'fetch_no_data'       => __('No data returned for the dns fetch.', 'seravo'),
           'fetch_failed'        => __('DNS fetch failed! Please refresh the page.', 'seravo'),
+          'update_no_changes'   => __('The zone was updated without changes.', 'seravo'),
+          'continue_edit'       => __('Continue'),
         );
 
         wp_localize_script('seravo_domains', 'seravo_domains_loc', $loc_translation_domains);
