@@ -6,7 +6,7 @@ if ( ! defined('ABSPATH') ) {
 
 function seravo_search_replace( $from, $to, $options ) {
   $command = 'wp search-replace ';
-  $output = [];
+  $output = array();
 
   $command .= seravo_search_replace_set_flags($options);
 

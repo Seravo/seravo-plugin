@@ -502,13 +502,13 @@ if ( ! class_exists('Upkeep') ) {
       }
     }
 
-    public static function seravo_admin_image_comparison_slider( $atts = [], $content = null, $tag = 'seravo_admin_image_comparison_slider' ) {
+    public static function seravo_admin_image_comparison_slider( $atts = array(), $content = null, $tag = 'seravo_admin_image_comparison_slider' ) {
 
       // normalize attribute keys, lowercase
       $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
       $img_comp_atts = shortcode_atts(
-        [
+        array(
           'difference'           => '',
           'img_left'             => '',
           'img_right'            => '',
@@ -518,7 +518,7 @@ if ( ! class_exists('Upkeep') ) {
           'desc_right_bg_color'  => 'red',
           'desc_left_txt_color'  => 'white',
           'desc_right_txt_color' => 'white',
-        ],
+        ),
         $atts,
         $tag
       );

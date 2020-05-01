@@ -3,30 +3,29 @@
 # A script for installing PHPCS and necessary sniffs
 ##
 
+# Stop on errors
+set -e
+
 # Configuration for directories and versions
-PHPCS_DIR="${PHPCS_DIR:-"$HOME/phpcs/phpcs"}"
+PHPCS_DIR="${PHPCS_DIR:-"$HOME/.local/bin"}"
 PHPCS_VERSION="${PHPCS_VERSION:-"3.3.2"}"
-WP_SNIFFS_DIR="${WP_SNIFFS_DIR:-"$HOME/phpcs/sniffs/wpcs"}"
+WP_SNIFFS_DIR="${WP_SNIFFS_DIR:-"$HOME/.local/phpcs-sniffs/wpcs"}"
 WP_SNIFFS_VERSION="${WP_SNIFFS_VERSION:-"2.1.0"}"
-SECURITY_SNIFFS_DIR="${SECURITY_SNIFFS_DIR:-"$HOME/phpcs/sniffs/security"}"
-SECURITY_SNIFFS_VERSION="${SECURITY_SNIFFS_VERSION:-"2.0.0"}"
-PHP_COMPAT_SNIFFS_DIR="${PHP_COMPAT_SNIFFS_DIR:-"$HOME/phpcs/sniffs/php-compatibility"}"
-PHP_COMPAT_SNIFFS_VERSION="${PHP_COMPAT_SNIFFS_VERSION:-"9.1.1"}"
+SECURITY_SNIFFS_DIR="${SECURITY_SNIFFS_DIR:-"$HOME/.local/phpcs-sniffs/security"}"
+SECURITY_SNIFFS_VERSION="${SECURITY_SNIFFS_VERSION:-"2.0.1"}"
+PHP_COMPAT_SNIFFS_DIR="${PHP_COMPAT_SNIFFS_DIR:-"$HOME/.local/phpcs-sniffs/php-compatibility"}"
+PHP_COMPAT_SNIFFS_VERSION="${PHP_COMPAT_SNIFFS_VERSION:-"9.3.5"}"
 
 # Install PHPCS
-if [[ ! -d "${PHPCS_DIR}" || "$1" == "-f" ]]; then
+if [ ! -f "${PHPCS_DIR}/phpcs" ] || [ "$1" = "-f" ]
+then
   echo "--> Installing PHPCS..."
   mkdir -p "${PHPCS_DIR}"
-  wget -q "https://github.com/squizlabs/PHP_CodeSniffer/archive/${PHPCS_VERSION}.tar.gz" \
-      -O "${PHPCS_DIR}/${PHPCS_VERSION}.tar.gz"
-
-  # Install PHPCS directly into target dir without the additional PHP_CodeSniffer-... directory
-  tar -xf "${PHPCS_DIR}/${PHPCS_VERSION}.tar.gz" \
-      -C "${PHPCS_DIR}" \
-      --strip-components=1 \
-    && rm "${PHPCS_DIR}/${PHPCS_VERSION}.tar.gz"
+  curl -sSL "https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${PHPCS_VERSION}/phpcs.phar" -o "${PHPCS_DIR}/phpcs"
+  curl -sSL "https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${PHPCS_VERSION}/phpcbf.phar" -o "${PHPCS_DIR}/phpcbf"
+  chmod +x "${PHPCS_DIR}/phpcs" "${PHPCS_DIR}/phpcbf"
 else
-  echo "--> Directory '${PHPCS_DIR}' already exists, aborting installation. If you wish to reinstall, please run the command again with the '-f' option..."
+  echo "--> Binary '${PHPCS_DIR}/phpcs' already exists, aborting installation. If you wish to reinstall, please run the command again with the '-f' option..."
 fi
 
 # Install WordPress Coding Standards
@@ -76,18 +75,12 @@ fi
 
 # Activate sniffs
 echo "--> Activating installed sniffs..."
-"${PHPCS_DIR}/bin/phpcs" --config-set installed_paths "${WP_SNIFFS_DIR},${SECURITY_SNIFFS_DIR},${PHP_COMPAT_SNIFFS_DIR}"
-if $(command -v phpenv); then
+"${PHPCS_DIR}/phpcs" --config-set installed_paths "${WP_SNIFFS_DIR},${SECURITY_SNIFFS_DIR},${PHP_COMPAT_SNIFFS_DIR}"
+if command -v phpenv; then
   phpenv rehash
 fi
 
 # Show installed sniffs
-"${PHPCS_DIR}/bin/phpcs" -i
+"${PHPCS_DIR}/phpcs" -i
 
 echo "Success: PHPCS has been installed to ${PHPCS_DIR}."
-
-# Suggest to add to PATH if it does not exist there
-if [[ ":${PATH}:" != *":${PHPCS_DIR}/bin:"* ]]; then
-  echo ""
-  echo "NOTICE: To run 'phpcs' on your machine, please add the line 'export PATH=\"${PHPCS_DIR}/bin:\$PATH\"' to your ~/.bashrc file.'"
-fi

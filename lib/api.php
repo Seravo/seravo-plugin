@@ -17,7 +17,7 @@ if ( ! class_exists('API') ) {
     /**
     * Get various data from the site API for the current site.
     */
-    public static function get_site_data( $api_query = '', $handled_http_codes = [ 200 ] ) {
+    public static function get_site_data( $api_query = '', $handled_http_codes = array( 200 ) ) {
       $site = getenv('USER');
       $ch = curl_init('http://localhost:8888/v1/site/' . $site . $api_query);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -37,7 +37,7 @@ if ( ! class_exists('API') ) {
       return $data;
     }
 
-    public static function update_site_data( $data, $api_query = '', $handled_http_codes = [ 200 ] ) {
+    public static function update_site_data( $data, $api_query = '', $handled_http_codes = array( 200 ) ) {
       $data_json = json_encode($data);
       $site = getenv('USER');
       $ch = curl_init('http://localhost:8888/v1/site/' . $site . $api_query);

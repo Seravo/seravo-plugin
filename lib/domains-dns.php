@@ -95,7 +95,7 @@ class Seravo_Domains_DNS_Table {
 
   private function records_as_str( $records ) {
     $the_string = '';
-    $keys = [ 'name', 'ttl', 'type', 'value' ];
+    $keys = array( 'name', 'ttl', 'type', 'value' );
     foreach ( $records['records'] as $record ) {
       foreach ( $keys as $k ) {
         $the_string .= $record[ $k ];

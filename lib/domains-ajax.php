@@ -37,7 +37,7 @@ function seravo_admin_change_zone_file() {
     $data_str = str_replace('\\\\"', '\"', $data_str);
     $data = explode("\r\n", $data_str);
 
-    $response = Seravo\API::update_site_data($data, '/domain/' . $_REQUEST['domain'] . '/zone', [ 200, 400 ]);
+    $response = Seravo\API::update_site_data($data, '/domain/' . $_REQUEST['domain'] . '/zone', array( 200, 400 ));
     if ( is_wp_error($response) ) {
       return seravo_respond_error_json($response->get_error_message());
       wp_die();

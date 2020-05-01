@@ -335,7 +335,7 @@ if ( ! class_exists('Logs') ) {
       }
 
       // Start reading
-      $output = [];
+      $output = array();
       $linebuffer = '';
 
       // start with a newline if the last character of the file isn't one
@@ -373,7 +373,7 @@ if ( ! class_exists('Logs') ) {
         $linebuffer = $chunk . $linebuffer;
 
         // see if there are any complete lines in the line buffer
-        $complete_lines = [];
+        $complete_lines = array();
 
         if ( $last_buffer ) {
           // last line is whatever is in the line buffer before the second line

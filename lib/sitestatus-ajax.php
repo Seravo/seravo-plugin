@@ -93,12 +93,12 @@ function seravo_report_redis_info() {
   $redis->connect('127.0.0.1', 6379);
   $stats = $redis->info('stats');
 
-  $result = [
+  $result = array(
     'Expired keys: ' . $stats['expired_keys'],
     'Evicted keys: ' . $stats['evicted_keys'],
     'Keyspace hits: ' . $stats['keyspace_hits'],
     'Keyspace misses: ' . $stats['keyspace_misses'],
-  ];
+  );
 
   $hits = $stats['keyspace_hits'];
   $misses = $stats['keyspace_misses'];
@@ -128,11 +128,11 @@ function seravo_report_longterm_cache_stats() {
         $line = fgets($file);
         if ( strpos($line, '"Seravo" HIT') ) {
           $hit++;
-        } else if ( strpos($line, '"Seravo" MISS') ) {
+        } elseif ( strpos($line, '"Seravo" MISS') ) {
           $miss++;
-        } else if ( strpos($line, '"Seravo" STALE') ) {
+        } elseif ( strpos($line, '"Seravo" STALE') ) {
           $stale++;
-        } else if ( strpos($line, '"Seravo" BYPASS') ) {
+        } elseif ( strpos($line, '"Seravo" BYPASS') ) {
           $bypass++;
         }
       }
@@ -144,23 +144,23 @@ function seravo_report_longterm_cache_stats() {
     $all_misses = 1;
   }
 
-  return [
+  return array(
     'Hits: ' . $hit,
     'Misses: ' . $miss,
     'Stales: ' . $stale,
     'Bypasses: ' . $bypass,
     'Hit rate: ' . round($hit / $all_misses * 100) . '%',
-  ];
+  );
 }
 
 function seravo_report_front_cache_status() {
   exec('wp-check-http-cache ' . get_site_url(), $output);
   array_unshift($output, '$ wp-check-http-cache ' . get_site_url());
 
-  return [
+  return array(
     'success' => strpos(implode("\n", $output), "\nSUCCESS: ") == true,
     'test_result' => $output,
-  ];
+  );
 }
 
 function seravo_reset_shadow() {

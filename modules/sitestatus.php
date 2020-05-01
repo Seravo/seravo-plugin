@@ -376,7 +376,7 @@ if ( ! class_exists('Site_Status') ) {
           <i>production > <span id="shadow-reset-instance">shadow</span></i>
           <p><?php _e('<b>Warning:</b> This will replace everything currently in the <i>/data/wordpress/</i> directory and the database of the shadow with a copy of production site. Be sure to know what you are doing.', 'seravo'); ?></p>
           <form>
-            <input type="hidden" name="shadow-reset-production" value="<?php echo str_replace([ 'https://', 'http://' ], '://', get_home_url()); ?>">
+            <input type="hidden" name="shadow-reset-production" value="<?php echo str_replace(array( 'https://', 'http://' ), '://', get_home_url()); ?>">
             <table id="shadow-rs-table">
               <tr><th colspan="2"><input type="checkbox" name="shadow-reset-sr" disabled><?php _e('Execute search-replace', 'seravo'); ?></th></tr>
               <tr><td>From: </td><td><input type="text" name="shadow-reset-sr-from" disabled></td></tr>

@@ -124,15 +124,15 @@ if ( ! class_exists('InstanceSwitcher') ) {
 
       // create the parent menu here
       $wp_admin_bar->add_menu(
-        [
+        array(
           'id'    => $id,
           'title' => '<span class="ab-icon seravo-instance-switcher-icon"></span>' .
                     '<span class="ab-label seravo-instance-switcher-text">' . __('Now in', 'seravo') . ': ' . $current_title . '</span>',
           'href'  => ! empty($_COOKIE['seravo_shadow']) ? $current_url . 'seravo_shadow=' . $_COOKIE['seravo_shadow'] : '#',
-          'meta'  => [
+          'meta'  => array(
             'class' => $menuclass,
-          ],
-        ]
+          ),
+        )
       );
 
       $instances = self::load_shadow_list();
@@ -158,15 +158,15 @@ if ( ! class_exists('InstanceSwitcher') ) {
             $href = ! empty($primary_domain) ? 'https://' . $primary_domain : '#' . substr($instance['name'], -6);
 
             $wp_admin_bar->add_menu(
-              [
+              array(
                 'parent' => $id,
                 'title'  => $title,
                 'id'     => $instance['name'],
                 'href'   => $href,
-                'meta'   => [
+                'meta'   => array(
                   'class' => 'shadow-link',
-                ],
-              ]
+                ),
+              )
             );
 
           }
@@ -179,15 +179,15 @@ if ( ! class_exists('InstanceSwitcher') ) {
         $exit_href = ! empty($domain) ? 'https://' . $domain : '#exit';
 
         $wp_admin_bar->add_menu(
-          [
+          array(
             'parent' => $id,
             'title'  => __('Exit Shadow', 'seravo'),
             'id'     => 'exit-shadow',
             'href'   => $exit_href,
-            'meta'   => [
+            'meta'   => array(
               'class' => 'shadow-exit',
-            ],
-          ]
+            ),
+          )
         );
       }
 

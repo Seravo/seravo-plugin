@@ -5,15 +5,17 @@ php:
   - '5.6'
   - '7.0'
   - '7.2'
-  - '7.3'
   - '7.4'
-  - nightly
+  - 'nightly'
 
 jobs:
   include:
-    # Arbitrary PHP version to run the sniffs against.
+    # Latest stable PHP version to run the sniffs against
     - php: '7.3'
       env: SNIFF=1
+    # Next PHP version with latest version of all sniffs for early detection of things that deprecate
+    - php: '7.4'
+      env: SNIFF=1 PHPCS_VERSION=master WP_SNIFFS_VERSION=master SECURITY_SNIFFS_VERSION=master PHP_COMPAT_SNIFFS_VERSION=master
     - name: Gnitpick
       language: python
       services: # none
@@ -22,31 +24,17 @@ jobs:
       script:
       - python3 ./gnitpick.py
   allow_failures:
-  - php: nightly  # Old phpunit not compatible with PHP 8.0.0 yet
+    - php: nightly
+    - env: SNIFF=1 PHPCS_VERSION=master WP_SNIFFS_VERSION=master SECURITY_SNIFFS_VERSION=master PHP_COMPAT_SNIFFS_VERSION=master
 
 install:
-  # Set the target directories and versions for PHP_CodeSniffer, WP Coding Standards and PHPCS Security Audit.
-  - if [[ "$SNIFF" == "1" ]]; then export PHPCS_DIR=/tmp/phpcs; export PHPCS_VERSION=3.3.2; fi
-  - if [[ "$SNIFF" == "1" ]]; then export WP_SNIFFS_DIR=/tmp/wp-sniffs; export WP_SNIFFS_VERSION=2.1.0; fi
-  - if [[ "$SNIFF" == "1" ]]; then export SECURITY_SNIFFS_DIR=/tmp/security-sniffs; export SECURITY_SNIFFS_VERSION=2.0.0; fi
-  - if [[ "$SNIFF" == "1" ]]; then export PHP_COMPATIBILITY_SNIFFS_DIR=/tmp/compatibility-sniffs; export PHP_COMPATIBILITY_SNIFFS_VERSION=9.1.1; fi
-  # Install PHP_CodeSniffer.
-  - if [[ "$SNIFF" == "1" ]]; then wget https://github.com/squizlabs/PHP_CodeSniffer/archive/$PHPCS_VERSION.tar.gz -O $PHPCS_VERSION.tar.gz && tar -xf $PHPCS_VERSION.tar.gz && mv PHP_CodeSniffer-$PHPCS_VERSION $PHPCS_DIR; fi
-  # Install WordPress Coding Standards.
-  - if [[ "$SNIFF" == "1" ]]; then wget https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/archive/$WP_SNIFFS_VERSION.tar.gz -O $WP_SNIFFS_VERSION.tar.gz && tar -xf $WP_SNIFFS_VERSION.tar.gz && mv WordPress-Coding-Standards-$WP_SNIFFS_VERSION $WP_SNIFFS_DIR; fi
-  # Install PHPCS Security Audit.
-  - if [[ "$SNIFF" == "1" ]]; then wget https://github.com/FloeDesignTechnologies/phpcs-security-audit/archive/$SECURITY_SNIFFS_VERSION.tar.gz -O $SECURITY_SNIFFS_VERSION.tar.gz && tar -xf $SECURITY_SNIFFS_VERSION.tar.gz && mv phpcs-security-audit-$SECURITY_SNIFFS_VERSION $SECURITY_SNIFFS_DIR; fi
-  # Install PHP Compatibility.
-  - if [[ "$SNIFF" == "1" ]]; then wget https://github.com/PHPCompatibility/PHPCompatibility/archive/$PHP_COMPATIBILITY_SNIFFS_VERSION.tar.gz -O $PHP_COMPATIBILITY_SNIFFS_VERSION.tar.gz && tar -xf $PHP_COMPATIBILITY_SNIFFS_VERSION.tar.gz && mv PHPCompatibility-$PHP_COMPATIBILITY_SNIFFS_VERSION $PHP_COMPATIBILITY_SNIFFS_DIR; fi
-  # Set install path for sniffs.
-  - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/bin/phpcs --config-set installed_paths $WP_SNIFFS_DIR,$SECURITY_SNIFFS_DIR,$PHP_COMPATIBILITY_SNIFFS_DIR; fi
-  # Show installed sniffs
-  - if [[ "$SNIFF" == "1" ]]; then ${PHPCS_DIR}/bin/phpcs -i; fi
-  # After CodeSniffer install you should refresh your path.
-  - if [[ "$SNIFF" == "1" ]]; then phpenv rehash; fi
+  # Install PHP CodeSniffer, WP Coding Standards and PHPCS Security Audit
+  - if [ -n "$SNIFF" ]; then scripts/install-phpcs.sh; fi
 
 script:
-  # Syntax check all php files and fail for any error text in STDERR
+  # Syntax check all PHP files and fail for any error text in STDERR
   - '! find . -type f -name "*.php" -exec php -d error_reporting=32767 -l {} \; 2>&1 >&- | grep "^"'
-  # More extensive PHP Style Check
-  - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/bin/phpcs -i; $PHPCS_DIR/bin/phpcs -ns --standard=phpcs.xml; fi
+  # Style and security check using PHP CheckSniffer
+  - if [ -n "$SNIFF" ]; then $HOME/.local/bin/phpcs -i; $HOME/.local/bin/phpcs -ns; fi
+  # Run code and test functionality
+  #- phpunit --verbose # @TODO: Write PHP unit tests
