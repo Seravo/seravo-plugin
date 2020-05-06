@@ -306,7 +306,7 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
       array(
         'singular' => 'mail-forward',
         'plural'   => 'mail-forwards',
-        'ajax'     => false,
+        'ajax'     => true,
       )
     );
   }
@@ -319,60 +319,54 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
 
   public function get_columns() {
     $columns = array(
-      'cb'           => '<input type="checkbox">', // Render a checkbox instead of text
-      'source'       => __('Source', 'seravo'),
-      'destinations' => __('Destinations', 'seravo'),
+      'domain'       => __('Domain', 'seravo'),
+      'source'       => __('Forwards', 'seravo'),
     );
     return $columns;
   }
 
-  public function column_default( $item, $column_name ) {
-    switch ( $column_name ) {
-      case 'source':
-      case 'destionations':
-        return $item[ $column_name ];
-      default:
-        return print_r($item, true); // Show the whole array for troubleshooting purposes
-    }
-  }
-
   public function get_sortable_columns() {
-    return array( 'source' => array( 'source', false ) );     // true means it's already sorted
+    return array( 'domain' => array( 'domain', false ) );     // true means it's already sorted
   }
 
-  public function column_cb( $item ) {
+  public function column_domain( $item ) {
+    $page = ! empty($_REQUEST['page']) ? $_REQUEST['page'] : 'domains_page';
+    $view = '<a href="?page=' . $page . '&domain=' . $item['domain'] . '&action=fetch_forwards">' . __('Fetch', 'seravo') . '</a>';
+    $edit = '<a href="?page=' . $page . '&domain=' . $item['domain'] . '&action=create_forward">' . __('Create', 'seravo') . '</a>';
+
     return sprintf(
-      '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-      // Let's simply repurpose the table's singular label ("domain")
-      /*$1%s*/ $this->_args['singular'],
-      // The value of the checkbox should be the source
-      /*$2%s*/ $item['source']
+      '<p>%s</p>%s',
+      $item['domain'],
+      $this->row_actions(
+        [
+          'view' => $view,
+          'edit' => $edit,
+        ]
+      )
     );
-  }
 
-  public function column_source( $item ) {
-    return '<b>' . $item['source'] . '@' . $_GET['domain'] . '</b>';
-  }
-
-  public function column_destinations( $item ) {
-    return implode('<br>', $item['destinations']);
   }
 
   public function prepare_items() {
-    // The url we want to get the mail data for
-    if ( ! empty($_GET['domain']) ) {
-      $url = $_GET['domain'];
-    } else {
-      return;
+
+    // Fetch list of domains
+    $api_query = '/domains';
+    $rawdata = Seravo\API::get_site_data($api_query);
+    if ( is_wp_error($rawdata) ) {
+      die($rawdata->get_error_message());
     }
 
-    // Fetch the mail data
-    $api_query = '/domain/' . $url . '/mailforwards';
-    $fetch_data = Seravo\API::get_site_data($api_query);
-    if ( is_wp_error($fetch_data) ) {
-      die($fetch_data->get_error_message());
+    $data = array();
+    foreach ( $rawdata as $domain ) {
+      if ( $domain['management'] === 'Seravo' ) {
+        array_push(
+          $data,
+          [
+            'domain' => $domain['domain'],
+          ]
+        );
+      }
     }
-    $data = $fetch_data['forwards'];
 
     // Define column headers
     $columns = $this->get_columns();
@@ -380,17 +374,9 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
     $sortable = $this->get_sortable_columns();
     $this->_column_headers = array( $columns, $hidden, $sortable );
 
-    /**
-     * This checks for sorting input and sorts the data in our array accordingly.
-     *
-     * In a real-world situation involving a database, you would probably want
-     * to handle sorting by passing the 'orderby' and 'order' values directly
-     * to a custom query. The returned data will be pre-sorted, and this array
-     * sorting technique would be unnecessary.
-     */
-    function usort_reorder_mail( $a, $b ) {
+    function usort_reorder_domains( $a, $b ) {
       // If no sort, default to domain name
-      $orderby = (! empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'source';
+      $orderby = (! empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'domain';
       // If no order, default to asc
       $order = (! empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc';
       // Determine sort order
@@ -398,10 +384,36 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
       // Send final sort direction to usort
       return ($order === 'asc') ? $result : -$result;
     }
-    usort($data, 'usort_reorder_mail');
+    usort($data, 'usort_reorder_domains');
 
     $this->items = $data;
 
+  }
+
+  public function single_row( $item ) {
+    // Item row
+    echo '<tr data-forwards="' . $item['domain'] . '">';
+    $this->single_row_columns($item);
+    echo '</tr>';
+  }
+
+  public function display() {
+    $singular = $this->_args['singular'];
+
+    $this->screen->render_screen_reader_content('heading_list');
+
+    ?>
+    <table class="wp-list-table <?php echo implode(' ', $this->get_table_classes()); ?>">
+      <thead>
+      <tr>
+        <?php $this->print_column_headers(); ?>
+      </tr>
+      </thead>
+      <tbody id="the-list" <?php echo $singular ? "data-wp-lists='list:$singular'" : ''; ?>>
+      <?php $this->display_rows_or_placeholder(); ?>
+      </tbody>
+    </table>
+    <?php
   }
 
 }
@@ -514,40 +526,3 @@ class Seravo_DNS_Table {
   }
 
 }
-
-function list_domains() {
-  // Fetch list of domains
-  $api_query = '/domains';
-  $data = Seravo\API::get_site_data($api_query);
-  if ( is_wp_error($data) ) {
-    die($data->get_error_message());
-  }
-
-  // Parse valid domains
-  $valid_data = array();
-  foreach ( $data as $row ) {
-    if ( $row['management'] == 'Seravo' || $row['management'] == 'Customer' ) {
-      array_push($valid_data, $row);
-    }
-  }
-
-  // Reorder domains
-  function domain_reorder( $a, $b ) {
-    return strcmp($a['domain'], $b['domain']);
-  }
-  usort($valid_data, 'domain_reorder');
-
-  // Render the list
-  if ( ! empty($valid_data) ) {
-    echo '<input type="submit" value="' . __('Fetch Forwards', 'seravo') . '" class="button" style="float: right; margin-left: 15px;">';
-    echo '<div style="width: auto; overflow-x: hidden; padding-right: 5px;"><select name="domain" style="width: 100%;">';
-    foreach ( $valid_data as $row ) {
-      $domain = ! empty($_GET['domain']) ? $_GET['domain'] : '';
-      printf('<option value="%1$s" %2$s>%1$s</option>', $row['domain'], $domain == $row['domain'] ? 'selected' : '');
-    }
-    echo '</select></div>';
-  } else {
-    echo __('No valid domains were found!', 'seravo');
-  }
-}
-

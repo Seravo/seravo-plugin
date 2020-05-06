@@ -24,6 +24,31 @@ function seravo_get_domains_table() {
   wp_die();
 }
 
+function seravo_get_forwards_table() {
+  if ( Seravo\Domains::$mails_table === null ) {
+    Seravo\Domains::$mails_table = new \Seravo_Mails_Forward_Table();
+  }
+
+  Seravo\Domains::$mails_table->prepare_items();
+  Seravo\Domains::$mails_table->display();
+  wp_die();
+}
+
+function seravo_get_forwards() {
+  if ( ! isset($_REQUEST['domain']) ) {
+    return;
+    wp_die();
+  }
+
+  $response = Seravo\API::get_site_data('/domain/' . $_REQUEST['domain'] . '/mailforwards');
+  if ( is_wp_error($response) ) {
+    return seravo_respond_error_json($response->get_error_message());
+    wp_die();
+  }
+
+  return json_encode($response);
+}
+
 function seravo_get_dns_table() {
   if ( ! isset($_REQUEST['domain']) ) {
     return;
@@ -152,6 +177,125 @@ function seravo_set_primary_domain() {
 
 }
 
+function seravo_edit_forwards() {
+
+  if ( isset($_REQUEST['domain']) && ! empty($_REQUEST['domain']) ) {
+
+    $domain = $_REQUEST['domain'];
+    $old_source = isset($_REQUEST['old_source']) ? $_REQUEST['old_source'] : '';
+    $new_source = isset($_REQUEST['new_source']) ? $_REQUEST['new_source'] : '';
+    $destinations = isset($_REQUEST['destinations']) ? explode("\n", $_REQUEST['destinations']) : '';
+
+    function create_forward( $domain, $source, $destinations ) {
+      if ( empty($source) || empty($destinations) ) {
+        return seravo_respond_error_json(__('All fields are required!', 'seravo'));
+      }
+
+      // Parse invalid destinations
+      $destinations_parsed = array();
+      foreach ( $destinations as $key => $destination ) {
+        if ( strpos($destination, '@') > 0 && strpos($destination, '.') > 0 ) {
+          array_push($destinations_parsed, trim($destination));
+        } else if ( empty($destination) ) {
+          unset($destinations[$key]);
+        }
+      }
+
+      $endpoint = '/domain/' . $domain . '/mailforwards';
+      $forwards = array(
+        'source' => $source,
+        'destinations' => $destinations_parsed,
+      );
+
+      $response = Seravo\API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
+      if ( is_wp_error($response) ) {
+        return seravo_respond_error_json($response->get_error_message());
+        wp_die();
+      }
+
+      // Make sure it actually was added
+      $response_json = json_decode($response, true);
+      foreach ( $response_json['forwards'] as $forward ) {
+        if ( $forward['source'] === $source ) {
+          if ( empty(array_diff($destinations, $forward['destinations'])) ) {
+            return json_encode(
+              array(
+                'status' => 200,
+                // translators: %s is an email address
+                'message' => sprintf(__('Forwards for %s have been set', 'seravo'), $source . '@' . $domain),
+              )
+            );
+          } else {
+            break;
+          }
+        }
+      }
+
+      return json_encode(
+        array(
+          'status' => 200,
+          'message' => sprintf(__('Some of the changes weren\'t made', 'seravo'), $source . '@' . $domain),
+        )
+      );
+    }
+
+    function delete_forward( $domain, $source ) {
+      $endpoint = '/domain/' . $domain . '/mailforwards';
+      $forwards = array(
+        'source' => $source,
+        'destinations' => array(),
+      );
+
+      $response = Seravo\API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
+      if ( is_wp_error($response) ) {
+        return seravo_respond_error_json($response->get_error_message());
+        wp_die();
+      }
+
+      return json_encode(
+        array(
+          'status' => 200,
+          'message' => __('The forwards were deleted', 'seravo'),
+        )
+      );
+    }
+
+    if ( $old_source === '' && $new_source !== '' && ! empty($destinations) ) {
+      // Create a new source (or replace)
+      return create_forward($domain, $new_source, $destinations);
+    } else if ( $old_source !== '' && $new_source === '' && empty($destinations) ) {
+      // Delete a source
+      return delete_forward($domain, $old_source);
+    } else if ( $old_source !== '' && $new_source !== '' ) {
+      // Edit an existing source
+      if ( $old_source === $new_source ) {
+        // Don't modify the source
+        return create_forward($domain, $old_source, $destinations);
+      } else {
+         // Modify the source by creating a new one and deleting the old one
+        $new = json_decode(create_forward($domain, $new_source, $destinations), true);
+        if ( isset($new['status']) && $new['status'] === 200 ) {
+          $old = json_decode(delete_forward($domain, $old_source), true);
+          if ( isset($old['status']) && $old['status'] === 200 ) {
+            return json_encode(
+              array(
+                'status' => 200,
+                'message' => __('The forwards were modified', 'seravo'),
+              )
+            );
+          } else {
+            return seravo_respond_error_json(__('Something went wrong, the old source couldn\'t be removed.', 'seravo'));
+          }
+        } else {
+          return seravo_respond_error_json(__('Something went wrong, the forwards couln\'t be modified.', 'seravo'));
+        }
+      }
+    }
+  }
+  // 'No data returned'
+  return;
+}
+
 function seravo_ajax_domains() {
 
   check_ajax_referer('seravo_domains', 'nonce');
@@ -180,6 +324,18 @@ function seravo_ajax_domains() {
 
     case 'set_primary_domain':
       echo seravo_set_primary_domain();
+      break;
+
+    case 'get_forwards_table':
+      seravo_get_forwards_table();
+      break;
+
+    case 'fetch_forwards':
+      echo seravo_get_forwards();
+      break;
+
+    case 'edit_forward':
+      echo seravo_edit_forwards();
       break;
 
     default:
