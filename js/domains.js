@@ -36,7 +36,7 @@ jQuery(document).ready(function($) {
 
     init: function () {
 
-      $(".sort-spinner, .action-spinner").remove();
+      $("#domains-table-spinner .sort-spinner, #domains-table-spinner .action-spinner").remove();
 
       $('#domains-table-wrapper .manage-column.sortable a, #domains-table-wrapper .manage-column.sorted a').click(function (e) {
         e.preventDefault();
@@ -325,8 +325,307 @@ jQuery(document).ready(function($) {
 
     }
 
-  }
+  };
+
+  var forwards_table = {
+
+    query: {
+      'orderby': 'domain',
+      'order': 'asc',
+    },
+
+    display: function () {
+
+      jQuery.get(seravo_domains_loc.ajaxurl, {
+          'action': 'seravo_ajax_domains',
+          'section': 'get_forwards_table',
+          'nonce': seravo_domains_loc.ajax_nonce,
+          'orderby': forwards_table.query.orderby,
+          'order': forwards_table.query.order,
+        },
+
+        function (rawData) {
+          if (rawData !== '0' && rawData.length > 0) {
+            jQuery("#forwards-table-wrapper").html(rawData);
+            forwards_table.init();
+          } else {
+            jQuery("#forwards-table-spinner").html('<b>' + seravo_domains_loc.domains_load_failed + '</b>');
+          }
+        }
+      ).fail(function () {
+        jQuery("#forwards-table-spinner").html('<b>' + seravo_domains_loc.domains_load_failed + '</b>');
+      });
+
+    },
+
+    init: function () {
+
+      $('#forwards-table-wrapper .toggle-row').click(function(e) {
+        e.preventDefault();
+        $(this).closest("tr").toggleClass("is-expanded");
+      });
+
+      $('#forwards-table-wrapper .manage-column.sortable a, #forwards-table-wrapper .manage-column.sorted a').click(function (e) {
+        e.preventDefault();
+
+        var orderby = $(e.target).closest('th').attr('id');
+        var order = $(e.target).closest('th').hasClass('desc') ? 'asc' : 'desc';
+
+        $(e.target).closest('a').append('<img class="sort-spinner" src="/wp-admin/images/spinner.gif">');
+        forwards_table.sort(orderby, order);
+      });
+
+      $('#forwards-table-wrapper span.view a').click(function (e) {
+        e.preventDefault();
+
+        $(e.target).closest('.row-actions').find('.action-spinner').remove();
+        $(e.target).closest('.row-actions').append('<img class="action-spinner" src="/wp-admin/images/spinner.gif">');
+
+        forwards_table.fetch($(e.target).closest('tr').data('forwards'));
+      });
+
+      $('#forwards-table-wrapper span.edit a').click(function (e) {
+        e.preventDefault();
+
+        $(e.target).closest('.row-actions').find('.action-spinner').remove();
+
+        var domain = $(e.target).closest('tr').data('forwards');
+        var html = '<table class="forward">' + forwards_table.create_edit_table(domain, '', '', 'Create') + '</table>';
+        forwards_table.set_forwards($(e.target).closest('tr').data('forwards'), html);
+      });
+
+    },
+
+    sort: function (orderby, order) {
+
+      forwards_table.query = {
+        orderby: orderby,
+        order: order,
+      };
+
+      forwards_table.display();
+
+    },
+
+    fetch: function(domain, edit_source = null) {
+
+      if ( edit_source !== null ) {
+        edit_source = edit_source.toString();
+      }
+
+      jQuery.get(seravo_domains_loc.ajaxurl, {
+          'action': 'seravo_ajax_domains',
+          'section': 'fetch_forwards',
+          'nonce': seravo_domains_loc.ajax_nonce,
+          'domain': domain,
+        },
+
+        function (rawData) {
+          if (rawData !== '0' && rawData.length > 0) {
+            var data = JSON.parse(rawData);
+
+            // Check for errors
+            if (  data['status'] !== 200 || ! ( 'forwards' in data ) ) {
+              forwards_table.set_forwards(domain, data['reason']);
+            } else {
+              if ( data['forwards'].length ) {
+                var html = '<table class="forward">';
+
+                data['forwards'].forEach(function(forward) {
+
+                  if (edit_source === forward['source']) {
+
+                    var destinations = '';
+                    forward['destinations'].forEach(function (destination) {
+                      destinations += destination + "\n";
+                    });
+
+                    html += forwards_table.create_edit_table(domain, forward['source'], destinations, 'Update');
+
+                  } else {
+
+                    var destinations = '<tr><td>';
+                    forward['destinations'].forEach(function (destination) {
+                      if (destination.length > 37) {
+                        destination = destination.substring(0, 37);
+                        destination += '...';
+                      }
+                      destinations += destination + '<br>';
+                    });
+                    destinations += '</td></tr>';
+
+                    html += '<tr><td><u><b>' + forward['source'] + '@' + domain + '</b></u> =></td></tr>'
+                      + '<tr><td class="forward-actions" data-domain="' + domain + '" data-source="' + forward['source'] + '">'
+                      + '<a href="#" class="edit" style="margin-right:10px;">Edit</a> '
+                      + '<span><a href="#" class="delete" >Delete</a>'
+                      + '<img class="delete-spinner hidden" src="/wp-admin/images/spinner.gif">'
+                      + '<span></td></tr>'
+                      + destinations;
+
+                  }
+
+                });
+
+                html += '</table>';
+                forwards_table.set_forwards(domain, html);
+              } else {
+                forwards_table.set_forwards(domain, seravo_domains_loc.forwards_none);
+              }
+
+            }
+
+          } else {
+            forwards_table.set_forwards(domain, '<b>' + seravo_domains_loc.forwards_failed + '</b>');
+          }
+
+          $("[data-forwards='" + domain + "']").find('.row-actions').find('.action-spinner').remove();
+        }
+      ).fail(function () {
+        $("[data-forwards='" + domain + "']").find('.row-actions').find('.action-spinner').remove();
+      });
+
+    },
+
+    create_edit_table(domain, source, destinations, action) {
+
+      return '<tr><td>' + ( source !== '' ? '<hr>' : '') + '<form name="source-edit-' + domain + '"><table><tr><td><u><b>'
+        + '<input type="hidden" name="domain" value="' + domain + '"></input>'
+        + '<input type="hidden" name="original-source" value="' + source + '"></input>'
+        + '<input type="text" name="source" value="' + source + '" placeholder="' + ( source === '' ? 'source' : '') + '" class="source-edit"></input>'
+        + '@' + domain + '</b></u> =></td></tr>'
+        + '<tr><td><textarea name="destinations" class="destination-edit" placeholder="'
+        + ( destinations === '' ? 'target1@example.com' : '' ) + '">' + destinations + '</textarea>'
+        + '<p class="edit-message hidden"></p></td></tr>'
+        + '<tr><td><input type="submit" class="button source-edit-btn" value="' + action + '"></input>'
+        + '<img class="edit-spinner hidden" src="/wp-admin/images/spinner.gif"></td/></tr>'
+        + '</table></form>' + ( source !== '' ? '<hr>' : '') + '</td></tr>';
+
+    },
+
+    set_forwards: function(domain, forwards) {
+
+      $("[data-forwards='" + domain + "']").find("[data-colname='Forwards']").html(forwards);
+
+      $('.forward-actions .edit').click(function(e) {
+        e.preventDefault();
+
+        var domain = $(e.target).parent().data('domain');
+        var source = $(e.target).parent().data('source');
+
+        forwards_table.fetch(domain, source);
+      });
+
+      $('.forward-actions .delete').click(function(e) {
+        e.preventDefault();
+
+        var domain = $(e.target).closest('td').data('domain');
+        var source = $(e.target).closest('td').data('source');
+
+        $(e.target).siblings('.delete-spinner').removeClass('hidden');
+
+        forwards_table.delete_forwards(domain, source);
+      });
+
+      $('form[name="source-edit-' + domain + '"] .source-edit-btn').click(function(e) {
+        e.preventDefault();
+
+        var $edit_form = $(e.target).closest('form');
+        if ( $edit_form.length ) {
+          var domain = $edit_form.find('input[name=domain]').val();
+          var source = $edit_form.find('input[name=original-source]').val();
+          var new_source = $edit_form.find('input[name=source]').val();
+          var destinations = $edit_form.find('textarea[name=destinations]').val();
+
+          destinations = destinations.replace(/^\s*[\r\n]/gm, '');
+          $edit_form.find('textarea[name=destinations]').val(destinations);
+
+          forwards_table.edit_forward($edit_form, domain, source, new_source, destinations);
+        }
+      });
+
+    },
+
+    delete_forwards: function(domain, source) {
+
+      jQuery.post(seravo_domains_loc.ajaxurl, {
+          'action': 'seravo_ajax_domains',
+          'section': 'edit_forward',
+          'nonce': seravo_domains_loc.ajax_nonce,
+          'domain': domain,
+          'old_source': source,
+        },
+
+        function (rawData) {
+          if (rawData !== '0' && rawData.length > 0) {
+            var data = JSON.parse(rawData);
+
+            if ( data['status'] !== 200 || ! ('message' in data) ) {
+              forwards_table.set_forwards(domain, seravo_domains_loc.forwards_edit_fail);
+            } else {
+              forwards_table.fetch(domain);
+            }
+          } else {
+            forwards_table.set_forwards(domain, seravo_domains_loc.forwards_edit_fail);
+          }
+        });
+
+    },
+
+    edit_forward: function($edit_form, domain, old_source, new_source, destinations) {
+
+      if ( new_source === '' ) {
+        $edit_form.find('.edit-message').removeClass('hidden');
+        $edit_form.find('.edit-message').html(seravo_domains_loc.forwards_no_source);
+        return;
+      } else {
+        $edit_form.find('.edit-spinner').removeClass('hidden');
+        $edit_form.find('.edit-message').addClass('hidden');
+      }
+
+      jQuery.post(seravo_domains_loc.ajaxurl, {
+          'action': 'seravo_ajax_domains',
+          'section': 'edit_forward',
+          'nonce': seravo_domains_loc.ajax_nonce,
+          'domain': domain,
+          'old_source': old_source,
+          'new_source': new_source,
+          'destinations': destinations,
+        },
+
+        function (rawData) {
+
+          if (rawData !== '0' && rawData.length > 0) {
+            var data = JSON.parse(rawData);
+
+            if ( data['status'] !== 200 || ! ('message' in data) ) {
+              var error = 'reason' in data ? data['reason'] : seravo_domains_loc.forwards_edit_fail;
+              $edit_form.find('.edit-message').removeClass('hidden');
+              $edit_form.find('.edit-message').html(error)
+            } else {
+              if ( old_source === '' ) {
+                // Creating new forwards
+                $edit_form.find('.edit-message').removeClass('hidden');
+                $edit_form.find('.edit-message').html(data['message'])
+                // Clear the form
+                $edit_form.find('input[name=original-source]').val('');
+                $edit_form.find('input[name=source]').val('');
+                $edit_form.find('textarea[name=destinations]').val('');
+              } else {
+                 forwards_table.fetch(domain);
+              }
+            }
+          } else {
+            forwards_table.set_forwards(domain, seravo_domains_loc.forwards_edit_fail);
+          }
+
+          $edit_form.find('.edit-spinner').addClass('hidden');
+        });
+
+    },
+
+  };
 
   domains_table.display();
+  forwards_table.display();
 
 });

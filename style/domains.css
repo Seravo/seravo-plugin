@@ -1,3 +1,5 @@
+/** Domains postbox */
+
 @media only screen and (min-width: 1500px) {
   #wpbody-content #dashboard-widgets .postbox-container {
     width: 100%;
@@ -8,7 +10,7 @@
   margin-bottom: 15px !important;
 }
 
-.domains {
+.domains, .mail-forwards {
   border: none !important;
   margin-top: 50px;
 }
@@ -143,4 +145,74 @@ tr.zone-titles > th {
   top: 0;
   background-color: #ededed;
   font-weight: bold;
+}
+
+/** Mails postbox */
+
+.mail-table {
+  padding: 5px 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mail-table-col {
+  min-width: 500px;
+  flex-grow: 1;
+  flex-basis: 0;
+  margin: 10px 10px 20px 10px;
+}
+
+.mail-forwards .forward td {
+  padding: 10px 5px 0 0;
+}
+
+.mail-forwards #domain {
+  width: 35%;
+}
+
+.mail-forwards .forward-actions a {
+  margin-right: 5px;
+}
+
+.mail-forwards .forward-actions {
+  line-height: 2px;
+  font-size: 11px;
+}
+
+.mail-forwards .source-edit {
+  line-height: 15px;
+  font-size: 13px;
+  width: 150px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid grey;
+  border-radius: 0;
+  min-height: 0;
+  background-color: transparent;
+}
+
+.mail-forwards .source-edit:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.mail-forwards .destination-edit {
+  width: 250px;
+  min-height: 100px;
+  overflow: auto;
+}
+
+.mail-forwards .edit-spinner {
+  position: relative;
+  top: 5px;
+  margin-left: 5px;
+}
+
+.mail-forwards .edit-message {
+  font-weight: bold;
+  margin: 10px 0 0 0;
+}
+
+.mail-forwards .delete-spinner {
+  width: 9px;
 }
