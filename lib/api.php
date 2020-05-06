@@ -37,12 +37,12 @@ if ( ! class_exists('API') ) {
       return $data;
     }
 
-    public static function update_site_data( $data, $api_query = '', $handled_http_codes = array( 200 ) ) {
+    public static function update_site_data( $data, $api_query = '', $handled_http_codes = array( 200 ), $method = 'PUT' ) {
       $data_json = json_encode($data);
       $site = getenv('USER');
       $ch = curl_init('http://localhost:8888/v1/site/' . $site . $api_query);
 
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt(
         $ch,

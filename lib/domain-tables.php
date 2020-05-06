@@ -75,6 +75,13 @@ class Seravo_Domains_List_Table extends WP_List_Table {
       }
     }
 
+    if ( empty($item['primary']) ) {
+      $actions['primary'] = sprintf($action_request, 'primary', __('Make Primary (experimental)', 'seravo'));
+
+    } else {
+      $actions['primary'] = sprintf($action_disabled, __('This domain is already a primary domain.', 'seravo'), __('Make Primary', 'seravo'));
+    }
+
     return sprintf(
       '<p class="row-title">%1$s</p><small>%2$s</small> %3$s',
       /*$1%s*/ $item['domain'],

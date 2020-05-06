@@ -48,7 +48,7 @@ jQuery(document).ready(function($) {
         domains_table.sort(orderby, order);
       });
 
-      $('#domains-table-wrapper span.view a, #domains-table-wrapper span.edit a').click(function (e) {
+      $('#domains-table-wrapper span.view a, #domains-table-wrapper span.edit a, #domains-table-wrapper span.primary a').click(function (e) {
         if ( ! $(e.target).hasClass('action-link-disabled') ) {
           e.preventDefault();
 
@@ -56,9 +56,17 @@ jQuery(document).ready(function($) {
           var domain = params.get('domain');
           var action = params.get('action');
 
-          $('#domains-table-wrapper .action-spinner').remove();
-          $(e.target).closest('.row-actions').append('<img class="action-spinner" src="/wp-admin/images/spinner.gif">');
-          domains_table.show_action_row(domain, action);
+          if ( action === 'primary' ) {
+            tb_show('Primary domain confirmation', '#TB_inline?width=600&height=120&inlineId=domains-table-primary-modal');
+            $('#primary-domain-cancel').click(tb_remove);
+            $('#primary-domain-proceed').click(function() {
+              domains_table.make_primary(domain);
+            })
+          } else {
+            $('#domains-table-wrapper .action-spinner').remove();
+            $(e.target).closest('.row-actions').append('<img class="action-spinner" src="/wp-admin/images/spinner.gif">');
+            domains_table.show_action_row(domain, action);
+          }
         }
       });
 
@@ -124,6 +132,39 @@ jQuery(document).ready(function($) {
       update_zone_button.add(publish_zone_button).click(function(e) {
         e.preventDefault();
         domains_table.zone.edit_zone(domain, action_row);
+      });
+
+    },
+
+    make_primary: function (domain) {
+
+      $('#primary-domain-proceed, #primary-domain-cancel').prop('disabled', true);
+      $('#primary-modal-text').html(
+        '<img class="primary-spinner" src="/wp-admin/images/spinner.gif">' +
+        seravo_domains_loc.changing_primary
+      );
+
+      jQuery.post(seravo_domains_loc.ajaxurl, {
+          'action': 'seravo_ajax_domains',
+          'section': 'set_primary_domain',
+          'nonce': seravo_domains_loc.ajax_nonce,
+          'domain': domain,
+        },
+        function(data) {
+          if ( data.length === 0 ) {
+            $('#primary-modal-text').html(seravo_domains_loc.primary_failed);
+            return;
+          }
+
+          var response = JSON.parse(data);
+          if ( response['search-replace'] ) {
+            location.replace(location.href.replace(location.hostname, domain));
+          } else {
+            $('#primary-modal-text').html(seravo_domains_loc.primary_no_sr);
+          }
+        }
+      ).fail(function (error) {
+        $('#primary-modal-text').html(seravo_domains_loc.primary_failed);
       });
 
     },

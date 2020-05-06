@@ -114,6 +114,21 @@ p.row-title {
   margin: 2px 0 0 5px;
 }
 
+#primary-domain-cancel, #primary-domain-proceed {
+  float: right;
+  margin-top: 10px;
+}
+
+#primary-domain-cancel {
+  margin-right: 10px;
+}
+
+.primary-spinner {
+  position: relative;
+  top: 5px;
+  margin-right: 5px;
+}
+
 @media screen and (max-width: 782px) {
   .action-row, .action-row td {
     display: table-cell !important;

@@ -139,6 +139,23 @@ function seravo_fetch_dns() {
 
 }
 
+function seravo_set_primary_domain() {
+  if ( isset($_REQUEST['domain']) ) {
+    $response = Seravo\API::update_site_data(array( 'domain' => $_REQUEST['domain'] ), '/primary_domain', [ 200 ], 'POST');
+    if ( is_wp_error($response) ) {
+      return seravo_respond_error_json($response->get_error_message());
+      wp_die();
+    }
+    return $response;
+  }
+
+  // 'No data returned'
+  return;
+
+  wp_die();
+
+}
+
 function seravo_ajax_domains() {
 
   check_ajax_referer('seravo_domains', 'nonce');
@@ -163,6 +180,10 @@ function seravo_ajax_domains() {
 
     case 'edit_dns_table':
       seravo_edit_dns_table();
+      break;
+
+    case 'set_primary_domain':
+      echo seravo_set_primary_domain();
       break;
 
     default:
