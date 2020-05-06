@@ -129,7 +129,7 @@ if ( ! class_exists('Security_Restrictions') ) {
       if ( ($data === false) || count($data) < 1 ) {
         $whitelist = array();
         // Retrieve data from API
-        $response = wp_remote_get(esc_url_raw($url));
+        $response = wp_remote_get(esc_url_raw($url), array( 'user-agent' => 'Seravo/1.0; https://seravo.com' ));
         $data = json_decode(wp_remote_retrieve_body($response));
 
         if ( ! empty($data) ) {
