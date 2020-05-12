@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 
           data.forEach( function(month) {
             if (month.hasOwnProperty('date')) {
-              var bar_size = month.requests / max_requests;
+              var bar_size = month.requests / max_requests * 100;
               if ( bar_size <= 10 ) {
                 var bar_css = 'auto';
               } else {
@@ -46,9 +46,9 @@ jQuery(document).ready(function($) {
                 month.date +
                 ' </a> </td> <td><div style="background: #44A1CB; color: #fff; padding: 3px; width: ' +
                 bar_css +
-                '; display: inline-block;">' +
+                '; display: inline-block;"><div style="white-space: nowrap;">' +
                 month.requests +
-                '</div></td> <td><a href="?report=-' +
+                '</div></div></td> <td><a href="?report=-' +
                 month.date +
                 '.html" target="_blank" class="button hideMobile">' +
                 seravo_site_status_loc.view_report +
