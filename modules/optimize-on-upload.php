@@ -15,7 +15,6 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
   class OptimizeImagesOnUpload {
 
     public static function load() {
-
       /*
        * Run optimizer for all thumbnail sizes. Don't use 'handle_upload' as it
        * fires too early and applies only to the original image. Instead hooking
@@ -45,8 +44,19 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
      *
      */
     public static function optimize_images_on_upload( $filename ) {
-      // @TODO: Enable this again once wp-optimize-images works wlll $arrayName = array('' => , );gain
-      // exec('wp-optimize-images ' . $filename . ' &');
+      $max_width = get_option('seravo-image-max-resolution-width');
+      $max_height = get_option('seravo-image-max-resolution-height');
+
+      // Include --enable and max dimensions so that wp-optimize-images does not
+      // need to invoke 'wp get option' itself and thus save ~1500 ms per image
+      exec(
+        'wp-optimize-images --enable ' .
+        '--set-max-resolution-width=' . intval($max_width) . ' ' .
+        '--set-max-resolution-height=' . intval($max_height) . ' ' .
+        '"' . $filename . '"  > /dev/null &'
+      );
+      // Redirect output AND background command so that PHP execution proceeds
+      // and does not wait for command in exec to complete
       return $filename;
     }
 
@@ -60,7 +70,7 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
   }
 
   // Only load if image optimization is enabled
-  if ( get_option('seravo-enable-optimize-images') == 'on' ) {
+  if ( get_option('seravo-enable-optimize-images') === 'on' ) {
     OptimizeImagesOnUpload::load();
   }
 }
