@@ -5,10 +5,6 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists('Seravo_Domains_DNS_Table') ) {
-  require_once dirname(__FILE__) . '/domains-dns.php';
-}
-
 function seravo_respond_error_json( $reason = '' ) {
   return json_encode(
     array(
