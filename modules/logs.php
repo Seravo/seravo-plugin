@@ -94,6 +94,7 @@ if ( ! class_exists('Logs') ) {
         '/data/log/update.log',
         '/data/log/wp-login.log',
         '/data/log/wp-theme-security.log',
+        '/data/log/wp-settings.log',
       );
       // Skip runit.log and bootstrap.log and other logs that are not relevant
       // for customers and only list the ones a UI user might be interested in.
