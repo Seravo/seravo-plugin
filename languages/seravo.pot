@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Seravo Plugin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.9.15\n"
+"Project-Id-Version: Seravo Plugin 1.9.17\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-03-02T13:11:33+02:00\n"
+"POT-Creation-Date: 2020-05-27T14:33:42+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -39,66 +39,170 @@ msgstr ""
 msgid "API call failed. Aborting. The error has been logged."
 msgstr ""
 
+#: lib/domain-tables.php:52
+#: lib/domain-tables.php:54
+msgid "Primary"
+msgstr ""
+
+#: lib/domain-tables.php:59
+#: lib/domain-tables.php:60
+msgid "Subdomains don't have their own zone."
+msgstr ""
+
+#: lib/domain-tables.php:59
+#: lib/domain-tables.php:63
+#: lib/domain-tables.php:70
+#: lib/domain-tables.php:73
+#: lib/domains-page.php:64
+msgid "View"
+msgstr ""
+
+#: lib/domain-tables.php:60
+#: lib/domain-tables.php:65
+#: lib/domain-tables.php:67
+#: lib/domain-tables.php:71
+#: lib/domain-tables.php:74
+#: lib/domains-page.php:66
+msgid "Edit"
+msgstr ""
+
+#: lib/domain-tables.php:65
+msgid "DNS editing is disabled for this site."
+msgstr ""
+
+#: lib/domain-tables.php:71
+msgid "DNS not managed by Seravo."
+msgstr ""
+
+#: lib/domain-tables.php:73
+#: lib/domain-tables.php:74
+msgid "This domain doesn't have a zone."
+msgstr ""
+
+#: lib/domain-tables.php:79
+msgid "Make Primary (experimental)"
+msgstr ""
+
+#: lib/domain-tables.php:82
+msgid "This domain is already a primary domain."
+msgstr ""
+
+#: lib/domain-tables.php:82
+msgid "Make Primary"
+msgstr ""
+
+#: lib/domain-tables.php:112
+#: lib/domains-page.php:120
+#: modules/sitestatus.php:344
+msgid "Domain"
+msgstr ""
+
+#: lib/domain-tables.php:113
+#: lib/domains-page.php:121
+msgid "Expires"
+msgstr ""
+
+#: lib/domain-tables.php:114
+#: lib/domains-page.php:122
+msgid "DNS"
+msgstr ""
+
+#: lib/domain-tables.php:115
+#: lib/domains-page.php:123
+msgid "Managed by"
+msgstr ""
+
+#: lib/domain-tables.php:214
+msgid "Customer"
+msgstr ""
+
+#: lib/domain-tables.php:323
+#: lib/domains-page.php:279
+msgid "Source"
+msgstr ""
+
+#: lib/domain-tables.php:324
+#: lib/domains-page.php:280
+msgid "Destinations"
+msgstr ""
+
+#: lib/domain-tables.php:425
+msgid "Update time:"
+msgstr ""
+
+#: lib/domain-tables.php:430
+#: lib/domains-dns.php:26
+#: modules/sitestatus.php:319
+msgid "Name"
+msgstr ""
+
+#: lib/domain-tables.php:431
+#: lib/domains-dns.php:27
+msgid "TTL"
+msgstr ""
+
+#: lib/domain-tables.php:433
+#: lib/domains-dns.php:29
+msgid "Type"
+msgstr ""
+
+#: lib/domain-tables.php:434
+#: lib/domains-dns.php:30
+msgid "Value"
+msgstr ""
+
+#. translators: %s domain of the site
+#: lib/domain-tables.php:469
+#: lib/domains-dns.php:58
+msgid "Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:"
+msgstr ""
+
+#: lib/domain-tables.php:474
+#: lib/domains-dns.php:63
+msgid "Publish"
+msgstr ""
+
+#: lib/domain-tables.php:484
+#: lib/domains-dns.php:78
+msgid "Compulsory Records"
+msgstr ""
+
+#: lib/domain-tables.php:485
+#: lib/domains-dns.php:79
+msgid "It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them."
+msgstr ""
+
+#: lib/domain-tables.php:487
+#: lib/domains-dns.php:81
+msgid "Editable records"
+msgstr ""
+
+#: lib/domain-tables.php:488
+#: lib/domains-dns.php:82
+msgid "Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated."
+msgstr ""
+
+#: lib/domain-tables.php:495
+#: lib/domains-dns.php:89
+msgid "Update Zone"
+msgstr ""
+
+#: lib/domain-tables.php:541
+#: lib/domains-page.php:389
+msgid "Fetch Forwards"
+msgstr ""
+
+#: lib/domain-tables.php:549
+#: lib/domains-page.php:397
+msgid "No valid domains were found!"
+msgstr ""
+
 #: lib/domains-dns.php:23
 msgid "Zone for: "
 msgstr ""
 
 #: lib/domains-dns.php:23
 msgid "updated: "
-msgstr ""
-
-#: lib/domains-dns.php:26
-#: modules/sitestatus.php:319
-msgid "Name"
-msgstr ""
-
-#: lib/domains-dns.php:27
-msgid "TTL"
-msgstr ""
-
-#: lib/domains-dns.php:29
-msgid "Type"
-msgstr ""
-
-#: lib/domains-dns.php:30
-msgid "Value"
-msgstr ""
-
-#. translators: %s domain of the site
-#: lib/domains-dns.php:58
-msgid "Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:"
-msgstr ""
-
-#: lib/domains-dns.php:63
-msgid "Publish"
-msgstr ""
-
-#: lib/domains-dns.php:78
-msgid "Compulsory Records"
-msgstr ""
-
-#: lib/domains-dns.php:79
-msgid "It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them."
-msgstr ""
-
-#: lib/domains-dns.php:81
-msgid "Editable records"
-msgstr ""
-
-#: lib/domains-dns.php:82
-msgid "Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated."
-msgstr ""
-
-#: lib/domains-dns.php:89
-msgid "Update Zone"
-msgstr ""
-
-#: lib/domains-page.php:64
-msgid "View"
-msgstr ""
-
-#: lib/domains-page.php:66
-msgid "Edit"
 msgstr ""
 
 #: lib/domains-page.php:69
@@ -118,71 +222,41 @@ msgstr ""
 msgid "This domain doesn't have a zone"
 msgstr ""
 
-#: lib/domains-page.php:120
-#: modules/sitestatus.php:344
-msgid "Domain"
-msgstr ""
-
-#: lib/domains-page.php:121
-msgid "Expires"
-msgstr ""
-
-#: lib/domains-page.php:122
-msgid "DNS"
-msgstr ""
-
-#: lib/domains-page.php:123
-msgid "Managed by"
-msgstr ""
-
-#: lib/domains-page.php:279
-msgid "Source"
-msgstr ""
-
-#: lib/domains-page.php:280
-msgid "Destinations"
-msgstr ""
-
-#: lib/domains-page.php:389
-msgid "Fetch Forwards"
-msgstr ""
-
-#: lib/domains-page.php:397
-msgid "No valid domains were found!"
-msgstr ""
-
 #: lib/domains-page.php:414
+#: modules/domains.php:44
 #: modules/toolbox.php:67
 #: modules/toolbox.php:68
 msgid "Domains"
 msgstr ""
 
 #: lib/domains-page.php:416
+#: modules/domains.php:95
 msgid "Domains routed to this WordPress site are listed below."
 msgstr ""
 
 #: lib/domains-page.php:436
 #: lib/domains-page.php:441
+#: modules/domains.php:52
 msgid "Mails"
 msgstr ""
 
-#: lib/security-ajax.php:76
+#: lib/security-ajax.php:78
 msgid "No login data"
 msgstr ""
 
-#: lib/security-ajax.php:81
+#: lib/security-ajax.php:83
 msgid "IP address"
 msgstr ""
 
-#: lib/security-ajax.php:82
+#: lib/security-ajax.php:84
 msgid "User"
 msgstr ""
 
-#: lib/security-ajax.php:83
+#: lib/security-ajax.php:85
 msgid "Date"
 msgstr ""
 
-#: lib/security-ajax.php:84
+#: lib/security-ajax.php:86
 msgid "Time"
 msgstr ""
 
@@ -191,7 +265,7 @@ msgid "Drag boxes here"
 msgstr ""
 
 #. translators: %s: Togglable postbox title
-#: lib/seravo-postbox.php:275
+#: lib/seravo-postbox.php:287
 msgid "Toggle panel: %s"
 msgstr ""
 
@@ -326,16 +400,56 @@ msgstr ""
 msgid "Run wp search-replace"
 msgstr ""
 
-#: modules/domains.php:52
-msgid "The zone update failed"
+#: modules/domains.php:74
+msgid "Domains couldn't be loaded."
 msgstr ""
 
-#: modules/domains.php:53
+#: modules/domains.php:75
+msgid "Couldn't fetch the section"
+msgstr ""
+
+#: modules/domains.php:76
+msgid "No data returned for the update request."
+msgstr ""
+
+#: modules/domains.php:77
+msgid "The zone update failed!"
+msgstr ""
+
+#: modules/domains.php:78
 msgid "The zone was updated succesfully!"
 msgstr ""
 
-#: modules/domains.php:54
-msgid "The following modifications were done for the zone: "
+#: modules/domains.php:79
+msgid "No data returned for the dns fetch."
+msgstr ""
+
+#: modules/domains.php:80
+msgid "DNS fetch failed! Please refresh the page."
+msgstr ""
+
+#: modules/domains.php:81
+msgid "The zone was updated without changes."
+msgstr ""
+
+#: modules/domains.php:82
+msgid "Changing the primary domain..."
+msgstr ""
+
+#: modules/domains.php:99
+msgid "Loading domains..."
+msgstr ""
+
+#: modules/domains.php:103
+msgid "Are you sure you want to change the primary domain?"
+msgstr ""
+
+#: modules/domains.php:105
+msgid "Proceed"
+msgstr ""
+
+#: modules/domains.php:106
+msgid "Cancel"
 msgstr ""
 
 #: modules/instance-switcher.php:130
