@@ -312,7 +312,7 @@ if ( ! class_exists('Security') ) {
     public static function cruftplugins_postbox() {
       ?>
       <p>
-        <?php _e('Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href="https://help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-lisaosat-wp-palvelu-fi-ssa">recommendations for plugins in our environment</a>.', 'seravo'); ?>
+        <?php _e('Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href="https://help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-lisaosat-wp-palvelu-fi-ssa" target="_BLANK">recommendations for plugins in our environment</a>.', 'seravo'); ?>
       </p>
       <p>
       <div id="cruftplugins_status">
@@ -333,7 +333,7 @@ if ( ! class_exists('Security') ) {
     public static function cruftthemes_postbox() {
       ?>
       <p>
-        <?php _e('Find and remove themes that are inactive. For more information, please read our <a href="https://help.seravo.com/en/knowledgebase/19-themes-and-plugins">documentation concerning themes and plugins</a>.', 'seravo'); ?>
+        <?php _e('Find and remove themes that are inactive. For more information, please read our <a href="https://help.seravo.com/en/knowledgebase/19-themes-and-plugins" target="_BLANK">documentation concerning themes and plugins</a>.', 'seravo'); ?>
       </p>
       <p>
       <div id="cruftthemes_status">

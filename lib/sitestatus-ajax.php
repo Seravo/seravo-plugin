@@ -80,7 +80,7 @@ function seravo_report_git_status() {
     return array(
       'Git is not used on this site. To start using it,
       read our documentation for WordPress developers at
-      <a href="https://seravo.com/docs/">seravo.com/docs</a>.',
+      <a href="https://seravo.com/docs/" target="_BLANK">seravo.com/docs</a>.',
     );
   }
 

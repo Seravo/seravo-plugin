@@ -155,7 +155,7 @@ if ( ! class_exists('Upkeep') ) {
 
           <hr class="seravo-updates-hr">
           <h2><?php _e('Update Notifications with a Slack Webhook', 'seravo'); ?></h2>
-          <p><?php _e('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks">Read more about webhooks</a>.', 'seravo'); ?></p>
+          <p><?php _e('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks" target="_BLANK">Read more about webhooks</a>.', 'seravo'); ?></p>
           <input name="slack_webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="<?php echo $slack_webhook; ?>">
           <button type="button" class="button" id="slack_webhook_test"><?php _e('Send a Test Notification', 'seravo'); ?></button>
 
@@ -172,7 +172,7 @@ if ( ! class_exists('Upkeep') ) {
           <p><small class="seravo-developer-letter-hint">
               <?php
               // translators: %1$s link to Newsletter for WordPress developers
-              printf(__('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/">', '</a>');
+              printf(__('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/" target="_BLANK">', '</a>');
               ?>
             </small></p>
           <br>
@@ -609,7 +609,7 @@ if ( ! class_exists('Upkeep') ) {
       ?>
       <p>
         <?php
-        _e('Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href="https://seravo.com/docs/tests/ng-integration-tests/"> Seravo Developer Documentation</a>.', 'seravo');
+        _e('Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href="https://seravo.com/docs/tests/ng-integration-tests/" target="_BLANK"> Seravo Developer Documentation</a>.', 'seravo');
         ?>
       </p>
       <button type="button" class="button-primary" id="run-wp-tests"><?php _e('Run Tests', 'seravo'); ?></button>

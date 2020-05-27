@@ -198,6 +198,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
           'title'  => __('Shadows explained at Seravo.com/docs', 'seravo'),
           'id'     => 'shadow-info',
           'href'   => 'https://seravo.com/docs/deployment/shadows/',
+          'meta'   => array( 'target' => '_blank' ),
         )
       );
 

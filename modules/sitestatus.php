@@ -300,7 +300,7 @@ if ( ! class_exists('Site_Status') ) {
       ?>
       <div class="seravo-section">
         <div style="padding: 0px 15px">
-          <p><?php _e('Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/">Developer documentation</a>.', 'seravo'); ?></p>
+          <p><?php _e('Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo'); ?></p>
           <hr>
         </div>
         <div style="padding: 5px 15px 0 15px">
@@ -364,7 +364,7 @@ if ( ! class_exists('Site_Status') ) {
           } else {
             ?>
             <p style="padding: 15px 15px 0 15px;">
-              <?php _e('No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href="mailto:help@seravo.com"    >help@seravo.com</a>.', 'seravo'); ?>
+              <?php _e('No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href="mailto:help@seravo.com">help@seravo.com</a>.', 'seravo'); ?>
             </p>
             <?php
           }
@@ -384,7 +384,7 @@ if ( ! class_exists('Site_Status') ) {
             </table>
           </form>
           <div id="shadow-reset-sr-alert" class="shadow-hidden">
-            <?php _e("This shadow uses a custom domain. Search-replace can't currently be ran automatically with shadow reset. Please run it manually afterwards with the values above or the shadow can't be accessed. Instructions can be found in <a href='https://help.seravo.com/en/docs/151'>here</a>.", 'seravo'); ?>
+            <?php _e("This shadow uses a custom domain. Search-replace can't currently be ran automatically with shadow reset. Please run it manually afterwards with the values above or the shadow can't be accessed. Instructions can be found in <a href='https://help.seravo.com/en/docs/151' target='_BLANK'>here</a>.", 'seravo'); ?>
           </div>
           <div id="shadow-reset-nosr-alert">
             <?php _e("This shadow doesn't need search-replace to be ran afterwards for it to work.", 'seravo'); ?>
@@ -447,7 +447,7 @@ if ( ! class_exists('Site_Status') ) {
     public static function optimize_images_settings_description() {
       echo '<p>' . __('Optimization reduces image file size. This improves the performance and browsing experience of your site.', 'seravo') . '</p>' .
         '<p>' . __('By setting the maximum image resolution, you can determine the maximum allowed dimensions for images.', 'seravo') . '</p>' .
-        '<p>' . __('For further information, refer to our <a href="https://help.seravo.com/article/28-seravo-plugin-optimize-images">knowledgebase article</a>.', 'seravo') . '</p>';
+        '<p>' . __('For further information, refer to our <a href="https://help.seravo.com/article/28-seravo-plugin-optimize-images" target="_BLANK">knowledgebase article</a>.', 'seravo') . '</p>';
     }
 
     public static function sanitize_image_width( $width ) {
