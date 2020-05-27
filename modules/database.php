@@ -110,7 +110,7 @@ if ( ! class_exists('Database') ) {
       <p>
         <?php
         // translators: $s url containing additional information on WordPress database tools
-        printf(__('When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href="%s">Read the documentation for wp db</a>.', 'seravo'), 'https://developer.wordpress.org/cli/commands/db/');
+        printf(__('When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href="%s" target="_BLANK">Read the documentation for wp db</a>.', 'seravo'), 'https://developer.wordpress.org/cli/commands/db/');
         ?>
       </p>
       <?php
@@ -123,7 +123,7 @@ if ( ! class_exists('Database') ) {
         /* translators:
         * %1$s url to www.adminer.org
         */
-        printf(__('Adminer is a simple database management tool, like phpMyAdmin. <a href="%1$s">Learn more about Adminer.</a>', 'seravo'), 'https://www.adminer.org');
+        printf(__('Adminer is a simple database management tool, like phpMyAdmin. <a href="%1$s" target="_BLANK">Learn more about Adminer.</a>', 'seravo'), 'https://www.adminer.org');
         ?>
       </p>
       <p>
