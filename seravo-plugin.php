@@ -267,6 +267,12 @@ class Loader {
     if ( defined('WP_CLI') && WP_CLI ) {
       require_once dirname(__FILE__) . '/modules/wp-cli.php';
     }
+
+    /*
+     * Hide Users
+     * Hides prespecified and given users from a WordPress page
+     */
+    require_once dirname(__FILE__) . '/modules/hide-users.php';
   }
 }
 
