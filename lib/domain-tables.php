@@ -450,11 +450,12 @@ class Seravo_DNS_Table {
 
   public static function display_zone_edit( $domain ) {
     $records = self::fetch_dns_records('zone', $domain);
+    $error = isset($records['error']);
 
     if ( empty($records) ) {
       return;
     }
-    if ( isset($records['error']) ) {
+    if ( $error ) {
       echo '<div><p style="margin-left: 3px;"><b>' . $records['error'] . '</b></p></div>';
       return;
     }

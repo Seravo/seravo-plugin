@@ -187,6 +187,9 @@ jQuery(document).ready(function($) {
         if ( ! editable.val().length ) {
           return;
         }
+        if ( update_zone_button.length ) {
+          update_zone_button.attr("disabled", true);
+        }
 
         jQuery.post(seravo_domains_loc.ajaxurl, {
             'action': 'seravo_ajax_domains',
@@ -199,7 +202,6 @@ jQuery(document).ready(function($) {
             if ( rawData.length === 0 ) {
               // Eg. AJAX callback not found
               editable.prop('readonly', true);
-              update_zone_button.attr("disabled", true);
               publish_zone_button.attr("disabled", true);
               response_div.html('<p><b>' + seravo_domains_loc.zone_update_no_data + '</b></p>');
               return;
@@ -212,6 +214,7 @@ jQuery(document).ready(function($) {
             if ( response['status'] && response['status'] !== 200 && response['reason'].length ) {
               response_text = response['reason'];
               response_class = 'error';
+              update_zone_button.attr("disabled", false);
             } else if ( publish_zone_button.length ) {
               // Zone was published, show zone edit
               domains_table.show_action_row(domain, 'edit');
@@ -239,6 +242,7 @@ jQuery(document).ready(function($) {
               } else {
                 response_text = seravo_domains_loc.update_no_changes;
                 response_class = 'warning';
+                update_zone_button.attr("disabled", false);
               }
             }
             response_text = '<div class="notice notice-' +
