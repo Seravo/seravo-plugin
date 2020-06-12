@@ -114,9 +114,14 @@ if ( ! class_exists('Fixes') ) {
      * Return better http status code (401 unauthorized) after failed login.
      * Then failed login attempts (brute forcing) can be noticed in access.log
      * WP core ticket: https://core.trac.wordpress.org/ticket/25446
+     *
+     * Doesn't force http 401 for AJAX calls as some AJAX actions don't
+     * need authorization.
      */
     public static function change_http_code_to_unauthorized() {
-      status_header(401);
+      if ( ! defined('DOING_AJAX') ) {
+        status_header(401);
+      }
     }
 
     public static function send_no_cache_headers() {
