@@ -27,9 +27,16 @@ jQuery(document).ready(function($) {
           // Loops through the row column by column
           jQuery.each(row.split('\t'), function (j, col) {
             if (i === 0) {
+              // Command row
               jQuery('#search_replace_command').append('<code>' + col + '</code>');
-            } else {
-              jQuery('<td>').html(col).appendTo(tr);
+            } else if (i === 1) {
+              // Title row
+              jQuery('<td>').html(col.replace("Replacements", "Count")).appendTo(tr);
+            } else {
+              // Result rows rows
+              // Make 'table' and 'column' columns wrap
+              var td_class = j <= 1 ? 'sr_result_field' : '';
+              jQuery('<td class="' + td_class + '">').html(col).appendTo(tr);
             }
           })
           jQuery('#search_replace_loading img').fadeOut();
