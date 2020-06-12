@@ -31,6 +31,19 @@ function find_cruft_dir( $name ) {
   return $dirs;
 }
 
+function only_has_whitelisted_content( $dir, $wl_files, $wl_dirs ) {
+  exec('find ' . $dir, $content);
+  foreach ( $content as $path ) {
+    if ( $path !== $dir ) {
+      if ( (! in_array($path, $wl_files)) && (! in_array($path, $wl_dirs)) ) {
+        // The file was not whitelisted
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
 function find_cruft_core() {
   $output = array();
   $handle = popen('wp core verify-checksums 2>&1', 'r');
@@ -118,6 +131,12 @@ function seravo_ajax_list_cruft_files() {
       );
       $white_list_files = array(
         '/data/wordpress/vagrant-base.sql',
+        '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage/index.php',
+        '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage/index.html',
+        '/data/wordpress/htdocs/wp-content/ai1wm-backups/index.html',
+        '/data/wordpress/htdocs/wp-content/ai1wm-backups/index.php',
+        '/data/wordpress/htdocs/wp-content/ai1wm-backups/.htaccess',
+        '/data/wordpress/htdocs/wp-content/ai1wm-backups/web.config',
       );
 
       $crufts = array();
@@ -165,6 +184,11 @@ function seravo_ajax_list_cruft_files() {
       foreach ( $list_known_dirs as $dirname ) {
         $cruft_found = list_known_cruft_dir($dirname);
         if ( ! empty($cruft_found) ) {
+          foreach ( $cruft_found as $key => $cruft_dir ) {
+            if ( only_has_whitelisted_content($cruft_dir, $white_list_files, $white_list_dirs) ) {
+              unset($cruft_found[$key]);
+            }
+          }
           $crufts = array_merge($crufts, $cruft_found);
         }
       }
