@@ -22,7 +22,7 @@ if ( ! class_exists('Upkeep') ) {
       if ( getenv('WP_ENV') === 'production' ) {
         seravo_add_postbox(
           'site-status',
-          __('Site Status', 'seravo'),
+          __('Update Status', 'seravo'),
           array( __CLASS__, 'site_status_postbox' ),
           'tools_page_upkeep_page',
           'normal'
