@@ -312,7 +312,7 @@ if ( ! class_exists('Upkeep') ) {
 
       <p>
         <?php
-        _e('See also <a target="_blank" href="https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo');
+        _e('See also <a target="_blank" href="https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo');
         ?>
       </p>
 
