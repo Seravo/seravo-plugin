@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2020-05-27T14:33:42+03:00\n"
-"PO-Revision-Date: 2020-05-27 14:54+0300\n"
+"POT-Creation-Date: 2020-06-17T11:01:50+03:00\n"
+"PO-Revision-Date: 2020-06-17 11:18+0300\n"
 "Last-Translator: Samuli Lehtonen <samuli@seravo.fi>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -48,12 +48,12 @@ msgid "Subdomains don't have their own zone."
 msgstr "Aliverkkotunnuksilla ei ole omia verkkotunnustietoja."
 
 #: lib/domain-tables.php:59 lib/domain-tables.php:63 lib/domain-tables.php:70
-#: lib/domain-tables.php:73 lib/domains-page.php:64
+#: lib/domain-tables.php:73
 msgid "View"
 msgstr "Näytä"
 
 #: lib/domain-tables.php:60 lib/domain-tables.php:65 lib/domain-tables.php:67
-#: lib/domain-tables.php:71 lib/domain-tables.php:74 lib/domains-page.php:66
+#: lib/domain-tables.php:71 lib/domain-tables.php:74
 msgid "Edit"
 msgstr "Muokkaa"
 
@@ -81,20 +81,19 @@ msgstr "Tämä verkkotunnus on valmiiksi ensisijainen."
 msgid "Make Primary"
 msgstr "Aseta ensisijaiseksi"
 
-#: lib/domain-tables.php:112 lib/domains-page.php:120
-#: modules/sitestatus.php:344
+#: lib/domain-tables.php:112 modules/sitestatus.php:344
 msgid "Domain"
 msgstr "Verkkotunnus"
 
-#: lib/domain-tables.php:113 lib/domains-page.php:121
+#: lib/domain-tables.php:113
 msgid "Expires"
 msgstr "Erääntyy"
 
-#: lib/domain-tables.php:114 lib/domains-page.php:122
+#: lib/domain-tables.php:114
 msgid "DNS"
 msgstr "Nimipalvelut"
 
-#: lib/domain-tables.php:115 lib/domains-page.php:123
+#: lib/domain-tables.php:115
 msgid "Managed by"
 msgstr "Hallinnoija"
 
@@ -102,11 +101,11 @@ msgstr "Hallinnoija"
 msgid "Customer"
 msgstr "Asiakas"
 
-#: lib/domain-tables.php:323 lib/domains-page.php:279
+#: lib/domain-tables.php:323
 msgid "Source"
 msgstr "Lähde"
 
-#: lib/domain-tables.php:324 lib/domains-page.php:280
+#: lib/domain-tables.php:324
 msgid "Destinations"
 msgstr "Kohde"
 
@@ -114,24 +113,24 @@ msgstr "Kohde"
 msgid "Update time:"
 msgstr "Päivitysaika:"
 
-#: lib/domain-tables.php:430 lib/domains-dns.php:26 modules/sitestatus.php:319
+#: lib/domain-tables.php:430 modules/sitestatus.php:319
 msgid "Name"
 msgstr "Nimi"
 
-#: lib/domain-tables.php:431 lib/domains-dns.php:27
+#: lib/domain-tables.php:431
 msgid "TTL"
 msgstr "TTL"
 
-#: lib/domain-tables.php:433 lib/domains-dns.php:29
+#: lib/domain-tables.php:433
 msgid "Type"
 msgstr "Tyyppi"
 
-#: lib/domain-tables.php:434 lib/domains-dns.php:30
+#: lib/domain-tables.php:434
 msgid "Value"
 msgstr "Arvo"
 
 #. translators: %s domain of the site
-#: lib/domain-tables.php:469 lib/domains-dns.php:58
+#: lib/domain-tables.php:470
 msgid ""
 "Our systems have detected that <strong>%s</strong> does not point to the "
 "Seravo servers. For your protection, manual editing is disabled. Please "
@@ -144,15 +143,15 @@ msgstr ""
 "asiakaspalveluun mikäli haluat muokata kyseisiä tietueita. Voit julkaista "
 "sivustosi silloin kuin haluat oheisen painikkeen avulla:"
 
-#: lib/domain-tables.php:474 lib/domains-dns.php:63
+#: lib/domain-tables.php:475
 msgid "Publish"
 msgstr "Julkaise"
 
-#: lib/domain-tables.php:484 lib/domains-dns.php:78
+#: lib/domain-tables.php:485
 msgid "Compulsory Records"
 msgstr "Pakolliset tietueet"
 
-#: lib/domain-tables.php:485 lib/domains-dns.php:79
+#: lib/domain-tables.php:486
 msgid ""
 "It is not recommended to edit these records. Please contact the Seravo "
 "customer service if you want changes to be done to them."
@@ -160,11 +159,11 @@ msgstr ""
 "Näiden tietueiden muokkaaminen ei ole suositeltavaa. Ota yhteyttä Seravon "
 "asiakaspalveluun mikäli tahdot niitä muutettavan."
 
-#: lib/domain-tables.php:487 lib/domains-dns.php:81
+#: lib/domain-tables.php:488
 msgid "Editable records"
 msgstr "Muokattavat tietueet"
 
-#: lib/domain-tables.php:488 lib/domains-dns.php:82
+#: lib/domain-tables.php:489
 msgid ""
 "Here you can add, edit and delete records. Please do not try to add records "
 "conflicting with the compulsory records. They will not be activated."
@@ -173,55 +172,17 @@ msgstr ""
 "tietueita jotka ovat ristiriidassa pakollisten tietueiden kanssa. Niitä ei "
 "oteta huomioon."
 
-#: lib/domain-tables.php:495 lib/domains-dns.php:89
+#: lib/domain-tables.php:496
 msgid "Update Zone"
 msgstr "Päivitä verkkotunnustiedot"
 
-#: lib/domain-tables.php:541 lib/domains-page.php:389
+#: lib/domain-tables.php:542
 msgid "Fetch Forwards"
 msgstr "Hae edelleenohjaukset"
 
-#: lib/domain-tables.php:549 lib/domains-page.php:397
+#: lib/domain-tables.php:550
 msgid "No valid domains were found!"
 msgstr "Verkkotunnuksia ei löytynyt!"
-
-#: lib/domains-dns.php:23
-msgid "Zone for: "
-msgstr "Zone verkkotunnukselle: "
-
-#: lib/domains-dns.php:23
-msgid "updated: "
-msgstr "päivitetty: "
-
-#: lib/domains-page.php:69
-msgid "Primary Domain"
-msgstr "Ensisijainen verkkotunnus"
-
-#. translators:  %1$s is opening tag for a link, %2$s a closing tag.
-#: lib/domains-page.php:75
-msgid "DNS not managed by Seravo, see %1$smore details%2$s"
-msgstr "Seravo ei hallinnoi nimipalveluita. Katso %1$slisätiedot%2$s"
-
-#: lib/domains-page.php:81
-msgid "Subdomains don't have their own zone"
-msgstr "Aliverkkotunnuksilla ei ole omia verkkotunnustietoja"
-
-#: lib/domains-page.php:87
-msgid "This domain doesn't have a zone"
-msgstr "Verkkotunnuksella ei ole verkkotunnustietoja"
-
-#: lib/domains-page.php:414 modules/domains.php:44 modules/toolbox.php:67
-#: modules/toolbox.php:68
-msgid "Domains"
-msgstr "Verkkotunnukset"
-
-#: lib/domains-page.php:416 modules/domains.php:95
-msgid "Domains routed to this WordPress site are listed below."
-msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
-
-#: lib/domains-page.php:436 lib/domains-page.php:441 modules/domains.php:52
-msgid "Mails"
-msgstr "Sähköpostit"
 
 #: lib/security-ajax.php:78
 msgid "No login data"
@@ -320,12 +281,12 @@ msgid ""
 "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/"
 "options-general.php\">site settings</a>. Please <a href=\"https://help."
 "seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-"
-"website\">use HTTPS</a>."
+"website\" target=\"_BLANK\">use HTTPS</a>."
 msgstr ""
 "<a href=\"%s/wp-admin/options-general.php\">Sivuston asetuksissa</a> ei ole "
 "HTTPS-suojattu osoite tällä hetkellä käytössä. Lue lisää <a href=\"https://"
 "help.seravo.com/fi/knowledgebase/23/docs/55-miten-otan-https-n-kayttoon-"
-"wordpress-sivustolla\">HTTPS:n käyttöönotosta</a>."
+"wordpress-sivustolla\" target=\"_BLANK\">HTTPS:n käyttöönotosta</a>."
 
 #. translators: %1$s: current php version, %2$s: recommended php version
 #: modules/check-php-version.php:57
@@ -376,21 +337,22 @@ msgstr ""
 #: modules/database.php:113
 msgid ""
 "When you have established an SSH connection you can use WP-CLI that features "
-"powerful database tools for example exports and imports. <a href=\"%s\">Read "
-"the documentation for wp db</a>."
+"powerful database tools for example exports and imports. <a href=\"%s\" "
+"target=\"_BLANK\">Read the documentation for wp db</a>."
 msgstr ""
 "Kun olet yhdistänyt palvelimelle SSH-yhteydellä, voit hyödyntää WP-CLI:n "
 "monipuolisia tietokantatyökaluja esimerkiksi tietokannan vientiin tai "
-"tuontiin. <a href=\"%s\">Lue dokumentaatio wp db -komennoille</a>."
+"tuontiin. <a href=\"%s\" target=\"_BLANK\">Lue dokumentaatio wp db -"
+"komennoille</a>."
 
 #. translators: %1$s url to www.adminer.org
 #: modules/database.php:126
 msgid ""
 "Adminer is a simple database management tool, like phpMyAdmin. <a href=\"%1$s"
-"\">Learn more about Adminer.</a>"
+"\" target=\"_BLANK\">Learn more about Adminer.</a>"
 msgstr ""
 "Adminer on yksinkertainen tietokannan hallintatyökalu kuten phpMyAdmin. <a "
-"href=\"%1$s\">Lue lisää Adminerista.</a>"
+"href=\"%1$s\" target=\"_BLANK\">Lue lisää Adminerista.</a>"
 
 #. translators: %1$s example url for accessing Adminer in production environment %2$s example url for accessing Adminer in local development
 #: modules/database.php:135
@@ -442,6 +404,14 @@ msgstr "Aja kuiva-ajo"
 msgid "Run wp search-replace"
 msgstr "Aja wp search-replace"
 
+#: modules/domains.php:44 modules/toolbox.php:67 modules/toolbox.php:68
+msgid "Domains"
+msgstr "Verkkotunnukset"
+
+#: modules/domains.php:52
+msgid "Mails"
+msgstr "Sähköpostit"
+
 #: modules/domains.php:74
 msgid "Domains couldn't be loaded."
 msgstr "Verkkotunnuksia ei voitu ladata."
@@ -478,6 +448,10 @@ msgstr "Verkkotunnustiedot päivitettiin ilman muutoksia."
 msgid "Changing the primary domain..."
 msgstr "Vaihdetaan ensisijaista verkkotunnusta..."
 
+#: modules/domains.php:95
+msgid "Domains routed to this WordPress site are listed below."
+msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
+
 #: modules/domains.php:99
 msgid "Loading domains..."
 msgstr "Ladataan verkkotunnuksia..."
@@ -507,12 +481,12 @@ msgid "Shadows explained at Seravo.com/docs"
 msgstr "Varjot selitettynä ohjeissa Seravo.com/docs"
 
 #. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:221
+#: modules/instance-switcher.php:222
 msgid "Your current shadow instance is %s."
 msgstr "Olet nyt varjossa %s."
 
 #. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:222
+#: modules/instance-switcher.php:223
 msgid "Exit"
 msgstr "Poistu"
 
@@ -614,15 +588,16 @@ msgstr "Mitä nyt tulee tehdä?"
 msgid ""
 "You should <b>change your password immediadly</b>. You can do that with the "
 "button below or by following <a href=\"https://help.seravo.com/article/29-"
-"managing-user-passwords-in-wordpress\">these instructions</a>. If you have "
-"any issues related to chaging the password, please be in contact with Seravo "
-"support at <i>help@seravo.com</i>."
+"managing-user-passwords-in-wordpress\" target=\"_BLANK\">these instructions</"
+"a>. If you have any issues related to chaging the password, please be in "
+"contact with Seravo support at <i>help@seravo.com</i>."
 msgstr ""
 "Sinun tulee <b>vaihtaa salasanasi välittömästi</b>. Voit tehdä tämän "
 "painikkeella alareunassa tai seuraamalla <a href=\"https://help.seravo.fi/"
-"article/207-wordpress-kayttajien-salasanojen-hallinta\">näitä ohjeita</a>. "
-"Jos sinulle tulee vastaan ongelmia salasanan vaihdon yhteydessä, olethan "
-"yhteydessä Seravon asiakaspalveluun <i>help@seravo.com</i>."
+"article/207-wordpress-kayttajien-salasanojen-hallinta\" target=\"_BLANK"
+"\">näitä ohjeita</a>. Jos sinulle tulee vastaan ongelmia salasanan vaihdon "
+"yhteydessä, olethan yhteydessä Seravon asiakaspalveluun <i>help@seravo.com</"
+"i>."
 
 #: modules/passwords.php:119
 msgid "How to prevent this in the future?"
@@ -631,17 +606,17 @@ msgstr "Kuinka estän tämän tulevaisuudessa?"
 #: modules/passwords.php:120
 msgid ""
 "You should always follow good <a href=\"https://seravo.fi/2014/password-"
-"hygiene-every-mans-responsibility\">password hygiene</a>. Especially by "
-"using different passwords on different services. This website already "
-"prevents changing your password to a weak one but you can scan for "
+"hygiene-every-mans-responsibility\" target=\"_BLANK\">password hygiene</a>. "
+"Especially by using different passwords on different services. This website "
+"already prevents changing your password to a weak one but you can scan for "
 "dangerously weak passwords from all users by running <code>wp-check-"
 "passwords</code>."
 msgstr ""
-"Hyvän <a href=\"https://wp-palvelu.fi/blogi/salasanahygienia/\">salasana "
-"hygienian</a> noudattaminen kannattaa aina. Erityisesti käyttämällä eri "
-"salasanoja eri palveluissa. Tämä verkkosivu estää jo heikkojen salasanojen "
-"asettamisen, mutta voit etsiä vaarallisen heikkoja salasanoja ajamalla "
-"palvelimella komennon <code>wp-check-passwords</code>."
+"Hyvän <a href=\"https://wp-palvelu.fi/blogi/salasanahygienia/\" target="
+"\"_BLANK\">salasana hygienian</a> noudattaminen kannattaa aina. Erityisesti "
+"käyttämällä eri salasanoja eri palveluissa. Tämä verkkosivu estää jo "
+"heikkojen salasanojen asettamisen, mutta voit etsiä vaarallisen heikkoja "
+"salasanoja ajamalla palvelimella komennon <code>wp-check-passwords</code>."
 
 #: modules/passwords.php:122
 msgid "Change Password"
@@ -945,13 +920,13 @@ msgid ""
 "Find and remove any plugins that are currently inactive or otherwise "
 "potentially harmful. For more information, please read our <a href=\"https://"
 "help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-"
-"lisaosat-wp-palvelu-fi-ssa\">recommendations for plugins in our environment</"
-"a>."
+"lisaosat-wp-palvelu-fi-ssa\" target=\"_BLANK\">recommendations for plugins "
+"in our environment</a>."
 msgstr ""
 "Etsi ja poista lisäosia, jotka tällä hetkellä ei ole aktiivisena tai jotka "
 "ovat mahdollisesti haitallisia. Lue lisätiedot <a href=\"https://help.seravo."
-"com/fi/docs/51-mita-lisaosia-seravo-suosittelee\">suositelluista lisäosista "
-"palvelinympäristössämme</a>."
+"com/fi/docs/51-mita-lisaosia-seravo-suosittelee\" target=\"_BLANK"
+"\">suositelluista lisäosista palvelinympäristössämme</a>."
 
 #: modules/security.php:320
 msgid "Searching for plugins..."
@@ -961,11 +936,11 @@ msgstr "Etsitään lisäosia…"
 msgid ""
 "Find and remove themes that are inactive. For more information, please read "
 "our <a href=\"https://help.seravo.com/en/knowledgebase/19-themes-and-plugins"
-"\">documentation concerning themes and plugins</a>."
+"\" target=\"_BLANK\">documentation concerning themes and plugins</a>."
 msgstr ""
 "Etsi ja poista ulkoasuteemoja, jotka eivät ole käytössä. Lue lisätiedot <a "
-"href=\"https://help.seravo.com/fi/knowledgebase/19-teemat-ja-lisaosat"
-"\">ulkoasuteemoja ja lisäosia koskevista ohjeistamme</a>."
+"href=\"https://help.seravo.com/fi/knowledgebase/19-teemat-ja-lisaosat\" "
+"target=\"_BLANK\">ulkoasuteemoja ja lisäosia koskevista ohjeistamme</a>."
 
 #: modules/security.php:341
 msgid "Searching for themes..."
@@ -1196,13 +1171,13 @@ msgid ""
 "Allow easy access to site shadows. Resetting a shadow copies the state of "
 "the production site to the shadow. All files under /data/wordpress/ will be "
 "replaced and the production database imported. For more information, visit "
-"our  <a href=\"https://seravo.com/docs/deployment/shadows/\">Developer "
-"documentation</a>."
+"our  <a href=\"https://seravo.com/docs/deployment/shadows/\" target=\"_BLANK"
+"\">Developer documentation</a>."
 msgstr ""
 "Hallinnoi sivustosi kehitysympäristöjä. Varjon resetointi korvaa varjon "
 "tiedostot hakemistossa /data/wordpress/ ja tietokannan tuotantosivuston "
 "tiedostoilla ja tietokannalla. Lue lisää varjoista <a href=\"https://seravo."
-"com/docs/deployment/shadows/\">kehittäjäohjeistamme</a>."
+"com/docs/deployment/shadows/\" target=\"_BLANK\">kehittäjäohjeistamme</a>."
 
 #: modules/sitestatus.php:322
 msgid "Select shadow"
@@ -1231,12 +1206,13 @@ msgstr "Siirrä tiedot"
 #: modules/sitestatus.php:367
 msgid ""
 "No shadows found. If your plan is WP Pro or higher, you can request a shadow "
-"instance from Seravo admins at <a href=\"mailto:help@seravo.com\"    "
-">help@seravo.com</a>."
+"instance from Seravo admins at <a href=\"mailto:help@seravo.com"
+"\">help@seravo.com</a>."
 msgstr ""
 "Kehitysvarjosivustoja ei löytynyt. Jos palvelupakettisi on WP Pro tai "
 "isompi, voit pyytää varjosivuston luomista Seravon <a href=\"mailto:"
-"help@seravo.com\">asiakaspalvelusta osoitteessta help@seravo.com</a>."
+"help@seravo.com\" target=\"_BLANK\">asiakaspalvelusta osoitteessta "
+"help@seravo.com</a>."
 
 #: modules/sitestatus.php:375
 msgid "Reset shadow from production"
@@ -1261,13 +1237,13 @@ msgid ""
 "This shadow uses a custom domain. Search-replace can't currently be ran "
 "automatically with shadow reset. Please run it manually afterwards with the "
 "values above or the shadow can't be accessed. Instructions can be found in "
-"<a href='https://help.seravo.com/en/docs/151'>here</a>."
+"<a href='https://help.seravo.com/en/docs/151' target='_BLANK'>here</a>."
 msgstr ""
 "Varjo käyttää kustomoitua verkkotunnusta. Komentoa wp search-replace ei "
 "pystytä ajamaan automaattisesti varjon palautuksen yhteydessä. Aja komento "
 "wp search-replace jälkikäteen manuaalisesti yllä olevilla tiedoilla tai "
 "varjoon ei pääse. Ohjeet löydät <a href='https://help.seravo.com/fi/"
-"docs/151'>täältä</a>."
+"docs/151' target=\"_BLANK\">täältä</a>."
 
 #: modules/sitestatus.php:390
 msgid ""
@@ -1307,10 +1283,11 @@ msgstr "Voit asettaa haluamasi rajat sivuston kuvien maksimiresoluutiolle."
 #: modules/sitestatus.php:450
 msgid ""
 "For further information, refer to our <a href=\"https://help.seravo.com/"
-"article/28-seravo-plugin-optimize-images\">knowledgebase article</a>."
+"article/28-seravo-plugin-optimize-images\" target=\"_BLANK\">knowledgebase "
+"article</a>."
 msgstr ""
 "Lisäohjeita aiheesta on Seravon <a href=\"https://help.seravo.fi/article/206-"
-"seravo-plugin-optimoi-kuvia\">tietopankissa</a>."
+"seravo-plugin-optimoi-kuvia\" target=\"_BLANK\">tietopankissa</a>."
 
 #. translators: %s numeric value for the minimum image width
 #: modules/sitestatus.php:460
@@ -1330,7 +1307,7 @@ msgstr ""
 "Suurimman sallitun kuvan korkeuden tulee olla vähintään %1$s pikseliä. "
 "Asetetaan suositeltu %2$s px korkeus."
 
-#: modules/toolbox.php:18 modules/toolbox.php:19 modules/upkeep.php:25
+#: modules/toolbox.php:18 modules/toolbox.php:19
 msgid "Site Status"
 msgstr "Sivuston tila"
 
@@ -1341,6 +1318,10 @@ msgstr "Ylläpito"
 #: modules/toolbox.php:36 modules/toolbox.php:37
 msgid "Database"
 msgstr "Tietokanta"
+
+#: modules/upkeep.php:25
+msgid "Update Status"
+msgstr "Päivitysten tila"
 
 #: modules/upkeep.php:33
 msgid "Tests Status"
@@ -1431,13 +1412,13 @@ msgid ""
 "By defining a Slack webhook address below, Seravo can send you notifications "
 "about every update attempt, whether successful or not, to the Slack channel "
 "you have defined in your webhook. <a href=\"https://api.slack.com/incoming-"
-"webhooks\">Read more about webhooks</a>."
+"webhooks\" target=\"_BLANK\">Read more about webhooks</a>."
 msgstr ""
 "Määrittelemälä Slack webhookin alla mahdollistat sen, että Seravo voi "
 "lähettää ilmoituksen jokaisesta päivitysyrityksestä, riippumatta onnistuiko "
 "se, sille Slack-kanavalle jonka ole määritellyt Slack-hookissa. <a href="
-"\"https://api.slack.com/incoming-webhooks\">Lue lisää Slackin "
-"ohjeistuksesta</a>."
+"\"https://api.slack.com/incoming-webhooks\" target=\"_BLANK\">Lue lisää "
+"Slackin ohjeistuksesta</a>."
 
 #: modules/upkeep.php:160
 msgid "Send a Test Notification"
@@ -1656,14 +1637,32 @@ msgid ""
 "Here you can test the core functionality of your WordPress installation. "
 "Same results can be achieved via command line by running <code>wp-test</"
 "code> there. For further information, please refer to <a href=\"https://"
-"seravo.com/docs/tests/ng-integration-tests/\"> Seravo Developer "
-"Documentation</a>."
+"seravo.com/docs/tests/ng-integration-tests/\" target=\"_BLANK\"> Seravo "
+"Developer Documentation</a>."
 msgstr ""
 "Suorita sivuston toimivuustestit ja tarkista tulokset. Saman testin voi "
 "suorittaa myös komentoriviltä komennolla <code>wp-test</code>. Lue "
-"lisätietoja <a href=\"https://seravo.com/docs/tests/ng-integration-tests/"
-"\">Seravon kehittäjäohjeista</a>."
+"lisätietoja <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\" "
+"target=\"_BLANK\">Seravon kehittäjäohjeista</a>."
 
 #: modules/upkeep.php:618
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Codeception-testit"
+
+#~ msgid "Zone for: "
+#~ msgstr "Zone verkkotunnukselle: "
+
+#~ msgid "updated: "
+#~ msgstr "päivitetty: "
+
+#~ msgid "Primary Domain"
+#~ msgstr "Ensisijainen verkkotunnus"
+
+#~ msgid "DNS not managed by Seravo, see %1$smore details%2$s"
+#~ msgstr "Seravo ei hallinnoi nimipalveluita. Katso %1$slisätiedot%2$s"
+
+#~ msgid "Subdomains don't have their own zone"
+#~ msgstr "Aliverkkotunnuksilla ei ole omia verkkotunnustietoja"
+
+#~ msgid "This domain doesn't have a zone"
+#~ msgstr "Verkkotunnuksella ei ole verkkotunnustietoja"

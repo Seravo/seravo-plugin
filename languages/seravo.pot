@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Seravo Plugin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.9.17\n"
+"Project-Id-Version: Seravo Plugin 1.9.18\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-05-27T14:33:42+03:00\n"
+"POT-Creation-Date: 2020-06-17T11:01:50+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -53,7 +53,6 @@ msgstr ""
 #: lib/domain-tables.php:63
 #: lib/domain-tables.php:70
 #: lib/domain-tables.php:73
-#: lib/domains-page.php:64
 msgid "View"
 msgstr ""
 
@@ -62,7 +61,6 @@ msgstr ""
 #: lib/domain-tables.php:67
 #: lib/domain-tables.php:71
 #: lib/domain-tables.php:74
-#: lib/domains-page.php:66
 msgid "Edit"
 msgstr ""
 
@@ -92,23 +90,19 @@ msgid "Make Primary"
 msgstr ""
 
 #: lib/domain-tables.php:112
-#: lib/domains-page.php:120
 #: modules/sitestatus.php:344
 msgid "Domain"
 msgstr ""
 
 #: lib/domain-tables.php:113
-#: lib/domains-page.php:121
 msgid "Expires"
 msgstr ""
 
 #: lib/domain-tables.php:114
-#: lib/domains-page.php:122
 msgid "DNS"
 msgstr ""
 
 #: lib/domain-tables.php:115
-#: lib/domains-page.php:123
 msgid "Managed by"
 msgstr ""
 
@@ -117,12 +111,10 @@ msgid "Customer"
 msgstr ""
 
 #: lib/domain-tables.php:323
-#: lib/domains-page.php:279
 msgid "Source"
 msgstr ""
 
 #: lib/domain-tables.php:324
-#: lib/domains-page.php:280
 msgid "Destinations"
 msgstr ""
 
@@ -131,113 +123,57 @@ msgid "Update time:"
 msgstr ""
 
 #: lib/domain-tables.php:430
-#: lib/domains-dns.php:26
 #: modules/sitestatus.php:319
 msgid "Name"
 msgstr ""
 
 #: lib/domain-tables.php:431
-#: lib/domains-dns.php:27
 msgid "TTL"
 msgstr ""
 
 #: lib/domain-tables.php:433
-#: lib/domains-dns.php:29
 msgid "Type"
 msgstr ""
 
 #: lib/domain-tables.php:434
-#: lib/domains-dns.php:30
 msgid "Value"
 msgstr ""
 
 #. translators: %s domain of the site
-#: lib/domain-tables.php:469
-#: lib/domains-dns.php:58
+#: lib/domain-tables.php:470
 msgid "Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:"
 msgstr ""
 
-#: lib/domain-tables.php:474
-#: lib/domains-dns.php:63
+#: lib/domain-tables.php:475
 msgid "Publish"
 msgstr ""
 
-#: lib/domain-tables.php:484
-#: lib/domains-dns.php:78
+#: lib/domain-tables.php:485
 msgid "Compulsory Records"
 msgstr ""
 
-#: lib/domain-tables.php:485
-#: lib/domains-dns.php:79
+#: lib/domain-tables.php:486
 msgid "It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them."
 msgstr ""
 
-#: lib/domain-tables.php:487
-#: lib/domains-dns.php:81
+#: lib/domain-tables.php:488
 msgid "Editable records"
 msgstr ""
 
-#: lib/domain-tables.php:488
-#: lib/domains-dns.php:82
+#: lib/domain-tables.php:489
 msgid "Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated."
 msgstr ""
 
-#: lib/domain-tables.php:495
-#: lib/domains-dns.php:89
+#: lib/domain-tables.php:496
 msgid "Update Zone"
 msgstr ""
 
-#: lib/domain-tables.php:541
-#: lib/domains-page.php:389
+#: lib/domain-tables.php:542
 msgid "Fetch Forwards"
 msgstr ""
 
-#: lib/domain-tables.php:549
-#: lib/domains-page.php:397
+#: lib/domain-tables.php:550
 msgid "No valid domains were found!"
-msgstr ""
-
-#: lib/domains-dns.php:23
-msgid "Zone for: "
-msgstr ""
-
-#: lib/domains-dns.php:23
-msgid "updated: "
-msgstr ""
-
-#: lib/domains-page.php:69
-msgid "Primary Domain"
-msgstr ""
-
-#. translators:  %1$s is opening tag for a link, %2$s a closing tag.
-#: lib/domains-page.php:75
-msgid "DNS not managed by Seravo, see %1$smore details%2$s"
-msgstr ""
-
-#: lib/domains-page.php:81
-msgid "Subdomains don't have their own zone"
-msgstr ""
-
-#: lib/domains-page.php:87
-msgid "This domain doesn't have a zone"
-msgstr ""
-
-#: lib/domains-page.php:414
-#: modules/domains.php:44
-#: modules/toolbox.php:67
-#: modules/toolbox.php:68
-msgid "Domains"
-msgstr ""
-
-#: lib/domains-page.php:416
-#: modules/domains.php:95
-msgid "Domains routed to this WordPress site are listed below."
-msgstr ""
-
-#: lib/domains-page.php:436
-#: lib/domains-page.php:441
-#: modules/domains.php:52
-msgid "Mails"
 msgstr ""
 
 #: lib/security-ajax.php:78
@@ -320,7 +256,7 @@ msgstr ""
 
 #. translators: user's website url
 #: modules/check-https.php:39
-msgid "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please <a href=\"https://help.seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-website\">use HTTPS</a>."
+msgid "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please <a href=\"https://help.seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-website\" target=\"_BLANK\">use HTTPS</a>."
 msgstr ""
 
 #. translators: %1$s: current php version, %2$s: recommended php version
@@ -351,12 +287,12 @@ msgstr ""
 
 #. translators: $s url containing additional information on WordPress database tools
 #: modules/database.php:113
-msgid "When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href=\"%s\">Read the documentation for wp db</a>."
+msgid "When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href=\"%s\" target=\"_BLANK\">Read the documentation for wp db</a>."
 msgstr ""
 
 #. translators: %1$s url to www.adminer.org
 #: modules/database.php:126
-msgid "Adminer is a simple database management tool, like phpMyAdmin. <a href=\"%1$s\">Learn more about Adminer.</a>"
+msgid "Adminer is a simple database management tool, like phpMyAdmin. <a href=\"%1$s\" target=\"_BLANK\">Learn more about Adminer.</a>"
 msgstr ""
 
 #. translators: %1$s example url for accessing Adminer in production environment %2$s example url for accessing Adminer in local development
@@ -400,6 +336,16 @@ msgstr ""
 msgid "Run wp search-replace"
 msgstr ""
 
+#: modules/domains.php:44
+#: modules/toolbox.php:67
+#: modules/toolbox.php:68
+msgid "Domains"
+msgstr ""
+
+#: modules/domains.php:52
+msgid "Mails"
+msgstr ""
+
 #: modules/domains.php:74
 msgid "Domains couldn't be loaded."
 msgstr ""
@@ -436,6 +382,10 @@ msgstr ""
 msgid "Changing the primary domain..."
 msgstr ""
 
+#: modules/domains.php:95
+msgid "Domains routed to this WordPress site are listed below."
+msgstr ""
+
 #: modules/domains.php:99
 msgid "Loading domains..."
 msgstr ""
@@ -465,12 +415,12 @@ msgid "Shadows explained at Seravo.com/docs"
 msgstr ""
 
 #. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:221
+#: modules/instance-switcher.php:222
 msgid "Your current shadow instance is %s."
 msgstr ""
 
 #. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:222
+#: modules/instance-switcher.php:223
 msgid "Exit"
 msgstr ""
 
@@ -546,7 +496,7 @@ msgid "What actions to take?"
 msgstr ""
 
 #: modules/passwords.php:118
-msgid "You should <b>change your password immediadly</b>. You can do that with the button below or by following <a href=\"https://help.seravo.com/article/29-managing-user-passwords-in-wordpress\">these instructions</a>. If you have any issues related to chaging the password, please be in contact with Seravo support at <i>help@seravo.com</i>."
+msgid "You should <b>change your password immediadly</b>. You can do that with the button below or by following <a href=\"https://help.seravo.com/article/29-managing-user-passwords-in-wordpress\" target=\"_BLANK\">these instructions</a>. If you have any issues related to chaging the password, please be in contact with Seravo support at <i>help@seravo.com</i>."
 msgstr ""
 
 #: modules/passwords.php:119
@@ -554,7 +504,7 @@ msgid "How to prevent this in the future?"
 msgstr ""
 
 #: modules/passwords.php:120
-msgid "You should always follow good <a href=\"https://seravo.fi/2014/password-hygiene-every-mans-responsibility\">password hygiene</a>. Especially by using different passwords on different services. This website already prevents changing your password to a weak one but you can scan for dangerously weak passwords from all users by running <code>wp-check-passwords</code>."
+msgid "You should always follow good <a href=\"https://seravo.fi/2014/password-hygiene-every-mans-responsibility\" target=\"_BLANK\">password hygiene</a>. Especially by using different passwords on different services. This website already prevents changing your password to a weak one but you can scan for dangerously weak passwords from all users by running <code>wp-check-passwords</code>."
 msgstr ""
 
 #: modules/passwords.php:122
@@ -815,7 +765,7 @@ msgid "Searching for files..."
 msgstr ""
 
 #: modules/security.php:315
-msgid "Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-lisaosat-wp-palvelu-fi-ssa\">recommendations for plugins in our environment</a>."
+msgid "Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-lisaosat-wp-palvelu-fi-ssa\" target=\"_BLANK\">recommendations for plugins in our environment</a>."
 msgstr ""
 
 #: modules/security.php:320
@@ -823,7 +773,7 @@ msgid "Searching for plugins..."
 msgstr ""
 
 #: modules/security.php:336
-msgid "Find and remove themes that are inactive. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-themes-and-plugins\">documentation concerning themes and plugins</a>."
+msgid "Find and remove themes that are inactive. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-themes-and-plugins\" target=\"_BLANK\">documentation concerning themes and plugins</a>."
 msgstr ""
 
 #: modules/security.php:341
@@ -1034,7 +984,7 @@ msgid "Technical Contacts"
 msgstr ""
 
 #: modules/sitestatus.php:303
-msgid "Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href=\"https://seravo.com/docs/deployment/shadows/\">Developer documentation</a>."
+msgid "Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href=\"https://seravo.com/docs/deployment/shadows/\" target=\"_BLANK\">Developer documentation</a>."
 msgstr ""
 
 #: modules/sitestatus.php:322
@@ -1062,7 +1012,7 @@ msgid "Move Data"
 msgstr ""
 
 #: modules/sitestatus.php:367
-msgid "No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href=\"mailto:help@seravo.com\"    >help@seravo.com</a>."
+msgid "No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href=\"mailto:help@seravo.com\">help@seravo.com</a>."
 msgstr ""
 
 #: modules/sitestatus.php:375
@@ -1078,7 +1028,7 @@ msgid "Execute search-replace"
 msgstr ""
 
 #: modules/sitestatus.php:387
-msgid "This shadow uses a custom domain. Search-replace can't currently be ran automatically with shadow reset. Please run it manually afterwards with the values above or the shadow can't be accessed. Instructions can be found in <a href='https://help.seravo.com/en/docs/151'>here</a>."
+msgid "This shadow uses a custom domain. Search-replace can't currently be ran automatically with shadow reset. Please run it manually afterwards with the values above or the shadow can't be accessed. Instructions can be found in <a href='https://help.seravo.com/en/docs/151' target='_BLANK'>here</a>."
 msgstr ""
 
 #: modules/sitestatus.php:390
@@ -1110,7 +1060,7 @@ msgid "By setting the maximum image resolution, you can determine the maximum al
 msgstr ""
 
 #: modules/sitestatus.php:450
-msgid "For further information, refer to our <a href=\"https://help.seravo.com/article/28-seravo-plugin-optimize-images\">knowledgebase article</a>."
+msgid "For further information, refer to our <a href=\"https://help.seravo.com/article/28-seravo-plugin-optimize-images\" target=\"_BLANK\">knowledgebase article</a>."
 msgstr ""
 
 #. translators: %s numeric value for the minimum image width
@@ -1125,7 +1075,6 @@ msgstr ""
 
 #: modules/toolbox.php:18
 #: modules/toolbox.php:19
-#: modules/upkeep.php:25
 msgid "Site Status"
 msgstr ""
 
@@ -1137,6 +1086,10 @@ msgstr ""
 #: modules/toolbox.php:36
 #: modules/toolbox.php:37
 msgid "Database"
+msgstr ""
+
+#: modules/upkeep.php:25
+msgid "Update Status"
 msgstr ""
 
 #: modules/upkeep.php:33
@@ -1208,7 +1161,7 @@ msgid "Update Notifications with a Slack Webhook"
 msgstr ""
 
 #: modules/upkeep.php:158
-msgid "By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href=\"https://api.slack.com/incoming-webhooks\">Read more about webhooks</a>."
+msgid "By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href=\"https://api.slack.com/incoming-webhooks\" target=\"_BLANK\">Read more about webhooks</a>."
 msgstr ""
 
 #: modules/upkeep.php:160
@@ -1374,7 +1327,7 @@ msgid "Update Attempt"
 msgstr ""
 
 #: modules/upkeep.php:612
-msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\"> Seravo Developer Documentation</a>."
+msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\" target=\"_BLANK\"> Seravo Developer Documentation</a>."
 msgstr ""
 
 #: modules/upkeep.php:618
