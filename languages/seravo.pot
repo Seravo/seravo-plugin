@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Seravo Plugin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.9.18\n"
+"Project-Id-Version: Seravo Plugin 1.9.19\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-06-17T11:01:50+03:00\n"
+"POT-Creation-Date: 2020-06-18T11:48:46+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -256,7 +256,7 @@ msgstr ""
 
 #. translators: user's website url
 #: modules/check-https.php:39
-msgid "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please <a href=\"https://help.seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-website\" target=\"_BLANK\">use HTTPS</a>."
+msgid "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please <a href=\"https://help.seravo.com/article/24-how-do-i-enable-the-https-on-our-website\" target=\"_BLANK\">use HTTPS</a>."
 msgstr ""
 
 #. translators: %1$s: current php version, %2$s: recommended php version
@@ -438,35 +438,35 @@ msgstr ""
 msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: modules/logs.php:120
+#: modules/logs.php:121
 msgid "No logs found in <code>/data/log/</code>."
 msgstr ""
 
-#: modules/logs.php:147
+#: modules/logs.php:148
 #: modules/toolbox.php:77
 #: modules/toolbox.php:78
 msgid "Logs"
 msgstr ""
 
-#: modules/logs.php:185
+#: modules/logs.php:186
 msgid "Filter"
 msgstr ""
 
 #. translators: $s name of the logfile
-#: modules/logs.php:205
+#: modules/logs.php:206
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 
-#: modules/logs.php:210
+#: modules/logs.php:211
 msgid "Log empty"
 msgstr ""
 
-#: modules/logs.php:212
+#: modules/logs.php:213
 msgid "Scroll to load more lines from the log."
 msgstr ""
 
 #. translators: $s full path of the logfile
-#: modules/logs.php:223
+#: modules/logs.php:224
 msgid "Full log files can be found on the server in the path %s."
 msgstr ""
 
@@ -765,7 +765,7 @@ msgid "Searching for files..."
 msgstr ""
 
 #: modules/security.php:315
-msgid "Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-lisaosat-wp-palvelu-fi-ssa\" target=\"_BLANK\">recommendations for plugins in our environment</a>."
+msgid "Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href=\"https://help.seravo.com/article/165-recommended-plugins\" target=\"_BLANK\">recommendations for plugins in our environment</a>."
 msgstr ""
 
 #: modules/security.php:320
@@ -773,7 +773,7 @@ msgid "Searching for plugins..."
 msgstr ""
 
 #: modules/security.php:336
-msgid "Find and remove themes that are inactive. For more information, please read our <a href=\"https://help.seravo.com/en/knowledgebase/19-themes-and-plugins\" target=\"_BLANK\">documentation concerning themes and plugins</a>."
+msgid "Find and remove themes that are inactive. For more information, please read our <a href=\"https://help.seravo.com/article/70-can-i-install-my-own-plugins-and-themes-on-the-website\" target=\"_BLANK\">documentation concerning themes and plugins</a>."
 msgstr ""
 
 #: modules/security.php:341
@@ -1252,7 +1252,7 @@ msgid "Check PHP compatibility"
 msgstr ""
 
 #: modules/upkeep.php:315
-msgid "See also <a target=\"_blank\" href=\"https://help.seravo.com/en/knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version\">more information on PHP version upgrades</a>."
+msgid "See also <a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version\">more information on PHP version upgrades</a>."
 msgstr ""
 
 #: modules/upkeep.php:370
