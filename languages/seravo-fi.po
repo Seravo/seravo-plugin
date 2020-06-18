@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2020-06-17T11:01:50+03:00\n"
-"PO-Revision-Date: 2020-06-17 11:18+0300\n"
+"POT-Creation-Date: 2020-06-18T11:48:46+03:00\n"
+"PO-Revision-Date: 2020-06-18 12:52+0300\n"
 "Last-Translator: Samuli Lehtonen <samuli@seravo.fi>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -280,13 +280,13 @@ msgstr ""
 msgid ""
 "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/"
 "options-general.php\">site settings</a>. Please <a href=\"https://help."
-"seravo.com/en/knowledgebase/23/docs/55-how-do-i-enable-the-https-on-our-"
-"website\" target=\"_BLANK\">use HTTPS</a>."
+"seravo.com/article/24-how-do-i-enable-the-https-on-our-website\" target="
+"\"_BLANK\">use HTTPS</a>."
 msgstr ""
 "<a href=\"%s/wp-admin/options-general.php\">Sivuston asetuksissa</a> ei ole "
 "HTTPS-suojattu osoite tällä hetkellä käytössä. Lue lisää <a href=\"https://"
-"help.seravo.com/fi/knowledgebase/23/docs/55-miten-otan-https-n-kayttoon-"
-"wordpress-sivustolla\" target=\"_BLANK\">HTTPS:n käyttöönotosta</a>."
+"help.seravo.fi/article/203-miten-otan-https-n-kayttoon-wordpress-sivustolla"
+"\" target=\"_BLANK\">HTTPS:n käyttöönotosta</a>."
 
 #. translators: %1$s: current php version, %2$s: recommended php version
 #: modules/check-php-version.php:57
@@ -512,34 +512,34 @@ msgstr ""
 "että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 "sivuston kehittäjälle."
 
-#: modules/logs.php:120
+#: modules/logs.php:121
 msgid "No logs found in <code>/data/log/</code>."
 msgstr "Lokeja ei löytynyt hakemistosta <code>/data/log/</code>."
 
-#: modules/logs.php:147 modules/toolbox.php:77 modules/toolbox.php:78
+#: modules/logs.php:148 modules/toolbox.php:77 modules/toolbox.php:78
 msgid "Logs"
 msgstr "Lokit"
 
-#: modules/logs.php:185
+#: modules/logs.php:186
 msgid "Filter"
 msgstr "Hae"
 
 #. translators: $s name of the logfile
-#: modules/logs.php:205
+#: modules/logs.php:206
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 "Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä."
 
-#: modules/logs.php:210
+#: modules/logs.php:211
 msgid "Log empty"
 msgstr "Loki on tyhjä"
 
-#: modules/logs.php:212
+#: modules/logs.php:213
 msgid "Scroll to load more lines from the log."
 msgstr "Selaa ladataksesi lisää rivejä lokista."
 
 #. translators: $s full path of the logfile
-#: modules/logs.php:223
+#: modules/logs.php:224
 msgid "Full log files can be found on the server in the path %s."
 msgstr "Lokitiedostot kokonaisuudessaan löytyy palvelimelta polusta %s."
 
@@ -578,7 +578,7 @@ msgstr ""
 "tarkoittaa, että salasanasi on ollut osallisena yhdessä tai useammassa "
 "tietovuodossa tämän verkkosivun ulkoisessa palvelussa. Tämä tekee WordPress-"
 "käyttäjäsi ja käyttäjäsi, jotka käyttävät samaa salasanaa muissa "
-"palveluissa, haavoittuvaisemman mahdollisille kaappausyrityksille. "
+"palveluissa, haavoittuvaisemman mahdollisille kaappausyrityksille."
 
 #: modules/passwords.php:117
 msgid "What actions to take?"
@@ -913,38 +913,39 @@ msgstr ""
 
 #: modules/security.php:304 modules/security.php:325
 msgid "Searching for files..."
-msgstr "Etsitään tiedostoja…"
+msgstr "Etsitään tiedostoja..."
 
 #: modules/security.php:315
 msgid ""
 "Find and remove any plugins that are currently inactive or otherwise "
 "potentially harmful. For more information, please read our <a href=\"https://"
-"help.seravo.com/en/knowledgebase/19-teemat-ja-lisaosat/docs/51-wordpress-"
-"lisaosat-wp-palvelu-fi-ssa\" target=\"_BLANK\">recommendations for plugins "
-"in our environment</a>."
+"help.seravo.com/article/165-recommended-plugins\" target=\"_BLANK"
+"\">recommendations for plugins in our environment</a>."
 msgstr ""
 "Etsi ja poista lisäosia, jotka tällä hetkellä ei ole aktiivisena tai jotka "
 "ovat mahdollisesti haitallisia. Lue lisätiedot <a href=\"https://help.seravo."
-"com/fi/docs/51-mita-lisaosia-seravo-suosittelee\" target=\"_BLANK"
-"\">suositelluista lisäosista palvelinympäristössämme</a>."
+"fi/article/313-suositellut-lisaosat target=\"_BLANK\">suositelluista "
+"lisäosista palvelinympäristössämme</a>."
 
 #: modules/security.php:320
 msgid "Searching for plugins..."
-msgstr "Etsitään lisäosia…"
+msgstr "Etsitään lisäosia..."
 
 #: modules/security.php:336
 msgid ""
 "Find and remove themes that are inactive. For more information, please read "
-"our <a href=\"https://help.seravo.com/en/knowledgebase/19-themes-and-plugins"
-"\" target=\"_BLANK\">documentation concerning themes and plugins</a>."
+"our <a href=\"https://help.seravo.com/article/70-can-i-install-my-own-"
+"plugins-and-themes-on-the-website\" target=\"_BLANK\">documentation "
+"concerning themes and plugins</a>."
 msgstr ""
 "Etsi ja poista ulkoasuteemoja, jotka eivät ole käytössä. Lue lisätiedot <a "
-"href=\"https://help.seravo.com/fi/knowledgebase/19-teemat-ja-lisaosat\" "
-"target=\"_BLANK\">ulkoasuteemoja ja lisäosia koskevista ohjeistamme</a>."
+"href=\"https://help.seravo.fi/article/213-voinko-asentaa-sivustolle-itse-"
+"omia-lisaosia-ja-teemoja\" target=\"_BLANK\">ulkoasuteemoja ja lisäosia "
+"koskevista ohjeistamme</a>."
 
 #: modules/security.php:341
 msgid "Searching for themes..."
-msgstr "Etsitään lisäosia…"
+msgstr "Etsitään lisäosia..."
 
 #: modules/sitestatus.php:30
 msgid "Site Information"
@@ -992,7 +993,7 @@ msgstr "Näytä raportti"
 
 #: modules/sitestatus.php:144
 msgid "Running cache tests..."
-msgstr "Testataan välimuistia…"
+msgstr "Testataan välimuistia..."
 
 #: modules/sitestatus.php:145
 msgid "HTTP cache working"
@@ -1377,7 +1378,7 @@ msgstr "Ainakin yksi testeistä epäonnistui."
 
 #: modules/upkeep.php:106
 msgid "Running rspec tests..."
-msgstr "Testataan sivustoa…"
+msgstr "Testataan sivustoa..."
 
 #: modules/upkeep.php:128
 msgid "Opt-out from updates by Seravo"
@@ -1534,13 +1535,12 @@ msgstr "Tarkista PHP yhteensopivuus"
 
 #: modules/upkeep.php:315
 msgid ""
-"See also <a target=\"_blank\" href=\"https://help.seravo.com/en/"
-"knowledgebase/13/docs/107-set-your-site-to-use-newest-php-version\">more "
-"information on PHP version upgrades</a>."
+"See also <a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-"
+"your-site-to-use-newest-php-version\">more information on PHP version "
+"upgrades</a>."
 msgstr ""
-"Katso myös <a target=\"_blank\" href=\"https://help.seravo.com/fi/"
-"knowledgebase/13/docs/107-uusimpaan-php-versioon-siirtyminen\">ohje PHP-"
-"versiopäivityksistä</a>."
+"Katso myös <a target=\"_blank\" href=\"https://help.seravo.fi/article/234-"
+"uusimpaan-php-versioon-siirtyminen\">ohje PHP-versiopäivityksistä</a>."
 
 #: modules/upkeep.php:370
 msgid ""
