@@ -134,6 +134,10 @@ jQuery(document).ready(function($) {
     var text = jQuery(this).find('.email-button-content').html();
     emails.splice(jQuery.inArray(text, emails), 1);
     $buttonsDiv.html(generateButtons(emails));
+
+    if (emails.length === 0) {
+      $buttonsDiv.html("<p style='color:red;'>" + seravo_upkeep_loc.email_fail + "</p>");
+    }
   });
 
   jQuery.post(
