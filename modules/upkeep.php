@@ -106,6 +106,7 @@ if ( ! class_exists('Upkeep') ) {
           'running_tests' => __('Running rspec tests...', 'seravo'),
           'ajaxurl'    => admin_url('admin-ajax.php'),
           'ajax_nonce' => wp_create_nonce('seravo_upkeep'),
+          'email_fail' => __('There must be at least one contact email', 'seravo'),
         );
 
         wp_localize_script('seravo_upkeep', 'seravo_upkeep_loc', $loc_translation);
@@ -144,6 +145,7 @@ if ( ! class_exists('Upkeep') ) {
         if ( isset($site_info['contact_emails']) ) {
           $contact_emails = $site_info['contact_emails'];
         }
+
         ?>
         <p><?php _e('The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo\'s updates by unchecking the checkbox below.', 'seravo'); ?></p>
         <form name="seravo_updates_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
@@ -160,7 +162,7 @@ if ( ! class_exists('Upkeep') ) {
           <button type="button" class="button" id="slack_webhook_test"><?php _e('Send a Test Notification', 'seravo'); ?></button>
 
           <hr class="seravo-updates-hr">
-          <h2><?php _e('Technical Contacts', 'seravo'); ?></h2>
+          <h2><?php _e('Contacts', 'seravo'); ?></h2>
           <p><?php _e('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo'); ?></p>
           <input class="technical_contacts_input" type="email" multiple size="30" placeholder="<?php _e('example@example.com', 'seravo'); ?>" value="" data-emails="<?php echo htmlspecialchars(json_encode($contact_emails)); ?>">
           <button type="button" class="technical_contacts_add button"><?php _e('Add', 'seravo'); ?></button>
@@ -569,6 +571,7 @@ if ( ! class_exists('Upkeep') ) {
       if ( isset($_POST['technical_contacts']) ) {
         $validated_addresses = array();
 
+        // There must be at least one contact email
         if ( ! empty($_POST['technical_contacts']) ) {
 
           $contact_addresses = explode(',', $_POST['technical_contacts']);
@@ -581,13 +584,6 @@ if ( ! class_exists('Upkeep') ) {
               $validated_addresses[] = $address;
             }
           }
-        } elseif ( trim($_POST['technical_contacts']) === '' ) {
-
-          // If the contact email field is left entirely empty, it means that the
-          // customer wishes to remove all his/her emails => so consider an empty
-          // string as a "valid address"
-          $validated_addresses[] = '';
-
         }
 
         // Only update addresses if any valid ones were found
