@@ -97,6 +97,9 @@ function seravo_ajax_list_cruft_files() {
         '*.wpress',
         'core',
         '*.bak',
+        '*deleteme*',
+        '*.deactivate',
+        '.DS_Store',
       );
       // List of known cruft directories
       $list_dirs = array(
@@ -105,6 +108,7 @@ function seravo_ajax_list_cruft_files() {
         'before*',
         'vanha',
         '*-old',
+        '*-OLD',
         '*-copy',
         '*-2',
         '*.bak',
@@ -114,14 +118,21 @@ function seravo_ajax_list_cruft_files() {
         '*.orig',
         '-backup',
         '*.backup',
+        '*deleteme*',
         getenv('WP_USER') . '_20*',
       );
-      $list_known_files = array();
+      $list_known_files = array(
+        '/data/wordpress/htdocs/wp-content/.htaccess',
+        '/data/wordpress/htdocs/wp-content/db.php',
+        '/data/wordpress/htdocs/wp-content/object-cache.php.off',
+      );
       $list_known_dirs = array(
         '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage',
         '/data/wordpress/htdocs/wp-content/ai1wm-backups',
         '/data/wordpress/htdocs/wp-content/uploads/backupbuddy_backups',
         '/data/wordpress/htdocs/wp-content/updraft',
+        '/data/wordpress/htdocs/wp-content/._plugins',
+        '/data/wordpress/htdocs/wp-content/._themes',
       );
       $white_list_dirs = array(
         '/data/wordpress/htdocs/wp-content/plugins',
