@@ -574,7 +574,8 @@ if ( ! class_exists('Upkeep') ) {
         // There must be at least one contact email
         if ( ! empty($_POST['technical_contacts']) ) {
 
-          $contact_addresses = explode(',', $_POST['technical_contacts']);
+          // Only unique emails are valid
+          $contact_addresses = array_unique(explode(',', $_POST['technical_contacts']));
 
           // Perform email validation before making API request
           foreach ( $contact_addresses as $contact_address ) {
