@@ -115,6 +115,7 @@ jQuery(document).ready(function($) {
     if (validateEmail($emailInput)) {
       emails.push($emailInput.val())
       $buttonsDiv.html(generateButtons(emails));
+      $emailInput.val("");
     }
   }
 
