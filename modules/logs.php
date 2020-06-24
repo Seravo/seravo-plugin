@@ -324,6 +324,11 @@ if ( ! class_exists('Logs') ) {
 
       $filesize = filesize($filepath);
 
+      // Prevent reading huge files (over 256MB)
+      if ( $filesize >= 268435456 ) {
+        return false;
+      }
+
       // buffer size is 4096 bytes
       $buffer = 4096;
 
