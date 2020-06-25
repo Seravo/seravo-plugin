@@ -300,8 +300,7 @@ if ( ! class_exists('Site_Status') ) {
       ?>
       <div class="seravo-section">
         <div style="padding: 0px 15px">
-          <p><?php _e('Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo'); ?></p>
-          <hr>
+          <p><?php _e('Manage the site shadows. For more information, visit our <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo'); ?></p>
         </div>
         <div style="padding: 5px 15px 0 15px">
           <?php
@@ -311,55 +310,52 @@ if ( ! class_exists('Site_Status') ) {
           if ( is_wp_error($shadow_list) ) {
             die($shadow_list->get_error_message());
           }
-
           if ( ! empty($shadow_list) ) {
             ?>
-            <table id="shadow-table">
-              <tr>
-                <th><?php _e('Name', 'seravo'); ?></th>
-                <td id="shadow-name">
-                  <select id="shadow-selector">
-                    <option value="" disabled selected hidden><?php _e('Select shadow', 'seravo'); ?></option>
-                    <?php
-                    foreach ( $shadow_list as $shadow => $shadow_data ) {
-                      printf('<option value="%s">%s</option>', $shadow_data['name'], $shadow_data['info']);
-
-                      $shadow_list[$shadow]['domain'] = '';
-                      foreach ( $shadow_data['domains'] as $domain ) {
-                        if ( $domain['primary'] === $shadow_data['name'] ) {
-                          $shadow_list[$shadow]['domain'] = $domain['domain'];
-                        }
-                      }
-                    }
-                    ?>
-                  </select>
-                </td>
-              </tr>
+            <label for="shadow-selector"><?php _e('Select a shadow:', 'seravo'); ?></label>
+            <select id="shadow-selector">
+              <option value="" disabled selected hidden><?php _e('-- Please select a shadow --', 'seravo'); ?></option>
               <?php
-              function add_shadow( $identifier, $ssh, $created, $domain, $hidden = true ) {
+              foreach ( $shadow_list as $shadow => $shadow_data ) {
+                printf('<option value="%s">%s</option>', $shadow_data['name'], $shadow_data['info']);
+                $shadow_list[$shadow]['domain'] = '';
+                foreach ( $shadow_data['domains'] as $domain ) {
+                  if ( $domain['primary'] === $shadow_data['name'] ) {
+                    $shadow_list[$shadow]['domain'] = $domain['domain'];
+                  }
+                }
+              }
+              ?>
+            </select>
+            <div id="shadow-table">
+              <?php
+              function add_shadow( $name, $identifier, $ssh, $created, $domain, $hidden = true ) {
                 ?>
-                <tbody data-shadow="<?php echo $identifier; ?>" data-domain="<?php echo $domain; ?>" class="<?php echo ($hidden ? 'shadow-hidden ' : ''); ?>shadow-row">
-                <tr><th><?php _e('Identifier', 'seravo'); ?></th><td><?php echo $identifier; ?></td></tr>
-                <tr><th><?php _e('SSH Port', 'seravo'); ?></th><td><?php echo $ssh; ?></td></tr>
-                <tr><th><?php _e('Domain', 'seravo'); ?></th><td><?php echo (empty($domain) ? '-' : $domain); ?></td></tr>
-                <tr><th><?php _e('Creation Date', 'seravo'); ?></th><td><?php echo $created; ?></td></tr>
+                <table>
+                  <tbody data-shadow="<?php echo $identifier; ?>" data-domain="<?php echo $domain; ?>" class="<?php echo ($hidden ? 'shadow-hidden ' : ''); ?>shadow-row">
+                  <tr><th><?php _e('Name', 'seravo'); ?></th><td id="shadow-name"><?php echo $name; ?></td></tr>
+                  <tr><th><?php _e('Identifier', 'seravo'); ?></th><td><?php echo $identifier; ?></td></tr>
+                  <tr><th><?php _e('SSH Port', 'seravo'); ?></th><td><?php echo $ssh; ?></td></tr>
+                  <tr><th><?php _e('Domain', 'seravo'); ?></th><td><?php echo (empty($domain) ? '-' : $domain); ?></td></tr>
+                  <tr><th><?php _e('Creation Date', 'seravo'); ?></th><td><?php echo $created; ?></td></tr>
+                  </tbody>
+                </table>
                 <?php
                 if ( ! empty($identifier) ) {
                   ?>
-                  <tr class="data-actions"><th><?php _e('Actions', 'seravo'); ?></th><td><a class="action-link closed" href=""><?php _e('Move Data', 'seravo'); ?><span></span></a></td></tr>
+                  <div data-shadow="<?php echo $identifier; ?>" class="<?php echo ($hidden ? 'shadow-hidden ' : ''); ?>shadow-row" style="padding: 10px 0px">
+                    <a class="data-actions action-link closed" href=""><?php _e('Resetting the shadow from production', 'seravo'); ?><span></span></a>                    
+                  </div>
                   <?php
                 }
                 ?>
-                </tbody>
                 <?php
               }
-              // One empty entry for 'select shadow' in dropdown
-              add_shadow('', '', '', ' ', false);
               foreach ( $shadow_list as $shadow_data ) {
-                add_shadow($shadow_data['name'], $shadow_data['ssh'], $shadow_data['created'], $shadow_data['domain']);
+                add_shadow($shadow_data['info'], $shadow_data['name'], $shadow_data['ssh'], $shadow_data['created'], $shadow_data['domain']);
               }
               ?>
-            </table>
+            </div>
             <?php
           } else {
             ?>
@@ -371,9 +367,8 @@ if ( ! class_exists('Site_Status') ) {
           ?>
         </div>
         <div id="shadow-data-actions" class="shadow-hidden">
-          <hr>
-          <h3 style="margin-top:20px;"><?php _e('Reset shadow from production', 'seravo'); ?></h3>
-          <i>production > <span id="shadow-reset-instance">shadow</span></i>
+          <p><?php _e('Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo'); ?></p>
+          <p><?php _e('Shadow to be reset: ', 'seravo'); ?> <span id="shadow-reset-instance">shadow</span></p>
           <p><?php _e('<b>Warning:</b> This will replace everything currently in the <i>/data/wordpress/</i> directory and the database of the shadow with a copy of production site. Be sure to know what you are doing.', 'seravo'); ?></p>
           <form>
             <input type="hidden" name="shadow-reset-production" value="<?php echo str_replace(array( 'https://', 'http://' ), '://', get_home_url()); ?>">
