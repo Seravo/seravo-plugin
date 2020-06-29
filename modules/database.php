@@ -13,6 +13,7 @@ if ( ! defined('ABSPATH') ) {
 }
 
 require_once dirname(__FILE__) . '/../lib/search-replace-ajax.php';
+require_once dirname(__FILE__) . '/../lib/db-cleanup-ajax.php';
 require_once dirname(__FILE__) . '/../lib/database-ajax.php';
 
 if ( ! class_exists('Database') ) {
@@ -36,9 +37,10 @@ if ( ! class_exists('Database') ) {
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_database_scripts' ));
 
-      // Add AJAX endpoints for wp search-replace and database info
+      // Add AJAX endpoints for wp search-replace, database info and database cleanup
       add_action('wp_ajax_seravo_search_replace', 'seravo_ajax_search_replace');
       add_action('wp_ajax_seravo_wp_db_info', 'seravo_ajax_get_wp_db_info');
+      add_action('wp_ajax_seravo_db_cleanup', 'seravo_ajax_db_cleanup');
 
       seravo_add_postbox(
         'database-access',
@@ -65,12 +67,21 @@ if ( ! class_exists('Database') ) {
       );
 
       seravo_add_postbox(
+        'database-cleanup',
+        __('Database Cleanup Tool', 'seravo'),
+        array( __CLASS__, 'database_cleanup_postbox' ),
+        'tools_page_database_page',
+        'side'
+      );
+
+      seravo_add_postbox(
         'database-size',
         __('Database Size', 'seravo'),
         array( __CLASS__, 'database_size_postbox' ),
         'tools_page_database_page',
         'side'
       );
+
     }
 
     /**
@@ -210,6 +221,22 @@ if ( ! class_exists('Database') ) {
         <table id="search_replace"></table>
         <?php
       endif;
+    }
+
+    public static function database_cleanup_postbox() {
+      ?>
+      <p> <?php _e('You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a dry run is compulsory before the actual cleanup can be done.', 'seravo'); ?></p>
+      
+      <div class="datab_buttons">
+            <button id="cleanup-drybutton" class="button cleanup-button"> <?php _e('Do a dry run', 'seravo'); ?> </button>
+            <button id="cleanup-button" class="button cleanup-button" disabled> <?php _e('Run wp-db-cleanup', 'seravo'); ?> </button>
+          </div>
+        <div id="cleanup_loading"><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
+        <div id="cleanup_command"></div>
+
+        <table id="db_cleanup"></table>
+
+      <?php
     }
 
     public static function database_size_postbox() {
