@@ -23,7 +23,7 @@
   overflow-wrap: anywhere;
 }
 
-#search_replace_command {
+#search_replace_command, #cleanup_command {
   margin: 1rem 0;
 }
 

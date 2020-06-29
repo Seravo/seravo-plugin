@@ -84,6 +84,67 @@ jQuery(document).ready(function($) {
     jQuery('#skip_backup').prop('checked', false);
   });
 
+  // Load the database cleanup
+  function seravo_load_cleanup_report(section, options) {
+    jQuery.post(
+      seravo_database_loc.ajaxurl, {
+        'action': 'seravo_db_cleanup',
+        'section': section,
+        'options': options,
+        'nonce': seravo_database_loc.ajax_nonce,
+      },
+      function (rawData) {
+        if (rawData.length === 0) {
+          jQuery('#' + section).html('No data returned for section.');
+        }
+        var data = JSON.parse(rawData);
+
+        // Loops through the data array row by row
+        jQuery.each(data, function (i, row) {
+          var tr = jQuery('<tr>');
+          // Loops through the row column by column
+          jQuery.each(row.split('\t'), function (j, col) {
+            if (i === 0) {
+              // Command row
+              jQuery('#cleanup_command').append('<code>' + col + '</code>');
+            } else if (i === 1) {
+              // Title row
+              jQuery('<td>').html(col.replace("Replacements", "Count")).appendTo(tr);
+            } else {
+              // Result rows rows
+              // Make 'table' and 'column' columns wrap
+              var td_class = j <= 1 ? 'sr_result_field' : '';
+              jQuery('<td class="' + td_class + '">').html(col).appendTo(tr);
+            }
+          })
+          jQuery('#cleanup_loading img').fadeOut();
+          jQuery('#db_cleanup').append(tr);
+        });
+        jQuery('#cleanup-button').prop('disabled', false);
+      }
+    ).fail(function () {
+      jQuery('#' + section + '_loading').html('Failed to load. Please try again.');
+    });
+  }
+
+  jQuery('.cleanup-button').click(function () {
+    jQuery('#cleanup_loading img').fadeIn();
+    jQuery('#db_cleanup').empty();
+    jQuery('#cleanup_command').empty();
+
+    var options = {};
+    if (jQuery(this).attr('id') === "cleanup-button") {
+      options['dry_run'] = false;
+    } else {
+      options['dry_run'] = true;
+    }
+    seravo_load_cleanup_report('db_cleanup', options);
+  });
+
+  jQuery(document).ready(function () {
+    jQuery('#cleanup-button').prop('disabled', true);
+  });
+
   // Database table sizes script
   // Load db info with ajax because it might take a little while
   function seravo_load_db_info(section) {
