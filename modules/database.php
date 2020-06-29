@@ -233,9 +233,7 @@ if ( ! class_exists('Database') ) {
           </div>
         <div id="cleanup_loading"><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
         <div id="cleanup_command"></div>
-
         <table id="db_cleanup"></table>
-
       <?php
     }
 

@@ -18,7 +18,11 @@ function seravo_db_cleanup( $options ) {
   // Only way this is not true, is if the backups fail
   if ( $options['dry_run'] === 'true' || $return_code === 0 ) {
     array_push($output, '<b>$ ' . $command . '</b>');
-    exec($command . ' 2>&1', $output);
+    $dry_run = exec($command . ' 2>&1', $output);
+
+    if ( empty($dry_run) ) {
+      $output[$command] = __('Nothing to be cleaned up', 'seravo');
+    }
   } else {
     array_push($output, 'Backup failed... Aborting');
   }
@@ -29,13 +33,10 @@ function seravo_db_cleanup_set_flags( $options ) {
   $flags = '';
   if ( ! isset($options['dry_run']) || $options['dry_run'] === 'true' ) {
     $flags .= '--dry-run ';
+  } else {
+    $flags .= '--delay 0 ';
   }
 
-  if ( isset($options['network']) && $options['network'] === 'true' ) {
-    $flags .= '--network ';
-  } elseif ( is_multisite() ) {
-    $flags .= '--url="' . get_site_url() . '" ';
-  }
   return $flags;
 }
 
@@ -43,8 +44,8 @@ function seravo_ajax_db_cleanup() {
   check_ajax_referer('seravo_database', 'nonce');
   switch ( $_REQUEST['section'] ) {
     case 'db_cleanup':
-      $db_cleanup = seravo_db_cleanup($_REQUEST['options']);
-      echo wp_json_encode($db_cleanup);
+      $db_cleanup_result = seravo_db_cleanup($_REQUEST['options']);
+      echo wp_json_encode($db_cleanup_result);
       break;
 
     default:
