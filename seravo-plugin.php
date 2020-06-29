@@ -159,9 +159,14 @@ class Loader {
     require_once dirname(__FILE__) . '/modules/wp-login-log.php';
 
     /*
-     * Log plugin and theme activations, deactivations, installations and deletions.
+     * Log plugin and theme activations, deactivations, installations and deletions
      */
     require_once dirname(__FILE__) . '/modules/wp-plugin-log.php';
+
+    /*
+     * Log important user changes in user such as roles, passwords and emails
+     */
+    require_once dirname(__FILE__) . '/modules/wp-user-log.php';
 
     /*
      * Enforce strong passwords
