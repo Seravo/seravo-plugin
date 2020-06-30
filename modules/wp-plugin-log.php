@@ -78,20 +78,13 @@ if ( ! class_exists('PluginLog') ) {
     }
 
     public static function write_log( $message ) {
-      $log_directory = dirname(ini_get('error_log'));
-
-      if ( empty($log_directory) ) {
-        // If there is no log directory, just log one directory above WordPress
-        // and hope that directory is writeable but not accessible from the web
-        $log_directory = '..';
-      }
       $time_local = gmdate('j/M/Y:H:i:s O');
 
       $current_user = wp_get_current_user();
 
       $username = $current_user->user_login;
 
-      $log_fp = fopen($log_directory . '/wp-settings.log', 'a');
+      $log_fp = fopen('/data/log/wp-settings.log', 'a');
       fwrite($log_fp, "$time_local User $username $message\n");
       fclose($log_fp);
     }
