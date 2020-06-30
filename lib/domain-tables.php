@@ -4,11 +4,11 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists('WP_List_Table') ) {
-  require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
+if ( ! class_exists('Seravo\WP_List_Table') ) {
+  require_once 'list-table.php';
 }
 
-class Seravo_Domains_List_Table extends WP_List_Table {
+class Seravo_Domains_List_Table extends Seravo\WP_List_Table {
 
   public function __construct() {
     global $status, $page;
@@ -298,7 +298,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
   }
 }
 
-class Seravo_Mails_Forward_Table extends WP_List_Table {
+class Seravo_Mails_Forward_Table extends Seravo\WP_List_Table {
 
   public function __construct() {
     // Set parent defaults
