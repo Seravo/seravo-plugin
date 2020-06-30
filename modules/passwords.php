@@ -69,7 +69,7 @@ if ( ! class_exists('Passwords') ) {
         return $redirect_to;
       }
       // Make the check every 3 months
-      $time_now = current_time('timestamp', true);
+      $time_now = time();
       $pwned_meta = get_user_meta($user->ID, 'seravo_pwned_check', true);
       if ( empty($pwned_meta) || $time_now - (int) $pwned_meta > 90 * DAY_IN_SECONDS ) {
         // Check if the password has been pwned

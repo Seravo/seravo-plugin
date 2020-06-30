@@ -191,7 +191,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
                     } elseif ( $custom_context === 'column4' ) {
                       $custom_context = 'side';
                     }
-                  } else if ( $column_count === 'one_column' ) {
+                  } elseif ( $column_count === 'one_column' ) {
                     if ( $custom_context !== 'normal' ) {
                       $custom_context = 'normal';
                     }
@@ -230,7 +230,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
       if ( $column_count === 'two_column' ) {
         $container_contexts = array( 'normal', 'side' );
-      } else if ( $column_count === 'one_column' ) {
+      } elseif ( $column_count === 'one_column' ) {
         $container_contexts = array( 'normal' );
       }
 
@@ -240,7 +240,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
       if ( $column_count === 'two_column' ) {
         $container_class = 'two-column-layout';
-      } else if ( $column_count === 'one_column' ) {
+      } elseif ( $column_count === 'one_column' ) {
         $container_class = 'one-column-layout';
       }
 

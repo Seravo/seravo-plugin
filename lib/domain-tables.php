@@ -66,7 +66,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
         } else {
           $actions['edit'] = sprintf($action_request, 'edit', __('Edit', 'seravo'));
         }
-      } else if ( $item['management'] === 'Customer' ) {
+      } elseif ( $item['management'] === 'Customer' ) {
         $actions['view'] = sprintf($action_request, 'sniff', __('View', 'seravo'));
         $actions['edit'] = sprintf($action_disabled, __('DNS not managed by Seravo.', 'seravo'), __('Edit', 'seravo'));
       } else {
@@ -338,10 +338,10 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
       '<p>%s</p>%s',
       $item['domain'],
       $this->row_actions(
-        [
+        array(
           'view' => $view,
           'edit' => $edit,
-        ]
+        )
       )
     );
 
@@ -361,9 +361,9 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
       if ( $domain['management'] === 'Seravo' ) {
         array_push(
           $data,
-          [
+          array(
             'domain' => $domain['domain'],
-          ]
+          )
         );
       }
     }

@@ -69,8 +69,7 @@ Some of the features in the Seravo Plugin depend on the API that is available on
 
 In order to have the git repository on your own computer and in your own editor, while still being able to see the code running on a test site (in the production environment) you can use the command below. It will watch all files for changes and automatically rsync them to the remote server:
 ```
-seravo-plugin$ find * | entr rsync -avz -e 'ssh -q -p 12345' * \
-example@example.seravo.com:/data/wordpress/htdocs/wp-content/mu-plugins/seravo-plugin/
+seravo-plugin$ find * | entr rsync -avz -e 'ssh -q -p 12345' * example@example.seravo.com:/data/wordpress/htdocs/wp-content/mu-plugins/seravo-plugin/
 sending incremental file list
 README.md
 
@@ -85,6 +84,29 @@ Remember to update translations of all public facing string by running inside Va
 cd /data/wordpress/htdocs/wp-content/mu-plugins/seravo-plugin
 wp i18n make-pot . languages/seravo.pot
 ```
+
+### Running PHPCS
+
+If you have PHPCS installed locally with all the WordPress standards, simply run `phpcs` yourself or let your code editor run it automatically on every save. Alternatively run PHPCS inside local Vagrant or Docker image, or on the same remote site used for testing:
+
+```
+ssh -q -p 12345 example@example.seravo.com 'cd '/data/wordpress/htdocs/wp-content/mu-plugins/seravo-plugin/ && phpcs
+........S.......WWWWWWWWWWEWWEWWWWW.WWEWWWW.W.WWEWWEWEW..... 60 / 68 (88%)
+......W.                                                     68 / 68 (100%)
+
+FILE: ...press/htdocs/wp-content/mu-plugins/seravo-plugin/lib/helpers.php
+----------------------------------------------------------------------
+FOUND 0 ERRORS AND 3 WARNINGS AFFECTING 2 LINES
+----------------------------------------------------------------------
+ 35 | WARNING | Filesystem function dirname() detected with dynamic
+    |         | parameter
+ 35 | WARNING | Line exceeds 100 characters; contains 118 characters
+ 44 | WARNING | Line exceeds 100 characters; contains 107 characters
+----------------------------------------------------------------------
+...
+```
+
+PHPCS can be installed locally using the same script .travis.yml uses. See `scripts/install-phpcs.sh`.
 
 # Changelog
 

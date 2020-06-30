@@ -81,6 +81,9 @@
     <exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped" />
     <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification" />
     <exclude name="WordPress.Security.NonceVerification" />
+
+    <!-- We have valid use cases for localized dates, so ingore this -->
+    <exclude name="WordPress.DateTime.RestrictedFunctions.date_date" />
   </rule>
 
 

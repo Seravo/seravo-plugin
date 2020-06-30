@@ -120,7 +120,7 @@ function seravo_admin_change_zone_file() {
                 break;
               }
             }
-          } else if ( substr($line, 0, 1) === '-' && substr($line, 1, 1) !== '-' ) {
+          } elseif ( substr($line, 0, 1) === '-' && substr($line, 1, 1) !== '-' ) {
             // Removed lines (-) can be added as they are
             array_push($zone_diff, $line);
           }
@@ -162,7 +162,7 @@ function seravo_fetch_dns() {
 
 function seravo_set_primary_domain() {
   if ( isset($_REQUEST['domain']) ) {
-    $response = Seravo\API::update_site_data(array( 'domain' => $_REQUEST['domain'] ), '/primary_domain', [ 200 ], 'POST');
+    $response = Seravo\API::update_site_data(array( 'domain' => $_REQUEST['domain'] ), '/primary_domain', array( 200 ), 'POST');
     if ( is_wp_error($response) ) {
       return seravo_respond_error_json($response->get_error_message());
       wp_die();
@@ -196,7 +196,7 @@ function seravo_edit_forwards() {
       foreach ( $destinations as $key => $destination ) {
         if ( strpos($destination, '@') > 0 && strpos($destination, '.') > 0 ) {
           array_push($destinations_parsed, trim($destination));
-        } else if ( empty($destination) ) {
+        } elseif ( empty($destination) ) {
           unset($destinations[$key]);
         }
       }
@@ -263,10 +263,10 @@ function seravo_edit_forwards() {
     if ( $old_source === '' && $new_source !== '' && ! empty($destinations) ) {
       // Create a new source (or replace)
       return create_forward($domain, $new_source, $destinations);
-    } else if ( $old_source !== '' && $new_source === '' && empty($destinations) ) {
+    } elseif ( $old_source !== '' && $new_source === '' && empty($destinations) ) {
       // Delete a source
       return delete_forward($domain, $old_source);
-    } else if ( $old_source !== '' && $new_source !== '' ) {
+    } elseif ( $old_source !== '' && $new_source !== '' ) {
       // Edit an existing source
       if ( $old_source === $new_source ) {
         // Don't modify the source
