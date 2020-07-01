@@ -11,6 +11,8 @@ function generateChart(JSONdata) {
   });
   // Generate chart
   var ctx = document.getElementById('pie_chart');
+  ctx.height = 500;
+  ctx.width = 500;
   var myPieChart = new Chart(ctx, {
     type: 'pie',
     data: {
@@ -24,7 +26,7 @@ function generateChart(JSONdata) {
       ]
     },
     options: {
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       resposive: true,
       tooltips: {
         callbacks: {

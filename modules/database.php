@@ -220,7 +220,7 @@ if ( ! class_exists('Database') ) {
             <div id="seravo_wp_db_info_loading"><img src="/wp-admin/images/spinner.gif"></div>
             <pre><div id="seravo_wp_db_info"></div></pre>
             <div class="pie_container">
-              <canvas id="pie_chart" style="width: 10%; height: 4vh;"></canvas>
+              <canvas id="pie_chart"></canvas>
             </div>
           </p>
         </div>
