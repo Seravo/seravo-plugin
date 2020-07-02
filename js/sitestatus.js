@@ -156,66 +156,67 @@ jQuery(document).ready(function($) {
     }
   });
 
-  $('#shadow-selector').change(function() {
-    var $shadow = $("[data-shadow=" + $(this).val() + "]");
-    if ($shadow) {
-      $('.shadow-row').addClass('shadow-hidden');
-      $shadow.removeClass('shadow-hidden');
-      $('#shadow-reset').prop('disabled', false);
-      $('#shadow-reset-status').html('');
-      update_data_gui();
-    }
-  });
-  $('.action-link').click(function(event) {
-    event.preventDefault();
-    if (! $(this).hasClass('closed')) {
-      $(this).addClass('closed');
-      $('#shadow-data-actions').addClass('shadow-hidden');
-    } else {
-      $(this).removeClass('closed');
-      $('#shadow-data-actions').removeClass('shadow-hidden');
-      update_data_gui();
-    }
-  });
-
-  function update_data_gui() {
-    var instance = $('#shadow-selector').val();
-    $('#shadow-reset-instance').html(instance);
-    var production_domain = $('input[name=shadow-reset-production]').val();
-    var shadow_domain = $('[data-shadow=' + instance + ']').attr('data-domain');
-    if (shadow_domain) {
-      $('input[name=shadow-reset-sr-from]').val(production_domain);
-      $('input[name=shadow-reset-sr-to]').val('://' + shadow_domain);
-      $('#shadow-reset-sr-alert').removeClass('shadow-hidden');
-      $('#shadow-reset-nosr-alert').addClass('shadow-hidden');
-    } else {
-      $('input[name=shadow-reset-sr-from]').val('');
-      $('input[name=shadow-reset-sr-to]').val('');
-      $('#shadow-reset-sr-alert').addClass('shadow-hidden');
-      $('#shadow-reset-nosr-alert').removeClass('shadow-hidden');
-    }
-    $('#shadow-reset').prop('disabled', false);
-    $('#shadow-reset-status').html('');
-  }
-
-  $('#shadow-reset').click(function(event) {
+  $('.reset').click(function(event) {
+    var shadow_id = $(this).closest('tbody').attr('id');
     var is_user_sure = confirm(seravo_site_status_loc.confirm);
     if ( ! is_user_sure) {
       return;
     }
-    seravo_ajax_reset_shadow($('#shadow-selector').val(),
-      function( status ){
+    // Hide any old alert messages
+    $('.alert').hide();
+    seravo_ajax_reset_shadow(shadow_id,
+      function( status ) {
         if ( status == 'progress' ) {
           event.target.disabled = true;
-          $('#shadow-reset-status').html("<img src=\"/wp-admin/images/spinner.gif\">");
+          // Select only row with a certain shadow id
+          $('#' + shadow_id).find('#shadow-reset-status').html("<img src=\"/wp-admin/images/spinner.gif\">");
         } else if ( status == 'success' ) {
-          $('#shadow-reset-status').html(seravo_site_status_loc.success);
+          $('#' + shadow_id).find('#shadow-reset-status').empty();
+          $('.alert#alert-success').show();
+          $('.closebtn').show();
+          // Check if the shadow has domains and show instructions to search-replace domain if necessary
+          var shadow_domain = $('#' + shadow_id).find('input[name=shadow-domain]').val();
+          if ( ! (shadow_domain.length === 0) ) {
+            $('.alert#alert-success').find('.shadow-reset-sr-alert').show();
+            $('#shadow-primary-domain').text(shadow_domain);
+          }
         } else if ( status == 'failure' ) {
-          $('#shadow-reset-status').html(seravo_site_status_loc.failure);
+          $('#' + shadow_id).find('#shadow-reset-status').empty();
+          $('.alert#alert-failure').show();
+          $('.closebtn').show();
         } else {
-          $('#shadow-reset-status').html(seravo_site_status_loc.error);
+          $('#' + shadow_id).find('#shadow-reset-status').empty();
+          $('.alert#alert-error').show();
+          $('.closebtn').show();
         }
-      });
+      }
+    );
+  });
+
+  $('.closebtn').click(function() {
+    $(this).parent().hide();
+  });
+
+  // Open/fold the row containing additional information
+  $('#shadow-table td.open-folded').on('click', function() {
+    // Get shadow id of the row's shadow
+    var shadow_id = $(this).closest('tbody').attr('id');
+    if ($('#' + shadow_id).find('.fold').hasClass('open')) {
+      // Fold row and turn icon
+      $('#' + shadow_id).find('.fold').removeClass('open');
+      $('#' + shadow_id + ' td.open-icon').addClass('closed-icon').removeClass('open-icon');
+    } else {
+      // Open row and turn icon
+      $('#' + shadow_id).find('.fold').addClass('open');
+      $('#' + shadow_id + ' td.closed-icon').addClass('open-icon').removeClass('closed-icon');
+      // Get production domain and shadow domain
+      var shadow_domain = $('#' + shadow_id).find('input[name=shadow-domain]').val();
+      // Show the right message depending whether the shadow needs search-replace after reset or not
+      // (whether it has domain or not)
+      if ( ! (shadow_domain.length === 0)) {
+        $('#' + shadow_id).find('.shadow-reset-sr-alert').removeClass('shadow-hidden');
+      }
+    }
   });
 
   function seravo_ajax_reset_shadow(shadow, animate) {
