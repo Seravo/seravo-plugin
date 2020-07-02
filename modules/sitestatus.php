@@ -300,8 +300,8 @@ if ( ! class_exists('Site_Status') ) {
       ?>
       <div class="seravo-section">
         <div style="padding: 0px 15px">
-          <p><?php _e('Allow easy access to site shadows. Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo'); ?></p>
-          <hr>
+          <p><?php _e('Manage the site shadows.', 'seravo'); ?></p>
+          <p><?php _e('<strong>Warning: </strong>Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo'); ?></p>
         </div>
         <div style="padding: 5px 15px 0 15px">
           <?php
@@ -311,52 +311,83 @@ if ( ! class_exists('Site_Status') ) {
           if ( is_wp_error($shadow_list) ) {
             die($shadow_list->get_error_message());
           }
-
+          ?>
+          <!-- Alerts after shadow reset -->
+          <div class="alert" id="alert-success">
+            <button class="closebtn">&times;</button>
+            <p><?php _e('Success!', 'seravo'); ?></p>
+            <!-- Search-replace info -->
+            <div class="shadow-reset-sr-alert alert">
+              <p><?php _e('Because this shadow uses a custom domain, <strong>please go to the shadow and run search-replace there with the values below</strong> for the shadow to be accessible after reset: ', 'seravo'); ?></p>
+              <p>
+                <?php
+                  _e('<strong>From:</strong> ', 'seravo');
+                  echo str_replace(array( 'https://', 'http://' ), '://', get_home_url());
+                  _e('<br><strong>To:</strong> ', 'seravo');
+                ?>
+                ://<span id="shadow-primary-domain"></span>
+              </p>
+              <p><?php _e('When you\'re in the shadow, run search-replace either on "Tools --> Database --> Search-Replace Tool" or with wp-cli. Instructions can be found from <a href="https://help.seravo.com/en/docs/151" target="_BLANK">documentation</a>.'); ?></p>
+            </div>
+          </div>
+          <div class="alert" id="alert-failure"><button class="closebtn">&times;</button><p><?php _e('Failure!', 'seravo'); ?></p></div>
+          <div class="alert" id="alert-error"><button class="closebtn">&times;</button><p><?php _e('Error!', 'seravo'); ?></p></div>
+          <?php
           if ( ! empty($shadow_list) ) {
             ?>
             <table id="shadow-table">
-              <tr>
-                <th><?php _e('Name', 'seravo'); ?></th>
-                <td id="shadow-name">
-                  <select id="shadow-selector">
-                    <option value="" disabled selected hidden><?php _e('Select shadow', 'seravo'); ?></option>
-                    <?php
-                    foreach ( $shadow_list as $shadow => $shadow_data ) {
-                      printf('<option value="%s">%s</option>', $shadow_data['name'], $shadow_data['info']);
-
-                      $shadow_list[$shadow]['domain'] = '';
-                      foreach ( $shadow_data['domains'] as $domain ) {
-                        if ( $domain['primary'] === $shadow_data['name'] ) {
-                          $shadow_list[$shadow]['domain'] = $domain['domain'];
-                        }
-                      }
-                    }
-                    ?>
-                  </select>
-                </td>
-              </tr>
               <?php
-              function add_shadow( $identifier, $ssh, $created, $domain, $hidden = true ) {
-                ?>
-                <tbody data-shadow="<?php echo $identifier; ?>" data-domain="<?php echo $domain; ?>" class="<?php echo ($hidden ? 'shadow-hidden ' : ''); ?>shadow-row">
-                <tr><th><?php _e('Identifier', 'seravo'); ?></th><td><?php echo $identifier; ?></td></tr>
-                <tr><th><?php _e('SSH Port', 'seravo'); ?></th><td><?php echo $ssh; ?></td></tr>
-                <tr><th><?php _e('Domain', 'seravo'); ?></th><td><?php echo (empty($domain) ? '-' : $domain); ?></td></tr>
-                <tr><th><?php _e('Creation Date', 'seravo'); ?></th><td><?php echo $created; ?></td></tr>
-                <?php
-                if ( ! empty($identifier) ) {
-                  ?>
-                  <tr class="data-actions"><th><?php _e('Actions', 'seravo'); ?></th><td><a class="action-link closed" href=""><?php _e('Move Data', 'seravo'); ?><span></span></a></td></tr>
-                  <?php
+              foreach ( $shadow_list as $shadow => $shadow_data ) {
+                $primary_domain = '';
+                // Find primary domain of the shadow
+                foreach ( $shadow_data['domains'] as $domain ) {
+                  if ( $domain['primary'] === $shadow_data['name'] ) {
+                    $primary_domain = $domain['domain'];
+                  } else {
+                    $primary_domain = '';
+                  }
                 }
-                ?>
+              ?>
+                <!-- Two rows per shadow: by default, one visibe and another hidden -->
+                <tbody id="<?php echo ($shadow_data['name']); ?>">
+                  <tr class="view" >
+                    <td class="open-folded"><?php echo $shadow_data['name']; ?></td>
+                    <td><button class="button reset"><?php _e('Reset', 'seravo'); ?></button></td>
+                    <td class="open-folded" id="shadow-reset-status"></td>
+                    <td class="open-folded closed-icon"><span></span></td>
+                  </tr>
+                  <tr class="fold">
+                    <td colspan="4">
+                      <!-- More info of the shadow -->
+                      <p><?php _e('Port: ', 'seravo'); ?> <?php echo $shadow_data['ssh']; ?></p>
+                      <p><?php _e('Creation Date: ', 'seravo'); ?> <?php echo $shadow_data['created']; ?></p>
+                      <p><?php _e('Information: ', 'seravo'); ?> <?php echo $shadow_data['info']; ?></p>
+                      <p><?php _e('Domain: ', 'seravo'); ?> <?php echo (empty($primary_domain) ? '-' : $primary_domain); ?></p>
+                      <!-- Search-replace info -->
+                      <form>
+                        <div class="shadow-reset-sr-alert shadow-hidden">
+                          <p><?php _e('This shadow uses a custom domain. <strong>For the shadow to be accessible after reset, please run search-replace in the shadow with the values below:</strong>', 'seravo'); ?></p>
+                          <p>
+                            <?php
+                              _e('<strong>From:</strong> ', 'seravo');
+                              echo str_replace(array( 'https://', 'http://' ), '://', get_home_url());
+                              _e('<br><strong>To:</strong> ://', 'seravo');
+                              echo $primary_domain;
+                            ?>
+                          </p>
+                          <p><?php _e('When you\'re in the shadow, you can run search-replace either on "Tools --> Database --> Search-Replace Tool" or with wp-cli. Instructions can be found from <a href="https://help.seravo.com/en/docs/151" target="_BLANK">documentation</a>.', 'seravo'); ?></p>
+                        </div>
+                        <input type="hidden" name="shadow-reset-production" value="<?php echo str_replace(array( 'https://', 'http://' ), '://', get_home_url()); ?>">
+                        <input type="hidden" name="shadow-domain" value="<?php echo ($primary_domain); ?>">                        
+                        <table class="shadow-rs-table shadow-hidden">
+                          <tr><td><input type="text" name="shadow-reset-sr-from" disabled></td></tr>
+                          <tr><td><input type="text" name="shadow-reset-sr-to" disabled></td></tr>
+                        </table>
+                      </form>
+                    </td>
+                  </tr>
                 </tbody>
                 <?php
-              }
-              // One empty entry for 'select shadow' in dropdown
-              add_shadow('', '', '', ' ', false);
-              foreach ( $shadow_list as $shadow_data ) {
-                add_shadow($shadow_data['name'], $shadow_data['ssh'], $shadow_data['created'], $shadow_data['domain']);
               }
               ?>
             </table>
@@ -369,32 +400,6 @@ if ( ! class_exists('Site_Status') ) {
             <?php
           }
           ?>
-        </div>
-        <div id="shadow-data-actions" class="shadow-hidden">
-          <hr>
-          <h3 style="margin-top:20px;"><?php _e('Reset shadow from production', 'seravo'); ?></h3>
-          <i>production > <span id="shadow-reset-instance">shadow</span></i>
-          <p><?php _e('<b>Warning:</b> This will replace everything currently in the <i>/data/wordpress/</i> directory and the database of the shadow with a copy of production site. Be sure to know what you are doing.', 'seravo'); ?></p>
-          <form>
-            <input type="hidden" name="shadow-reset-production" value="<?php echo str_replace(array( 'https://', 'http://' ), '://', get_home_url()); ?>">
-            <table id="shadow-rs-table">
-              <tr><th colspan="2"><input type="checkbox" name="shadow-reset-sr" disabled><?php _e('Execute search-replace', 'seravo'); ?></th></tr>
-              <tr><td>From: </td><td><input type="text" name="shadow-reset-sr-from" disabled></td></tr>
-              <tr><td>To: </td><td><input type="text" name="shadow-reset-sr-to" disabled></td></tr>
-            </table>
-          </form>
-          <div id="shadow-reset-sr-alert" class="shadow-hidden">
-            <?php _e("This shadow uses a custom domain. Search-replace can't currently be ran automatically with shadow reset. Please run it manually afterwards with the values above or the shadow can't be accessed. Instructions can be found in <a href='https://help.seravo.com/en/docs/151' target='_BLANK'>here</a>.", 'seravo'); ?>
-          </div>
-          <div id="shadow-reset-nosr-alert">
-            <?php _e("This shadow doesn't need search-replace to be ran afterwards for it to work.", 'seravo'); ?>
-          </div>
-          <table class="shadow-reset-row">
-            <tr>
-              <td><button class="button" id="shadow-reset"><?php _e('Reset from production', 'seravo'); ?></button></td>
-              <td id="shadow-reset-status"></td>
-            </tr>
-          </table>
         </div>
       </div>
       <?php

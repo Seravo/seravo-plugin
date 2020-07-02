@@ -1,6 +1,45 @@
-#shadow-table th, #shadow-rs-table th {
+#shadow-table, .shadow-rs-table th {
   text-align: left;
   padding-right: 20px;
+  border-collapse: collapse;
+  /*table-layout: fixed;*/
+  width: 100%;
+}
+
+/* Keep 2nd, 3rd and 4th columns (Reset button, load icon and arrow icon) of shadows table
+   only the content width */
+   tr.view > td:nth-child(2), tr.view > td:nth-child(3), tr.view > td:nth-child(4) {
+  width:1%;
+  white-space: nowrap;
+}
+
+
+tr.view:hover {
+  background-color: #007CBA;
+  color: white;
+  transition: 0.5s;
+}
+
+th, td {
+  padding: 5px;
+}
+
+.fold {
+  display: none;
+}
+
+.open {
+  display: table-row;
+}
+
+.closed-icon span:before {
+  font: normal 13px/1 dashicons;
+  content: " \f347";
+}
+
+.open-icon span:before {
+  font: normal 13px/1 dashicons;
+  content: " \f343";
 }
 
 .shadow-row table th {
@@ -25,17 +64,6 @@
   padding-top: 10px;
 }
 
-.action-link span:before {
-  position: relative;
-  top: 1px;
-  font: normal 13px/1 dashicons;
-  content: " \f142";
-}
-
-.action-link.closed span:before {
-  content: " \f140";
-}
-
 #shadow-data-actions {
   padding: 15px;
 }
@@ -50,6 +78,47 @@
 
 #shadow-reset {
   margin: 0;
+}
+
+.alert {
+  display: none;
+  color: #FFFFFF;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.alert > p > a {
+  color: white;
+}
+
+.alert > p > a:hover {
+  color: #00A3E4;
+}
+
+.shadow-reset-sr-alert.alert {
+  padding: 0px;
+}
+
+#alert-success {
+  background-color: #6aa84f;
+}
+
+#alert-failure, #alert-error {
+  background-color: #cc0000;
+}
+
+.closebtn {
+  font-size: large;
+  color: white;
+  float: right;
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+}
+
+.closebtn:hover {
+  color: black;
 }
 
 .seravo-cache-test-result-wrapper {
