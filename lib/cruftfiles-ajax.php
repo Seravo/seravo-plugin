@@ -100,6 +100,8 @@ function seravo_ajax_list_cruft_files() {
         '*deleteme*',
         '*.deactivate',
         '.DS_Store',
+        '*.tmp',
+        '*.old',
       );
       // List of known cruft directories
       $list_dirs = array(
@@ -107,6 +109,7 @@ function seravo_ajax_list_cruft_files() {
         '*palautus*',
         'before*',
         'vanha',
+        '*.old',
         '*-old',
         '*-OLD',
         '*-copy',
@@ -125,6 +128,12 @@ function seravo_ajax_list_cruft_files() {
         '/data/wordpress/htdocs/wp-content/.htaccess',
         '/data/wordpress/htdocs/wp-content/db.php',
         '/data/wordpress/htdocs/wp-content/object-cache.php.off',
+        '/data/wordpress/htdocs/wp-content/wp-login.log',
+        '/data/wordpress/htdocs/wp-content/adminer.php',
+        '/data/wordpress/htdocs/wp-content/advanced-cache.php',
+        '/data/wordpress/htdocs/wp-content/._index.php',
+        '/data/wordpress/htdocs/wp-content/siteground-migrator.log',
+        '/data/wordpress/htdocs/wp-content/ari-adminer-config.php',
       );
       $list_known_dirs = array(
         '/data/wordpress/htdocs/wp-content/plugins/all-in-one-wp-migration/storage',
@@ -133,6 +142,7 @@ function seravo_ajax_list_cruft_files() {
         '/data/wordpress/htdocs/wp-content/updraft',
         '/data/wordpress/htdocs/wp-content/._plugins',
         '/data/wordpress/htdocs/wp-content/._themes',
+        '/data/wordpress/htdocs/wp-content/wflogs',
       );
       $white_list_dirs = array(
         '/data/wordpress/htdocs/wp-content/plugins',
