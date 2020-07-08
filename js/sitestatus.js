@@ -52,7 +52,7 @@ jQuery(document).ready(function($) {
                 month.date +
                 '.html" target="_blank" class="button hideMobile">' +
                 seravo_site_status_loc.view_report +
-                '<span aria-hidden="true" class="dashicons dashicons-external" style="line-height: unset; padding-left: 3px;"></span></a></td></tr>'
+                '<span aria-hidden="true" class="dashicons dashicons-external" style="line-height: 1.4; padding-left: 3px;"></span></a></td></tr>'
               );
             }
 
