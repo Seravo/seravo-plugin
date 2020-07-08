@@ -182,7 +182,7 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
 }
 
 /* @TODO: Use classes here, not ID selectors, as we can have many similar elements */
-#seravo_test_show_more_wrapper {
+#seravo_test_show_more_wrapper, #seravo_changes_show_more_wrapper {
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   float: right;
@@ -197,7 +197,11 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
 #seravo_test_show_more,
 #seravo_test_show_more:hover,
 #seravo_test_show_more:active,
-#seravo_test_show_more:focus {
+#seravo_test_show_more:focus,
+#seravo_changes_show_more,
+#seravo_changes_show_more:hover,
+#seravo_changes_show_more:active,
+#seravo_changes_show_more:focus {
   box-shadow: none;
   color: inherit;
   text-decoration: none;
