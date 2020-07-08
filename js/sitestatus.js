@@ -107,7 +107,24 @@ jQuery(document).ready(function($) {
         jQuery(this).fadeIn('slow', function() {
           jQuery('.seravo_cache_test_show_more_wrapper').fadeIn('slow');
         });
-      } else {
+      } else if (section === 'redis_info') {
+        var data = JSON.parse(rawData);
+        var expired_keys = data[0];
+        var evicted_keys = data[1];
+        var keyspace_hits = data[2];
+        var keyspace_misses = data[3];
+        generateRedisHitChart(keyspace_hits, keyspace_misses);
+        jQuery('#redis-expired-keys').text(expired_keys);
+        jQuery('#redis-evicted-keys').text(evicted_keys);
+      } else if (section === 'longterm_cache') {
+        var data = JSON.parse(rawData);
+        var hits = data[0];
+        var misses = data[1];
+        var stales = data[2];
+        var bypasses = data[3];
+        generateHTTPHitChart(hits, misses, stales);
+        jQuery('#http-cache-bypass').text(bypasses);
+      } else {
         var data = JSON.parse(rawData);
         jQuery('#' + section).text(data.join("\n"));
       }

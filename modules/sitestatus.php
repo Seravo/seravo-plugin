@@ -126,14 +126,17 @@ if ( ! class_exists('Site_Status') ) {
     }
 
     public static function enqueue_site_status_scripts( $page ) {
-      wp_register_script('apexcharts-js', 'https://cdn.jsdelivr.net/npm/apexcharts', null, Helpers::seravo_plugin_version(), true);
+      wp_register_script('chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, Helpers::seravo_plugin_version(), true);
+      wp_register_script('apex-charts', 'https://cdn.jsdelivr.net/npm/apexcharts', null, Helpers::seravo_plugin_version(), true);
       wp_register_script('seravo_site_status', plugin_dir_url(__DIR__) . '/js/sitestatus.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_site_status', plugin_dir_url(__DIR__) . '/style/sitestatus.css', '', Helpers::seravo_plugin_version());
       if ( $page === 'tools_page_site_status_page' ) {
         wp_enqueue_style('seravo_site_status');
-        wp_enqueue_script('apexcharts-js');
+        wp_enqueue_script('chart-js');
+        wp_enqueue_script('apex-charts');
         wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('cache-status-charts', plugins_url('../js/cache-status-charts.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('seravo_site_status');
 
         $loc_translation = array(
@@ -182,34 +185,52 @@ if ( ! class_exists('Site_Status') ) {
 
     public static function seravo_cache_status() {
       ?>
-      <h3><?php _e('Redis Transient and Object Cache', 'seravo'); ?></h3>
-      <div class="redis_info_loading">
-        <img src="/wp-admin/images/spinner.gif">
+      <p><?php _e('Caching decreases the load time of the website. The cache hit rate represents the efficiency of cache usage. Read about caching from the <a href="https://help.seravo.com/article/36-how-does-caching-work/" target="_BLANK">documentation</a> or <a href="https://seravo.com/tag/cache/" target="_BLANK">blog</a>.', 'seravo'); ?></p>
+      <h3><?php _e('Object Cache in Redis', 'seravo'); ?></h3>
+      <p><?php _e('Persistent object cache implemented with <a href="https://seravo.com/blog/faster-wordpress-with-transients/" target="_BLANK">transients</a> can be stored in Redis. Instructions on how to activate the object cache can be found from the <a href="https://help.seravo.com/article/38-active-object-cache/" target="_BLANK">documentation</a>.', 'seravo'); ?></p>
+      <h4><?php _e('Cache hit rate', 'seravo'); ?></h4>
+      <div class='redis_info_loading'>
+        <img src='/wp-admin/images/spinner.gif'>
       </div>
-      <pre id="redis_info"></pre>
-      <h3><?php _e('Long-term HTTP Cache Stats', 'seravo'); ?></h3>
-      <div class="longterm_cache_loading">
-        <img src="/wp-admin/images/spinner.gif">
+      <div id='redis-hit-rate-chart'></div>
+      <p>
+        <?php _e('Expired keys: ', 'seravo'); ?>
+        <span id='redis-expired-keys'></span>
+        <span class='tooltip dashicons dashicons-info'>
+          <span class='tooltiptext'>
+            <?php _e('The number of keys deleted.', 'seravo'); ?>
+          </span>
+        </span>
+        <?php _e('<br>Evicted keys: ', 'seravo'); ?>
+        <span id='redis-evicted-keys'></span>
+        <span class='tooltip dashicons dashicons-info'>
+          <span class='tooltiptext'>
+            <?php _e('The number of keys being deleted because the memory usage has hit it\'s limit.', 'seravo'); ?>
+          </span>
+        </span>
+      </p>
+      <h3><?php _e('HTTP Cache', 'seravo'); ?></h3>
+      <p><?php _e('The HTTP cache hit rate is calculated from all Nginx\'s access logs. It describes the long-term cache usage situation.', 'seravo'); ?></p>
+      <h4><?php _e('Cache hit rate', 'seravo'); ?></h4>
+      <div class='longterm_cache_loading'>
+        <img src='/wp-admin/images/spinner.gif'>
       </div>
-      <pre id="longterm_cache"></pre>
+      <div id='http-hit-rate-chart'></div>
+      <p><?php _e('There are <span id=\'http-cache-bypass\'></span> bypasses.', 'seravo'); ?></p>
       <h3><?php _e('Nginx HTTP Cache', 'seravo'); ?></h3>
-      <div id="front_cache_status">
-        <p>
-          <?php
-          _e('Here you can test the functionality of front cache. Same results can be achieved via command line by running <code>wp-check-http-cache</code> there.', 'seravo');
-          ?>
-        </p>
-        <button type="button" class="button-primary" id="run-cache-tests"><?php _e('Run Tests', 'seravo'); ?></button>
-        <div class="seravo-cache-test-result-wrapper">
-          <div class="seravo_cache_tests_status front_cache_status">
-            <?php _e('Click "Run Tests" to run the cache tests', 'seravo'); ?>
+      <div id='front_cache_status'>
+        <p><?php _e('Test the functionality of your site\'s front cache. This can also be done via command line with command <code>wp-check-http-cache</code>.', 'seravo'); ?></p>
+        <button type='button' class='button-primary' id='run-cache-tests'><?php _e('Run cache tests', 'seravo'); ?></button>
+        <div class='seravo-cache-test-result-wrapper'>
+          <div class='seravo_cache_tests_status front_cache_status'>
+            <?php _e('Click "Run cache tests" to run the cache tests', 'seravo'); ?>
           </div>
-          <div class="seravo-cache-test-result">
-            <pre id="seravo_cache_tests"></pre>
+          <div class='seravo-cache-test-result'>
+            <pre id='seravo_cache_tests'></pre>
           </div>
-          <div class="seravo_cache_test_show_more_wrapper hidden">
-            <a href="" class="seravo_cache_test_show_more"><?php _e('Toggle Details', 'seravo'); ?>
-              <div class="dashicons dashicons-arrow-down-alt2" id="seravo_arrow_cache_show_more">
+          <div class='seravo_cache_test_show_more_wrapper hidden'>
+            <a href='' class='seravo_cache_test_show_more'><?php _e('Toggle Details', 'seravo'); ?>
+              <div class='dashicons dashicons-arrow-down-alt2' id='seravo_arrow_cache_show_more'>
               </div>
             </a>
           </div>
