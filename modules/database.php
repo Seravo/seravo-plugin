@@ -167,7 +167,7 @@ if ( ! class_exists('Database') ) {
       <p class="adminer_button">
         <a href="<?php echo esc_url($adminer_url); ?>" class="button" target="_blank">
           <?php _e('Open Adminer', 'seravo'); ?>
-          <span aria-hidden="true" class="dashicons dashicons-external"></span>
+          <span aria-hidden="true" class="dashicons dashicons-external" style="line-height: 1.4; padding-left: 3px;"></span>
         </a>
       </p>
       <?php
