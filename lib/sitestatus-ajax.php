@@ -118,21 +118,11 @@ function seravo_report_redis_info() {
   $stats = $redis->info('stats');
 
   $result = array(
-    'Expired keys: ' . $stats['expired_keys'],
-    'Evicted keys: ' . $stats['evicted_keys'],
-    'Keyspace hits: ' . $stats['keyspace_hits'],
-    'Keyspace misses: ' . $stats['keyspace_misses'],
+    $stats['expired_keys'],
+    $stats['evicted_keys'],
+    $stats['keyspace_hits'],
+    $stats['keyspace_misses'],
   );
-
-  $hits = $stats['keyspace_hits'];
-  $misses = $stats['keyspace_misses'];
-
-  if ( isset($hits) && isset($misses) ) {
-    $total = $hits + $misses;
-    if ( $total > 0 ) {
-      array_push($result, 'Keyspace hit rate: ' . round(($hits / $total) * 100) . '%');
-    }
-  }
 
   return $result;
 }
@@ -163,17 +153,11 @@ function seravo_report_longterm_cache_stats() {
     }
   }
 
-  $all_misses = $hit + $miss + $stale;
-  if ( $all_misses == 0 ) {
-    $all_misses = 1;
-  }
-
   return array(
-    'Hits: ' . $hit,
-    'Misses: ' . $miss,
-    'Stales: ' . $stale,
-    'Bypasses: ' . $bypass,
-    'Hit rate: ' . round($hit / $all_misses * 100) . '%',
+    $hit,
+    $miss,
+    $stale,
+    $bypass,
   );
 }
 

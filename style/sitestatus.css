@@ -184,3 +184,55 @@ th, td {
 #disk_use_notification {
   color: #cc0000;
 }
+
+#redis-hit-rate-chart,
+#http-hit-rate-chart {
+  margin-left: -15px;
+  margin-top: -30px;
+}
+
+.tooltip {
+  position: relative;
+  padding-left: 5px;
+  content: "\f348";
+}
+
+.tooltip .tooltiptext {
+  font-size: 0.6em;
+  visibility: hidden;
+  width: 130px;
+  background-color: #555555;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  line-height: 1.3;
+  font-family: sans-serif;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.dashicons-info {
+  color: #b1b2b3;
+}
