@@ -111,6 +111,90 @@ jQuery(document).ready(function($) {
     });
   });
 
+  jQuery(window).load(function(){
+    jQuery('.ba-slider').each(function(){
+      var cur = jQuery(this);
+      // Adjust the slider
+      var width = cur.width() + 'px';
+      cur.find('.ba-resize img').css('width', width);
+      // Bind dragging events
+      drags(cur.find('.ba-handle'), cur.find('.ba-resize'), cur);
+    });
+  
+    function seravo_load_change_report() {
+      jQuery.post(
+        seravo_upkeep_loc.ajaxurl,
+        { 'action': 'seravo_ajax_upkeep',
+          'section': 'seravo_changes',
+          'nonce': seravo_upkeep_loc.ajax_nonce },
+        function(rawData) {
+          if ( rawData.length == 0 ) {
+            jQuery('#seravo_changes').html(seravo_upkeep_loc.no_data);
+          }
+          jQuery('#seravo_changes_status').fadeOut('slow', function() {
+            var data = JSON.parse(rawData);
+            var data_joined = data['output'].join("\n");
+
+            if ( data['rowCount'] === 0 ) {
+              // No rows affected
+              jQuery(this).html(seravo_upkeep_loc.no_affected_rows).fadeIn('slow');
+              jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #038103');
+            } else {
+
+              jQuery(this).html(data['rowCount'] + " " + seravo_upkeep_loc.affected_rows).fadeIn('slow');
+              jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #e74c3c');
+            }
+  
+            // Display the retrieved data and re-enable the run tests button
+            jQuery('#seravo_changes').append(data_joined);
+            jQuery('#run-changes-since').prop('disabled', false);
+  
+            jQuery(this).fadeIn('slow', function() {
+              jQuery('#seravo_changes_show_more_wrapper').fadeIn('slow');
+            });
+          });
+        }
+      ).fail(function() {
+        jQuery('#seravo_changes_status').html(seravo_upkeep_loc.run_fail);
+        jQuery('#run-changes-since').prop('disabled', false);
+      });
+    }
+  
+    jQuery('#run-changes-since').click(function() {
+      jQuery('#seravo_changes').html('');
+      jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #e8ba1b');
+      jQuery('#seravo_changes_show_more_wrapper').hide();
+  
+      if ( jQuery('#seravo_arrow_changes_show_more').hasClass('dashicons-arrow-up-alt2') ) {
+        jQuery('#changes-result').hide(function() {
+          jQuery('#seravo_arrow_changes_show_more').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
+        });
+      }
+  
+      jQuery('#seravo_changes_status').fadeOut(400, function() {
+        jQuery(this).html('<img src="/wp-admin/images/spinner.gif" style="display:inline-block"> ' + seravo_upkeep_loc.running_changes_since).fadeIn(400);
+      });
+  
+      jQuery(this).prop('disabled', true);
+      seravo_load_change_report();
+    });
+  
+    jQuery('#seravo_changes_show_more').click(function(event) {
+      event.preventDefault();
+  
+      if ( jQuery('#seravo_arrow_changes_show_more').hasClass('dashicons-arrow-down-alt2') ) {
+        jQuery('#changes-result').slideDown('fast', function() {
+          jQuery('#seravo_arrow_changes_show_more').removeClass('dashicons-arrow-down-alt2').addClass('dashicons-arrow-up-alt2');
+        });
+      } else if ( jQuery('#seravo_arrow_changes_show_more').hasClass('dashicons-arrow-up-alt2') ) {
+        jQuery('#changes-result').hide(function() {
+          jQuery('#seravo_arrow_changes_show_more').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
+        });
+      }
+    });
+  
+  }); 
+
   function insertEmail() {
     if (validateEmail($emailInput)) {
       emails.push($emailInput.val())
@@ -385,7 +469,7 @@ jQuery(window).load(function(){
     jQuery('#seravo_test_show_more_wrapper').hide();
 
     if ( jQuery('#seravo_arrow_show_more').hasClass('dashicons-arrow-up-alt2') ) {
-      jQuery('.seravo-test-result').hide(function() {
+      jQuery('#test-result').hide(function() {
         jQuery('#seravo_arrow_show_more').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
       });
     }
@@ -402,11 +486,11 @@ jQuery(window).load(function(){
     event.preventDefault();
 
     if ( jQuery('#seravo_arrow_show_more').hasClass('dashicons-arrow-down-alt2') ) {
-      jQuery('.seravo-test-result').slideDown('fast', function() {
+      jQuery('#test-result').slideDown('fast', function() {
         jQuery('#seravo_arrow_show_more').removeClass('dashicons-arrow-down-alt2').addClass('dashicons-arrow-up-alt2');
       });
     } else if ( jQuery('#seravo_arrow_show_more').hasClass('dashicons-arrow-up-alt2') ) {
-      jQuery('.seravo-test-result').hide(function() {
+      jQuery('#test-result').hide(function() {
         jQuery('#seravo_arrow_show_more').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
       });
     }

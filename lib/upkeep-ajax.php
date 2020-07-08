@@ -117,6 +117,21 @@ function seravo_tests() {
   return $return_arr;
 }
 
+function changes_since() {
+  // make sure that day_offset is formatted correctly
+  $day_offset = '2020-07-07';
+  $cmd = 'wp-backup-list-changes-since ' . $day_offset;
+  $result_count = exec($cmd . ' | wc -l');
+  exec($cmd, $output);
+
+  $return_array = array(
+    'rowCount' => $result_count,
+    'output' => $output,
+  );
+
+  return $return_array;
+}
+
 function seravo_ajax_upkeep() {
   check_ajax_referer('seravo_upkeep', 'nonce');
   switch ( sanitize_text_field($_REQUEST['section']) ) {
@@ -150,6 +165,10 @@ function seravo_ajax_upkeep() {
 
     case 'seravo_tests':
       echo wp_json_encode(seravo_tests());
+      break;
+
+    case 'seravo_changes':
+      echo wp_json_encode(changes_since());
       break;
 
     default:

@@ -13,6 +13,7 @@ if ( ! class_exists('Upkeep') ) {
     public static function load() {
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
       add_action('wp_ajax_seravo_ajax_upkeep', 'seravo_ajax_upkeep');
+      add_action('wp_ajax_seravo_changes_since', 'seravo_ajax_changes_since');
 
       add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
 
@@ -36,6 +37,14 @@ if ( ! class_exists('Upkeep') ) {
           'normal'
         );
       }
+
+      seravo_add_postbox(
+        'backup-list-changes',
+        __('Changes since', 'seravo'),
+        array( __CLASS__, 'backup_list_changes' ),
+        'tools_page_upkeep_page',
+        'normal'
+      );
 
       seravo_add_postbox(
         'tests',
@@ -104,6 +113,9 @@ if ( ! class_exists('Upkeep') ) {
           'test_fail'     => __('At least one of the tests failed.', 'seravo'),
           'run_fail'      => __('Failed to load. Please try again.', 'seravo'),
           'running_tests' => __('Running rspec tests...', 'seravo'),
+          'running_changes_since' => __('Fetching changes...', 'seravo'),
+          'no_affected_rows' => __('No changes were found', 'seravo'),
+          'affected_rows' => __('rows affected', 'seravo'),
           'ajaxurl'    => admin_url('admin-ajax.php'),
           'ajax_nonce' => wp_create_nonce('seravo_upkeep'),
           'email_fail' => __('There must be at least one contact email', 'seravo'),
@@ -292,6 +304,39 @@ if ( ! class_exists('Upkeep') ) {
         // translators: Link to Tests page
         echo '<p>' . sprintf(__('Site baseline tests are failing and needs to be fixed before further updates are run.', 'seravo')) . '</p>';
       }
+    }
+
+    public static function backup_list_changes() {
+      ?>
+      <p>
+      <?php
+      _e(
+        'Here you can find folder and file changes since the given date. The tool shows if the file or folder has changed, 
+      created or deleted since the given date.',
+        'seravo'
+      );
+?>
+</p>
+      <?php _e('Choose a date', 'seravo'); ?> <input type='date'>
+      <p>
+      <button id='run-changes-since' class='button-primary'><?php _e('Run', 'seravo'); ?></button>
+    </p>
+      <div class="seravo-test-result-wrapper">
+        <div class="seravo-test-status" id="seravo_changes_status">
+          <?php _e('Click "run" to see changes', 'seravo'); ?>
+        </div>
+        <div id="changes-result" class="seravo-test-result">
+          <pre id="seravo_changes"></pre>
+        </div>
+        <div id="seravo_changes_show_more_wrapper" class="hidden">
+          <a href="" id="seravo_changes_show_more"><?php _e('Toggle Details', 'seravo'); ?>
+            <div class="dashicons dashicons-arrow-down-alt2" id="seravo_arrow_changes_show_more">
+            </div>
+          </a>
+        </div>
+      </div>
+      
+      <?php
     }
 
     public static function change_php_version_postbox() {
@@ -614,7 +659,7 @@ if ( ! class_exists('Upkeep') ) {
         <div class="seravo-test-status" id="seravo_tests_status">
           <?php _e('Click "Run Tests" to run the Codeception tests', 'seravo'); ?>
         </div>
-        <div class="seravo-test-result">
+        <div id="test-result" class="seravo-test-result">
           <pre id="seravo_tests"></pre>
         </div>
         <div id="seravo_test_show_more_wrapper" class="hidden">
