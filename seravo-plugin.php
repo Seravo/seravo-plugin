@@ -144,6 +144,11 @@ class Loader {
     require_once dirname(__FILE__) . '/modules/purge-cache.php';
 
     /*
+     * Add a speed test button to the WP adminbar
+     */
+    require_once dirname(__FILE__) . '/modules/speed-test.php';
+
+    /*
      * Hide the domain alias from search engines
      */
     require_once dirname(__FILE__) . '/modules/noindex-domain-alias.php';

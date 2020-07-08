@@ -23,6 +23,7 @@ if ( ! class_exists('Site_Status') ) {
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_site_status_scripts' ));
       add_action('wp_ajax_seravo_ajax_site_status', 'seravo_ajax_site_status');
       add_action('wp_ajax_seravo_report_http_requests', 'seravo_ajax_report_http_requests');
+      add_action('wp_ajax_seravo_speed_test', 'seravo_speed_test');
 
       if ( getenv('WP_ENV') === 'production' ) {
         seravo_add_postbox(
@@ -78,6 +79,14 @@ if ( ! class_exists('Site_Status') ) {
         'tools_page_site_status_page',
         'side'
       );
+
+      seravo_add_postbox(
+        'speed-test',
+        __('Speed test', 'seravo'),
+        array( __CLASS__, 'speed_test' ),
+        'tools_page_site_status_page',
+        'side'
+      );
     }
 
     public static function register_optimize_image_settings() {
@@ -126,14 +135,12 @@ if ( ! class_exists('Site_Status') ) {
     }
 
     public static function enqueue_site_status_scripts( $page ) {
-      wp_register_script('chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, Helpers::seravo_plugin_version(), true);
-      wp_register_script('apex-charts', 'https://cdn.jsdelivr.net/npm/apexcharts', null, Helpers::seravo_plugin_version(), true);
+      wp_register_script('apexcharts-js', 'https://cdn.jsdelivr.net/npm/apexcharts', null, Helpers::seravo_plugin_version(), true);
       wp_register_script('seravo_site_status', plugin_dir_url(__DIR__) . '/js/sitestatus.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_site_status', plugin_dir_url(__DIR__) . '/style/sitestatus.css', '', Helpers::seravo_plugin_version());
       if ( $page === 'tools_page_site_status_page' ) {
         wp_enqueue_style('seravo_site_status');
-        wp_enqueue_script('chart-js');
-        wp_enqueue_script('apex-charts');
+        wp_enqueue_script('apexcharts-js');
         wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('cache-status-charts', plugins_url('../js/cache-status-charts.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
@@ -151,6 +158,10 @@ if ( ! class_exists('Site_Status') ) {
           'failure'             => __('Failure!', 'seravo'),
           'error'               => __('Error!', 'seravo'),
           'confirm'             => __('Are you sure? This replaces all information in the selected environment.', 'seravo'),
+          'avg_latency'         => __('Avg latency: ', 'seravo'),
+          'avg_cached_latency'  => __('Avg cached latency: ', 'seravo'),
+          'latency'             => __('Latency', 'seravo'),
+          'cached_latency'      => __('Cached latency', 'seravo'),
           'ajaxurl'             => admin_url('admin-ajax.php'),
           'ajax_nonce'          => wp_create_nonce('seravo_site_status'),
 
@@ -552,6 +563,17 @@ if ( ! class_exists('Site_Status') ) {
       submit_button(__('Save', 'seravo'), 'primary', 'btnSubmit');
       echo '</form>';
     }
+
+    public static function speed_test() {
+      $target_location = isset($_GET['speed_test_target']) ? $_GET['speed_test_target'] : '';
+      _e('Speed test measures the time how long it takes for PHP to produce the HTML output for the WordPress page.', 'seravo');
+      echo('<br><label for="speed_test_url" class="speed_test_form" for="sr-from"> ' . get_home_url() . '/</label> <input class="speed_test_input" type="text" id="speed_test_url" value="' . $target_location . '"><br>');
+      echo('<button type="button" class="button-primary" id="run-speed-test">' . __('Run Speed Test', 'seravo') . '</button>');
+      echo('<div id="speed-test-results"></div>');
+      echo('<div id="speed-test-error"></div>');
+    }
+
+
   }
 
   Site_Status::load();

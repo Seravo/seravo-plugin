@@ -236,3 +236,10 @@ th, td {
 .dashicons-info {
   color: #b1b2b3;
 }
+.speed_test_input {
+  width: 50%;
+}
+
+.speed_test_form {
+  padding: 10px;
+}
