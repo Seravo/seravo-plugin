@@ -118,10 +118,32 @@ function seravo_tests() {
 }
 
 function changes_since() {
-  // make sure that day_offset is formatted correctly
-  $day_offset = '2020-07-07';
-  $cmd = 'wp-backup-list-changes-since ' . $day_offset;
-  $result_count = exec($cmd . ' | wc -l');
+  $date = $_POST['date'];
+  $result_count = '';
+
+  // Try catch to check if the date is
+  try {
+    $formal_date = new DateTime($date);
+    unset($formal_date);
+  } catch ( Exception $e ) {
+    $datenow = getdate();
+    $y = $datenow['year'];
+    $m = $datenow['mon'];
+
+    if ( $datenow['mday'] >= 3 ) {
+      $d = $datenow['mday'] - 2;
+      $result_count = __('Invalid date, using 2 days offset <br><br>', 'seravo');
+    } else {
+      // Show since the month beginning
+      $d = 1;
+      $result_count = __('Invalid date, showing since month beginning <br><br>', 'seravo');
+    }
+
+    $date = $y . '-' . $m . '-' . $d;
+  }
+
+  $cmd = 'wp-backup-list-changes-since ' . $date;
+  $result_count .= exec($cmd . ' | wc -l');
   exec($cmd, $output);
 
   $return_array = array(
@@ -132,7 +154,7 @@ function changes_since() {
   return $return_array;
 }
 
-function seravo_ajax_upkeep() {
+function seravo_ajax_upkeep( $date ) {
   check_ajax_referer('seravo_upkeep', 'nonce');
   switch ( sanitize_text_field($_REQUEST['section']) ) {
     case 'seravo_change_php_version':

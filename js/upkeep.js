@@ -112,20 +112,13 @@ jQuery(document).ready(function($) {
   });
 
   jQuery(window).load(function(){
-    jQuery('.ba-slider').each(function(){
-      var cur = jQuery(this);
-      // Adjust the slider
-      var width = cur.width() + 'px';
-      cur.find('.ba-resize img').css('width', width);
-      // Bind dragging events
-      drags(cur.find('.ba-handle'), cur.find('.ba-resize'), cur);
-    });
-  
-    function seravo_load_change_report() {
+
+    function seravo_load_change_report(given_date) {
       jQuery.post(
         seravo_upkeep_loc.ajaxurl,
         { 'action': 'seravo_ajax_upkeep',
           'section': 'seravo_changes',
+          'date': given_date,
           'nonce': seravo_upkeep_loc.ajax_nonce },
         function(rawData) {
           if ( rawData.length == 0 ) {
@@ -135,20 +128,19 @@ jQuery(document).ready(function($) {
             var data = JSON.parse(rawData);
             var data_joined = data['output'].join("\n");
 
-            if ( data['rowCount'] === 0 ) {
+            if ( data['rowCount'] === '0' || data['rowCount'] === 0) {
               // No rows affected
               jQuery(this).html(seravo_upkeep_loc.no_affected_rows).fadeIn('slow');
-              jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #038103');
+              jQuery('#changes-wrapper').css('border-left', 'solid 0.5em #e8ba1b');
             } else {
-
               jQuery(this).html(data['rowCount'] + " " + seravo_upkeep_loc.affected_rows).fadeIn('slow');
-              jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #e74c3c');
+              jQuery('#changes-wrapper').css('border-left', 'solid 0.5em #038103');
             }
-  
+
             // Display the retrieved data and re-enable the run tests button
             jQuery('#seravo_changes').append(data_joined);
             jQuery('#run-changes-since').prop('disabled', false);
-  
+
             jQuery(this).fadeIn('slow', function() {
               jQuery('#seravo_changes_show_more_wrapper').fadeIn('slow');
             });
@@ -159,29 +151,36 @@ jQuery(document).ready(function($) {
         jQuery('#run-changes-since').prop('disabled', false);
       });
     }
-  
+
     jQuery('#run-changes-since').click(function() {
       jQuery('#seravo_changes').html('');
-      jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #e8ba1b');
+      jQuery('#changes-wrapper').css('border-left', 'solid 0.5em #e8ba1b');
       jQuery('#seravo_changes_show_more_wrapper').hide();
-  
+
       if ( jQuery('#seravo_arrow_changes_show_more').hasClass('dashicons-arrow-up-alt2') ) {
         jQuery('#changes-result').hide(function() {
           jQuery('#seravo_arrow_changes_show_more').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
         });
       }
-  
+
       jQuery('#seravo_changes_status').fadeOut(400, function() {
         jQuery(this).html('<img src="/wp-admin/images/spinner.gif" style="display:inline-block"> ' + seravo_upkeep_loc.running_changes_since).fadeIn(400);
       });
-  
+
       jQuery(this).prop('disabled', true);
-      seravo_load_change_report();
+
+      var datepicker = new Date($('#datepicker').val());
+      var day = datepicker.getDate();
+      var month = datepicker.getMonth() + 1;
+      var year = datepicker.getFullYear();
+
+      var date = year+ "-"+ month+ "-"+ day;
+      seravo_load_change_report(date);
     });
-  
+
     jQuery('#seravo_changes_show_more').click(function(event) {
       event.preventDefault();
-  
+
       if ( jQuery('#seravo_arrow_changes_show_more').hasClass('dashicons-arrow-down-alt2') ) {
         jQuery('#changes-result').slideDown('fast', function() {
           jQuery('#seravo_arrow_changes_show_more').removeClass('dashicons-arrow-down-alt2').addClass('dashicons-arrow-up-alt2');
@@ -192,8 +191,8 @@ jQuery(document).ready(function($) {
         });
       }
     });
-  
-  }); 
+
+  });
 
   function insertEmail() {
     if (validateEmail($emailInput)) {
@@ -442,11 +441,11 @@ jQuery(window).load(function(){
           if ( data['exit_code'] === 0 ) {
             // No failures, if the return value from wp-test was 0
             jQuery(this).html(seravo_upkeep_loc.test_success).fadeIn('slow');
-            jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #038103');
+            jQuery('#tests-wrapper').css('border-left', 'solid 0.5em #038103');
           } else {
             // At least 1 failure, if the return value was non-zero
             jQuery(this).html(seravo_upkeep_loc.test_fail).fadeIn('slow');
-            jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #e74c3c');
+            jQuery('#tests-wrapper').css('border-left', 'solid 0.5em #e74c3c');
           }
           // Display the retrieved data and re-enable the run tests button
           jQuery('#seravo_tests').append(data_joined);
@@ -465,7 +464,7 @@ jQuery(window).load(function(){
 
   jQuery('#run-wp-tests').click(function() {
     jQuery('#seravo_tests').html('');
-    jQuery('.seravo-test-result-wrapper').css('border-left', 'solid 0.5em #e8ba1b');
+    jQuery('#tests-wrapper').css('border-left', 'solid 0.5em #e8ba1b');
     jQuery('#seravo_test_show_more_wrapper').hide();
 
     if ( jQuery('#seravo_arrow_show_more').hasClass('dashicons-arrow-up-alt2') ) {

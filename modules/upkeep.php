@@ -40,7 +40,7 @@ if ( ! class_exists('Upkeep') ) {
 
       seravo_add_postbox(
         'backup-list-changes',
-        __('Changes since', 'seravo'),
+        __('Changes Status', 'seravo'),
         array( __CLASS__, 'backup_list_changes' ),
         'tools_page_upkeep_page',
         'normal'
@@ -311,22 +311,25 @@ if ( ! class_exists('Upkeep') ) {
       <p>
       <?php
       _e(
-        'Here you can find folder and file changes since the given date. The tool shows if the file or folder has changed, 
-      created or deleted since the given date.',
+        'This tool can be used to run command <code>wp-backup-list-changes-since</code> 
+        which finds folder and file changes in backup data since the given date. For example if you have started to have issues on your site, you can
+        track down what folders or files have changed.  
+        
+         <p>Backups are stored for 30 days so it is advisable to use it as a maximum offset. </p>',
         'seravo'
       );
 ?>
 </p>
-      <?php _e('Choose a date', 'seravo'); ?> <input type='date'>
+      <?php _e('Choose a since date', 'seravo'); ?> <input type='date' id ='datepicker'>
       <p>
       <button id='run-changes-since' class='button-primary'><?php _e('Run', 'seravo'); ?></button>
     </p>
-      <div class="seravo-test-result-wrapper">
-        <div class="seravo-test-status" id="seravo_changes_status">
+      <div id="changes-wrapper" class="seravo-result-wrapper">
+        <div class="seravo-status" id="seravo_changes_status">
           <?php _e('Click "run" to see changes', 'seravo'); ?>
         </div>
-        <div id="changes-result" class="seravo-test-result">
-          <pre id="seravo_changes"></pre>
+        <div id="changes-result" class="seravo-result">
+          <pre id="seravo_changes" style="display: inline-block;"></pre>
         </div>
         <div id="seravo_changes_show_more_wrapper" class="hidden">
           <a href="" id="seravo_changes_show_more"><?php _e('Toggle Details', 'seravo'); ?>
@@ -655,11 +658,11 @@ if ( ! class_exists('Upkeep') ) {
         ?>
       </p>
       <button type="button" class="button-primary" id="run-wp-tests"><?php _e('Run Tests', 'seravo'); ?></button>
-      <div class="seravo-test-result-wrapper">
-        <div class="seravo-test-status" id="seravo_tests_status">
+      <div id="tests-wrapper" class="seravo-result-wrapper">
+        <div class="seravo-status" id="seravo_tests_status">
           <?php _e('Click "Run Tests" to run the Codeception tests', 'seravo'); ?>
         </div>
-        <div id="test-result" class="seravo-test-result">
+        <div id="test-result" class="seravo-result">
           <pre id="seravo_tests"></pre>
         </div>
         <div id="seravo_test_show_more_wrapper" class="hidden">
