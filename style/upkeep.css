@@ -148,7 +148,7 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
   padding-left: 18px;
 }
 
-.seravo-test-result-wrapper, .seravo-test-legacy-result-wrapper {
+.seravo-result-wrapper, .seravo-test-legacy-result-wrapper {
   -moz-transition: border 1s ease-in;
   -o-transition: border 1s ease-in;
   -webkit-transition: border 1s ease-in;
@@ -163,7 +163,7 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
   transition: border 1s ease-in;
 }
 
-.seravo-test-result, .seravo-test-legacy-result {
+.seravo-result, .seravo-test-legacy-result {
   box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
   display: none;
   margin: 1em;
@@ -172,7 +172,7 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
   padding: 1em;
 }
 
-.seravo-test-status, .seravo-test-legacy-status {
+.seravo-status, .seravo-test-legacy-status {
   font-size: 15px;
   font-weight: bold;
   margin-top: 1.6em;
