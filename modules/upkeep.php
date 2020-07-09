@@ -315,7 +315,7 @@ if ( ! class_exists('Upkeep') ) {
         which finds folder and file changes in backup data since the given date. For example if you have started to have issues on your site, you can
         track down what folders or files have changed.  
         
-         <p>Backups are stored for 30 days so it is advisable to use it as a maximum offset. </p>',
+         <p>Backups are stored for 30 days which is also the maximum since offset.  </p>',
         'seravo'
       );
 ?>
