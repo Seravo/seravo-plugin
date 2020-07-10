@@ -43,18 +43,42 @@ function seravo_ajax_report_http_requests() {
 
 
 function seravo_report_folders() {
+  $dir_max_limit = 1000000;
+  $dir_threshold = 100000000;
   exec('du -sb /data', $data_folder);
   list($data_size, $data_name) = preg_split('/\s+/', $data_folder[0]);
-  exec('du -sb /data/* | sort -hr', $data_sub);
+
+  // Get the sizes of certain directories and directories with the
+  // size larger than $dir_threshold
+  exec(
+    '(
+    du --separate-dirs -b --threshold=' . $dir_threshold . ' /data/*/ | head -n 5 &&
+    du -sb /data/wordpress/htdocs/wp-content/uploads/ &&
+    du -sb /data/wordpress/htdocs/wp-content/themes/ &&
+    du -sb /data/wordpress/htdocs/wp-content/plugins/ &&
+    du -sb /data/wordpress/htdocs/wordpress/wp-includes/ &&
+    du -sb /data/wordpress/htdocs/wordpress/wp-admin/ &&
+    du -sb /data/backups/ &&
+    du -sb /data/redis/ &&
+    du -sb /data/log/ &&
+    du -sb /data/reports/ &&
+    du -sb /data/slog/ &&
+    du -sb /data/db/
+    ) | sort -hr',
+    $data_sub
+  );
   // Generate sub folder array
   $data_folders = array();
   foreach ( $data_sub as $folder ) {
     list($folder_size, $folder_name) = preg_split('/\s+/', $folder);
-    $data_folders[ $folder_name ] = array(
-      'percentage' => (($folder_size / $data_size) * 100),
-      'human'      => Helpers::human_file_size($folder_size),
-      'size'       => $folder_size,
-    );
+
+    if ( $folder_size > $dir_max_limit ) {
+      $data_folders[ $folder_name ] = array(
+        'percentage' => (($folder_size / $data_size) * 100),
+        'human'      => Helpers::human_file_size($folder_size),
+        'size'       => $folder_size,
+      );
+    }
   }
   // Create output array
   $output = array(
