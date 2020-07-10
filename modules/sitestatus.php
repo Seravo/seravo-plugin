@@ -126,12 +126,12 @@ if ( ! class_exists('Site_Status') ) {
     }
 
     public static function enqueue_site_status_scripts( $page ) {
-      wp_register_script('chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', null, Helpers::seravo_plugin_version(), true);
+      wp_register_script('apexcharts-js', 'https://cdn.jsdelivr.net/npm/apexcharts', null, Helpers::seravo_plugin_version(), true);
       wp_register_script('seravo_site_status', plugin_dir_url(__DIR__) . '/js/sitestatus.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_site_status', plugin_dir_url(__DIR__) . '/style/sitestatus.css', '', Helpers::seravo_plugin_version());
       if ( $page === 'tools_page_site_status_page' ) {
         wp_enqueue_style('seravo_site_status');
-        wp_enqueue_script('chart-js');
+        wp_enqueue_script('apexcharts-js');
         wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('seravo_site_status');
@@ -220,18 +220,49 @@ if ( ! class_exists('Site_Status') ) {
 
     public static function seravo_disk_usage() {
       ?>
-      <p><?php _e('The total size of <code>/data</code> is', 'seravo'); ?>
-      <div class="folders_chart_loading">
-        <img src="/wp-admin/images/spinner.gif">
-      </div>
-      <pre id="total_disk_usage"></pre>
+      <p id="disk_usage_heading">
+        <?php
+          $api_response = API::get_site_data();
+          if ( is_wp_error($api_response) ) {
+            die($api_response->get_error_message());
+          }
+          $max_disk = $api_response['plan']['disklimit']; // in GB
+        ?>
+        <div id="donut_single" style="width: 30%; float: right"></div>
+        <div class="disk_usage_desc">
+          <?php _e('Disk space in your plan: ', 'seravo'); ?>
+          <span id="maximum_disk_space"><?php echo $max_disk; ?></span>GB
+          <br>
+          <?php _e('Space in use: ', 'seravo'); ?>
+          <span id="total_disk_usage"></span>
+          <br>
+          <span id="disk_use_notification" style="display: none">
+            <?php _e('Disk space low! ', 'seravo'); ?>
+            <a href='https://help.seravo.com/article/280-seravo-plugin-site-status#diskusage' target='_BLANK'>
+              <?php _e('Read more.', 'seravo'); ?>
+            </a>
+          </span>
+        </div>
+        <div class="folders_chart_loading">
+          <img src="/wp-admin/images/spinner.gif">
+        </div>
       </p>
-      <p><?php _e('Disk usage by directory', 'seravo'); ?>
-      <div class="folders_chart_loading">
-        <img src="/wp-admin/images/spinner.gif">
-      </div>
-      <canvas id="pie_chart" style="width: 10%; height: 4vh;"></canvas>
+      <p>
+        <hr>
+        <br>
+        <b>
+          <?php _e('Disk usage by directory', 'seravo'); ?>
+        </b>
+        <div class="folders_chart_loading">
+          <img src="/wp-admin/images/spinner.gif">
+        </div>
+        <div class="pie_container">
+          <div id="bars_single" style="width: 100%"></div>
+        </div>
       </p>
+      <?php _e('Automatic backups don\'t count against your quota.', 'seravo'); ?>
+      <br>
+      <?php _e('Use <a href="tools.php?page=security_page">cruft remover</a> to remove unnecessary files.', 'seravo'); ?>
       <?php
     }
 

@@ -104,3 +104,14 @@
   color: inherit;
   text-decoration: none;
 }
+
+.disk_usage_desc {
+  display: block;
+  padding-top: 3vh;
+  height: 9vh;
+  width: 60%;
+}
+
+#disk_use_notification {
+  color: #cc0000;
+}
