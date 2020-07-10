@@ -43,7 +43,7 @@ if ( ! class_exists('Domains') ) {
         'domains-management',
         __('Domains', 'seravo'),
         array( __CLASS__, 'render_domains_postbox' ),
-        'tools_page_domains_page',
+        'site-toolkit_page_domains_page',
         'normal'
       );
 
@@ -51,7 +51,7 @@ if ( ! class_exists('Domains') ) {
         'mailforwards-management',
         __('Mails', 'seravo'),
         array( __CLASS__, 'render_mails_postbox' ),
-        'tools_page_domains_page',
+        'site-toolkit_page_domains_page',
         'normal'
       );
 
@@ -63,7 +63,7 @@ if ( ! class_exists('Domains') ) {
 
     public static function register_scripts( $page ) {
 
-      if ( $page === 'tools_page_domains_page' ) {
+      if ( $page === 'site-toolkit_page_domains_page' ) {
 
         wp_enqueue_script('seravo_domains', plugins_url('../js/domains.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_style('seravo_domains', plugins_url('../style/domains.css', __FILE__), '', Helpers::seravo_plugin_version(), false);

@@ -44,7 +44,7 @@ if ( ! class_exists('Database') ) {
         'database-access',
         __('Database Access', 'seravo'),
         array( __CLASS__, 'database_access_postbox' ),
-        'tools_page_database_page',
+        'site-toolkit_page_database_page',
         'normal'
       );
 
@@ -52,7 +52,7 @@ if ( ! class_exists('Database') ) {
         'database-adminer',
         __('Manage the Database with Adminer', 'seravo'),
         array( __CLASS__, 'database_adminer_postbox' ),
-        'tools_page_database_page',
+        'site-toolkit_page_database_page',
         'normal'
       );
 
@@ -60,7 +60,7 @@ if ( ! class_exists('Database') ) {
         'database-search-replace',
         __('Search-Replace Tool', 'seravo'),
         array( __CLASS__, 'database_search_replace_postbox' ),
-        'tools_page_database_page',
+        'site-toolkit_page_database_page',
         'side'
       );
 
@@ -68,7 +68,7 @@ if ( ! class_exists('Database') ) {
         'database-size',
         __('Database Size', 'seravo'),
         array( __CLASS__, 'database_size_postbox' ),
-        'tools_page_database_page',
+        'site-toolkit_page_database_page',
         'side'
       );
     }
@@ -83,7 +83,7 @@ if ( ! class_exists('Database') ) {
       wp_register_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css', '', Helpers::seravo_plugin_version());
       wp_register_script('chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', '', Helpers::seravo_plugin_version(), true);
 
-      if ( $page === 'tools_page_database_page' ) {
+      if ( $page === 'site-toolkit_page_database_page' ) {
         wp_enqueue_style('seravo_database');
         wp_enqueue_script('chart-js');
         wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);

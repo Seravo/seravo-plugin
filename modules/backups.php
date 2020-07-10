@@ -30,7 +30,7 @@ if ( ! class_exists('Backups') ) {
         'backups-info',
         __('Backups', 'seravo'),
         array( __CLASS__, 'backups_info_postbox' ),
-        'tools_page_backups_page',
+        'site-toolkit_page_backups_page',
         'normal'
       );
 
@@ -38,7 +38,7 @@ if ( ! class_exists('Backups') ) {
         'backups-create',
         __('Create a New Backup', 'seravo'),
         array( __CLASS__, 'backups_create_postbox' ),
-        'tools_page_backups_page',
+        'site-toolkit_page_backups_page',
         'normal'
       );
 
@@ -46,7 +46,7 @@ if ( ! class_exists('Backups') ) {
         'backups-excludes',
         __('Files Excluded from the Backups', 'seravo'),
         array( __CLASS__, 'backups_excludes_postbox' ),
-        'tools_page_backups_page',
+        'site-toolkit_page_backups_page',
         'side'
       );
 
@@ -54,7 +54,7 @@ if ( ! class_exists('Backups') ) {
         'backups-list',
         __('Current Backups', 'seravo'),
         array( __CLASS__, 'backups_list_postbox' ),
-        'tools_page_backups_page',
+        'site-toolkit_page_backups_page',
         'side'
       );
     }
@@ -68,7 +68,7 @@ if ( ! class_exists('Backups') ) {
       wp_register_script('seravo_backups', plugin_dir_url(__DIR__) . '/js/backups.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_backups', plugin_dir_url(__DIR__) . '/style/backups.css', '', Helpers::seravo_plugin_version());
 
-      if ( $page === 'tools_page_backups_page' ) {
+      if ( $page === 'site-toolkit_page_backups_page' ) {
         wp_enqueue_script('seravo_backups');
         wp_enqueue_style('seravo_backups');
 

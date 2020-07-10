@@ -48,7 +48,7 @@ if ( ! class_exists('Logs') ) {
       wp_register_style('log_viewer', plugin_dir_url(__DIR__) . '/style/log-viewer.css', '', Helpers::seravo_plugin_version());
       wp_register_script('log_viewer', plugin_dir_url(__DIR__) . '/js/log-viewer.js', '', Helpers::seravo_plugin_version());
 
-      if ( $hook === 'tools_page_logs_page' ) {
+      if ( $hook === 'site-toolkit_logs_page' ) {
         wp_enqueue_style('log_viewer');
         wp_enqueue_script('log_viewer');
       }
@@ -150,7 +150,7 @@ if ( ! class_exists('Logs') ) {
     <h2 class="screen-reader-text">Select log file list</h2>
     <ul class="subsubsub">
       <?php foreach ( $logs as $key => $log ) : ?>
-      <li><a href="tools.php?page=logs_page&logfile=<?php echo basename($log); ?>&max_num_of_rows=<?php echo $max_num_of_rows; ?>"
+      <li><a href="admin.php?page=logs_page&logfile=<?php echo basename($log); ?>&max_num_of_rows=<?php echo $max_num_of_rows; ?>"
             class="<?php echo basename($log) == $current_logfile ? 'current' : ''; ?>">
             <?php echo basename($log); ?>
           </a>

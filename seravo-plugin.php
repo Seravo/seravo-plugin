@@ -91,8 +91,7 @@ class Loader {
     global $pagenow;
 
     // This check fires on every page load, so keep the scope small
-    if ( $pagenow === 'tools.php' && isset($_GET['report']) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-
+    if ( $pagenow === 'index.php' && isset($_GET['report']) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
       // Next check if the request for a report is valid
       // - user be administrator
       // - filename must be of correct form, e.g. 2016-09.html

@@ -324,7 +324,7 @@ if ( ! isset($seravo_postbox_factory) ) {
  * @param string       $context       Default admin dashboard context where the postbox should be displayed in.
  * @param array[mixed] $callback_args Array of arguments that will get passed to the callback function.
  */
-function seravo_add_postbox( $id, $title, $callback, $screen = 'tools_page', $context = 'normal', $callback_args = array() ) {
+function seravo_add_postbox( $id, $title, $callback, $screen = 'site-toolkit_page', $context = 'normal', $callback_args = array() ) {
   global $seravo_postbox_factory;
   $seravo_postbox_factory->add_postbox($id, $title, $callback, $screen, $context, $callback_args);
 }

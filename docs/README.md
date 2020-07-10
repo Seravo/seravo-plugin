@@ -13,7 +13,7 @@ If you want to use postboxes in a submenu page, use `'Seravo\seravo_postboxes_pa
 
 ```
 add_submenu_page(
-  'tools.php',
+  'site-toolkit',
   __('Example Tools', 'seravo'),
   __('Example Tools', 'seravo'),
   'manage_options',
@@ -30,7 +30,7 @@ Postboxes are elements used in the Seravo-plugin Admin tools that behave similar
 
 Using postboxes gives the plugin a more unified, professional look.
 
-If there is a need to add content before or after the postbox listing (e.g. admin notices), they can be appended by using the filters `'before_seravo_postboxes_' . $current_screen` or `'after_seravo_postboxes_' . $current_screen`, where `$current_screen` is the wanted admin screen (e.g. `tools_page_reports_page`).
+If there is a need to add content before or after the postbox listing (e.g. admin notices), they can be appended by using the filters `'before_seravo_postboxes_' . $current_screen` or `'after_seravo_postboxes_' . $current_screen`, where `$current_screen` is the wanted admin screen (e.g. `site-toolkit_reports_page`).
 
 ### Adding a postbox
 
@@ -42,7 +42,7 @@ seravo_add_postbox(
   'example_tool_id',
   __('Example Tool 1', 'seravo'),
   array( __CLASS__, 'example_tool_1_postbox' ),
-  'tools_page_example_page', // Prefix 'tools_page' must match 'tools.php'
+  'site-toolkit_page_example_page', // Prefix 'site-toolkit' must match 'site-toolkit'
   'normal'
 );
 ```

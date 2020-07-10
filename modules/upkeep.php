@@ -25,7 +25,7 @@ if ( ! class_exists('Upkeep') ) {
           'site-status',
           __('Update Status', 'seravo'),
           array( __CLASS__, 'site_status_postbox' ),
-          'tools_page_upkeep_page',
+          'site-toolkit_page_upkeep_page',
           'normal'
         );
 
@@ -33,7 +33,7 @@ if ( ! class_exists('Upkeep') ) {
           'tests-status',
           __('Tests Status', 'seravo'),
           array( __CLASS__, 'tests_status_postbox' ),
-          'tools_page_upkeep_page',
+          'site-toolkit_page_upkeep_page',
           'normal'
         );
       }
@@ -50,7 +50,7 @@ if ( ! class_exists('Upkeep') ) {
         'tests',
         __('Update tests', 'seravo'),
         array( __CLASS__, 'tests_postbox' ),
-        'tools_page_upkeep_page',
+        'site-toolkit_page_upkeep_page',
         'normal'
       );
 
@@ -59,7 +59,7 @@ if ( ! class_exists('Upkeep') ) {
           'seravo-updates',
           __('Seravo Updates', 'seravo'),
           array( __CLASS__, 'seravo_updates_postbox' ),
-          'tools_page_upkeep_page',
+          'site-toolkit_page_upkeep_page',
           'normal'
         );
 
@@ -67,7 +67,7 @@ if ( ! class_exists('Upkeep') ) {
           'screenshots',
           __('Screenshots', 'seravo'),
           array( __CLASS__, 'screenshots_postbox' ),
-          'tools_page_upkeep_page',
+          'site-toolkit_page_upkeep_page',
           'side'
         );
       }
@@ -76,7 +76,7 @@ if ( ! class_exists('Upkeep') ) {
         'change-php-version',
         __('Change PHP Version', 'seravo'),
         array( __CLASS__, 'change_php_version_postbox' ),
-        'tools_page_upkeep_page',
+        'site-toolkit_page_upkeep_page',
         'side'
       );
 
@@ -84,7 +84,7 @@ if ( ! class_exists('Upkeep') ) {
         'seravo-plugin-updater',
         __('Seravo Plugin Updater', 'seravo'),
         array( __CLASS__, 'seravo_plugin_updater_postbox' ),
-        'tools_page_upkeep_page',
+        'site-toolkit_page_upkeep_page',
         'side'
       );
     }
@@ -99,7 +99,7 @@ if ( ! class_exists('Upkeep') ) {
       wp_register_style('seravo_upkeep', plugin_dir_url(__DIR__) . '/style/upkeep.css', '', Helpers::seravo_plugin_version());
       wp_register_script('seravo_upkeep', plugin_dir_url(__DIR__) . '/js/upkeep.js', 'jquery', Helpers::seravo_plugin_version());
 
-      if ( $page === 'tools_page_upkeep_page' ) {
+      if ( $page === 'site-toolkit_page_upkeep_page' ) {
         wp_enqueue_style('seravo_upkeep');
         wp_enqueue_script('seravo_upkeep');
 

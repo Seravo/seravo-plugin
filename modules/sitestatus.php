@@ -30,7 +30,7 @@ if ( ! class_exists('Site_Status') ) {
           'site-info',
           __('Site Information', 'seravo'),
           array( __CLASS__, 'seravo_site_info' ),
-          'tools_page_site_status_page',
+          'toplevel_page_toolkit_index_page',
           'normal'
         );
       }
@@ -40,7 +40,7 @@ if ( ! class_exists('Site_Status') ) {
         'http-request-statistics',
         __('HTTP Request Statistics', 'seravo'),
         array( __CLASS__, 'seravo_http_request_statistics' ),
-        'tools_page_site_status_page',
+        'toplevel_page_toolkit_index_page',
         'normal'
       );
 
@@ -49,7 +49,7 @@ if ( ! class_exists('Site_Status') ) {
         'cache-status',
         __('Cache Status', 'seravo'),
         array( __CLASS__, 'seravo_cache_status' ),
-        'tools_page_site_status_page',
+        'toplevel_page_toolkit_index_page',
         'normal'
       );
 
@@ -58,7 +58,7 @@ if ( ! class_exists('Site_Status') ) {
           'shadows',
           __('Shadows', 'seravo'),
           array( __CLASS__, 'seravo_shadows_postbox' ),
-          'tools_page_site_status_page',
+          'toplevel_page_toolkit_index_page',
           'side'
         );
       }
@@ -68,7 +68,7 @@ if ( ! class_exists('Site_Status') ) {
         'disk-usage',
         __('Disk Usage', 'seravo'),
         array( __CLASS__, 'seravo_disk_usage' ),
-        'tools_page_site_status_page',
+        'toplevel_page_toolkit_index_page',
         'side'
       );
 
@@ -76,7 +76,7 @@ if ( ! class_exists('Site_Status') ) {
         'optimize-images',
         __('Optimize Images', 'seravo'),
         array( __CLASS__, 'optimize_images_postbox' ),
-        'tools_page_site_status_page',
+        'toplevel_page_toolkit_index_page',
         'side'
       );
 
@@ -138,7 +138,7 @@ if ( ! class_exists('Site_Status') ) {
       wp_register_script('apexcharts-js', 'https://cdn.jsdelivr.net/npm/apexcharts', null, Helpers::seravo_plugin_version(), true);
       wp_register_script('seravo_site_status', plugin_dir_url(__DIR__) . '/js/sitestatus.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_site_status', plugin_dir_url(__DIR__) . '/style/sitestatus.css', '', Helpers::seravo_plugin_version());
-      if ( $page === 'tools_page_site_status_page' ) {
+      if ( $page === 'toplevel_page_toolkit_index_page' ) {
         wp_enqueue_style('seravo_site_status');
         wp_enqueue_script('apexcharts-js');
         wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
