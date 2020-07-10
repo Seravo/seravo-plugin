@@ -19,6 +19,10 @@ if ( ! class_exists('HideUsers') ) {
     }
 
     public static function hide_user_from_page( $user_query ) {
+        if ( defined('WP_CLI') ) {
+            return;
+        }
+
         $users_to_hide = self::$hidden_user_array;
         $current_user_name = wp_get_current_user()->user_login;
 
