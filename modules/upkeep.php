@@ -138,7 +138,7 @@ if ( ! class_exists('Upkeep') ) {
       // WP_error-object
       if ( gettype($site_info) === 'array' ) {
         ?>
-        <h2><?php _e('Opt-out from updates by Seravo', 'seravo'); ?></h2>
+        <h3><?php _e('Opt-out from updates by Seravo', 'seravo'); ?></h3>
         <?php
         if ( $site_info['seravo_updates'] === true ) {
           $checked = 'checked="checked"';
@@ -168,13 +168,13 @@ if ( ! class_exists('Upkeep') ) {
           </div>
 
           <hr class="seravo-updates-hr">
-          <h2><?php _e('Update Notifications with a Slack Webhook', 'seravo'); ?></h2>
+          <h3><?php _e('Update Notifications with a Slack Webhook', 'seravo'); ?></h3>
           <p><?php _e('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks" target="_BLANK">Read more about webhooks</a>.', 'seravo'); ?></p>
           <input name="slack_webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="<?php echo $slack_webhook; ?>">
           <button type="button" class="button" id="slack_webhook_test"><?php _e('Send a Test Notification', 'seravo'); ?></button>
 
           <hr class="seravo-updates-hr">
-          <h2><?php _e('Contacts', 'seravo'); ?></h2>
+          <h3><?php _e('Contacts', 'seravo'); ?></h3>
           <p><?php _e('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo'); ?></p>
           <input class="technical_contacts_input" type="email" multiple size="30" placeholder="<?php _e('example@example.com', 'seravo'); ?>" value="" data-emails="<?php echo htmlspecialchars(json_encode($contact_emails)); ?>">
           <button type="button" class="technical_contacts_add button"><?php _e('Add', 'seravo'); ?></button>

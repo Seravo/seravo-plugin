@@ -35,6 +35,14 @@
   border-radius: 10px;
 }
 
+#dashboard-widgets h3 {
+  font-size: 130%;
+}
+
+#dashboard-widgets h4 {
+  font-size: 120%;
+}
+
 @media only screen and (min-width:1430px) {
   .seravo-postbox .inside {
     padding: 10px 15px 0px 15px;
