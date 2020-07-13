@@ -45,7 +45,7 @@ jQuery(document).ready(function($) {
         jQuery('#sr-button').prop('disabled', false);
       }
     ).fail(function () {
-      jQuery('#' + section + '_loading').html('Failed to load. Please try again.');
+      jQuery('.' + section + '_loading').html('Failed to load. Please try again.');
     });
   }
 
@@ -100,14 +100,14 @@ jQuery(document).ready(function($) {
         var data = JSON.parse(rawData);
         if (section === 'seravo_wp_db_info') {
           jQuery('#seravo_wp_db_info').append(data.totals);
-          generateChart(data.tables.data_folders);
+          generateDatabaseBars(data.tables.data_folders);
         } else {
           jQuery('#' + section).text(data.join("\n"));
         }
-        jQuery('#' + section + '_loading').fadeOut();
+        jQuery('.' + section + '_loading').fadeOut();
       }
     ).fail(function () {
-      jQuery('#' + section + '_loading').html('Failed to load. Please try again.');
+      jQuery('.' + section + '_loading').html('Failed to load. Please try again.');
     });
   }
 

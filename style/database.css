@@ -52,12 +52,6 @@ span.dashicons-external {
 }
 
 @media only screen and (max-width: 376px) {
-  .pie_container {
-    margin: -90px;
-    overflow-wrap: break-word;
-    padding-top: 90px;
-    white-space: pre-line;
-  }
   .section_chart_mobile {
     padding-bottom: 25%;
   }
@@ -66,4 +60,17 @@ span.dashicons-external {
     margin: auto;
     width: 253px!important;
   }
+}
+
+.chart_container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 800px;
+  white-space: pre-line;
+  padding-right: 15px;
+}
+
+.arrow_box {
+  font-size: 11px;
+  padding: 3px;
 }
