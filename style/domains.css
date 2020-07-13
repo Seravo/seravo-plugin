@@ -150,7 +150,6 @@ tr.zone-titles > th {
 /** Mails postbox */
 
 .mail-table {
-  padding: 5px 10px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -159,7 +158,7 @@ tr.zone-titles > th {
   min-width: 500px;
   flex-grow: 1;
   flex-basis: 0;
-  margin: 10px 10px 20px 10px;
+  margin: 10px 10px 20px 0px;
 }
 
 .mail-forwards .forward td {

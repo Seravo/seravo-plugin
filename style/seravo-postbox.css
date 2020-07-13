@@ -35,11 +35,11 @@
   border-radius: 10px;
 }
 
-#dashboard-widgets h3 {
+#dashboard-widgets .seravo-postbox h3 {
   font-size: 130%;
 }
 
-#dashboard-widgets h4 {
+#dashboard-widgets .seravo-postbox h4 {
   font-size: 120%;
 }
 
