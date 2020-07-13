@@ -1,84 +1,105 @@
 // phpcs:disable PEAR.Functions.FunctionCallSignature
-function generateChart(JSONdata) {
+function generateDatabaseBars(JSONdata) {
   var data = [];
   var labels = [];
-  var background = [];
-  // Create chart colors of string
+  var human_vals = [];
+
+  var axis = {
+    categories: labels,
+    axisBorder: {
+      show: false
+    },
+    axisTicks: {
+      show: false
+    },
+    labels: {
+      show: false
+    }
+  };
+
   Object.keys(JSONdata).forEach(function( folder ) {
     data.push(JSONdata[folder].percentage);
-    labels.push(folder + ' - ' + JSONdata[folder].human);
-    background.push((new ColorHash({ saturation: [0.9, 0, 1] })).hex(folder));
+    labels.push(folder);
+    human_vals.push(JSONdata[folder].human);
   });
-  // Generate chart
-  var ctx = document.getElementById('pie_chart');
-  var myPieChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          data: data,
-          backgroundColor: background,
-          borderWidth: 1
+
+  // Sort the data in a descending order
+  var list = [];
+  var dataItems = data.length;
+  for (var j = 0; j < dataItems; j++) {
+    list.push({'datapoint': data[j], 'label': labels[j], 'human': human_vals[j]});
+  }
+
+  list.sort(function(a, b) {
+    return ((a.datapoint > b.datapoint) ? -1 : ((a.datapoint == b.datapoint) ? 0 : 1));
+  });
+
+  for (var k = 0; k < dataItems; k++) {
+    data[k] = list[k].datapoint;
+    labels[k] = list[k].label;
+    human_vals[k] = list[k].human;
+  }
+
+  var options = {
+    series: [{
+      data: data
+    }],
+    colors: ['#44A1CB'],
+    chart: {
+      type: 'bar',
+      height: labels.length * 40,
+      toolbar: {
+        show: false,
       }
-      ]
     },
-    options: {
-      maintainAspectRatio: true,
-      resposive: true,
-      tooltips: {
-        callbacks: {
-          label: function (tooltipItem, data) {
-            var label = data.labels[tooltipItem.index] || '';
-            if (label) {
-              label += ': ';
-            }
-            label += parseFloat(data.datasets[0].data[tooltipItem.index]).toFixed(2) + '%';
-            return label;
-          }
+    plotOptions: {
+      bar: {
+        horizontal: true,
+        dataLabels: {
+          position: 'bottom'
         }
+      }
+    },
+    dataLabels: {
+      enabled: true,
+      textAnchor: 'start',
+      style: {
+        colors: ['#444']
       },
-      legend: {
-        display: true,
-        position: 'bottom',
-        labels: {
-          fontColor: 'black',
-          boxWidth: 10
-        }
+      formatter: function (val, opt) {
+        return opt.w.globals.labels[opt.dataPointIndex] + ": " + human_vals[opt.dataPointIndex];
+      },
+      offsetX: 0,
+      dropShadow: {
+        enabled: false
       }
-    }
-  });
-  // Modifies chart legend cursor to pointer
-  Chart.plugins.register({
-    afterEvent: function (chartInstance, chartEvent) {
-      var legend = chartInstance.legend;
-      var canvas = chartInstance.chart.canvas;
-      var x = chartEvent.x;
-      var y = chartEvent.y;
-      var cursorStyle = 'default';
-      if (
-        x <= legend.right
-        && x >= legend.left
-        && y <= legend.bottom
-        && y >= legend.top
-      ) {
-        var limit = legend.legendHitBoxes.length;
-        for (var i = 0; i < limit; ++i) {
-          var box = legend.legendHitBoxes[i];
-          if (
-            x <= box.left + box.width
-            && x >= box.left
-            && y <= box.top + box.height
-            && y >= box.top
-          ) {
-            cursorStyle = 'pointer';
-            break;
-          }
-        }
+    },
+    xaxis: axis,
+    yaxis: axis,
+    grid: {
+      show: false,
+      padding: {
+       left: 0,
+       right: 0,
+       top: 0,
+       bottom: 0
       }
-      canvas.style.cursor = cursorStyle;
+    },
+    tooltip: {
+      enabled: true,
+      custom: function({series, seriesIndex, dataPointIndex, w}) {
+        return '<div class="arrow_box">' +
+          '<span>' + w.globals.labels[dataPointIndex] + ": " + human_vals[dataPointIndex] + '</span>' +
+          '</div>'
+      },
+    },
+    legend: {
+      show: false
     }
-  });
+  };
+
+  var chart = new ApexCharts(document.querySelector("#bars_single"), options);
+  chart.render();
 }
 
 function generateDiskDonut(gauge, maximum) {

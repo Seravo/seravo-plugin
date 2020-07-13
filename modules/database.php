@@ -81,11 +81,11 @@ if ( ! class_exists('Database') ) {
     public static function enqueue_database_scripts( $page ) {
 
       wp_register_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css', '', Helpers::seravo_plugin_version());
-      wp_register_script('chart-js', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js', '', Helpers::seravo_plugin_version(), true);
+      wp_register_script('apexcharts-js', 'https://cdn.jsdelivr.net/npm/apexcharts', '', Helpers::seravo_plugin_version(), true);
 
       if ( $page === 'tools_page_database_page' ) {
         wp_enqueue_style('seravo_database');
-        wp_enqueue_script('chart-js');
+        wp_enqueue_script('apexcharts-js');
         wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('seravo_database', plugins_url('../js/database.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
@@ -217,10 +217,15 @@ if ( ! class_exists('Database') ) {
       <?php if ( exec('which wp') ) : ?>
         <div class="section_chart_mobile">
           <p>
-            <div id="seravo_wp_db_info_loading"><img src="/wp-admin/images/spinner.gif"></div>
-            <pre><div id="seravo_wp_db_info"></div></pre>
-            <div class="pie_container">
-              <canvas id="pie_chart" style="width: 10%; height: 4vh;"></canvas>
+            <div class="seravo_wp_db_info_loading"><img src="/wp-admin/images/spinner.gif"></div>
+            <div id="seravo_wp_db_info"></div>
+            <hr>
+            <b>
+              <?php _e('Table sizes', 'seravo'); ?>
+            </b>
+            <div class="seravo_wp_db_info_loading"><img src="/wp-admin/images/spinner.gif"></div>
+            <div class="chart_container">
+              <div id="bars_single"></div>
             </div>
           </p>
         </div>
