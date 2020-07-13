@@ -175,7 +175,7 @@ if ( ! class_exists('Site_Status') ) {
         __('This feature is available only on live production sites.', 'seravo');
       }
       ?>
-      <div style="padding: 0px 15px;">
+      <div>
         <p><?php _e('These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo'); ?></p>
       </div>
       <div class="http-requests_info_loading" style="padding: 0px;">
@@ -362,11 +362,11 @@ if ( ! class_exists('Site_Status') ) {
     public static function seravo_shadows_postbox() {
       ?>
       <div class="seravo-section">
-        <div style="padding: 0px 15px">
+        <div>
           <p><?php _e('Manage the site shadows.', 'seravo'); ?></p>
-          <p><?php _e('<strong>Warning: </strong>Resetting a shadow copies the state of the production site to the shadow. All files under /data/wordpress/ will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo'); ?></p>
+          <p><?php _e('<strong>Warning: </strong>Resetting a shadow copies the state of the production site to the shadow. All files under <code>/data/wordpress/</code> will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo'); ?></p>
         </div>
-        <div style="padding: 5px 15px 0 15px">
+        <div>
           <?php
           // Get a list of site shadows
           $api_query = '/shadows';

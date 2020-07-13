@@ -84,9 +84,7 @@ if ( ! class_exists('Backups') ) {
 
     public static function backups_info_postbox() {
       ?>
-      <div class="inside">
-        <p><?php _e('Backups are automatically created every night and preserved for 30 days. The data can be accessed on the server in under <code>/data/backups</code>.', 'seravo'); ?></p>
-      </div>
+      <p><?php _e('Backups are automatically created every night and preserved for 30 days. The data can be accessed on the server in under <code>/data/backups</code>.', 'seravo'); ?></p>
       <?php
     }
 
