@@ -494,10 +494,10 @@ class Seravo_DNS_Table {
       echo '<input type="hidden" name="domain" value="' . ($error ? '' : $records['name']) . '">';
       echo '<table id="zone-edit-table">';
       echo '<tr><td style="padding-bottom: 0px;">';
-      echo '<h2 style="margin: 0px 0px 5px 0px;">' . __('Compulsory Records', 'seravo') . '</h2>';
+      echo '<h3 style="margin: 0px 0px 5px 0px;">' . __('Compulsory Records', 'seravo') . '</h3>';
       echo '<p>' . __('It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them.', 'seravo') . '</p>';
       echo '</td><td style="padding-bottom: 0px;">';
-      echo '<h2 style="margin: 0px 0px 5px 0px;">' . __('Editable records', 'seravo') . '</h2>';
+      echo '<h3 style="margin: 0px 0px 5px 0px;">' . __('Editable records', 'seravo') . '</h3>';
       echo '<p>' . __('Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated.', 'seravo') . '</p>';
       echo '</td></tr>';
 
