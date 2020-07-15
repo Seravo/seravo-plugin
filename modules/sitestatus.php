@@ -566,13 +566,12 @@ if ( ! class_exists('Site_Status') ) {
 
     public static function speed_test() {
       $target_location = isset($_GET['speed_test_target']) ? $_GET['speed_test_target'] : '';
-      _e('Speed test measures the time how long it takes for PHP to produce the HTML output for the WordPress page.', 'seravo');
-      echo('<br><label for="speed_test_url" class="speed_test_form" for="sr-from"> ' . get_home_url() . '/</label> <input class="speed_test_input" type="text" id="speed_test_url" value="' . $target_location . '"><br>');
-      echo('<button type="button" class="button-primary" id="run-speed-test">' . __('Run Speed Test', 'seravo') . '</button>');
+      echo ('<p>' . __('Speed test measures the time how long it takes for PHP to produce the HTML output for the WordPress page.', 'seravo') . '</p>');
+      echo('<br><label for="speed_test_url" class="speed_test_form" for="sr-from"> ' . get_home_url() . '/</label> <input class="speed_test_input" type="text" placeholder="Front Page by Default" id="speed_test_url" value="' . $target_location . '"><br>');
+      echo('<button type="button" class="button-primary" id="run-speed-test">' . __('Run Test', 'seravo') . '</button>');
       echo('<div id="speed-test-results"></div>');
       echo('<div id="speed-test-error"></div>');
     }
-
 
   }
 

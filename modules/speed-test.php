@@ -22,22 +22,32 @@ if ( ! class_exists('Speed_Test') ) {
     // Add speed test button to WP Admin Bar
     public static function speed_test_button( $admin_bar ) {
       $target_location = ltrim($_SERVER['REQUEST_URI'], '/');
+      $url = get_home_url() . '/wp-admin/tools.php?page=site_status_page';
 
       if ( substr($target_location, 0, 9) === 'wp-admin/' ) {
         $admin_bar->add_menu(
           array(
-            'id'    => 'speed-test',
-            'title' => '<span class="ab-icon seravo-speed-test-icon"></span><span class="ab-label seravo-speed-test-text" title="' .
-              sprintf(__('Test the speed of the current page. Note: This does not function within wp-admin!', 'seravo')) . '">' . __('Speed Test', 'seravo') . '</span>',
+            'id'    => 'speed-test-blocked',
+            'title' => '<span class="ab-icon seravo-speed-test-icon blocked"></span><span class="ab-label seravo-speed-test-text blocked">' .
+              __('Speed Test', 'seravo') . '</span>',
+          )
+        );
+
+        $admin_bar->add_menu(
+          array(
+            'parent'  => 'speed-test-blocked',
+            'id'      => 'speed-test-menu',
+            'title'   => 'Speedtest cannot be run for wp-admin pages',
           )
         );
       } else {
-        $url = get_home_url() . '/wp-admin/tools.php?page=site_status_page&speed_test_target=' . $target_location;
+        $url .= '&speed_test_target=' . $target_location;
         $admin_bar->add_menu(
           array(
             'id'    => 'speed-test',
-            'title' => '<span class="ab-icon seravo-speed-test-icon"></span><span class="ab-label seravo-speed-test-text" title="' .
-            sprintf(__('Test the speed of the current page.', 'seravo')) . '">' . __('Speed Test', 'seravo') . '</span>',
+            'title' => '<span class="ab-icon seravo-speed-test-icon title="derp"></span><span class="ab-label seravo-speed-test-text" title="' .
+              __('Test the speed of the current page', 'seravo') . '">' .
+              __('Speed Test', 'seravo') . '</span>',
             'href'  => $url,
           )
         );
