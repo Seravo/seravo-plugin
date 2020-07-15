@@ -97,11 +97,17 @@ function seravo_ajax_list_cruft_files() {
         '*.wpress',
         'core',
         '*.bak',
+        '*-backup*',
+        '*.backup*',
+        '*_backup*',
         '*deleteme*',
         '*.deactivate',
         '.DS_Store',
         '*.tmp',
+        '*_tmp',
         '*.old',
+        '*.php.*',
+        '\ copy',
       );
       // List of known cruft directories
       $list_dirs = array(
@@ -119,9 +125,13 @@ function seravo_ajax_list_cruft_files() {
         '*_BAK',
         '_mu-plugins',
         '*.orig',
-        '-backup',
-        '*.backup',
+        '*-backup*',
+        '*.backup*',
+        '*_backup*',
         '*deleteme*',
+        '*.tmp',
+        '*_tmp',
+        '*\ copy',
         getenv('WP_USER') . '_20*',
       );
       $list_known_files = array(
