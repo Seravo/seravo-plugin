@@ -146,7 +146,7 @@ function generateDiskBars(JSONdata) {
     colors: ['#44A1CB'],
     chart: {
       type: 'bar',
-      height: 420,
+      height: labels.length * 40,
       toolbar: {
         show: false,
       }
@@ -154,6 +154,9 @@ function generateDiskBars(JSONdata) {
     plotOptions: {
       bar: {
         horizontal: true,
+        dataLabels: {
+          position: 'bottom',
+        },
       }
     },
     dataLabels: {
@@ -182,7 +185,12 @@ function generateDiskBars(JSONdata) {
       }
     },
     tooltip: {
-      enabled: false
+      enabled: true,
+      custom: function({series, seriesIndex, dataPointIndex, w}) {
+        return '<div class="arrow_box">' +
+          '<span>' + w.globals.labels[dataPointIndex] + ": " + human_vals[dataPointIndex] + '</span>' +
+          '</div>'
+      },
     }
   };
 

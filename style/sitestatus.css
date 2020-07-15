@@ -243,3 +243,15 @@ th, td {
 .speed_test_form {
   padding: 10px;
 }
+
+.bars_container {
+  max-height: 700px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-right: 15px;
+}
+
+.arrow_box {
+  font-size: 11px;
+  padding: 3px;
+}
