@@ -10,22 +10,18 @@
   content: "\f226";
 }
 
-#wpadminbar #wp-admin-bar-speed-test .spin {
-  animation: speed-test-spin 1.2s infinite;
-  animation-timing-function: linear;
+#wpadminbar #wp-admin-bar-speed-test-blocked .ab-item .seravo-speed-test-icon:before {
+  content: "\f226";
 }
 
-@media screen and (max-width:782px) {
-  #wp-admin-bar-speed-test {
-    display: block !important;
-  }
-  #wpadminbar #wp-admin-bar-speed-test .ab-item .seravo-speed-test-icon {
-    margin-top: 0px;
-  }
-  #wpadminbar #wp-admin-bar-speed-test .ab-item .seravo-speed-test-icon:before {
-    height: 45px;
-    line-height: 53px;
-    top: -3px;
-    width: 52px;
-  }
+#wpadminbar #wp-admin-bar-speed-test-blocked .ab-item .seravo-speed-test-icon {
+  transform-origin: center center;
+}
+
+#wp-admin-bar-speed-test-blocked .ab-item:hover {
+  cursor: default;
+}
+
+#wp-admin-bar-speed-test-menu .ab-item:hover {
+  cursor: default;
 }
