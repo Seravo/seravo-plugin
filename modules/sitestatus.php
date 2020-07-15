@@ -288,10 +288,11 @@ if ( ! class_exists('Site_Status') ) {
         <div class="folders_chart_loading">
           <img src="/wp-admin/images/spinner.gif">
         </div>
-        <div class="pie_container">
+        <div class="bars_container">
           <div id="bars_single" style="width: 100%"></div>
         </div>
       </p>
+      <hr>
       <?php _e('Automatic backups don\'t count against your quota.', 'seravo'); ?>
       <br>
       <?php _e('Use <a href="tools.php?page=security_page">cruft remover</a> to remove unnecessary files.', 'seravo'); ?>

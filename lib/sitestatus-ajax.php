@@ -52,7 +52,7 @@ function seravo_report_folders() {
   // size larger than $dir_threshold
   exec(
     '(
-    du --separate-dirs -b --threshold=' . $dir_threshold . ' /data/*/ | head -n 5 &&
+    du --separate-dirs -b --threshold=' . $dir_threshold . ' /data/*/ &&
     du -sb /data/wordpress/htdocs/wp-content/uploads/ &&
     du -sb /data/wordpress/htdocs/wp-content/themes/ &&
     du -sb /data/wordpress/htdocs/wp-content/plugins/ &&
