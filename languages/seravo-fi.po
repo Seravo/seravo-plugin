@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2020-06-18T11:48:46+03:00\n"
-"PO-Revision-Date: 2020-06-18 18:01+0300\n"
-"Last-Translator: Samuli Lehtonen <samuli@seravo.fi>\n"
+"POT-Creation-Date: 2020-07-20T14:57:18+03:00\n"
+"PO-Revision-Date: 2020-07-20 15:02+0300\n"
+"Last-Translator: Petri Salminen <petri@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #. Plugin Name of the plugin
 msgid "Seravo Plugin"
@@ -81,7 +81,7 @@ msgstr "Tämä verkkotunnus on valmiiksi ensisijainen."
 msgid "Make Primary"
 msgstr "Aseta ensisijaiseksi"
 
-#: lib/domain-tables.php:112 modules/sitestatus.php:344
+#: lib/domain-tables.php:112 lib/domain-tables.php:322
 msgid "Domain"
 msgstr "Verkkotunnus"
 
@@ -102,35 +102,39 @@ msgid "Customer"
 msgstr "Asiakas"
 
 #: lib/domain-tables.php:323
-msgid "Source"
-msgstr "Lähde"
+msgid "Forwards"
+msgstr "Edelleenohjaukset"
 
-#: lib/domain-tables.php:324
-msgid "Destinations"
-msgstr "Kohde"
+#: lib/domain-tables.php:334
+msgid "Fetch"
+msgstr "Hae"
 
-#: lib/domain-tables.php:425
+#: lib/domain-tables.php:335
+msgid "Create"
+msgstr "Luo edelleenohjaus"
+
+#: lib/domain-tables.php:437
 msgid "Update time:"
 msgstr "Päivitysaika:"
 
-#: lib/domain-tables.php:430 modules/sitestatus.php:319
+#: lib/domain-tables.php:442
 msgid "Name"
 msgstr "Nimi"
 
-#: lib/domain-tables.php:431
+#: lib/domain-tables.php:443
 msgid "TTL"
 msgstr "TTL"
 
-#: lib/domain-tables.php:433
+#: lib/domain-tables.php:445
 msgid "Type"
 msgstr "Tyyppi"
 
-#: lib/domain-tables.php:434
+#: lib/domain-tables.php:446
 msgid "Value"
 msgstr "Arvo"
 
 #. translators: %s domain of the site
-#: lib/domain-tables.php:470
+#: lib/domain-tables.php:482
 msgid ""
 "Our systems have detected that <strong>%s</strong> does not point to the "
 "Seravo servers. For your protection, manual editing is disabled. Please "
@@ -143,15 +147,15 @@ msgstr ""
 "asiakaspalveluun mikäli haluat muokata kyseisiä tietueita. Voit julkaista "
 "sivustosi silloin kuin haluat oheisen painikkeen avulla:"
 
-#: lib/domain-tables.php:475
+#: lib/domain-tables.php:487
 msgid "Publish"
 msgstr "Julkaise"
 
-#: lib/domain-tables.php:485
+#: lib/domain-tables.php:497
 msgid "Compulsory Records"
 msgstr "Pakolliset tietueet"
 
-#: lib/domain-tables.php:486
+#: lib/domain-tables.php:498
 msgid ""
 "It is not recommended to edit these records. Please contact the Seravo "
 "customer service if you want changes to be done to them."
@@ -159,11 +163,11 @@ msgstr ""
 "Näiden tietueiden muokkaaminen ei ole suositeltavaa. Ota yhteyttä Seravon "
 "asiakaspalveluun mikäli tahdot niitä muutettavan."
 
-#: lib/domain-tables.php:488
+#: lib/domain-tables.php:500
 msgid "Editable records"
 msgstr "Muokattavat tietueet"
 
-#: lib/domain-tables.php:489
+#: lib/domain-tables.php:501
 msgid ""
 "Here you can add, edit and delete records. Please do not try to add records "
 "conflicting with the compulsory records. They will not be activated."
@@ -172,17 +176,38 @@ msgstr ""
 "tietueita jotka ovat ristiriidassa pakollisten tietueiden kanssa. Niitä ei "
 "oteta huomioon."
 
-#: lib/domain-tables.php:496
+#: lib/domain-tables.php:508
 msgid "Update Zone"
 msgstr "Päivitä verkkotunnustiedot"
 
-#: lib/domain-tables.php:542
-msgid "Fetch Forwards"
-msgstr "Hae edelleenohjaukset"
+#: lib/domains-ajax.php:191
+msgid "All fields are required!"
+msgstr "Kaikki kentät ovat pakollisia!"
 
-#: lib/domain-tables.php:550
-msgid "No valid domains were found!"
-msgstr "Verkkotunnuksia ei löytynyt!"
+#. translators: %s is an email address
+#: lib/domains-ajax.php:225
+msgid "Forwards for %s have been set"
+msgstr "Uudelleenohjaukset osoitteeseen %s on asetettu"
+
+#: lib/domains-ajax.php:237
+msgid "Some of the changes weren't made"
+msgstr "Osaa muutoksista ei voitu tehdä"
+
+#: lib/domains-ajax.php:258
+msgid "The forwards were deleted"
+msgstr "Uudelleenohjaukset poistettu"
+
+#: lib/domains-ajax.php:283
+msgid "The forwards were modified"
+msgstr "Uudelleenohjauksia muokattu"
+
+#: lib/domains-ajax.php:287
+msgid "Something went wrong, the old source couldn't be removed."
+msgstr "Jotain meni pieleen, eikä vanhaa lähdettä voitu poistaa."
+
+#: lib/domains-ajax.php:290
+msgid "Something went wrong, the forwards couln't be modified."
+msgstr "Jotain meni pieleen, eikä uudelleenohjauksia voitu muokata."
 
 #: lib/security-ajax.php:78
 msgid "No login data"
@@ -213,6 +238,22 @@ msgstr "Raahaa laatikot tähän"
 msgid "Toggle panel: %s"
 msgstr "Näytä lisää: %s"
 
+#: lib/sitestatus-ajax.php:260
+msgid "Error: Invalid url"
+msgstr "Virhe: virheellinen url"
+
+#: lib/sitestatus-ajax.php:282
+msgid "Error! HTTP response code: "
+msgstr "Virhe! HTTP-tilakoodi: "
+
+#: lib/upkeep-ajax.php:140
+msgid "Invalid date, using 2 days offset <br><br>"
+msgstr "Virheellinen päivämäärä, haettu tiedot 2 päivän ajalta <br><br>"
+
+#: lib/upkeep-ajax.php:144
+msgid "Invalid date, showing since month beginning <br><br>"
+msgstr "Virheellinen päivämäärä, näytetään tiedot kuukauden alusta <br><br>"
+
 #: modules/backups.php:31 modules/toolbox.php:47 modules/toolbox.php:48
 msgid "Backups"
 msgstr "Varmuuskopiot"
@@ -233,7 +274,7 @@ msgstr "Nykyiset varmuuskopiot"
 msgid "No entries were found"
 msgstr "Tietoja ei löytynyt"
 
-#: modules/backups.php:88
+#: modules/backups.php:87
 msgid ""
 "Backups are automatically created every night and preserved for 30 days. The "
 "data can be accessed on the server in under <code>/data/backups</code>."
@@ -241,7 +282,7 @@ msgstr ""
 "Varmuuskopiot tehdään automaattisesti joka yö ja säilytetään 30 päivän ajan. "
 "Varmuuskopioita voi selata palvelimella kansiossa <code>/data/backups</code>."
 
-#: modules/backups.php:95
+#: modules/backups.php:93
 msgid ""
 "You can also create backups manually by running <code>wp-backup</code> on "
 "the command line. We recommend that you get familiar with the command line "
@@ -252,17 +293,17 @@ msgstr ""
 "Suosittelemme tutustumaan komentorivin käyttöön SSH-yhteyden yli, jotta "
 "varmuuskopion palauttaminen ei olisi riippuvainen WP-adminin toimivuudesta."
 
-#: modules/backups.php:97
+#: modules/backups.php:95
 msgid "Create a backup"
 msgstr "Ota uusi varmuuskopio"
 
 #. translators: %s name of the file shown
-#: modules/backups.php:106
+#: modules/backups.php:104
 msgid "Below are the contents of %s."
 msgstr "Alla on tiedoston %s sisältö."
 
 #. translators: %s command used to list WordPress backups of the website
-#: modules/backups.php:119
+#: modules/backups.php:117
 msgid "This list is produced by the command %s."
 msgstr "Luettelo on tuotettu komennolla %s."
 
@@ -404,6 +445,10 @@ msgstr "Aja kuiva-ajo"
 msgid "Run wp search-replace"
 msgstr "Aja wp search-replace"
 
+#: modules/database.php:224
+msgid "Table sizes"
+msgstr "Taulujen koot"
+
 #: modules/domains.php:44 modules/toolbox.php:67 modules/toolbox.php:68
 msgid "Domains"
 msgstr "Verkkotunnukset"
@@ -448,25 +493,75 @@ msgstr "Verkkotunnustiedot päivitettiin ilman muutoksia."
 msgid "Changing the primary domain..."
 msgstr "Vaihdetaan ensisijaista verkkotunnusta..."
 
-#: modules/domains.php:95
+#: modules/domains.php:83
+msgid "Error! Primary domain might not have been changed."
+msgstr "Virhe! Pääverkkotunnus ei välttämättä muuttunut."
+
+#: modules/domains.php:84
+msgid "Primary domain was changed but was not taken in use yet."
+msgstr "Pääverkkotunnus vaihdettiin, mutta se ei ole vielä käytössä."
+
+#: modules/domains.php:85
+msgid "This domain has no mail forwards"
+msgstr "Tällä verkkotunnuksella ei ole sähköpostin uudelleenohjauksia"
+
+#: modules/domains.php:86
+msgid "Couldn't fetch mail forwards for this domain."
+msgstr "Verkkotunnuksen sähköpostin uudelleenohjauksia ei voitu hakea."
+
+#: modules/domains.php:87
+msgid "No forwards were found for this domain."
+msgstr "Tälle verkkotunnukselle ei löytynyt uudelleenohjauksia."
+
+#: modules/domains.php:88
+msgid "Error! The action might have failed."
+msgstr "Virhe! Toiminto saattoi epäonnistua."
+
+#: modules/domains.php:89
+msgid "Source field can't be empty."
+msgstr "Lähde-kenttä ei voi olla tyhjä."
+
+#: modules/domains.php:90 modules/passwords.php:123
+msgid "Continue"
+msgstr "Jatka"
+
+#: modules/domains.php:100
 msgid "Domains routed to this WordPress site are listed below."
 msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
 
-#: modules/domains.php:99
+#: modules/domains.php:104
 msgid "Loading domains..."
 msgstr "Ladataan verkkotunnuksia..."
 
-#: modules/domains.php:103
+#: modules/domains.php:108
 msgid "Are you sure you want to change the primary domain?"
 msgstr "Oletko varma, että haluat vaihtaa ensisijaisen verkkotunnuksen?"
 
-#: modules/domains.php:105
+#: modules/domains.php:110
 msgid "Proceed"
 msgstr "Jatka"
 
-#: modules/domains.php:106
+#: modules/domains.php:111
 msgid "Cancel"
 msgstr "Peruuta"
+
+#: modules/domains.php:120
+msgid ""
+"Mail forwards of the domains routed to this WordPress site are listed below. "
+"Fetch the forwards for a domain with the link below the domain name."
+msgstr ""
+"Tähän WordPress-sivustoon reititettyjen verkkotunnusten sähköpostien "
+"uudelleenohjaukset on listattu alla. Nouda ohjaukset verkkotunnukselle "
+"verkkotunnuksen alla olevan linkin avulla."
+
+#: modules/domains.php:124
+msgid "Loading mail forwards..."
+msgstr "Ladataan sähköpostiohjauksia..."
+
+#: modules/domains.php:129
+msgid "Mailboxes assigned to this WordPress site are listed below."
+msgstr ""
+"Tähän WordPress-sivustoon kytketyt sähköpostilaatikot on lueteltu alla."
 
 #: modules/instance-switcher.php:130
 msgid "Now in"
@@ -512,34 +607,34 @@ msgstr ""
 "että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 "sivuston kehittäjälle."
 
-#: modules/logs.php:121
+#: modules/logs.php:122
 msgid "No logs found in <code>/data/log/</code>."
 msgstr "Lokeja ei löytynyt hakemistosta <code>/data/log/</code>."
 
-#: modules/logs.php:148 modules/toolbox.php:77 modules/toolbox.php:78
+#: modules/logs.php:149 modules/toolbox.php:77 modules/toolbox.php:78
 msgid "Logs"
 msgstr "Lokit"
 
-#: modules/logs.php:186
+#: modules/logs.php:187
 msgid "Filter"
 msgstr "Hae"
 
 #. translators: $s name of the logfile
-#: modules/logs.php:206
+#: modules/logs.php:207
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 "Tiedostoa %s ei ole olemassa tai käyttöoikeudet eivät riitä lukemaan sitä."
 
-#: modules/logs.php:211
+#: modules/logs.php:212
 msgid "Log empty"
 msgstr "Loki on tyhjä"
 
-#: modules/logs.php:213
+#: modules/logs.php:214
 msgid "Scroll to load more lines from the log."
 msgstr "Selaa ladataksesi lisää rivejä lokista."
 
 #. translators: $s full path of the logfile
-#: modules/logs.php:224
+#: modules/logs.php:225
 msgid "Full log files can be found on the server in the path %s."
 msgstr "Lokitiedostot kokonaisuudessaan löytyy palvelimelta polusta %s."
 
@@ -622,10 +717,6 @@ msgstr ""
 msgid "Change Password"
 msgstr "Vaihda Salasana"
 
-#: modules/passwords.php:123
-msgid "Continue"
-msgstr "Jatka"
-
 #. translators: %s cache refresh interval
 #: modules/purge-cache.php:38
 msgid ""
@@ -683,7 +774,7 @@ msgstr "Tarpeettomat lisäosat"
 msgid "Unnecessary themes"
 msgstr "Tarpeettomat teemat"
 
-#: modules/security.php:114 modules/sitestatus.php:140 modules/upkeep.php:102
+#: modules/security.php:114 modules/sitestatus.php:150 modules/upkeep.php:111
 msgid "No data returned for the section."
 msgstr "Testi ei palauttanut dataa."
 
@@ -691,7 +782,7 @@ msgstr "Testi ei palauttanut dataa."
 msgid "Are you sure you want to proceed? Deleted files can not be recovered."
 msgstr "Oletko varma, että haluat jatkaa? Tiedostot poistetaan pysyvästi."
 
-#: modules/security.php:116 modules/sitestatus.php:141 modules/upkeep.php:105
+#: modules/security.php:116 modules/sitestatus.php:151 modules/upkeep.php:114
 msgid "Failed to load. Please try again."
 msgstr "Lataaminen epäonnistui. Yritä uudelleen."
 
@@ -898,7 +989,7 @@ msgstr ""
 "jonka sivuston omistaja voi halutessaan tehdä mikäli tietää\n"
 "että ei tarvitse tiettyjä toimintoja koskaan."
 
-#: modules/security.php:278 modules/sitestatus.php:495
+#: modules/security.php:278 modules/sitestatus.php:570
 msgid "Save"
 msgstr "Tallenna"
 
@@ -947,39 +1038,43 @@ msgstr ""
 msgid "Searching for themes..."
 msgstr "Etsitään lisäosia..."
 
-#: modules/sitestatus.php:30
+#: modules/sitestatus.php:31
 msgid "Site Information"
 msgstr "Sivuston tiedot"
 
-#: modules/sitestatus.php:40
+#: modules/sitestatus.php:41
 msgid "HTTP Request Statistics"
 msgstr "HTTP-liikennetilastot"
 
-#: modules/sitestatus.php:49
+#: modules/sitestatus.php:50
 msgid "Cache Status"
 msgstr "Välimuistin tila"
 
-#: modules/sitestatus.php:58
+#: modules/sitestatus.php:59
 msgid "Shadows"
 msgstr "Varjot"
 
-#: modules/sitestatus.php:68
+#: modules/sitestatus.php:69
 msgid "Disk Usage"
 msgstr "Levytilan käyttö"
 
-#: modules/sitestatus.php:76 modules/sitestatus.php:105
+#: modules/sitestatus.php:77 modules/sitestatus.php:114
 msgid "Optimize Images"
 msgstr "Optimoi kuvia"
 
-#: modules/sitestatus.php:112
+#: modules/sitestatus.php:85
+msgid "Speed test"
+msgstr "Nopeustesti"
+
+#: modules/sitestatus.php:121
 msgid "Maximum Image Width (px)"
 msgstr "Suurin sallittu kuvan leveys (px)"
 
-#: modules/sitestatus.php:119
+#: modules/sitestatus.php:128
 msgid "Maximum Image Height (px)"
 msgstr "Suurin sallittu kuvan korkeus (px)"
 
-#: modules/sitestatus.php:142
+#: modules/sitestatus.php:152
 msgid ""
 "No reports found at /data/slog/html/. Reports should be available within a "
 "month of the creation of a new site."
@@ -987,44 +1082,88 @@ msgstr ""
 "Raportteja ei löytynyt polusta /data/slog/html/. Raportit tulisi olla "
 "saatavilla noin kuukauden kuluessa uuden sivuston perustamisesta."
 
-#: modules/sitestatus.php:143
+#: modules/sitestatus.php:153
 msgid "View report"
 msgstr "Näytä raportti"
 
-#: modules/sitestatus.php:144
+#: modules/sitestatus.php:154
 msgid "Running cache tests..."
 msgstr "Testataan välimuistia..."
 
-#: modules/sitestatus.php:145
+#: modules/sitestatus.php:155
 msgid "HTTP cache working"
 msgstr "HTTP -välimuisti toimii"
 
-#: modules/sitestatus.php:146
+#: modules/sitestatus.php:156
 msgid "HTTP cache not working"
 msgstr "HTTP -välimuisti ei toimi"
 
-#: modules/sitestatus.php:147 modules/upkeep.php:285
+#: modules/sitestatus.php:157 modules/sitestatus.php:388 modules/upkeep.php:299
 msgid "Success!"
 msgstr "Onnistui!"
 
-#: modules/sitestatus.php:148 modules/upkeep.php:289
+#: modules/sitestatus.php:158 modules/sitestatus.php:403 modules/upkeep.php:303
 msgid "Failure!"
 msgstr "Epäonnistui!"
 
-#: modules/sitestatus.php:149
+#: modules/sitestatus.php:159 modules/sitestatus.php:404
 msgid "Error!"
 msgstr "Virhe!"
 
-#: modules/sitestatus.php:150
+#: modules/sitestatus.php:160
 msgid ""
 "Are you sure? This replaces all information in the selected environment."
 msgstr "Oletko varma? Tämä toiminto korvaa kaiken valitussa ympäristössä."
 
-#: modules/sitestatus.php:161 modules/sitestatus.php:240
+#: modules/sitestatus.php:161
+msgid "Avg latency: "
+msgstr "Keskiviive: "
+
+#: modules/sitestatus.php:162
+msgid "Avg cached latency: "
+msgstr "Keskiviive (välimuisti): "
+
+#: modules/sitestatus.php:163
+msgid "Latency"
+msgstr "Viive"
+
+#: modules/sitestatus.php:164
+msgid "Cached latency"
+msgstr "Viive (välimuisti)"
+
+#: modules/sitestatus.php:165
+msgid "Keyspace hits"
+msgstr "Avaintilan osumat"
+
+#: modules/sitestatus.php:166
+msgid "Keyspace misses"
+msgstr "Avaintilan hudit"
+
+#: modules/sitestatus.php:167
+msgid "Hits"
+msgstr "Osumat"
+
+#: modules/sitestatus.php:168
+msgid "Misses"
+msgstr "Hudit"
+
+#: modules/sitestatus.php:169
+msgid "Stales"
+msgstr "Väljähtäneet"
+
+#: modules/sitestatus.php:170
+msgid "Used"
+msgstr "Käytetty"
+
+#: modules/sitestatus.php:171
+msgid "Available"
+msgstr "Saatavilla"
+
+#: modules/sitestatus.php:181 modules/sitestatus.php:310
 msgid "This feature is available only on live production sites."
 msgstr "Tämä toiminto on saatavilla vain oikeilla tuotantosivustoilla."
 
-#: modules/sitestatus.php:165
+#: modules/sitestatus.php:185
 msgid ""
 "These monthly reports are generated from the HTTP access logs of your site. "
 "All HTTP requests for the site are included, with traffic from both humans "
@@ -1038,124 +1177,210 @@ msgstr ""
 "hyökkäyksen aikana) eivät tule lokiin. Lokitiedostoja voi selata suoraan "
 "myös palvelimella polussa <code>/data/slog/html/goaccess-*.html</code>."
 
-#: modules/sitestatus.php:171
+#: modules/sitestatus.php:191
 msgid "Month"
 msgstr "Kuukausi"
 
-#: modules/sitestatus.php:172
+#: modules/sitestatus.php:192
 msgid "HTTP Requests"
 msgstr "HTTP-pyynnöt"
 
-#: modules/sitestatus.php:173
+#: modules/sitestatus.php:193
 msgid "Report"
 msgstr "Raportti"
 
-#: modules/sitestatus.php:185
-msgid "Redis Transient and Object Cache"
-msgstr "Oliovälimuisti"
+#: modules/sitestatus.php:205
+msgid ""
+"Caching decreases the load time of the website. The cache hit rate "
+"represents the efficiency of cache usage. Read about caching from the <a "
+"href=\"https://help.seravo.com/article/36-how-does-caching-work/\" target="
+"\"_BLANK\">documentation</a> or <a href=\"https://seravo.com/tag/cache/\" "
+"target=\"_BLANK\">blog</a>."
+msgstr ""
+"Välimuistitus vähentää verkkosivun latausaikaa. Välimuistin osumatarkkuus "
+"kuvaa välimuistin käytön tehokkuutta. Lue lisää välimuistista <a href="
+"\"https://help.seravo.fi/article/229-miten-valimuistitus-toimii\" target="
+"\"_BLANK\">dokumentaatiosta</a> tai <a href=\"https://wp-palvelu.fi/"
+"avainsana/valimuisti/\" target=\"_BLANK\">blogista</a>."
 
-#: modules/sitestatus.php:190
-msgid "Long-term HTTP Cache Stats"
-msgstr "Pitkäaikaiset HTTP -välimuisti tilastot"
+#: modules/sitestatus.php:206
+msgid "Object Cache in Redis"
+msgstr "Redis-objektivälimuisti"
 
-#: modules/sitestatus.php:195
+#: modules/sitestatus.php:207
+msgid ""
+"Persistent object cache implemented with <a href=\"https://seravo.com/blog/"
+"faster-wordpress-with-transients/\" target=\"_BLANK\">transients</a> can be "
+"stored in Redis. Instructions on how to activate the object cache can be "
+"found from the <a href=\"https://help.seravo.com/article/38-active-object-"
+"cache/\" target=\"_BLANK\">documentation</a>."
+msgstr ""
+"<a href=\"https://wp-palvelu.fi/blogi/wordpress-sivut-300-nopeammaksi-"
+"transienteilla/\" target=\"_BLANK\">Transienttien</a> avulla toteutettu "
+"pysyvää objektivälimuistia voi säilyttää Rediksessä. Ohjeet "
+"objektivälimuistin aktivoimiseen löytyy <a href=\"https://help.seravo.fi/"
+"article/231-object-cache-valimuistin-aktivointi\" target=\"_BLANK"
+"\">dokumentaatiosta</a>."
+
+#: modules/sitestatus.php:208 modules/sitestatus.php:231
+msgid "Cache hit rate"
+msgstr "Välimuistin osumatarkkuus"
+
+#: modules/sitestatus.php:214
+msgid "Expired keys: "
+msgstr "Erääntyneet avaimet: "
+
+#: modules/sitestatus.php:218
+msgid "The number of keys deleted."
+msgstr "Poistettujen avaimien määrä."
+
+#: modules/sitestatus.php:221
+msgid "<br>Evicted keys: "
+msgstr "<br>Häädetyt avaimet: "
+
+#: modules/sitestatus.php:225
+msgid ""
+"The number of keys being deleted because the memory usage has hit it's limit."
+msgstr "Niiden avainten määrä, jotka on poistettu muistin täyttymisen takia."
+
+#: modules/sitestatus.php:229
+msgid "HTTP Cache"
+msgstr "HTTP -välimuisti"
+
+#: modules/sitestatus.php:230
+msgid ""
+"The HTTP cache hit rate is calculated from all Nginx's access logs. It "
+"describes the long-term cache usage situation."
+msgstr ""
+"HTTP välimuistin osumatarkkuus on laskettu kaikista Nginx:n pääsylokeista. "
+"Se kuvaa pitkän aikavälin välimuistin käyttöastetta."
+
+#: modules/sitestatus.php:236
+msgid "There are <span id='http-cache-bypass'></span> bypasses."
+msgstr "<span id='http-cache-bypass'></span> ohitusta."
+
+#: modules/sitestatus.php:237
 msgid "Nginx HTTP Cache"
 msgstr "Nginx HTTP -välimuisti"
 
-#: modules/sitestatus.php:199
+#: modules/sitestatus.php:239
 msgid ""
-"Here you can test the functionality of front cache. Same results can be "
-"achieved via command line by running <code>wp-check-http-cache</code> there."
+"Test the functionality of your site's front cache. This can also be done via "
+"command line with command <code>wp-check-http-cache</code>."
 msgstr ""
 "Suorita sivuston välimuistin toimivuustestit ja tarkista tulokset. Saman "
 "testin voi suorittaa myös komentoriviltä komennolla <code>wp-check-http-"
 "cache</code>."
 
-#: modules/sitestatus.php:202 modules/upkeep.php:615
-msgid "Run Tests"
+#: modules/sitestatus.php:240
+msgid "Run cache tests"
 msgstr "Suorita testit"
 
-#: modules/sitestatus.php:205
-msgid "Click \"Run Tests\" to run the cache tests"
-msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi välimuisti-testit"
+#: modules/sitestatus.php:243
+msgid "Click \"Run cache tests\" to run the cache tests"
+msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi testit"
 
-#: modules/sitestatus.php:211 modules/upkeep.php:624
+#: modules/sitestatus.php:249 modules/upkeep.php:342 modules/upkeep.php:676
 msgid "Toggle Details"
 msgstr "Näytä lisää"
 
-#: modules/sitestatus.php:223
-msgid "The total size of <code>/data</code> is"
-msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
+#: modules/sitestatus.php:271
+msgid "Disk space in your plan: "
+msgstr "Levytilaa palvelupaketissasi: "
 
-#: modules/sitestatus.php:229
+#: modules/sitestatus.php:274
+msgid "Space in use: "
+msgstr "Tilaa käytössä: "
+
+#: modules/sitestatus.php:278
+msgid "Disk space low! "
+msgstr "Levytila vähissä! "
+
+#: modules/sitestatus.php:280
+msgid "Read more."
+msgstr "Lue lisää."
+
+#: modules/sitestatus.php:292
 msgid "Disk usage by directory"
 msgstr "Levytilan käyttö"
 
-#: modules/sitestatus.php:251
+#: modules/sitestatus.php:302
+msgid "Logs and automatic backups don't count against your quota."
+msgstr "Lokeja ja automaattisia varmuuskopioita ei lasketa mukaan kiintiöön."
+
+#: modules/sitestatus.php:304
+msgid ""
+"Use <a href=\"tools.php?page=security_page\">cruft remover</a> to remove "
+"unnecessary files."
+msgstr ""
+"Käytä <a href=\"tools.php?page=security_page\">roskanpoistajaa</a> "
+"poistamaan tarpeettomat tiedostot."
+
+#: modules/sitestatus.php:321
 msgid "Demo"
 msgstr ""
 
-#: modules/sitestatus.php:252
+#: modules/sitestatus.php:322
 msgid "WP Mini"
 msgstr ""
 
-#: modules/sitestatus.php:253
+#: modules/sitestatus.php:323
 msgid "WP Pro"
 msgstr ""
 
-#: modules/sitestatus.php:254
+#: modules/sitestatus.php:324
 msgid "WP Business"
 msgstr ""
 
-#: modules/sitestatus.php:255
+#: modules/sitestatus.php:325
 msgid "WP Enterprise"
 msgstr ""
 
-#: modules/sitestatus.php:259
+#: modules/sitestatus.php:329
 msgid "Finland"
 msgstr "Suomi"
 
-#: modules/sitestatus.php:260
+#: modules/sitestatus.php:330
 msgid "Sweden"
 msgstr "Ruotsi"
 
-#: modules/sitestatus.php:261
+#: modules/sitestatus.php:331
 msgid "Germany"
 msgstr "Saksa"
 
-#: modules/sitestatus.php:262
+#: modules/sitestatus.php:332
 msgid "USA"
 msgstr "Yhdysvallat"
 
-#: modules/sitestatus.php:263
+#: modules/sitestatus.php:333
 msgid "No preference"
 msgstr "Seravon valitsema"
 
-#: modules/sitestatus.php:284
+#: modules/sitestatus.php:354
 msgid "Site Name"
 msgstr "Sivuston nimi"
 
-#: modules/sitestatus.php:285
+#: modules/sitestatus.php:355
 msgid "Site Created"
 msgstr "Sivusto luotu"
 
-#: modules/sitestatus.php:286
+#: modules/sitestatus.php:356
 msgid "Plan Termination"
 msgstr "Palvelupaketin päättyminen"
 
-#: modules/sitestatus.php:287
+#: modules/sitestatus.php:357
 msgid "Site Location"
 msgstr "Sivuston sijainti"
 
-#: modules/sitestatus.php:288
+#: modules/sitestatus.php:358
 msgid "Plan Type"
 msgstr "Palvelupaketti"
 
-#: modules/sitestatus.php:291
+#: modules/sitestatus.php:361
 msgid "Account Manager"
 msgstr "Account Manager"
 
-#: modules/sitestatus.php:293
+#: modules/sitestatus.php:363
 msgid ""
 "No Account Manager found. Account Manager is only included in Seravo "
 "Enterprise plans."
@@ -1163,48 +1388,107 @@ msgstr ""
 "Account manageria ei löytynyt. Account manager kuuluu vain WP Enterprise -"
 "palvelupaketteihin."
 
-#: modules/sitestatus.php:296 modules/upkeep.php:163
+#: modules/sitestatus.php:366
 msgid "Technical Contacts"
 msgstr "Yhteystiedot teknisissä asioissa"
 
-#: modules/sitestatus.php:303
+#: modules/sitestatus.php:373
+msgid "Manage the site shadows."
+msgstr "Hallitse varjoja."
+
+#: modules/sitestatus.php:374
 msgid ""
-"Allow easy access to site shadows. Resetting a shadow copies the state of "
-"the production site to the shadow. All files under /data/wordpress/ will be "
-"replaced and the production database imported. For more information, visit "
-"our  <a href=\"https://seravo.com/docs/deployment/shadows/\" target=\"_BLANK"
-"\">Developer documentation</a>."
+"<strong>Warning: </strong>Resetting a shadow copies the state of the "
+"production site to the shadow. All files under <code>/data/wordpress/</code> "
+"will be replaced and the production database imported. For more information, "
+"visit our  <a href=\"https://seravo.com/docs/deployment/shadows/\" target="
+"\"_BLANK\">Developer documentation</a>."
 msgstr ""
-"Hallinnoi sivustosi kehitysympäristöjä. Varjon resetointi korvaa varjon "
-"tiedostot hakemistossa /data/wordpress/ ja tietokannan tuotantosivuston "
-"tiedostoilla ja tietokannalla. Lue lisää varjoista <a href=\"https://seravo."
-"com/docs/deployment/shadows/\" target=\"_BLANK\">kehittäjäohjeistamme</a>."
+"<strong>Varoitus: </strong>Varjon resetointi kopioi tuotannon tilan varjoon. "
+"Kaikki varjon tiedostot hakemistossa <code>/data/wordpress/</code> ja "
+"tietokannan tuotantosivuston tiedostoilla ja tietokannalla korvataan "
+"tuotannon vastaavilla. Lue lisää varjoista <a href=\"https://seravo.com/docs/"
+"deployment/shadows/\" target=\"_BLANK\">kehittäjäohjeistamme</a>."
 
-#: modules/sitestatus.php:322
-msgid "Select shadow"
-msgstr "Valitse varjo"
+#: modules/sitestatus.php:391
+msgid ""
+"Because this shadow uses a custom domain, <strong>please go to the shadow "
+"and run search-replace there with the values below</strong> for the shadow "
+"to be accessible after reset: "
+msgstr ""
+"Koska varjolla on oma verkkotunnus, <strong>mene varjoon ja aja siellä "
+"search-replace alla olevilla arvoilla</strong>, jotta varjo olisi saatavilla "
+"resetoinnin jälkeen. "
 
-#: modules/sitestatus.php:342
-msgid "Identifier"
-msgstr "Tunniste"
+#: modules/sitestatus.php:394 modules/sitestatus.php:442
+msgid "<strong>From:</strong> "
+msgstr "<strong>Lähtöarvo:</strong> "
 
-#: modules/sitestatus.php:343
-msgid "SSH Port"
-msgstr "SSH-portti"
+#: modules/sitestatus.php:396
+msgid "<br><strong>To:</strong> "
+msgstr "<br><strong>Kohdearvo:</strong> "
 
-#: modules/sitestatus.php:345
-msgid "Creation Date"
-msgstr "Luontipäivämäärä"
+#: modules/sitestatus.php:400
+msgid ""
+"When you're in the shadow, run search-replace either on \"Tools --> Database "
+"--> Search-Replace Tool\" or with wp-cli. Instructions can be found from <a "
+"href=\"https://help.seravo.com/en/docs/151\" target=\"_BLANK"
+"\">documentation</a>."
+msgstr ""
+"Varjo käyttää kustomoitua verkkotunnusta. Komentoa wp search-replace ei "
+"pystytä ajamaan automaattisesti varjon palautuksen yhteydessä. Aja komento "
+"wp search-replace jälkikäteen manuaalisesti yllä olevilla tiedoilla tai "
+"varjoon ei pääse. Ohjeet löydät <a href='https://help.seravo.com/fi/"
+"docs/151' target=\"_BLANK\">dokumentaatiosta</a>."
 
-#: modules/sitestatus.php:349
-msgid "Actions"
-msgstr "Toiminnot"
+#: modules/sitestatus.php:425
+msgid "Reset"
+msgstr "Resetoi"
 
-#: modules/sitestatus.php:349
-msgid "Move Data"
-msgstr "Siirrä tiedot"
+#: modules/sitestatus.php:432
+msgid "Port: "
+msgstr "Portti: "
 
-#: modules/sitestatus.php:367
+#: modules/sitestatus.php:433
+msgid "Creation Date: "
+msgstr "Luontipäivämäärä: "
+
+#: modules/sitestatus.php:434
+msgid "Information: "
+msgstr "Sivuston tiedot: "
+
+#: modules/sitestatus.php:435
+msgid "Domain: "
+msgstr "Verkkotunnus: "
+
+#: modules/sitestatus.php:439
+msgid ""
+"This shadow uses a custom domain. <strong>For the shadow to be accessible "
+"after reset, please run search-replace in the shadow with the values below:</"
+"strong>"
+msgstr ""
+"Tällä varjolla on oma verkkotunnus. <strong>Jotta varjo olisi saatavilla "
+"resetoinnin jälkeen, mene varjoon ja aja siellä search-replace alla olevilla "
+"arvoilla:</strong>"
+
+#: modules/sitestatus.php:444
+msgid "<br><strong>To:</strong> ://"
+msgstr "<br><strong>Kohdearvo:</strong> ://"
+
+#: modules/sitestatus.php:448
+msgid ""
+"When you're in the shadow, you can run search-replace either on \"Tools --> "
+"Database --> Search-Replace Tool\" or with wp-cli. Instructions can be found "
+"from <a href=\"https://help.seravo.com/en/docs/151\" target=\"_BLANK"
+"\">documentation</a>."
+msgstr ""
+"Varjo käyttää kustomoitua verkkotunnusta. Komentoa wp search-replace ei "
+"pystytä ajamaan automaattisesti varjon palautuksen yhteydessä. Aja komento "
+"wp search-replace jälkikäteen manuaalisesti yllä olevilla tiedoilla tai "
+"varjoon ei pääse. Ohjeet löydät <a href='https://help.seravo.com/fi/"
+"docs/151' target=\"_BLANK\">dokumentaatiosta</a>."
+
+#: modules/sitestatus.php:468
 msgid ""
 "No shadows found. If your plan is WP Pro or higher, you can request a shadow "
 "instance from Seravo admins at <a href=\"mailto:help@seravo.com"
@@ -1215,59 +1499,19 @@ msgstr ""
 "help@seravo.com\" target=\"_BLANK\">asiakaspalvelusta osoitteessta "
 "help@seravo.com</a>."
 
-#: modules/sitestatus.php:375
-msgid "Reset shadow from production"
-msgstr "Palauta varjoon kopio nykyisestä tuotannon tilasta"
-
-#: modules/sitestatus.php:377
-msgid ""
-"<b>Warning:</b> This will replace everything currently in the <i>/data/"
-"wordpress/</i> directory and the database of the shadow with a copy of "
-"production site. Be sure to know what you are doing."
-msgstr ""
-"<b>Varoitus:</b> Tämä korvaa nykyisen varjon <i>/data/wordpress/</i> kansion "
-"ja tietokannan tuotantosivun kopiolla. Varmista, että tiedät mitä olet "
-"tekemässä."
-
-#: modules/sitestatus.php:381
-msgid "Execute search-replace"
-msgstr "Aja wp search-replace"
-
-#: modules/sitestatus.php:387
-msgid ""
-"This shadow uses a custom domain. Search-replace can't currently be ran "
-"automatically with shadow reset. Please run it manually afterwards with the "
-"values above or the shadow can't be accessed. Instructions can be found in "
-"<a href='https://help.seravo.com/en/docs/151' target='_BLANK'>here</a>."
-msgstr ""
-"Varjo käyttää kustomoitua verkkotunnusta. Komentoa wp search-replace ei "
-"pystytä ajamaan automaattisesti varjon palautuksen yhteydessä. Aja komento "
-"wp search-replace jälkikäteen manuaalisesti yllä olevilla tiedoilla tai "
-"varjoon ei pääse. Ohjeet löydät <a href='https://help.seravo.com/fi/"
-"docs/151' target=\"_BLANK\">täältä</a>."
-
-#: modules/sitestatus.php:390
-msgid ""
-"This shadow doesn't need search-replace to be ran afterwards for it to work."
-msgstr "Varjossa ei tarvitse ajaa jälkikäteen komentoa wp search-replace."
-
-#: modules/sitestatus.php:394
-msgid "Reset from production"
-msgstr "Palauta tuotannon tilasta"
-
-#: modules/sitestatus.php:406
+#: modules/sitestatus.php:481
 msgid "WordPress core"
 msgstr "WordPressin ydin"
 
-#: modules/sitestatus.php:434
+#: modules/sitestatus.php:509
 msgid "Width"
 msgstr "Leveys"
 
-#: modules/sitestatus.php:440
+#: modules/sitestatus.php:515
 msgid "Height"
 msgstr "Korkeus"
 
-#: modules/sitestatus.php:448
+#: modules/sitestatus.php:523
 msgid ""
 "Optimization reduces image file size. This improves the performance and "
 "browsing experience of your site."
@@ -1275,13 +1519,13 @@ msgstr ""
 "Kuvien optimointi pienentää kuvan tiedostokokoa. Tämä parantaa sivuston "
 "suorituskykyä ja sivuston selauskokemusta."
 
-#: modules/sitestatus.php:449
+#: modules/sitestatus.php:524
 msgid ""
 "By setting the maximum image resolution, you can determine the maximum "
 "allowed dimensions for images."
 msgstr "Voit asettaa haluamasi rajat sivuston kuvien maksimiresoluutiolle."
 
-#: modules/sitestatus.php:450
+#: modules/sitestatus.php:525
 msgid ""
 "For further information, refer to our <a href=\"https://help.seravo.com/"
 "article/28-seravo-plugin-optimize-images\" target=\"_BLANK\">knowledgebase "
@@ -1291,7 +1535,7 @@ msgstr ""
 "seravo-plugin-optimoi-kuvia\" target=\"_BLANK\">tietopankissa</a>."
 
 #. translators: %s numeric value for the minimum image width
-#: modules/sitestatus.php:460
+#: modules/sitestatus.php:535
 msgid ""
 "The minimum width for image optimisation is %1$s px. Setting suggested width "
 "of %2$s px."
@@ -1300,13 +1544,41 @@ msgstr ""
 "Asetetaan suositeltu %2$s px leveys."
 
 #. translators: %s numeric value for the minimum image height
-#: modules/sitestatus.php:476
+#: modules/sitestatus.php:551
 msgid ""
 "The minimum height for image optimisation is %1$s px. Setting suggested "
 "height of %2$s px."
 msgstr ""
 "Suurimman sallitun kuvan korkeuden tulee olla vähintään %1$s pikseliä. "
 "Asetetaan suositeltu %2$s px korkeus."
+
+#: modules/sitestatus.php:576
+msgid ""
+"Speed test measures the time how long it takes for PHP to produce the HTML "
+"output for the WordPress page."
+msgstr ""
+"Nopeustesti mittaa, kuinka kauan PHP:n luoman WordPress-sivun toimittamiseen "
+"kuluu aikaa."
+
+#: modules/sitestatus.php:577
+msgid "Front Page by Default"
+msgstr "Oletuksena etusivu"
+
+#: modules/sitestatus.php:578
+msgid "Run Test"
+msgstr "Suorita testi"
+
+#: modules/speed-test.php:32 modules/speed-test.php:50
+msgid "Speed Test"
+msgstr "Nopeustesti"
+
+#: modules/speed-test.php:40
+msgid "Speedtest cannot be run for wp-admin pages"
+msgstr "Nopeustestiä ei voi ajaa wp-admin -sivuille"
+
+#: modules/speed-test.php:49
+msgid "Test the speed of the current page"
+msgstr "Testaa nykyisen sivun nopeus"
 
 #: modules/toolbox.php:18 modules/toolbox.php:19
 msgid "Site Status"
@@ -1320,35 +1592,39 @@ msgstr "Ylläpito"
 msgid "Database"
 msgstr "Tietokanta"
 
-#: modules/upkeep.php:25
+#: modules/upkeep.php:26
 msgid "Update Status"
 msgstr "Päivitysten tila"
 
-#: modules/upkeep.php:33
+#: modules/upkeep.php:34
 msgid "Tests Status"
 msgstr "Testien tila"
 
-#: modules/upkeep.php:42
+#: modules/upkeep.php:43
+msgid "Changes Status"
+msgstr "Muutokset"
+
+#: modules/upkeep.php:51
 msgid "Update tests"
 msgstr "Päivitystestit"
 
-#: modules/upkeep.php:51
+#: modules/upkeep.php:60
 msgid "Seravo Updates"
 msgstr "Seravon päivitykset"
 
-#: modules/upkeep.php:59
+#: modules/upkeep.php:68
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
-#: modules/upkeep.php:68
+#: modules/upkeep.php:77
 msgid "Change PHP Version"
 msgstr "Vaihda PHP-versiota"
 
-#: modules/upkeep.php:76
+#: modules/upkeep.php:85
 msgid "Seravo Plugin Updater"
 msgstr "Seravo Plugin päivittäjä"
 
-#: modules/upkeep.php:98
+#: modules/upkeep.php:107
 msgid ""
 "Running PHP compatibility check, this can take a while depending on the "
 "number of plugins and themes installed."
@@ -1356,35 +1632,51 @@ msgstr ""
 "Ajetaan PHP yhteensopivuustarkistusta, jossa saattaa kestää hetken aikaa "
 "riippuen asennettujen lisäosien ja teemojen määrästä."
 
-#: modules/upkeep.php:99
+#: modules/upkeep.php:108
 msgid " errors found. See logs for more information."
 msgstr " virhettä löytyi. Katso lisätietoja lokitiedostosta."
 
-#: modules/upkeep.php:100
+#: modules/upkeep.php:109
 msgid "&#x2705; No errors found! See logs for more information."
 msgstr "&#x2705; Virheitä ei löytynyt! Katso lisätietoja lokitiedostosta."
 
-#: modules/upkeep.php:101
+#: modules/upkeep.php:110
 msgid "There was an error starting the compatibility check."
 msgstr "Yhteensopivuustarkistusta ei pystytty suorittamaan virheen vuoksi."
 
-#: modules/upkeep.php:103
+#: modules/upkeep.php:112
 msgid "Tests were run without any errors!"
 msgstr "Testit suoritettu onnistuneesti ilman virheitä!"
 
-#: modules/upkeep.php:104
+#: modules/upkeep.php:113
 msgid "At least one of the tests failed."
 msgstr "Ainakin yksi testeistä epäonnistui."
 
-#: modules/upkeep.php:106
+#: modules/upkeep.php:115
 msgid "Running rspec tests..."
 msgstr "Testataan sivustoa..."
 
-#: modules/upkeep.php:128
+#: modules/upkeep.php:116
+msgid "Fetching changes..."
+msgstr "Haetaan muutoksia..."
+
+#: modules/upkeep.php:117
+msgid "No changes were found"
+msgstr "Muutoksia ei löytynyt"
+
+#: modules/upkeep.php:118
+msgid "rows affected"
+msgstr "muutosta löydetty"
+
+#: modules/upkeep.php:121
+msgid "There must be at least one contact email"
+msgstr "Vähintään yhden yhteysosoitteen tulee olla asetettuna"
+
+#: modules/upkeep.php:141
 msgid "Opt-out from updates by Seravo"
 msgstr "Kiellä Seravoa päivittämästä sivustoa ja vastaa päivityksistä itse"
 
-#: modules/upkeep.php:148
+#: modules/upkeep.php:162
 msgid ""
 "The Seravo upkeep service includes core and plugin updates to your WordPress "
 "site, keeping your site current with security patches and frequent tested "
@@ -1400,15 +1692,15 @@ msgstr ""
 "ruudusta. HUOM! Tietoturvapäivityksiä saatamme tehdä päivityskiellosta "
 "huolimatta, tilanteen niin vaatiessa."
 
-#: modules/upkeep.php:153
+#: modules/upkeep.php:167
 msgid "Seravo updates enabled"
 msgstr "Seravon päivitykset sallittu"
 
-#: modules/upkeep.php:157
+#: modules/upkeep.php:171
 msgid "Update Notifications with a Slack Webhook"
 msgstr "Päivitysilmoitukset Slackin webhookin avulla"
 
-#: modules/upkeep.php:158
+#: modules/upkeep.php:172
 msgid ""
 "By defining a Slack webhook address below, Seravo can send you notifications "
 "about every update attempt, whether successful or not, to the Slack channel "
@@ -1421,11 +1713,15 @@ msgstr ""
 "\"https://api.slack.com/incoming-webhooks\" target=\"_BLANK\">Lue lisää "
 "Slackin ohjeistuksesta</a>."
 
-#: modules/upkeep.php:160
+#: modules/upkeep.php:174
 msgid "Send a Test Notification"
 msgstr "Lähetä testi-ilmoitus"
 
-#: modules/upkeep.php:164
+#: modules/upkeep.php:177
+msgid "Contacts"
+msgstr "Yhteyshenkilöt"
+
+#: modules/upkeep.php:178
 msgid ""
 "Seravo may use the email addresses defined here to send automatic "
 "notifications about technical problems with you site. Remember to use a "
@@ -1435,24 +1731,24 @@ msgstr ""
 "sivustoilla havaituista virhetilanteista. Ole hyvä ja lisää ainoastaan "
 "täydellisiä sähköpostiosoitteita."
 
-#: modules/upkeep.php:165
+#: modules/upkeep.php:179
 msgid "example@example.com"
 msgstr "esimerkki@esimerkki.fi"
 
-#: modules/upkeep.php:166
+#: modules/upkeep.php:180
 msgid "Add"
 msgstr "Lisää"
 
-#: modules/upkeep.php:167
+#: modules/upkeep.php:181
 msgid "Email must be formatted as name@domain.com"
 msgstr "Sähköpostiosoite täytyy olla muodossa nimi@domain.com"
 
-#: modules/upkeep.php:171
+#: modules/upkeep.php:185
 msgid "Save settings"
 msgstr "Tallenna asetukset"
 
 #. translators: %1$s link to Newsletter for WordPress developers
-#: modules/upkeep.php:175
+#: modules/upkeep.php:189
 msgid ""
 "P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-"
 "to-date information about our new features."
@@ -1460,15 +1756,15 @@ msgstr ""
 "P.S. Tilaa Seravon %1$senglanninkielinen uutiskirje WordPress-kehittäjille"
 "%2$s pysyäksesi ajan tasalla uusimmista ominaisuuksistamme."
 
-#: modules/upkeep.php:205
+#: modules/upkeep.php:219
 msgid "Site created"
 msgstr "Sivusto luotu"
 
-#: modules/upkeep.php:213
+#: modules/upkeep.php:227
 msgid "Unable to fetch the latest update log."
 msgstr "Uusinta päivityslokia ei voitu hakea."
 
-#: modules/upkeep.php:232
+#: modules/upkeep.php:246
 msgid ""
 "Last succesful full site update was over a month ago. A developer should "
 "take\n"
@@ -1478,41 +1774,41 @@ msgstr ""
 "Edellinen onnistunut päivitys oli yli kuukausi sitten. Sivuston kehittäjän "
 "tulisi katsoa päivityslokia ja korjata virhe joka estää päivittämisen."
 
-#: modules/upkeep.php:238
+#: modules/upkeep.php:252
 msgid "Latest update.log:"
 msgstr "Viimeisin update.log:"
 
-#: modules/upkeep.php:241
+#: modules/upkeep.php:255
 msgid "See the logs page for more info."
 msgstr "Katso lisätietoja lokisivulta."
 
-#: modules/upkeep.php:247
+#: modules/upkeep.php:261
 msgid "Latest successful full update"
 msgstr "Viimeisin onnistunut kaikenkattava päivitys"
 
-#: modules/upkeep.php:251
+#: modules/upkeep.php:265
 msgid "Latest attempted full update"
 msgstr "Edellinen yritetty kaikenkattava päivitys"
 
-#: modules/upkeep.php:258
+#: modules/upkeep.php:272
 msgid "Last 5 partial or attempted updates:"
 msgstr "Edelliset osittaiset tai päivitysten yritykset:"
 
 #. translators: event count and update.log filename and updates.log and security.log paths
-#: modules/upkeep.php:272
+#: modules/upkeep.php:286
 msgid "For details about last %1$s update attempts by Seravo, see %2$s."
 msgstr ""
 "Lisätiedot edellisiin %1$s päivitysyrityksiin löytyy lokitiedostosta %2$s."
 
 #. translators: Link to Tests page
-#: modules/upkeep.php:287
+#: modules/upkeep.php:301
 msgid "Site baseline tests have passed and updates can run normally."
 msgstr ""
 "Sivuston lähtötilanteessa testit toimivat ja päivitykset voi tapahtua "
 "normaalisti."
 
 #. translators: Link to Tests page
-#: modules/upkeep.php:291
+#: modules/upkeep.php:305
 msgid ""
 "Site baseline tests are failing and needs to be fixed before further updates "
 "are run."
@@ -1520,8 +1816,39 @@ msgstr ""
 "Sivuston lähtötilanteessa testit epäonnistuvat ja ne tulee korjata ennen "
 "kuin päivitykset voivat jatkua normaalisti."
 
+#: modules/upkeep.php:313
+msgid ""
+"This tool can be used to run command <code>wp-backup-list-changes-since</"
+"code> \n"
+"        which finds folder and file changes in backup data since the given "
+"date. For example if you have started to have issues on your site, you can\n"
+"        track down what folders or files have changed.  \n"
+"        \n"
+"         <p>Backups are stored for 30 days which is also the maximum since "
+"offset.  </p>"
+msgstr ""
+"Tämä työkalu ajaa komennon <code>wp-backup-list-changes-since</code>, \n"
+"        joka etsii varmuuskopioista hakemisto- ja tiedostomuutoksia annetun "
+"päivämäärän perusteella. Jos esimerkiksi sivustollasi on ongelmia, \n"
+"        voit tutkia, mitkä hakemistot ja tiedostot ovat muuttuneet.  \n"
+"        \n"
+"         <p>Varmuuskopioita säilytetään 30 päivää, joten voit hakea niitä "
+"vain tältä ajalta.  </p>"
+
+#: modules/upkeep.php:323
+msgid "Choose a since date"
+msgstr "Valitse päivämäärä"
+
+#: modules/upkeep.php:332
+msgid "Run"
+msgstr "Suorita"
+
+#: modules/upkeep.php:336
+msgid "Click \"run\" to see changes"
+msgstr "Klikkaa “Suorita” -nappia nähdäksesi muutokset"
+
 #. translators: link to log file
-#: modules/upkeep.php:301
+#: modules/upkeep.php:358
 msgid ""
 "Latest version is recommended if all plugins and theme support it. Check <a "
 "href=\"%s\">compatibility scan results.</a>"
@@ -1529,11 +1856,11 @@ msgstr ""
 "Uusin versio on suositeltu mikäli kaikki lisäosat ja teema tukevat sitä. "
 "Katso myös <a href=\"%s\">yhteentoimivuustarkistuksen tulokset.</a>"
 
-#: modules/upkeep.php:307
+#: modules/upkeep.php:364
 msgid "Check PHP compatibility"
 msgstr "Tarkista PHP yhteensopivuus"
 
-#: modules/upkeep.php:315
+#: modules/upkeep.php:372
 msgid ""
 "See also <a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-"
 "your-site-to-use-newest-php-version\">more information on PHP version "
@@ -1542,7 +1869,7 @@ msgstr ""
 "Katso myös <a target=\"_blank\" href=\"https://help.seravo.fi/article/234-"
 "uusimpaan-php-versioon-siirtyminen\">ohje PHP-versiopäivityksistä</a>."
 
-#: modules/upkeep.php:370
+#: modules/upkeep.php:427
 msgid ""
 "I'm aware of the risks associated with edits to the PHP configuration files "
 "and want to proceed with the change."
@@ -1550,16 +1877,16 @@ msgstr ""
 "Olen tietoinen PHP konfiguraatiotiedostoihin tehtävien muutoksien riskeistä "
 "ja haluan tehdä muutoksen."
 
-#: modules/upkeep.php:374
+#: modules/upkeep.php:431
 msgid "Change version"
 msgstr "Vaihda versiota"
 
-#: modules/upkeep.php:379
+#: modules/upkeep.php:436
 msgid "Activating... Please wait up to 30 seconds"
 msgstr "Aktivoidaan... Odota jopa 30 sekuntia"
 
 #. translators: link to log file
-#: modules/upkeep.php:386
+#: modules/upkeep.php:443
 msgid ""
 "PHP version has been changed succesfully! Please check <a href=\"%s\">php-"
 "error.log</a> for regressions."
@@ -1567,11 +1894,11 @@ msgstr ""
 "PHP-versio on onnistuneesti vaihdettu. Tarkkaile lokia <a href=\"%s\">php-"
 "error.log</a> mahdollisten yhteensopivuusongelmien varalta."
 
-#: modules/upkeep.php:391
+#: modules/upkeep.php:448
 msgid "PHP version change failed."
 msgstr "PHP-versiovaihdos epäonnistui."
 
-#: modules/upkeep.php:398
+#: modules/upkeep.php:455
 msgid ""
 "Seravo automatically updates your site and the Seravo Plugin as well. If you "
 "want to immediately update to the latest Seravo Plugin version, you can do "
@@ -1582,41 +1909,41 @@ msgstr ""
 "tehdä sen täältä."
 
 #. translators: current Seravo plugin version
-#: modules/upkeep.php:403
+#: modules/upkeep.php:460
 msgid "Current version: %s"
 msgstr "Nykyinen versio: %s"
 
 #. translators: upstream Seravo plugin version
-#: modules/upkeep.php:412
+#: modules/upkeep.php:469
 msgid "Upstream version: %s"
 msgstr "Viimeisin versio: %s"
 
-#: modules/upkeep.php:417
+#: modules/upkeep.php:474
 msgid ""
 "The currently installed version is the same as the latest available version."
 msgstr "Seravo Plugin on ajantasalla."
 
-#: modules/upkeep.php:418
+#: modules/upkeep.php:475
 msgid "There is a new version available"
 msgstr "Uusi versio saatavilla"
 
-#: modules/upkeep.php:419
+#: modules/upkeep.php:476
 msgid "Seravo Plugin updated"
 msgstr "Seravo-plugin päivitetty"
 
-#: modules/upkeep.php:422
+#: modules/upkeep.php:479
 msgid "Updating... Please wait up to 5 seconds"
 msgstr "Päivitetään... Odota 5 sekunttia"
 
-#: modules/upkeep.php:424
+#: modules/upkeep.php:481
 msgid "Update plugin now"
 msgstr "Päivitä lisäosa"
 
-#: modules/upkeep.php:438
+#: modules/upkeep.php:495
 msgid "The Difference"
 msgstr "Eroavaisuudet"
 
-#: modules/upkeep.php:501
+#: modules/upkeep.php:558
 msgid ""
 "No screenshots found. They will become available during the next attempted "
 "update."
@@ -1624,15 +1951,15 @@ msgstr ""
 "Kuvakaappauksia ei löytynyt. Ne luodaan sivuston seuraavan päivityksen "
 "yhteydessä."
 
-#: modules/upkeep.php:515
+#: modules/upkeep.php:572
 msgid "Current State"
 msgstr "Sivuston nykytila"
 
-#: modules/upkeep.php:516
+#: modules/upkeep.php:573
 msgid "Update Attempt"
 msgstr "Edellinen päivitysyritys"
 
-#: modules/upkeep.php:612
+#: modules/upkeep.php:664
 msgid ""
 "Here you can test the core functionality of your WordPress installation. "
 "Same results can be achieved via command line by running <code>wp-test</"
@@ -1645,9 +1972,79 @@ msgstr ""
 "lisätietoja <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\" "
 "target=\"_BLANK\">Seravon kehittäjäohjeista</a>."
 
-#: modules/upkeep.php:618
+#: modules/upkeep.php:667
+msgid "Run Tests"
+msgstr "Suorita testit"
+
+#: modules/upkeep.php:670
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Codeception-testit"
+
+#~ msgid "Run Speed Test"
+#~ msgstr "Suorita testi"
+
+#~ msgid ""
+#~ "Test the speed of the current page. Note: This does not function within "
+#~ "wp-admin!"
+#~ msgstr ""
+#~ "Testaa nykyisen sivuston nopeus. Huom: Tämä ei toimi wp-admin-sivujen "
+#~ "sisällä!"
+
+#~ msgid "Source"
+#~ msgstr "Lähde"
+
+#~ msgid "Destinations"
+#~ msgstr "Kohde"
+
+#~ msgid "No valid domains were found!"
+#~ msgstr "Verkkotunnuksia ei löytynyt!"
+
+#~ msgid "Redis Transient and Object Cache"
+#~ msgstr "Oliovälimuisti"
+
+#~ msgid "Long-term HTTP Cache Stats"
+#~ msgstr "Pitkäaikaiset HTTP -välimuisti tilastot"
+
+#~ msgid "The total size of <code>/data</code> is"
+#~ msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
+
+#~ msgid "Select shadow"
+#~ msgstr "Valitse varjo"
+
+#~ msgid "Identifier"
+#~ msgstr "Tunniste"
+
+#~ msgid "SSH Port"
+#~ msgstr "SSH-portti"
+
+#~ msgid "Actions"
+#~ msgstr "Toiminnot"
+
+#~ msgid "Move Data"
+#~ msgstr "Siirrä tiedot"
+
+#~ msgid "Reset shadow from production"
+#~ msgstr "Palauta varjoon kopio nykyisestä tuotannon tilasta"
+
+#~ msgid ""
+#~ "<b>Warning:</b> This will replace everything currently in the <i>/data/"
+#~ "wordpress/</i> directory and the database of the shadow with a copy of "
+#~ "production site. Be sure to know what you are doing."
+#~ msgstr ""
+#~ "<b>Varoitus:</b> Tämä korvaa nykyisen varjon <i>/data/wordpress/</i> "
+#~ "kansion ja tietokannan tuotantosivun kopiolla. Varmista, että tiedät mitä "
+#~ "olet tekemässä."
+
+#~ msgid "Execute search-replace"
+#~ msgstr "Aja wp search-replace"
+
+#~ msgid ""
+#~ "This shadow doesn't need search-replace to be ran afterwards for it to "
+#~ "work."
+#~ msgstr "Varjossa ei tarvitse ajaa jälkikäteen komentoa wp search-replace."
+
+#~ msgid "Reset from production"
+#~ msgstr "Palauta tuotannon tilasta"
 
 #~ msgid "Zone for: "
 #~ msgstr "Zone verkkotunnukselle: "
