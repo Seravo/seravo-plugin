@@ -162,9 +162,13 @@ if ( ! class_exists('Site_Status') ) {
           'avg_cached_latency'  => __('Avg cached latency: ', 'seravo'),
           'latency'             => __('Latency', 'seravo'),
           'cached_latency'      => __('Cached latency', 'seravo'),
+          'keyspace_hits'       => __('Keyspace hits', 'seravo'),
+          'keyspace_misses'     => __('Keyspace misses', 'seravo'),
+          'hits'                => __('Hits', 'seravo'),
+          'misses'              => __('Misses', 'seravo'),
+          'stales'              => __('Stales', 'seravo'),
           'ajaxurl'             => admin_url('admin-ajax.php'),
           'ajax_nonce'          => wp_create_nonce('seravo_site_status'),
-
         );
         wp_localize_script('seravo_site_status', 'seravo_site_status_loc', $loc_translation);
       }
