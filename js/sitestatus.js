@@ -137,6 +137,11 @@ jQuery(document).ready(function($) {
               }
           }
       },
+      legend: {
+        onItemClick: {
+          toggleDataSeries: false
+        },
+      }
   };
 
     speedChart = new ApexCharts(document.querySelector("#speed-test-results"), options);
