@@ -2,10 +2,10 @@ function generateRedisHitChart(hits, misses) {
 
   var options = {
     series: [{
-      name: 'Keyspace hits',
+      name: seravo_site_status_loc.keyspace_hits,
       data: [hits]
     }, {
-      name: 'Keyspace misses',
+      name: seravo_site_status_loc.keyspace_misses,
       data: [misses]
     }],
     chart: {
@@ -59,13 +59,13 @@ function generateHTTPHitChart(hits, misses, stales) {
 
   var options = {
     series: [{
-      name: 'Hits',
+      name: seravo_site_status_loc.hits,
       data: [hits]
     }, {
-      name: 'Misses',
+      name: seravo_site_status_loc.misses,
       data: [misses]
     }, {
-      name: 'Stales',
+      name: seravo_site_status_loc.stales,
       data: [stales]
     }],
     chart: {
