@@ -81,7 +81,7 @@ function generateChart(JSONdata) {
   });
 }
 
-function generateDiskDonut(gauge, maximum) {
+function generateDiskDonut(gauge, maximum, unit) {
   var available = Math.round(maximum - gauge);
   var colors = ['#ef7c1a', '#47aedc'];
 
@@ -99,7 +99,7 @@ function generateDiskDonut(gauge, maximum) {
       type: 'donut',
       height: 120,
     },
-    labels: ['Used', 'Available'],
+    labels: [seravo_site_status_loc.used, seravo_site_status_loc.available],
     responsive: [{
       breakpoint: 480
     }],
@@ -108,6 +108,17 @@ function generateDiskDonut(gauge, maximum) {
     },
     dataLabels: {
       enabled: false,
+    },
+    tooltip: {
+      enabled: true,
+      x: {
+        show: false
+      },
+      y: {
+        formatter: function(value){
+          return value.toString() + unit;
+        }
+      },
     }
 };
 

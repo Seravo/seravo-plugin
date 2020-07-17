@@ -167,6 +167,8 @@ if ( ! class_exists('Site_Status') ) {
           'hits'                => __('Hits', 'seravo'),
           'misses'              => __('Misses', 'seravo'),
           'stales'              => __('Stales', 'seravo'),
+          'used'                => __('Used', 'seravo'),
+          'available'           => __('Available', 'seravo'),
           'ajaxurl'             => admin_url('admin-ajax.php'),
           'ajax_nonce'          => wp_create_nonce('seravo_site_status'),
         );
@@ -297,7 +299,7 @@ if ( ! class_exists('Site_Status') ) {
         </div>
       </p>
       <hr>
-      <?php _e('Automatic backups don\'t count against your quota.', 'seravo'); ?>
+      <?php _e('Logs and automatic backups don\'t count against your quota.', 'seravo'); ?>
       <br>
       <?php _e('Use <a href="tools.php?page=security_page">cruft remover</a> to remove unnecessary files.', 'seravo'); ?>
       <?php

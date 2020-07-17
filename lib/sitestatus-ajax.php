@@ -45,11 +45,31 @@ function seravo_ajax_report_http_requests() {
 function seravo_report_folders() {
   $dir_max_limit = 1000000;
   $dir_threshold = 100000000;
-  exec('du -sb /data', $data_folder);
+
+  // Directories not counted against plan's quota but can be visible
+  // in the front end
+  $exclude_dirs = array(
+    '--exclude=/data/backups',
+    '--exclude=/data/log',
+    '--exclude=/data/slog',
+  );
+  // Directories not shown in the front-end even if their size
+  // exceed $dir_threshold. Produces a list string of the directories
+  // in a format accepted by grep:  /data/dir_1\|/data/dir_1\| ...
+  $hidden_dirs = implode(
+    '\|',
+    array(
+      '/data/backups',
+    )
+  );
+
+  // Get total disk usage
+  exec('du -sb /data ' . implode(' ', $exclude_dirs), $data_folder);
   list($data_size, $data_name) = preg_split('/\s+/', $data_folder[0]);
 
   // Get the sizes of certain directories and directories with the
-  // size larger than $dir_threshold
+  // size larger than $dir_threshold, ones in $hidden_dirs will be
+  // excluded from the output using grep
   exec(
     '(
     du --separate-dirs -b --threshold=' . $dir_threshold . ' /data/*/ &&
@@ -58,15 +78,13 @@ function seravo_report_folders() {
     du -sb /data/wordpress/htdocs/wp-content/plugins/ &&
     du -sb /data/wordpress/htdocs/wordpress/wp-includes/ &&
     du -sb /data/wordpress/htdocs/wordpress/wp-admin/ &&
-    du -sb /data/backups/ &&
     du -sb /data/redis/ &&
-    du -sb /data/log/ &&
     du -sb /data/reports/ &&
-    du -sb /data/slog/ &&
     du -sb /data/db/
-    ) | sort -hr',
+    ) | grep -v "' . $hidden_dirs . '" | sort -hr',
     $data_sub
   );
+
   // Generate sub folder array
   $data_folders = array();
   foreach ( $data_sub as $folder ) {
