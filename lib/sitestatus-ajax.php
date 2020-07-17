@@ -140,13 +140,14 @@ function seravo_report_longterm_cache_stats() {
     if ( $file ) {
       while ( ! feof($file) ) {
         $line = fgets($file);
-        if ( strpos($line, '"Seravo" HIT') ) {
+        // " is needed to match the log file
+        if ( strpos($line, '" HIT') ) {
           $hit++;
-        } elseif ( strpos($line, '"Seravo" MISS') ) {
+        } elseif ( strpos($line, '" MISS') ) {
           $miss++;
-        } elseif ( strpos($line, '"Seravo" STALE') ) {
+        } elseif ( strpos($line, '" STALE') ) {
           $stale++;
-        } elseif ( strpos($line, '"Seravo" BYPASS') ) {
+        } elseif ( strpos($line, '" BYPASS') ) {
           $bypass++;
         }
       }
