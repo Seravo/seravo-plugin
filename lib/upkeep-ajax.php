@@ -110,6 +110,11 @@ function check_php_config_files() {
 
 function seravo_tests() {
   exec('wp-test', $output, $return_variable);
+
+  // Filter out command prompt stylings
+  $pattern = '/\x1b\[[0-9;]*m/';
+  $output = preg_replace($pattern, '', $output);
+
   $return_arr = array(
     'test_result' => $output,
     'exit_code' => $return_variable,
