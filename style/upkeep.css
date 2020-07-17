@@ -157,7 +157,6 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
   box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.12);
   display: block;
   margin-top: 2em;
-  max-width: 55em;
   min-height: 5em;
   overflow: hidden;
   transition: border 1s ease-in;
