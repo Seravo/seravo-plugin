@@ -320,7 +320,14 @@ if ( ! class_exists('Upkeep') ) {
       );
 ?>
 </p>
-      <?php _e('Choose a since date', 'seravo'); ?> <input type='date' id ='datepicker'>
+      <?php _e('Choose a since date', 'seravo'); ?> <input type='date' id ='datepicker' 
+      <?php
+        $current_date = date('Y-m-d');
+        $date_offset = date('Y-m-d', strtotime('-30 days'));
+
+        echo 'min="' . $date_offset . '" max="' . $current_date . '"';
+      ?>
+       >
       <p>
       <button id='run-changes-since' class='button-primary'><?php _e('Run', 'seravo'); ?></button>
     </p>
