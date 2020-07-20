@@ -37,7 +37,7 @@ if ( ! class_exists('Speed_Test') ) {
           array(
             'parent'  => 'speed-test-blocked',
             'id'      => 'speed-test-menu',
-            'title'   => 'Speedtest cannot be run for wp-admin pages',
+            'title'   => __('Speedtest cannot be run for wp-admin pages', 'seravo'),
           )
         );
       } else {
