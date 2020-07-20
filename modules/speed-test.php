@@ -14,9 +14,16 @@ if ( ! class_exists('Speed_Test') ) {
   class Speed_Test {
 
     public static function load() {
-      add_action('wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
-      add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
-      add_action('admin_bar_menu', array( __CLASS__, 'speed_test_button' ), 1001);
+      // Check permissions before registering actions
+      if ( current_user_can(self::custom_capability()) ) {
+        add_action('wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+        add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+        add_action('admin_bar_menu', array( __CLASS__, 'speed_test_button' ), 1001);
+      }
+    }
+
+    public static function custom_capability() {
+      return apply_filters('seravo_speed_test_capability', 'edit_posts');
     }
 
     // Add speed test button to WP Admin Bar
