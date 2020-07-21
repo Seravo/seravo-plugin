@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-07-20T14:57:18+03:00\n"
+"POT-Creation-Date: 2020-07-21T16:21:26+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -299,9 +299,13 @@ msgstr ""
 msgid "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/options-general.php\">site settings</a>. Please <a href=\"https://help.seravo.com/article/24-how-do-i-enable-the-https-on-our-website\" target=\"_BLANK\">use HTTPS</a>."
 msgstr ""
 
-#. translators: %1$s: current php version, %2$s: recommended php version
-#: modules/check-php-version.php:57
-msgid "PHP %s is available but not used on this site. Developers might want to <a href=\"tools.php?page=upkeep_page\">upgrade the latest PHP version</a> for faster performance and new features. Read more about <a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version\">PHP version upgrades</a>."
+#: modules/check-php-version.php:47
+msgid "https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version"
+msgstr ""
+
+#. translators: %1$s: recommended php version, %2$s: url to the update page
+#: modules/check-php-version.php:61
+msgid "PHP %1$s is available but not used on this site. Developers might want to <a href=\"tools.php?page=upkeep_page\">upgrade the latest PHP version</a> for faster performance and new features. Read more about <a target=\"_blank\" href=\"%2$s\">PHP version upgrades</a>."
 msgstr ""
 
 #: modules/database.php:45
@@ -1282,16 +1286,16 @@ msgstr ""
 msgid "Run Test"
 msgstr ""
 
-#: modules/speed-test.php:32
-#: modules/speed-test.php:50
+#: modules/speed-test.php:39
+#: modules/speed-test.php:57
 msgid "Speed Test"
 msgstr ""
 
-#: modules/speed-test.php:40
+#: modules/speed-test.php:47
 msgid "Speedtest cannot be run for wp-admin pages"
 msgstr ""
 
-#: modules/speed-test.php:49
+#: modules/speed-test.php:56
 msgid "Test the speed of the current page"
 msgstr ""
 

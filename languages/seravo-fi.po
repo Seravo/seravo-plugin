@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2020-07-20T14:57:18+03:00\n"
-"PO-Revision-Date: 2020-07-20 15:02+0300\n"
+"POT-Creation-Date: 2020-07-21T16:14:02+03:00\n"
+"PO-Revision-Date: 2020-07-21 16:19+0300\n"
 "Last-Translator: Petri Salminen <petri@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.3\n"
 
 #. Plugin Name of the plugin
 msgid "Seravo Plugin"
@@ -329,20 +329,23 @@ msgstr ""
 "help.seravo.fi/article/203-miten-otan-https-n-kayttoon-wordpress-sivustolla"
 "\" target=\"_BLANK\">HTTPS:n käyttöönotosta</a>."
 
-#. translators: %1$s: current php version, %2$s: recommended php version
-#: modules/check-php-version.php:57
+#: modules/check-php-version.php:47
 msgid ""
-"PHP %s is available but not used on this site. Developers might want to <a "
+"https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version"
+msgstr "https://help.seravo.fi/article/234-uusimpaan-php-versioon-siirtyminen"
+
+#. translators: %1$s: recommended php version, %2$s: url to the update page
+#: modules/check-php-version.php:61
+msgid ""
+"PHP %1$s is available but not used on this site. Developers might want to <a "
 "href=\"tools.php?page=upkeep_page\">upgrade the latest PHP version</a> for "
 "faster performance and new features. Read more about <a target=\"_blank\" "
-"href=\"https://help.seravo.com/article/41-set-your-site-to-use-newest-php-"
-"version\">PHP version upgrades</a>."
+"href=\"%2$s\">PHP version upgrades</a>."
 msgstr ""
-"PHP-versio %s on saatavilla mutta ei käytössä. Kehittäjät haluavat "
+"PHP-versio %1s on saatavilla mutta ei käytössä. Kehittäjät haluavat "
 "todennäköisesti <a href=\"tools.php?page=upkeep_page\">päivittää uusimpaan</"
 "a> PHP-versioon paremman suorituskyvyn ja uusien ominaisuuksien takia. Lue "
-"lisää <a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-"
-"your-site-to-use-newest-php-version\">PHP-versiopäivityksistä</a>."
+"lisää <a target=\"_blank\" href=\"%2s\">PHP-versiopäivityksistä</a>."
 
 #: modules/database.php:45
 msgid "Database Access"
@@ -1568,15 +1571,15 @@ msgstr "Oletuksena etusivu"
 msgid "Run Test"
 msgstr "Suorita testi"
 
-#: modules/speed-test.php:32 modules/speed-test.php:50
+#: modules/speed-test.php:39 modules/speed-test.php:57
 msgid "Speed Test"
 msgstr "Nopeustesti"
 
-#: modules/speed-test.php:40
+#: modules/speed-test.php:47
 msgid "Speedtest cannot be run for wp-admin pages"
 msgstr "Nopeustestiä ei voi ajaa wp-admin -sivuille"
 
-#: modules/speed-test.php:49
+#: modules/speed-test.php:56
 msgid "Test the speed of the current page"
 msgstr "Testaa nykyisen sivun nopeus"
 
