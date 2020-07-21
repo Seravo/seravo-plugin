@@ -20,6 +20,8 @@ if ( ! class_exists('Site_Status') ) {
 
     public static function load() {
       add_action('admin_init', array( __CLASS__, 'register_optimize_image_settings' ));
+      add_action('admin_init', array( __CLASS__, 'register_sanitize_uploads_settings' ));
+      self::check_default_settings();
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_site_status_scripts' ));
       add_action('wp_ajax_seravo_ajax_site_status', 'seravo_ajax_site_status');
       add_action('wp_ajax_seravo_report_http_requests', 'seravo_ajax_report_http_requests');
@@ -87,6 +89,14 @@ if ( ! class_exists('Site_Status') ) {
         'tools_page_site_status_page',
         'side'
       );
+
+      seravo_add_postbox(
+        'sanitize-uploads',
+        __('Sanitize uploads', 'seravo'),
+        array( __CLASS__, 'sanitize_uploads' ),
+        'tools_page_site_status_page',
+        'side'
+      );
     }
 
     public static function register_optimize_image_settings() {
@@ -131,7 +141,6 @@ if ( ! class_exists('Site_Status') ) {
         'seravo-optimize-images-settings'
       );
 
-      self::check_default_settings();
     }
 
     public static function enqueue_site_status_scripts( $page ) {
@@ -501,17 +510,21 @@ if ( ! class_exists('Site_Status') ) {
       if ( get_option('seravo-enable-optimize-images') === false ) {
         update_option('seravo-enable-optimize-images', '');
       }
+      if ( get_option('seravo-enable-sanitize-uploads') === false ) {
+        update_option('seravo-enable-sanitize-uploads', 'off');
+      }
+
     }
 
     public static function seravo_image_max_width_field() {
       $image_max_width = get_option('seravo-image-max-resolution-width');
-      echo '<input type="text" class="' . self::get_input_field_attributes()[0] . '" name="seravo-image-max-resolution-width"' . self::get_input_field_attributes()[1] . '
+      echo '<input type="number" class="' . self::get_input_field_attributes()[0] . '" name="seravo-image-max-resolution-width"' . self::get_input_field_attributes()[1] . '
         placeholder="' . __('Width', 'seravo') . '" value="' . $image_max_width . '">';
     }
 
     public static function seravo_image_max_height_field() {
       $image_max_height = get_option('seravo-image-max-resolution-height');
-      echo '<input type="text" class="' . self::get_input_field_attributes()[0] . '" name="seravo-image-max-resolution-height" ' . self::get_input_field_attributes()[1] . ' placeholder="'
+      echo '<input type="number" class="' . self::get_input_field_attributes()[0] . '" name="seravo-image-max-resolution-height" ' . self::get_input_field_attributes()[1] . ' placeholder="'
         . __('Height', 'seravo') . '" value="' . $image_max_height . '">';
     }
 
@@ -529,7 +542,7 @@ if ( ! class_exists('Site_Status') ) {
       if ( get_option('seravo-enable-optimize-images') === 'on' && $width !== null ) {
         if ( ! is_numeric($width) || $width < self::$min_width ) {
           add_settings_error(
-            'seravo-image-max-resolution-width',
+            'optimize_images_error',
             'invalid-width',
             sprintf(
               // translators: %s numeric value for the minimum image width
@@ -541,6 +554,13 @@ if ( ! class_exists('Site_Status') ) {
           return self::$max_width_default;
         }
       }
+      // A settings error for succesful settings change
+      add_settings_error(
+        'optimize_images_error',
+        'optimize_images_width_ok',
+        __('Width setting saved', 'seravo'),
+        'success'
+      );
       return $width;
     }
 
@@ -548,7 +568,7 @@ if ( ! class_exists('Site_Status') ) {
       if ( get_option('seravo-enable-optimize-images') === 'on' && $height !== null ) {
         if ( ! is_numeric($height) || $height < self::$min_height ) {
           add_settings_error(
-            'seravo-image-max-resolution-height',
+            'optimize_images_error',
             'invalid-height',
             // translators: %s numeric value for the minimum image height
             sprintf(__('The minimum height for image optimisation is %1$s px. Setting suggested height of %2$s px.', 'seravo'), self::$min_height, self::$max_height_default)
@@ -556,6 +576,13 @@ if ( ! class_exists('Site_Status') ) {
           return self::$max_height_default;
         }
       }
+      // A settings error for succesful settings change
+      add_settings_error(
+        'optimize_images_error',
+        'optimize_images_height_ok',
+        __('Height setting saved', 'seravo'),
+        'success'
+      );
       return $height;
     }
 
@@ -567,12 +594,64 @@ if ( ! class_exists('Site_Status') ) {
     }
 
     public static function optimize_images_postbox() {
-      settings_errors();
+      settings_errors('optimize_images_error');
       echo '<form method="post" action="options.php" class="seravo-general-form">';
       settings_fields('seravo-optimize-images-settings-group');
       do_settings_sections('optimize_images_settings');
       submit_button(__('Save', 'seravo'), 'primary', 'btnSubmit');
       echo '</form>';
+    }
+
+    public static function register_sanitize_uploads_settings() {
+      add_settings_section(
+        'seravo-sanitize-uploads-settings',
+        '',
+        array( __CLASS__, 'sanitize_uploads_description' ),
+        'sanitize_uploads_settings'
+      );
+
+      register_setting(
+        'seravo-sanitize-uploads-settings-group',
+        'seravo-enable-sanitize-uploads',
+        array(
+          'sanitize_callback' => function ( $setting ) {
+            // A settings error for succesful settings change
+            add_settings_error(
+              'sanitize_uploads_error',
+              'sanitize_uploads_ok',
+              __('Settings saved', 'seravo'),
+              'success'
+            );
+            return $setting;
+        },
+        )
+      );
+
+      add_settings_field(
+        'seravo-sanitize-uploads-enabled-field',
+        __('Sanitize uploads', 'seravo'),
+        array( __CLASS__, 'seravo_sanitize_uploads_enabled_field' ),
+        'sanitize_uploads_settings',
+        'seravo-sanitize-uploads-settings'
+      );
+    }
+
+    public static function sanitize_uploads() {
+      settings_errors('sanitize_uploads_error');
+      echo '<form method="post" action="options.php" class="seravo-general-form">';
+      settings_fields('seravo-sanitize-uploads-settings-group');
+      do_settings_sections('sanitize_uploads_settings');
+      submit_button(__('Save', 'seravo'), 'primary', 'btnSubmit');
+      echo '</form>';
+    }
+
+    public static function sanitize_uploads_description() {
+      echo '<p>' . __('Special characters in filenames, such as ä, ö or æ, may cause problems with the site.', 'seravo') . '</p>';
+      echo '<p>' . __('Toggling this on replaces such characters with other standard letters, like ä -> a, ö -> o or æ -> a when a file is uploaded.', 'seravo') . '</p>';
+    }
+
+    public static function seravo_sanitize_uploads_enabled_field() {
+      echo '<input type="checkbox" name="seravo-enable-sanitize-uploads" id="seravo-enable-sanitize-uploads" ' . checked('on', get_option('seravo-enable-sanitize-uploads'), false) . '>';
     }
 
     public static function speed_test() {
