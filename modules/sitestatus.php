@@ -526,31 +526,35 @@ if ( ! class_exists('Site_Status') ) {
     }
 
     public static function sanitize_image_width( $width ) {
-      if ( $width < self::$min_width && $width !== null && get_option('seravo-enable-optimize-images') === 'on' ) {
-        add_settings_error(
-          'seravo-image-max-resolution-width',
-          'invalid-width',
-          sprintf(
-            // translators: %s numeric value for the minimum image width
-            __('The minimum width for image optimisation is %1$s px. Setting suggested width of %2$s px.', 'seravo'),
-            self::$min_width,
-            self::$max_width_default
-          )
-        );
-        return self::$max_width_default;
+      if ( get_option('seravo-enable-optimize-images') === 'on' && $width !== null ) {
+        if ( ! is_numeric($width) || $width < self::$min_width ) {
+          add_settings_error(
+            'seravo-image-max-resolution-width',
+            'invalid-width',
+            sprintf(
+              // translators: %s numeric value for the minimum image width
+              __('The minimum width for image optimisation is %1$s px. Setting suggested width of %2$s px.', 'seravo'),
+              self::$min_width,
+              self::$max_width_default
+            )
+          );
+          return self::$max_width_default;
+        }
       }
       return $width;
     }
 
     public static function sanitize_image_height( $height ) {
-      if ( $height < self::$min_height && $height !== null && get_option('seravo-enable-optimize-images') === 'on' ) {
-        add_settings_error(
-          'seravo-image-max-resolution-height',
-          'invalid-height',
-          // translators: %s numeric value for the minimum image height
-          sprintf(__('The minimum height for image optimisation is %1$s px. Setting suggested height of %2$s px.', 'seravo'), self::$min_height, self::$max_height_default)
-        );
-        return self::$max_height_default;
+      if ( get_option('seravo-enable-optimize-images') === 'on' && $height !== null ) {
+        if ( ! is_numeric($height) || $height < self::$min_height ) {
+          add_settings_error(
+            'seravo-image-max-resolution-height',
+            'invalid-height',
+            // translators: %s numeric value for the minimum image height
+            sprintf(__('The minimum height for image optimisation is %1$s px. Setting suggested height of %2$s px.', 'seravo'), self::$min_height, self::$max_height_default)
+          );
+          return self::$max_height_default;
+        }
       }
       return $height;
     }
