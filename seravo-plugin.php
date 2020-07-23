@@ -288,6 +288,14 @@ class Loader {
      * Hides prespecified and given users from a WordPress page
      */
     require_once dirname(__FILE__) . '/modules/hide-users.php';
+
+    /*
+     * Add support for SVG images
+     * Allow only administrators to upload SVG
+     */
+    if ( current_user_can('administrator') ) {
+      require_once dirname(__FILE__) . '/modules/svg-support.php';
+    }
   }
 }
 
