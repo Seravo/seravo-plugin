@@ -159,6 +159,72 @@ jQuery(document).ready(function($) {
           jQuery('#' + section).html('No data returned for section.');
         }
         var data = JSON.parse(rawData);
+
+        jQuery.each(data["details"]["long_postmeta_values"], function(index, table) {
+          $('<tr>').append(
+            $('<td>').text(table["meta_key"]),
+            $('<td>').text(table["meta_value_length"])
+          ).appendTo('#long_postmeta_values');
+        });
+
+        jQuery.each(data["details"]["cumulative_postmeta_sizes"], function(index, table) {
+          $('<tr>').append(
+            $('<td>').text(table["meta_key"]),
+            $('<td>').text(table["length_sum"])
+          ).appendTo('#cumulative_postmeta_sizes');
+        });
+
+        jQuery.each(data["details"]["common_postmeta_values"], function(index, table) {
+          $('<tr>').append(
+            $('<td>').text(table["meta_key"]),
+            $('<td>').text(table["key_count"])
+          ).appendTo('#common_postmeta_values');
+        });
+
+        jQuery.each(data["details"]["autoload_option_count"], function(index, table) {
+          jQuery('#autoload_option_count').append(
+              "<li>"
+              + table["options_count"]
+              + "</li>"
+            );
+        });
+
+        jQuery.each(data["details"]["total_autoload_option_size"], function(index, table) {
+          jQuery('#total_autoload_option_size').append(
+              "<li>"
+              + table["total_size"] / 1000 + " MB"
+              + "</li>"
+            );
+        });
+
+        jQuery.each(data["details"]["long_autoload_option_values"], function(index, table) {
+          $('<tr>').append(
+            $('<td>').text(table["option_name"]),
+            $('<td>').text(table["option_value_length"])
+          ).appendTo('#long_autoload_option_values');
+        });
+
+        jQuery.each(data["details"]["common_autoload_option_values"], function(index, table) {
+          $('<tr>').append(
+            $('<td>').text(table["option_name_start"]),
+            $('<td>').text(table["option_count"])
+          ).appendTo('#common_autoload_option_values');
+        });
+
+        jQuery('.seravo_database_detail_show_more').click(function(event) {
+          event.preventDefault();
+
+          if ( jQuery('#seravo_arrow_database_detail_show_more').hasClass('dashicons-arrow-down-alt2') ) {
+            jQuery('.seravo-database-detail').slideDown('fast', function() {
+              jQuery('#seravo_arrow_database_detail_show_more').removeClass('dashicons-arrow-down-alt2').addClass('dashicons-arrow-up-alt2');
+            });
+          } else if ( jQuery('#seravo_arrow_database_detail_show_more').hasClass('dashicons-arrow-up-alt2') ) {
+            jQuery('.seravo-database-detail').hide(function() {
+              jQuery('#seravo_arrow_database_detail_show_more').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
+            });
+          }
+        });
+
         if (section === 'seravo_wp_db_info') {
           jQuery('#seravo_wp_db_info').append(data.totals);
           generateDatabaseBars(data.tables.data_folders);

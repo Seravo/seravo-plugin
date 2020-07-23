@@ -254,6 +254,46 @@ if ( ! class_exists('Database') ) {
             </div>
           </p>
         </div>
+
+        <div class='seravo-database-detail-wrapper'>
+          <div class='seravo_database_detail'>
+            <?php _e('Details about database table sizes', 'seravo'); ?>
+          </div>
+          <div class='seravo-database-detail hidden'>
+            <table class="database_detail_table" id="long_postmeta_values">
+              <?php _e('Longest wp_postmeta values:', 'seravo'); ?>
+            </table>
+            <hr>
+            <table class="database_detail_table" id="cumulative_postmeta_sizes">
+              <?php _e('Cumulative size of meta_value per meta_key:', 'seravo'); ?>
+            </table>
+            <hr>
+            <table class="database_detail_table" id="common_postmeta_values">
+              <?php _e('Rows per meta_key:', 'seravo'); ?>
+            </table>
+            <hr>
+            <table class="database_detail_table" id="autoload_option_count">
+              <?php _e('Autoload options count (read to memory on each WP page load):', 'seravo'); ?>
+            </table>
+            <hr>
+            <table class="database_detail_table" id="total_autoload_option_size">
+              <?php _e('Autoload options total size of values:', 'seravo'); ?>
+            </table>
+            <hr>
+            <table class="database_detail_table" id="long_autoload_option_values">
+              <?php _e('Longest autoloaded wp_option values:', 'seravo'); ?>
+            </table>
+            <hr>
+            <table class="database_detail_table" id="common_autoload_option_values">
+              <?php _e('Most common autoloaded wp_option values:', 'seravo'); ?>
+            </table>
+          </div>
+          <div class='seravo_database_detail_show_more_wrapper'>
+            <a href='#' class='seravo_database_detail_show_more'><?php _e('Toggle Details', 'seravo'); ?>
+              <div class='dashicons dashicons-arrow-down-alt2' id='seravo_arrow_database_detail_show_more'></div>
+            </a>
+          </div>
+        </div>
         <?php
       endif; // end database info
     }
