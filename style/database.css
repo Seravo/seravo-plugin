@@ -65,7 +65,7 @@ span.dashicons-external {
 .chart_container {
   overflow-y: scroll;
   overflow-x: hidden;
-  max-height: 800px;
+  max-height: 400px;
   white-space: pre-line;
   padding-right: 15px;
 }
@@ -73,4 +73,62 @@ span.dashicons-external {
 .arrow_box {
   font-size: 11px;
   padding: 3px;
+}
+
+.database_detail_table {
+  padding: 10px 0px;
+}
+
+.database_detail_table, .database_detail_table td {
+  width: 100%;
+  table-layout: fixed;
+  overflow-wrap: break-word;
+}
+
+.seravo-database-detail-wrapper {
+  -moz-transition: border 1s ease-in;
+  -o-transition: border 1s ease-in;
+  -webkit-transition: border 1s ease-in;
+  background-color: white;
+  border-left: solid 0.5em #44A1CB;
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.12);
+  display: block;
+  margin-top: 2em;
+  max-width: 55em;
+  min-height: 5em;
+  overflow: hidden;
+  transition: border 1s ease-in;
+}
+
+.seravo-database-detail {
+  padding: 1em;
+}
+
+.seravo_database_detail {
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 1.6em;
+  margin-left: 0.5em;
+  padding-bottom: 7px;
+  text-align: center;
+}
+
+.seravo_database_detail_show_more_wrapper {
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  float: right;
+  height: 1em;
+  margin-right: 0.5em;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.seravo_database_detail_show_more,
+.seravo_database_detail_show_more:hover,
+.seravo_database_detail_show_more:active,
+.seravo_database_detail_show_more:focus {
+  box-shadow: none;
+  color: inherit;
+  text-decoration: none;
 }
