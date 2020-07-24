@@ -22,6 +22,7 @@ if ( ! class_exists('Login_Notifications') ) {
 
     public static function load() {
       add_action('load-index.php', array( __CLASS__, 'retrieve_notification_data' ));
+      add_action('load-profile.php', array( __CLASS__, 'retrieve_notification_data' ));
     }
 
     /**
