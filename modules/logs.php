@@ -210,6 +210,11 @@ if ( ! class_exists('Logs') ) {
       </div>
       <?php elseif ( ! $result ) : ?>
         <p><?php _e('Log empty', 'seravo'); ?></p>
+        <?php
+        // result -1 is the signal that something went wrong with reading the log
+        elseif ( $result === -1 ) :
+        ?>
+        <p><?php _e('Log is abnormally large and can not be displayed.', 'seravo'); ?></p>
       <?php else : ?>
         <p><?php _e('Scroll to load more lines from the log.', 'seravo'); ?></p>
         <?php
@@ -249,7 +254,12 @@ if ( ! class_exists('Logs') ) {
 
       $rows = self::read_log_lines_backwards($logfile, $offset, $lines, $regex, $cutoff_bytes);
 
-      if ( empty($rows) ) {
+      if ( ! $rows ) {
+        // If $rows is not an empty array, then something went wrong with reading the file
+        if ( ! is_array($rows) ) {
+          // Return -1 as an error signal
+          return -1;
+        }
         return 0;
       }
 
@@ -353,7 +363,7 @@ if ( ! class_exists('Logs') ) {
       // the newline in the end accouts for an extra line
       $lines--;
 
-      // Set max amount chunks to be read according to to the lines wanted from the log.
+      // Set max amount of chunks to be read to match the lines wanted from the log
       $chunk_limit = max($lines, 10);
 
       // While we would like more

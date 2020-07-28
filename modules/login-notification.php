@@ -93,6 +93,20 @@ if ( ! class_exists('Login_Notifications') ) {
       // Read and reverse the php error logfile
       $output = Logs::read_log_lines_backwards('/data/log/php-error.log', -1, self::$max_rows);
       if ( ! $output ) {
+        // If output is false rather than an empty array then something went wrong with reading the file
+        if ( ! is_array($output) ) {
+          // Display admin dashboard error message
+          add_action(
+            'wp_dashboard_setup',
+            function() {
+              wp_add_dashboard_widget(
+                'seravo-error-widget',
+                __('Error log read failure', 'seravo'),
+                array( __CLASS__, 'display_admin_log_read_notification' )
+              );
+            }
+          );
+        }
         return 0;
       }
       $output_reversed = array_reverse($output);
@@ -190,6 +204,17 @@ if ( ! class_exists('Login_Notifications') ) {
         __('The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified.', 'seravo'),
         self::$errors,
         $url
+      );
+      echo '<div>' . $msg . '</div>';
+    }
+
+    /**
+    * Display an error if there is problem reading the php-error.log file
+    */
+    public static function display_admin_log_read_notification() {
+      $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log">php-error.log</a>';
+      $msg = wp_sprintf(
+        __('The PHP error log is abnormally large. This is a sign that something is broken in the code. The developer of the site should be notified.', 'seravo')
       );
       echo '<div>' . $msg . '</div>';
     }
