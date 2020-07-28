@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-07-23T10:36:21+03:00\n"
+"POT-Creation-Date: 2020-07-28T11:34:45+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -37,6 +37,10 @@ msgstr ""
 #: lib/api.php:32
 #: lib/api.php:65
 msgid "API call failed. Aborting. The error has been logged."
+msgstr ""
+
+#: lib/db-cleanup-ajax.php:24
+msgid "Nothing to be cleaned up"
 msgstr ""
 
 #: lib/domain-tables.php:52
@@ -308,79 +312,92 @@ msgstr ""
 msgid "PHP %1$s is available but not used on this site. Developers might want to <a href=\"tools.php?page=upkeep_page\">upgrade the latest PHP version</a> for faster performance and new features. Read more about <a target=\"_blank\" href=\"%2$s\">PHP version upgrades</a>."
 msgstr ""
 
-#: modules/database.php:45
+#: modules/database.php:47
 msgid "Database Access"
 msgstr ""
 
-#: modules/database.php:53
+#: modules/database.php:55
 msgid "Manage the Database with Adminer"
 msgstr ""
 
-#: modules/database.php:61
+#: modules/database.php:63
 msgid "Search-Replace Tool"
 msgstr ""
 
-#: modules/database.php:69
+#: modules/database.php:71
+msgid "Database Cleanup Tool"
+msgstr ""
+
+#: modules/database.php:79
 msgid "Database Size"
 msgstr ""
 
 #. translators: $s example of the command for getting user's database credentials
-#: modules/database.php:107
+#: modules/database.php:118
 msgid "You can find the database credentials by connecting to your site with SSH and running the command %s. These credentials can be used to connect to the server with an SSH tunnel. You can also use the web-based Adminer available on this page."
 msgstr ""
 
 #. translators: $s url containing additional information on WordPress database tools
-#: modules/database.php:113
+#: modules/database.php:124
 msgid "When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href=\"%s\" target=\"_BLANK\">Read the documentation for wp db</a>."
 msgstr ""
 
 #. translators: %1$s url to www.adminer.org
-#: modules/database.php:126
+#: modules/database.php:137
 msgid "Adminer is a simple database management tool, like phpMyAdmin. <a href=\"%1$s\" target=\"_BLANK\">Learn more about Adminer.</a>"
 msgstr ""
 
 #. translators: %1$s example url for accessing Adminer in production environment %2$s example url for accessing Adminer in local development
-#: modules/database.php:135
+#: modules/database.php:146
 msgid "Adminer can be located in the production environment at %1$s and in the local development environment at %2$s."
 msgstr ""
 
-#: modules/database.php:169
+#: modules/database.php:180
 msgid "Open Adminer"
 msgstr ""
 
-#: modules/database.php:179
+#: modules/database.php:190
 msgid "You can use this tool to run <code>wp search-replace</code>. For safety reason a dry run is compulsory before the actual search-replace can be done."
 msgstr ""
 
-#: modules/database.php:181
+#: modules/database.php:192
 msgid "From:"
 msgstr ""
 
-#: modules/database.php:182
+#: modules/database.php:193
 msgid "To:"
 msgstr ""
 
-#: modules/database.php:188
+#: modules/database.php:199
 msgid "Skip backups"
 msgstr ""
 
-#: modules/database.php:193
+#: modules/database.php:204
 msgid "All tables"
 msgstr ""
 
-#: modules/database.php:199
+#: modules/database.php:210
 msgid "Network"
 msgstr ""
 
-#: modules/database.php:204
+#: modules/database.php:215
+#: modules/database.php:231
 msgid "Do a dry run"
 msgstr ""
 
-#: modules/database.php:205
+#: modules/database.php:216
 msgid "Run wp search-replace"
 msgstr ""
 
-#: modules/database.php:224
+#: modules/database.php:228
+msgid "You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a dry run is compulsory before the actual cleanup can be done."
+msgstr ""
+
+#: modules/database.php:232
+msgid "Run wp-db-cleanup"
+msgstr ""
+
+#: modules/database.php:249
 msgid "Table sizes"
 msgstr ""
 
@@ -517,17 +534,17 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
-#: modules/login-notification.php:58
+#: modules/login-notification.php:59
 msgid "Site Error Count"
 msgstr ""
 
 #. translators: %1$s username of the current user %2$s datetime of last login %3$s timezone used to represent the datetime of the last login %4$s IP address of the last login
-#: modules/login-notification.php:171
+#: modules/login-notification.php:172
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:189
+#: modules/login-notification.php:190
 msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 

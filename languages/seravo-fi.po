@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2020-07-23T10:31:15+03:00\n"
-"PO-Revision-Date: 2020-07-23 10:35+0300\n"
+"POT-Creation-Date: 2020-07-28T11:34:45+03:00\n"
+"PO-Revision-Date: 2020-07-28 11:38+0300\n"
 "Last-Translator: Viljami Pietarila <viljami@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -38,6 +38,10 @@ msgstr ""
 #: lib/api.php:32 lib/api.php:65
 msgid "API call failed. Aborting. The error has been logged."
 msgstr "Rajapintayhteys epäonnistui. Virhe on lisätty lokiin."
+
+#: lib/db-cleanup-ajax.php:24
+msgid "Nothing to be cleaned up"
+msgstr "Ei siivottavaa"
 
 #: lib/domain-tables.php:52 lib/domain-tables.php:54
 msgid "Primary"
@@ -347,24 +351,28 @@ msgstr ""
 "a> PHP-versioon paremman suorituskyvyn ja uusien ominaisuuksien takia. Lue "
 "lisää <a target=\"_blank\" href=\"%2s\">PHP-versiopäivityksistä</a>."
 
-#: modules/database.php:45
+#: modules/database.php:47
 msgid "Database Access"
 msgstr "Yhteys tietokantaan"
 
-#: modules/database.php:53
+#: modules/database.php:55
 msgid "Manage the Database with Adminer"
 msgstr "Hallinnoi tietokantaa Adminerilla"
 
-#: modules/database.php:61
+#: modules/database.php:63
 msgid "Search-Replace Tool"
 msgstr "Etsi ja korvaa -työkalu"
 
-#: modules/database.php:69
+#: modules/database.php:71
+msgid "Database Cleanup Tool"
+msgstr "Tietokannan puhdistus -työkalu"
+
+#: modules/database.php:79
 msgid "Database Size"
 msgstr "Tietokannan koko"
 
 #. translators: $s example of the command for getting user's database credentials
-#: modules/database.php:107
+#: modules/database.php:118
 msgid ""
 "You can find the database credentials by connecting to your site with SSH "
 "and running the command %s. These credentials can be used to connect to the "
@@ -378,7 +386,7 @@ msgstr ""
 "alempana."
 
 #. translators: $s url containing additional information on WordPress database tools
-#: modules/database.php:113
+#: modules/database.php:124
 msgid ""
 "When you have established an SSH connection you can use WP-CLI that features "
 "powerful database tools for example exports and imports. <a href=\"%s\" "
@@ -390,7 +398,7 @@ msgstr ""
 "komennoille</a>."
 
 #. translators: %1$s url to www.adminer.org
-#: modules/database.php:126
+#: modules/database.php:137
 msgid ""
 "Adminer is a simple database management tool, like phpMyAdmin. <a href=\"%1$s"
 "\" target=\"_BLANK\">Learn more about Adminer.</a>"
@@ -399,7 +407,7 @@ msgstr ""
 "href=\"%1$s\" target=\"_BLANK\">Lue lisää Adminerista.</a>"
 
 #. translators: %1$s example url for accessing Adminer in production environment %2$s example url for accessing Adminer in local development
-#: modules/database.php:135
+#: modules/database.php:146
 msgid ""
 "Adminer can be located in the production environment at %1$s and in the "
 "local development environment at %2$s."
@@ -407,11 +415,11 @@ msgstr ""
 "Löydät Adminerin tuotantosivustolta %1$s ja paikallisesta "
 "kehitysympäristöstä %2$s."
 
-#: modules/database.php:169
+#: modules/database.php:180
 msgid "Open Adminer"
 msgstr "Siirry Admineriin"
 
-#: modules/database.php:179
+#: modules/database.php:190
 msgid ""
 "You can use this tool to run <code>wp search-replace</code>. For safety "
 "reason a dry run is compulsory before the actual search-replace can be done."
@@ -420,35 +428,48 @@ msgstr ""
 "Turvallisuussyistä on ajettava kuiva-ajo (dry-run) ennen kuin on mahdollista "
 "tehdä muutoksia."
 
-#: modules/database.php:181
+#: modules/database.php:192
 msgid "From:"
 msgstr "Mistä:"
 
-#: modules/database.php:182
+#: modules/database.php:193
 msgid "To:"
 msgstr "Mihin:"
 
-#: modules/database.php:188
+#: modules/database.php:199
 msgid "Skip backups"
 msgstr "Ohita varmuuskopiointi"
 
-#: modules/database.php:193
+#: modules/database.php:204
 msgid "All tables"
 msgstr "Kaikki taulut"
 
-#: modules/database.php:199
+#: modules/database.php:210
 msgid "Network"
 msgstr "Network"
 
-#: modules/database.php:204
+#: modules/database.php:215 modules/database.php:231
 msgid "Do a dry run"
 msgstr "Aja kuiva-ajo"
 
-#: modules/database.php:205
+#: modules/database.php:216
 msgid "Run wp search-replace"
 msgstr "Aja wp search-replace"
 
-#: modules/database.php:224
+#: modules/database.php:228
+msgid ""
+"You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a "
+"dry run is compulsory before the actual cleanup can be done."
+msgstr ""
+"Tämän työkalun avulla voit ajaa komennon <code>wp-db-cleanup</code>. "
+"Turvallisuussyistä on ajettava kuiva-ajo (dry-run) ennen kuin on mahdollista "
+"tehdä muutoksia."
+
+#: modules/database.php:232
+msgid "Run wp-db-cleanup"
+msgstr "Aja wp-db-cleanup"
+
+#: modules/database.php:249
 msgid "Table sizes"
 msgstr "Taulujen koot"
 
@@ -588,18 +609,18 @@ msgstr "Olet nyt varjossa %s."
 msgid "Exit"
 msgstr "Poistu"
 
-#: modules/login-notification.php:58
+#: modules/login-notification.php:59
 msgid "Site Error Count"
 msgstr "Sivuston virhemäärä"
 
 #. translators: %1$s username of the current user %2$s datetime of last login %3$s timezone used to represent the datetime of the last login %4$s IP address of the last login
-#: modules/login-notification.php:171
+#: modules/login-notification.php:172
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
 "Tervetuloa, %1$s! Edellinen kirjautuminen: %2$s (%3$s) osoitteesta %4$s."
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:189
+#: modules/login-notification.php:190
 msgid ""
 "The PHP error log has more than %1$s entries this week. Please see %2$s for "
 "details. This is usually a sign that something is broken in the code. The "
