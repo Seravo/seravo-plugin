@@ -353,6 +353,9 @@ if ( ! class_exists('Logs') ) {
       // the newline in the end accouts for an extra line
       $lines--;
 
+      // Set max amount chunks to be read according to to the lines wanted from the log.
+      $chunk_limit = max($lines, 10);
+
       // While we would like more
       while ( $lines > 0 ) {
         // Figure out how far back we should jump
@@ -372,6 +375,12 @@ if ( ! class_exists('Logs') ) {
 
         // Read a chunk
         $chunk = fread($f, $seek);
+
+        $chunk_limit--;
+        // Return false if we run over the chunk cap
+        if ( $chunk_limit === 0 ) {
+          return false;
+        }
 
         // Jump back to where we started reading
         fseek($f, -mb_strlen($chunk, '8bit'), SEEK_CUR);
