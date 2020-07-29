@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-07-28T11:34:45+03:00\n"
+"POT-Creation-Date: 2020-08-03T15:41:25+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -401,6 +401,45 @@ msgstr ""
 msgid "Table sizes"
 msgstr ""
 
+#: modules/database.php:260
+msgid "Details about database table sizes"
+msgstr ""
+
+#: modules/database.php:264
+msgid "Longest wp_postmeta values:"
+msgstr ""
+
+#: modules/database.php:268
+msgid "Cumulative size of meta_value per meta_key:"
+msgstr ""
+
+#: modules/database.php:272
+msgid "Rows per meta_key:"
+msgstr ""
+
+#: modules/database.php:276
+msgid "Autoload options count (read to memory on each WP page load):"
+msgstr ""
+
+#: modules/database.php:280
+msgid "Autoload options total size of values:"
+msgstr ""
+
+#: modules/database.php:284
+msgid "Longest autoloaded wp_option values:"
+msgstr ""
+
+#: modules/database.php:288
+msgid "Most common autoloaded wp_option values:"
+msgstr ""
+
+#: modules/database.php:292
+#: modules/sitestatus.php:258
+#: modules/upkeep.php:344
+#: modules/upkeep.php:678
+msgid "Toggle Details"
+msgstr ""
+
 #: modules/domains.php:44
 #: modules/toolbox.php:67
 #: modules/toolbox.php:68
@@ -538,14 +577,22 @@ msgstr ""
 msgid "Site Error Count"
 msgstr ""
 
+#: modules/login-notification.php:104
+msgid "Error log read failure"
+msgstr ""
+
 #. translators: %1$s username of the current user %2$s datetime of last login %3$s timezone used to represent the datetime of the last login %4$s IP address of the last login
-#: modules/login-notification.php:172
+#: modules/login-notification.php:186
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:190
+#: modules/login-notification.php:204
 msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
+msgstr ""
+
+#: modules/login-notification.php:217
+msgid "The PHP error log is abnormally large. This is a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
 #: modules/logs.php:122
@@ -571,12 +618,16 @@ msgstr ""
 msgid "Log empty"
 msgstr ""
 
-#: modules/logs.php:214
+#: modules/logs.php:217
+msgid "Log is abnormally large and can not be displayed."
+msgstr ""
+
+#: modules/logs.php:219
 msgid "Scroll to load more lines from the log."
 msgstr ""
 
 #. translators: $s full path of the logfile
-#: modules/logs.php:225
+#: modules/logs.php:230
 msgid "Full log files can be found on the server in the path %s."
 msgstr ""
 
@@ -619,6 +670,14 @@ msgstr ""
 
 #: modules/passwords.php:122
 msgid "Change Password"
+msgstr ""
+
+#: modules/plugin-checker.php:40
+msgid "Bad plugins"
+msgstr ""
+
+#: modules/plugin-checker.php:49
+msgid "Bad plugins found: "
 msgstr ""
 
 #. translators: %s cache refresh interval
@@ -675,7 +734,7 @@ msgstr ""
 
 #: modules/security.php:114
 #: modules/sitestatus.php:159
-#: modules/upkeep.php:111
+#: modules/upkeep.php:113
 msgid "No data returned for the section."
 msgstr ""
 
@@ -685,7 +744,7 @@ msgstr ""
 
 #: modules/security.php:116
 #: modules/sitestatus.php:160
-#: modules/upkeep.php:114
+#: modules/upkeep.php:116
 msgid "Failed to load. Please try again."
 msgstr ""
 
@@ -857,8 +916,8 @@ msgid ""
 msgstr ""
 
 #: modules/security.php:278
-#: modules/sitestatus.php:601
-#: modules/sitestatus.php:644
+#: modules/sitestatus.php:602
+#: modules/sitestatus.php:645
 msgid "Save"
 msgstr ""
 
@@ -917,7 +976,7 @@ msgid "Speed test"
 msgstr ""
 
 #: modules/sitestatus.php:95
-#: modules/sitestatus.php:632
+#: modules/sitestatus.php:633
 msgid "Sanitize uploads"
 msgstr ""
 
@@ -951,18 +1010,18 @@ msgstr ""
 
 #: modules/sitestatus.php:166
 #: modules/sitestatus.php:397
-#: modules/upkeep.php:299
+#: modules/upkeep.php:301
 msgid "Success!"
 msgstr ""
 
 #: modules/sitestatus.php:167
 #: modules/sitestatus.php:412
-#: modules/upkeep.php:303
+#: modules/upkeep.php:305
 msgid "Failure!"
 msgstr ""
 
 #: modules/sitestatus.php:168
-#: modules/sitestatus.php:413
+#: modules/sitestatus.php:414
 msgid "Error!"
 msgstr ""
 
@@ -1096,12 +1155,6 @@ msgstr ""
 msgid "Click \"Run cache tests\" to run the cache tests"
 msgstr ""
 
-#: modules/sitestatus.php:258
-#: modules/upkeep.php:342
-#: modules/upkeep.php:676
-msgid "Toggle Details"
-msgstr ""
-
 #: modules/sitestatus.php:280
 msgid "Disk space in your plan: "
 msgstr ""
@@ -1215,7 +1268,7 @@ msgid "Because this shadow uses a custom domain, <strong>please go to the shadow
 msgstr ""
 
 #: modules/sitestatus.php:403
-#: modules/sitestatus.php:451
+#: modules/sitestatus.php:452
 msgid "<strong>From:</strong> "
 msgstr ""
 
@@ -1227,105 +1280,109 @@ msgstr ""
 msgid "When you're in the shadow, run search-replace either on \"Tools --> Database --> Search-Replace Tool\" or with wp-cli. Instructions can be found from <a href=\"https://help.seravo.com/en/docs/151\" target=\"_BLANK\">documentation</a>."
 msgstr ""
 
-#: modules/sitestatus.php:434
+#: modules/sitestatus.php:413
+msgid "The shadow reset is still running on the background. You should check the status of the shadow after a few minutes. If there are problems with the shadow, see the documentation from the link above."
+msgstr ""
+
+#: modules/sitestatus.php:435
 msgid "Reset"
 msgstr ""
 
-#: modules/sitestatus.php:441
+#: modules/sitestatus.php:442
 msgid "Port: "
 msgstr ""
 
-#: modules/sitestatus.php:442
+#: modules/sitestatus.php:443
 msgid "Creation Date: "
 msgstr ""
 
-#: modules/sitestatus.php:443
+#: modules/sitestatus.php:444
 msgid "Information: "
 msgstr ""
 
-#: modules/sitestatus.php:444
+#: modules/sitestatus.php:445
 msgid "Domain: "
 msgstr ""
 
-#: modules/sitestatus.php:448
+#: modules/sitestatus.php:449
 msgid "This shadow uses a custom domain. <strong>For the shadow to be accessible after reset, please run search-replace in the shadow with the values below:</strong>"
 msgstr ""
 
-#: modules/sitestatus.php:453
+#: modules/sitestatus.php:454
 msgid "<br><strong>To:</strong> ://"
 msgstr ""
 
-#: modules/sitestatus.php:457
+#: modules/sitestatus.php:458
 msgid "When you're in the shadow, you can run search-replace either on \"Tools --> Database --> Search-Replace Tool\" or with wp-cli. Instructions can be found from <a href=\"https://help.seravo.com/en/docs/151\" target=\"_BLANK\">documentation</a>."
 msgstr ""
 
-#: modules/sitestatus.php:477
+#: modules/sitestatus.php:478
 msgid "No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href=\"mailto:help@seravo.com\">help@seravo.com</a>."
 msgstr ""
 
-#: modules/sitestatus.php:490
+#: modules/sitestatus.php:491
 msgid "WordPress core"
 msgstr ""
 
-#: modules/sitestatus.php:522
+#: modules/sitestatus.php:523
 msgid "Width"
 msgstr ""
 
-#: modules/sitestatus.php:528
+#: modules/sitestatus.php:529
 msgid "Height"
 msgstr ""
 
-#: modules/sitestatus.php:536
+#: modules/sitestatus.php:537
 msgid "Optimization reduces image file size. This improves the performance and browsing experience of your site."
 msgstr ""
 
-#: modules/sitestatus.php:537
+#: modules/sitestatus.php:538
 msgid "By setting the maximum image resolution, you can determine the maximum allowed dimensions for images."
 msgstr ""
 
-#: modules/sitestatus.php:538
+#: modules/sitestatus.php:539
 msgid "For further information, refer to our <a href=\"https://help.seravo.com/article/28-seravo-plugin-optimize-images\" target=\"_BLANK\">knowledgebase article</a>."
 msgstr ""
 
 #. translators: %s numeric value for the minimum image width
-#: modules/sitestatus.php:549
+#: modules/sitestatus.php:550
 msgid "The minimum width for image optimisation is %1$s px. Setting suggested width of %2$s px."
 msgstr ""
 
-#: modules/sitestatus.php:561
+#: modules/sitestatus.php:562
 msgid "Width setting saved"
 msgstr ""
 
 #. translators: %s numeric value for the minimum image height
-#: modules/sitestatus.php:574
+#: modules/sitestatus.php:575
 msgid "The minimum height for image optimisation is %1$s px. Setting suggested height of %2$s px."
 msgstr ""
 
-#: modules/sitestatus.php:583
+#: modules/sitestatus.php:584
 msgid "Height setting saved"
 msgstr ""
 
-#: modules/sitestatus.php:622
+#: modules/sitestatus.php:623
 msgid "Settings saved"
 msgstr ""
 
-#: modules/sitestatus.php:649
+#: modules/sitestatus.php:650
 msgid "Special characters in filenames, such as ä, ö or æ, may cause problems with the site."
 msgstr ""
 
-#: modules/sitestatus.php:650
+#: modules/sitestatus.php:651
 msgid "Toggling this on replaces such characters with other standard letters, like ä -> a, ö -> o or æ -> a when a file is uploaded."
 msgstr ""
 
-#: modules/sitestatus.php:659
+#: modules/sitestatus.php:660
 msgid "Speed test measures the time how long it takes for PHP to produce the HTML output for the WordPress page."
 msgstr ""
 
-#: modules/sitestatus.php:660
+#: modules/sitestatus.php:661
 msgid "Front Page by Default"
 msgstr ""
 
-#: modules/sitestatus.php:661
+#: modules/sitestatus.php:662
 msgid "Run Test"
 msgstr ""
 
@@ -1405,137 +1462,145 @@ msgstr ""
 msgid "There was an error starting the compatibility check."
 msgstr ""
 
+#: modules/upkeep.php:111
+msgid "The compatibility check has taken too long and has timed out. You can run the test from command line. See instructions from the link below."
+msgstr ""
+
 #: modules/upkeep.php:112
+msgid "The compatibility check has failed with response code: "
+msgstr ""
+
+#: modules/upkeep.php:114
 msgid "Tests were run without any errors!"
 msgstr ""
 
-#: modules/upkeep.php:113
+#: modules/upkeep.php:115
 msgid "At least one of the tests failed."
 msgstr ""
 
-#: modules/upkeep.php:115
+#: modules/upkeep.php:117
 msgid "Running rspec tests..."
 msgstr ""
 
-#: modules/upkeep.php:116
+#: modules/upkeep.php:118
 msgid "Fetching changes..."
 msgstr ""
 
-#: modules/upkeep.php:117
+#: modules/upkeep.php:119
 msgid "No changes were found"
 msgstr ""
 
-#: modules/upkeep.php:118
+#: modules/upkeep.php:120
 msgid "rows affected"
 msgstr ""
 
-#: modules/upkeep.php:121
+#: modules/upkeep.php:123
 msgid "There must be at least one contact email"
 msgstr ""
 
-#: modules/upkeep.php:141
+#: modules/upkeep.php:143
 msgid "Opt-out from updates by Seravo"
 msgstr ""
 
-#: modules/upkeep.php:162
+#: modules/upkeep.php:164
 msgid "The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below."
 msgstr ""
 
-#: modules/upkeep.php:167
+#: modules/upkeep.php:169
 msgid "Seravo updates enabled"
 msgstr ""
 
-#: modules/upkeep.php:171
+#: modules/upkeep.php:173
 msgid "Update Notifications with a Slack Webhook"
 msgstr ""
 
-#: modules/upkeep.php:172
+#: modules/upkeep.php:174
 msgid "By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href=\"https://api.slack.com/incoming-webhooks\" target=\"_BLANK\">Read more about webhooks</a>."
 msgstr ""
 
-#: modules/upkeep.php:174
+#: modules/upkeep.php:176
 msgid "Send a Test Notification"
 msgstr ""
 
-#: modules/upkeep.php:177
+#: modules/upkeep.php:179
 msgid "Contacts"
 msgstr ""
 
-#: modules/upkeep.php:178
+#: modules/upkeep.php:180
 msgid "Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address."
 msgstr ""
 
-#: modules/upkeep.php:179
+#: modules/upkeep.php:181
 msgid "example@example.com"
 msgstr ""
 
-#: modules/upkeep.php:180
+#: modules/upkeep.php:182
 msgid "Add"
 msgstr ""
 
-#: modules/upkeep.php:181
+#: modules/upkeep.php:183
 msgid "Email must be formatted as name@domain.com"
 msgstr ""
 
-#: modules/upkeep.php:185
+#: modules/upkeep.php:187
 msgid "Save settings"
 msgstr ""
 
 #. translators: %1$s link to Newsletter for WordPress developers
-#: modules/upkeep.php:189
+#: modules/upkeep.php:191
 msgid "P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features."
 msgstr ""
 
-#: modules/upkeep.php:219
+#: modules/upkeep.php:221
 msgid "Site created"
 msgstr ""
 
-#: modules/upkeep.php:227
+#: modules/upkeep.php:229
 msgid "Unable to fetch the latest update log."
 msgstr ""
 
-#: modules/upkeep.php:246
+#: modules/upkeep.php:248
 msgid ""
 "Last succesful full site update was over a month ago. A developer should take\n"
 "              a look at the update log and fix the issue preventing the site from updating."
 msgstr ""
 
-#: modules/upkeep.php:252
+#: modules/upkeep.php:254
 msgid "Latest update.log:"
 msgstr ""
 
-#: modules/upkeep.php:255
+#: modules/upkeep.php:257
 msgid "See the logs page for more info."
 msgstr ""
 
-#: modules/upkeep.php:261
+#: modules/upkeep.php:263
 msgid "Latest successful full update"
 msgstr ""
 
-#: modules/upkeep.php:265
+#: modules/upkeep.php:267
 msgid "Latest attempted full update"
 msgstr ""
 
-#: modules/upkeep.php:272
+#: modules/upkeep.php:274
 msgid "Last 5 partial or attempted updates:"
 msgstr ""
 
 #. translators: event count and update.log filename and updates.log and security.log paths
-#: modules/upkeep.php:286
+#: modules/upkeep.php:288
 msgid "For details about last %1$s update attempts by Seravo, see %2$s."
 msgstr ""
 
 #. translators: Link to Tests page
-#: modules/upkeep.php:301
+#: modules/upkeep.php:303
 msgid "Site baseline tests have passed and updates can run normally."
 msgstr ""
 
 #. translators: Link to Tests page
-#: modules/upkeep.php:305
+#: modules/upkeep.php:307
 msgid "Site baseline tests are failing and needs to be fixed before further updates are run."
 msgstr ""
 
-#: modules/upkeep.php:313
+#: modules/upkeep.php:315
 msgid ""
 "This tool can be used to run command <code>wp-backup-list-changes-since</code> \n"
 "        which finds folder and file changes in backup data since the given date. For example if you have started to have issues on your site, you can\n"
@@ -1544,110 +1609,110 @@ msgid ""
 "         <p>Backups are stored for 30 days which is also the maximum since offset.  </p>"
 msgstr ""
 
-#: modules/upkeep.php:323
+#: modules/upkeep.php:325
 msgid "Choose a since date"
 msgstr ""
 
-#: modules/upkeep.php:332
+#: modules/upkeep.php:334
 msgid "Run"
 msgstr ""
 
-#: modules/upkeep.php:336
+#: modules/upkeep.php:338
 msgid "Click \"run\" to see changes"
 msgstr ""
 
 #. translators: link to log file
-#: modules/upkeep.php:358
+#: modules/upkeep.php:360
 msgid "Latest version is recommended if all plugins and theme support it. Check <a href=\"%s\">compatibility scan results.</a>"
 msgstr ""
 
-#: modules/upkeep.php:364
+#: modules/upkeep.php:366
 msgid "Check PHP compatibility"
 msgstr ""
 
-#: modules/upkeep.php:372
+#: modules/upkeep.php:374
 msgid "See also <a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version\">more information on PHP version upgrades</a>."
 msgstr ""
 
-#: modules/upkeep.php:427
+#: modules/upkeep.php:429
 msgid "I'm aware of the risks associated with edits to the PHP configuration files and want to proceed with the change."
 msgstr ""
 
-#: modules/upkeep.php:431
+#: modules/upkeep.php:433
 msgid "Change version"
 msgstr ""
 
-#: modules/upkeep.php:436
+#: modules/upkeep.php:438
 msgid "Activating... Please wait up to 30 seconds"
 msgstr ""
 
 #. translators: link to log file
-#: modules/upkeep.php:443
+#: modules/upkeep.php:445
 msgid "PHP version has been changed succesfully! Please check <a href=\"%s\">php-error.log</a> for regressions."
 msgstr ""
 
-#: modules/upkeep.php:448
+#: modules/upkeep.php:450
 msgid "PHP version change failed."
 msgstr ""
 
-#: modules/upkeep.php:455
+#: modules/upkeep.php:457
 msgid "Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here."
 msgstr ""
 
 #. translators: current Seravo plugin version
-#: modules/upkeep.php:460
+#: modules/upkeep.php:462
 msgid "Current version: %s"
 msgstr ""
 
 #. translators: upstream Seravo plugin version
-#: modules/upkeep.php:469
+#: modules/upkeep.php:471
 msgid "Upstream version: %s"
 msgstr ""
 
-#: modules/upkeep.php:474
+#: modules/upkeep.php:476
 msgid "The currently installed version is the same as the latest available version."
 msgstr ""
 
-#: modules/upkeep.php:475
+#: modules/upkeep.php:477
 msgid "There is a new version available"
 msgstr ""
 
-#: modules/upkeep.php:476
+#: modules/upkeep.php:478
 msgid "Seravo Plugin updated"
 msgstr ""
 
-#: modules/upkeep.php:479
+#: modules/upkeep.php:481
 msgid "Updating... Please wait up to 5 seconds"
 msgstr ""
 
-#: modules/upkeep.php:481
+#: modules/upkeep.php:483
 msgid "Update plugin now"
 msgstr ""
 
-#: modules/upkeep.php:495
+#: modules/upkeep.php:497
 msgid "The Difference"
 msgstr ""
 
-#: modules/upkeep.php:558
+#: modules/upkeep.php:560
 msgid "No screenshots found. They will become available during the next attempted update."
 msgstr ""
 
-#: modules/upkeep.php:572
+#: modules/upkeep.php:574
 msgid "Current State"
 msgstr ""
 
-#: modules/upkeep.php:573
+#: modules/upkeep.php:575
 msgid "Update Attempt"
 msgstr ""
 
-#: modules/upkeep.php:664
+#: modules/upkeep.php:666
 msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\" target=\"_BLANK\"> Seravo Developer Documentation</a>."
 msgstr ""
 
-#: modules/upkeep.php:667
+#: modules/upkeep.php:669
 msgid "Run Tests"
 msgstr ""
 
-#: modules/upkeep.php:670
+#: modules/upkeep.php:672
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr ""

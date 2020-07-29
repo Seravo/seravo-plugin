@@ -108,6 +108,11 @@ th, td {
   background-color: #cc0000;
 }
 
+#alert-timeout {
+  background-color: yellow;
+  color: black;
+}
+
 .closebtn {
   font-size: large;
   color: white;
