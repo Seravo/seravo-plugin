@@ -380,6 +380,10 @@ jQuery(document).ready(function($) {
           $('#' + shadow_id).find('#shadow-reset-status').empty();
           $('.alert#alert-failure').show();
           $('.closebtn').show();
+        } else if ( status = 'timeout') {
+          $('#' + shadow_id).find('#shadow-reset-status').empty();
+          $('.alert#alert-timeout').show();
+          $('.closebtn').show();
         } else {
           $('#' + shadow_id).find('#shadow-reset-status').empty();
           $('.alert#alert-error').show();
@@ -433,7 +437,13 @@ jQuery(document).ready(function($) {
           animate('failure');
         }
       }
-    );
+      ).fail(function(msg) {
+        if (msg.status === 503) {
+          animate('timeout');
+        } else {
+          animate('error');
+        }
+      });
   }
 
   // Check if there is a 'speed_test_target' key in the url

@@ -410,6 +410,7 @@ if ( ! class_exists('Site_Status') ) {
             </div>
           </div>
           <div class="alert" id="alert-failure"><button class="closebtn">&times;</button><p><?php _e('Failure!', 'seravo'); ?></p></div>
+          <div class="alert" id="alert-timeout"><button class="closebtn">&times;</button><p><?php _e('The shadow reset is still running on the background. You should check the status of the shadow after a few minutes. If there are problems with the shadow, see the documentation from the link above.', 'seravo'); ?></p></div>
           <div class="alert" id="alert-error"><button class="closebtn">&times;</button><p><?php _e('Error!', 'seravo'); ?></p></div>
           <?php
           if ( ! empty($shadow_list) ) {
