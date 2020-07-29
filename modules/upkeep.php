@@ -108,6 +108,8 @@ if ( ! class_exists('Upkeep') ) {
           'compatibility_check_error' => __(' errors found. See logs for more information.', 'seravo'),
           'compatibility_check_clear' => __('&#x2705; No errors found! See logs for more information.', 'seravo'),
           'compatibility_run_fail' => __('There was an error starting the compatibility check.', 'seravo'),
+          'compatibility_run_timeout' => __('The compatibility check has taken too long and has timed out. You can run the test from command line. See instructions from the link below.', 'seravo'),
+          'compatibility_run_error' => __('The compatibility check has failed with response code: ', 'seravo'),
           'no_data'       => __('No data returned for the section.', 'seravo'),
           'test_success'  => __('Tests were run without any errors!', 'seravo'),
           'test_fail'     => __('At least one of the tests failed.', 'seravo'),

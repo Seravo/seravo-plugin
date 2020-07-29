@@ -290,6 +290,17 @@ jQuery(document).ready(function($) {
           });
         }
       }
+      ).fail(function(msg) {
+        if (msg.status === 504) {
+          jQuery("#check-php-compatibility-status").fadeOut(400, function() {
+            jQuery(this).html('<div style="color:red;font-weight:bold">' + seravo_upkeep_loc.compatibility_run_timeout + '</div>').fadeIn(400);
+          });
+        } else {
+          jQuery("#check-php-compatibility-status").fadeOut(400, function() {
+            jQuery(this).html('<div style="color:red;font-weight:bold">' + seravo_upkeep_loc.compatibility_run_error + msg.status + '</div>').fadeIn(400);
+          });
+        }
+      }
     );
   }
 
