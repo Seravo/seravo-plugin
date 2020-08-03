@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2020-07-28T11:34:45+03:00\n"
-"PO-Revision-Date: 2020-07-28 11:38+0300\n"
+"POT-Creation-Date: 2020-08-03T13:38:05+03:00\n"
+"PO-Revision-Date: 2020-08-03 13:47+0300\n"
 "Last-Translator: Viljami Pietarila <viljami@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -473,6 +473,43 @@ msgstr "Aja wp-db-cleanup"
 msgid "Table sizes"
 msgstr "Taulujen koot"
 
+#: modules/database.php:260
+msgid "Details about database table sizes"
+msgstr ""
+
+#: modules/database.php:264
+msgid "Longest wp_postmeta values:"
+msgstr ""
+
+#: modules/database.php:268
+msgid "Cumulative size of meta_value per meta_key:"
+msgstr ""
+
+#: modules/database.php:272
+msgid "Rows per meta_key:"
+msgstr ""
+
+#: modules/database.php:276
+msgid "Autoload options count (read to memory on each WP page load):"
+msgstr ""
+
+#: modules/database.php:280
+msgid "Autoload options total size of values:"
+msgstr ""
+
+#: modules/database.php:284
+msgid "Longest autoloaded wp_option values:"
+msgstr ""
+
+#: modules/database.php:288
+msgid "Most common autoloaded wp_option values:"
+msgstr ""
+
+#: modules/database.php:292 modules/sitestatus.php:258 modules/upkeep.php:344
+#: modules/upkeep.php:678
+msgid "Toggle Details"
+msgstr "Näytä lisää"
+
 #: modules/domains.php:44 modules/toolbox.php:67 modules/toolbox.php:68
 msgid "Domains"
 msgstr "Verkkotunnukset"
@@ -613,14 +650,18 @@ msgstr "Poistu"
 msgid "Site Error Count"
 msgstr "Sivuston virhemäärä"
 
+#: modules/login-notification.php:104
+msgid "Error log read failure"
+msgstr "Virhelokin lukuhäiriö"
+
 #. translators: %1$s username of the current user %2$s datetime of last login %3$s timezone used to represent the datetime of the last login %4$s IP address of the last login
-#: modules/login-notification.php:172
+#: modules/login-notification.php:186
 msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
 msgstr ""
 "Tervetuloa, %1$s! Edellinen kirjautuminen: %2$s (%3$s) osoitteesta %4$s."
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:190
+#: modules/login-notification.php:204
 msgid ""
 "The PHP error log has more than %1$s entries this week. Please see %2$s for "
 "details. This is usually a sign that something is broken in the code. The "
@@ -630,6 +671,15 @@ msgstr ""
 "tarkista yksityiskohdat täältä: %2$s. Tämä on tavallisesti merkki siitä, "
 "että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 "sivuston kehittäjälle."
+
+#: modules/login-notification.php:217
+msgid ""
+"The PHP error log is abnormally large. This is a sign that something is "
+"broken in the code. The developer of the site should be notified."
+msgstr ""
+"PHP-virheloki on poikkeavan suuri. Tämä on merkki siitä, että jokin on rikki "
+"sivuston koodissa. Suosittelemme, että tästä ilmoitetaan sivuston "
+"kehittäjälle."
 
 #: modules/logs.php:122
 msgid "No logs found in <code>/data/log/</code>."
@@ -653,12 +703,16 @@ msgstr ""
 msgid "Log empty"
 msgstr "Loki on tyhjä"
 
-#: modules/logs.php:214
+#: modules/logs.php:217
+msgid "Log is abnormally large and can not be displayed."
+msgstr "Loki on poikkeavan suuri, eikä sitä pystytä näyttämään."
+
+#: modules/logs.php:219
 msgid "Scroll to load more lines from the log."
 msgstr "Selaa ladataksesi lisää rivejä lokista."
 
 #. translators: $s full path of the logfile
-#: modules/logs.php:225
+#: modules/logs.php:230
 msgid "Full log files can be found on the server in the path %s."
 msgstr "Lokitiedostot kokonaisuudessaan löytyy palvelimelta polusta %s."
 
@@ -808,7 +862,7 @@ msgstr "Tarpeettomat lisäosat"
 msgid "Unnecessary themes"
 msgstr "Tarpeettomat teemat"
 
-#: modules/security.php:114 modules/sitestatus.php:159 modules/upkeep.php:111
+#: modules/security.php:114 modules/sitestatus.php:159 modules/upkeep.php:113
 msgid "No data returned for the section."
 msgstr "Testi ei palauttanut dataa."
 
@@ -816,7 +870,7 @@ msgstr "Testi ei palauttanut dataa."
 msgid "Are you sure you want to proceed? Deleted files can not be recovered."
 msgstr "Oletko varma, että haluat jatkaa? Tiedostot poistetaan pysyvästi."
 
-#: modules/security.php:116 modules/sitestatus.php:160 modules/upkeep.php:114
+#: modules/security.php:116 modules/sitestatus.php:160 modules/upkeep.php:116
 msgid "Failed to load. Please try again."
 msgstr "Lataaminen epäonnistui. Yritä uudelleen."
 
@@ -1137,11 +1191,11 @@ msgstr "HTTP -välimuisti toimii"
 msgid "HTTP cache not working"
 msgstr "HTTP -välimuisti ei toimi"
 
-#: modules/sitestatus.php:166 modules/sitestatus.php:397 modules/upkeep.php:299
+#: modules/sitestatus.php:166 modules/sitestatus.php:397 modules/upkeep.php:301
 msgid "Success!"
 msgstr "Onnistui!"
 
-#: modules/sitestatus.php:167 modules/sitestatus.php:412 modules/upkeep.php:303
+#: modules/sitestatus.php:167 modules/sitestatus.php:412 modules/upkeep.php:305
 msgid "Failure!"
 msgstr "Epäonnistui!"
 
@@ -1318,10 +1372,6 @@ msgstr "Suorita testit"
 #: modules/sitestatus.php:252
 msgid "Click \"Run cache tests\" to run the cache tests"
 msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi testit"
-
-#: modules/sitestatus.php:258 modules/upkeep.php:342 modules/upkeep.php:676
-msgid "Toggle Details"
-msgstr "Näytä lisää"
 
 #: modules/sitestatus.php:280
 msgid "Disk space in your plan: "
@@ -1721,39 +1771,51 @@ msgstr "&#x2705; Virheitä ei löytynyt! Katso lisätietoja lokitiedostosta."
 msgid "There was an error starting the compatibility check."
 msgstr "Yhteensopivuustarkistusta ei pystytty suorittamaan virheen vuoksi."
 
+#: modules/upkeep.php:111
+msgid ""
+"The compatibility check has taken too long and has timed out. You can run "
+"the test from command line. See instructions from the link below."
+msgstr ""
+"Yhteensopivuustarkistuksessa on kestänyt liian kauan ja se on aikakatkaistu. "
+"Pystyt ajamaan testin komentoriviltä. Katso ohjeet linkistä alapuolella."
+
 #: modules/upkeep.php:112
+msgid "The compatibility check has failed with response code: "
+msgstr "Yhteensopivuustarkistus epäonnistui. HTTP-tilakoodi: "
+
+#: modules/upkeep.php:114
 msgid "Tests were run without any errors!"
 msgstr "Testit suoritettu onnistuneesti ilman virheitä!"
 
-#: modules/upkeep.php:113
+#: modules/upkeep.php:115
 msgid "At least one of the tests failed."
 msgstr "Ainakin yksi testeistä epäonnistui."
 
-#: modules/upkeep.php:115
+#: modules/upkeep.php:117
 msgid "Running rspec tests..."
 msgstr "Testataan sivustoa..."
 
-#: modules/upkeep.php:116
+#: modules/upkeep.php:118
 msgid "Fetching changes..."
 msgstr "Haetaan muutoksia..."
 
-#: modules/upkeep.php:117
+#: modules/upkeep.php:119
 msgid "No changes were found"
 msgstr "Muutoksia ei löytynyt"
 
-#: modules/upkeep.php:118
+#: modules/upkeep.php:120
 msgid "rows affected"
 msgstr "muutosta löydetty"
 
-#: modules/upkeep.php:121
+#: modules/upkeep.php:123
 msgid "There must be at least one contact email"
 msgstr "Vähintään yhden yhteysosoitteen tulee olla asetettuna"
 
-#: modules/upkeep.php:141
+#: modules/upkeep.php:143
 msgid "Opt-out from updates by Seravo"
 msgstr "Kiellä Seravoa päivittämästä sivustoa ja vastaa päivityksistä itse"
 
-#: modules/upkeep.php:162
+#: modules/upkeep.php:164
 msgid ""
 "The Seravo upkeep service includes core and plugin updates to your WordPress "
 "site, keeping your site current with security patches and frequent tested "
@@ -1769,15 +1831,15 @@ msgstr ""
 "ruudusta. HUOM! Tietoturvapäivityksiä saatamme tehdä päivityskiellosta "
 "huolimatta, tilanteen niin vaatiessa."
 
-#: modules/upkeep.php:167
+#: modules/upkeep.php:169
 msgid "Seravo updates enabled"
 msgstr "Seravon päivitykset sallittu"
 
-#: modules/upkeep.php:171
+#: modules/upkeep.php:173
 msgid "Update Notifications with a Slack Webhook"
 msgstr "Päivitysilmoitukset Slackin webhookin avulla"
 
-#: modules/upkeep.php:172
+#: modules/upkeep.php:174
 msgid ""
 "By defining a Slack webhook address below, Seravo can send you notifications "
 "about every update attempt, whether successful or not, to the Slack channel "
@@ -1790,15 +1852,15 @@ msgstr ""
 "\"https://api.slack.com/incoming-webhooks\" target=\"_BLANK\">Lue lisää "
 "Slackin ohjeistuksesta</a>."
 
-#: modules/upkeep.php:174
+#: modules/upkeep.php:176
 msgid "Send a Test Notification"
 msgstr "Lähetä testi-ilmoitus"
 
-#: modules/upkeep.php:177
+#: modules/upkeep.php:179
 msgid "Contacts"
 msgstr "Yhteyshenkilöt"
 
-#: modules/upkeep.php:178
+#: modules/upkeep.php:180
 msgid ""
 "Seravo may use the email addresses defined here to send automatic "
 "notifications about technical problems with you site. Remember to use a "
@@ -1808,24 +1870,24 @@ msgstr ""
 "sivustoilla havaituista virhetilanteista. Ole hyvä ja lisää ainoastaan "
 "täydellisiä sähköpostiosoitteita."
 
-#: modules/upkeep.php:179
+#: modules/upkeep.php:181
 msgid "example@example.com"
 msgstr "esimerkki@esimerkki.fi"
 
-#: modules/upkeep.php:180
+#: modules/upkeep.php:182
 msgid "Add"
 msgstr "Lisää"
 
-#: modules/upkeep.php:181
+#: modules/upkeep.php:183
 msgid "Email must be formatted as name@domain.com"
 msgstr "Sähköpostiosoite täytyy olla muodossa nimi@domain.com"
 
-#: modules/upkeep.php:185
+#: modules/upkeep.php:187
 msgid "Save settings"
 msgstr "Tallenna asetukset"
 
 #. translators: %1$s link to Newsletter for WordPress developers
-#: modules/upkeep.php:189
+#: modules/upkeep.php:191
 msgid ""
 "P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-"
 "to-date information about our new features."
@@ -1833,15 +1895,15 @@ msgstr ""
 "P.S. Tilaa Seravon %1$senglanninkielinen uutiskirje WordPress-kehittäjille"
 "%2$s pysyäksesi ajan tasalla uusimmista ominaisuuksistamme."
 
-#: modules/upkeep.php:219
+#: modules/upkeep.php:221
 msgid "Site created"
 msgstr "Sivusto luotu"
 
-#: modules/upkeep.php:227
+#: modules/upkeep.php:229
 msgid "Unable to fetch the latest update log."
 msgstr "Uusinta päivityslokia ei voitu hakea."
 
-#: modules/upkeep.php:246
+#: modules/upkeep.php:248
 msgid ""
 "Last succesful full site update was over a month ago. A developer should "
 "take\n"
@@ -1851,41 +1913,41 @@ msgstr ""
 "Edellinen onnistunut päivitys oli yli kuukausi sitten. Sivuston kehittäjän "
 "tulisi katsoa päivityslokia ja korjata virhe joka estää päivittämisen."
 
-#: modules/upkeep.php:252
+#: modules/upkeep.php:254
 msgid "Latest update.log:"
 msgstr "Viimeisin update.log:"
 
-#: modules/upkeep.php:255
+#: modules/upkeep.php:257
 msgid "See the logs page for more info."
 msgstr "Katso lisätietoja lokisivulta."
 
-#: modules/upkeep.php:261
+#: modules/upkeep.php:263
 msgid "Latest successful full update"
 msgstr "Viimeisin onnistunut kaikenkattava päivitys"
 
-#: modules/upkeep.php:265
+#: modules/upkeep.php:267
 msgid "Latest attempted full update"
 msgstr "Edellinen yritetty kaikenkattava päivitys"
 
-#: modules/upkeep.php:272
+#: modules/upkeep.php:274
 msgid "Last 5 partial or attempted updates:"
 msgstr "Edelliset osittaiset tai päivitysten yritykset:"
 
 #. translators: event count and update.log filename and updates.log and security.log paths
-#: modules/upkeep.php:286
+#: modules/upkeep.php:288
 msgid "For details about last %1$s update attempts by Seravo, see %2$s."
 msgstr ""
 "Lisätiedot edellisiin %1$s päivitysyrityksiin löytyy lokitiedostosta %2$s."
 
 #. translators: Link to Tests page
-#: modules/upkeep.php:301
+#: modules/upkeep.php:303
 msgid "Site baseline tests have passed and updates can run normally."
 msgstr ""
 "Sivuston lähtötilanteessa testit toimivat ja päivitykset voi tapahtua "
 "normaalisti."
 
 #. translators: Link to Tests page
-#: modules/upkeep.php:305
+#: modules/upkeep.php:307
 msgid ""
 "Site baseline tests are failing and needs to be fixed before further updates "
 "are run."
@@ -1893,7 +1955,7 @@ msgstr ""
 "Sivuston lähtötilanteessa testit epäonnistuvat ja ne tulee korjata ennen "
 "kuin päivitykset voivat jatkua normaalisti."
 
-#: modules/upkeep.php:313
+#: modules/upkeep.php:315
 msgid ""
 "This tool can be used to run command <code>wp-backup-list-changes-since</"
 "code> \n"
@@ -1912,20 +1974,20 @@ msgstr ""
 "         <p>Varmuuskopioita säilytetään 30 päivää, joten voit hakea niitä "
 "vain tältä ajalta.  </p>"
 
-#: modules/upkeep.php:323
+#: modules/upkeep.php:325
 msgid "Choose a since date"
 msgstr "Valitse päivämäärä"
 
-#: modules/upkeep.php:332
+#: modules/upkeep.php:334
 msgid "Run"
 msgstr "Suorita"
 
-#: modules/upkeep.php:336
+#: modules/upkeep.php:338
 msgid "Click \"run\" to see changes"
 msgstr "Klikkaa “Suorita” -nappia nähdäksesi muutokset"
 
 #. translators: link to log file
-#: modules/upkeep.php:358
+#: modules/upkeep.php:360
 msgid ""
 "Latest version is recommended if all plugins and theme support it. Check <a "
 "href=\"%s\">compatibility scan results.</a>"
@@ -1933,11 +1995,11 @@ msgstr ""
 "Uusin versio on suositeltu mikäli kaikki lisäosat ja teema tukevat sitä. "
 "Katso myös <a href=\"%s\">yhteentoimivuustarkistuksen tulokset.</a>"
 
-#: modules/upkeep.php:364
+#: modules/upkeep.php:366
 msgid "Check PHP compatibility"
 msgstr "Tarkista PHP yhteensopivuus"
 
-#: modules/upkeep.php:372
+#: modules/upkeep.php:374
 msgid ""
 "See also <a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-"
 "your-site-to-use-newest-php-version\">more information on PHP version "
@@ -1946,7 +2008,7 @@ msgstr ""
 "Katso myös <a target=\"_blank\" href=\"https://help.seravo.fi/article/234-"
 "uusimpaan-php-versioon-siirtyminen\">ohje PHP-versiopäivityksistä</a>."
 
-#: modules/upkeep.php:427
+#: modules/upkeep.php:429
 msgid ""
 "I'm aware of the risks associated with edits to the PHP configuration files "
 "and want to proceed with the change."
@@ -1954,16 +2016,16 @@ msgstr ""
 "Olen tietoinen PHP konfiguraatiotiedostoihin tehtävien muutoksien riskeistä "
 "ja haluan tehdä muutoksen."
 
-#: modules/upkeep.php:431
+#: modules/upkeep.php:433
 msgid "Change version"
 msgstr "Vaihda versiota"
 
-#: modules/upkeep.php:436
+#: modules/upkeep.php:438
 msgid "Activating... Please wait up to 30 seconds"
 msgstr "Aktivoidaan... Odota jopa 30 sekuntia"
 
 #. translators: link to log file
-#: modules/upkeep.php:443
+#: modules/upkeep.php:445
 msgid ""
 "PHP version has been changed succesfully! Please check <a href=\"%s\">php-"
 "error.log</a> for regressions."
@@ -1971,11 +2033,11 @@ msgstr ""
 "PHP-versio on onnistuneesti vaihdettu. Tarkkaile lokia <a href=\"%s\">php-"
 "error.log</a> mahdollisten yhteensopivuusongelmien varalta."
 
-#: modules/upkeep.php:448
+#: modules/upkeep.php:450
 msgid "PHP version change failed."
 msgstr "PHP-versiovaihdos epäonnistui."
 
-#: modules/upkeep.php:455
+#: modules/upkeep.php:457
 msgid ""
 "Seravo automatically updates your site and the Seravo Plugin as well. If you "
 "want to immediately update to the latest Seravo Plugin version, you can do "
@@ -1986,41 +2048,41 @@ msgstr ""
 "tehdä sen täältä."
 
 #. translators: current Seravo plugin version
-#: modules/upkeep.php:460
+#: modules/upkeep.php:462
 msgid "Current version: %s"
 msgstr "Nykyinen versio: %s"
 
 #. translators: upstream Seravo plugin version
-#: modules/upkeep.php:469
+#: modules/upkeep.php:471
 msgid "Upstream version: %s"
 msgstr "Viimeisin versio: %s"
 
-#: modules/upkeep.php:474
+#: modules/upkeep.php:476
 msgid ""
 "The currently installed version is the same as the latest available version."
 msgstr "Seravo Plugin on ajantasalla."
 
-#: modules/upkeep.php:475
+#: modules/upkeep.php:477
 msgid "There is a new version available"
 msgstr "Uusi versio saatavilla"
 
-#: modules/upkeep.php:476
+#: modules/upkeep.php:478
 msgid "Seravo Plugin updated"
 msgstr "Seravo-plugin päivitetty"
 
-#: modules/upkeep.php:479
+#: modules/upkeep.php:481
 msgid "Updating... Please wait up to 5 seconds"
 msgstr "Päivitetään... Odota 5 sekunttia"
 
-#: modules/upkeep.php:481
+#: modules/upkeep.php:483
 msgid "Update plugin now"
 msgstr "Päivitä lisäosa"
 
-#: modules/upkeep.php:495
+#: modules/upkeep.php:497
 msgid "The Difference"
 msgstr "Eroavaisuudet"
 
-#: modules/upkeep.php:558
+#: modules/upkeep.php:560
 msgid ""
 "No screenshots found. They will become available during the next attempted "
 "update."
@@ -2028,15 +2090,15 @@ msgstr ""
 "Kuvakaappauksia ei löytynyt. Ne luodaan sivuston seuraavan päivityksen "
 "yhteydessä."
 
-#: modules/upkeep.php:572
+#: modules/upkeep.php:574
 msgid "Current State"
 msgstr "Sivuston nykytila"
 
-#: modules/upkeep.php:573
+#: modules/upkeep.php:575
 msgid "Update Attempt"
 msgstr "Edellinen päivitysyritys"
 
-#: modules/upkeep.php:664
+#: modules/upkeep.php:666
 msgid ""
 "Here you can test the core functionality of your WordPress installation. "
 "Same results can be achieved via command line by running <code>wp-test</"
@@ -2049,11 +2111,11 @@ msgstr ""
 "lisätietoja <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\" "
 "target=\"_BLANK\">Seravon kehittäjäohjeista</a>."
 
-#: modules/upkeep.php:667
+#: modules/upkeep.php:669
 msgid "Run Tests"
 msgstr "Suorita testit"
 
-#: modules/upkeep.php:670
+#: modules/upkeep.php:672
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Codeception-testit"
 
