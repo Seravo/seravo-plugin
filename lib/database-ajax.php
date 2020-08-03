@@ -90,9 +90,9 @@ function seravo_get_wp_db_info_tables() {
 function seravo_get_wp_db_details() {
   global $wpdb;
 
-  $long_postmeta_values = $wpdb->get_results("SELECT meta_key, SUBSTRING(meta_value, 1, 30) AS meta_value_snip, LENGTH(meta_value) AS meta_value_length FROM $wpdb->postmeta ORDER BY LENGTH(meta_value) DESC");
-  $cumulative_postmeta_sizes = $wpdb->get_results("SELECT meta_key, SUBSTRING(meta_value, 1, 30) AS meta_value_snip, LENGTH(meta_value) AS meta_value_length, SUM(LENGTH(meta_value)) AS length_sum FROM $wpdb->postmeta GROUP BY meta_key ORDER BY length_sum DESC");
-  $common_postmeta_values = $wpdb->get_results("SELECT SUBSTRING(meta_key, 1, 20) AS meta_key, COUNT(*) AS key_count FROM $wpdb->postmeta GROUP BY meta_key ORDER BY key_count DESC");
+  $long_postmeta_values = $wpdb->get_results("SELECT meta_key, SUBSTRING(meta_value, 1, 30) AS meta_value_snip, LENGTH(meta_value) AS meta_value_length FROM $wpdb->postmeta ORDER BY LENGTH(meta_value) DESC LIMIT 15");
+  $cumulative_postmeta_sizes = $wpdb->get_results("SELECT meta_key, SUBSTRING(meta_value, 1, 30) AS meta_value_snip, LENGTH(meta_value) AS meta_value_length, SUM(LENGTH(meta_value)) AS length_sum FROM $wpdb->postmeta GROUP BY meta_key ORDER BY length_sum DESC LIMIT 15");
+  $common_postmeta_values = $wpdb->get_results("SELECT SUBSTRING(meta_key, 1, 20) AS meta_key, COUNT(*) AS key_count FROM $wpdb->postmeta GROUP BY meta_key ORDER BY key_count DESC LIMIT 15");
   $autoload_option_count = $wpdb->get_results("SELECT COUNT(*) AS options_count FROM $wpdb->options WHERE autoload = 'yes'");
   $total_autoload_option_size = $wpdb->get_results("SELECT SUM(LENGTH(option_value)) AS total_size FROM $wpdb->options WHERE autoload='yes'");
   $long_autoload_option_values = $wpdb->get_results("SELECT SUBSTRING(option_name, 1, 20) AS option_name, LENGTH(option_value) AS option_value_length FROM $wpdb->options WHERE autoload='yes' ORDER BY LENGTH(option_value) DESC LIMIT 15");
