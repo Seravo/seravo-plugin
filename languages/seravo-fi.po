@@ -5,15 +5,15 @@ msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
 "POT-Creation-Date: 2020-08-03T13:38:05+03:00\n"
-"PO-Revision-Date: 2020-08-03 13:47+0300\n"
-"Last-Translator: Viljami Pietarila <viljami@seravo.com>\n"
+"PO-Revision-Date: 2020-08-05 15:41+0300\n"
+"Last-Translator: Petri Salminen <petri@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #. Plugin Name of the plugin
 msgid "Seravo Plugin"
@@ -475,35 +475,36 @@ msgstr "Taulujen koot"
 
 #: modules/database.php:260
 msgid "Details about database table sizes"
-msgstr ""
+msgstr "Yksityiskohtia tietokantojen taulujen koosta"
 
 #: modules/database.php:264
 msgid "Longest wp_postmeta values:"
-msgstr ""
+msgstr "Pisimmät wp_postmeta arvot:"
 
 #: modules/database.php:268
 msgid "Cumulative size of meta_value per meta_key:"
-msgstr ""
+msgstr "Meta_valueiden yhteenlaskettu koko meta_keyn mukaan:"
 
 #: modules/database.php:272
 msgid "Rows per meta_key:"
-msgstr ""
+msgstr "Rivejä per meta_key:"
 
 #: modules/database.php:276
 msgid "Autoload options count (read to memory on each WP page load):"
 msgstr ""
+"Autoload-asetuksien määrä (luetaan muistiin jokaisella sivulatauksella):"
 
 #: modules/database.php:280
 msgid "Autoload options total size of values:"
-msgstr ""
+msgstr "Autoload-asetusten arvojen yhteenlaskettu koko:"
 
 #: modules/database.php:284
 msgid "Longest autoloaded wp_option values:"
-msgstr ""
+msgstr "Pisimmät automaattisesti ladatut wp_option arvot:"
 
 #: modules/database.php:288
 msgid "Most common autoloaded wp_option values:"
-msgstr ""
+msgstr "Useimmiten automaattisesti ladatut wp_option arvot:"
 
 #: modules/database.php:292 modules/sitestatus.php:258 modules/upkeep.php:344
 #: modules/upkeep.php:678
@@ -803,7 +804,7 @@ msgstr "Tarpeettomat lisäosat"
 
 #: modules/plugin-checker.php:49
 msgid "Bad plugins found: "
-msgstr ""
+msgstr "Tarpeettomia lisäosia löydetty: "
 
 #. translators: %s cache refresh interval
 #: modules/purge-cache.php:38
