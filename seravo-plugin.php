@@ -8,7 +8,7 @@
  * Author URI: https://seravo.com/
  * Text Domain: seravo
  * Domain Path: /languages/
- * License: GPL v3 or later
+ * License: GPL v2 or later
  */
 
 namespace Seravo;

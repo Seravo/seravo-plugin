@@ -1,7 +1,7 @@
 {
   "name": "seravo/seravo-plugin",
   "type": "wordpress-muplugin",
-  "license": "GPL-3.0-or-later",
+  "license": "GPL-2.0-or-later",
   "description": "Enhances WordPress with Seravo.com specific features and integrations",
   "homepage": "http://seravo.com",
   "authors": [
