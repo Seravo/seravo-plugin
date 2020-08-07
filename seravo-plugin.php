@@ -299,11 +299,9 @@ class Loader {
 
     /*
      * Add support for SVG images
-     * Allow only administrators to upload SVG
+     * Allow users to upload SVG
      */
-    if ( current_user_can('administrator') ) {
-      require_once dirname(__FILE__) . '/modules/svg-support.php';
-    }
+    require_once dirname(__FILE__) . '/modules/svg-support.php';
   }
 }
 
