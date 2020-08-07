@@ -86,63 +86,63 @@ jQuery(document).ready(function($) {
 
     var options = {
       series: [{
-              name: seravo_site_status_loc.latency,
-              data: speedData,
-          },
-          {
-              name: seravo_site_status_loc.cached_latency,
-              data: speedDataCached,
-          }
+          name: seravo_site_status_loc.latency,
+          data: speedData,
+        },
+        {
+          name: seravo_site_status_loc.cached_latency,
+          data: speedDataCached,
+        }
       ],
       chart: {
-          type: 'line',
-          height: 350,
-          zoom: {
-              enabled: false
-          }
+        type: 'line',
+        height: 350,
+        zoom: {
+          enabled: false
+        }
       },
       plotOptions: {
-          bar: {
-              horizontal: false,
-              endingShape: 'flat',
-          },
+        bar: {
+          horizontal: false,
+          endingShape: 'flat',
+        },
       },
       dataLabels: {
-          enabled: false
+        enabled: false
       },
       stroke: {
-          show: true,
-          width: 2,
-          curve: 'smooth'
+        show: true,
+        width: 2,
+        curve: 'smooth'
       },
       yaxis: {
-          title: {
-              text: 'ms'
-          },
-          min: 0
+        title: {
+          text: 'ms'
+        },
+        min: 0
       },
       xaxis: {
-          min: 1,
-          max: speedNumberOfTests,
-          tickAmount: speedNumberOfTests,
-          tickPlacement: 'on'
+        min: 1,
+        max: speedNumberOfTests,
+        tickAmount: speedNumberOfTests,
+        tickPlacement: 'on'
       },
       fill: {
-          opacity: 1
+        opacity: 1
       },
       tooltip: {
-          y: {
-              formatter: function(val) {
-                  return val + " ms"
-              }
+        y: {
+          formatter: function(val) {
+            return val + " ms"
           }
+        }
       },
       legend: {
         onItemClick: {
           toggleDataSeries: false
         },
       }
-  };
+    };
 
     speedChart = new ApexCharts(document.querySelector("#speed-test-results"), options);
     speedChart.render();
@@ -219,11 +219,17 @@ jQuery(document).ready(function($) {
     $("#run-speed-test").prop('disabled', false);
     $("#speed_test_url").attr("disabled", false);
 
+    let latencyOffset = -4;
+    let cachedOffset = -4;
+    // Adjust one of the annotations to be under the line to make sure they don't overlap
+    latency > cachedLatency ? cachedOffset = 14 : latencyOffset = 14;
+
     speedChart.addYaxisAnnotation({
       y: latency,
       borderColor: '#00B1F2',
       label: {
           borderColor: '#00B1F2',
+          offsetY: latencyOffset,
           style: {
           color: '#000',
           background: '#00B1F2'
@@ -237,6 +243,7 @@ jQuery(document).ready(function($) {
       borderColor: '#00E396',
       label: {
           borderColor: '#00E396',
+          offsetY: cachedOffset,
           style: {
           color: '#000',
           background: '#00E396'
