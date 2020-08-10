@@ -192,7 +192,7 @@ jQuery(document).ready(function($) {
         jQuery.each(data["details"]["total_autoload_option_size"], function(index, table) {
           jQuery('#total_autoload_option_size').append(
               "<li>"
-              + table["total_size"] / 1000000 + " MB"
+              + (table["total_size"] / 1000000).toFixed(2) + " MB"
               + "</li>"
             );
         });
