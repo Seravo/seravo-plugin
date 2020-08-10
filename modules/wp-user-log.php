@@ -130,7 +130,7 @@ if ( ! class_exists('UserLog') ) {
     public static function write_log( $message ) {
       $time_local = date('j/M/Y:H:i:s O');
 
-      $log_fp = fopen($log_directory . '/data/log/wp-user.log', 'a');
+      $log_fp = fopen('/data/log/wp-user.log', 'a');
       fwrite($log_fp, "$time_local $message\n");
       fclose($log_fp);
     }
