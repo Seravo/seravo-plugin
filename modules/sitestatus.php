@@ -271,12 +271,15 @@ if ( ! class_exists('Site_Status') ) {
         <?php
           $api_response = API::get_site_data();
           if ( is_wp_error($api_response) ) {
-            die($api_response->get_error_message());
+            $max_disk = null;
+            $disk_display = 'none';
+          } else {
+            $max_disk = $api_response['plan']['disklimit']; // in GB
+            $disk_display = 'block';
           }
-          $max_disk = $api_response['plan']['disklimit']; // in GB
         ?>
         <div id="donut_single" style="width: 30%; float: right"></div>
-        <div class="disk_usage_desc">
+        <div style="display: <?php echo $disk_display; ?>" class="disk_usage_desc">
           <?php _e('Disk space in your plan: ', 'seravo'); ?>
           <span id="maximum_disk_space"><?php echo $max_disk; ?></span>GB
           <br>
@@ -289,14 +292,14 @@ if ( ! class_exists('Site_Status') ) {
               <?php _e('Read more.', 'seravo'); ?>
             </a>
           </span>
+          <br>
         </div>
         <div class="folders_chart_loading">
           <img src="/wp-admin/images/spinner.gif">
         </div>
       </p>
       <p>
-        <hr>
-        <br>
+        <hr style="display: <?php echo $disk_display; ?>">
         <b>
           <?php _e('Disk usage by directory', 'seravo'); ?>
         </b>

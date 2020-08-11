@@ -258,15 +258,21 @@ jQuery(document).ready(function($) {
 
       if (section === 'folders_chart') {
         var allData = JSON.parse(rawData);
-        // Calculate the used disk space;
-        // allData.data.size is in bytes, so divide into MB
-        var used_disk = (allData.data.size) / 1000000;
 
-        // Read plan's maximum disk space and transform into bytes
-        var max_disk = $("#maximum_disk_space").html() * 1000;
+        // Try reading plan's maximum disk space
+        var max_disk = $("#maximum_disk_space").html();
 
-        jQuery('#total_disk_usage').text(Math.round(used_disk) + 'MB');
-        generateDiskDonut(used_disk, max_disk, "MB");
+        // Draw total usage donut if plan's available space can be retrieved
+        if (max_disk != null && max_disk != '') {
+          // Transform into megabytes
+          max_disk *= 1000;
+          // Calculate the used disk space;
+          // allData.data.size is in bytes, so divide into MB
+          var used_disk = (allData.data.size) / 1000000;
+
+          jQuery('#total_disk_usage').text(Math.round(used_disk) + 'MB');
+          generateDiskDonut(used_disk, max_disk, "MB");
+        }
         generateDiskBars(allData.dataFolders);
       } else if (section === 'front_cache_status') {
         var data = JSON.parse(rawData);
