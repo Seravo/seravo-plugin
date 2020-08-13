@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
      */
     handle_click : function () {
       var $el = $( this ),
-        p = $el.parent( '.postbox' ),
+        p = $el.parents( '.postbox' ),
         id = p.attr( 'id' ),
         ariaExpandedValue;
       if ( 'dashboard_browser_nag' === id ) {

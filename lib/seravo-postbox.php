@@ -279,20 +279,22 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
       <div id="seravo-postbox-<?php echo $postbox_id; ?>" data-postbox-id="<?php echo $postbox_id; ?>"
         class="postbox seravo-postbox <?php echo $closed ? 'closed' : ''; ?>">
-
-        <!-- Handle for toggling postbox panel -->
-        <button type="button" class="handlediv button-link" aria-expanded="<?php echo $closed ? 'false' : 'true'; ?> ">
-          <span class="screen-reader-text">
-            <?php /* translators: %s: Togglable postbox title */ ?>
-            <?php printf(__('Toggle panel: %s', 'seravo'), $postbox_content['title']); ?>
-          </span>
-          <span class="toggle-indicator" aria-hidden="true"></span>
-        </button>
-
-        <!-- Postbox title -->
-        <h2 class="hndle ui-sortable-handle">
-          <span><?php echo $postbox_content['title']; ?></span>
-        </h2>
+        <div class="postbox-header">
+          <!-- Postbox title -->
+          <h2 class="hndle ui-sortable-handle">
+            <span><?php echo $postbox_content['title']; ?></span>
+          </h2>
+          <div class="handle-actions hide-if-no-js">
+            <!-- Handle for toggling postbox panel -->
+            <button type="button" class="handlediv button-link" aria-expanded="<?php echo $closed ? 'false' : 'true'; ?> ">
+              <span class="screen-reader-text">
+                <?php /* translators: %s: Togglable postbox title */ ?>
+                <?php printf(__('Toggle panel: %s', 'seravo'), $postbox_content['title']); ?>
+              </span>
+              <span class="toggle-indicator" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
 
         <!-- Postbox content -->
         <div class="inside">
