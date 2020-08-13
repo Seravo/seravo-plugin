@@ -19,12 +19,27 @@ if ( ! class_exists('Seravotest_User_Login') ) {
 
       // Check for permission to enter only if flag is set
       if ( isset($_GET['seravotest-auth-bypass']) ) {
-        add_action('login_init', array( __CLASS__, 'attempt_login' ), 10, 2);
+          add_action('login_init', array( __CLASS__, 'attempt_login' ), 10, 2);
+
+          // Restrict Content Pro has it's own processing for login forms,
+          // and it doesn't run login_init. This prevents auth bypass from working.
+          // So, let's add override for this plugin.
+          //add_action('rcp_login_form_errors', array( __CLASS__, 'attempt_login' ), 10, 2);
+          // RCP hooks to init with priority 10, so now we catch request before RCP, and we're
+          // able to do our magic
+          add_action('init', array( __CLASS__, 'attempt_login' ), 9, 2);
       }
 
     }
 
+    /**
+     * Catch login attempt using seravotest-auth-bypass
+     **/
     public static function attempt_login() {
+      // If our key hasn't been set, stop processing here.
+      if ( ! isset($_GET) || ! isset($_GET['seravotest-auth-bypass']) ) {
+        return;
+      }
       // If special authentication bypass key is found, check if a matching
       // key is found, and if soautomatically login user and redirect to wp-admin.
       $key = get_transient('seravotest-auth-bypass-key');
