@@ -12,7 +12,7 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists('Seravotest_User_Login') ) {
+if ( ! class_exists('Seravotest_Auth_Bypass') ) {
   class Seravotest_Auth_Bypass {
 
     public static function load() {
