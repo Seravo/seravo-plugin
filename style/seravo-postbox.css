@@ -1,15 +1,15 @@
-.postbox .handlediv {
+/* Temporary fix for WP 5.5 Start */
+.seravo-postbox .handlediv {
   float: right;
   width: 36px;
   height: 36px;
   margin: 0;
   padding: 0;
-  /* border: 0; */
   background: 0 0;
   cursor: pointer;
 }
 
-.js .postbox .hndle, .js .widget .widget-top {
+.js .seravo-postbox .hndle, .js .widget .widget-top {
   cursor: pointer;
 }
 
@@ -17,9 +17,10 @@
   touch-action: none;
 }
 
-.postbox .hndle, .stuffbox .hndle {
+.seravo-postbox .hndle, .stuffbox .hndle {
   border-bottom: 1px solid #ccd0d4;
 }
+/* Temporary fix for WP 5.5 End */
 
 .seravo-postbox .inside {
   padding: 10px 20px 20px 20px;
