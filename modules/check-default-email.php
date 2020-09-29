@@ -1,8 +1,9 @@
 <?php
 /**
  * Plugin name: Seravo Check Default Email
- * Description: Checks that the WordPress admin email is not the default no-reply@seravo
- * if so, show a notification suggesting to change it to something better.
+ * Description: Checks if the WordPress admin email address has an evidently
+ * bad local part, i.e. noreply@example.com or vagrant@example.com. If so,
+ * show a notification suggesting to change it to something better.
  */
 
 namespace Seravo;
@@ -15,14 +16,19 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('CheckDefaultEmail') ) {
   class CheckDefaultEmail {
 
+    private static $bad_email_locals = array( 'no-reply', 'noreply', 'vagrant' );
+
     public static function load() {
       add_action('admin_notices', array( __CLASS__, '_seravo_check_default_email' ));
     }
 
     public static function _seravo_check_default_email() {
-      // Get the siteurl and home url and check if https is enabled, if not, show warning
+      // Get admin email option and take the local part before the @ sign
       $email = get_option('admin_email');
-      if ( $email === 'no-reply@seravo.fi' || $email === 'no-reply@seravo.com' ) {
+      $email_local = strtok($email, '@');
+
+      // Check if the email should should be changed. If so, show warning
+      if ( in_array($email_local, self::$bad_email_locals) ) {
         self::_seravo_show_email_warning();
       }
     }
