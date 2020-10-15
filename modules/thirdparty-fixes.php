@@ -35,6 +35,9 @@ if ( ! class_exists('ThirdpartyFixes') ) {
     
       // Maybe log SQL queries
       add_action('shutdown', array($this, 'log_queries'));
+      
+      // Enable caching for All-in-One SEO pack sitemap wp_posts query
+      add_filter('aiosp_sitemap_modify_post_params', array( $this, 'aiosp_sitemap_modify_post_params'), 10, 1);
     }
 
     /**
@@ -66,6 +69,20 @@ if ( ! class_exists('ThirdpartyFixes') ) {
         }
         fwrite($handle, '### EOF' . chr(10));
         fclose($handle);
+    }
+
+    /**
+     * Enable caching for AIO SEO Pack sitemap generation
+     *
+     * This enhances the performance of this specific plugin.
+     *
+     * @param $args arguments to be passed to WP Query object.
+     * @return returns the modified $args, with caching enabled
+     *
+     **/
+    public function aiosp_sitemap_modify_post_params($args) {
+        $args['cache_results'] = true;
+        return $args;
     }
 
     /**
