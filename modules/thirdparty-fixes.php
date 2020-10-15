@@ -32,6 +32,40 @@ if ( ! class_exists('ThirdpartyFixes') ) {
       add_filter('red_save_options', array( $this, 'redirection_options_filter' ), 10, 1);
       add_filter('redirection_default_options', array( $this, 'redirection_options_filter' ), 10, 1);
       add_filter('redirection_save_options', array( $this, 'redirection_options_filter' ), 10, 1);
+
+      // Maybe log SQL queries
+      add_action('shutdown', array( $this, 'log_queries' ));
+    }
+
+    /**
+     * Log SQL queries
+     *
+     * Sometimes we encounter plugins and/or themes that use excessive amounts
+     * of database resources. This helper function makes it easier to toggle
+     * SQL logging for a site temporarily.
+     *
+     * @see <https://developer.wordpress.org/reference/classes/wpdb/>
+     *
+     * Based on <https://stackoverflow.com/a/4660903>
+     **/
+    public function log_queries() {
+        if ( ! defined('SAVEQUERIES') || SAVEQUERIES !== true ) {
+            return;
+        }
+
+        global $wpdb;
+        $logfile = '/data/log/sql.log';
+        $handle = fopen($logfile, 'a');
+        fwrite($handle, '### ' . date(\DateTime::ISO8601) . ' sid:' . $_SERVER['HTTP_X_SERAVO_REQUEST_ID'] . ' total:' . $wpdb->num_queries . chr(10));
+        foreach ( $wpdb->queries as $q ) {
+            fwrite($handle, "SQL: $q[0]" . chr(10));
+            fwrite($handle, "Time: $q[1] s" . chr(10));
+            fwrite($handle, "Calling functions: $q[2]" . chr(10));
+            fwrite($handle, "Query begin: $q[3]" . chr(10));
+            fwrite($handle, 'Custom data: ' . print_r($q[4], true) . chr(10) . '--' . chr(10));
+        }
+        fwrite($handle, '### EOF' . chr(10));
+        fclose($handle);
     }
 
     /**
