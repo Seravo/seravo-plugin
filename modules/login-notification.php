@@ -90,26 +90,39 @@ if ( ! class_exists('Login_Notifications') ) {
       );
       $last_day_of_week = strtotime('last ' . $days[ $last_day_int ]);
 
-      // Read and reverse the php error logfile
-      $output = Logs::read_log_lines_backwards('/data/log/php-error.log', -1, self::$max_rows);
-      if ( ! $output ) {
-        // If output is false rather than an empty array then something went wrong with reading the file
-        if ( ! is_array($output) ) {
-          // Display admin dashboard error message
-          add_action(
-            'wp_dashboard_setup',
-            function() {
-              wp_add_dashboard_widget(
-                'seravo-error-widget',
-                __('Error log read failure', 'seravo'),
-                array( __CLASS__, 'display_admin_log_read_notification' )
-              );
-            }
-          );
-        }
+      $log_read = Logs::read_log_lines_backwards('/data/log/php-error.log', -1, self::$max_rows);
+
+      // Display an error if the log file is abnormal
+      if ( $log_read['status'] === 'LARGE_LOG_FILE' ) {
+        // Display admin dashboard error message
+        add_action(
+          'wp_dashboard_setup',
+          function() {
+            wp_add_dashboard_widget(
+              'seravo-error-widget',
+              __('Large error log', 'seravo'),
+              array( __CLASS__, 'display_admin_log_read_notification' )
+            );
+          }
+        );
+      } else if ( $log_read['status'] === 'BAD_LOG_FILE' ) {
+        add_action(
+          'wp_dashboard_setup',
+          function() {
+            wp_add_dashboard_widget(
+              'seravo-error-widget',
+              __('Error log read failure', 'seravo'),
+              array( __CLASS__, 'display_admin_broken_log_read_notification' )
+            );
+          }
+        );
+        return 0;
+      } else if ( $log_read['status'] === 'NO_LOG_FILE' ) {
         return 0;
       }
-      $output_reversed = array_reverse($output);
+
+      // Read and reverse the php error logfile
+      $output_reversed = array_reverse($log_read['output']);
 
       $php_errors = 0;
       // Loop through all the log lines
@@ -138,11 +151,12 @@ if ( ! class_exists('Login_Notifications') ) {
     */
     public static function retrieve_last_login() {
       // Read login log file and reverse it
-      $output = Logs::read_log_lines_backwards('/data/log/wp-login.log', -1, self::$max_rows);
-      if ( ! $output ) {
+      $log_read = Logs::read_log_lines_backwards('/data/log/wp-login.log', -1, self::$max_rows);
+      if ( ! $log_read ) {
         return;
       }
-      $output_reversed = array_reverse($output);
+
+      $output_reversed = array_reverse($log_read['output']);
 
       $already_skipped = false;
 
@@ -209,12 +223,23 @@ if ( ! class_exists('Login_Notifications') ) {
     }
 
     /**
-    * Display an error if there is problem reading the php-error.log file
+    * Display an error if the php-error.log file is exceptionally large
     */
-    public static function display_admin_log_read_notification() {
+    public static function display_admin_large_log_read_notification() {
       $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log">php-error.log</a>';
       $msg = wp_sprintf(
         __('The PHP error log is abnormally large. This is a sign that something is broken in the code. The developer of the site should be notified.', 'seravo')
+      );
+      echo '<div>' . $msg . '</div>';
+    }
+
+    /**
+    * Display an error if there is problem reading the php-error.log file
+    */
+    public static function display_admin_broken_log_read_notification() {
+      $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log">php-error.log</a>';
+      $msg = wp_sprintf(
+        __('There is a problem trying to read the php-error.log. This is a sign that something is broken in the code. The developer of the site should be notified.', 'seravo')
       );
       echo '<div>' . $msg . '</div>';
     }

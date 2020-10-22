@@ -214,7 +214,7 @@ if ( ! class_exists('Logs') ) {
         // result -1 is the signal that something went wrong with reading the log
         elseif ( $result === -1 ) :
         ?>
-        <p><?php _e('Log is abnormally large and can not be displayed.', 'seravo'); ?></p>
+        <p><?php _e('Log is broken and can not be displayed.', 'seravo'); ?></p>
       <?php else : ?>
         <p><?php _e('Scroll to load more lines from the log.', 'seravo'); ?></p>
         <?php
@@ -252,16 +252,14 @@ if ( ! class_exists('Logs') ) {
       // escape special regex chars
       $regex = '#' . preg_quote($regex) . '#';
 
-      $rows = self::read_log_lines_backwards($logfile, $offset, $lines, $regex, $cutoff_bytes);
+      $read_log = self::read_log_lines_backwards($logfile, $offset, $lines, $regex, $cutoff_bytes);
 
-      if ( ! $rows ) {
-        // If $rows is not an empty array, then something went wrong with reading the file
-        if ( ! is_array($rows) ) {
-          // Return -1 as an error signal
-          return -1;
-        }
-        return 0;
+      // If the error log was unreadble return error signal
+      if ( $read_log['status'] === 'BAD_LOG_FILE' ) {
+        return -1;
       }
+
+      $rows = $read_log['output'];
 
       $num_of_rows = 0;
       foreach ( $rows as $row ) {
@@ -329,15 +327,31 @@ if ( ! class_exists('Logs') ) {
       // Open file
       $f = @fopen($filepath, 'rb');
 
+      /**
+       * Initiate return value
+       *
+       * status describes the status of the log file as a string:
+       * 'OK_LOG_FILE' - Log file is ok.
+       * 'NO_LOG_FILE' - Log file is missing. This is not necessarily an error.
+       * 'LARGE_LOG_FILE' - Log file is exceptionally large.
+       * 'BAD_LOG_FILE' - Log file can not be read.
+       * output is the log rows read
+       */
+      $result = array(
+        'status' => 'OK_LOG_FILE',
+        'output' => array(),
+      );
+
       if ( $f === false ) {
-        return false;
+        $result['status'] = 'NO_LOG_FILE';
+        return $result;
       }
 
       $filesize = filesize($filepath);
 
       // Prevent reading huge files (over 256MB)
       if ( $filesize >= 268435456 ) {
-        return false;
+        $result['status'] = 'LARGE_LOG_FILE';
       }
 
       // buffer size is 4096 bytes
@@ -389,7 +403,8 @@ if ( ! class_exists('Logs') ) {
         $chunk_limit--;
         // Return false if we run over the chunk cap
         if ( $chunk_limit === 0 ) {
-          return false;
+          $result['status'] = 'BAD_LOG_FILE';
+          return $result;
         }
 
         // Jump back to where we started reading
@@ -450,7 +465,9 @@ if ( ! class_exists('Logs') ) {
       // Close file
       fclose($f);
 
-      return $output;
+      $result['output'] = $output;
+
+      return $result;
     }
 
   }
