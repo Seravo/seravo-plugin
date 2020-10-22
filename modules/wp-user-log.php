@@ -107,7 +107,13 @@ if ( ! class_exists('UserLog') ) {
 
       // If ID is 0, there is no current user. eg role set on registration or wp-test
       if ( wp_get_current_user()->ID === 0 ) {
-        self::write_log('User (ID:' . $user_id . ') role changed to ' . $role);
+        $new_user_data = get_userdata($user_id);
+        $username = $new_user_data->user_login;
+
+        // Hide seravotest user from the logs
+        if ( $username != 'seravotest' ) {
+          self::write_log('User ' . $username . ' (ID:' . $user_id . ') role changed to ' . $role);
+        }
       } else {
         self::write_log_user('changed role of user (ID:' . $user_id . ') to ' . $role);
       }

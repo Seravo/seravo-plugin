@@ -80,12 +80,17 @@ if ( ! class_exists('PluginLog') ) {
     public static function write_log( $message ) {
       $time_local = gmdate('j/M/Y:H:i:s O');
 
-      $current_user = wp_get_current_user();
-
-      $username = $current_user->user_login;
-
       $log_fp = fopen('/data/log/wp-settings.log', 'a');
-      fwrite($log_fp, "$time_local User $username $message\n");
+
+      $current_user = wp_get_current_user();
+      $user_id = $current_user->ID;
+      // eg ID is 0 when the change is made using WP CLI
+      if ( $user_id === 0 ) {
+        fwrite($log_fp, "$time_local WP-CLI $message\n");
+      } else {
+        $username = $current_user->user_login;
+        fwrite($log_fp, "$time_local User $username $message\n");
+      }
       fclose($log_fp);
     }
   }
