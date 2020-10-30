@@ -504,7 +504,8 @@ jQuery(document).ready(function($) {
 
     set_forwards: function(domain, forwards) {
 
-      $("[data-forwards='" + domain + "']").find("[data-colname='Forwards']").html(forwards);
+      var column_name = seravo_domains_loc.forwards;
+      $("[data-forwards='" + domain + "']").find("[data-colname='" + column_name + "']").html(forwards);
 
       $('.forward-actions .edit').click(function(e) {
         e.preventDefault();
