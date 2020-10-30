@@ -88,6 +88,7 @@ if ( ! class_exists('Domains') ) {
           'forwards_edit_fail'  => __('Error! The action might have failed.', 'seravo'),
           'forwards_no_source'  => __('Source field can\'t be empty.', 'seravo'),
           'continue_edit'       => __('Continue', 'seravo'),
+          'forwards'            => __('Forwards', 'seravo'),
         );
 
         wp_localize_script('seravo_domains', 'seravo_domains_loc', $loc_translation_domains);
