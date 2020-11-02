@@ -52,9 +52,14 @@ if ( ! class_exists('ThirdpartyFixes') ) {
         if ( ! defined('SAVEQUERIES') || SAVEQUERIES !== true ) {
             return;
         }
+        $logfile = '/data/log/sql.log';
+        // If logfile is already over 512MB, just stop logging to prevent
+        // filling the disk with probably duplicated queries
+        if ( file_exists($logfile) && filesize($logfile) > 512 * 1024 * 1024 ) {
+            return;
+        }
 
         global $wpdb;
-        $logfile = '/data/log/sql.log';
         $handle = fopen($logfile, 'a');
         fwrite($handle, '### ' . date(\DateTime::ISO8601) . ' sid:' . $_SERVER['HTTP_X_SERAVO_REQUEST_ID'] . ' total:' . $wpdb->num_queries . chr(10));
         foreach ( $wpdb->queries as $q ) {
