@@ -51,6 +51,7 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
       // need to invoke 'wp get option' itself and thus save ~1500 ms per image
       exec(
         'wp-optimize-images --enable ' .
+        ((get_option('seravo-enable-strip-image-metadata') === 'on') ? '--strip-metadata' : '') . ' ' .
         '--set-max-resolution-width=' . intval($max_width) . ' ' .
         '--set-max-resolution-height=' . intval($max_height) . ' ' .
         '"' . $filename . '"  > /dev/null &'
