@@ -108,6 +108,7 @@ if ( ! class_exists('Site_Status') ) {
       );
 
       register_setting('seravo-optimize-images-settings-group', 'seravo-enable-optimize-images');
+      register_setting('seravo-optimize-images-settings-group', 'seravo-enable-strip-image-metadata');
       register_setting(
         'seravo-optimize-images-settings-group',
         'seravo-image-max-resolution-width',
@@ -123,6 +124,13 @@ if ( ! class_exists('Site_Status') ) {
         'seravo-images-enabled-field',
         __('Optimize Images', 'seravo'),
         array( __CLASS__, 'seravo_image_enabled_field' ),
+        'optimize_images_settings',
+        'seravo-optimize-images-settings'
+      );
+      add_settings_field(
+        'seravo-strip-image-metadata-field',
+        __('Strip Image Metadata', 'seravo'),
+        array( __CLASS__, 'seravo_image_metadata_enabled_field' ),
         'optimize_images_settings',
         'seravo-optimize-images-settings'
       );
@@ -514,6 +522,9 @@ if ( ! class_exists('Site_Status') ) {
       if ( get_option('seravo-enable-optimize-images') === false ) {
         update_option('seravo-enable-optimize-images', '');
       }
+      if ( get_option('seravo-enable-strip-image-metadata') === false ) {
+        update_option('seravo-enable-strip-image-metadata', '');
+      }
       if ( get_option('seravo-enable-sanitize-uploads') === false ) {
         update_option('seravo-enable-sanitize-uploads', 'off');
       }
@@ -536,9 +547,14 @@ if ( ! class_exists('Site_Status') ) {
       echo '<input type="checkbox" name="seravo-enable-optimize-images" id="enable-optimize-images" ' . checked('on', get_option('seravo-enable-optimize-images'), false) . '>';
     }
 
+    public static function seravo_image_metadata_enabled_field() {
+      echo '<input type="checkbox" name="seravo-enable-strip-image-metadata" id="enable-strip-image-metadata" ' . checked('on', get_option('seravo-enable-strip-image-metadata'), false) . '>';
+    }
+
     public static function optimize_images_settings_description() {
       echo '<p>' . __('Optimization reduces image file size. This improves the performance and browsing experience of your site.', 'seravo') . '</p>' .
         '<p>' . __('By setting the maximum image resolution, you can determine the maximum allowed dimensions for images.', 'seravo') . '</p>' .
+        '<p>' . __('By enabling metadata stripping, you can further reduce image sizes by removing metadata. Please note that occasionally metadata can be useful.', 'seravo') . '</p>' .
         '<p>' . __('For further information, refer to our <a href="https://help.seravo.com/article/28-seravo-plugin-optimize-images" target="_BLANK">knowledgebase article</a>.', 'seravo') . '</p>';
     }
 
