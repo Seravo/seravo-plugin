@@ -75,7 +75,7 @@ class Loader {
      * Register early on the direct download add_action as it must trigger
      * before anything is sent to the output buffer.
      */
-    add_action('plugins_loaded', array( $this, 'enable_direct_download' ));
+    add_action('plugins_loaded', array( $this, 'protected_downloads' ));
 
     /*
      * It is important to load plugins in init hook so that themes and plugins can override the functionality
@@ -85,29 +85,69 @@ class Loader {
   }
 
   /**
+   * Pass file download to Nginx with X-Accel-Redirect headers
+   * @param string $file Path to file on filesystem, or URL with .seravo prefix
+   */
+  public static function x_accel_redirect( $file ) {
+    // If a real file path was given, send out MIME type and file size headers
+    if ( file_exists($file) ) {
+      header('Content-Type: ' . mime_content_type($file));
+      // phpcs:ignore Security.BadFunctions.FilesystemFunctions.WarnFilesystem
+      header('Content-Length: ' . filesize($file));
+    }
+
+    // If the filename contains a path component that looks like a filesystem
+    // path (has /data/ in it), it will automatically be replaced with the
+    // correct URL that Nginx can handle in a X-Accel-Redirect.
+    $paths = array(
+      '/data/slog/html/',
+      '/data/reports/',
+    );
+    $urls = array(
+      '/.seravo/goaccess/',
+      '/.seravo/codeception/',
+    );
+    $file = str_replace($paths, $urls, $file);
+
+    // Send X-Accel-Redirect header (Nginx version of X-Sendfile)
+    header('X-Accel-Redirect: ' . $file);
+
+    // Stop executing PHP once a file has been sent and let Nginx handle the rest
+    exit();
+  }
+
+  /**
    * Pass report file on to admin users
    */
-  public static function enable_direct_download() {
+  public static function protected_downloads() {
     global $pagenow;
 
     // This check fires on every page load, so keep the scope small
-    if ( $pagenow === 'tools.php' && isset($_GET['report']) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+    // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+    if ( $pagenow === 'tools.php' && isset($_GET['x-accel-redirect']) ) {
 
-      // Next check if the request for a report is valid
-      // - user be administrator
-      // - filename must be of correct form, e.g. 2016-09.html
-      if ( current_user_can('administrator') &&
-          preg_match('/[0-9]{4}-[0-9]{2}\.html/', $_GET['report'], $matches) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+      // This URL uses authentication, thus don't cache anything from it
+      nocache_headers();
 
-        header('Content-type: text/html');
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_readfile
-        readfile('/data/slog/html/goaccess-' . $matches[0]);
-        // Stop executing WordPress once a HTML file has been sent
-        exit();
+      // User must be an administrator at access these files or
+      // if WP Network, then must be super-admin
+      if ( ! current_user_can('administrator') ||
+           is_multisite() && ! current_user_can('manage_network') ) {
+        status_header(401);
+        die('Access denied!');
+      }
+
+      // Filename must be of correct form, e.g. 2016-09.html or home.png
+      // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+      if ( preg_match('/^[0-9]{4}-[0-9]{2}\.html$/', $_GET['report'], $matches) ) {
+        self::x_accel_redirect('/data/slog/html/goaccess-' . $matches[0]);
+      // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+      } elseif ( preg_match('/^[a-z-.]+\.png$/', $_GET['screenshot'], $matches) ) {
+        self::x_accel_redirect('/data/reports/tests/debug/' . $matches[0]);
       } else {
-        // Yield an error if ?report was requested, but without permissions
-        // or with wrong filename.
-        exit('Report file not found.');
+        // Yield an error if a file was requested, but with wrong filename.
+        status_header(404);
+        die('File could not be found.');
       }
     }
   }

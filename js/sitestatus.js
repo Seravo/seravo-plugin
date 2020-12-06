@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
               } else {
                 var bar_css = bar_size + '%';
               }
-              jQuery( '#http-reports_table' ).prepend('<tr><td><a href="?report=' +
+              jQuery( '#http-reports_table' ).prepend('<tr><td><a href="?x-accel-redirect&report=' +
                 month.date +
                 '.html" target="_blank"> ' +
                 month.date +
@@ -48,7 +48,7 @@ jQuery(document).ready(function($) {
                 bar_css +
                 '; display: inline-block;"><div style="white-space: nowrap;">' +
                 month.requests +
-                '</div></div></td> <td><a href="?report=-' +
+                '</div></div></td> <td><a href="?x-accel-redirect&report=' +
                 month.date +
                 '.html" target="_blank" class="button hideMobile">' +
                 seravo_site_status_loc.view_report +

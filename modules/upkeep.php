@@ -525,7 +525,7 @@ if ( ! class_exists('Upkeep') ) {
             <tr>
               <td>
               <hr class="seravo-updates-hr">
-              <a href="/.seravo/screenshots-ng/debug/' . $name . '.diff.png" class="diff-img-title">' . $name . '</a>
+              <a href="?x-accel-redirect&screenshot=' . $name . '.diff.png" class="diff-img-title">' . $name . '</a>
               <span';
           // Make the difference number stand out if it is non-zero
           if ( $diff > 0.011 ) {
@@ -536,8 +536,8 @@ if ( ! class_exists('Upkeep') ) {
           echo self::seravo_admin_image_comparison_slider(
             array(
               'difference' => $diff,
-              'img_right'  => "/.seravo/screenshots-ng/debug/$name.shadow.png",
-              'img_left'   => "/.seravo/screenshots-ng/debug/$name.png",
+              'img_right'  => "?x-accel-redirect&screenshot=$name.shadow.png",
+              'img_left'   => "?x-accel-redirect&screenshot=$name.png",
             )
           );
           echo '
