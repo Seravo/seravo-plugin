@@ -1094,7 +1094,7 @@ msgid ""
 msgstr ""
 "Etsi ja poista tarpeettomia ja potentiaalisesti haitallisia tiedostoja "
 "palvelimelta levytilan säästämiseksi. Otathan huomioon, että kaikkia "
-"ehdotuksia ei ole välttämättä turvallista poistaa."
+"ehdotuksia ei ole välttämättä turvallista tehdä."
 
 #: modules/security.php:304 modules/security.php:325
 msgid "Searching for files..."
