@@ -3,18 +3,17 @@ os: linux
 
 php:
   - '5.6'
-  - '7.0'
-  - '7.2'
   - '7.4'
+  - '8.0'
   - 'nightly'
 
 jobs:
   include:
     # Latest stable PHP version to run the sniffs against
-    - php: '7.3'
+    - php: '7.4'
       env: SNIFF=1
     # Next PHP version with latest version of all sniffs for early detection of things that deprecate
-    - php: '7.4'
+    - php: '8.0'
       env: SNIFF=1 PHPCS_VERSION=master WP_SNIFFS_VERSION=master SECURITY_SNIFFS_VERSION=master PHP_COMPAT_SNIFFS_VERSION=master
     - name: Gnitpick
       language: python
