@@ -289,7 +289,7 @@ if ( ! class_exists('Site_Status') ) {
         <div id="donut_single" style="width: 30%; float: right"></div>
         <div style="display: <?php echo $disk_display; ?>" class="disk_usage_desc">
           <?php _e('Disk space in your plan: ', 'seravo'); ?>
-          <span id="maximum_disk_space"><?php echo $max_disk; ?></span>GB
+          <span id="maximum_disk_space"><?php echo $max_disk; ?></span> GB
           <br>
           <?php _e('Space in use: ', 'seravo'); ?>
           <span id="total_disk_usage"></span>
@@ -469,7 +469,7 @@ if ( ! class_exists('Site_Status') ) {
                           <p><?php _e('When you\'re in the shadow, you can run search-replace either on "Tools --> Database --> Search-Replace Tool" or with wp-cli. Instructions can be found from <a href="https://help.seravo.com/en/docs/151" target="_BLANK">documentation</a>.', 'seravo'); ?></p>
                         </div>
                         <input type="hidden" name="shadow-reset-production" value="<?php echo str_replace(array( 'https://', 'http://' ), '://', get_home_url()); ?>">
-                        <input type="hidden" name="shadow-domain" value="<?php echo ($primary_domain); ?>">                        
+                        <input type="hidden" name="shadow-domain" value="<?php echo ($primary_domain); ?>">
                         <table class="shadow-rs-table shadow-hidden">
                           <tr><td><input type="text" name="shadow-reset-sr-from" disabled></td></tr>
                           <tr><td><input type="text" name="shadow-reset-sr-to" disabled></td></tr>

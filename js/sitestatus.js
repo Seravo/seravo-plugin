@@ -271,14 +271,13 @@ jQuery(document).ready(function($) {
 
         // Draw total usage donut if plan's available space can be retrieved
         if (max_disk != null && max_disk != '') {
-          // Transform into megabytes
-          max_disk *= 1000;
           // Calculate the used disk space;
-          // allData.data.size is in bytes, so divide into MB
-          var used_disk = (allData.data.size) / 1000000;
+          // allData.data.size is in bytes, so divide into GB
+          var used_disk = (allData.data.size) / 1e9;
 
-          jQuery('#total_disk_usage').text(Math.round(used_disk) + 'MB');
-          generateDiskDonut(used_disk, max_disk, "MB");
+          // Display as GB here as the plan quotas are also in GB
+          jQuery('#total_disk_usage').text(Math.round(used_disk) + ' GB');
+          generateDiskDonut(used_disk, max_disk, ' GB');
         }
         generateDiskBars(allData.dataFolders);
       } else if (section === 'front_cache_status') {

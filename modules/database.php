@@ -134,16 +134,15 @@ if ( ! class_exists('Database') ) {
         /* translators:
         * %1$s url to www.adminer.org
         */
-        printf(__('Adminer is a simple database management tool, like phpMyAdmin. <a href="%1$s" target="_BLANK">Learn more about Adminer.</a>', 'seravo'), 'https://www.adminer.org');
+        printf(__('<a href="%1$s" target="_BLANK">Adminer</a> is a visual database management tool, which is simpler and safer than its competitor phpMyAdmin.', 'seravo'), 'https://www.adminer.org');
         ?>
       </p>
       <p>
         <?php
         /* translators:
-        * %1$s example url for accessing Adminer in production environment
-        * %2$s example url for accessing Adminer in local development
+        * %1$s example url for accessing Adminer: example.com/.seravo/adminer
         */
-        printf(__('Adminer can be located in the production environment at %1$s and in the local development environment at %2$s.', 'seravo'), '<code>sitename.com/.seravo/adminer</code>', '<code>adminer.sitename.local</code>');
+        printf(__('At Seravo it can always be accessed at %1$s.', 'seravo'), '<code>example.com/.seravo/adminer</code>');
         ?>
       </p>
       <?php
@@ -226,7 +225,7 @@ if ( ! class_exists('Database') ) {
     public static function database_cleanup_postbox() {
       ?>
       <p> <?php _e('You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a dry run is compulsory before the actual cleanup can be done.', 'seravo'); ?></p>
-      
+
       <div class="datab_buttons">
             <button id="cleanup-drybutton" class="button cleanup-button"> <?php _e('Do a dry run', 'seravo'); ?> </button>
             <button id="cleanup-button" class="button cleanup-button" disabled> <?php _e('Run wp-db-cleanup', 'seravo'); ?> </button>
