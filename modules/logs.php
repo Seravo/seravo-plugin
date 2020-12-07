@@ -172,7 +172,7 @@ if ( ! class_exists('Logs') ) {
      * @access public
      * @return void
      */
-    public function render_log_view( $logfile, $regex = null, $max_num_of_rows ) {
+    public function render_log_view( $logfile, $regex = null, $max_num_of_rows = 50 ) {
       global $current_log;
       ?>
   <div class="log-view">
