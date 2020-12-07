@@ -377,28 +377,23 @@ if ( ! class_exists('Upkeep') ) {
 
       <div id="seravo-php-version">
         <?php
+        // See https://www.php.net/supported-versions.php
         $php_versions = array(
-          '5.6' => array(
-            'value'    => '5.6',
-            'name'     => 'PHP 5.6 (EOL 31.12.2018)',
-            'disabled' => true,
-          ),
-          '7.0' => array(
-            'value'    => '7.0',
-            'name'     => 'PHP 7.0 (EOL 10.1.2019)',
-            'disabled' => true,
-          ),
           '7.2' => array(
             'value' => '7.2',
-            'name'  => 'PHP 7.2',
+            'name'  => 'PHP 7.2 (EOL 30 Nov 2020)',
           ),
           '7.3' => array(
             'value' => '7.3',
-            'name'  => 'PHP 7.3',
+            'name'  => 'PHP 7.3 (EOL 6 Dec 2021)',
           ),
           '7.4' => array(
             'value' => '7.4',
             'name'  => 'PHP 7.4',
+          ),
+          '8.0' => array(
+            'value' => '8.0',
+            'name'  => 'PHP 8.0',
           ),
         );
 
