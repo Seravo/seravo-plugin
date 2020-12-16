@@ -27,6 +27,7 @@ function find_cruft_dir( $name ) {
   $user = getenv('WP_USER');
   exec('find /data/wordpress -type d -name ' . $name, $data_dirs);
   exec('find /home/' . $user . ' -maxdepth 1 -type d -name ' . $name, $home_dirs);
+  exec('find /data -type d -name quarantine-\*', $data_dirs);
   $dirs = array_merge($data_dirs, $home_dirs);
   return $dirs;
 }
