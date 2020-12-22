@@ -61,7 +61,8 @@ if ( ! class_exists('ThirdpartyFixes') ) {
 
         global $wpdb;
         $handle = fopen($logfile, 'a');
-        fwrite($handle, '### ' . date(\DateTime::ISO8601) . ' sid:' . $_SERVER['HTTP_X_SERAVO_REQUEST_ID'] . ' total:' . $wpdb->num_queries . chr(10));
+        $sid = isset($_SERVER['HTTP_X_SERAVO_REQUEST_ID']) ? $_SERVER['HTTP_X_SERAVO_REQUEST_ID'] : 'none';
+        fwrite($handle, '### ' . date(\DateTime::ISO8601) . ' sid:' . $sid . ' total:' . $wpdb->num_queries . chr(10));
         foreach ( $wpdb->queries as $q ) {
             fwrite($handle, "SQL: $q[0]" . chr(10));
             fwrite($handle, "Time: $q[1] s" . chr(10));
