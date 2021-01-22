@@ -70,7 +70,12 @@ if ( ! class_exists('Passwords') ) {
     }
 
     public static function search_password_database( $redirect_to, $requested_redirect_to, $user ) {
-      if ( is_wp_error($user) || self::$password_hash === null || ! in_array('administrator', $user->roles, true) ) {
+      // Check if user has capability 'publish_pages'. By default user roles
+      // editor, admin and superadmin are the only ones that have it.
+      // Use user_can() for check as at this stage of the login the
+      // current_user_can() would not return anything yet.
+      // See: https://wordpress.org/support/article/roles-and-capabilities/#capability-vs-role-table
+      if ( is_wp_error($user) || self::$password_hash === null || ! user_can($user->ID, 'publish_pages') ) {
         return $redirect_to;
       }
       // Make the check every 3 months
