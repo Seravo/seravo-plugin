@@ -38,10 +38,15 @@ if ( ! class_exists('Passwords') ) {
      */
     public static function register_scripts( $page ) {
 
-      wp_register_style('seravo_passwords', plugin_dir_url(__DIR__) . '/style/passwords.css', '', Helpers::seravo_plugin_version());
+      wp_register_style(
+        'seravo_passwords',
+        plugin_dir_url(__DIR__) . 'style/passwords.css',
+        '',
+        Helpers::seravo_plugin_version()
+      );
       wp_register_script(
         'seravo_passwords',
-        plugin_dir_url(__DIR__) . '/js/passwords.js',
+        plugin_dir_url(__DIR__) . 'js/passwords.js',
         array( 'jquery' ),
         Helpers::seravo_plugin_version(), // version string
         true // in footer

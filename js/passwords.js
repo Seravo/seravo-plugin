@@ -16,7 +16,7 @@
   $(document).ready( function() {
     $('#pass1').on( 'input pwupdate', function() {
       var password = this.value;
-      var strength = wp.passwordStrength.meter( password, wp.passwordStrength.userInputBlacklist(), password );
+      var strength = wp.passwordStrength.meter( password, wp.passwordStrength.userInputDisallowedList(), password );
       var $submitButton = $('#wp-submit');
       if ( strength > 2 ) {
         $submitButton.prop( 'disabled', false );
