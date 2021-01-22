@@ -18,9 +18,15 @@
       var password = this.value;
       var strength = wp.passwordStrength.meter( password, wp.passwordStrength.userInputBlacklist(), password );
       var $submitButton = $('#wp-submit');
+
+      if ( typeof seravo_wordpress_password_min_strength === 'undefined' ||
+           Number.isInteger(seravo_wordpress_password_min_strength) ) {
+        seravo_wordpress_password_min_strength = 2;
+      }
+
       // Levels: 0=very weak, 1=weak, 2=medium, 4=strong
       // Require strong passwords
-      if ( strength > 3 ) {
+      if ( strength > seravo_wordpress_password_min_strength ) {
         $submitButton.prop( 'disabled', false );
       } else {
         $submitButton.prop( 'disabled', true );

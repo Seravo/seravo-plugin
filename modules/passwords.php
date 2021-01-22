@@ -49,14 +49,29 @@ if ( ! class_exists('Passwords') ) {
 
       if ( $page === 'profile.php' || $page === 'user-new.php' ) {
         wp_enqueue_style('seravo_passwords');
-      } elseif ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
         wp_enqueue_script('seravo_passwords');
+        add_action('admin_footer', array( __CLASS__, 'set_password_min_strength' ));
+      } elseif ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
+        wp_enqueue_style('seravo_passwords');
+        wp_enqueue_script('seravo_passwords');
+        add_action('admin_footer', array( __CLASS__, 'set_password_min_strength' ));
         // Password changing form
         if ( isset($_GET['action']) && $_GET['action'] === 'rp' ) {
           wp_enqueue_style('seravo_passwords');
+          wp_enqueue_script('seravo_passwords');
+          add_action('admin_footer', array( __CLASS__, 'set_password_min_strength' ));
         }
       }
 
+    }
+
+    public static function set_password_min_strength( $data ) {
+      if ( current_user_can('publish_pages') ) {
+        $min_strength = 3;
+      } else {
+        $min_strength = 2;
+      }
+      echo '<script>var seravo_wordpress_password_min_strength = ' . $min_strength . ';</script>';
     }
 
     public static function calculate_password_hash( $user, $password ) {
