@@ -24,11 +24,11 @@ if ( ! class_exists('Passwords') ) {
 
       add_action('login_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
+      add_action('profile_update', array( __CLASS__, 'clear_seravo_pwned_check_timestamp' ));
 
       add_filter('wp_authenticate_user', array( __CLASS__, 'calculate_password_hash' ), 10, 3);
       // Use 15 as priority so wp-login.log (priority 10) is filled first
       add_filter('login_redirect', array( __CLASS__, 'search_password_database' ), 15, 3);
-
     }
 
     /**
@@ -64,6 +64,20 @@ if ( ! class_exists('Passwords') ) {
 
     }
 
+    /**
+     * Clear seravo_pwned_check form user meta
+     *
+     * The user meta seravo_pwned_check contains a timestamp to prevent the
+     * check from running too frequently. When the user changes their password,
+     * this field needs to be reset so that the check is guaranteed to run on
+     * the next login.
+     */
+    public static function clear_seravo_pwned_check_timestamp( $user_id ) {
+      if ( isset($_POST['pass1']) && ! empty($_POST['pass1']) ) {
+        delete_user_meta($user_id, 'seravo_pwned_check');
+      }
+    }
+
     public static function calculate_password_hash( $user, $password ) {
       self::$password_hash = sha1($password);
       return $user;
@@ -78,6 +92,7 @@ if ( ! class_exists('Passwords') ) {
       if ( is_wp_error($user) || self::$password_hash === null || ! user_can($user->ID, 'publish_pages') ) {
         return $redirect_to;
       }
+
       // Make the check every 3 months
       $time_now = time();
       $pwned_meta = get_user_meta($user->ID, 'seravo_pwned_check', true);
@@ -88,7 +103,7 @@ if ( ! class_exists('Passwords') ) {
 
         if ( count($pwned_check) === 0 || isset($result['error']) || ! isset($result['found']) ) {
           // Something went wrong
-          error_log("Seravo Plugin couldn't run 'wp-check-haveibeenpwned'!");
+          error_log("Failed to run 'wp-check-haveibeenpwned'!");
           return $redirect_to;
         } elseif ( $result['found'] === false ) {
           // Password not pwned
@@ -111,7 +126,7 @@ if ( ! class_exists('Passwords') ) {
           <meta name="viewport" content="width=device-width" />
           <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
           <meta name="robots" content="noindex,nofollow" />
-          <title><?php _e('Security &rsaquo; Pwned Password', 'seravo'); ?></title>
+          <title><?php _e('Password change required', 'seravo'); ?></title>
           <?php
             wp_admin_css('install', true);
             wp_admin_css('ie', true);
@@ -120,17 +135,12 @@ if ( ! class_exists('Passwords') ) {
         <body class="wp-core-ui">
           <p id="logo"><a href="#"><?php _e('WordPress'); ?></a></p>
           <h1><?php _e('Password change required', 'seravo'); ?></h1>
-          <p><?php _e('Automatic password security verification has found that your password has been pwned. Please follow the instructions below!', 'seravo'); ?></p>
-          <h3><?php _e('What does this mean?', 'seravo'); ?></h3>
-          <?php /* translators: %s: Hash of the users passwor1d. */ ?>
-          <p><?php printf(__('The hash of your password (%s) was found in the <a href="https://haveibeenpwned.com" target="_blank">haveibeenpwned.com</a> database. Getting your password pwned means your password has been a part of at least one data leak on some 3rd party service. That makes your WordPress account and the accounts on other services using the same password more vulnerable to possible hijackers.', 'seravo'), $hash); ?></p>
-          <h3><?php _e('What actions to take?', 'seravo'); ?></h3>
-          <p><?php _e('You should <b>change your password immediadly</b>. You can do that with the button below or by following <a href="https://help.seravo.com/article/29-managing-user-passwords-in-wordpress" target="_BLANK">these instructions</a>. If you have any issues related to chaging the password, please be in contact with Seravo support at <i>help@seravo.com</i>.', 'seravo'); ?></p>
-          <h3><?php _e('How to prevent this in the future?', 'seravo'); ?></h3>
-          <p><?php _e('You should always follow good <a href="https://seravo.fi/2014/password-hygiene-every-mans-responsibility" target="_BLANK">password hygiene</a>. Especially by using different passwords on different services. This website already prevents changing your password to a weak one but you can scan for dangerously weak passwords from all users by running <code>wp-check-passwords</code>.', 'seravo'); ?></p>
+          <p><?php _e('The hash of your password matches a password in the <a href="https://haveibeenpwned.com" target="_blank">haveibeenpwned.com</a> database. This means your password was used on a website or service that suffered a breach and the password was leaked. Thus your WordPress account and the accounts on other services using the same password are highly vulnerable for misuse.', 'seravo'); ?></p>
+          <p><?php _e('Please <strong>change your password immediately</strong> on the WordPress user profile page.', 'seravo'); ?></p>
+          <p><?php _e('Remember to always follow good <strong>password hygiene</strong> and have a unique password for each website and service you use to prevent this in the future.', 'seravo'); ?></p>
           <p class="step">
-            <a class="button button-large button-primary" href="<?php echo wp_login_url(); ?>?action=lostpassword"><?php _e('Change Password', 'seravo'); ?></a>
-            <a class="button button-large" href="<?php echo $redirect_to; ?>"><?php _e('Continue', 'seravo'); ?></a>
+            <a class="button button-large button-primary" href="<?php echo get_edit_profile_url(); ?>"><?php _e('Go to your profile page to change the password', 'seravo'); ?></a>
+            <a class="button button-large" href="<?php echo $redirect_to; ?>"><?php _e('Continue normal login', 'seravo'); ?></a>
           </p>
         </body>
       </html>

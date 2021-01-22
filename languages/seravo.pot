@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-01-25T16:13:16+02:00\n"
+"POT-Creation-Date: 2021-01-25T18:36:17+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -176,53 +176,53 @@ msgstr ""
 msgid "Update Zone"
 msgstr ""
 
-#: lib/domains-ajax.php:191
+#: lib/domains-ajax.php:193
 msgid "All fields are required!"
 msgstr ""
 
 #. translators: %s is an email address
-#: lib/domains-ajax.php:225
+#: lib/domains-ajax.php:227
 msgid "Forwards for %s have been set"
 msgstr ""
 
-#: lib/domains-ajax.php:237
+#: lib/domains-ajax.php:239
 msgid "Some of the changes weren't made"
 msgstr ""
 
-#: lib/domains-ajax.php:258
+#: lib/domains-ajax.php:260
 msgid "The forwards were deleted"
 msgstr ""
 
-#: lib/domains-ajax.php:283
+#: lib/domains-ajax.php:285
 msgid "The forwards were modified"
 msgstr ""
 
-#: lib/domains-ajax.php:287
+#: lib/domains-ajax.php:289
 msgid "Something went wrong, the old source couldn't be removed."
 msgstr ""
 
-#: lib/domains-ajax.php:290
+#: lib/domains-ajax.php:292
 msgid "Something went wrong, the forwards couln't be modified."
 msgstr ""
 
-#: lib/security-ajax.php:78
-msgid "No login data"
+#: lib/security-ajax.php:32
+msgid "Error: Failed to open the wp-login.log"
 msgstr ""
 
-#: lib/security-ajax.php:83
-msgid "IP address"
+#: lib/security-ajax.php:77
+msgid "No successful logins found."
 msgstr ""
 
-#: lib/security-ajax.php:84
+#: lib/security-ajax.php:97
+msgid "Time"
+msgstr ""
+
+#: lib/security-ajax.php:98
 msgid "User"
 msgstr ""
 
-#: lib/security-ajax.php:85
-msgid "Date"
-msgstr ""
-
-#: lib/security-ajax.php:86
-msgid "Time"
+#: lib/security-ajax.php:99
+msgid "Address"
 msgstr ""
 
 #: lib/seravo-postbox.php:133
@@ -230,7 +230,7 @@ msgid "Drag boxes here"
 msgstr ""
 
 #. translators: %s: Togglable postbox title
-#: lib/seravo-postbox.php:287
+#: lib/seravo-postbox.php:290
 msgid "Toggle panel: %s"
 msgstr ""
 
@@ -516,7 +516,6 @@ msgid "Source field can't be empty."
 msgstr ""
 
 #: modules/domains.php:90
-#: modules/passwords.php:123
 msgid "Continue"
 msgstr ""
 
@@ -586,21 +585,23 @@ msgstr ""
 msgid "Error log read failure"
 msgstr ""
 
-#. translators: %1$s username of the current user %2$s datetime of last login %3$s timezone used to represent the datetime of the last login %4$s IP address of the last login
-#: modules/login-notification.php:200
-msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
+#. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s reverse domain of the last login
+#. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s IP address of the last login
+#: modules/login-notification.php:211
+#: modules/login-notification.php:225
+msgid "Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s."
 msgstr ""
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:218
+#: modules/login-notification.php:245
 msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: modules/login-notification.php:231
+#: modules/login-notification.php:258
 msgid "The PHP error log is abnormally large. This is a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: modules/login-notification.php:242
+#: modules/login-notification.php:269
 msgid "There is a problem trying to read the php-error.log. This is a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
@@ -640,45 +641,29 @@ msgstr ""
 msgid "Full log files can be found on the server in the path %s."
 msgstr ""
 
-#: modules/passwords.php:104
-msgid "Security &rsaquo; Pwned Password"
-msgstr ""
-
-#: modules/passwords.php:112
+#: modules/passwords.php:129
+#: modules/passwords.php:137
 msgid "Password change required"
 msgstr ""
 
-#: modules/passwords.php:113
-msgid "Automatic password security verification has found that your password has been pwned. Please follow the instructions below!"
+#: modules/passwords.php:138
+msgid "The hash of your password matches a password in the <a href=\"https://haveibeenpwned.com\" target=\"_blank\">haveibeenpwned.com</a> database. This means your password was used on a website or service that suffered a breach and the password was leaked. Thus your WordPress account and the accounts on other services using the same password are highly vulnerable for misuse."
 msgstr ""
 
-#: modules/passwords.php:114
-msgid "What does this mean?"
+#: modules/passwords.php:139
+msgid "Please <strong>change your password immediately</strong> on the WordPress user profile page."
 msgstr ""
 
-#. translators: %s: Hash of the users passwor1d.
-#: modules/passwords.php:116
-msgid "The hash of your password (%s) was found in the <a href=\"https://haveibeenpwned.com\" target=\"_blank\">haveibeenpwned.com</a> database. Getting your password pwned means your password has been a part of at least one data leak on some 3rd party service. That makes your WordPress account and the accounts on other services using the same password more vulnerable to possible hijackers."
+#: modules/passwords.php:140
+msgid "Remember to always follow good <strong>password hygiene</strong> and have a unique password for each website and service you use to prevent this in the future."
 msgstr ""
 
-#: modules/passwords.php:117
-msgid "What actions to take?"
+#: modules/passwords.php:142
+msgid "Go to your profile page to change the password"
 msgstr ""
 
-#: modules/passwords.php:118
-msgid "You should <b>change your password immediadly</b>. You can do that with the button below or by following <a href=\"https://help.seravo.com/article/29-managing-user-passwords-in-wordpress\" target=\"_BLANK\">these instructions</a>. If you have any issues related to chaging the password, please be in contact with Seravo support at <i>help@seravo.com</i>."
-msgstr ""
-
-#: modules/passwords.php:119
-msgid "How to prevent this in the future?"
-msgstr ""
-
-#: modules/passwords.php:120
-msgid "You should always follow good <a href=\"https://seravo.fi/2014/password-hygiene-every-mans-responsibility\" target=\"_BLANK\">password hygiene</a>. Especially by using different passwords on different services. This website already prevents changing your password to a weak one but you can scan for dangerously weak passwords from all users by running <code>wp-check-passwords</code>."
-msgstr ""
-
-#: modules/passwords.php:122
-msgid "Change Password"
+#: modules/passwords.php:143
+msgid "Continue normal login"
 msgstr ""
 
 #. translators: %s cache refresh interval
@@ -718,7 +703,7 @@ msgid "Security"
 msgstr ""
 
 #: modules/security.php:53
-msgid "Recent successful logins"
+msgid "Last successful logins"
 msgstr ""
 
 #: modules/security.php:61
@@ -922,28 +907,28 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: modules/security.php:295
+#: modules/security.php:296
 msgid "Find and delete any extraneous and potentially harmful files taking up space in the file system. Note that not everything is necessarily safe to delete."
 msgstr ""
 
-#: modules/security.php:304
-#: modules/security.php:325
+#: modules/security.php:305
+#: modules/security.php:326
 msgid "Searching for files..."
 msgstr ""
 
-#: modules/security.php:315
+#: modules/security.php:316
 msgid "Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href=\"https://help.seravo.com/article/165-recommended-plugins\" target=\"_BLANK\">recommendations for plugins in our environment</a>."
 msgstr ""
 
-#: modules/security.php:320
+#: modules/security.php:321
 msgid "Searching for plugins..."
 msgstr ""
 
-#: modules/security.php:336
+#: modules/security.php:337
 msgid "Find and remove themes that are inactive. For more information, please read our <a href=\"https://help.seravo.com/article/70-can-i-install-my-own-plugins-and-themes-on-the-website\" target=\"_BLANK\">documentation concerning themes and plugins</a>."
 msgstr ""
 
-#: modules/security.php:341
+#: modules/security.php:342
 msgid "Searching for themes..."
 msgstr ""
 

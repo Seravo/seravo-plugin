@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2021-01-25T16:13:16+02:00\n"
-"PO-Revision-Date: 2021-01-25 16:24+0200\n"
+"POT-Creation-Date: 2021-01-25T18:36:17+02:00\n"
+"PO-Revision-Date: 2021-01-25 18:37+0200\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -184,61 +184,61 @@ msgstr ""
 msgid "Update Zone"
 msgstr "Päivitä verkkotunnustiedot"
 
-#: lib/domains-ajax.php:191
+#: lib/domains-ajax.php:193
 msgid "All fields are required!"
 msgstr "Kaikki kentät ovat pakollisia!"
 
 #. translators: %s is an email address
-#: lib/domains-ajax.php:225
+#: lib/domains-ajax.php:227
 msgid "Forwards for %s have been set"
 msgstr "Uudelleenohjaukset osoitteeseen %s on asetettu"
 
-#: lib/domains-ajax.php:237
+#: lib/domains-ajax.php:239
 msgid "Some of the changes weren't made"
 msgstr "Osaa muutoksista ei voitu tehdä"
 
-#: lib/domains-ajax.php:258
+#: lib/domains-ajax.php:260
 msgid "The forwards were deleted"
 msgstr "Uudelleenohjaukset poistettu"
 
-#: lib/domains-ajax.php:283
+#: lib/domains-ajax.php:285
 msgid "The forwards were modified"
 msgstr "Uudelleenohjauksia muokattu"
 
-#: lib/domains-ajax.php:287
+#: lib/domains-ajax.php:289
 msgid "Something went wrong, the old source couldn't be removed."
 msgstr "Jotain meni pieleen, eikä vanhaa lähdettä voitu poistaa."
 
-#: lib/domains-ajax.php:290
+#: lib/domains-ajax.php:292
 msgid "Something went wrong, the forwards couln't be modified."
 msgstr "Jotain meni pieleen, eikä uudelleenohjauksia voitu muokata."
 
-#: lib/security-ajax.php:78
-msgid "No login data"
-msgstr "Ei kirjautumistietoja"
+#: lib/security-ajax.php:32
+msgid "Error: Failed to open the wp-login.log"
+msgstr ""
 
-#: lib/security-ajax.php:83
-msgid "IP address"
-msgstr "IP-osoite"
+#: lib/security-ajax.php:77
+msgid "No successful logins found."
+msgstr "Edellisiä onnistuneita kirjautumisia ei löytynyt."
 
-#: lib/security-ajax.php:84
+#: lib/security-ajax.php:97
+msgid "Time"
+msgstr "Aika"
+
+#: lib/security-ajax.php:98
 msgid "User"
 msgstr "Käyttäjä"
 
-#: lib/security-ajax.php:85
-msgid "Date"
-msgstr "Pvm"
-
-#: lib/security-ajax.php:86
-msgid "Time"
-msgstr "Aika"
+#: lib/security-ajax.php:99
+msgid "Address"
+msgstr "Osoite"
 
 #: lib/seravo-postbox.php:133
 msgid "Drag boxes here"
 msgstr "Raahaa laatikot tähän"
 
 #. translators: %s: Togglable postbox title
-#: lib/seravo-postbox.php:287
+#: lib/seravo-postbox.php:290
 msgid "Toggle panel: %s"
 msgstr "Näytä lisää: %s"
 
@@ -580,7 +580,7 @@ msgstr "Virhe! Toiminto saattoi epäonnistua."
 msgid "Source field can't be empty."
 msgstr "Lähde-kenttä ei voi olla tyhjä."
 
-#: modules/domains.php:90 modules/passwords.php:123
+#: modules/domains.php:90
 msgid "Continue"
 msgstr "Jatka"
 
@@ -656,14 +656,16 @@ msgstr "Suuri virhe loki"
 msgid "Error log read failure"
 msgstr "Virhelokin lukuhäiriö"
 
-#. translators: %1$s username of the current user %2$s datetime of last login %3$s timezone used to represent the datetime of the last login %4$s IP address of the last login
-#: modules/login-notification.php:200
-msgid "Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s."
+#. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s reverse domain of the last login
+#. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s IP address of the last login
+#: modules/login-notification.php:211 modules/login-notification.php:225
+msgid "Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s."
 msgstr ""
-"Tervetuloa, %1$s! Edellinen kirjautuminen: %2$s (%3$s) osoitteesta %4$s."
+"Tervetuloa, %1$s! Edellinen kirjautumisesi oli %2$s kello %3$s osoitteesta "
+"%4$s."
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:218
+#: modules/login-notification.php:245
 msgid ""
 "The PHP error log has more than %1$s entries this week. Please see %2$s for "
 "details. This is usually a sign that something is broken in the code. The "
@@ -674,7 +676,7 @@ msgstr ""
 "että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 "sivuston kehittäjälle."
 
-#: modules/login-notification.php:231
+#: modules/login-notification.php:258
 msgid ""
 "The PHP error log is abnormally large. This is a sign that something is "
 "broken in the code. The developer of the site should be notified."
@@ -683,7 +685,7 @@ msgstr ""
 "sivuston koodissa. Suosittelemme, että tästä ilmoitetaan sivuston "
 "kehittäjälle."
 
-#: modules/login-notification.php:242
+#: modules/login-notification.php:269
 msgid ""
 "There is a problem trying to read the php-error.log. This is a sign that "
 "something is broken in the code. The developer of the site should be "
@@ -728,84 +730,49 @@ msgstr "Selaa ladataksesi lisää rivejä lokista."
 msgid "Full log files can be found on the server in the path %s."
 msgstr "Lokitiedostot kokonaisuudessaan löytyy palvelimelta polusta %s."
 
-#: modules/passwords.php:104
-msgid "Security &rsaquo; Pwned Password"
-msgstr "Tietoturva &rsaquo; Pwnattu Salasana"
-
-#: modules/passwords.php:112
+#: modules/passwords.php:129 modules/passwords.php:137
 msgid "Password change required"
 msgstr "Salasanan vaihto vaadittu"
 
-#: modules/passwords.php:113
+#: modules/passwords.php:138
 msgid ""
-"Automatic password security verification has found that your password has "
-"been pwned. Please follow the instructions below!"
+"The hash of your password matches a password in the <a href=\"https://"
+"haveibeenpwned.com\" target=\"_blank\">haveibeenpwned.com</a> database. This "
+"means your password was used on a website or service that suffered a breach "
+"and the password was leaked. Thus your WordPress account and the accounts on "
+"other services using the same password are highly vulnerable for misuse."
 msgstr ""
-"Automaattinen salasanojen turvallisuustarkistus havaitsi salasanasi olevan "
-"murrettu (pwned). Seuraa ohjeistusta alapuolella!"
+"Salasanasi tiivistesumma vastaa salasanaa <a href=\"https://haveibeenpwned."
+"com\" target=\"_blank\">haveibeenpwned.com:n</a> tietokannassa. Tämä "
+"tarkoittaa, että salasanasi on ollut käytössä sivustolla tai palvelussa, "
+"jossa on ollut tietomurto ja salasana on vuodettu. Täten WordPress-tilisi ja "
+"muut tilit, joissa on käytössä sama salasana, ovat alttiita väärinkäytölle."
 
-#: modules/passwords.php:114
-msgid "What does this mean?"
-msgstr "Mitä tämä tarkoittaa?"
-
-#. translators: %s: Hash of the users passwor1d.
-#: modules/passwords.php:116
+#: modules/passwords.php:139
 msgid ""
-"The hash of your password (%s) was found in the <a href=\"https://"
-"haveibeenpwned.com\" target=\"_blank\">haveibeenpwned.com</a> database. "
-"Getting your password pwned means your password has been a part of at least "
-"one data leak on some 3rd party service. That makes your WordPress account "
-"and the accounts on other services using the same password more vulnerable "
-"to possible hijackers."
+"Please <strong>change your password immediately</strong> on the WordPress "
+"user profile page."
 msgstr ""
-"Salasanasi hash (%s) löytyi <a href=\"https://haveibeenpwned.com\" target="
-"\"_blank\">haveibeenpwned.com</a> tietokannasta. Pwnattu salasana "
-"tarkoittaa, että salasanasi on ollut osallisena yhdessä tai useammassa "
-"tietovuodossa tämän verkkosivun ulkoisessa palvelussa. Tämä tekee WordPress-"
-"käyttäjäsi ja käyttäjäsi, jotka käyttävät samaa salasanaa muissa "
-"palveluissa, haavoittuvaisemman mahdollisille kaappausyrityksille."
+"Ole hyvä ja <strong>vaihda salasanasi välittömästi</strong> käyttäjän "
+"profiilisivulta WordPressissä."
 
-#: modules/passwords.php:117
-msgid "What actions to take?"
-msgstr "Mitä nyt tulee tehdä?"
-
-#: modules/passwords.php:118
+#: modules/passwords.php:140
 msgid ""
-"You should <b>change your password immediadly</b>. You can do that with the "
-"button below or by following <a href=\"https://help.seravo.com/article/29-"
-"managing-user-passwords-in-wordpress\" target=\"_BLANK\">these instructions</"
-"a>. If you have any issues related to chaging the password, please be in "
-"contact with Seravo support at <i>help@seravo.com</i>."
+"Remember to always follow good <strong>password hygiene</strong> and have a "
+"unique password for each website and service you use to prevent this in the "
+"future."
 msgstr ""
-"Sinun tulee <b>vaihtaa salasanasi välittömästi</b>. Voit tehdä tämän "
-"painikkeella alareunassa tai seuraamalla <a href=\"https://help.seravo.fi/"
-"article/207-wordpress-kayttajien-salasanojen-hallinta\" target=\"_BLANK"
-"\">näitä ohjeita</a>. Jos sinulle tulee vastaan ongelmia salasanan vaihdon "
-"yhteydessä, olethan yhteydessä Seravon asiakaspalveluun <i>help@seravo.com</"
-"i>."
+"Muista jatkossa noudattaa <strong>hyvää salasanahygieniaa</strong> ja "
+"käyttää eri salasanoja kullakin sivustolla ja palvelussa jotta vastaavaa ei "
+"tapahdu jatkossa."
 
-#: modules/passwords.php:119
-msgid "How to prevent this in the future?"
-msgstr "Kuinka estän tämän tulevaisuudessa?"
+#: modules/passwords.php:142
+msgid "Go to your profile page to change the password"
+msgstr "Siirry profiilisivullesi vaihtamaan salasana"
 
-#: modules/passwords.php:120
-msgid ""
-"You should always follow good <a href=\"https://seravo.fi/2014/password-"
-"hygiene-every-mans-responsibility\" target=\"_BLANK\">password hygiene</a>. "
-"Especially by using different passwords on different services. This website "
-"already prevents changing your password to a weak one but you can scan for "
-"dangerously weak passwords from all users by running <code>wp-check-"
-"passwords</code>."
-msgstr ""
-"Hyvän <a href=\"https://wp-palvelu.fi/blogi/salasanahygienia/\" target="
-"\"_BLANK\">salasana hygienian</a> noudattaminen kannattaa aina. Erityisesti "
-"käyttämällä eri salasanoja eri palveluissa. Tämä verkkosivu estää jo "
-"heikkojen salasanojen asettamisen, mutta voit etsiä vaarallisen heikkoja "
-"salasanoja ajamalla palvelimella komennon <code>wp-check-passwords</code>."
-
-#: modules/passwords.php:122
-msgid "Change Password"
-msgstr "Vaihda Salasana"
+#: modules/passwords.php:143
+msgid "Continue normal login"
+msgstr "Jatka normaalia kirjautumista"
 
 #. translators: %s cache refresh interval
 #: modules/purge-cache.php:38
@@ -849,8 +816,8 @@ msgid "Security"
 msgstr "Tietoturva"
 
 #: modules/security.php:53
-msgid "Recent successful logins"
-msgstr "Edelliset sisäänkirjautumiset"
+msgid "Last successful logins"
+msgstr "Edelliset onnistuneet sisäänkirjautumiset"
 
 #: modules/security.php:61
 msgid "Cruft Files"
@@ -886,7 +853,7 @@ msgstr "Poista"
 
 #: modules/security.php:119
 msgid "b"
-msgstr "b"
+msgstr ""
 
 #: modules/security.php:120
 msgid "Last modified"
@@ -1084,7 +1051,7 @@ msgstr ""
 msgid "Save"
 msgstr "Tallenna"
 
-#: modules/security.php:295
+#: modules/security.php:296
 msgid ""
 "Find and delete any extraneous and potentially harmful files taking up space "
 "in the file system. Note that not everything is necessarily safe to delete."
@@ -1093,11 +1060,11 @@ msgstr ""
 "palvelimelta levytilan säästämiseksi. Otathan huomioon, että kaikkia "
 "ehdotuksia ei ole välttämättä turvallista tehdä."
 
-#: modules/security.php:304 modules/security.php:325
+#: modules/security.php:305 modules/security.php:326
 msgid "Searching for files..."
 msgstr "Etsitään tiedostoja..."
 
-#: modules/security.php:315
+#: modules/security.php:316
 msgid ""
 "Find and remove any plugins that are currently inactive or otherwise "
 "potentially harmful. For more information, please read our <a href=\"https://"
@@ -1109,11 +1076,11 @@ msgstr ""
 "fi/article/313-suositellut-lisaosat\" target=\"_BLANK\">suositelluista "
 "lisäosista palvelinympäristössämme</a>."
 
-#: modules/security.php:320
+#: modules/security.php:321
 msgid "Searching for plugins..."
 msgstr "Etsitään lisäosia..."
 
-#: modules/security.php:336
+#: modules/security.php:337
 msgid ""
 "Find and remove themes that are inactive. For more information, please read "
 "our <a href=\"https://help.seravo.com/article/70-can-i-install-my-own-"
@@ -1125,7 +1092,7 @@ msgstr ""
 "omia-lisaosia-ja-teemoja\" target=\"_BLANK\">ulkoasuteemoja ja lisäosia "
 "koskevista ohjeistamme</a>."
 
-#: modules/security.php:341
+#: modules/security.php:342
 msgid "Searching for themes..."
 msgstr "Etsitään lisäosia..."
 
