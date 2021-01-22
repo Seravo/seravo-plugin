@@ -28,6 +28,8 @@ if ( ! class_exists('Security') ) {
 
       add_action('wp_ajax_seravo_security', 'seravo_ajax_security');
 
+      add_action('wp_ajax_seravo_check_passwords', 'seravo_ajax_check_passwords');
+
       // AJAX functionality for listing and deleting files
       add_action('wp_ajax_seravo_cruftfiles', 'seravo_ajax_list_cruft_files');
       add_action('wp_ajax_seravo_delete_file', 'seravo_ajax_delete_cruft_files');
@@ -57,6 +59,14 @@ if ( ! class_exists('Security') ) {
       );
 
       seravo_add_postbox(
+        'check_passwords',
+        __('Check passwords (Beta)', 'seravo'),
+        array( __CLASS__, 'check_passwords_postbox' ),
+        'tools_page_security_page',
+        'side'
+      );
+
+      seravo_add_postbox(
         'cruft-files',
         __('Cruft Files', 'seravo'),
         array( __CLASS__, 'cruftfiles_postbox' ),
@@ -64,7 +74,6 @@ if ( ! class_exists('Security') ) {
         'column3'
       );
 
-      // Add cache status postbox
       seravo_add_postbox(
         'cruft-plugins',
         __('Unnecessary plugins', 'seravo'),
@@ -73,7 +82,6 @@ if ( ! class_exists('Security') ) {
         'column4'
       );
 
-      // Add cache status postbox
       seravo_add_postbox(
         'cruft-themes',
         __('Unnecessary themes', 'seravo'),
@@ -301,6 +309,28 @@ if ( ! class_exists('Security') ) {
 
       <div id="logins_info"></div>
 
+      <?php
+    }
+
+    public static function check_passwords_postbox() {
+      ?>
+      <p>
+      <?php
+      _e(
+        'This tool can be used to run command <code>wp-check-passwords</code>
+        which finds weak passwords from the users of the site. Note: This may fail, if
+        there are many users.',
+        'seravo'
+      );
+      ?>
+      </p>
+      <p>
+      <button id='run_check_passwords' class='button'><?php _e('Run', 'seravo'); ?></button>
+      </p>
+      <div id="wp_check_passwords_loading">
+        <img class="hidden" src="/wp-admin/images/spinner.gif">
+      </div>
+      <p id='wp_check_passwords'></p>
       <?php
     }
 

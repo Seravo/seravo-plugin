@@ -107,11 +107,24 @@ function seravo_logins_info( $max = 10 ) {
   return $login_data;
 }
 
+function seravo_check_passwords() {
+  exec('wp-check-passwords', $output, $return_value);
+  return array_map(
+    function ( $x ) {
+        return '<p>' . $x . '</p>';
+    },
+    $output
+  );
+}
+
 function seravo_ajax_security() {
   check_ajax_referer('seravo_security', 'nonce');
   switch ( $_REQUEST['section'] ) {
     case 'logins_info':
       echo wp_json_encode(seravo_logins_info());
+      break;
+    case 'wp_check_passwords':
+      echo wp_json_encode(seravo_check_passwords());
       break;
 
     default:
