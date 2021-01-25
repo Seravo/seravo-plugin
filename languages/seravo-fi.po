@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2020-11-09T11:51:22+02:00\n"
-"PO-Revision-Date: 2020-11-09 11:54+0200\n"
-"Last-Translator: Petri Salminen <petri@seravo.com>\n"
+"POT-Creation-Date: 2021-01-25T16:13:16+02:00\n"
+"PO-Revision-Date: 2021-01-25 16:24+0200\n"
+"Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. Plugin Name of the plugin
 msgid "Seravo Plugin"
@@ -105,7 +105,7 @@ msgstr "Hallinnoija"
 msgid "Customer"
 msgstr "Asiakas"
 
-#: lib/domain-tables.php:323
+#: lib/domain-tables.php:323 modules/domains.php:91
 msgid "Forwards"
 msgstr "Edelleenohjaukset"
 
@@ -250,11 +250,11 @@ msgstr "Virhe: virheellinen url"
 msgid "Error! HTTP response code: "
 msgstr "Virhe! HTTP-tilakoodi: "
 
-#: lib/upkeep-ajax.php:140
+#: lib/upkeep-ajax.php:139
 msgid "Invalid date, using 2 days offset <br><br>"
 msgstr "Virheellinen päivämäärä, haettu tiedot 2 päivän ajalta <br><br>"
 
-#: lib/upkeep-ajax.php:144
+#: lib/upkeep-ajax.php:143
 msgid "Invalid date, showing since month beginning <br><br>"
 msgstr "Virheellinen päivämäärä, näytetään tiedot kuukauden alusta <br><br>"
 
@@ -400,26 +400,23 @@ msgstr ""
 #. translators: %1$s url to www.adminer.org
 #: modules/database.php:137
 msgid ""
-"Adminer is a simple database management tool, like phpMyAdmin. <a href=\"%1$s"
-"\" target=\"_BLANK\">Learn more about Adminer.</a>"
+"<a href=\"%1$s\" target=\"_BLANK\">Adminer</a> is a visual database "
+"management tool, which is simpler and safer than its competitor phpMyAdmin."
 msgstr ""
-"Adminer on yksinkertainen tietokannan hallintatyökalu kuten phpMyAdmin. <a "
-"href=\"%1$s\" target=\"_BLANK\">Lue lisää Adminerista.</a>"
+"<a href=\"%1$s\" target=\"_BLANK\">Adminer</a> graafinen tietokannan "
+"hallintatyökalu, joka on yksinkertaisempi ja turvallisempi kuin kilpaileva "
+"vaihtoehto phpMyAdmin."
 
-#. translators: %1$s example url for accessing Adminer in production environment %2$s example url for accessing Adminer in local development
-#: modules/database.php:146
-msgid ""
-"Adminer can be located in the production environment at %1$s and in the "
-"local development environment at %2$s."
-msgstr ""
-"Löydät Adminerin tuotantosivustolta %1$s ja paikallisesta "
-"kehitysympäristöstä %2$s."
+#. translators: %1$s example url for accessing Adminer: example.com/.seravo/adminer
+#: modules/database.php:145
+msgid "At Seravo it can always be accessed at %1$s."
+msgstr "Se löytyy Seravolla aina osoitteesta %1$s."
 
-#: modules/database.php:180
+#: modules/database.php:179
 msgid "Open Adminer"
 msgstr "Siirry Admineriin"
 
-#: modules/database.php:190
+#: modules/database.php:189
 msgid ""
 "You can use this tool to run <code>wp search-replace</code>. For safety "
 "reason a dry run is compulsory before the actual search-replace can be done."
@@ -428,35 +425,35 @@ msgstr ""
 "Turvallisuussyistä on ajettava kuiva-ajo (dry-run) ennen kuin on mahdollista "
 "tehdä muutoksia."
 
-#: modules/database.php:192
+#: modules/database.php:191
 msgid "From:"
 msgstr "Mistä:"
 
-#: modules/database.php:193
+#: modules/database.php:192
 msgid "To:"
 msgstr "Mihin:"
 
-#: modules/database.php:199
+#: modules/database.php:198
 msgid "Skip backups"
 msgstr "Ohita varmuuskopiointi"
 
-#: modules/database.php:204
+#: modules/database.php:203
 msgid "All tables"
 msgstr "Kaikki taulut"
 
-#: modules/database.php:210
+#: modules/database.php:209
 msgid "Network"
 msgstr "Network"
 
-#: modules/database.php:215 modules/database.php:231
+#: modules/database.php:214 modules/database.php:230
 msgid "Do a dry run"
 msgstr "Aja kuiva-ajo"
 
-#: modules/database.php:216
+#: modules/database.php:215
 msgid "Run wp search-replace"
 msgstr "Aja wp search-replace"
 
-#: modules/database.php:228
+#: modules/database.php:227
 msgid ""
 "You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a "
 "dry run is compulsory before the actual cleanup can be done."
@@ -465,49 +462,49 @@ msgstr ""
 "Turvallisuussyistä on ajettava kuiva-ajo (dry-run) ennen kuin on mahdollista "
 "tehdä muutoksia."
 
-#: modules/database.php:232
+#: modules/database.php:231
 msgid "Run wp-db-cleanup"
 msgstr "Aja wp-db-cleanup"
 
-#: modules/database.php:249
+#: modules/database.php:248
 msgid "Table sizes"
 msgstr "Taulujen koot"
 
-#: modules/database.php:260
+#: modules/database.php:259
 msgid "Details about database table sizes"
 msgstr "Yksityiskohtia tietokantojen taulujen koosta"
 
-#: modules/database.php:264
+#: modules/database.php:263
 msgid "Longest wp_postmeta values:"
 msgstr "Pisimmät wp_postmeta arvot:"
 
-#: modules/database.php:268
+#: modules/database.php:267
 msgid "Cumulative size of meta_value per meta_key:"
 msgstr "Meta_valueiden yhteenlaskettu koko meta_keyn mukaan:"
 
-#: modules/database.php:272
+#: modules/database.php:271
 msgid "Rows per meta_key:"
 msgstr "Rivejä per meta_key:"
 
-#: modules/database.php:276
+#: modules/database.php:275
 msgid "Autoload options count (read to memory on each WP page load):"
 msgstr ""
 "Autoload-asetuksien määrä (luetaan muistiin jokaisella sivulatauksella):"
 
-#: modules/database.php:280
+#: modules/database.php:279
 msgid "Autoload options total size of values:"
 msgstr "Autoload-asetusten arvojen yhteenlaskettu koko:"
 
-#: modules/database.php:284
+#: modules/database.php:283
 msgid "Longest autoloaded wp_option values:"
 msgstr "Pisimmät automaattisesti ladatut wp_option arvot:"
 
-#: modules/database.php:288
+#: modules/database.php:287
 msgid "Most common autoloaded wp_option values:"
 msgstr "Useimmiten automaattisesti ladatut wp_option arvot:"
 
-#: modules/database.php:292 modules/sitestatus.php:266 modules/upkeep.php:344
-#: modules/upkeep.php:678
+#: modules/database.php:291 modules/sitestatus.php:266 modules/upkeep.php:344
+#: modules/upkeep.php:673
 msgid "Toggle Details"
 msgstr "Näytä lisää"
 
@@ -587,27 +584,27 @@ msgstr "Lähde-kenttä ei voi olla tyhjä."
 msgid "Continue"
 msgstr "Jatka"
 
-#: modules/domains.php:100
+#: modules/domains.php:101
 msgid "Domains routed to this WordPress site are listed below."
 msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
 
-#: modules/domains.php:104
+#: modules/domains.php:105
 msgid "Loading domains..."
 msgstr "Ladataan verkkotunnuksia..."
 
-#: modules/domains.php:108
+#: modules/domains.php:109
 msgid "Are you sure you want to change the primary domain?"
 msgstr "Oletko varma, että haluat vaihtaa ensisijaisen verkkotunnuksen?"
 
-#: modules/domains.php:110
+#: modules/domains.php:111
 msgid "Proceed"
 msgstr "Jatka"
 
-#: modules/domains.php:111
+#: modules/domains.php:112
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: modules/domains.php:120
+#: modules/domains.php:121
 msgid ""
 "Mail forwards of the domains routed to this WordPress site are listed below. "
 "Fetch the forwards for a domain with the link below the domain name."
@@ -616,11 +613,11 @@ msgstr ""
 "uudelleenohjaukset on listattu alla. Nouda ohjaukset verkkotunnukselle "
 "verkkotunnuksen alla olevan linkin avulla."
 
-#: modules/domains.php:124
+#: modules/domains.php:125
 msgid "Loading mail forwards..."
 msgstr "Ladataan sähköpostiohjauksia..."
 
-#: modules/domains.php:129
+#: modules/domains.php:130
 msgid "Mailboxes assigned to this WordPress site are listed below."
 msgstr ""
 "Tähän WordPress-sivustoon kytketyt sähköpostilaatikot on lueteltu alla."
@@ -1166,7 +1163,7 @@ msgstr "Siisti lataukset"
 
 #: modules/sitestatus.php:132
 msgid "Strip Image Metadata"
-msgstr "Poista kuvien metadata"
+msgstr "Poista metadata kuvista"
 
 #: modules/sitestatus.php:139
 msgid "Maximum Image Width (px)"
@@ -1638,8 +1635,9 @@ msgid ""
 "By enabling metadata stripping, you can further reduce image sizes by "
 "removing metadata. Please note that occasionally metadata can be useful."
 msgstr ""
-"Ottamalla metadatan poiston käyttöön voit entisestään pienentää kuvien "
-"kokoa. Huomioi kuitenkin, että metadata on toisinaan tarpeellista."
+"Metadatat poistamalla kuvien koko pienenee entisestään. Huomioi että joskus "
+"metadata voi olla tarkoituksenmukaista, esim. kuvan ottamispaikan GPS-"
+"koordinaatit."
 
 #: modules/sitestatus.php:558
 msgid ""
@@ -2030,7 +2028,7 @@ msgstr ""
 "Katso myös <a target=\"_blank\" href=\"https://help.seravo.fi/article/234-"
 "uusimpaan-php-versioon-siirtyminen\">ohje PHP-versiopäivityksistä</a>."
 
-#: modules/upkeep.php:429
+#: modules/upkeep.php:424
 msgid ""
 "I'm aware of the risks associated with edits to the PHP configuration files "
 "and want to proceed with the change."
@@ -2038,16 +2036,16 @@ msgstr ""
 "Olen tietoinen PHP konfiguraatiotiedostoihin tehtävien muutoksien riskeistä "
 "ja haluan tehdä muutoksen."
 
-#: modules/upkeep.php:433
+#: modules/upkeep.php:428
 msgid "Change version"
 msgstr "Vaihda versiota"
 
-#: modules/upkeep.php:438
+#: modules/upkeep.php:433
 msgid "Activating... Please wait up to 30 seconds"
 msgstr "Aktivoidaan... Odota jopa 30 sekuntia"
 
 #. translators: link to log file
-#: modules/upkeep.php:445
+#: modules/upkeep.php:440
 msgid ""
 "PHP version has been changed succesfully! Please check <a href=\"%s\">php-"
 "error.log</a> for regressions."
@@ -2055,11 +2053,11 @@ msgstr ""
 "PHP-versio on onnistuneesti vaihdettu. Tarkkaile lokia <a href=\"%s\">php-"
 "error.log</a> mahdollisten yhteensopivuusongelmien varalta."
 
-#: modules/upkeep.php:450
+#: modules/upkeep.php:445
 msgid "PHP version change failed."
 msgstr "PHP-versiovaihdos epäonnistui."
 
-#: modules/upkeep.php:457
+#: modules/upkeep.php:452
 msgid ""
 "Seravo automatically updates your site and the Seravo Plugin as well. If you "
 "want to immediately update to the latest Seravo Plugin version, you can do "
@@ -2070,41 +2068,41 @@ msgstr ""
 "tehdä sen täältä."
 
 #. translators: current Seravo plugin version
-#: modules/upkeep.php:462
+#: modules/upkeep.php:457
 msgid "Current version: %s"
 msgstr "Nykyinen versio: %s"
 
 #. translators: upstream Seravo plugin version
-#: modules/upkeep.php:471
+#: modules/upkeep.php:466
 msgid "Upstream version: %s"
 msgstr "Viimeisin versio: %s"
 
-#: modules/upkeep.php:476
+#: modules/upkeep.php:471
 msgid ""
 "The currently installed version is the same as the latest available version."
 msgstr "Seravo Plugin on ajantasalla."
 
-#: modules/upkeep.php:477
+#: modules/upkeep.php:472
 msgid "There is a new version available"
 msgstr "Uusi versio saatavilla"
 
-#: modules/upkeep.php:478
+#: modules/upkeep.php:473
 msgid "Seravo Plugin updated"
 msgstr "Seravo-plugin päivitetty"
 
-#: modules/upkeep.php:481
+#: modules/upkeep.php:476
 msgid "Updating... Please wait up to 5 seconds"
 msgstr "Päivitetään... Odota 5 sekunttia"
 
-#: modules/upkeep.php:483
+#: modules/upkeep.php:478
 msgid "Update plugin now"
 msgstr "Päivitä lisäosa"
 
-#: modules/upkeep.php:497
+#: modules/upkeep.php:492
 msgid "The Difference"
 msgstr "Eroavaisuudet"
 
-#: modules/upkeep.php:560
+#: modules/upkeep.php:555
 msgid ""
 "No screenshots found. They will become available during the next attempted "
 "update."
@@ -2112,15 +2110,15 @@ msgstr ""
 "Kuvakaappauksia ei löytynyt. Ne luodaan sivuston seuraavan päivityksen "
 "yhteydessä."
 
-#: modules/upkeep.php:574
+#: modules/upkeep.php:569
 msgid "Current State"
 msgstr "Sivuston nykytila"
 
-#: modules/upkeep.php:575
+#: modules/upkeep.php:570
 msgid "Update Attempt"
 msgstr "Edellinen päivitysyritys"
 
-#: modules/upkeep.php:666
+#: modules/upkeep.php:661
 msgid ""
 "Here you can test the core functionality of your WordPress installation. "
 "Same results can be achieved via command line by running <code>wp-test</"
@@ -2133,102 +2131,10 @@ msgstr ""
 "lisätietoja <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\" "
 "target=\"_BLANK\">Seravon kehittäjäohjeista</a>."
 
-#: modules/upkeep.php:669
+#: modules/upkeep.php:664
 msgid "Run Tests"
 msgstr "Suorita testit"
 
-#: modules/upkeep.php:672
+#: modules/upkeep.php:667
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Codeception-testit"
-
-#, fuzzy
-#~| msgid "Unnecessary plugins"
-#~ msgid "Bad plugins"
-#~ msgstr "Tarpeettomat lisäosat"
-
-#~ msgid "Bad plugins found: "
-#~ msgstr "Tarpeettomia lisäosia löydetty: "
-
-#~ msgid "Run Speed Test"
-#~ msgstr "Suorita testi"
-
-#~ msgid ""
-#~ "Test the speed of the current page. Note: This does not function within "
-#~ "wp-admin!"
-#~ msgstr ""
-#~ "Testaa nykyisen sivuston nopeus. Huom: Tämä ei toimi wp-admin-sivujen "
-#~ "sisällä!"
-
-#~ msgid "Source"
-#~ msgstr "Lähde"
-
-#~ msgid "Destinations"
-#~ msgstr "Kohde"
-
-#~ msgid "No valid domains were found!"
-#~ msgstr "Verkkotunnuksia ei löytynyt!"
-
-#~ msgid "Redis Transient and Object Cache"
-#~ msgstr "Oliovälimuisti"
-
-#~ msgid "Long-term HTTP Cache Stats"
-#~ msgstr "Pitkäaikaiset HTTP -välimuisti tilastot"
-
-#~ msgid "The total size of <code>/data</code> is"
-#~ msgstr "Levytilan käyttö yhteensä polussa <code>/data</code> on"
-
-#~ msgid "Select shadow"
-#~ msgstr "Valitse varjo"
-
-#~ msgid "Identifier"
-#~ msgstr "Tunniste"
-
-#~ msgid "SSH Port"
-#~ msgstr "SSH-portti"
-
-#~ msgid "Actions"
-#~ msgstr "Toiminnot"
-
-#~ msgid "Move Data"
-#~ msgstr "Siirrä tiedot"
-
-#~ msgid "Reset shadow from production"
-#~ msgstr "Palauta varjoon kopio nykyisestä tuotannon tilasta"
-
-#~ msgid ""
-#~ "<b>Warning:</b> This will replace everything currently in the <i>/data/"
-#~ "wordpress/</i> directory and the database of the shadow with a copy of "
-#~ "production site. Be sure to know what you are doing."
-#~ msgstr ""
-#~ "<b>Varoitus:</b> Tämä korvaa nykyisen varjon <i>/data/wordpress/</i> "
-#~ "kansion ja tietokannan tuotantosivun kopiolla. Varmista, että tiedät mitä "
-#~ "olet tekemässä."
-
-#~ msgid "Execute search-replace"
-#~ msgstr "Aja wp search-replace"
-
-#~ msgid ""
-#~ "This shadow doesn't need search-replace to be ran afterwards for it to "
-#~ "work."
-#~ msgstr "Varjossa ei tarvitse ajaa jälkikäteen komentoa wp search-replace."
-
-#~ msgid "Reset from production"
-#~ msgstr "Palauta tuotannon tilasta"
-
-#~ msgid "Zone for: "
-#~ msgstr "Zone verkkotunnukselle: "
-
-#~ msgid "updated: "
-#~ msgstr "päivitetty: "
-
-#~ msgid "Primary Domain"
-#~ msgstr "Ensisijainen verkkotunnus"
-
-#~ msgid "DNS not managed by Seravo, see %1$smore details%2$s"
-#~ msgstr "Seravo ei hallinnoi nimipalveluita. Katso %1$slisätiedot%2$s"
-
-#~ msgid "Subdomains don't have their own zone"
-#~ msgstr "Aliverkkotunnuksilla ei ole omia verkkotunnustietoja"
-
-#~ msgid "This domain doesn't have a zone"
-#~ msgstr "Verkkotunnuksella ei ole verkkotunnustietoja"

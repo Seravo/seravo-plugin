@@ -85,6 +85,8 @@ cd /data/wordpress/htdocs/wp-content/mu-plugins/seravo-plugin
 wp i18n make-pot . languages/seravo.pot
 ```
 
+> NOTE! If this fails on `PHP Fatal error:  Uncaught Error: Maximum function nesting level of '256' reached` temporairly remove the overly complex files with `rm js/cruft*`.
+
 ### Running PHPCS
 
 If you have PHPCS installed locally with all the WordPress standards, simply run `phpcs` yourself or let your code editor run it automatically on every save. Alternatively run PHPCS inside local Vagrant or Docker image, or on the same remote site used for testing:

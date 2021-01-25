@@ -27,6 +27,9 @@ if ( ! class_exists('Security_Restrictions') ) {
       if ( get_option('seravo-disable-xml-rpc') ) {
 
         // Block XML-RPC and X-pingback if IP not whitelisted
+        // NOTE! Filter xmlrpc_enabled affects only authenticated XML-RPC requests,
+        // and *not* XML-RPC in general.
+        // See https://www.scottbrownconsulting.com/2020/03/two-ways-to-fully-disable-wordpress-xml-rpc/
         add_filter('xmlrpc_enabled', array( __CLASS__, 'maybe_block_xml_rpc' ));
 
       }
