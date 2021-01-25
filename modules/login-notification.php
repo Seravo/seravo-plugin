@@ -161,24 +161,33 @@ if ( ! class_exists('Login_Notifications') ) {
       $already_skipped = false;
 
       foreach ( $output_reversed as $line ) {
-        $output_array = explode(' ', $line);
-        $is_successful_login = (bool) preg_match('/.*SUCCESS.*/', $output_array[ count($output_array) - 1 ]);
-        $is_current_user_login = (get_userdata(wp_get_current_user()->ID)->user_login === $output_array[2]);
+        preg_match('/^(?<ip>[.:0-9a-f]+) - (?<name>[\w\-_.*@ ]+) \[(?<datetime>[\d\/\w: +]+)\] .* (?<status>[A-Z]+$)/', $line, $entry);
+
+        $is_current_user_login = (get_userdata(wp_get_current_user()->ID)->user_login === $entry['name']);
 
         // Handle only successful logins
-        if ( $is_successful_login && $is_current_user_login ) {
+        if ( $entry['status'] == 'SUCCESS' && $is_current_user_login ) {
           // Skip the first login from the current user as it is most likely the latest
           if ( ! $already_skipped ) {
             $already_skipped = true;
             continue;
           }
 
-          // Fetch login ip and date
-          $ip = $output_array[0];
-          $date = substr($output_array[3], 1, strlen($output_array[3]));
+          // Fetch login IP and the reverse domain name
+          $ip = $entry['ip'];
+          $domain = gethostbyaddr($ip);
+
+          // Fetch login date and time
+          $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $entry['datetime']);
+          error_log($entry['datetime']);
+          error_log($datetime->format('c'));
+          $datetime->setTimezone(new \DateTimeZone(wp_timezone_string()));
+
           return array(
-            'ip'   => $ip,
-            'date' => $date,
+            'date'   => $datetime->format(get_option('date_format')),
+            'time'   => $datetime->format(get_option('time_format')),
+            'ip'     => $ip,
+            'domain' => $domain,
           );
         }
       }
@@ -190,19 +199,37 @@ if ( ! class_exists('Login_Notifications') ) {
     */
     public static function display_admin_logins_notification() {
       $user_data = get_userdata(wp_get_current_user()->ID);
-      $msg = wp_sprintf(
-        /* translators:
-        * %1$s username of the current user
-        * %2$s datetime of last login
-        * %3$s timezone used to represent the datetime of the last login
-        * %4$s IP address of the last login
-        */
-        __('Welcome, %1$s! Your previous login was on %2$s (%3$s) from %4$s.', 'seravo'),
-        $user_data->user_firstname == '' ? $user_data->user_login : $user_data->user_firstname,
-        preg_replace('/:/', ' ', self::$login['date'], 1),
-        date_default_timezone_get(),
-        self::$login['ip']
-      );
+
+      if ( empty(self::$login['domain']) ) {
+        $msg = wp_sprintf(
+          /* translators:
+          * %1$s username of the current user
+          * %2$s date of last login
+          * %3$s time of last login
+          * %4$s reverse domain of the last login
+          */
+          __('Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s.', 'seravo'),
+          $user_data->user_firstname == '' ? $user_data->user_login : $user_data->user_firstname,
+          self::$login['date'],
+          self::$login['time'],
+          self::$login['ip']
+        );
+      } else {
+        $msg = wp_sprintf(
+          /* translators:
+          * %1$s username of the current user
+          * %2$s date of last login
+          * %3$s time of last login
+          * %4$s IP address of the last login
+          */
+          __('Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s.', 'seravo'),
+          $user_data->user_firstname == '' ? $user_data->user_login : $user_data->user_firstname,
+          self::$login['date'],
+          self::$login['time'],
+          self::$login['domain']
+        );
+      }
+
       echo '<div class="seravo-last-login notice notice-info is-dismissible">' . $msg . '</div>';
     }
     /**
