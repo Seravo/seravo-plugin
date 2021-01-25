@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2021-01-25T18:36:17+02:00\n"
-"PO-Revision-Date: 2021-01-25 18:37+0200\n"
+"POT-Creation-Date: 2021-02-08T13:33:53+02:00\n"
+"PO-Revision-Date: 2021-02-08 13:46+0200\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -213,23 +213,19 @@ msgstr "Jotain meni pieleen, eikä vanhaa lähdettä voitu poistaa."
 msgid "Something went wrong, the forwards couln't be modified."
 msgstr "Jotain meni pieleen, eikä uudelleenohjauksia voitu muokata."
 
-#: lib/security-ajax.php:32
-msgid "Error: Failed to open the wp-login.log"
-msgstr ""
+#: lib/security-ajax.php:93
+msgid "No login data"
+msgstr "Ei kirjautumistietoja"
 
-#: lib/security-ajax.php:77
-msgid "No successful logins found."
-msgstr "Edellisiä onnistuneita kirjautumisia ei löytynyt."
-
-#: lib/security-ajax.php:97
+#: lib/security-ajax.php:98
 msgid "Time"
 msgstr "Aika"
 
-#: lib/security-ajax.php:98
+#: lib/security-ajax.php:99
 msgid "User"
 msgstr "Käyttäjä"
 
-#: lib/security-ajax.php:99
+#: lib/security-ajax.php:100
 msgid "Address"
 msgstr "Osoite"
 
@@ -657,15 +653,14 @@ msgid "Error log read failure"
 msgstr "Virhelokin lukuhäiriö"
 
 #. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s reverse domain of the last login
-#. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s IP address of the last login
-#: modules/login-notification.php:211 modules/login-notification.php:225
+#: modules/login-notification.php:211 modules/login-notification.php:219
 msgid "Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s."
 msgstr ""
 "Tervetuloa, %1$s! Edellinen kirjautumisesi oli %2$s kello %3$s osoitteesta "
 "%4$s."
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:245
+#: modules/login-notification.php:239
 msgid ""
 "The PHP error log has more than %1$s entries this week. Please see %2$s for "
 "details. This is usually a sign that something is broken in the code. The "
@@ -676,7 +671,7 @@ msgstr ""
 "että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 "sivuston kehittäjälle."
 
-#: modules/login-notification.php:258
+#: modules/login-notification.php:252
 msgid ""
 "The PHP error log is abnormally large. This is a sign that something is "
 "broken in the code. The developer of the site should be notified."
@@ -685,7 +680,7 @@ msgstr ""
 "sivuston koodissa. Suosittelemme, että tästä ilmoitetaan sivuston "
 "kehittäjälle."
 
-#: modules/login-notification.php:269
+#: modules/login-notification.php:263
 msgid ""
 "There is a problem trying to read the php-error.log. This is a sign that "
 "something is broken in the code. The developer of the site should be "
@@ -1016,26 +1011,39 @@ msgid "Brute-force login protection"
 msgstr "Kirjautumispommitusten esto"
 
 #: modules/security.php:219
-msgid "Disable XML-RPC"
-msgstr "Estä XML-RPC toiminta"
+msgid "Disable authenticated XML-RPC"
+msgstr "Estä autentikoitu XML-RPC"
 
 #: modules/security.php:220
 msgid ""
-"Disabling XML-RPC doesn't affect the Jetpack plugin. Jetpack IPs are "
-"whitelisted by default."
+"Prevent brute-force attempts via XML-RPC. Disables e.g. using the WordPress "
+"mobile app. Doesn't affect the Jetpack plugin as its IPs are whitelisted."
 msgstr ""
-"XML-RPC:n estäminen ei vaikuta Jetpack-lisäosan toimintaan. Jetpackin IP-"
-"osoitteet ovat sallittu oletuksena."
+"Estä kirjautumisyritykset XML-RPC:n kautta. Esim. WordPressin "
+"mobiiliapplikaatio lakkaa toimimasta. Ei vaikuta Jetpack-lisäosan "
+"toimintaan, koska sen IP-osoitteet ovat erikseen sallittu."
 
 #: modules/security.php:228
+msgid "Completely disable XML-RPC"
+msgstr "Estä XML-RPC toiminta kokonaan"
+
+#: modules/security.php:229
+msgid ""
+"Prevent XML-RPC from responding to any methods at all. Disables e.g. "
+"pingbacks."
+msgstr ""
+"Estä XML-RPC:tä vastaamasta mihinkään metodikutsuun. Esim. päivityspalvelu "
+"(pingback) lakkaa toimimasta."
+
+#: modules/security.php:237
 msgid "Disable WP-JSON user enumeration"
 msgstr "Estä WP-JSON kautta käyttäjätunnusten luettelointi"
 
-#: modules/security.php:236
+#: modules/security.php:245
 msgid "Disable GET author enumeration"
 msgstr "Estä GET author kautta käyttäjätunnusten luettelointi"
 
-#: modules/security.php:248
+#: modules/security.php:258
 msgid ""
 "Seravo has security built-in. There are however a few extra measures\n"
 "        that the site owner can choose to do if their site will not miss any "
@@ -1046,12 +1054,12 @@ msgstr ""
 "jonka sivuston omistaja voi halutessaan tehdä mikäli tietää\n"
 "että ei tarvitse tiettyjä toimintoja koskaan."
 
-#: modules/security.php:278 modules/sitestatus.php:621
+#: modules/security.php:292 modules/sitestatus.php:621
 #: modules/sitestatus.php:664
 msgid "Save"
 msgstr "Tallenna"
 
-#: modules/security.php:296
+#: modules/security.php:310
 msgid ""
 "Find and delete any extraneous and potentially harmful files taking up space "
 "in the file system. Note that not everything is necessarily safe to delete."
@@ -1060,11 +1068,11 @@ msgstr ""
 "palvelimelta levytilan säästämiseksi. Otathan huomioon, että kaikkia "
 "ehdotuksia ei ole välttämättä turvallista tehdä."
 
-#: modules/security.php:305 modules/security.php:326
+#: modules/security.php:319 modules/security.php:340
 msgid "Searching for files..."
 msgstr "Etsitään tiedostoja..."
 
-#: modules/security.php:316
+#: modules/security.php:330
 msgid ""
 "Find and remove any plugins that are currently inactive or otherwise "
 "potentially harmful. For more information, please read our <a href=\"https://"
@@ -1076,11 +1084,11 @@ msgstr ""
 "fi/article/313-suositellut-lisaosat\" target=\"_BLANK\">suositelluista "
 "lisäosista palvelinympäristössämme</a>."
 
-#: modules/security.php:321
+#: modules/security.php:335
 msgid "Searching for plugins..."
 msgstr "Etsitään lisäosia..."
 
-#: modules/security.php:337
+#: modules/security.php:351
 msgid ""
 "Find and remove themes that are inactive. For more information, please read "
 "our <a href=\"https://help.seravo.com/article/70-can-i-install-my-own-"
@@ -1092,7 +1100,7 @@ msgstr ""
 "omia-lisaosia-ja-teemoja\" target=\"_BLANK\">ulkoasuteemoja ja lisäosia "
 "koskevista ohjeistamme</a>."
 
-#: modules/security.php:342
+#: modules/security.php:356
 msgid "Searching for themes..."
 msgstr "Etsitään lisäosia..."
 
@@ -1693,6 +1701,7 @@ msgstr "Testaa nykyisen sivun nopeus"
 msgid ""
 "This file couldn't be sanitized so for security reasons it wasn't uploaded"
 msgstr ""
+"Tiedostonimeä ei voitu siistiä, joten tietoturvasyistä sitä ei tallennettu"
 
 #: modules/toolbox.php:18 modules/toolbox.php:19
 msgid "Site Status"

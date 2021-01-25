@@ -216,9 +216,18 @@ if ( ! class_exists('Security') ) {
       /* Real settings below */
       self::add_settings_field_with_desc(
         'seravo-disable-xml-rpc',
-        __('Disable XML-RPC', 'seravo'),
-        __('Disabling XML-RPC doesn\'t affect the Jetpack plugin. Jetpack IPs are whitelisted by default.', 'seravo'),
+        __('Disable authenticated XML-RPC', 'seravo'),
+        __('Prevent brute-force attempts via XML-RPC. Disables e.g. using the WordPress mobile app. Doesn\'t affect the Jetpack plugin as its IPs are whitelisted.', 'seravo'),
         array( __CLASS__, 'seravo_security_xmlrpc_field' ),
+        'tools_page_security_page',
+        'seravo_security_settings'
+      );
+
+      self::add_settings_field_with_desc(
+        'seravo-disable-xml-rpc-all-methods',
+        __('Completely disable XML-RPC', 'seravo'),
+        __('Prevent XML-RPC from responding to any methods at all. Disables e.g. pingbacks.', 'seravo'),
+        array( __CLASS__, 'seravo_security_xmlrpc_completely_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
       );
@@ -240,6 +249,7 @@ if ( ! class_exists('Security') ) {
       );
 
       register_setting('seravo_security_settings', 'seravo-disable-xml-rpc');
+      register_setting('seravo_security_settings', 'seravo-disable-xml-rpc-all-methods');
       register_setting('seravo_security_settings', 'seravo-disable-json-user-enumeration');
       register_setting('seravo_security_settings', 'seravo-disable-get-author-enumeration');
     }
@@ -260,6 +270,10 @@ if ( ! class_exists('Security') ) {
 
     public static function seravo_security_xmlrpc_field() {
       echo '<input type="checkbox" name="seravo-disable-xml-rpc" id="disable-xmlrpc" ' . checked('on', get_option('seravo-disable-xml-rpc'), false) . '>';
+    }
+
+    public static function seravo_security_xmlrpc_completely_field() {
+      echo '<input type="checkbox" name="seravo-disable-xml-rpc-all-methods" id="complete-disable-xmlrpc" ' . checked('on', get_option('seravo-disable-xml-rpc-all-methods'), false) . '>';
     }
 
     public static function seravo_security_json_user_enum_field() {

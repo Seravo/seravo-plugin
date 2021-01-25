@@ -1,10 +1,7 @@
 <?php
 /*
- * Description: Custom redirects to enforce primary domain or https
+ * Description: Custom security settings
  *
- * This module should be called as early as possible so that the redirect
- * happens as quickly as possible and no other parts of the WordPress are
- * initialized in vain.
  */
 
 namespace Seravo;
@@ -24,14 +21,22 @@ if ( ! class_exists('Security_Restrictions') ) {
 
       add_action('activate_seravo-plugin/seravo-plugin.php', array( __CLASS__, 'maybe_enable_xml_rpc_blocking' ));
 
-      if ( get_option('seravo-disable-xml-rpc') ) {
+      if ( get_option('seravo-disable-xml-rpc-all-methods') ) {
+        // Block XML-RPC completely
+        add_filter('xmlrpc_enabled', '__return_false');
+        add_filter('xmlrpc_methods', array( __CLASS__, 'remove_xmlrpc_methods' ));
 
+        if ( isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']) ) {
+          if ( strpos($_SERVER['REQUEST_URI'], 'xml-rpc.php') !== false ) {
+            wp_die('XML-RPC blocked.');
+          }
+        }
+      } elseif ( get_option('seravo-disable-xml-rpc') ) {
         // Block XML-RPC and X-pingback if IP not whitelisted
         // NOTE! Filter xmlrpc_enabled affects only authenticated XML-RPC requests,
         // and *not* XML-RPC in general.
         // See https://www.scottbrownconsulting.com/2020/03/two-ways-to-fully-disable-wordpress-xml-rpc/
         add_filter('xmlrpc_enabled', array( __CLASS__, 'maybe_block_xml_rpc' ));
-
       }
 
       if ( get_option('seravo-disable-json-user-enumeration') ) {
@@ -69,6 +74,15 @@ if ( ! class_exists('Security_Restrictions') ) {
 
     }
 
+    /*
+     * Prevent XML-RPC for responding to anything by simply making sure the
+     * list of supported methods is empty.
+     * See https://developer.wordpress.org/reference/hooks/xmlrpc_methods/
+     */
+    public static function remove_xmlrpc_methods() {
+      return array();
+    }
+
     public static function disable_x_pingback( $headers ) {
       unset($headers['X-Pingback']);
       return $headers;
@@ -100,7 +114,7 @@ if ( ! class_exists('Security_Restrictions') ) {
 
     }
 
-    public function maybe_block_xml_rpc() {
+    public static function maybe_block_xml_rpc() {
       $whitelist = self::get_jetpack_whitelist();
       $whitelist = apply_filters('seravo_xml_rpc_whitelist', $whitelist);
 
@@ -121,7 +135,7 @@ if ( ! class_exists('Security_Restrictions') ) {
       }
     }
 
-    public function get_jetpack_whitelist() {
+    public static function get_jetpack_whitelist() {
       $url = 'https://jetpack.com/ips-v4.json';
       $key = 'jetpack_xml_rpc_whitelist_' . md5($url);
 

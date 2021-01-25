@@ -85,7 +85,7 @@ cd /data/wordpress/htdocs/wp-content/mu-plugins/seravo-plugin
 wp i18n make-pot . languages/seravo.pot
 ```
 
-> NOTE! If this fails on `PHP Fatal error:  Uncaught Error: Maximum function nesting level of '256' reached` temporairly remove the overly complex files with `rm js/cruft*`.
+> NOTE! If this fails on `PHP Fatal error:  Uncaught Error: Maximum function nesting level of '256' reached` temporarily remove the overly complex files with `rm js/cruft*`.
 
 ### Running PHPCS
 
