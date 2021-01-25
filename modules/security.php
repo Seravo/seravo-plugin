@@ -50,7 +50,7 @@ if ( ! class_exists('Security') ) {
 
       seravo_add_postbox(
         'logins_info',
-        __('Recent successful logins', 'seravo'),
+        __('Last successful logins', 'seravo'),
         array( __CLASS__, 'logins_info_postbox' ),
         'tools_page_security_page',
         'side'
@@ -285,7 +285,8 @@ if ( ! class_exists('Security') ) {
         <img src="/wp-admin/images/spinner.gif">
       </div>
 
-      <pre id="logins_info"></pre>
+      <div id="logins_info"></div>
+
       <?php
     }
 

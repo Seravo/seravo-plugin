@@ -5,8 +5,15 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-// Returns IP, username and time of successful logins.
-// Number of results are limited by $max.
+/*
+ * Custom function to read wp-login.log or previous versions of it in case
+ * it rotated and older versions are needed to find last logins.
+ *
+ * The read_log_lines_backwards() from logs.php is not used as would not suffice.
+ *
+ * Returns IP, username and time of successful logins.
+ * Number of results are limited by $max.
+ */
 function seravo_logins_info( $max = 10 ) {
   $logfile = dirname(ini_get('error_log')) . '/wp-login.log';
   if ( is_readable($logfile) ) {
@@ -56,15 +63,23 @@ function seravo_logins_info( $max = 10 ) {
     if ( isset($matches['ip'][0]) && isset($matches['name'][0]) && isset($matches['datetime'][0]) ) {
       // If valid line
       $datetime = DateTime::createFromFormat('d/M/Y:H:i:s T', $matches['datetime'][0]);
-      $datetime->setTimezone(new DateTimeZone(date('T')));
+      $datetime->setTimezone(new DateTimeZone(wp_timezone_string()));
       $date = $datetime->format(get_option('date_format'));
       $time = $datetime->format(get_option('time_format'));
 
+      // Fetch login IP and the reverse domain name
+      $domain = gethostbyaddr($matches['ip'][0]);
+      if ( empty($domain) ) {
+        $address = $matches['ip'][0];
+      } else {
+        $address = $domain;
+      }
+
       $login_data[ $i ] = '<tr>' .
-        '<td class="seravo-tooltip" title="' . $matches['ip'][0] . '">' . $matches['ip'][0] . '</td>' .
+        '<td class="seravo-tooltip" title="' . $date . ' ' . $time . '">' . $date . ' ' . $time . '</td>' .
         '<td class="seravo-tooltip" title="' . $matches['name'][0] . '">' . $matches['name'][0] . '</td>' .
-        '<td class="seravo-tooltip" title="' . $date . '">' . $date . '</td>' .
-        '<td class="seravo-tooltip" title="' . $time . '">' . $time . '</td>';
+        '<td class="seravo-tooltip" title="' . $address . '">' . $address . '</td>' .
+        '</tr>';
     } else {
       // If invalid line
       unset($login_data[ $i ]);
@@ -80,10 +95,10 @@ function seravo_logins_info( $max = 10 ) {
 
   // Adding column titles and table tags
   $column_titles = '<table class="login_info_table"><tr>' .
-    '<th class="login_info_th">' . __('IP address', 'seravo') . '</th>' .
+    '<th class="login_info_th">' . __('Time', 'seravo') . '</th>' .
     '<th class="login_info_th">' . __('User', 'seravo') . '</th>' .
-    '<th class="login_info_th">' . __('Date', 'seravo') . '</th>' .
-    '<th class="login_info_th">' . __('Time', 'seravo') . ' (' . date('T') . ')</th></tr>';
+    '<th class="login_info_th">' . __('Address', 'seravo') . '</th>' .
+    '</tr>';
 
   $login_data = array_reverse($login_data);
   $login_data = array_merge(array( $column_titles ), $login_data);

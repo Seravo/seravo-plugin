@@ -242,6 +242,9 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
         $container_class = 'two-column-layout';
       } elseif ( $column_count === 'one_column' ) {
         $container_class = 'one-column-layout';
+      } else {
+        // Prevent line 256 from emitting Notices on unset variable
+        $container_class = '';
       }
 
       // Fire pre-postbox action
