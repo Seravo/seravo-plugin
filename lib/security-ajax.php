@@ -1,13 +1,19 @@
 <?php
 
+namespace Seravo;
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
+
+if ( ! class_exists('Security') ) {
+  class SecurityAjax {
+
 // Returns IP, username and time of successful logins.
 // Number of results are limited by $max.
-function seravo_logins_info( $max = 10 ) {
+public static function seravo_logins_info( $max = 10 ) {
   $logfile = dirname(ini_get('error_log')) . '/wp-login.log';
   if ( is_readable($logfile) ) {
     // Get the latest logins from wp-login.log
@@ -55,8 +61,8 @@ function seravo_logins_info( $max = 10 ) {
 
     if ( isset($matches['ip'][0]) && isset($matches['name'][0]) && isset($matches['datetime'][0]) ) {
       // If valid line
-      $datetime = DateTime::createFromFormat('d/M/Y:H:i:s T', $matches['datetime'][0]);
-      $datetime->setTimezone(new DateTimeZone(date('T')));
+      $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $matches['datetime'][0]);
+      $datetime->setTimezone(new \DateTimeZone(date('T')));
       $date = $datetime->format(get_option('date_format'));
       $time = $datetime->format(get_option('time_format'));
 
@@ -92,11 +98,11 @@ function seravo_logins_info( $max = 10 ) {
   return $login_data;
 }
 
-function seravo_ajax_security() {
+public static function seravo_ajax_security() {
   check_ajax_referer('seravo_security', 'nonce');
   switch ( $_REQUEST['section'] ) {
     case 'logins_info':
-      echo wp_json_encode(seravo_logins_info());
+      echo wp_json_encode(self::seravo_logins_info());
       break;
 
     default:
@@ -105,4 +111,7 @@ function seravo_ajax_security() {
   }
 
   wp_die();
+}
+
+}
 }

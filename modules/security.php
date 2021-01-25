@@ -26,7 +26,7 @@ if ( ! class_exists('Security') ) {
       add_action('admin_init', array( __CLASS__, 'register_security_settings' ));
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_security_scripts' ));
 
-      add_action('wp_ajax_seravo_security', 'seravo_ajax_security');
+      add_action('wp_ajax_seravo_security', array( 'Seravo\SecurityAjax', 'seravo_ajax_security' ));
 
       // AJAX functionality for listing and deleting files
       add_action('wp_ajax_seravo_cruftfiles', 'seravo_ajax_list_cruft_files');
