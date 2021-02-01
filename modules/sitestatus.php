@@ -618,7 +618,7 @@ if ( ! class_exists('Site_Status') ) {
       echo '<form method="post" action="options.php" class="seravo-general-form">';
       settings_fields('seravo-optimize-images-settings-group');
       do_settings_sections('optimize_images_settings');
-      submit_button(__('Save', 'seravo'), 'primary', 'btnSubmit');
+      submit_button(__('Save', 'seravo'), 'primary', 'btnSubmitOptimize');
       echo '</form>';
     }
 
@@ -661,7 +661,7 @@ if ( ! class_exists('Site_Status') ) {
       echo '<form method="post" action="options.php" class="seravo-general-form">';
       settings_fields('seravo-sanitize-uploads-settings-group');
       do_settings_sections('sanitize_uploads_settings');
-      submit_button(__('Save', 'seravo'), 'primary', 'btnSubmit');
+      submit_button(__('Save', 'seravo'), 'primary', 'btnSubmitSanitize');
       echo '</form>';
     }
 
