@@ -145,6 +145,31 @@ function seravo_report_redis_info() {
   return $result;
 }
 
+function seravo_enable_object_cache() {
+  $object_cache_url = 'https://raw.githubusercontent.com/Seravo/wordpress/master/htdocs/wp-content/object-cache.php';
+  $object_cache_path = '/data/wordpress/htdocs/wp-content/object-cache.php';
+  $result = array();
+
+  // Remove all possible object-cache.php.* files
+  foreach ( glob($object_cache_path . '.*') as $file ) {
+    unlink($file);
+  }
+
+  // Get the newest file and write it
+  $object_cache_content = file_get_contents($object_cache_url);
+  $object_cache_file = fopen($object_cache_path, 'w');
+  $write_object_cache = fwrite($object_cache_file, $object_cache_content);
+  fclose($object_cache_file);
+
+  if ( $write_object_cache && $object_cache_content ) {
+    $result['success'] = true;
+  } else {
+    $result['success'] = false;
+  }
+
+  return $result;
+}
+
 function seravo_report_longterm_cache_stats() {
   $access_logs = glob('/data/slog/*_total-access.log');
 
@@ -224,6 +249,10 @@ function seravo_ajax_site_status() {
 
     case 'redis_info':
       echo wp_json_encode(seravo_report_redis_info());
+      break;
+
+    case 'object_cache':
+      echo wp_json_encode(seravo_enable_object_cache());
       break;
 
     case 'longterm_cache':
