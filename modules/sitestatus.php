@@ -18,6 +18,9 @@ if ( ! class_exists('Site_Status') ) {
     private static $min_width = 500;
     private static $min_height = 500;
 
+    // Object-cache file location
+    const OBJECT_CACHE_PATH = '/data/wordpress/htdocs/wp-content/object-cache.php';
+
     public static function load() {
       add_action('admin_init', array( __CLASS__, 'register_optimize_image_settings' ));
       add_action('admin_init', array( __CLASS__, 'register_sanitize_uploads_settings' ));
@@ -168,6 +171,8 @@ if ( ! class_exists('Site_Status') ) {
           'failed'              => __('Failed to load. Please try again.', 'seravo'),
           'no_reports'          => __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'),
           'view_report'         => __('View report', 'seravo'),
+          'object_cache_success'=> __('Object cache is now enabled', 'seravo'),
+          'object_cache_failure'=> __('Enabling object cache failed', 'seravo'),
           'running_cache_tests' => __('Running cache tests...', 'seravo'),
           'cache_success'       => __('HTTP cache working', 'seravo'),
           'cache_failure'       => __('HTTP cache not working', 'seravo'),
@@ -218,6 +223,17 @@ if ( ! class_exists('Site_Status') ) {
     }
 
     public static function seravo_cache_status() {
+      ?>
+      <?php
+        if ( ! file_exists(self::OBJECT_CACHE_PATH) ) {
+       ?>
+      <h3 id='object_cache_warning' style='color: red' > <?php _e('Object cache is currently disabled!', 'seravo'); ?> <h3>
+      <button type='button' class='button-primary' id='enable-object-cache'> <?php _e('Enable', 'seravo'); ?> </button>
+      <div class='object_cache_loading' hidden>
+        <img src='/wp-admin/images/spinner.gif'>
+      </div>
+        <?php
+      }
       ?>
       <p><?php _e('Caching decreases the load time of the website. The cache hit rate represents the efficiency of cache usage. Read about caching from the <a href="https://help.seravo.com/article/36-how-does-caching-work/" target="_BLANK">documentation</a> or <a href="https://seravo.com/tag/cache/" target="_BLANK">blog</a>.', 'seravo'); ?></p>
       <h3><?php _e('Object Cache in Redis', 'seravo'); ?></h3>
@@ -279,11 +295,11 @@ if ( ! class_exists('Site_Status') ) {
         <?php
           $api_response = API::get_site_data();
           if ( is_wp_error($api_response) ) {
-            $max_disk = null;
-            $disk_display = 'none';
+          $max_disk = null;
+          $disk_display = 'none';
           } else {
-            $max_disk = $api_response['plan']['disklimit']; // in GB
-            $disk_display = 'block';
+          $max_disk = $api_response['plan']['disklimit']; // in GB
+          $disk_display = 'block';
           }
         ?>
         <div id="donut_single" style="width: 30%; float: right"></div>

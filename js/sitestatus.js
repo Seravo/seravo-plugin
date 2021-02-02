@@ -354,6 +354,30 @@ jQuery(document).ready(function($) {
     seravo_load_report('front_cache_status');
   });
 
+  jQuery('#enable-object-cache').click(function() {
+    // Manage the props
+    jQuery(this).prop('disabled', true);
+    jQuery('.object_cache_loading').prop('hidden', false);
+
+    jQuery.post(seravo_site_status_loc.ajaxurl, {
+      'action': 'seravo_ajax_site_status',
+      'section': 'object_cache',
+      'nonce': seravo_site_status_loc.ajax_nonce,
+    }, function (rawData) {
+        var result = JSON.parse(rawData)
+
+        if (result['success'] === true) {
+          jQuery('.object_cache_loading').prop('hidden', true)
+          jQuery('#enable-object-cache').remove()
+          jQuery('#object_cache_warning').css('color', 'green')
+          jQuery('#object_cache_warning').html(seravo_site_status_loc.object_cache_success)
+        } else {
+          jQuery('#object_cache_warning').html(seravo_site_status_loc.object_cache_failure)
+          jQuery('.object_cache_loading').prop('hidden', true)
+        }
+    })
+  });
+
   jQuery('.seravo_cache_test_show_more').click(function(event) {
     event.preventDefault();
 
