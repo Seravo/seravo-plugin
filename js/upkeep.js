@@ -315,7 +315,7 @@ jQuery(document).ready(function($) {
     jQuery.post(
       seravo_upkeep_loc.ajaxurl, {
         'action': 'seravo_ajax_upkeep',
-        'section': 'check_php_config_files',
+        'section': 'seravo_check_php_config_files',
         'nonce': seravo_upkeep_loc.ajax_nonce
       });
 

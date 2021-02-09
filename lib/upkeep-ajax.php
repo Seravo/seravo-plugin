@@ -87,7 +87,7 @@ function seravo_default_config_file() {
   return true;
 }
 
-function check_php_config_files() {
+function seravo_check_php_config_files() {
   $dir = '/data/wordpress/nginx';
 
   exec('grep -l "^set \$mode php" ' . $dir . '/*.conf | tail -1', $config_file);
@@ -121,7 +121,7 @@ function seravo_tests() {
   return $return_arr;
 }
 
-function changes_since() {
+function seravo_changes_since() {
   $date = $_POST['date'];
   $result_count = '';
 
@@ -185,8 +185,8 @@ function seravo_ajax_upkeep( $date ) {
       echo seravo_default_config_file();
       break;
 
-    case 'check_php_config_files':
-      echo check_php_config_files();
+    case 'seravo_check_php_config_files':
+      echo seravo_check_php_config_files();
       break;
 
     case 'seravo_tests':
@@ -194,7 +194,7 @@ function seravo_ajax_upkeep( $date ) {
       break;
 
     case 'seravo_changes':
-      echo wp_json_encode(changes_since());
+      echo wp_json_encode(seravo_changes_since());
       break;
 
     default:
