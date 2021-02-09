@@ -11,8 +11,8 @@ require_once dirname(__FILE__) . '/../lib/sitestatus-ajax.php';
 if ( ! class_exists('Site_Status') ) {
   class Site_Status {
     // Default maximum resolution for images
-    private static $max_width_default = 4000;
-    private static $max_height_default = 4000;
+    private static $max_width_default = 2560;
+    private static $max_height_default = 2560;
 
     // Minimum resolution for images. Can't be set any lower by user.
     private static $min_width = 500;
