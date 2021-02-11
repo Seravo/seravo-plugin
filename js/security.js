@@ -17,6 +17,7 @@ jQuery(document).ready(function($) {
         }
 
         jQuery('#' + section + '_loading').fadeOut();
+        jQuery('#' + section + '_loading img').fadeOut();
         var data = JSON.parse(rawData);
         jQuery('#' + section).append(data.join("\n"));
       }
