@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-02-08T13:33:53+02:00\n"
+"POT-Creation-Date: 2021-02-11T07:38:19+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -230,11 +230,11 @@ msgstr ""
 msgid "Toggle panel: %s"
 msgstr ""
 
-#: lib/sitestatus-ajax.php:260
+#: lib/sitestatus-ajax.php:289
 msgid "Error: Invalid url"
 msgstr ""
 
-#: lib/sitestatus-ajax.php:282
+#: lib/sitestatus-ajax.php:311
 msgid "Error! HTTP response code: "
 msgstr ""
 
@@ -431,7 +431,7 @@ msgid "Most common autoloaded wp_option values:"
 msgstr ""
 
 #: modules/database.php:291
-#: modules/sitestatus.php:266
+#: modules/sitestatus.php:282
 #: modules/upkeep.php:344
 #: modules/upkeep.php:673
 msgid "Toggle Details"
@@ -582,21 +582,22 @@ msgid "Error log read failure"
 msgstr ""
 
 #. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s reverse domain of the last login
+#. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s IP address of the last login
 #: modules/login-notification.php:211
-#: modules/login-notification.php:219
+#: modules/login-notification.php:225
 msgid "Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s."
 msgstr ""
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:239
+#: modules/login-notification.php:245
 msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: modules/login-notification.php:252
+#: modules/login-notification.php:258
 msgid "The PHP error log is abnormally large. This is a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: modules/login-notification.php:263
+#: modules/login-notification.php:269
 msgid "There is a problem trying to read the php-error.log. This is a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
@@ -691,695 +692,727 @@ msgstr ""
 msgid "Error: the nonce did not verify."
 msgstr ""
 
-#: modules/security.php:45
+#: modules/security.php:47
 #: modules/toolbox.php:57
 #: modules/toolbox.php:58
 msgid "Security"
 msgstr ""
 
-#: modules/security.php:53
+#: modules/security.php:55
 msgid "Last successful logins"
 msgstr ""
 
-#: modules/security.php:61
+#: modules/security.php:63
+msgid "Check passwords (Beta)"
+msgstr ""
+
+#: modules/security.php:71
 msgid "Cruft Files"
 msgstr ""
 
-#: modules/security.php:70
+#: modules/security.php:79
 msgid "Unnecessary plugins"
 msgstr ""
 
-#: modules/security.php:79
+#: modules/security.php:87
 msgid "Unnecessary themes"
 msgstr ""
 
-#: modules/security.php:114
-#: modules/sitestatus.php:167
+#: modules/security.php:122
+#: modules/sitestatus.php:170
 #: modules/upkeep.php:113
 msgid "No data returned for the section."
 msgstr ""
 
-#: modules/security.php:115
+#: modules/security.php:123
 msgid "Are you sure you want to proceed? Deleted files can not be recovered."
 msgstr ""
 
-#: modules/security.php:116
-#: modules/sitestatus.php:168
+#: modules/security.php:124
+#: modules/sitestatus.php:171
 #: modules/upkeep.php:116
 msgid "Failed to load. Please try again."
 msgstr ""
 
-#: modules/security.php:117
+#: modules/security.php:125
 msgid "Congratulations! You have do not have any unnecessary files around."
 msgstr ""
 
-#: modules/security.php:118
+#: modules/security.php:126
 msgid "Delete"
 msgstr ""
 
-#: modules/security.php:119
+#: modules/security.php:127
 msgid "b"
 msgstr ""
 
-#: modules/security.php:120
+#: modules/security.php:128
 msgid "Last modified"
 msgstr ""
 
-#: modules/security.php:121
+#: modules/security.php:129
 msgid "Select all files"
 msgstr ""
 
-#: modules/security.php:122
+#: modules/security.php:130
 msgid "File size"
 msgstr ""
 
-#: modules/security.php:127
+#: modules/security.php:135
 msgid "Inactive Plugins:"
 msgstr ""
 
-#: modules/security.php:128
+#: modules/security.php:136
 msgid "These plugins are currently not in use. They can be removed to save disk storage space."
 msgstr ""
 
-#: modules/security.php:129
+#: modules/security.php:137
 msgid "Unnecessary Cache Plugins:"
 msgstr ""
 
-#: modules/security.php:130
+#: modules/security.php:138
 msgid "Your website is running on a server that does takes care of caching automatically. Any additional plugins that do caching will not improve the service."
 msgstr ""
 
-#: modules/security.php:131
+#: modules/security.php:139
 msgid "Unnecessary Security Plugins:"
 msgstr ""
 
-#: modules/security.php:132
+#: modules/security.php:140
 msgid "Your website runs on a server that is designed to provide a high level of security. Any plugins providing additional security measures will likely just slow down your website."
 msgstr ""
 
-#: modules/security.php:133
+#: modules/security.php:141
 msgid "Unnecessary Database Manipulation Plugins:"
 msgstr ""
 
-#: modules/security.php:134
+#: modules/security.php:142
 msgid "These plugins may cause issues with your database."
 msgstr ""
 
-#: modules/security.php:135
+#: modules/security.php:143
 msgid "Unnecessary Backup Plugins:"
 msgstr ""
 
-#: modules/security.php:136
+#: modules/security.php:144
 msgid "Backups of your website are automatically run on the server on a daily basis. Any plugins creating additional backups are redundant and will unnecessesarily fill up your data storage space."
 msgstr ""
 
-#: modules/security.php:137
+#: modules/security.php:145
 msgid "Unsecure Plugins:"
 msgstr ""
 
-#: modules/security.php:138
+#: modules/security.php:146
 msgid "These plugins have known issues with security."
 msgstr ""
 
-#: modules/security.php:139
+#: modules/security.php:147
 msgid "Bad Code:"
 msgstr ""
 
-#: modules/security.php:140
+#: modules/security.php:148
 msgid "These plugins code are hard to differentiate from actual malicious codes."
 msgstr ""
 
-#: modules/security.php:141
+#: modules/security.php:149
 msgid "Foolish Plugins:"
 msgstr ""
 
-#: modules/security.php:142
+#: modules/security.php:150
 msgid "These plugins are known to do foolish things."
 msgstr ""
 
-#: modules/security.php:143
+#: modules/security.php:151
 msgid "All the plugins that were found are currently active and do not have any known issues."
 msgstr ""
 
-#: modules/security.php:144
+#: modules/security.php:152
 msgid "The following plugins were found and are suggested to be removed:"
 msgstr ""
 
-#: modules/security.php:145
+#: modules/security.php:153
 msgid "Are you sure you want to remove this plugin?"
 msgstr ""
 
-#: modules/security.php:146
+#: modules/security.php:154
 msgid "Failed to remove plugin"
 msgstr ""
 
-#: modules/security.php:151
+#: modules/security.php:159
 msgid "is parent to: "
 msgstr ""
 
-#: modules/security.php:152
+#: modules/security.php:160
 msgid "Are you sure you want to remove this theme?"
 msgstr ""
 
-#: modules/security.php:153
+#: modules/security.php:161
 msgid "Failed to remove some themes!"
 msgstr ""
 
-#: modules/security.php:154
+#: modules/security.php:162
 msgid "There are currently no unused themes on the website."
 msgstr ""
 
-#: modules/security.php:155
+#: modules/security.php:163
 msgid "The following themes are inactive and can be removed."
 msgstr ""
 
-#: modules/security.php:178
+#: modules/security.php:186
 msgid "Automatic backups"
 msgstr ""
 
-#: modules/security.php:186
+#: modules/security.php:194
 msgid "Quick security updates"
 msgstr ""
 
-#: modules/security.php:194
+#: modules/security.php:202
 msgid "Monitoring of malicius code and database contents"
 msgstr ""
 
-#: modules/security.php:202
+#: modules/security.php:210
 msgid "Denial-of-service protection"
 msgstr ""
 
-#: modules/security.php:210
+#: modules/security.php:218
 msgid "Brute-force login protection"
 msgstr ""
 
-#: modules/security.php:219
+#: modules/security.php:227
 msgid "Disable authenticated XML-RPC"
 msgstr ""
 
-#: modules/security.php:220
+#: modules/security.php:228
 msgid "Prevent brute-force attempts via XML-RPC. Disables e.g. using the WordPress mobile app. Doesn't affect the Jetpack plugin as its IPs are whitelisted."
 msgstr ""
 
-#: modules/security.php:228
+#: modules/security.php:236
 msgid "Completely disable XML-RPC"
 msgstr ""
 
-#: modules/security.php:229
+#: modules/security.php:237
 msgid "Prevent XML-RPC from responding to any methods at all. Disables e.g. pingbacks."
 msgstr ""
 
-#: modules/security.php:237
+#: modules/security.php:245
 msgid "Disable WP-JSON user enumeration"
 msgstr ""
 
-#: modules/security.php:245
+#: modules/security.php:253
 msgid "Disable GET author enumeration"
 msgstr ""
 
-#: modules/security.php:258
+#: modules/security.php:266
 msgid ""
 "Seravo has security built-in. There are however a few extra measures\n"
 "        that the site owner can choose to do if their site will not miss any functionality\n"
 "        because of it."
 msgstr ""
 
-#: modules/security.php:292
-#: modules/sitestatus.php:621
-#: modules/sitestatus.php:664
+#: modules/security.php:300
+#: modules/sitestatus.php:637
+#: modules/sitestatus.php:680
 msgid "Save"
 msgstr ""
 
-#: modules/security.php:310
+#: modules/security.php:319
+msgid ""
+"This tool can be used to run command <code>wp-check-passwords</code>\n"
+"        which finds weak passwords from the users of the site. Note: This may fail, if\n"
+"        there are many users."
+msgstr ""
+
+#: modules/security.php:328
+#: modules/upkeep.php:334
+msgid "Run"
+msgstr ""
+
+#: modules/security.php:340
 msgid "Find and delete any extraneous and potentially harmful files taking up space in the file system. Note that not everything is necessarily safe to delete."
 msgstr ""
 
-#: modules/security.php:319
-#: modules/security.php:340
+#: modules/security.php:349
+#: modules/security.php:370
 msgid "Searching for files..."
 msgstr ""
 
-#: modules/security.php:330
+#: modules/security.php:360
 msgid "Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href=\"https://help.seravo.com/article/165-recommended-plugins\" target=\"_BLANK\">recommendations for plugins in our environment</a>."
 msgstr ""
 
-#: modules/security.php:335
+#: modules/security.php:365
 msgid "Searching for plugins..."
 msgstr ""
 
-#: modules/security.php:351
+#: modules/security.php:381
 msgid "Find and remove themes that are inactive. For more information, please read our <a href=\"https://help.seravo.com/article/70-can-i-install-my-own-plugins-and-themes-on-the-website\" target=\"_BLANK\">documentation concerning themes and plugins</a>."
 msgstr ""
 
-#: modules/security.php:356
+#: modules/security.php:386
 msgid "Searching for themes..."
 msgstr ""
 
-#: modules/sitestatus.php:33
+#: modules/sitestatus.php:36
 msgid "Site Information"
 msgstr ""
 
-#: modules/sitestatus.php:43
+#: modules/sitestatus.php:46
 msgid "HTTP Request Statistics"
 msgstr ""
 
-#: modules/sitestatus.php:52
+#: modules/sitestatus.php:55
 msgid "Cache Status"
 msgstr ""
 
-#: modules/sitestatus.php:61
+#: modules/sitestatus.php:64
 msgid "Shadows"
 msgstr ""
 
-#: modules/sitestatus.php:71
+#: modules/sitestatus.php:74
 msgid "Disk Usage"
 msgstr ""
 
-#: modules/sitestatus.php:79
-#: modules/sitestatus.php:125
+#: modules/sitestatus.php:82
+#: modules/sitestatus.php:128
 msgid "Optimize Images"
 msgstr ""
 
-#: modules/sitestatus.php:87
+#: modules/sitestatus.php:90
 msgid "Speed test"
 msgstr ""
 
-#: modules/sitestatus.php:95
-#: modules/sitestatus.php:652
+#: modules/sitestatus.php:98
+#: modules/sitestatus.php:668
 msgid "Sanitize uploads"
 msgstr ""
 
-#: modules/sitestatus.php:132
+#: modules/sitestatus.php:135
 msgid "Strip Image Metadata"
 msgstr ""
 
-#: modules/sitestatus.php:139
+#: modules/sitestatus.php:142
 msgid "Maximum Image Width (px)"
 msgstr ""
 
-#: modules/sitestatus.php:146
+#: modules/sitestatus.php:149
 msgid "Maximum Image Height (px)"
 msgstr ""
 
-#: modules/sitestatus.php:169
+#: modules/sitestatus.php:172
 msgid "No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site."
 msgstr ""
 
-#: modules/sitestatus.php:170
+#: modules/sitestatus.php:173
 msgid "View report"
 msgstr ""
 
-#: modules/sitestatus.php:171
+#: modules/sitestatus.php:174
+msgid "Object cache is now enabled"
+msgstr ""
+
+#: modules/sitestatus.php:175
+msgid "Enabling object cache failed"
+msgstr ""
+
+#: modules/sitestatus.php:176
 msgid "Running cache tests..."
 msgstr ""
 
-#: modules/sitestatus.php:172
+#: modules/sitestatus.php:177
 msgid "HTTP cache working"
 msgstr ""
 
-#: modules/sitestatus.php:173
+#: modules/sitestatus.php:178
 msgid "HTTP cache not working"
 msgstr ""
 
-#: modules/sitestatus.php:174
-#: modules/sitestatus.php:408
+#: modules/sitestatus.php:179
+#: modules/sitestatus.php:424
 #: modules/upkeep.php:301
 msgid "Success!"
 msgstr ""
 
-#: modules/sitestatus.php:175
-#: modules/sitestatus.php:423
+#: modules/sitestatus.php:180
+#: modules/sitestatus.php:439
 #: modules/upkeep.php:305
 msgid "Failure!"
 msgstr ""
 
-#: modules/sitestatus.php:176
-#: modules/sitestatus.php:425
+#: modules/sitestatus.php:181
+#: modules/sitestatus.php:441
 msgid "Error!"
 msgstr ""
 
-#: modules/sitestatus.php:177
+#: modules/sitestatus.php:182
 msgid "Are you sure? This replaces all information in the selected environment."
 msgstr ""
 
-#: modules/sitestatus.php:178
+#: modules/sitestatus.php:183
 msgid "Avg latency: "
 msgstr ""
 
-#: modules/sitestatus.php:179
+#: modules/sitestatus.php:184
 msgid "Avg cached latency: "
 msgstr ""
 
-#: modules/sitestatus.php:180
+#: modules/sitestatus.php:185
 msgid "Latency"
 msgstr ""
 
-#: modules/sitestatus.php:181
+#: modules/sitestatus.php:186
 msgid "Cached latency"
 msgstr ""
 
-#: modules/sitestatus.php:182
+#: modules/sitestatus.php:187
 msgid "Keyspace hits"
 msgstr ""
 
-#: modules/sitestatus.php:183
+#: modules/sitestatus.php:188
 msgid "Keyspace misses"
 msgstr ""
 
-#: modules/sitestatus.php:184
+#: modules/sitestatus.php:189
 msgid "Hits"
 msgstr ""
 
-#: modules/sitestatus.php:185
+#: modules/sitestatus.php:190
 msgid "Misses"
 msgstr ""
 
-#: modules/sitestatus.php:186
+#: modules/sitestatus.php:191
 msgid "Stales"
 msgstr ""
 
-#: modules/sitestatus.php:187
+#: modules/sitestatus.php:192
 msgid "Used"
 msgstr ""
 
-#: modules/sitestatus.php:188
+#: modules/sitestatus.php:193
 msgid "Available"
 msgstr ""
 
-#: modules/sitestatus.php:198
-#: modules/sitestatus.php:330
+#: modules/sitestatus.php:203
+#: modules/sitestatus.php:346
 msgid "This feature is available only on live production sites."
 msgstr ""
 
-#: modules/sitestatus.php:202
+#: modules/sitestatus.php:207
 msgid "These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>."
 msgstr ""
 
-#: modules/sitestatus.php:208
+#: modules/sitestatus.php:213
 msgid "Month"
 msgstr ""
 
-#: modules/sitestatus.php:209
+#: modules/sitestatus.php:214
 msgid "HTTP Requests"
 msgstr ""
 
-#: modules/sitestatus.php:210
+#: modules/sitestatus.php:215
 msgid "Report"
 msgstr ""
 
-#: modules/sitestatus.php:222
-msgid "Caching decreases the load time of the website. The cache hit rate represents the efficiency of cache usage. Read about caching from the <a href=\"https://help.seravo.com/article/36-how-does-caching-work/\" target=\"_BLANK\">documentation</a> or <a href=\"https://seravo.com/tag/cache/\" target=\"_BLANK\">blog</a>."
-msgstr ""
-
-#: modules/sitestatus.php:223
-msgid "Object Cache in Redis"
-msgstr ""
-
-#: modules/sitestatus.php:224
-msgid "Persistent object cache implemented with <a href=\"https://seravo.com/blog/faster-wordpress-with-transients/\" target=\"_BLANK\">transients</a> can be stored in Redis. Instructions on how to activate the object cache can be found from the <a href=\"https://help.seravo.com/article/38-active-object-cache/\" target=\"_BLANK\">documentation</a>."
-msgstr ""
-
-#: modules/sitestatus.php:225
-#: modules/sitestatus.php:248
-msgid "Cache hit rate"
+#: modules/sitestatus.php:230
+msgid "Object cache is currently disabled!"
 msgstr ""
 
 #: modules/sitestatus.php:231
-msgid "Expired keys: "
-msgstr ""
-
-#: modules/sitestatus.php:235
-msgid "The number of keys deleted."
+msgid "Enable"
 msgstr ""
 
 #: modules/sitestatus.php:238
-msgid "<br>Evicted keys: "
+msgid "Caching decreases the load time of the website. The cache hit rate represents the efficiency of cache usage. Read about caching from the <a href=\"https://help.seravo.com/article/36-how-does-caching-work/\" target=\"_BLANK\">documentation</a> or <a href=\"https://seravo.com/tag/cache/\" target=\"_BLANK\">blog</a>."
 msgstr ""
 
-#: modules/sitestatus.php:242
-msgid "The number of keys being deleted because the memory usage has hit it's limit."
+#: modules/sitestatus.php:239
+msgid "Object Cache in Redis"
 msgstr ""
 
-#: modules/sitestatus.php:246
-msgid "HTTP Cache"
+#: modules/sitestatus.php:240
+msgid "Persistent object cache implemented with <a href=\"https://seravo.com/blog/faster-wordpress-with-transients/\" target=\"_BLANK\">transients</a> can be stored in Redis. Instructions on how to activate the object cache can be found from the <a href=\"https://help.seravo.com/article/38-active-object-cache/\" target=\"_BLANK\">documentation</a>."
+msgstr ""
+
+#: modules/sitestatus.php:241
+#: modules/sitestatus.php:264
+msgid "Cache hit rate"
 msgstr ""
 
 #: modules/sitestatus.php:247
-msgid "The HTTP cache hit rate is calculated from all Nginx's access logs. It describes the long-term cache usage situation."
+msgid "Expired keys: "
 msgstr ""
 
-#: modules/sitestatus.php:253
-msgid "There are <span id='http-cache-bypass'></span> bypasses."
+#: modules/sitestatus.php:251
+msgid "The number of keys deleted."
 msgstr ""
 
 #: modules/sitestatus.php:254
+msgid "<br>Evicted keys: "
+msgstr ""
+
+#: modules/sitestatus.php:258
+msgid "The number of keys being deleted because the memory usage has hit it's limit."
+msgstr ""
+
+#: modules/sitestatus.php:262
+msgid "HTTP Cache"
+msgstr ""
+
+#: modules/sitestatus.php:263
+msgid "The HTTP cache hit rate is calculated from all Nginx's access logs. It describes the long-term cache usage situation."
+msgstr ""
+
+#: modules/sitestatus.php:269
+msgid "There are <span id='http-cache-bypass'></span> bypasses."
+msgstr ""
+
+#: modules/sitestatus.php:270
 msgid "Nginx HTTP Cache"
 msgstr ""
 
-#: modules/sitestatus.php:256
+#: modules/sitestatus.php:272
 msgid "Test the functionality of your site's front cache. This can also be done via command line with command <code>wp-check-http-cache</code>."
 msgstr ""
 
-#: modules/sitestatus.php:257
+#: modules/sitestatus.php:273
 msgid "Run cache tests"
 msgstr ""
 
-#: modules/sitestatus.php:260
+#: modules/sitestatus.php:276
 msgid "Click \"Run cache tests\" to run the cache tests"
 msgstr ""
 
-#: modules/sitestatus.php:291
+#: modules/sitestatus.php:307
 msgid "Disk space in your plan: "
 msgstr ""
 
-#: modules/sitestatus.php:294
+#: modules/sitestatus.php:310
 msgid "Space in use: "
 msgstr ""
 
-#: modules/sitestatus.php:298
+#: modules/sitestatus.php:314
 msgid "Disk space low! "
 msgstr ""
 
-#: modules/sitestatus.php:300
+#: modules/sitestatus.php:316
 msgid "Read more."
 msgstr ""
 
-#: modules/sitestatus.php:312
+#: modules/sitestatus.php:328
 msgid "Disk usage by directory"
 msgstr ""
 
-#: modules/sitestatus.php:322
+#: modules/sitestatus.php:338
 msgid "Logs and automatic backups don't count against your quota."
 msgstr ""
 
-#: modules/sitestatus.php:324
+#: modules/sitestatus.php:340
 msgid "Use <a href=\"tools.php?page=security_page\">cruft remover</a> to remove unnecessary files."
 msgstr ""
 
-#: modules/sitestatus.php:341
+#: modules/sitestatus.php:357
 msgid "Demo"
 msgstr ""
 
-#: modules/sitestatus.php:342
+#: modules/sitestatus.php:358
 msgid "WP Mini"
 msgstr ""
 
-#: modules/sitestatus.php:343
+#: modules/sitestatus.php:359
 msgid "WP Pro"
 msgstr ""
 
-#: modules/sitestatus.php:344
+#: modules/sitestatus.php:360
 msgid "WP Business"
 msgstr ""
 
-#: modules/sitestatus.php:345
+#: modules/sitestatus.php:361
 msgid "WP Enterprise"
 msgstr ""
 
-#: modules/sitestatus.php:349
+#: modules/sitestatus.php:365
 msgid "Finland"
 msgstr ""
 
-#: modules/sitestatus.php:350
+#: modules/sitestatus.php:366
 msgid "Sweden"
 msgstr ""
 
-#: modules/sitestatus.php:351
+#: modules/sitestatus.php:367
 msgid "Germany"
 msgstr ""
 
-#: modules/sitestatus.php:352
+#: modules/sitestatus.php:368
 msgid "USA"
 msgstr ""
 
-#: modules/sitestatus.php:353
+#: modules/sitestatus.php:369
 msgid "No preference"
 msgstr ""
 
-#: modules/sitestatus.php:374
+#: modules/sitestatus.php:390
 msgid "Site Name"
 msgstr ""
 
-#: modules/sitestatus.php:375
+#: modules/sitestatus.php:391
 msgid "Site Created"
 msgstr ""
 
-#: modules/sitestatus.php:376
+#: modules/sitestatus.php:392
 msgid "Plan Termination"
 msgstr ""
 
-#: modules/sitestatus.php:377
+#: modules/sitestatus.php:393
 msgid "Site Location"
 msgstr ""
 
-#: modules/sitestatus.php:378
+#: modules/sitestatus.php:394
 msgid "Plan Type"
 msgstr ""
 
-#: modules/sitestatus.php:381
+#: modules/sitestatus.php:397
 msgid "Account Manager"
 msgstr ""
 
-#: modules/sitestatus.php:383
+#: modules/sitestatus.php:399
 msgid "No Account Manager found. Account Manager is only included in Seravo Enterprise plans."
 msgstr ""
 
-#: modules/sitestatus.php:386
+#: modules/sitestatus.php:402
 msgid "Technical Contacts"
 msgstr ""
 
-#: modules/sitestatus.php:393
+#: modules/sitestatus.php:409
 msgid "Manage the site shadows."
 msgstr ""
 
-#: modules/sitestatus.php:394
+#: modules/sitestatus.php:410
 msgid "<strong>Warning: </strong>Resetting a shadow copies the state of the production site to the shadow. All files under <code>/data/wordpress/</code> will be replaced and the production database imported. For more information, visit our  <a href=\"https://seravo.com/docs/deployment/shadows/\" target=\"_BLANK\">Developer documentation</a>."
 msgstr ""
 
-#: modules/sitestatus.php:411
+#: modules/sitestatus.php:427
 msgid "Because this shadow uses a custom domain, <strong>please go to the shadow and run search-replace there with the values below</strong> for the shadow to be accessible after reset: "
 msgstr ""
 
-#: modules/sitestatus.php:414
-#: modules/sitestatus.php:463
+#: modules/sitestatus.php:430
+#: modules/sitestatus.php:479
 msgid "<strong>From:</strong> "
 msgstr ""
 
-#: modules/sitestatus.php:416
+#: modules/sitestatus.php:432
 msgid "<br><strong>To:</strong> "
 msgstr ""
 
-#: modules/sitestatus.php:420
+#: modules/sitestatus.php:436
 msgid "When you're in the shadow, run search-replace either on \"Tools --> Database --> Search-Replace Tool\" or with wp-cli. Instructions can be found from <a href=\"https://help.seravo.com/en/docs/151\" target=\"_BLANK\">documentation</a>."
 msgstr ""
 
-#: modules/sitestatus.php:424
+#: modules/sitestatus.php:440
 msgid "The shadow reset is still running on the background. You should check the status of the shadow after a few minutes. If there are problems with the shadow, see the documentation from the link above."
 msgstr ""
 
-#: modules/sitestatus.php:446
+#: modules/sitestatus.php:462
 msgid "Reset"
 msgstr ""
 
-#: modules/sitestatus.php:453
+#: modules/sitestatus.php:469
 msgid "Port: "
 msgstr ""
 
-#: modules/sitestatus.php:454
+#: modules/sitestatus.php:470
 msgid "Creation Date: "
 msgstr ""
 
-#: modules/sitestatus.php:455
+#: modules/sitestatus.php:471
 msgid "Information: "
 msgstr ""
 
-#: modules/sitestatus.php:456
+#: modules/sitestatus.php:472
 msgid "Domain: "
 msgstr ""
 
-#: modules/sitestatus.php:460
+#: modules/sitestatus.php:476
 msgid "This shadow uses a custom domain. <strong>For the shadow to be accessible after reset, please run search-replace in the shadow with the values below:</strong>"
 msgstr ""
 
-#: modules/sitestatus.php:465
+#: modules/sitestatus.php:481
 msgid "<br><strong>To:</strong> ://"
 msgstr ""
 
-#: modules/sitestatus.php:469
+#: modules/sitestatus.php:485
 msgid "When you're in the shadow, you can run search-replace either on \"Tools --> Database --> Search-Replace Tool\" or with wp-cli. Instructions can be found from <a href=\"https://help.seravo.com/en/docs/151\" target=\"_BLANK\">documentation</a>."
 msgstr ""
 
-#: modules/sitestatus.php:489
+#: modules/sitestatus.php:505
 msgid "No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href=\"mailto:help@seravo.com\">help@seravo.com</a>."
 msgstr ""
 
-#: modules/sitestatus.php:502
+#: modules/sitestatus.php:518
 msgid "WordPress core"
 msgstr ""
 
-#: modules/sitestatus.php:537
+#: modules/sitestatus.php:553
 msgid "Width"
 msgstr ""
 
-#: modules/sitestatus.php:543
+#: modules/sitestatus.php:559
 msgid "Height"
 msgstr ""
 
-#: modules/sitestatus.php:555
+#: modules/sitestatus.php:571
 msgid "Optimization reduces image file size. This improves the performance and browsing experience of your site."
 msgstr ""
 
-#: modules/sitestatus.php:556
+#: modules/sitestatus.php:572
 msgid "By setting the maximum image resolution, you can determine the maximum allowed dimensions for images."
 msgstr ""
 
-#: modules/sitestatus.php:557
+#: modules/sitestatus.php:573
 msgid "By enabling metadata stripping, you can further reduce image sizes by removing metadata. Please note that occasionally metadata can be useful."
 msgstr ""
 
-#: modules/sitestatus.php:558
+#: modules/sitestatus.php:574
 msgid "For further information, refer to our <a href=\"https://help.seravo.com/article/28-seravo-plugin-optimize-images\" target=\"_BLANK\">knowledgebase article</a>."
 msgstr ""
 
 #. translators: %s numeric value for the minimum image width
-#: modules/sitestatus.php:569
+#: modules/sitestatus.php:585
 msgid "The minimum width for image optimisation is %1$s px. Setting suggested width of %2$s px."
 msgstr ""
 
-#: modules/sitestatus.php:581
+#: modules/sitestatus.php:597
 msgid "Width setting saved"
 msgstr ""
 
 #. translators: %s numeric value for the minimum image height
-#: modules/sitestatus.php:594
+#: modules/sitestatus.php:610
 msgid "The minimum height for image optimisation is %1$s px. Setting suggested height of %2$s px."
 msgstr ""
 
-#: modules/sitestatus.php:603
+#: modules/sitestatus.php:619
 msgid "Height setting saved"
 msgstr ""
 
-#: modules/sitestatus.php:642
+#: modules/sitestatus.php:658
 msgid "Settings saved"
 msgstr ""
 
-#: modules/sitestatus.php:669
+#: modules/sitestatus.php:685
 msgid "Special characters in filenames, such as ä, ö or æ, may cause problems with the site."
 msgstr ""
 
-#: modules/sitestatus.php:670
+#: modules/sitestatus.php:686
 msgid "Toggling this on replaces such characters with other standard letters, like ä -> a, ö -> o or æ -> a when a file is uploaded."
 msgstr ""
 
-#: modules/sitestatus.php:679
+#: modules/sitestatus.php:695
 msgid "Speed test measures the time how long it takes for PHP to produce the HTML output for the WordPress page."
 msgstr ""
 
-#: modules/sitestatus.php:680
+#: modules/sitestatus.php:696
 msgid "Front Page by Default"
 msgstr ""
 
-#: modules/sitestatus.php:681
+#: modules/sitestatus.php:697
 msgid "Run Test"
 msgstr ""
 
@@ -1612,10 +1645,6 @@ msgstr ""
 
 #: modules/upkeep.php:325
 msgid "Choose a since date"
-msgstr ""
-
-#: modules/upkeep.php:334
-msgid "Run"
 msgstr ""
 
 #: modules/upkeep.php:338
