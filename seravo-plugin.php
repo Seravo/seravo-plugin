@@ -219,6 +219,11 @@ class Loader {
     require_once dirname(__FILE__) . '/modules/passwords.php';
 
     /*
+     * Sniff and set default options
+     */
+    require_once dirname(__FILE__) . '/modules/check-default-options.php';
+
+    /*
      * Instance switcher
      */
     if ( apply_filters('seravo_show_instance_switcher', true) && getenv('WP_ENV') !== 'development' ) {
