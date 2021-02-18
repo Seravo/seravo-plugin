@@ -92,7 +92,7 @@ if ( ! class_exists('Backups') ) {
       ?>
       <p><?php _e('You can also create backups manually by running <code>wp-backup</code> on the command line. We recommend that you get familiar with the command line option that is accessible to you via SSH. That way recovering a backup will be possible whether the WP Admin is accessible or not.', 'seravo'); ?></p>
       <p class="create_backup">
-        <button id="create_backup_button" class="button"><?php _e('Create a backup', 'seravo'); ?> </button>
+        <button id="create_backup_button" class="button-primary"><?php _e('Create a backup', 'seravo'); ?> </button>
         <div id="create_backup_loading"><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
         <pre><div id="create_backup"></div></pre>
       </p>

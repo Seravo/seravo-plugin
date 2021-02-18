@@ -363,7 +363,7 @@ if ( ! class_exists('Upkeep') ) {
         ?>
       </p>
 
-      <button id='check-php-compatibility-button'><?php _e('Check PHP compatibility', 'seravo'); ?></button>
+      <button class="button" id='check-php-compatibility-button'><?php _e('Check PHP compatibility', 'seravo'); ?></button>
 
       <div id="check-php-compatibility-status" class="hidden">
         <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
@@ -425,7 +425,7 @@ if ( ! class_exists('Upkeep') ) {
           ?>
           <br>
         </span>
-        <button id='change-php-version-button'><?php _e('Change version', 'seravo'); ?></button>
+        <button class="button" id='change-php-version-button'><?php _e('Change version', 'seravo'); ?></button>
         <br>
       </div>
       <div id="change-php-version-status" class="hidden">
