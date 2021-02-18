@@ -10,7 +10,7 @@ function generateButtons (emails) {
 
   emails.forEach(function (email) {
     if (email) {
-      html.push('<button type="button" class="button button-primary email-button"><span class="email-button-content">' + email + '</span><span class="delete-icon dashicons dashicons-no"></span></button>')
+      html.push('<button type="button" class="button email-button"><span class="email-button-content">' + email + '</span><span class="delete-icon dashicons dashicons-no"></span></button>')
     }
   });
   jQuery('[name="technical_contacts"]').val(emails.join(', '))
