@@ -60,6 +60,10 @@ span.dashicons-external {
     margin: auto;
     width: 253px!important;
   }
+
+  #sr-to {
+    margin-right: 1rem;
+  }
 }
 
 .chart_container {
