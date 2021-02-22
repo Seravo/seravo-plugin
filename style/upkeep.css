@@ -220,8 +220,50 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
   }
 }
 
+@media only screen and (max-width:1126px) {
+  #slack_webhook_test {
+    margin-top: 10px;
+  }
+}
+
+@media only screen and (max-width:823px) {
+  button.technical_contacts_add.button {
+    margin-top: 10px;
+  }
+}
+
+@media only screen and (max-width:798px) {
+  button.technical_contacts_add.button {
+    margin-top: 0px;
+  }
+
+  #slack_webhook_test {
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (max-width:782px) {
+  button.technical_contacts_add.button {
+    margin-bottom: 0px;
+  }
+
+  #slack_webhook_test {
+    margin-bottom: 0px;
+  }
+
+  input.php-version-radio {
+    margin-top: .25rem;
+  }
+}
+
 @media screen and (max-width: 425px) {
   .technical_contacts_input {
     max-width: 200px;
+  }
+}
+
+@media only screen and (max-width:414px) {
+  #slack_webhook_test {
+    margin-top: 10px;
   }
 }

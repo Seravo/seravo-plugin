@@ -260,3 +260,7 @@ th, td {
   font-size: 11px;
   padding: 3px;
 }
+
+#run-speed-test {
+  margin-top: 10px;
+}
