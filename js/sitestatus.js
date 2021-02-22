@@ -392,6 +392,92 @@ jQuery(document).ready(function($) {
     }
   });
 
+  function seravo_site_checks() {
+    jQuery.post(seravo_site_status_loc.ajaxurl, {
+      'action': 'seravo_ajax_site_status',
+      'section': 'seravo_site_checks',
+      'nonce': seravo_site_status_loc.ajax_nonce,
+    }, function (rawData) {
+        var result = JSON.parse(rawData)
+        var success = result['success']
+        var issues = result['issues']
+
+        if ( issues.length === 0 ) {
+          // No issues
+          jQuery('.seravo-site-check-result-wrapper').css('border-left', 'solid 0.5em #038103')
+          jQuery('.site_check_status_loading').html(seravo_site_status_loc.site_checks_success)
+        } else {
+          // Issues
+          jQuery('.seravo-site-check-result-wrapper').css('border-left', 'solid 0.5em #e8ba1b')
+          jQuery('.seravo_site_check_show_more_wrapper').hide()
+          jQuery('.site_check_status_loading').html(seravo_site_status_loc.site_checks_issues)
+        }
+
+        if ( issues.length > 0 ) {
+          jQuery('#seravo_site_check').append("<h4 style='color: red;'>" + seravo_site_status_loc.site_checks_fail + '</h4>')
+
+          for (var index in issues) {
+            if ( index == issues.length- 1 ) {
+                // Border-bottom needs to be applied to the last item
+                jQuery('#seravo_site_check').append('<div class="seravo-site-check-issue-box" style="border-bottom: 1px solid #ccd0d4">' + issues[index]+ '</div>')
+              } else {
+                jQuery('#seravo_site_check').append('<div class="seravo-site-check-issue-box">' + issues[index]+ '</div>')
+              }
+          }
+          jQuery('#seravo_site_check').append('<br>')
+        }
+
+        // wrap the data and disable spinner etc.
+        jQuery('#seravo_site_check').append("<h4 style='color: green;'>" + seravo_site_status_loc.site_checks_pass + '</h4>')
+
+        for (var index in success) {
+          if ( index == success.length- 1 ) {
+              // Border-bottom needs to be applied to the last item
+              jQuery('#seravo_site_check').append('<div class="seravo-site-check-success-box" style="border-bottom: 1px solid #ccd0d4">' + success[index] + '</div>')
+            } else {
+              jQuery('#seravo_site_check').append('<div class="seravo-site-check-success-box">' + success[index] + '</div>')
+            }
+          }
+
+        // Reload the components
+        jQuery('#run-site-checks').prop('disabled', false)
+        jQuery('.seravo_site_check_show_more_wrapper').show();
+    })
+  }
+
+  jQuery('#run-site-checks').click(function() {
+    jQuery('#seravo_site_check').html('');
+    jQuery('.seravo-site-check-result-wrapper').css('border-left', 'solid 0.5em #e8ba1b');
+    jQuery('.seravo_site_check_show_more_wrapper').hide();
+
+    if ( jQuery('#seravo_arrow_check_show_more').hasClass('dashicons-arrow-up-alt2') ) {
+      jQuery('.seravo-site-check-result').hide(function() {
+        jQuery('#seravo_arrow_check_show_more').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
+      });
+    }
+
+    jQuery('.seravo_site_check_status').fadeOut(400, function() {
+      jQuery(this).html('<div class="site_check_status_loading"><img src="/wp-admin/images/spinner.gif" style="display:inline-block"> ' + seravo_site_status_loc.running_site_checks + '</div>').fadeIn(400);
+    });
+
+    jQuery(this).prop('disabled', true);
+    seravo_site_checks();
+  });
+
+  jQuery('.seravo_site_check_show_more').click(function(event) {
+    event.preventDefault();
+
+    if ( jQuery('#seravo_arrow_check_show_more').hasClass('dashicons-arrow-down-alt2') ) {
+      jQuery('.seravo-site-check-result').slideDown('fast', function() {
+        jQuery('#seravo_arrow_check_show_more').removeClass('dashicons-arrow-down-alt2').addClass('dashicons-arrow-up-alt2');
+      });
+    } else if ( jQuery('#seravo_arrow_check_show_more').hasClass('dashicons-arrow-up-alt2') ) {
+      jQuery('.seravo-site-check-result').hide(function() {
+        jQuery('#seravo_arrow_check_show_more').removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
+      });
+    }
+  });
+
   $('.reset').click(function(event) {
     var shadow_id = $(this).closest('tbody').attr('id');
     var is_user_sure = confirm(seravo_site_status_loc.confirm);

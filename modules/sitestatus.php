@@ -7,6 +7,7 @@ if ( ! defined('ABSPATH') ) {
 }
 
 require_once dirname(__FILE__) . '/../lib/sitestatus-ajax.php';
+require_once dirname(__FILE__) . '/check-site-health.php';
 
 if ( ! class_exists('Site_Status') ) {
   class Site_Status {
@@ -100,6 +101,15 @@ if ( ! class_exists('Site_Status') ) {
         'tools_page_site_status_page',
         'side'
       );
+
+      seravo_add_postbox(
+        'site-checks',
+        __('Site checks', 'seravo'),
+        array( __CLASS__, 'site_checks' ),
+        'tools_page_site_status_page',
+        'side'
+      );
+
     }
 
     public static function register_optimize_image_settings() {
@@ -176,6 +186,11 @@ if ( ! class_exists('Site_Status') ) {
           'running_cache_tests' => __('Running cache tests...', 'seravo'),
           'cache_success'       => __('HTTP cache working', 'seravo'),
           'cache_failure'       => __('HTTP cache not working', 'seravo'),
+          'running_site_checks' => __('Running site checks', 'seravo'),
+          'site_checks_success' => __('No issues were found', 'seravo'),
+          'site_checks_issues'  => __('Potential issues were found', 'seravo'),
+          'site_checks_pass'    => __('Passed tests', 'seravo'),
+          'site_checks_fail'    => __('Potential issues', 'seravo'),
           'success'             => __('Success!', 'seravo'),
           'failure'             => __('Failure!', 'seravo'),
           'error'               => __('Error!', 'seravo'),
@@ -697,6 +712,40 @@ if ( ! class_exists('Site_Status') ) {
       echo('<button type="button" class="button-primary" id="run-speed-test">' . __('Run Test', 'seravo') . '</button>');
       echo('<div id="speed-test-results"></div>');
       echo('<div id="speed-test-error"></div>');
+    }
+
+    public static function site_checks() {
+      //$results = Site_Health::check_health();
+      //$issues = $results[0];
+      //$no_issues = $results[1];
+      ?>
+      <div id='site_check_status'>
+
+      <?php
+      echo('<p>' . __(
+        'Site checks provide a report about your site health and show potential issues. Checks include for example
+      php related errors, inactive themes and plugins.',
+        'seravo'
+      ) . '</p>');
+      echo "<button type='button' class='button-primary' id='run-site-checks'>" . __('Run site checks', 'seravo') . '</button>';
+
+      ?>
+      <div class='seravo-site-check-result-wrapper'>
+          <div class='seravo_site_check_status'>
+            <?php _e('Click "Run site checks" to run the tests', 'seravo'); ?>
+          </div>
+          <div class='seravo-site-check-result'>
+            <pre id='seravo_site_check'></pre>
+          </div>
+          <div class='seravo_site_check_show_more_wrapper hidden'>
+            <a href='' class='seravo_site_check_show_more'><?php _e('Toggle Details', 'seravo'); ?>
+              <div class='dashicons dashicons-arrow-down-alt2' id='seravo_arrow_check_show_more'>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+        <?php
     }
 
   }
