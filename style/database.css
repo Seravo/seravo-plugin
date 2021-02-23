@@ -32,6 +32,20 @@ span.dashicons-external {
   padding-left: 3px;
 }
 
+label.to_label {
+  display: block;
+  width: 10%;
+  margin-top: 5px;
+  float: left
+}
+
+label.from_label {
+  display: block;
+  width: 10%;
+  margin-top: 5px;
+  float: left
+}
+
 @media only screen and (max-width: 1115px) {
   .label_buttons {
     display: block;
