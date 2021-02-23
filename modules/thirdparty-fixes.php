@@ -35,6 +35,56 @@ if ( ! class_exists('ThirdpartyFixes') ) {
 
       // Maybe log SQL queries
       add_action('shutdown', array( $this, 'log_queries' ));
+
+      // Maybe cache HTTP requests
+      add_filter('pre_http_request', array( $this, 'http_maybe_use_cached' ), 10, 3);
+      add_filter('http_response', array( $this, 'http_maybe_cache' ), 10, 3);
+    }
+
+    /**
+     * Maybe used cached results for HTTP request
+     *
+     * Related WordPress core code:
+     * <https://github.com/WordPress/WordPress/blob/c463e94a3313ca26c305993a0862e758c0ea3dfe/wp-includes/class-http.php#L239-L257>
+     **/
+    public function http_maybe_use_cached( $preempt, $parsed_args, $url ) {
+        $cache_key = 'http_cache_' . md5($url . serialize($parsed_args));
+        $cached = get_transient($cache_key);
+        if ( $cached !== false ) {
+            return unserialize($cached);
+        }
+
+        return $preempt;
+    }
+
+    /**
+     * Maybe cache results of HTTP request
+     *
+     * This hooks to WordPress core HTTP request handling, and, when developer
+     * has chosen so, caches responses from specific hosts. This makes it
+     * possible to cache.
+     *
+     * Related:
+     * <https://github.com/WordPress/WordPress/blob/c463e94a3313ca26c305993a0862e758c0ea3dfe/wp-includes/class-http.php#L438-L446>
+     */
+    public function http_maybe_cache( $response, $parsed_args, $url ) {
+        // Parse hostname from the URL
+        $host = str_replace('.', '_', parse_url($url, PHP_URL_HOST));
+        $method = strtolower($parsed_args['method']);
+
+        // Check if we should cache requests to this hostname
+        // Filter can return either boolean (true = do cache, false don't cache)
+        // or integer (how long we should cache)
+        $do_cache = apply_filters("seravo_cache_http_${method}_${host}", false, $parsed_args, $url);
+
+        if ( $do_cache !== false ) {
+            if ( $do_cache === true ) {
+                $do_cache = 3600;
+            }
+            $cache_key = 'http_cache_' . md5($url . serialize($parsed_args));
+            set_transient($cache_key, serialize($response), $do_cache);
+        }
+        return $response;
     }
 
     /**
