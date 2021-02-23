@@ -179,8 +179,6 @@ if ( ! class_exists('Login_Notifications') ) {
 
           // Fetch login date and time
           $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $entry['datetime']);
-          error_log($entry['datetime']);
-          error_log($datetime->format('c'));
           $datetime->setTimezone(new \DateTimeZone(wp_timezone_string()));
 
           return array(
