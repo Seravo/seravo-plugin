@@ -1,4 +1,7 @@
 <?php
+
+namespace Seravo;
+
 /**
  * Ajax function for database info
  */

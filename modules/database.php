@@ -38,9 +38,9 @@ if ( ! class_exists('Database') ) {
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_database_scripts' ));
 
       // Add AJAX endpoints for wp search-replace, database info and database cleanup
-      add_action('wp_ajax_seravo_search_replace', 'seravo_ajax_search_replace');
-      add_action('wp_ajax_seravo_wp_db_info', 'seravo_ajax_get_wp_db_info');
-      add_action('wp_ajax_seravo_db_cleanup', 'seravo_ajax_db_cleanup');
+      add_action('wp_ajax_seravo_search_replace', 'Seravo\seravo_ajax_search_replace');
+      add_action('wp_ajax_seravo_wp_db_info', 'Seravo\seravo_ajax_get_wp_db_info');
+      add_action('wp_ajax_seravo_db_cleanup', 'Seravo\seravo_ajax_db_cleanup');
 
       seravo_add_postbox(
         'database-access',

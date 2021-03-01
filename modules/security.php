@@ -26,21 +26,21 @@ if ( ! class_exists('Security') ) {
       add_action('admin_init', array( __CLASS__, 'register_security_settings' ));
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_security_scripts' ));
 
-      add_action('wp_ajax_seravo_security', 'seravo_ajax_security');
+      add_action('wp_ajax_seravo_security', 'Seravo\seravo_ajax_security');
 
       add_action('wp_ajax_seravo_check_passwords', 'seravo_ajax_check_passwords');
 
       // AJAX functionality for listing and deleting files
-      add_action('wp_ajax_seravo_cruftfiles', 'seravo_ajax_list_cruft_files');
-      add_action('wp_ajax_seravo_delete_file', 'seravo_ajax_delete_cruft_files');
+      add_action('wp_ajax_seravo_cruftfiles', 'Seravo\seravo_ajax_list_cruft_files');
+      add_action('wp_ajax_seravo_delete_file', 'Seravo\seravo_ajax_delete_cruft_files');
 
       // AJAX functionality for listing and removing plugins
-      add_action('wp_ajax_seravo_list_cruft_plugins', 'seravo_ajax_list_cruft_plugins');
-      add_action('wp_ajax_seravo_remove_plugins', 'seravo_ajax_remove_plugins');
+      add_action('wp_ajax_seravo_list_cruft_plugins', 'Seravo\seravo_ajax_list_cruft_plugins');
+      add_action('wp_ajax_seravo_remove_plugins', 'Seravo\seravo_ajax_remove_plugins');
 
       // AJAX functionality for listing and removing themess
-      add_action('wp_ajax_seravo_list_cruft_themes', 'seravo_ajax_list_cruft_themes');
-      add_action('wp_ajax_seravo_remove_themes', 'seravo_ajax_remove_themes');
+      add_action('wp_ajax_seravo_list_cruft_themes', 'Seravo\seravo_ajax_list_cruft_themes');
+      add_action('wp_ajax_seravo_remove_themes', 'Seravo\seravo_ajax_remove_themes');
 
       seravo_add_postbox(
         'security_info',

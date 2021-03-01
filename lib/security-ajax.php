@@ -1,5 +1,7 @@
 <?php
 
+namespace Seravo;
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -62,8 +64,8 @@ function seravo_logins_info( $max = 10 ) {
 
     if ( isset($matches['ip'][0]) && isset($matches['name'][0]) && isset($matches['datetime'][0]) ) {
       // If valid line
-      $datetime = DateTime::createFromFormat('d/M/Y:H:i:s T', $matches['datetime'][0]);
-      $datetime->setTimezone(new DateTimeZone(wp_timezone_string()));
+      $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $matches['datetime'][0]);
+      $datetime->setTimezone(new \DateTimeZone(wp_timezone_string()));
       $date = $datetime->format(get_option('date_format'));
       $time = $datetime->format(get_option('time_format'));
 

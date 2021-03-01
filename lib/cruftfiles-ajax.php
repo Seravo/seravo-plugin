@@ -1,4 +1,7 @@
 <?php
+
+namespace Seravo;
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -229,7 +232,7 @@ function seravo_ajax_list_cruft_files() {
       $crufts = array_unique($crufts);
       set_transient('cruft_files_found', $crufts, 600);
 
-      $crufts = array_map('seravo_add_file_information', $crufts);
+      $crufts = array_map('Seravo\seravo_add_file_information', $crufts);
       echo wp_json_encode($crufts);
       break;
 
