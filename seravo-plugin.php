@@ -139,10 +139,10 @@ class Loader {
 
       // Filename must be of correct form, e.g. 2016-09.html or home.png
       // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-      if ( preg_match('/^[0-9]{4}-[0-9]{2}\.html$/', $_GET['report'], $matches) ) {
+      if ( isset($_GET['report']) && preg_match('/^[0-9]{4}-[0-9]{2}\.html$/', $_GET['report'], $matches) ) {
         self::x_accel_redirect('/data/slog/html/goaccess-' . $matches[0]);
       // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-      } elseif ( preg_match('/^[a-z-.]+\.png$/', $_GET['screenshot'], $matches) ) {
+      } elseif ( isset($_GET['screenshot']) && preg_match('/^[a-z-.]+\.png$/', $_GET['screenshot'], $matches) ) {
         self::x_accel_redirect('/data/reports/tests/debug/' . $matches[0]);
       } else {
         // Yield an error if a file was requested, but with wrong filename.
