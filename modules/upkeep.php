@@ -12,8 +12,8 @@ if ( ! class_exists('Upkeep') ) {
   class Upkeep {
     public static function load() {
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
-      add_action('wp_ajax_seravo_ajax_upkeep', 'seravo_ajax_upkeep');
-      add_action('wp_ajax_seravo_changes_since', 'seravo_ajax_changes_since');
+      add_action('wp_ajax_seravo_ajax_upkeep', 'Seravo\seravo_ajax_upkeep');
+      add_action('wp_ajax_seravo_changes_since', 'Seravo\seravo_ajax_changes_since');
 
       add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
 

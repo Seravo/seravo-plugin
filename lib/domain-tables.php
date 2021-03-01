@@ -1,4 +1,7 @@
 <?php
+
+namespace Seravo;
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -8,7 +11,7 @@ if ( ! class_exists('Seravo\WP_List_Table') ) {
   require_once 'list-table.php';
 }
 
-class Seravo_Domains_List_Table extends Seravo\WP_List_Table {
+class Seravo_Domains_List_Table extends WP_List_Table {
 
   public function __construct() {
     global $status, $page;
@@ -151,7 +154,7 @@ class Seravo_Domains_List_Table extends Seravo\WP_List_Table {
 
     // Fetch list of domains
     $api_query = '/domains';
-    $rawdata = Seravo\API::get_site_data($api_query);
+    $rawdata = API::get_site_data($api_query);
     if ( is_wp_error($rawdata) ) {
       die($rawdata->get_error_message());
     }
@@ -234,7 +237,7 @@ class Seravo_Domains_List_Table extends Seravo\WP_List_Table {
         // Send final sort direction to usort
       return ($order === 'asc') ? $result : -$result;
     }
-    usort($data, 'usort_reorder');
+    usort($data, 'Seravo\usort_reorder');
 
     // Required for pagnation
     $current_page = $this->get_pagenum();
@@ -298,7 +301,7 @@ class Seravo_Domains_List_Table extends Seravo\WP_List_Table {
   }
 }
 
-class Seravo_Mails_Forward_Table extends Seravo\WP_List_Table {
+class Seravo_Mails_Forward_Table extends WP_List_Table {
 
   public function __construct() {
     // Set parent defaults
@@ -351,7 +354,7 @@ class Seravo_Mails_Forward_Table extends Seravo\WP_List_Table {
 
     // Fetch list of domains
     $api_query = '/domains';
-    $rawdata = Seravo\API::get_site_data($api_query);
+    $rawdata = API::get_site_data($api_query);
     if ( is_wp_error($rawdata) ) {
       die($rawdata->get_error_message());
     }
@@ -384,7 +387,7 @@ class Seravo_Mails_Forward_Table extends Seravo\WP_List_Table {
       // Send final sort direction to usort
       return ($order === 'asc') ? $result : -$result;
     }
-    usort($data, 'usort_reorder_domains');
+    usort($data, 'Seravo\usort_reorder_domains');
 
     $this->items = $data;
 
@@ -516,7 +519,7 @@ class Seravo_DNS_Table {
   public static function fetch_dns_records( $action, $domain ) {
     $api_query = '/domain/' . $domain . '/' . $action;
 
-    $records = Seravo\API::get_site_data($api_query);
+    $records = API::get_site_data($api_query);
 
     if ( is_wp_error($records) ) {
       $records = array( 'error' => $records->get_error_message() );

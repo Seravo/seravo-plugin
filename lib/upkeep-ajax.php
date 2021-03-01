@@ -1,6 +1,8 @@
 <?php
 /* Module which handles ajax requests for the updates page */
 
+namespace Seravo;
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -43,7 +45,7 @@ function seravo_php_check_version() {
 }
 
 function seravo_plugin_version_check() {
-  $current_version = Seravo\Helpers::seravo_plugin_version();
+  $current_version = Helpers::seravo_plugin_version();
 
   if ( $current_version == seravo_plugin_upstream_version() ) {
     return true;

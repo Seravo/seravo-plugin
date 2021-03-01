@@ -26,9 +26,9 @@ if ( ! class_exists('Site_Status') ) {
       add_action('admin_init', array( __CLASS__, 'register_sanitize_uploads_settings' ));
       self::check_default_settings();
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_site_status_scripts' ));
-      add_action('wp_ajax_seravo_ajax_site_status', 'seravo_ajax_site_status');
-      add_action('wp_ajax_seravo_report_http_requests', 'seravo_ajax_report_http_requests');
-      add_action('wp_ajax_seravo_speed_test', 'seravo_speed_test');
+      add_action('wp_ajax_seravo_ajax_site_status', 'Seravo\seravo_ajax_site_status');
+      add_action('wp_ajax_seravo_report_http_requests', 'Seravo\seravo_ajax_report_http_requests');
+      add_action('wp_ajax_seravo_speed_test', 'Seravo\seravo_speed_test');
 
       if ( getenv('WP_ENV') === 'production' ) {
         seravo_add_postbox(

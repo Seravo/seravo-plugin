@@ -1,5 +1,7 @@
 <?php
 
+namespace Seravo;
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -15,24 +17,24 @@ function seravo_respond_error_json( $reason = '' ) {
 }
 
 function seravo_get_domains_table() {
-  if ( Seravo\Domains::$domains_table === null ) {
+  if ( Domains::$domains_table === null ) {
     // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
-    Seravo\Domains::$domains_table = new \Seravo_Domains_List_Table();
+    Domains::$domains_table = new Seravo_Domains_List_Table();
   }
 
-  Seravo\Domains::$domains_table->prepare_items();
-  Seravo\Domains::$domains_table->display();
+  Domains::$domains_table->prepare_items();
+  Domains::$domains_table->display();
   wp_die();
 }
 
 function seravo_get_forwards_table() {
-  if ( Seravo\Domains::$mails_table === null ) {
+  if ( Domains::$mails_table === null ) {
     // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
-    Seravo\Domains::$mails_table = new \Seravo_Mails_Forward_Table();
+    Domains::$mails_table = new Seravo_Mails_Forward_Table();
   }
 
-  Seravo\Domains::$mails_table->prepare_items();
-  Seravo\Domains::$mails_table->display();
+  Domains::$mails_table->prepare_items();
+  Domains::$mails_table->display();
   wp_die();
 }
 
@@ -42,7 +44,7 @@ function seravo_get_forwards() {
     wp_die();
   }
 
-  $response = Seravo\API::get_site_data('/domain/' . $_REQUEST['domain'] . '/mailforwards');
+  $response = API::get_site_data('/domain/' . $_REQUEST['domain'] . '/mailforwards');
   if ( is_wp_error($response) ) {
     return seravo_respond_error_json($response->get_error_message());
     wp_die();
@@ -96,7 +98,7 @@ function seravo_admin_change_zone_file() {
     $data_str = str_replace('\\\\"', '\"', $data_str);
     $data = explode("\r\n", $data_str);
 
-    $response = Seravo\API::update_site_data($data, '/domain/' . $_REQUEST['domain'] . '/zone', array( 200, 400 ));
+    $response = API::update_site_data($data, '/domain/' . $_REQUEST['domain'] . '/zone', array( 200, 400 ));
     if ( is_wp_error($response) ) {
       return seravo_respond_error_json($response->get_error_message());
       wp_die();
@@ -164,7 +166,7 @@ function seravo_fetch_dns() {
 
 function seravo_set_primary_domain() {
   if ( isset($_REQUEST['domain']) ) {
-    $response = Seravo\API::update_site_data(array( 'domain' => $_REQUEST['domain'] ), '/primary_domain', array( 200 ), 'POST');
+    $response = API::update_site_data(array( 'domain' => $_REQUEST['domain'] ), '/primary_domain', array( 200 ), 'POST');
     if ( is_wp_error($response) ) {
       return seravo_respond_error_json($response->get_error_message());
       wp_die();
@@ -209,7 +211,7 @@ function seravo_edit_forwards() {
         'destinations' => $destinations_parsed,
       );
 
-      $response = Seravo\API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
+      $response = API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
       if ( is_wp_error($response) ) {
         return seravo_respond_error_json($response->get_error_message());
         wp_die();
@@ -248,7 +250,7 @@ function seravo_edit_forwards() {
         'destinations' => array(),
       );
 
-      $response = Seravo\API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
+      $response = API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
       if ( is_wp_error($response) ) {
         return seravo_respond_error_json($response->get_error_message());
         wp_die();

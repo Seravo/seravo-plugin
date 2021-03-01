@@ -19,7 +19,7 @@ if ( ! class_exists('Backups') ) {
 
     public static function load() {
       // Add AJAX endpoint for backups
-      add_action('wp_ajax_seravo_backups', 'seravo_ajax_backups');
+      add_action('wp_ajax_seravo_backups', 'Seravo\seravo_ajax_backups');
 
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_backups_scripts' ));
 

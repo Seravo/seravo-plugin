@@ -55,7 +55,7 @@ if ( ! class_exists('Domains') ) {
         'normal'
       );
 
-      add_action('wp_ajax_seravo_ajax_domains', 'seravo_ajax_domains');
+      add_action('wp_ajax_seravo_ajax_domains', 'Seravo\seravo_ajax_domains');
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
 
       add_thickbox();

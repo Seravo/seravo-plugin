@@ -1,5 +1,7 @@
 <?php
 
+namespace Seravo;
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -131,7 +133,7 @@ function seravo_report_git_status() {
 }
 
 function seravo_report_redis_info() {
-  $redis = new Redis();
+  $redis = new \Redis();
   $redis->connect('127.0.0.1', 6379);
   $stats = $redis->info('stats');
 

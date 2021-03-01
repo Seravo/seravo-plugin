@@ -1,4 +1,7 @@
 <?php
+
+namespace Seravo;
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -7,7 +10,7 @@ if ( ! defined('ABSPATH') ) {
 /**
  * Implements Seravo.com specific actions
  */
-class Seravo_WP_CLI extends WP_CLI_Command {
+class Seravo_WP_CLI extends \WP_CLI_Command {
 
   /**
    * Seravo wp-cli functions.
@@ -24,17 +27,17 @@ class Seravo_WP_CLI extends WP_CLI_Command {
   public function updates( $args, $assoc_args ) {
 
     require_once dirname(__FILE__) . '/../modules/upkeep.php';
-    $site_info = Seravo\Upkeep::seravo_admin_get_site_info();
+    $site_info = Upkeep::seravo_admin_get_site_info();
 
     if ( $site_info['seravo_updates'] === true ) {
-      WP_CLI::success('Seravo Updates: enabled');
+      \WP_CLI::success('Seravo Updates: enabled');
     } elseif ( $site_info['seravo_updates'] === false ) {
-      WP_CLI::success('Seravo Updates: disabled');
+      \WP_CLI::success('Seravo Updates: disabled');
     } else {
-      WP_CLI::error('Seravo API failed to return information about updates.');
+      \WP_CLI::error('Seravo API failed to return information about updates.');
     }
 
   }
 }
 
-WP_CLI::add_command('seravo', 'Seravo_WP_CLI');
+\WP_CLI::add_command('seravo', 'Seravo\Seravo_WP_CLI');
