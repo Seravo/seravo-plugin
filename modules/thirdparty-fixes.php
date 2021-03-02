@@ -111,17 +111,20 @@ if ( ! class_exists('ThirdpartyFixes') ) {
 
         global $wpdb;
         $handle = fopen($logfile, 'a');
-        $sid = isset($_SERVER['HTTP_X_SERAVO_REQUEST_ID']) ? $_SERVER['HTTP_X_SERAVO_REQUEST_ID'] : 'none';
-        fwrite($handle, '### ' . date(\DateTime::ISO8601) . ' sid:' . $sid . ' total:' . $wpdb->num_queries . chr(10));
-        foreach ( $wpdb->queries as $q ) {
-            fwrite($handle, "SQL: $q[0]" . chr(10));
-            fwrite($handle, "Time: $q[1] s" . chr(10));
-            fwrite($handle, "Calling functions: $q[2]" . chr(10));
-            fwrite($handle, "Query begin: $q[3]" . chr(10));
-            fwrite($handle, 'Custom data: ' . print_r($q[4], true) . chr(10) . '--' . chr(10));
+
+        if ( $handle !== false ) {
+          $sid = isset($_SERVER['HTTP_X_SERAVO_REQUEST_ID']) ? $_SERVER['HTTP_X_SERAVO_REQUEST_ID'] : 'none';
+          fwrite($handle, '### ' . date(\DateTime::ISO8601) . ' sid:' . $sid . ' total:' . $wpdb->num_queries . chr(10));
+          foreach ( $wpdb->queries as $q ) {
+              fwrite($handle, "SQL: $q[0]" . chr(10));
+              fwrite($handle, "Time: $q[1] s" . chr(10));
+              fwrite($handle, "Calling functions: $q[2]" . chr(10));
+              fwrite($handle, "Query begin: $q[3]" . chr(10));
+              fwrite($handle, 'Custom data: ' . print_r($q[4], true) . chr(10) . '--' . chr(10));
+          }
+          fwrite($handle, '### EOF' . chr(10));
+          fclose($handle);
         }
-        fwrite($handle, '### EOF' . chr(10));
-        fclose($handle);
     }
 
     /**
