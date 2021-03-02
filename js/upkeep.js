@@ -111,8 +111,6 @@ jQuery(document).ready(function($) {
     });
   });
 
-  jQuery(window).load(function(){
-
     function seravo_load_change_report(given_date) {
       jQuery.post(
         seravo_upkeep_loc.ajaxurl,
@@ -191,8 +189,6 @@ jQuery(document).ready(function($) {
         });
       }
     });
-
-  });
 
   function insertEmail() {
     if (validateEmail($emailInput)) {
