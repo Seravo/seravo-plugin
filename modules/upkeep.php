@@ -130,7 +130,7 @@ if ( ! class_exists('Upkeep') ) {
 
     public static function seravo_admin_get_site_info() {
       $site_info = API::get_site_data();
-      return $site_info;
+      return apply_filters( 'seravo_site_info', $site_info );
     }
 
     public static function seravo_updates_postbox() {
