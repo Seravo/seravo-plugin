@@ -222,7 +222,7 @@ function seravo_reset_shadow() {
     $shadow = $_POST['shadow'];
     $output = array();
     // Check if the shadow is known
-    foreach ( Seravo\API::get_site_data('/shadows') as $data ) {
+    foreach ( API::get_site_data('/shadows') as $data ) {
       if ( $data['name'] == $shadow ) {
         exec('wp-shadow-reset ' . $shadow . ' --force 2>&1', $output);
         echo json_encode($output);
