@@ -98,7 +98,10 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     $expires = $item['expires'];
     if ( ! empty($expires) ) {
       $timestamp = date_create_from_format('Y-m-d\TH:i:sO', $expires);
-      return date_format($timestamp, get_option('date_format') . ' ' . get_option('time_format'));
+
+      if ( $timestamp !== false ) {
+        return date_format($timestamp, get_option('date_format') . ' ' . get_option('time_format'));
+      }
     }
   }
 
@@ -202,7 +205,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
           $domain = $entry['domain'];
           while ( substr_count($domain, '.') >= 1 ) {
             foreach ( $rawdata as $entry_compare ) {
-              if ( ! $entry_compare['subdomain'] && $domain === $entry_compare['domain'] ) {
+              if ( isset($entry_compare['subdomain']) && ! $entry_compare['subdomain'] && $domain === $entry_compare['domain'] ) {
                 $rawdata[$index]['expires'] = $entry_compare['expires'];
                 $rawdata[$index]['management'] = $entry_compare['management'];
                 break 2;
