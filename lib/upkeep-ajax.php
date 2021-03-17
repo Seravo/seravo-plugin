@@ -129,9 +129,9 @@ function seravo_changes_since() {
 
   // Try catch to check if the date is
   try {
-    $formal_date = new DateTime($date);
+    $formal_date = new \DateTime($date);
     unset($formal_date);
-  } catch ( Exception $e ) {
+  } catch ( \Exception $e ) {
     $datenow = getdate();
     $y = $datenow['year'];
     $m = $datenow['mon'];
