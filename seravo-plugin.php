@@ -214,6 +214,11 @@ class Loader {
     require_once dirname(__FILE__) . '/modules/wp-user-log.php';
 
     /*
+     * Log admin ajax actions
+     */
+    require_once dirname(__FILE__) . '/modules/wp-admin-ajax-log.php';
+
+    /*
      * Enforce strong passwords
      */
     require_once dirname(__FILE__) . '/modules/passwords.php';
