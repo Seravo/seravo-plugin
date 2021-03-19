@@ -176,7 +176,7 @@ if ( ! class_exists('Upkeep') ) {
           <button type="button" class="button" id="slack_webhook_test"><?php _e('Send a Test Notification', 'seravo'); ?></button>
 
           <hr class="seravo-updates-hr">
-          <h3><?php _e('Contacts', 'seravo'); ?></h3>
+          <h3 id='contacts'><?php _e('Contacts', 'seravo'); ?></h3>
           <p><?php _e('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo'); ?></p>
           <input class="technical_contacts_input" type="email" multiple size="30" placeholder="<?php _e('example@example.com', 'seravo'); ?>" value="" data-emails="<?php echo htmlspecialchars(json_encode($contact_emails)); ?>">
           <button type="button" class="technical_contacts_add button"><?php _e('Add', 'seravo'); ?></button>
