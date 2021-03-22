@@ -297,12 +297,15 @@ if ( ! class_exists('Upkeep') ) {
     public static function tests_status_postbox() {
       exec('zgrep -h -A 1 "Running initial tests in production" /data/log/update.log-* /data/log/update.log | tail -n 1 | cut -d " " -f 4-8', $test_status);
 
-      if ( $test_status[0] == 'Success! Initial tests have passed.' ) {
-        echo '<p style="color: green;">' . __('Success!', 'seravo') . '</p>';
+      if ( ! count($test_status) ) {
+        echo '<p><b>' . __('Unknown!', 'seravo') . '</b></p>';
+        echo '<p>' . sprintf(__('No tests have been ran yet. They will be ran during upcoming updates. You can try beforehand if the tests will be succesful or not with the \'Update tests\' feature below.', 'seravo')) . '</p>';
+      } else if ( $test_status[0] == 'Success! Initial tests have passed.' ) {
+        echo '<p style="color: green;"><b>' . __('Success!', 'seravo') . '</b></p>';
         // translators: Link to Tests page
         echo '<p>' . sprintf(__('Site baseline tests have passed and updates can run normally.', 'seravo')) . '</p>';
       } else {
-        echo '<p style="color: red;">' . __('Failure!', 'seravo') . '</p>';
+        echo '<p style="color: red;"><b>' . __('Failure!', 'seravo') . '</b></p>';
         // translators: Link to Tests page
         echo '<p>' . sprintf(__('Site baseline tests are failing and needs to be fixed before further updates are run.', 'seravo')) . '</p>';
       }
