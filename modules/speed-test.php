@@ -48,7 +48,7 @@ if ( ! class_exists('Speed_Test') ) {
           )
         );
       } else {
-        $url .= '&speed_test_target=' . $target_location;
+        $url .= '&speed_test_target=' . $target_location . '#seravo-postbox-speed-test';
         $admin_bar->add_menu(
           array(
             'id'    => 'speed-test',
