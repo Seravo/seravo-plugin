@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2021-03-31T15:42:58+03:00\n"
-"PO-Revision-Date: 2021-03-31 15:45+0300\n"
+"POT-Creation-Date: 2021-04-01T15:14:32+03:00\n"
+"PO-Revision-Date: 2021-04-01 15:18+0300\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.3\n"
 
 #. Plugin Name of the plugin
 msgid "Seravo Plugin"
@@ -693,28 +693,29 @@ msgstr "Olet nyt varjossa %s."
 msgid "Exit"
 msgstr "Poistu"
 
-#: modules/login-notification.php:59
-msgid "Site Error Count"
-msgstr "Sivuston virhemäärä"
+#: modules/login-notification.php:59 modules/toolbox.php:18
+#: modules/toolbox.php:19
+msgid "Site Status"
+msgstr "Sivuston tila"
 
-#: modules/login-notification.php:103
+#: modules/login-notification.php:102
 msgid "Large error log"
 msgstr "Suuri virhe loki"
 
-#: modules/login-notification.php:114
+#: modules/login-notification.php:113
 msgid "Error log read failure"
 msgstr "Virhelokin lukuhäiriö"
 
 #. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s reverse domain of the last login
 #. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s IP address of the last login
-#: modules/login-notification.php:210 modules/login-notification.php:224
+#: modules/login-notification.php:209 modules/login-notification.php:223
 msgid "Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s."
 msgstr ""
 "Tervetuloa, %1$s! Edellinen kirjautumisesi oli %2$s kello %3$s osoitteesta "
 "%4$s."
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:244
+#: modules/login-notification.php:243
 msgid ""
 "The PHP error log has more than %1$s entries this week. Please see %2$s for "
 "details. This is usually a sign that something is broken in the code. The "
@@ -725,7 +726,70 @@ msgstr ""
 "että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 "sivuston kehittäjälle."
 
-#: modules/login-notification.php:257
+#: modules/login-notification.php:252 modules/sitestatus.php:218
+#: modules/sitestatus.php:361
+msgid "This feature is available only on live production sites."
+msgstr "Tämä toiminto on saatavilla vain oikeilla tuotantosivustoilla."
+
+#: modules/login-notification.php:256
+msgid "Plan details"
+msgstr "Palvelupaketin tiedot"
+
+#. translators: %1$s url for additional information
+#: modules/login-notification.php:264
+msgid "Error on fetching plan details. See more from %1$s."
+msgstr ""
+"Virhe ladattaessa palvelupaketin tietoja. Katso lisätietoa tiedostosta %1$s."
+
+#: modules/login-notification.php:270
+msgid "Plan type: "
+msgstr "Palvelupaketti: "
+
+#: modules/login-notification.php:271
+msgid "HTTP requests / month: "
+msgstr "HTTP-pyynnöt / kk: "
+
+#: modules/login-notification.php:276
+msgid "Monthly HTTP requests"
+msgstr "HTTP-liikennetilastot"
+
+#. translators: %1$s contact email link
+#: modules/login-notification.php:284
+msgid ""
+"These monthly reports are generated from the HTTP access logs of your site. "
+"If you have more HTTP requests than your plan allows, contact %1$s to "
+"upgrade your <a href=\"https://seravo.com/plans\" target=\"_blank\">plan</a>."
+msgstr ""
+"Nämä kuukausittaiset tilastot on tehty sivuston HTTP-liikennelokeista. Jos "
+"HTTP-pyyntöjä on enemmän kuin palvelupakettiin kuuluu, ota yhteyttä %1$s "
+"päivittääksesi <a href=\"https://wp-palvelu.fi/hinnasto\" target=\"_blank"
+"\">palvelupakettisi</a>."
+
+#: modules/login-notification.php:297 modules/sitestatus.php:228
+msgid "Month"
+msgstr "Kuukausi"
+
+#: modules/login-notification.php:298 modules/sitestatus.php:229
+msgid "HTTP Requests"
+msgstr "HTTP-pyynnöt"
+
+#: modules/login-notification.php:299 modules/sitestatus.php:230
+msgid "Report"
+msgstr "Raportti"
+
+#: modules/login-notification.php:356 modules/sitestatus.php:183
+msgid "View report"
+msgstr "Näytä raportti"
+
+#: modules/login-notification.php:361
+msgid "The site has no HTTP requests statistics yet."
+msgstr "Sivustolla ei ole vielä HTTP-liikennetilastoja."
+
+#: modules/login-notification.php:366
+msgid "PHP error status"
+msgstr "PHP-virheet"
+
+#: modules/login-notification.php:377
 msgid ""
 "The PHP error log is abnormally large. This is a sign that something is "
 "broken in the code. The developer of the site should be notified."
@@ -734,7 +798,7 @@ msgstr ""
 "sivuston koodissa. Suosittelemme, että tästä ilmoitetaan sivuston "
 "kehittäjälle."
 
-#: modules/login-notification.php:268
+#: modules/login-notification.php:388
 msgid ""
 "There is a problem trying to read the php-error.log. This is a sign that "
 "something is broken in the code. The developer of the site should be "
@@ -1244,10 +1308,6 @@ msgstr ""
 "Raportteja ei löytynyt polusta /data/slog/html/. Raportit tulisi olla "
 "saatavilla noin kuukauden kuluessa uuden sivuston perustamisesta."
 
-#: modules/sitestatus.php:183
-msgid "View report"
-msgstr "Näytä raportti"
-
 #: modules/sitestatus.php:184
 msgid "Object cache is now enabled"
 msgstr "Redis-objektivälimuisti on käytössä"
@@ -1349,10 +1409,6 @@ msgstr "Käytetty"
 msgid "Available"
 msgstr "Saatavilla"
 
-#: modules/sitestatus.php:218 modules/sitestatus.php:361
-msgid "This feature is available only on live production sites."
-msgstr "Tämä toiminto on saatavilla vain oikeilla tuotantosivustoilla."
-
 #: modules/sitestatus.php:222
 msgid ""
 "These monthly reports are generated from the HTTP access logs of your site. "
@@ -1366,18 +1422,6 @@ msgstr ""
 "bottien tekemät. Palomuuritasolla estetyt HTTP-pyynnöt (esim DDOS-"
 "hyökkäyksen aikana) eivät tule lokiin. Lokitiedostoja voi selata suoraan "
 "myös palvelimella polussa <code>/data/slog/html/goaccess-*.html</code>."
-
-#: modules/sitestatus.php:228
-msgid "Month"
-msgstr "Kuukausi"
-
-#: modules/sitestatus.php:229
-msgid "HTTP Requests"
-msgstr "HTTP-pyynnöt"
-
-#: modules/sitestatus.php:230
-msgid "Report"
-msgstr "Raportti"
 
 #: modules/sitestatus.php:245
 msgid "Object cache is currently disabled!"
@@ -1845,10 +1889,6 @@ msgid ""
 msgstr ""
 "Tiedostonimeä ei voitu siistiä, joten tietoturvasyistä sitä ei tallennettu"
 
-#: modules/toolbox.php:18 modules/toolbox.php:19
-msgid "Site Status"
-msgstr "Sivuston tila"
-
 #: modules/toolbox.php:27 modules/toolbox.php:28
 msgid "Upkeep"
 msgstr "Ylläpito"
@@ -2266,3 +2306,6 @@ msgstr "Suorita testit"
 #: modules/upkeep.php:670
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Codeception-testit"
+
+#~ msgid "Site Error Count"
+#~ msgstr "Sivuston virhemäärä"
