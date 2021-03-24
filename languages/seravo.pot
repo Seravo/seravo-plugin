@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Seravo Plugin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.9.28\n"
+"Project-Id-Version: Seravo Plugin 1.9.29\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-03-31T15:42:58+03:00\n"
+"POT-Creation-Date: 2021-04-01T15:14:32+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -623,34 +623,96 @@ msgid "Exit"
 msgstr ""
 
 #: modules/login-notification.php:59
-msgid "Site Error Count"
+#: modules/toolbox.php:18
+#: modules/toolbox.php:19
+msgid "Site Status"
 msgstr ""
 
-#: modules/login-notification.php:103
+#: modules/login-notification.php:102
 msgid "Large error log"
 msgstr ""
 
-#: modules/login-notification.php:114
+#: modules/login-notification.php:113
 msgid "Error log read failure"
 msgstr ""
 
 #. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s reverse domain of the last login
 #. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s IP address of the last login
-#: modules/login-notification.php:210
-#: modules/login-notification.php:224
+#: modules/login-notification.php:209
+#: modules/login-notification.php:223
 msgid "Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s."
 msgstr ""
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:244
+#: modules/login-notification.php:243
 msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: modules/login-notification.php:257
+#: modules/login-notification.php:252
+#: modules/sitestatus.php:218
+#: modules/sitestatus.php:361
+msgid "This feature is available only on live production sites."
+msgstr ""
+
+#: modules/login-notification.php:256
+msgid "Plan details"
+msgstr ""
+
+#. translators: %1$s url for additional information
+#: modules/login-notification.php:264
+msgid "Error on fetching plan details. See more from %1$s."
+msgstr ""
+
+#: modules/login-notification.php:270
+msgid "Plan type: "
+msgstr ""
+
+#: modules/login-notification.php:271
+msgid "HTTP requests / month: "
+msgstr ""
+
+#: modules/login-notification.php:276
+msgid "Monthly HTTP requests"
+msgstr ""
+
+#. translators: %1$s contact email link
+#: modules/login-notification.php:284
+msgid "These monthly reports are generated from the HTTP access logs of your site. If you have more HTTP requests than your plan allows, contact %1$s to upgrade your <a href=\"https://seravo.com/plans\" target=\"_blank\">plan</a>."
+msgstr ""
+
+#: modules/login-notification.php:297
+#: modules/sitestatus.php:228
+msgid "Month"
+msgstr ""
+
+#: modules/login-notification.php:298
+#: modules/sitestatus.php:229
+msgid "HTTP Requests"
+msgstr ""
+
+#: modules/login-notification.php:299
+#: modules/sitestatus.php:230
+msgid "Report"
+msgstr ""
+
+#: modules/login-notification.php:356
+#: modules/sitestatus.php:183
+msgid "View report"
+msgstr ""
+
+#: modules/login-notification.php:361
+msgid "The site has no HTTP requests statistics yet."
+msgstr ""
+
+#: modules/login-notification.php:366
+msgid "PHP error status"
+msgstr ""
+
+#: modules/login-notification.php:377
 msgid "The PHP error log is abnormally large. This is a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: modules/login-notification.php:268
+#: modules/login-notification.php:388
 msgid "There is a problem trying to read the php-error.log. This is a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
@@ -1063,10 +1125,6 @@ msgstr ""
 msgid "No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site."
 msgstr ""
 
-#: modules/sitestatus.php:183
-msgid "View report"
-msgstr ""
-
 #: modules/sitestatus.php:184
 msgid "Object cache is now enabled"
 msgstr ""
@@ -1172,25 +1230,8 @@ msgstr ""
 msgid "Available"
 msgstr ""
 
-#: modules/sitestatus.php:218
-#: modules/sitestatus.php:361
-msgid "This feature is available only on live production sites."
-msgstr ""
-
 #: modules/sitestatus.php:222
 msgid "These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>."
-msgstr ""
-
-#: modules/sitestatus.php:228
-msgid "Month"
-msgstr ""
-
-#: modules/sitestatus.php:229
-msgid "HTTP Requests"
-msgstr ""
-
-#: modules/sitestatus.php:230
-msgid "Report"
 msgstr ""
 
 #: modules/sitestatus.php:245
@@ -1526,11 +1567,6 @@ msgstr ""
 
 #: modules/svg-support.php:42
 msgid "This file couldn't be sanitized so for security reasons it wasn't uploaded"
-msgstr ""
-
-#: modules/toolbox.php:18
-#: modules/toolbox.php:19
-msgid "Site Status"
 msgstr ""
 
 #: modules/toolbox.php:27
