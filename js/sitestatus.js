@@ -291,7 +291,7 @@ jQuery(document).ready(function($) {
           jQuery('.seravo-cache-test-result-wrapper').css('border-left', 'solid 0.5em #038103');
         } else {
           jQuery('.seravo_cache_tests_status').fadeIn('slow', function() {
-            jQuery(this).html(seravo_site_status_loc.cache_success).fadeIn('slow');
+            jQuery(this).html(seravo_site_status_loc.cache_failure).fadeIn('slow');
           });
           jQuery('.seravo-cache-test-result-wrapper').css('border-left', 'solid 0.5em #e74c3c');
         }
