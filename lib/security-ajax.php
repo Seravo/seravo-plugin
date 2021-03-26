@@ -25,8 +25,9 @@ function seravo_logins_info( $max = 10 ) {
     $login_data = array();
   }
 
+  $login_data = preg_grep('/SUCCESS/', $login_data);
   // If the wp-login.log has less than $max entries check older log files
-  if ( count(preg_grep('/SUCCESS/', $login_data)) < $max ) {
+  if ( count($login_data) < $max ) {
     // Check the second newest log file (not gzipped yet)
     $login_data2_filename = glob('/data/log/wp-login.log-[0-9]*[?!\.gz]');
     // There should be only a maximum of one file matching previous criterion, but
@@ -35,9 +36,9 @@ function seravo_logins_info( $max = 10 ) {
     // Merge log file if it exists
     if ( $login_data2_count >= 0 ) {
       // Merge with the first log file
-      $login_data = array_merge(file($login_data2_filename[$login_data2_count]), $login_data);
+      $login_data2 = file($login_data2_filename[$login_data2_count]);
+      $login_data = array_merge(preg_grep('/SUCCESS/', $login_data2), $login_data);
     }
-    $login_data = preg_grep('/SUCCESS/', $login_data);
 
     // Opening necessary amount of gzipped log files
     // Find the gzip log files
