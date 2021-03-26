@@ -87,6 +87,8 @@ wp i18n make-pot . languages/seravo.pot
 
 > NOTE! If this fails on `PHP Fatal error:  Uncaught Error: Maximum function nesting level of '256' reached` temporarily remove the overly complex files with `rm js/cruft*`.
 
+Translations can be done for instance by using Poedit. On editor open `languages/seravo-fi.po` and select `Update from pot file` which will update the po file. After translating compile the po file to `seravo-fi.mo` mo file.
+
 ### Running PHPCS
 
 If you have PHPCS installed locally with all the WordPress standards, simply run `phpcs` yourself or let your code editor run it automatically on every save. Alternatively run PHPCS inside local Vagrant or Docker image, or on the same remote site used for testing:
