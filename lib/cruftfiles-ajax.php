@@ -8,6 +8,14 @@ if ( ! defined('ABSPATH') ) {
 }
 
 function seravo_add_file_information( $file ) {
+  if ( $file !== Helpers::sanitize_full_path($file) ) {
+    return array(
+      'size' => 0,
+      'mod_date' => null,
+      'filename' => $file,
+    );
+  }
+
   exec('du ' . $file . ' -h --time', $output);
   $size = explode("\t", $output[0]);
 

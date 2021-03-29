@@ -74,6 +74,14 @@ if ( ! class_exists('Helpers') ) {
       return false;
     }
 
+    public static function sanitize_full_path( $file ) {
+      $path = explode('/', $file);
+      foreach ( $path as $index => $part ) {
+        $path[$index] = sanitize_file_name($part);
+      }
+      return implode('/', $path);
+    }
+
   }
 
 }
