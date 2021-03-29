@@ -178,8 +178,9 @@ if ( ! class_exists('Login_Notifications') ) {
           $domain = gethostbyaddr($ip);
 
           // Fetch login date and time
+          $timezone = get_option('timezone_string');
           $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $entry['datetime']);
-          $datetime->setTimezone(new \DateTimeZone(wp_timezone_string()));
+          $datetime->setTimezone(new \DateTimeZone(empty($timezone) ? 'UTC' : $timezone));
 
           return array(
             'date'   => $datetime->format(get_option('date_format')),
