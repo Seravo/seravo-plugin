@@ -29,7 +29,7 @@ function seravo_logins_info( $max = 10 ) {
   // If the wp-login.log has less than $max entries check older log files
   if ( count($login_data) < $max ) {
     // Check the second newest log file (not gzipped yet)
-    $login_data2_filename = glob('/data/log/wp-login.log-[0-9]*[?!\.gz]');
+    $login_data2_filename = glob('/data/log/wp-login.log-[0-9]*[!\.gz]');
     // There should be only a maximum of one file matching previous criterion, but
     // count the files just in case and choose the biggest index
     $login_data2_count = count($login_data2_filename) - 1;
