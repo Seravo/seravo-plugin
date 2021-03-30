@@ -114,4 +114,4 @@ PHPCS can be installed locally using the same script .travis.yml uses. See `scri
 
 # Changelog
 
-See git history.
+See git history and [release commit messages](https://github.com/Seravo/seravo-plugin/tags).
