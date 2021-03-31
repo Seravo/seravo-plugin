@@ -22,7 +22,7 @@ $options = array(
 );
 
 foreach ( $options as $option ) {
-  if ( ! get_option($option) ) {
+  if ( get_option($option) === false ) {
     update_option($option, 'on');
   }
 }
