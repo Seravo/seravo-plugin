@@ -23,6 +23,8 @@ if ( ! class_exists('Security') ) {
   class Security {
 
     public static function load() {
+      add_action('admin_notices', array( __CLASS__, '_seravo_check_security_options' ));
+
       add_action('admin_init', array( __CLASS__, 'register_security_settings' ));
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_security_scripts' ));
 
@@ -260,6 +262,34 @@ if ( ! class_exists('Security') ) {
       register_setting('seravo_security_settings', 'seravo-disable-xml-rpc-all-methods');
       register_setting('seravo_security_settings', 'seravo-disable-json-user-enumeration');
       register_setting('seravo_security_settings', 'seravo-disable-get-author-enumeration');
+    }
+
+    public static function _seravo_check_security_options() {
+      $options = array(
+        'seravo-disable-xml-rpc',
+        'seravo-disable-xml-rpc-all-methods',
+        'seravo-disable-json-user-enumeration',
+        'seravo-disable-get-author-enumeration',
+      );
+
+      foreach ( $options as $option ) {
+        if ( get_option($option) === false ) {
+          ?>
+          <div class="notice notice-error">
+            <p>
+              <?php
+              printf(
+                // translators: user's website url
+                __('Please enable all possible <a href="%s/wp-admin/tools.php?page=security_page">security features</a>. Save settings even if no changes were made to get rid of this notice.', 'seravo'),
+                esc_url(get_option('siteurl'))
+              );
+              ?>
+            </p>
+          </div>
+          <?php
+          break;
+        }
+      }
     }
 
     public static function security_settings_description() {
