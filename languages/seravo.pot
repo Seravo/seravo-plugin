@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-04-01T15:14:32+03:00\n"
+"POT-Creation-Date: 2021-05-06T14:19:28+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -230,11 +230,11 @@ msgstr ""
 msgid "Toggle panel: %s"
 msgstr ""
 
-#: lib/sitestatus-ajax.php:306
+#: lib/sitestatus-ajax.php:314
 msgid "Error: Invalid url"
 msgstr ""
 
-#: lib/sitestatus-ajax.php:328
+#: lib/sitestatus-ajax.php:336
 msgid "Error! HTTP response code: "
 msgstr ""
 
@@ -362,6 +362,123 @@ msgstr ""
 msgid "Command <code>wp-test</code> runs successfully"
 msgstr ""
 
+#: modules/dashboard-widgets.php:39
+#: modules/toolbox.php:18
+#: modules/toolbox.php:19
+msgid "Site Status"
+msgstr ""
+
+#: modules/dashboard-widgets.php:55
+msgid "PHP warnings and errors"
+msgstr ""
+
+#: modules/dashboard-widgets.php:68
+msgid "Low disk space"
+msgstr ""
+
+#: modules/dashboard-widgets.php:136
+msgid "disk space tool"
+msgstr ""
+
+#: modules/dashboard-widgets.php:138
+msgid "cruft remover tool"
+msgstr ""
+
+#. translators: %1$s url to the disk space tool %2$s url to the cruft file remover tool
+#: modules/dashboard-widgets.php:144
+msgid "Disk space is running low. You can see more details about the usage on %1$s. You can also check %2$s for excessive files and folders."
+msgstr ""
+
+#: modules/dashboard-widgets.php:149
+#: modules/sitestatus.php:322
+msgid "Disk space in your plan: "
+msgstr ""
+
+#: modules/dashboard-widgets.php:150
+#: modules/sitestatus.php:325
+msgid "Space in use: "
+msgstr ""
+
+#: modules/dashboard-widgets.php:160
+msgid "Site Error Count"
+msgstr ""
+
+#. translators: %1$s number of errors in the log %2$s url for additional information
+#: modules/dashboard-widgets.php:166
+msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
+msgstr ""
+
+#: modules/dashboard-widgets.php:174
+msgid "Old PHP Version"
+msgstr ""
+
+#: modules/dashboard-widgets.php:177
+msgid "change php version tool"
+msgstr ""
+
+#. translators: %1$s current php version %2$s link for changing PHP version
+#: modules/dashboard-widgets.php:184
+msgid ""
+"You are using end of life PHP version %1$s which will no longer be supported. You can see more details about changing PHP version and \n"
+"          checking PHP upgrade combatability on %2$s."
+msgstr ""
+
+#: modules/dashboard-widgets.php:201
+#: modules/sitestatus.php:218
+#: modules/sitestatus.php:361
+msgid "This feature is available only on live production sites."
+msgstr ""
+
+#: modules/dashboard-widgets.php:205
+msgid "Plan details"
+msgstr ""
+
+#. translators: %1$s url for additional information
+#: modules/dashboard-widgets.php:212
+msgid "Error on fetching plan details. See more from %1$s."
+msgstr ""
+
+#: modules/dashboard-widgets.php:218
+msgid "Plan type: "
+msgstr ""
+
+#: modules/dashboard-widgets.php:219
+msgid "HTTP requests / month: "
+msgstr ""
+
+#: modules/dashboard-widgets.php:224
+msgid "Monthly HTTP requests"
+msgstr ""
+
+#. translators: %1$s contact email link
+#: modules/dashboard-widgets.php:232
+msgid "These monthly reports are generated from the HTTP access logs of your site. If you have more HTTP requests than your plan allows, contact %1$s to upgrade your <a href=\"https://seravo.com/plans\" target=\"_blank\">plan</a>."
+msgstr ""
+
+#: modules/dashboard-widgets.php:245
+#: modules/sitestatus.php:228
+msgid "Month"
+msgstr ""
+
+#: modules/dashboard-widgets.php:246
+#: modules/sitestatus.php:229
+msgid "HTTP Requests"
+msgstr ""
+
+#: modules/dashboard-widgets.php:247
+#: modules/sitestatus.php:230
+msgid "Report"
+msgstr ""
+
+#: modules/dashboard-widgets.php:305
+#: modules/sitestatus.php:183
+msgid "View report"
+msgstr ""
+
+#: modules/dashboard-widgets.php:310
+msgid "The site has no HTTP requests statistics yet."
+msgstr ""
+
 #: modules/database.php:47
 msgid "Database Access"
 msgstr ""
@@ -487,7 +604,7 @@ msgstr ""
 #: modules/sitestatus.php:297
 #: modules/sitestatus.php:741
 #: modules/upkeep.php:347
-#: modules/upkeep.php:676
+#: modules/upkeep.php:675
 msgid "Toggle Details"
 msgstr ""
 
@@ -614,105 +731,35 @@ msgid "Shadows explained at Seravo.com/docs"
 msgstr ""
 
 #. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:222
-msgid "Your current shadow instance is %s."
+#: modules/instance-switcher.php:223
+msgid "Your current shadow instance is \"%s\"."
 msgstr ""
 
-#: modules/instance-switcher.php:223
+#. translators: $s Identifier for the shadow instance in use
+#: modules/instance-switcher.php:224
 msgid "Exit"
 msgstr ""
 
-#: modules/login-notification.php:59
-#: modules/toolbox.php:18
-#: modules/toolbox.php:19
-msgid "Site Status"
-msgstr ""
-
-#: modules/login-notification.php:102
+#: modules/login-notification.php:81
 msgid "Large error log"
 msgstr ""
 
-#: modules/login-notification.php:113
+#: modules/login-notification.php:92
 msgid "Error log read failure"
 msgstr ""
 
 #. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s reverse domain of the last login
 #. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s IP address of the last login
-#: modules/login-notification.php:209
-#: modules/login-notification.php:223
+#: modules/login-notification.php:188
+#: modules/login-notification.php:202
 msgid "Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s."
 msgstr ""
 
-#. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/login-notification.php:243
-msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
-msgstr ""
-
-#: modules/login-notification.php:252
-#: modules/sitestatus.php:218
-#: modules/sitestatus.php:361
-msgid "This feature is available only on live production sites."
-msgstr ""
-
-#: modules/login-notification.php:256
-msgid "Plan details"
-msgstr ""
-
-#. translators: %1$s url for additional information
-#: modules/login-notification.php:264
-msgid "Error on fetching plan details. See more from %1$s."
-msgstr ""
-
-#: modules/login-notification.php:270
-msgid "Plan type: "
-msgstr ""
-
-#: modules/login-notification.php:271
-msgid "HTTP requests / month: "
-msgstr ""
-
-#: modules/login-notification.php:276
-msgid "Monthly HTTP requests"
-msgstr ""
-
-#. translators: %1$s contact email link
-#: modules/login-notification.php:284
-msgid "These monthly reports are generated from the HTTP access logs of your site. If you have more HTTP requests than your plan allows, contact %1$s to upgrade your <a href=\"https://seravo.com/plans\" target=\"_blank\">plan</a>."
-msgstr ""
-
-#: modules/login-notification.php:297
-#: modules/sitestatus.php:228
-msgid "Month"
-msgstr ""
-
-#: modules/login-notification.php:298
-#: modules/sitestatus.php:229
-msgid "HTTP Requests"
-msgstr ""
-
-#: modules/login-notification.php:299
-#: modules/sitestatus.php:230
-msgid "Report"
-msgstr ""
-
-#: modules/login-notification.php:356
-#: modules/sitestatus.php:183
-msgid "View report"
-msgstr ""
-
-#: modules/login-notification.php:361
-msgid "The site has no HTTP requests statistics yet."
-msgstr ""
-
-#: modules/login-notification.php:366
-msgid "PHP error status"
-msgstr ""
-
-#: modules/login-notification.php:377
+#: modules/login-notification.php:219
 msgid "The PHP error log is abnormally large. This is a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: modules/login-notification.php:388
+#: modules/login-notification.php:230
 msgid "There is a problem trying to read the php-error.log. This is a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
@@ -782,6 +829,7 @@ msgstr ""
 msgid "Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the front-end proxy immediately."
 msgstr ""
 
+#. translators: %s cache refresh interval
 #: modules/purge-cache.php:39
 msgid "Purge Cache"
 msgstr ""
@@ -1303,14 +1351,6 @@ msgstr ""
 msgid "Click \"Run cache tests\" to run the cache tests"
 msgstr ""
 
-#: modules/sitestatus.php:322
-msgid "Disk space in your plan: "
-msgstr ""
-
-#: modules/sitestatus.php:325
-msgid "Space in use: "
-msgstr ""
-
 #: modules/sitestatus.php:329
 msgid "Disk space low! "
 msgstr ""
@@ -1799,89 +1839,89 @@ msgstr ""
 msgid "Check PHP compatibility"
 msgstr ""
 
-#: modules/upkeep.php:377
+#: modules/upkeep.php:376
 msgid "See also <a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version\">more information on PHP version upgrades</a>."
 msgstr ""
 
-#: modules/upkeep.php:427
+#: modules/upkeep.php:426
 msgid "I'm aware of the risks associated with edits to the PHP configuration files and want to proceed with the change."
 msgstr ""
 
-#: modules/upkeep.php:431
+#: modules/upkeep.php:430
 msgid "Change version"
 msgstr ""
 
-#: modules/upkeep.php:436
+#: modules/upkeep.php:435
 msgid "Activating... Please wait up to 30 seconds"
 msgstr ""
 
 #. translators: link to log file
-#: modules/upkeep.php:443
+#: modules/upkeep.php:442
 msgid "PHP version has been changed succesfully! Please check <a href=\"%s\">php-error.log</a> for regressions."
 msgstr ""
 
-#: modules/upkeep.php:448
+#: modules/upkeep.php:447
 msgid "PHP version change failed."
 msgstr ""
 
-#: modules/upkeep.php:455
+#: modules/upkeep.php:454
 msgid "Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here."
 msgstr ""
 
 #. translators: current Seravo plugin version
-#: modules/upkeep.php:460
+#: modules/upkeep.php:459
 msgid "Current version: %s"
 msgstr ""
 
 #. translators: upstream Seravo plugin version
-#: modules/upkeep.php:469
+#: modules/upkeep.php:468
 msgid "Upstream version: %s"
 msgstr ""
 
-#: modules/upkeep.php:474
+#: modules/upkeep.php:473
 msgid "The currently installed version is the same as the latest available version."
 msgstr ""
 
-#: modules/upkeep.php:475
+#: modules/upkeep.php:474
 msgid "There is a new version available"
 msgstr ""
 
-#: modules/upkeep.php:476
+#: modules/upkeep.php:475
 msgid "Seravo Plugin updated"
 msgstr ""
 
-#: modules/upkeep.php:479
+#: modules/upkeep.php:478
 msgid "Updating... Please wait up to 5 seconds"
 msgstr ""
 
-#: modules/upkeep.php:481
+#: modules/upkeep.php:480
 msgid "Update plugin now"
 msgstr ""
 
-#: modules/upkeep.php:495
+#: modules/upkeep.php:494
 msgid "The Difference"
 msgstr ""
 
-#: modules/upkeep.php:558
+#: modules/upkeep.php:557
 msgid "No screenshots found. They will become available during the next attempted update."
 msgstr ""
 
-#: modules/upkeep.php:572
+#: modules/upkeep.php:571
 msgid "Current State"
 msgstr ""
 
-#: modules/upkeep.php:573
+#: modules/upkeep.php:572
 msgid "Update Attempt"
 msgstr ""
 
-#: modules/upkeep.php:664
+#: modules/upkeep.php:663
 msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\" target=\"_BLANK\"> Seravo Developer Documentation</a>."
 msgstr ""
 
-#: modules/upkeep.php:667
+#: modules/upkeep.php:666
 msgid "Run Tests"
 msgstr ""
 
-#: modules/upkeep.php:670
+#: modules/upkeep.php:669
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr ""

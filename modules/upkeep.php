@@ -356,7 +356,7 @@ if ( ! class_exists('Upkeep') ) {
 
     public static function change_php_version_postbox() {
       ?>
-      <p>
+      <p id="change_php_version">
         <?php
         printf(
           // translators: link to log file
@@ -364,10 +364,9 @@ if ( ! class_exists('Upkeep') ) {
           'tools.php?page=logs_page&logfile=wp-php-compatibility.log'
         );
         ?>
-      </p>
-
+        </p>
+        
       <button class="button" id='check-php-compatibility-button'><?php _e('Check PHP compatibility', 'seravo'); ?></button>
-
       <div id="check-php-compatibility-status" class="hidden">
         <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
       </div>

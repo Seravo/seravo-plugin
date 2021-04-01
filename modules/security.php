@@ -366,7 +366,7 @@ if ( ! class_exists('Security') ) {
 
     public static function cruftfiles_postbox() {
       ?>
-      <p>
+      <p id="cruftfiles_tool">
         <?php _e('Find and delete any extraneous and potentially harmful files taking up space in the file system. Note that not everything is necessarily safe to delete.', 'seravo'); ?>
       </p>
       <p>
