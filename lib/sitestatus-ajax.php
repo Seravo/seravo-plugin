@@ -66,7 +66,15 @@ function seravo_report_folders() {
   );
 
   // Get total disk usage
-  exec('du -sb /data ' . implode(' ', $exclude_dirs), $data_folder);
+  $cached_usage = get_transient('disk_space_usage');
+
+  if ( ! $cached_usage ) {
+    exec('du -sb /data ' . implode(' ', $exclude_dirs), $data_folder);
+    set_transient('disk_space_usage', $data_folder, Dashboard_Widgets::DISK_SPACE_CACHE_TIME);
+  } else {
+    $data_folder = $cached_usage;
+  }
+
   list($data_size, $data_name) = preg_split('/\s+/', $data_folder[0]);
 
   // Get the sizes of certain directories and directories with the

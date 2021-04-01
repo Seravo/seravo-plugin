@@ -297,6 +297,10 @@ class Loader {
       require_once dirname(__FILE__) . '/modules/login-notification.php';
 
       /*
+       * Show notification stylish wp-admin dashboard widgets
+       */
+      require_once dirname(__FILE__) . '/modules/dashboard-widgets.php';
+      /*
        * Upkeep page
        */
       if ( apply_filters('seravo_show_upkeep_page', true) && current_user_can('administrator') ) {
