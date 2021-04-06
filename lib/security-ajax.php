@@ -65,8 +65,9 @@ function seravo_logins_info( $max = 10 ) {
 
     if ( isset($matches['ip'][0]) && isset($matches['name'][0]) && isset($matches['datetime'][0]) ) {
       // If valid line
+      $timezone = get_option('timezone_string');
       $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $matches['datetime'][0]);
-      $datetime->setTimezone(new \DateTimeZone(wp_timezone_string()));
+      $datetime->setTimezone(new \DateTimeZone(empty($timezone) ? 'UTC' : $timezone));
       $date = $datetime->format(get_option('date_format'));
       $time = $datetime->format(get_option('time_format'));
 

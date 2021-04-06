@@ -146,8 +146,12 @@ if ( ! class_exists('InstanceSwitcher') ) {
             $title .= ' (' . $instance['info'] . ')';
           }
 
+          if ( ! isset($instance['domains']) ) {
+            $instance['domains'] = array();
+          }
+
           $primary_domain = '';
-            foreach ( $instance['domains'] as $domain ) {
+          foreach ( $instance['domains'] as $domain ) {
             if ( $domain['primary'] === $instance['name'] ) {
               $primary_domain = $domain['domain'];
               break;

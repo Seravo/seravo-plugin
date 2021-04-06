@@ -229,6 +229,8 @@ if ( ! class_exists('Upkeep') ) {
             echo '<p>' . __('Unable to fetch the latest update log.', 'seravo') . '</p>';
           } else {
             // Get last item from logs array
+            $update_log_contents = array();
+            $update_log_output = '';
             $update_log_fp = fopen(end($update_logs_arr), 'r');
             if ( $update_log_fp != false ) {
               $index = 0;
@@ -275,9 +277,13 @@ if ( ! class_exists('Upkeep') ) {
       <ul>
         <?php
         exec('zgrep -h -e "Started updates for" -e "Installing urgent security" /data/log/update.log* | sort -r', $output);
-        foreach ( array_slice($output, 0, 5) as $key => $value ) {
-          // Show only date ad the hour and minute are irrelevant
-          echo '<li>' . substr($value, 1, 11) . '</li>';
+        // Only match the date, hours and minutes are irrelevant
+        if ( preg_match_all('/\d{4}-\d{2}-\d{2}/', implode(' ', $output), $matches) ) {
+          foreach ( array_slice($matches[0], 0, 5) as $date ) {
+            echo '<li>' . $date . '</li>';
+          }
+        } else {
+          echo '<b>' . __('No update attempts yet', 'seravo') . '</b>';
         }
         ?>
       </ul>
@@ -477,7 +483,7 @@ if ( ! class_exists('Upkeep') ) {
         <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
         <?php _e('Updating... Please wait up to 5 seconds', 'seravo'); ?>
       </div>
-      <button id='seravo_plugin_update_button' class='hidden'><?php _e('Update plugin now', 'seravo'); ?></button>
+      <button id='seravo_plugin_update_button' class='button hidden'><?php _e('Update plugin now', 'seravo'); ?></button>
       <?php
     }
 
