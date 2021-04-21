@@ -208,9 +208,10 @@ if ( ! class_exists('InstanceSwitcher') ) {
     * Front facing big fat red banner
     */
     public static function render_shadow_indicator() {
+      // in case WP_ENV_COMMENT is empty
       $shadow_title = strtoupper(getenv('WP_ENV'));
       if ( getenv('WP_ENV_COMMENT') && ! empty(getenv('WP_ENV_COMMENT')) ) {
-        $shadow_title = $shadow_title . ' (' . getenv('WP_ENV_COMMENT') . ')';
+        $shadow_title = getenv('WP_ENV_COMMENT');
       }
       ?>
       <style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px } #shadow-indicator a.clearlink { text-decoration: underline; color: #fff; }</style>
@@ -219,7 +220,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
         $domain = self::get_production_domain();
         $exit_href = ! empty($domain) ? 'https://' . $domain : '#exit';
         // translators: $s Identifier for the shadow instance in use
-        printf(__('Your current shadow instance is %s.', 'seravo'), $shadow_title);
+        printf(__('Your current shadow instance is "%s".', 'seravo'), $shadow_title);
         printf(' <a class="clearlink shadow-exit" href="%s">%s</a> ', $exit_href, __('Exit', 'seravo'));
         ?>
       </div>
