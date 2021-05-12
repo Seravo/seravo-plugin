@@ -70,11 +70,11 @@ if ( ! class_exists('Purge_Cache') ) {
 
       if ( $success ) : ?>
         <div class="notice updated is-dismissible">
-          <p><strong><?php _e('Success:', 'seravo'); ?></strong> <?php _e('The cache was flushed.', 'seravo'); ?> <button type="button" class="notice-dismiss"></button></p>
+          <p><strong><?php _e('Success:', 'seravo'); ?></strong> <?php _e('The cache was flushed.', 'seravo'); ?>
         </div>
       <?php else : ?>
         <div class="notice notice-error is-dismissible">
-          <p><strong><?php _e('Error:', 'seravo'); ?></strong> <?php _e('The cache was not flushed, please check your PHP error log for details.', 'seravo'); ?> <button type="button" class="notice-dismiss"></button></p>
+          <p><strong><?php _e('Error:', 'seravo'); ?></strong> <?php _e('The cache was not flushed, please check your PHP error log for details.', 'seravo'); ?>
         </div>
         <?php
       endif;
