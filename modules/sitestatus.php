@@ -735,7 +735,7 @@ if ( ! class_exists('Site_Status') ) {
             <?php _e('Click "Run site checks" to run the tests', 'seravo'); ?>
           </div>
           <div class='seravo-site-check-result'>
-            <pre id='seravo_site_check'></pre>
+            <div id='seravo_site_check'></div>
           </div>
           <div class='seravo_site_check_show_more_wrapper hidden'>
             <a href='' class='seravo_site_check_show_more'><?php _e('Toggle Details', 'seravo'); ?>

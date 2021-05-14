@@ -367,13 +367,13 @@ jQuery(document).ready(function($) {
         var result = JSON.parse(rawData)
 
         if (result['success'] === true) {
-          jQuery('.object_cache_loading').prop('hidden', true)
-          jQuery('#enable-object-cache').remove()
-          jQuery('#object_cache_warning').css('color', 'green')
-          jQuery('#object_cache_warning').html(seravo_site_status_loc.object_cache_success)
+        jQuery('.object_cache_loading').prop('hidden', true)
+        jQuery('#enable-object-cache').remove()
+        jQuery('#object_cache_warning').css('color', 'green')
+        jQuery('#object_cache_warning').html(seravo_site_status_loc.object_cache_success)
         } else {
-          jQuery('#object_cache_warning').html(seravo_site_status_loc.object_cache_failure)
-          jQuery('.object_cache_loading').prop('hidden', true)
+        jQuery('#object_cache_warning').html(seravo_site_status_loc.object_cache_failure)
+        jQuery('.object_cache_loading').prop('hidden', true)
         }
     })
   });
@@ -416,28 +416,35 @@ jQuery(document).ready(function($) {
         if ( issues.length > 0 ) {
           jQuery('#seravo_site_check').append("<h4 style='color: red;'>" + seravo_site_status_loc.site_checks_fail + '</h4>')
 
+          var loop_counter = 0
           for (var index in issues) {
-            if ( index == issues.length- 1 ) {
+            var tooltip = '<span class="tooltip dashicons dashicons-info"><span class="tooltiptext">' + issues[index] + '</span></span>'
+            if ( loop_counter == issues.length - 1 ) {
                 // Border-bottom needs to be applied to the last item
-                jQuery('#seravo_site_check').append('<div class="seravo-site-check-issue-box" style="border-bottom: 1px solid #ccd0d4">' + issues[index]+ '</div>')
-              } else {
-                jQuery('#seravo_site_check').append('<div class="seravo-site-check-issue-box">' + issues[index]+ '</div>')
-              }
+                jQuery('#seravo_site_check').append('<div class="seravo-site-check-issue-box" style="border-bottom: 1px solid #ccd0d4">' + tooltip + index + '</div>')
+                break;
+            } else {
+              jQuery('#seravo_site_check').append('<div class="seravo-site-check-issue-box">' + tooltip + index + '</div>')
+            }
+            loop_counter++
           }
           jQuery('#seravo_site_check').append('<br>')
         }
 
         // wrap the data and disable spinner etc.
         jQuery('#seravo_site_check').append("<h4 style='color: green;'>" + seravo_site_status_loc.site_checks_pass + '</h4>')
-
+        loop_counter = 0
         for (var index in success) {
-          if ( index == success.length- 1 ) {
-              // Border-bottom needs to be applied to the last item
-              jQuery('#seravo_site_check').append('<div class="seravo-site-check-success-box" style="border-bottom: 1px solid #ccd0d4">' + success[index] + '</div>')
-            } else {
-              jQuery('#seravo_site_check').append('<div class="seravo-site-check-success-box">' + success[index] + '</div>')
-            }
+          var tooltip = '<span class="tooltip dashicons dashicons-info"><span class="tooltiptext">' + success[index] + '</span></span>'
+          if ( loop_counter == success.length - 1 ) {
+            // Border-bottom needs to be applied to the last item
+            jQuery('#seravo_site_check').append('<div class="seravo-site-check-success-box" style="border-bottom: 1px solid #ccd0d4">' + tooltip + index + '</div>')
+            break
+          } else {
+            jQuery('#seravo_site_check').append('<div class="seravo-site-check-success-box">' + tooltip + index + '</div>')
           }
+          loop_counter++
+        }
 
         // Reload the components
         jQuery('#run-site-checks').prop('disabled', false)

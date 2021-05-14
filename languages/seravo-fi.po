@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2021-05-06T14:19:28+03:00\n"
-"PO-Revision-Date: 2021-05-06 14:42+0300\n"
+"POT-Creation-Date: 2021-05-21T15:29:21+03:00\n"
+"PO-Revision-Date: 2021-05-21 15:36+0300\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -348,82 +348,134 @@ msgstr ""
 "a> PHP-versioon paremman suorituskyvyn ja uusien ominaisuuksien takia. Lue "
 "lisää <a target=\"_blank\" href=\"%2s\">PHP-versiopäivityksistä</a>."
 
-#: modules/check-site-health.php:36
+#: modules/check-site-health.php:40
+msgid ""
+"Read more about HTTPS on our <a href=\"https://seravo.com/blog/https-is-not-"
+"optional/\" target=\"_blank\">blog</a>"
+msgstr ""
+"Lue lisää HTTPS:n käytöstä <a href=\"https://wp-palvelu.fi/blogi/https-ei-"
+"ole-vapaaehtoinen/\" target=\"_blank\">blogistamme</a>"
+
+#: modules/check-site-health.php:43
 msgid "HTTPS is disabled"
 msgstr "HTTPS ei ole käytössä"
 
-#: modules/check-site-health.php:38
+#: modules/check-site-health.php:45
 msgid "HTTPS is enabled"
 msgstr "HTTPS on käytössä"
 
-#: modules/check-site-health.php:49
+#: modules/check-site-health.php:55
+msgid ""
+"Recaptcha is recommended as it can help protect your site from spam and "
+"abuse."
+msgstr ""
+"Recaptcha-lisäosa on suositeltu, sillä se auttaa suojaamaan sivustoasi "
+"roskapostilta ja väärinkäytöltä."
+
+#: modules/check-site-health.php:60
 msgid "Recaptcha is enabled"
 msgstr "Recaptcha on käytössä"
 
-#: modules/check-site-health.php:56
+#: modules/check-site-health.php:67
 msgid "Recaptcha is disabled"
 msgstr "Recaptcha on poissa käytöstä"
 
+#: modules/check-site-health.php:77
+msgid "It is recommended to remove inactive themes."
+msgstr "Turhien tai poissa käytöstä olevien teemojen poistoa suositellaan."
+
 #. translators: %1$s number of inactive themes
-#: modules/check-site-health.php:74
+#: modules/check-site-health.php:89
 msgid "Found %1$s inactive theme"
 msgid_plural "Found %1$s inactive themes"
 msgstr[0] "Löytyi %1$s epäaktiivinen teema"
 msgstr[1] "Löytyi %1$s epäaktiivista teemaa"
 
-#: modules/check-site-health.php:77
+#: modules/check-site-health.php:92
 msgid "No inactive themes"
 msgstr "Ei epäaktiivisia teemoja"
 
+#: modules/check-site-health.php:104
+msgid "It is recommended to remove inactive plugins and features."
+msgstr "Turhien ja ylimääräisten lisäosien poistoa suositellaan."
+
+#: modules/check-site-health.php:105
+msgid ""
+"Deprecated plugins and features are obsolete and should no longer be used."
+msgstr "Vanhentuneita lisäosia tai ominaisuuksia ei tulisi käyttää."
+
+#: modules/check-site-health.php:124
+msgid "No deprecated features or plugins"
+msgstr "Ei vanhentuneita ominaisuuksia tai lisäosia"
+
 #. translators: %1$s number of inactive plugins
-#: modules/check-site-health.php:111
+#: modules/check-site-health.php:131
 msgid "Found %1$s inactive plugin"
 msgid_plural "Found %1$s inactive plugins"
 msgstr[0] "Löytyi %1$s epäaktiivinen lisäosa"
 msgstr[1] "Löytyi %1$s epäaktiivista lisäosaa"
 
-#: modules/check-site-health.php:114
+#: modules/check-site-health.php:134
 msgid "No inactive plugins"
 msgstr "Ei epäaktiivisia lisäosia"
 
+#: modules/check-site-health.php:144
+msgid ""
+"PHP related errors are usually a sign of something being broken on the code."
+msgstr ""
+"PHP-virheet ovat tavallisesti merkki siitä, että jokin on rikki sivuston "
+"koodissa."
+
 #. translators: %1$s number of errors in the log %2$s url to php-error.log
-#: modules/check-site-health.php:126
+#: modules/check-site-health.php:150
 msgid "%1$s error on %2$s"
 msgid_plural "%1$s errors on %2$s"
 msgstr[0] "%1$s virhe lokitiedostossa %2$s"
 msgstr[1] "%1$s virhettä lokitiedostossa %2$s"
 
-#: modules/check-site-health.php:129
+#: modules/check-site-health.php:153
 msgid "No php errors on log"
 msgstr "Ei PHP-virheitä lokitiedostossa"
 
-#: modules/check-site-health.php:137
+#: modules/check-site-health.php:162
+msgid ""
+"<code>wp-test</code> checks if the site works normally. It also checks "
+"whether automatic updates can continue."
+msgstr ""
+"<code>wp-test</code> tarkistaa toimiiko sivusto ja voidaanko Seravon "
+"automaattiset päivitykset ajaa normaalisti."
+
+#: modules/check-site-health.php:165
 msgid "Command <code>wp-test</code> runs successfully"
 msgstr "Komento <code>wp-test</code> ajettiin onnistuneesti"
 
-#: modules/dashboard-widgets.php:39 modules/toolbox.php:18
+#: modules/check-site-health.php:167
+msgid "Command <code>wp-test</code> fails"
+msgstr "Komennon <code>wp-test</code> ajaminen epäonnistui"
+
+#: modules/dashboard-widgets.php:41 modules/toolbox.php:18
 #: modules/toolbox.php:19
 msgid "Site Status"
 msgstr "Sivuston tila"
 
-#: modules/dashboard-widgets.php:55
+#: modules/dashboard-widgets.php:57
 msgid "PHP warnings and errors"
 msgstr "PHP-virheet ja varoitukset"
 
-#: modules/dashboard-widgets.php:68
+#: modules/dashboard-widgets.php:70
 msgid "Low disk space"
 msgstr "Levytila vähissä"
 
-#: modules/dashboard-widgets.php:136
+#: modules/dashboard-widgets.php:145
 msgid "disk space tool"
 msgstr "levynkäyttö työkalusta"
 
-#: modules/dashboard-widgets.php:138
+#: modules/dashboard-widgets.php:147
 msgid "cruft remover tool"
 msgstr "roskatiedostojen poistotyökalun"
 
 #. translators: %1$s url to the disk space tool %2$s url to the cruft file remover tool
-#: modules/dashboard-widgets.php:144
+#: modules/dashboard-widgets.php:153
 msgid ""
 "Disk space is running low. You can see more details about the usage on %1$s. "
 "You can also check %2$s for excessive files and folders."
@@ -431,20 +483,21 @@ msgstr ""
 "Levytila on vähissä. Voit katsoa tarkemmat tiedot %1$s. Voit myös tarkistaa "
 "%2$s mahdollisten ylimääräisten tiedostojen tai kansioiden varalta."
 
-#: modules/dashboard-widgets.php:149 modules/sitestatus.php:322
+#: modules/dashboard-widgets.php:158 modules/dashboard-widgets.php:230
+#: modules/sitestatus.php:322
 msgid "Disk space in your plan: "
 msgstr "Levytilaa palvelupaketissasi: "
 
-#: modules/dashboard-widgets.php:150 modules/sitestatus.php:325
+#: modules/dashboard-widgets.php:159 modules/sitestatus.php:325
 msgid "Space in use: "
 msgstr "Tilaa käytössä: "
 
-#: modules/dashboard-widgets.php:160
+#: modules/dashboard-widgets.php:169
 msgid "Site Error Count"
 msgstr "Sivuston virhemäärä"
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/dashboard-widgets.php:166
+#: modules/dashboard-widgets.php:175
 msgid ""
 "The PHP error log has more than %1$s entries this week. Please see %2$s for "
 "details. This is usually a sign that something is broken in the code. The "
@@ -455,16 +508,16 @@ msgstr ""
 "että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 "sivuston kehittäjälle."
 
-#: modules/dashboard-widgets.php:174
+#: modules/dashboard-widgets.php:183
 msgid "Old PHP Version"
 msgstr "Vanhentunut PHP-versio"
 
-#: modules/dashboard-widgets.php:177
+#: modules/dashboard-widgets.php:186
 msgid "change php version tool"
 msgstr "vaihda PHP-versiota -työkalulla"
 
 #. translators: %1$s current php version %2$s link for changing PHP version
-#: modules/dashboard-widgets.php:184
+#: modules/dashboard-widgets.php:193
 msgid ""
 "You are using end of life PHP version %1$s which will no longer be "
 "supported. You can see more details about changing PHP version and \n"
@@ -474,35 +527,35 @@ msgstr ""
 "Voit katsoa lisätietoa PHP-version vaihtamisesta ja version "
 "yhteensopivuudesta sivustollasi %2$s."
 
-#: modules/dashboard-widgets.php:201 modules/sitestatus.php:218
+#: modules/dashboard-widgets.php:210 modules/sitestatus.php:218
 #: modules/sitestatus.php:361
 msgid "This feature is available only on live production sites."
 msgstr "Tämä toiminto on saatavilla vain oikeilla tuotantosivustoilla."
 
-#: modules/dashboard-widgets.php:205
+#: modules/dashboard-widgets.php:214
 msgid "Plan details"
 msgstr "Palvelupaketin tiedot"
 
 #. translators: %1$s url for additional information
-#: modules/dashboard-widgets.php:212
+#: modules/dashboard-widgets.php:221
 msgid "Error on fetching plan details. See more from %1$s."
 msgstr ""
 "Virhe ladattaessa palvelupaketin tietoja. Katso lisätietoa tiedostosta %1$s."
 
-#: modules/dashboard-widgets.php:218
+#: modules/dashboard-widgets.php:228
 msgid "Plan type: "
 msgstr "Palvelupaketti: "
 
-#: modules/dashboard-widgets.php:219
+#: modules/dashboard-widgets.php:229
 msgid "HTTP requests / month: "
 msgstr "HTTP-pyynnöt / kk: "
 
-#: modules/dashboard-widgets.php:224
+#: modules/dashboard-widgets.php:235
 msgid "Monthly HTTP requests"
 msgstr "HTTP-liikennetilastot"
 
 #. translators: %1$s contact email link
-#: modules/dashboard-widgets.php:232
+#: modules/dashboard-widgets.php:243
 msgid ""
 "These monthly reports are generated from the HTTP access logs of your site. "
 "If you have more HTTP requests than your plan allows, contact %1$s to "
@@ -513,23 +566,23 @@ msgstr ""
 "päivittääksesi <a href=\"https://wp-palvelu.fi/hinnasto\" target=\"_blank"
 "\">palvelupakettisi</a>."
 
-#: modules/dashboard-widgets.php:245 modules/sitestatus.php:228
+#: modules/dashboard-widgets.php:256 modules/sitestatus.php:228
 msgid "Month"
 msgstr "Kuukausi"
 
-#: modules/dashboard-widgets.php:246 modules/sitestatus.php:229
+#: modules/dashboard-widgets.php:257 modules/sitestatus.php:229
 msgid "HTTP Requests"
 msgstr "HTTP-pyynnöt"
 
-#: modules/dashboard-widgets.php:247 modules/sitestatus.php:230
+#: modules/dashboard-widgets.php:258 modules/sitestatus.php:230
 msgid "Report"
 msgstr "Raportti"
 
-#: modules/dashboard-widgets.php:305 modules/sitestatus.php:183
+#: modules/dashboard-widgets.php:310 modules/sitestatus.php:183
 msgid "View report"
 msgstr "Näytä raportti"
 
-#: modules/dashboard-widgets.php:310
+#: modules/dashboard-widgets.php:315
 msgid "The site has no HTTP requests statistics yet."
 msgstr "Sivustolla ei ole vielä HTTP-liikennetilastoja."
 
@@ -823,7 +876,6 @@ msgstr "Varjot selitettynä ohjeissa Seravo.com/docs"
 msgid "Your current shadow instance is \"%s\"."
 msgstr "Olet nyt varjossa %s."
 
-#. translators: $s Identifier for the shadow instance in use
 #: modules/instance-switcher.php:224
 msgid "Exit"
 msgstr "Poistu"
@@ -953,7 +1005,6 @@ msgstr ""
 "tarjota salamannopea sivunlataus. Välimuistitettuja sivuja päivitetään %s "
 "välein. Voit käyttää tätä näppäintä, jos haluat tyhjentää välimuistin heti."
 
-#. translators: %s cache refresh interval
 #: modules/purge-cache.php:39
 msgid "Purge Cache"
 msgstr "Tyhjennä välimuisti"

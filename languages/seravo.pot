@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-05-06T14:19:28+03:00\n"
+"POT-Creation-Date: 2021-05-21T15:29:21+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -309,173 +309,210 @@ msgstr ""
 msgid "PHP %1$s is available but not used on this site. Developers might want to <a href=\"tools.php?page=upkeep_page\">upgrade the latest PHP version</a> for faster performance and new features. Read more about <a target=\"_blank\" href=\"%2$s\">PHP version upgrades</a>."
 msgstr ""
 
-#: modules/check-site-health.php:36
+#: modules/check-site-health.php:40
+msgid "Read more about HTTPS on our <a href=\"https://seravo.com/blog/https-is-not-optional/\" target=\"_blank\">blog</a>"
+msgstr ""
+
+#: modules/check-site-health.php:43
 msgid "HTTPS is disabled"
 msgstr ""
 
-#: modules/check-site-health.php:38
+#: modules/check-site-health.php:45
 msgid "HTTPS is enabled"
 msgstr ""
 
-#: modules/check-site-health.php:49
+#: modules/check-site-health.php:55
+msgid "Recaptcha is recommended as it can help protect your site from spam and abuse."
+msgstr ""
+
+#: modules/check-site-health.php:60
 msgid "Recaptcha is enabled"
 msgstr ""
 
-#: modules/check-site-health.php:56
+#: modules/check-site-health.php:67
 msgid "Recaptcha is disabled"
 msgstr ""
 
+#: modules/check-site-health.php:77
+msgid "It is recommended to remove inactive themes."
+msgstr ""
+
 #. translators: %1$s number of inactive themes
-#: modules/check-site-health.php:74
+#: modules/check-site-health.php:89
 msgid "Found %1$s inactive theme"
 msgid_plural "Found %1$s inactive themes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: modules/check-site-health.php:77
+#: modules/check-site-health.php:92
 msgid "No inactive themes"
 msgstr ""
 
+#: modules/check-site-health.php:104
+msgid "It is recommended to remove inactive plugins and features."
+msgstr ""
+
+#: modules/check-site-health.php:105
+msgid "Deprecated plugins and features are obsolete and should no longer be used."
+msgstr ""
+
+#: modules/check-site-health.php:124
+msgid "No deprecated features or plugins"
+msgstr ""
+
 #. translators: %1$s number of inactive plugins
-#: modules/check-site-health.php:111
+#: modules/check-site-health.php:131
 msgid "Found %1$s inactive plugin"
 msgid_plural "Found %1$s inactive plugins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: modules/check-site-health.php:114
+#: modules/check-site-health.php:134
 msgid "No inactive plugins"
 msgstr ""
 
+#: modules/check-site-health.php:144
+msgid "PHP related errors are usually a sign of something being broken on the code."
+msgstr ""
+
 #. translators: %1$s number of errors in the log %2$s url to php-error.log
-#: modules/check-site-health.php:126
+#: modules/check-site-health.php:150
 msgid "%1$s error on %2$s"
 msgid_plural "%1$s errors on %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: modules/check-site-health.php:129
+#: modules/check-site-health.php:153
 msgid "No php errors on log"
 msgstr ""
 
-#: modules/check-site-health.php:137
+#: modules/check-site-health.php:162
+msgid "<code>wp-test</code> checks if the site works normally. It also checks whether automatic updates can continue."
+msgstr ""
+
+#: modules/check-site-health.php:165
 msgid "Command <code>wp-test</code> runs successfully"
 msgstr ""
 
-#: modules/dashboard-widgets.php:39
+#: modules/check-site-health.php:167
+msgid "Command <code>wp-test</code> fails"
+msgstr ""
+
+#: modules/dashboard-widgets.php:41
 #: modules/toolbox.php:18
 #: modules/toolbox.php:19
 msgid "Site Status"
 msgstr ""
 
-#: modules/dashboard-widgets.php:55
+#: modules/dashboard-widgets.php:57
 msgid "PHP warnings and errors"
 msgstr ""
 
-#: modules/dashboard-widgets.php:68
+#: modules/dashboard-widgets.php:70
 msgid "Low disk space"
 msgstr ""
 
-#: modules/dashboard-widgets.php:136
+#: modules/dashboard-widgets.php:145
 msgid "disk space tool"
 msgstr ""
 
-#: modules/dashboard-widgets.php:138
+#: modules/dashboard-widgets.php:147
 msgid "cruft remover tool"
 msgstr ""
 
 #. translators: %1$s url to the disk space tool %2$s url to the cruft file remover tool
-#: modules/dashboard-widgets.php:144
+#: modules/dashboard-widgets.php:153
 msgid "Disk space is running low. You can see more details about the usage on %1$s. You can also check %2$s for excessive files and folders."
 msgstr ""
 
-#: modules/dashboard-widgets.php:149
+#: modules/dashboard-widgets.php:158
+#: modules/dashboard-widgets.php:230
 #: modules/sitestatus.php:322
 msgid "Disk space in your plan: "
 msgstr ""
 
-#: modules/dashboard-widgets.php:150
+#: modules/dashboard-widgets.php:159
 #: modules/sitestatus.php:325
 msgid "Space in use: "
 msgstr ""
 
-#: modules/dashboard-widgets.php:160
+#: modules/dashboard-widgets.php:169
 msgid "Site Error Count"
 msgstr ""
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: modules/dashboard-widgets.php:166
+#: modules/dashboard-widgets.php:175
 msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: modules/dashboard-widgets.php:174
+#: modules/dashboard-widgets.php:183
 msgid "Old PHP Version"
 msgstr ""
 
-#: modules/dashboard-widgets.php:177
+#: modules/dashboard-widgets.php:186
 msgid "change php version tool"
 msgstr ""
 
 #. translators: %1$s current php version %2$s link for changing PHP version
-#: modules/dashboard-widgets.php:184
+#: modules/dashboard-widgets.php:193
 msgid ""
 "You are using end of life PHP version %1$s which will no longer be supported. You can see more details about changing PHP version and \n"
 "          checking PHP upgrade combatability on %2$s."
 msgstr ""
 
-#: modules/dashboard-widgets.php:201
+#: modules/dashboard-widgets.php:210
 #: modules/sitestatus.php:218
 #: modules/sitestatus.php:361
 msgid "This feature is available only on live production sites."
 msgstr ""
 
-#: modules/dashboard-widgets.php:205
+#: modules/dashboard-widgets.php:214
 msgid "Plan details"
 msgstr ""
 
 #. translators: %1$s url for additional information
-#: modules/dashboard-widgets.php:212
+#: modules/dashboard-widgets.php:221
 msgid "Error on fetching plan details. See more from %1$s."
 msgstr ""
 
-#: modules/dashboard-widgets.php:218
+#: modules/dashboard-widgets.php:228
 msgid "Plan type: "
 msgstr ""
 
-#: modules/dashboard-widgets.php:219
+#: modules/dashboard-widgets.php:229
 msgid "HTTP requests / month: "
 msgstr ""
 
-#: modules/dashboard-widgets.php:224
+#: modules/dashboard-widgets.php:235
 msgid "Monthly HTTP requests"
 msgstr ""
 
 #. translators: %1$s contact email link
-#: modules/dashboard-widgets.php:232
+#: modules/dashboard-widgets.php:243
 msgid "These monthly reports are generated from the HTTP access logs of your site. If you have more HTTP requests than your plan allows, contact %1$s to upgrade your <a href=\"https://seravo.com/plans\" target=\"_blank\">plan</a>."
 msgstr ""
 
-#: modules/dashboard-widgets.php:245
+#: modules/dashboard-widgets.php:256
 #: modules/sitestatus.php:228
 msgid "Month"
 msgstr ""
 
-#: modules/dashboard-widgets.php:246
+#: modules/dashboard-widgets.php:257
 #: modules/sitestatus.php:229
 msgid "HTTP Requests"
 msgstr ""
 
-#: modules/dashboard-widgets.php:247
+#: modules/dashboard-widgets.php:258
 #: modules/sitestatus.php:230
 msgid "Report"
 msgstr ""
 
-#: modules/dashboard-widgets.php:305
+#: modules/dashboard-widgets.php:310
 #: modules/sitestatus.php:183
 msgid "View report"
 msgstr ""
 
-#: modules/dashboard-widgets.php:310
+#: modules/dashboard-widgets.php:315
 msgid "The site has no HTTP requests statistics yet."
 msgstr ""
 
@@ -735,7 +772,6 @@ msgstr ""
 msgid "Your current shadow instance is \"%s\"."
 msgstr ""
 
-#. translators: $s Identifier for the shadow instance in use
 #: modules/instance-switcher.php:224
 msgid "Exit"
 msgstr ""
@@ -829,7 +865,6 @@ msgstr ""
 msgid "Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the front-end proxy immediately."
 msgstr ""
 
-#. translators: %s cache refresh interval
 #: modules/purge-cache.php:39
 msgid "Purge Cache"
 msgstr ""
