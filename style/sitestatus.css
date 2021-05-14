@@ -127,14 +127,12 @@ th, td {
 }
 
 .seravo-site-check-success-box {
-  overflow: hidden;
   padding: 10px;
   border: 1.5px solid#ccd0d4;
   border-left: solid 0.3em #038103;
   border-bottom: none;
 }
 .seravo-site-check-issue-box {
-  overflow: hidden;
   padding: 10px;
   border: 1.5px solid#ccd0d4;
   border-left: solid 0.3em red;
@@ -162,9 +160,16 @@ th, td {
   box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
   display: none;
   margin: 1em;
-  max-height: 25em;
-  overflow: auto;
+  max-height: 30em;
   padding: 1em;
+}
+
+.seravo-site-check-result {
+  padding: 2em;
+}
+
+.seravo-cache-test-result {
+  overflow: auto;
 }
 
 .seravo_cache_tests_status,
@@ -223,6 +228,11 @@ th, td {
   position: relative;
   padding-left: 5px;
   content: "\f348";
+}
+
+#seravo_site_check .tooltip {
+  padding-left: 0px;
+  margin-right: 5px;
 }
 
 .tooltip .tooltiptext {
