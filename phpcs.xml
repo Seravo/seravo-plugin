@@ -5,6 +5,9 @@
     easier on developers.
   </description>
 
+  <config name="installed_paths" 
+          value="/usr/share/php/PHP/CodeSniffer/src/Standards/,vendor/wp-coding-standards/wpcs/,vendor/pheromone/phpcs-security-audit,vendor/phpcompatibility/php-compatibility/" />
+
   <!-- Show sniff progress -->
   <arg value="p"/>
 

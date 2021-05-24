@@ -1,2 +1,6 @@
 //Ignore the macOS Finder directory properties
 languages/.DS_Store
+
+//Ignore Composer files
+composer.lock
+vendor/
