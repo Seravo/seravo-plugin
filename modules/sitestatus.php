@@ -352,7 +352,13 @@ if ( ! class_exists('Site_Status') ) {
       <hr>
       <?php _e('Logs and automatic backups don\'t count against your quota.', 'seravo'); ?>
       <br>
-      <?php _e('Use <a href="tools.php?page=security_page">cruft remover</a> to remove unnecessary files.', 'seravo'); ?>
+      <?php
+      printf(
+        // translators: %s is the link to curftfiles
+        __('Use <a href="%s">cruft remover</a> to remove unnecessary files.', 'seravo'),
+        'tools.php?page=security_page#cruftfiles_tool'
+      );
+      ?>
       <?php
     }
 

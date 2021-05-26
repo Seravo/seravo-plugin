@@ -235,6 +235,11 @@ th, td {
   margin-right: 5px;
 }
 
+#seravo_site_check .tooltip a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 .tooltip .tooltiptext {
   font-size: 0.6em;
   visibility: hidden;
