@@ -105,5 +105,14 @@ function search_replace_extension() {
   }
 }
 
+function search_replace_escaped_urls() {
+  $positionals = \WP_CLI::get_runner()->__get('arguments');
+  // $options = \WP_CLI::get_runner()->__get('assoc_args');
+  $from = $positionals[1];
+  $to = $positionals[2];
+  \WP_CLI::runcommand('search-replace ' . $from . ' ' . $to);
+}
+
 \WP_CLI::add_command('seravo', 'Seravo\Seravo_WP_CLI');
 \WP_CLI::add_hook('after_invoke:search-replace', 'Seravo\search_replace_extension');
+\WP_CLI::add_command('search-replace-url', 'Seravo\search_replace_escaped_urls');
