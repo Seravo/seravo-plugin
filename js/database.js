@@ -127,6 +127,32 @@ jQuery(document).ready(function($) {
     });
   }
 
+  function seravo_wp_db_optimize(section) {
+    jQuery.post(
+      seravo_database_loc.ajaxurl, {
+        'action': 'seravo_db_cleanup',
+        'section': section,
+        'nonce': seravo_database_loc.ajax_nonce,
+      },
+      function (rawData) {
+        if (rawData.length === 0) {
+          jQuery('#' + section).html('No data returned for section.');
+        }
+        // proceed to the ajax data
+        var data = JSON.parse(rawData)
+
+        jQuery.each(data, function(i, row) {
+          jQuery('#db_optimize').append(row + '<br>')
+        });
+        jQuery('#optimize-button').prop('disabled', false);
+        jQuery('#optimize_loading img').fadeOut();
+
+      }
+    ).fail(function () {
+      jQuery('#' + section + '_loading').html('Failed to load. Please try again.');
+    });
+  }
+
   jQuery('.cleanup-button').click(function () {
     jQuery('#cleanup_loading img').fadeIn();
     jQuery('#db_cleanup').empty();
@@ -143,6 +169,14 @@ jQuery(document).ready(function($) {
 
   jQuery(document).ready(function () {
     jQuery('#cleanup-button').prop('disabled', true);
+  });
+
+  jQuery('.optimize').click(function () {
+    jQuery('#optimize_loading img').fadeIn();
+    jQuery('#db_optimize').empty();
+    jQuery('#optimize-button').prop('disabled', true);
+
+    seravo_wp_db_optimize('db_optimize');
   });
 
   // Database table sizes script

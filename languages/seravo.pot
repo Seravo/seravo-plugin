@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-05-26T12:14:37+03:00\n"
+"POT-Creation-Date: 2021-06-04T10:33:54+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: seravo\n"
@@ -39,7 +39,7 @@ msgstr ""
 msgid "API call failed. Aborting. The error has been logged."
 msgstr ""
 
-#: lib/db-cleanup-ajax.php:27
+#: lib/db-cleanup-ajax.php:42
 msgid "Nothing to be cleaned up"
 msgstr ""
 
@@ -585,7 +585,7 @@ msgid "Network"
 msgstr ""
 
 #: modules/database.php:214
-#: modules/database.php:230
+#: modules/database.php:246
 msgid "Do a dry run"
 msgstr ""
 
@@ -594,50 +594,69 @@ msgid "Run wp search-replace"
 msgstr ""
 
 #: modules/database.php:227
+msgid "Optimization"
+msgstr ""
+
+#: modules/database.php:230
+msgid ""
+"You can use this tool to run <code>wp-db-optimize</code>. The command optimizes WordPress database and thus\n"
+"      reduces database disk usage."
+msgstr ""
+
+#: modules/database.php:238
+msgid "Optimize"
+msgstr ""
+
+#: modules/database.php:243
+msgid "Cleanup"
+msgstr ""
+
+#: modules/database.php:244
 msgid "You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a dry run is compulsory before the actual cleanup can be done."
 msgstr ""
 
-#: modules/database.php:231
+#: modules/database.php:247
 msgid "Run wp-db-cleanup"
 msgstr ""
 
-#: modules/database.php:248
+#: modules/database.php:264
 msgid "Table sizes"
 msgstr ""
 
-#: modules/database.php:259
+#: modules/database.php:275
 msgid "Details about database table sizes"
 msgstr ""
 
-#: modules/database.php:263
+#: modules/database.php:279
 msgid "Longest wp_postmeta values:"
 msgstr ""
 
-#: modules/database.php:267
+#: modules/database.php:283
 msgid "Cumulative size of meta_value per meta_key:"
 msgstr ""
 
-#: modules/database.php:271
+#: modules/database.php:287
 msgid "Rows per meta_key:"
 msgstr ""
 
-#: modules/database.php:275
+#: modules/database.php:291
 msgid "Autoload options count (read to memory on each WP page load):"
 msgstr ""
 
-#: modules/database.php:279
+#: modules/database.php:295
 msgid "Autoload options total size of values:"
 msgstr ""
 
-#: modules/database.php:283
+#: modules/database.php:299
 msgid "Longest autoloaded wp_option values:"
 msgstr ""
 
-#: modules/database.php:287
+#: modules/database.php:303
 msgid "Most common autoloaded wp_option values:"
 msgstr ""
 
-#: modules/database.php:291
+#: modules/database.php:307
+#: modules/postbox-tools.php:67
 #: modules/sitestatus.php:297
 #: modules/sitestatus.php:747
 #: modules/upkeep.php:347

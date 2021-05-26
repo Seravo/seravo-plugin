@@ -7,6 +7,21 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
+function seravo_db_optimize() {
+  $output = array();
+
+  // define the db credentials for wp-db-optimize
+  $db_info = defined('DB_NAME') ? 'DB_NAME=' . DB_NAME . ' ' : '';
+  $db_info .= defined('DB_HOST') ? 'DB_HOST=' . DB_HOST . ' ' : '';
+  $db_info .= defined('DB_USER') ? 'DB_USER=' . DB_USER . ' ' : '';
+  $db_info .= defined('DB_PASSWORD') ? 'DB_PASSWORD=' . DB_PASSWORD . ' ' : '';
+  $command = $db_info . 'wp-db-optimize 2>&1';
+
+  exec($command, $output);
+
+  return $output;
+}
+
 function seravo_db_cleanup( $options ) {
   $command = 'wp-db-cleanup ';
   $output = array();
@@ -49,6 +64,10 @@ function seravo_ajax_db_cleanup() {
     case 'db_cleanup':
       $db_cleanup_result = seravo_db_cleanup($_REQUEST['options']);
       echo wp_json_encode($db_cleanup_result);
+      break;
+
+    case 'db_optimize':
+      echo wp_json_encode(seravo_db_optimize());
       break;
 
     default:

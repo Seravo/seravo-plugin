@@ -224,8 +224,24 @@ if ( ! class_exists('Database') ) {
 
     public static function database_cleanup_postbox() {
       ?>
-      <p> <?php _e('You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a dry run is compulsory before the actual cleanup can be done.', 'seravo'); ?></p>
+      <h3> <?php _e('Optimization', 'seravo'); ?> </h3>
+      <p> 
+      <?php
+      _e(
+        'You can use this tool to run <code>wp-db-optimize</code>. The command optimizes WordPress database and thus
+      reduces database disk usage.',
+        'seravo'
+      );
+      ?>
+      </p>
 
+      <button id='optimize-button' class='button optimize'><?php _e('Optimize', 'seravo'); ?> </button>
+      <div id='optimize_loading'><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
+      <div id='db_optimize'></div>
+    
+      <br>
+      <h3> <?php _e('Cleanup', 'seravo'); ?> </h3>
+      <p> <?php _e('You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a dry run is compulsory before the actual cleanup can be done.', 'seravo'); ?></p>
       <div class="datab_buttons">
             <button id="cleanup-drybutton" class="button cleanup-button"> <?php _e('Do a dry run', 'seravo'); ?> </button>
             <button id="cleanup-button" class="button cleanup-button" disabled> <?php _e('Run wp-db-cleanup', 'seravo'); ?> </button>
