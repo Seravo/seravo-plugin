@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2021-05-26T12:14:37+03:00\n"
-"PO-Revision-Date: 2021-05-26 12:18+0300\n"
+"POT-Creation-Date: 2021-06-04T10:33:54+03:00\n"
+"PO-Revision-Date: 2021-06-04 10:37+0300\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -40,7 +40,7 @@ msgstr ""
 msgid "API call failed. Aborting. The error has been logged."
 msgstr "Rajapintayhteys epäonnistui. Virhe on lisätty lokiin."
 
-#: lib/db-cleanup-ajax.php:27
+#: lib/db-cleanup-ajax.php:42
 msgid "Nothing to be cleaned up"
 msgstr "Ei siivottavaa"
 
@@ -680,7 +680,7 @@ msgstr "Kaikki taulut"
 msgid "Network"
 msgstr "Network"
 
-#: modules/database.php:214 modules/database.php:230
+#: modules/database.php:214 modules/database.php:246
 msgid "Do a dry run"
 msgstr "Aja kuiva-ajo"
 
@@ -689,6 +689,28 @@ msgid "Run wp search-replace"
 msgstr "Aja wp search-replace"
 
 #: modules/database.php:227
+msgid "Optimization"
+msgstr "Optimointi"
+
+#: modules/database.php:230
+msgid ""
+"You can use this tool to run <code>wp-db-optimize</code>. The command "
+"optimizes WordPress database and thus\n"
+"      reduces database disk usage."
+msgstr ""
+"Tämän työkalun avulla voit ajaa komennon <code>wp-db-optimize</code>. "
+"Komento optimoi WordPressin tietokannan ja vähentää siten tietokannan "
+"levynkäyttöä."
+
+#: modules/database.php:238
+msgid "Optimize"
+msgstr "Optimoi"
+
+#: modules/database.php:243
+msgid "Cleanup"
+msgstr "Puhdistus"
+
+#: modules/database.php:244
 msgid ""
 "You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a "
 "dry run is compulsory before the actual cleanup can be done."
@@ -697,49 +719,50 @@ msgstr ""
 "Turvallisuussyistä on ajettava kuiva-ajo (dry-run) ennen kuin on mahdollista "
 "tehdä muutoksia."
 
-#: modules/database.php:231
+#: modules/database.php:247
 msgid "Run wp-db-cleanup"
 msgstr "Aja wp-db-cleanup"
 
-#: modules/database.php:248
+#: modules/database.php:264
 msgid "Table sizes"
 msgstr "Taulujen koot"
 
-#: modules/database.php:259
+#: modules/database.php:275
 msgid "Details about database table sizes"
 msgstr "Yksityiskohtia tietokantojen taulujen koosta"
 
-#: modules/database.php:263
+#: modules/database.php:279
 msgid "Longest wp_postmeta values:"
 msgstr "Pisimmät wp_postmeta arvot:"
 
-#: modules/database.php:267
+#: modules/database.php:283
 msgid "Cumulative size of meta_value per meta_key:"
 msgstr "Meta_valueiden yhteenlaskettu koko meta_keyn mukaan:"
 
-#: modules/database.php:271
+#: modules/database.php:287
 msgid "Rows per meta_key:"
 msgstr "Rivejä per meta_key:"
 
-#: modules/database.php:275
+#: modules/database.php:291
 msgid "Autoload options count (read to memory on each WP page load):"
 msgstr ""
 "Autoload-asetuksien määrä (luetaan muistiin jokaisella sivulatauksella):"
 
-#: modules/database.php:279
+#: modules/database.php:295
 msgid "Autoload options total size of values:"
 msgstr "Autoload-asetusten arvojen yhteenlaskettu koko:"
 
-#: modules/database.php:283
+#: modules/database.php:299
 msgid "Longest autoloaded wp_option values:"
 msgstr "Pisimmät automaattisesti ladatut wp_option arvot:"
 
-#: modules/database.php:287
+#: modules/database.php:303
 msgid "Most common autoloaded wp_option values:"
 msgstr "Useimmiten automaattisesti ladatut wp_option arvot:"
 
-#: modules/database.php:291 modules/sitestatus.php:297
-#: modules/sitestatus.php:747 modules/upkeep.php:347 modules/upkeep.php:675
+#: modules/database.php:307 modules/postbox-tools.php:67
+#: modules/sitestatus.php:297 modules/sitestatus.php:747 modules/upkeep.php:347
+#: modules/upkeep.php:675
 msgid "Toggle Details"
 msgstr "Näytä lisää"
 
