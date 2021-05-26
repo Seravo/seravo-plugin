@@ -361,7 +361,7 @@ if ( ! class_exists('Upkeep') ) {
         printf(
           // translators: link to log file
           __('Latest version is recommended if all plugins and theme support it. Check <a href="%s">compatibility scan results.</a>', 'seravo'),
-          'tools.php?page=logs_page&logfile=wp-php-compatibility.log'
+          'tools.php?page=logs_page&logfile=php-compatibility.log'
         );
         ?>
         </p>

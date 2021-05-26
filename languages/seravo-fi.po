@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2021-05-21T15:29:21+03:00\n"
-"PO-Revision-Date: 2021-05-21 15:36+0300\n"
+"POT-Creation-Date: 2021-05-26T12:14:37+03:00\n"
+"PO-Revision-Date: 2021-05-26 12:18+0300\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -528,7 +528,7 @@ msgstr ""
 "yhteensopivuudesta sivustollasi %2$s."
 
 #: modules/dashboard-widgets.php:210 modules/sitestatus.php:218
-#: modules/sitestatus.php:361
+#: modules/sitestatus.php:367
 msgid "This feature is available only on live production sites."
 msgstr "Tämä toiminto on saatavilla vain oikeilla tuotantosivustoilla."
 
@@ -739,7 +739,7 @@ msgid "Most common autoloaded wp_option values:"
 msgstr "Useimmiten automaattisesti ladatut wp_option arvot:"
 
 #: modules/database.php:291 modules/sitestatus.php:297
-#: modules/sitestatus.php:741 modules/upkeep.php:347 modules/upkeep.php:675
+#: modules/sitestatus.php:747 modules/upkeep.php:347 modules/upkeep.php:675
 msgid "Toggle Details"
 msgstr "Näytä lisää"
 
@@ -871,10 +871,8 @@ msgstr "Varjot selitettynä ohjeissa Seravo.com/docs"
 
 #. translators: $s Identifier for the shadow instance in use
 #: modules/instance-switcher.php:223
-#, fuzzy
-#| msgid "Your current shadow instance is %s."
 msgid "Your current shadow instance is \"%s\"."
-msgstr "Olet nyt varjossa %s."
+msgstr "Olet nyt varjossa \"%s\"."
 
 #: modules/instance-switcher.php:224
 msgid "Exit"
@@ -1293,8 +1291,8 @@ msgstr ""
 "jonka sivuston omistaja voi halutessaan tehdä mikäli tietää\n"
 "että ei tarvitse tiettyjä toimintoja koskaan."
 
-#: modules/security.php:330 modules/sitestatus.php:652
-#: modules/sitestatus.php:695
+#: modules/security.php:330 modules/sitestatus.php:658
+#: modules/sitestatus.php:701
 msgid "Save"
 msgstr "Tallenna"
 
@@ -1387,7 +1385,7 @@ msgstr "Optimoi kuvia"
 msgid "Speed test"
 msgstr "Nopeustesti"
 
-#: modules/sitestatus.php:99 modules/sitestatus.php:683
+#: modules/sitestatus.php:99 modules/sitestatus.php:689
 msgid "Sanitize uploads"
 msgstr "Siisti lataukset"
 
@@ -1455,15 +1453,15 @@ msgstr "Onnistuneet testit"
 msgid "Potential issues"
 msgstr "Mahdolliset ongelmat"
 
-#: modules/sitestatus.php:194 modules/sitestatus.php:439 modules/upkeep.php:304
+#: modules/sitestatus.php:194 modules/sitestatus.php:445 modules/upkeep.php:304
 msgid "Success!"
 msgstr "Onnistui!"
 
-#: modules/sitestatus.php:195 modules/sitestatus.php:454 modules/upkeep.php:308
+#: modules/sitestatus.php:195 modules/sitestatus.php:460 modules/upkeep.php:308
 msgid "Failure!"
 msgstr "Epäonnistui!"
 
-#: modules/sitestatus.php:196 modules/sitestatus.php:456
+#: modules/sitestatus.php:196 modules/sitestatus.php:462
 msgid "Error!"
 msgstr "Virhe!"
 
@@ -1645,79 +1643,77 @@ msgstr "Levytilan käyttö"
 msgid "Logs and automatic backups don't count against your quota."
 msgstr "Lokeja ja automaattisia varmuuskopioita ei lasketa mukaan kiintiöön."
 
-#: modules/sitestatus.php:355
-msgid ""
-"Use <a href=\"tools.php?page=security_page\">cruft remover</a> to remove "
-"unnecessary files."
+#. translators: %s is the link to curftfiles
+#: modules/sitestatus.php:358
+msgid "Use <a href=\"%s\">cruft remover</a> to remove unnecessary files."
 msgstr ""
-"Käytä <a href=\"tools.php?page=security_page\">roskanpoistajaa</a> "
-"poistamaan tarpeettomat tiedostot."
+"Käytä <a href=\"%s\">roskanpoistajaa</a> poistamaan tarpeettomat tiedostot."
 
-#: modules/sitestatus.php:372
+#: modules/sitestatus.php:378
 msgid "Demo"
 msgstr ""
 
-#: modules/sitestatus.php:373
+#: modules/sitestatus.php:379
 msgid "WP Mini"
 msgstr ""
 
-#: modules/sitestatus.php:374
+#: modules/sitestatus.php:380
 msgid "WP Pro"
 msgstr ""
 
-#: modules/sitestatus.php:375
+#: modules/sitestatus.php:381
 msgid "WP Business"
 msgstr ""
 
-#: modules/sitestatus.php:376
+#: modules/sitestatus.php:382
 msgid "WP Enterprise"
 msgstr ""
 
-#: modules/sitestatus.php:380
+#: modules/sitestatus.php:386
 msgid "Finland"
 msgstr "Suomi"
 
-#: modules/sitestatus.php:381
+#: modules/sitestatus.php:387
 msgid "Sweden"
 msgstr "Ruotsi"
 
-#: modules/sitestatus.php:382
+#: modules/sitestatus.php:388
 msgid "Germany"
 msgstr "Saksa"
 
-#: modules/sitestatus.php:383
+#: modules/sitestatus.php:389
 msgid "USA"
 msgstr "Yhdysvallat"
 
-#: modules/sitestatus.php:384
+#: modules/sitestatus.php:390
 msgid "No preference"
 msgstr "Seravon valitsema"
 
-#: modules/sitestatus.php:405
+#: modules/sitestatus.php:411
 msgid "Site Name"
 msgstr "Sivuston nimi"
 
-#: modules/sitestatus.php:406
+#: modules/sitestatus.php:412
 msgid "Site Created"
 msgstr "Sivusto luotu"
 
-#: modules/sitestatus.php:407
+#: modules/sitestatus.php:413
 msgid "Plan Termination"
 msgstr "Palvelupaketin päättyminen"
 
-#: modules/sitestatus.php:408
+#: modules/sitestatus.php:414
 msgid "Site Location"
 msgstr "Sivuston sijainti"
 
-#: modules/sitestatus.php:409
+#: modules/sitestatus.php:415
 msgid "Plan Type"
 msgstr "Palvelupaketti"
 
-#: modules/sitestatus.php:412
+#: modules/sitestatus.php:418
 msgid "Account Manager"
 msgstr "Account Manager"
 
-#: modules/sitestatus.php:414
+#: modules/sitestatus.php:420
 msgid ""
 "No Account Manager found. Account Manager is only included in Seravo "
 "Enterprise plans."
@@ -1725,15 +1721,15 @@ msgstr ""
 "Account manageria ei löytynyt. Account manager kuuluu vain WP Enterprise -"
 "palvelupaketteihin."
 
-#: modules/sitestatus.php:417
+#: modules/sitestatus.php:423
 msgid "Technical Contacts"
 msgstr "Yhteystiedot teknisissä asioissa"
 
-#: modules/sitestatus.php:424
+#: modules/sitestatus.php:430
 msgid "Manage the site shadows."
 msgstr "Hallitse varjoja."
 
-#: modules/sitestatus.php:425
+#: modules/sitestatus.php:431
 msgid ""
 "<strong>Warning: </strong>Resetting a shadow copies the state of the "
 "production site to the shadow. All files under <code>/data/wordpress/</code> "
@@ -1747,7 +1743,7 @@ msgstr ""
 "tuotannon vastaavilla. Lue lisää varjoista <a href=\"https://seravo.com/docs/"
 "deployment/shadows/\" target=\"_BLANK\">kehittäjäohjeistamme</a>."
 
-#: modules/sitestatus.php:442
+#: modules/sitestatus.php:448
 msgid ""
 "Because this shadow uses a custom domain, <strong>please go to the shadow "
 "and run search-replace there with the values below</strong> for the shadow "
@@ -1757,15 +1753,15 @@ msgstr ""
 "search-replace alla olevilla arvoilla</strong>, jotta varjo olisi saatavilla "
 "resetoinnin jälkeen. "
 
-#: modules/sitestatus.php:445 modules/sitestatus.php:494
+#: modules/sitestatus.php:451 modules/sitestatus.php:500
 msgid "<strong>From:</strong> "
 msgstr "<strong>Lähtöarvo:</strong> "
 
-#: modules/sitestatus.php:447
+#: modules/sitestatus.php:453
 msgid "<br><strong>To:</strong> "
 msgstr "<br><strong>Kohdearvo:</strong> "
 
-#: modules/sitestatus.php:451
+#: modules/sitestatus.php:457
 msgid ""
 "When you're in the shadow, run search-replace either on \"Tools --> Database "
 "--> Search-Replace Tool\" or with wp-cli. Instructions can be found from <a "
@@ -1778,7 +1774,7 @@ msgstr ""
 "varjoon ei pääse. Ohjeet löydät <a href='https://help.seravo.com/fi/"
 "docs/151' target=\"_BLANK\">dokumentaatiosta</a>."
 
-#: modules/sitestatus.php:455
+#: modules/sitestatus.php:461
 msgid ""
 "The shadow reset is still running on the background. You should check the "
 "status of the shadow after a few minutes. If there are problems with the "
@@ -1788,27 +1784,27 @@ msgstr ""
 "päästä. Jos varjon kanssa on ongelmia, katso dokumentaatiota yllä olevasta "
 "linkistä."
 
-#: modules/sitestatus.php:477
+#: modules/sitestatus.php:483
 msgid "Reset"
 msgstr "Resetoi"
 
-#: modules/sitestatus.php:484
+#: modules/sitestatus.php:490
 msgid "Port: "
 msgstr "Portti: "
 
-#: modules/sitestatus.php:485
+#: modules/sitestatus.php:491
 msgid "Creation Date: "
 msgstr "Luontipäivämäärä: "
 
-#: modules/sitestatus.php:486
+#: modules/sitestatus.php:492
 msgid "Information: "
 msgstr "Sivuston tiedot: "
 
-#: modules/sitestatus.php:487
+#: modules/sitestatus.php:493
 msgid "Domain: "
 msgstr "Verkkotunnus: "
 
-#: modules/sitestatus.php:491
+#: modules/sitestatus.php:497
 msgid ""
 "This shadow uses a custom domain. <strong>For the shadow to be accessible "
 "after reset, please run search-replace in the shadow with the values below:</"
@@ -1818,11 +1814,11 @@ msgstr ""
 "resetoinnin jälkeen, mene varjoon ja aja siellä search-replace alla olevilla "
 "arvoilla:</strong>"
 
-#: modules/sitestatus.php:496
+#: modules/sitestatus.php:502
 msgid "<br><strong>To:</strong> ://"
 msgstr "<br><strong>Kohdearvo:</strong> ://"
 
-#: modules/sitestatus.php:500
+#: modules/sitestatus.php:506
 msgid ""
 "When you're in the shadow, you can run search-replace either on \"Tools --> "
 "Database --> Search-Replace Tool\" or with wp-cli. Instructions can be found "
@@ -1835,7 +1831,7 @@ msgstr ""
 "varjoon ei pääse. Ohjeet löydät <a href='https://help.seravo.com/fi/"
 "docs/151' target=\"_BLANK\">dokumentaatiosta</a>."
 
-#: modules/sitestatus.php:520
+#: modules/sitestatus.php:526
 msgid ""
 "No shadows found. If your plan is WP Pro or higher, you can request a shadow "
 "instance from Seravo admins at <a href=\"mailto:help@seravo.com"
@@ -1846,19 +1842,19 @@ msgstr ""
 "help@seravo.com\" target=\"_BLANK\">asiakaspalvelusta osoitteessta "
 "help@seravo.com</a>."
 
-#: modules/sitestatus.php:533
+#: modules/sitestatus.php:539
 msgid "WordPress core"
 msgstr "WordPressin ydin"
 
-#: modules/sitestatus.php:568
+#: modules/sitestatus.php:574
 msgid "Width"
 msgstr "Leveys"
 
-#: modules/sitestatus.php:574
+#: modules/sitestatus.php:580
 msgid "Height"
 msgstr "Korkeus"
 
-#: modules/sitestatus.php:586
+#: modules/sitestatus.php:592
 msgid ""
 "Optimization reduces image file size. This improves the performance and "
 "browsing experience of your site."
@@ -1866,13 +1862,13 @@ msgstr ""
 "Kuvien optimointi pienentää kuvan tiedostokokoa. Tämä parantaa sivuston "
 "suorituskykyä ja sivuston selauskokemusta."
 
-#: modules/sitestatus.php:587
+#: modules/sitestatus.php:593
 msgid ""
 "By setting the maximum image resolution, you can determine the maximum "
 "allowed dimensions for images."
 msgstr "Voit asettaa haluamasi rajat sivuston kuvien maksimiresoluutiolle."
 
-#: modules/sitestatus.php:588
+#: modules/sitestatus.php:594
 msgid ""
 "By enabling metadata stripping, you can further reduce image sizes by "
 "removing metadata. Please note that occasionally metadata can be useful."
@@ -1881,7 +1877,7 @@ msgstr ""
 "metadata voi olla tarkoituksenmukaista, esim. kuvan ottamispaikan GPS-"
 "koordinaatit."
 
-#: modules/sitestatus.php:589
+#: modules/sitestatus.php:595
 msgid ""
 "For further information, refer to our <a href=\"https://help.seravo.com/"
 "article/28-seravo-plugin-optimize-images\" target=\"_BLANK\">knowledgebase "
@@ -1891,7 +1887,7 @@ msgstr ""
 "seravo-plugin-optimoi-kuvia\" target=\"_BLANK\">tietopankissa</a>."
 
 #. translators: %s numeric value for the minimum image width
-#: modules/sitestatus.php:600
+#: modules/sitestatus.php:606
 msgid ""
 "The minimum width for image optimisation is %1$s px. Setting suggested width "
 "of %2$s px."
@@ -1899,12 +1895,12 @@ msgstr ""
 "Suurimman sallitun kuvan leveyden tulee olla vähintään %1$s pikseliä. "
 "Asetetaan suositeltu %2$s px leveys."
 
-#: modules/sitestatus.php:612
+#: modules/sitestatus.php:618
 msgid "Width setting saved"
 msgstr "Leveys tallennettu"
 
 #. translators: %s numeric value for the minimum image height
-#: modules/sitestatus.php:625
+#: modules/sitestatus.php:631
 msgid ""
 "The minimum height for image optimisation is %1$s px. Setting suggested "
 "height of %2$s px."
@@ -1912,15 +1908,15 @@ msgstr ""
 "Suurimman sallitun kuvan korkeuden tulee olla vähintään %1$s pikseliä. "
 "Asetetaan suositeltu %2$s px korkeus."
 
-#: modules/sitestatus.php:634
+#: modules/sitestatus.php:640
 msgid "Height setting saved"
 msgstr "Korkeus tallennettu"
 
-#: modules/sitestatus.php:673
+#: modules/sitestatus.php:679
 msgid "Settings saved"
 msgstr "Asetukset tallennettu"
 
-#: modules/sitestatus.php:700
+#: modules/sitestatus.php:706
 msgid ""
 "Special characters in filenames, such as ä, ö or æ, may cause problems with "
 "the site."
@@ -1928,7 +1924,7 @@ msgstr ""
 "Erikoismerkit tiedostonimissä, kuten ä tai ö, voivat aiheuttaa ongelmia "
 "sivustolla."
 
-#: modules/sitestatus.php:701
+#: modules/sitestatus.php:707
 msgid ""
 "Toggling this on replaces such characters with other standard letters, like "
 "ä -> a, ö -> o or æ -> a when a file is uploaded."
@@ -1936,7 +1932,7 @@ msgstr ""
 "Tällä asetuksella nne merkit korvaantuvat muilla merkeillä, kuten ä -> a tai "
 "ö -> o, kun tiedosto ladataan sivustolle."
 
-#: modules/sitestatus.php:710
+#: modules/sitestatus.php:716
 msgid ""
 "Speed test measures the time how long it takes for PHP to produce the HTML "
 "output for the WordPress page."
@@ -1944,15 +1940,15 @@ msgstr ""
 "Nopeustesti mittaa, kuinka kauan PHP:n luoman WordPress-sivun toimittamiseen "
 "kuluu aikaa."
 
-#: modules/sitestatus.php:711
+#: modules/sitestatus.php:717
 msgid "Front Page by Default"
 msgstr "Oletuksena etusivu"
 
-#: modules/sitestatus.php:712
+#: modules/sitestatus.php:718
 msgid "Run Test"
 msgstr "Suorita testi"
 
-#: modules/sitestatus.php:725
+#: modules/sitestatus.php:731
 msgid ""
 "Site checks provide a report about your site health and show potential "
 "issues. Checks include for example\n"
@@ -1962,11 +1958,11 @@ msgstr ""
 "Tarkastus sisältää esimerkiksi PHP-virheet ja epäaktiiviset teemat- ja "
 "lisäosat."
 
-#: modules/sitestatus.php:730
+#: modules/sitestatus.php:736
 msgid "Run site checks"
 msgstr "Tarkasta sivusto"
 
-#: modules/sitestatus.php:735
+#: modules/sitestatus.php:741
 msgid "Click \"Run site checks\" to run the tests"
 msgstr "Klikkaa “Tarkasta sivusto” -nappia suorittaaksesi testit"
 
