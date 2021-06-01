@@ -8,6 +8,7 @@
 namespace Seravo;
 
 require_once dirname(__FILE__) . '/../lib/backups-ajax.php';
+require_once dirname(__FILE__) . '/postbox-tools.php';
 
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
@@ -57,6 +58,15 @@ if ( ! class_exists('Backups') ) {
         'tools_page_backups_page',
         'side'
       );
+
+      seravo_add_postbox(
+        'test',
+        __('Test Widget', 'seravo'),
+        array( __CLASS__, 'display_test_widget' ),
+        'tools_page_backups_page',
+        'side'
+      );
+
     }
 
     /**
@@ -67,10 +77,12 @@ if ( ! class_exists('Backups') ) {
     public static function register_backups_scripts( $page ) {
       wp_register_script('seravo_backups', plugin_dir_url(__DIR__) . '/js/backups.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_backups', plugin_dir_url(__DIR__) . '/style/backups.css', '', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_common', plugin_dir_url(__DIR__) . '/style/common.css', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_backups_page' ) {
         wp_enqueue_script('seravo_backups');
         wp_enqueue_style('seravo_backups');
+        wp_enqueue_style('seravo_common');
 
         $loc_translation_backups = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),
@@ -121,6 +133,13 @@ if ( ! class_exists('Backups') ) {
         <pre id="backup_status"></pre>
       </p>
       <?php
+    }
+
+    public static function display_test_widget() {
+      echo Postbox_Tools::section_title('My section');
+      echo Postbox_Tools::text('On this section you can test the components');
+      echo Postbox_Tools::result_wrapper('test-wrapper', 'My result');
+      echo Postbox_Tools::paragraph('My content test');
     }
   }
 
