@@ -264,7 +264,7 @@ if ( ! class_exists('Dashboard_Widgets') ) {
         $report_month_counter = 0;
         $months = array();
 
-        foreach ( $reports as $report ) {
+        foreach ( array_reverse($reports) as $report ) {
           if ( $report_month_counter === 4 ) {
             // show only limited amount of monthly http requests
             break;
@@ -286,7 +286,7 @@ if ( ! class_exists('Dashboard_Widgets') ) {
           );
         }
 
-        foreach ( array_reverse($months) as $month ) {
+        foreach ( $months as $month ) {
           $month_date = $month['month'];
           $total_requests = $month['requests'];
 
