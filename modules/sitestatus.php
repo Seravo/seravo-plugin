@@ -721,22 +721,17 @@ if ( ! class_exists('Site_Status') ) {
     }
 
     public static function site_checks() {
-      //$results = Site_Health::check_health();
-      //$issues = $results[0];
-      //$no_issues = $results[1];
       ?>
       <div id='site_check_status'>
-
-      <?php
-      echo('<p>' . __(
-        'Site checks provide a report about your site health and show potential issues. Checks include for example
+        <?php
+        echo('<p>' . __(
+          'Site checks provide a report about your site health and show potential issues. Checks include for example
       php related errors, inactive themes and plugins.',
-        'seravo'
-      ) . '</p>');
-      echo "<button type='button' class='button-primary' id='run-site-checks'>" . __('Run site checks', 'seravo') . '</button>';
-
-      ?>
-      <div class='seravo-site-check-result-wrapper'>
+          'seravo'
+        ) . '</p>');
+        echo "<button type='button' class='button-primary' id='run-site-checks'>" . __('Run site checks', 'seravo') . '</button>';
+        ?>
+        <div class='seravo-site-check-result-wrapper'>
           <div class='seravo_site_check_status'>
             <?php _e('Click "Run site checks" to run the tests', 'seravo'); ?>
           </div>
@@ -751,9 +746,8 @@ if ( ! class_exists('Site_Status') ) {
           </div>
         </div>
       </div>
-        <?php
+      <?php
     }
-
   }
 
   Site_Status::load();

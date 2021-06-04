@@ -184,63 +184,78 @@ if ( ! class_exists('Logs') ) {
     public function render_log_view( $logfile, $regex = null, $max_num_of_rows = 50 ) {
       global $current_log;
       ?>
-  <div class="log-view">
-      <?php if ( is_readable($logfile) ) : ?>
-    <div class="tablenav top">
-      <form class="log-filter" method="get">
-        <label class="screen-reader-text" for="regex">Regex:</label>
-        <input type="hidden" name="page" value="logs_page">
-        <input type="hidden" name="log" value="<?php echo $current_log; ?>">
-        <input type="hidden" name="logfile" value="<?php echo basename($logfile); ?>">
-        <input type="search" name="regex" value="<?php echo $regex; ?>" placeholder="">
-        <input type="submit" class="button" value="<?php _e('Filter', 'seravo'); ?>">
-      </form>
-    </div>
-    <div class="log-table-view"
-      data-logfile="<?php echo esc_attr($logfile); ?>"
-      data-logbytes="<?php echo esc_attr(filesize($logfile)); ?>"
-      data-regex="<?php echo esc_attr($regex); ?>">
-      <table class="wp-list-table widefat striped" cellspacing="0">
-        <tbody>
-          <?php $result = $this->render_rows($logfile, -1, $max_num_of_rows, $regex); ?>
-        </tbody>
-      </table>
-    </div>
-    <?php endif; ?>
-      <?php if ( ! is_null($logfile) ) : ?>
-        <?php if ( ! is_readable($logfile) ) : ?>
-      <div id="message" class="notice notice-error">
+      <div class="log-view">
+        <?php
+        $result = -1;
+        if ( is_readable($logfile) ) {
+        ?>
+          <div class="tablenav top">
+            <form class="log-filter" method="get">
+              <label class="screen-reader-text" for="regex">Regex:</label>
+              <input type="hidden" name="page" value="logs_page">
+              <input type="hidden" name="log" value="<?php echo $current_log; ?>">
+              <input type="hidden" name="logfile" value="<?php echo basename($logfile); ?>">
+              <input type="search" name="regex" value="<?php echo $regex; ?>" placeholder="">
+              <input type="submit" class="button" value="<?php _e('Filter', 'seravo'); ?>">
+            </form>
+          </div>
+          <div class="log-table-view"
+            data-logfile="<?php echo esc_attr($logfile); ?>"
+            data-logbytes="<?php echo esc_attr(filesize($logfile)); ?>"
+            data-regex="<?php echo esc_attr($regex); ?>">
+            <table class="wp-list-table widefat striped" cellspacing="0">
+              <tbody>
+                <?php $result = $this->render_rows($logfile, -1, $max_num_of_rows, $regex); ?>
+              </tbody>
+            </table>
+          </div>
+          <?php
+        }
+
+        if ( ! is_null($logfile) ) {
+          if ( ! is_readable($logfile) ) {
+            ?>
+            <div id="message" class="notice notice-error">
+              <p>
+                <?php
+                // translators: $s name of the logfile
+                printf(__("File %s does not exist or we don't have permissions to read it.", 'seravo'), $logfile);
+                ?>
+              </p>
+            </div>
+            <?php
+          } elseif ( ! $result ) {
+            ?>
+            <p>
+              <?php _e('Log empty', 'seravo'); ?>
+            </p>
+            <?php
+            // result -1 is the signal that something went wrong with reading the log
+          } elseif ( $result === -1 ) {
+            ?>
+            <p>
+              <?php _e('Log is broken and can not be displayed.', 'seravo'); ?>
+            </p>
+            <?php
+          } else {
+            ?>
+            <p>
+              <?php _e('Scroll to load more lines from the log.', 'seravo'); ?>
+            </p>
+            <?php
+          }
+        }
+        ?>
+    
+        <div class="log-view-active"></div>
+
         <p>
           <?php
-            // translators: $s name of the logfile
-            printf(__("File %s does not exist or we don't have permissions to read it.", 'seravo'), $logfile);
+          // translators: $s full path of the logfile
+          printf(__('Full log files can be found on the server in the path %s.', 'seravo'), '<code>/data/log/</code>');
           ?>
         </p>
       </div>
-      <?php elseif ( ! $result ) : ?>
-        <p><?php _e('Log empty', 'seravo'); ?></p>
-        <?php
-        // result -1 is the signal that something went wrong with reading the log
-        elseif ( $result === -1 ) :
-        ?>
-        <p><?php _e('Log is broken and can not be displayed.', 'seravo'); ?></p>
-      <?php else : ?>
-        <p><?php _e('Scroll to load more lines from the log.', 'seravo'); ?></p>
-        <?php
-      endif;
-    endif;
-?>
-    <div class="log-view-active">
-    </div>
-
-    <p>
-      <?php
-      // translators: $s full path of the logfile
-      printf(__('Full log files can be found on the server in the path %s.', 'seravo'), '<code>/data/log/</code>');
-      ?>
-    </p>
-  </div>
-
       <?php
     }
 

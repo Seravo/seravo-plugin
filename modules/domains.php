@@ -17,8 +17,6 @@ if ( ! defined('ABSPATH') ) {
 
 if ( ! class_exists('Domains') ) {
   class Domains {
-    private $capability_required;
-
     public static $instance;
 
     public static $domains_table;
@@ -33,12 +31,6 @@ if ( ! class_exists('Domains') ) {
     }
 
     public function __construct() {
-      $this->capability_required = 'activate_plugins';
-
-      if ( is_multisite() ) {
-        $this->capability_required = 'manage_network';
-      }
-
       seravo_add_postbox(
         'domains-management',
         __('Domains', 'seravo'),
