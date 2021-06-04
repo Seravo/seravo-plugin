@@ -117,6 +117,14 @@ if ( ! class_exists('Logs') ) {
         }
       }
 
+      // Check if PHP compatibility log exists and generate new if not
+      $php_compatibility_log = '/data/log/php-compatibility.log';
+
+      if ( ! file_exists($php_compatibility_log) ) {
+        file_put_contents($php_compatibility_log, '');
+        array_push($logs, $php_compatibility_log);
+      }
+
       if ( empty($logs) ) {
           echo '<div class="notice notice-warning" style="padding:1em;margin:1em;">' .
           __('No logs found in <code>/data/log/</code>.', 'seravo') . '</div>';
@@ -124,6 +132,7 @@ if ( ! class_exists('Logs') ) {
 
       // Create an array of the logfiles with basename of log as key
       $logfiles = array();
+
       foreach ( $logs as $key => $log ) {
         $logfiles[ basename($log) ] = $log;
       }
