@@ -77,6 +77,11 @@ sent 2,999 bytes  received 64 bytes  2,042.00 bytes/sec
 total size is 370,596  speedup is 120.99
 ```
 
+### Installing development dependencies
+
+To ease Seravo Plugin development, composer should be used to install development dependencies.
+Running `composer install` installs PHPCS, PHPCBF, WordPress PHPCS standards and Rector.
+
 ### Updating translations
 
 Remember to update translations of all public facing string by running inside Vagrant:
@@ -89,9 +94,9 @@ wp i18n make-pot . languages/seravo.pot
 
 Translations can be done for instance by using Poedit. On editor open `languages/seravo-fi.po` and select `Update from pot file` which will update the po file. After translating compile the po file to `seravo-fi.mo` mo file.
 
-### Running PHPCS
+### Running Rector and PHPCS
 
-If you have PHPCS installed locally with all the WordPress standards, simply run `phpcs` yourself or let your code editor run it automatically on every save. Alternatively run PHPCS inside local Vagrant or Docker image, or on the same remote site used for testing:
+If you have Rector and PHPCS installed locally with `composer install`, simply run `composer test`. Alternatively run PHPCS inside local Vagrant or Docker image, or on the same remote site used for testing:
 
 ```
 ssh -q -p 12345 example@example.seravo.com 'cd '/data/wordpress/htdocs/wp-content/mu-plugins/seravo-plugin/ && phpcs
@@ -110,7 +115,8 @@ FOUND 0 ERRORS AND 3 WARNINGS AFFECTING 2 LINES
 ...
 ```
 
-PHPCS can be installed locally using the same script .travis.yml uses. See `scripts/install-phpcs.sh`.
+Rector and PHPCS errors can be automatically fixed with `composer fix`. All Rector errors should be resolved
+before merging to master even if it's not part of CI tests.
 
 # Changelog
 
