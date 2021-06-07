@@ -333,8 +333,9 @@ if ( ! class_exists('Logs') ) {
      * @return array
      */
     public static function read_log_lines_backwards( $filepath, $offset = -1, $lines = 1, $regex = null, $cutoff_bytes = null ) {
-      // Open file
-      $f = @fopen($filepath, 'rb');
+      // Check that $filepath is valid log path
+      $valid_log_path = in_array($filepath, glob('/data/log/*'));
+      $f = $valid_log_path ? @fopen($filepath, 'rb') : false;
 
       /**
        * Initiate return value
