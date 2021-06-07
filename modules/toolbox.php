@@ -41,7 +41,7 @@ if ( ! class_exists('SeravoToolbox') ) {
       );
 
       // Only show the menu item on systems where wp-backup is available
-      if ( exec('which wp-backup-status') ) {
+      if ( exec('which wp-backup-status') !== '' ) {
         add_submenu_page(
           'tools.php',
           __('Backups', 'seravo'),

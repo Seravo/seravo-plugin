@@ -74,12 +74,11 @@ if ( ! class_exists('Security_Restrictions') ) {
 
     }
 
-    /*
+    /**
      * Prevent XML-RPC for responding to anything by simply making sure the
      * list of supported methods is empty.
      * See https://developer.wordpress.org/reference/hooks/xmlrpc_methods/
-     */
-    /**
+     *
      * @return mixed[]
      */
     public static function remove_xmlrpc_methods() {

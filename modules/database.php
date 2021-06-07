@@ -254,7 +254,7 @@ if ( ! class_exists('Database') ) {
 
     public static function database_size_postbox() {
       ?>
-      <?php if ( exec('which wp') ) : ?>
+      <?php if ( exec('which wp') !== '' ) : ?>
         <div class="section_chart_mobile">
           <p>
             <div class="seravo_wp_db_info_loading"><img src="/wp-admin/images/spinner.gif"></div>
