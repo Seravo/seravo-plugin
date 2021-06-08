@@ -72,8 +72,9 @@ if ( ! class_exists('InstanceSwitcher') ) {
     }
 
     /**
-    * Automatically load list of shadow instances from Seravo API (if available)
-    */
+     * Automatically load list of shadow instances from Seravo API (if available)
+     * @return bool|mixed
+     */
     public static function load_shadow_list() {
 
       // If not in production, the Seravo API is not accessible and it is not
@@ -128,7 +129,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
           'id'    => $id,
           'title' => '<span class="ab-icon seravo-instance-switcher-icon"></span>' .
                     '<span class="ab-label seravo-instance-switcher-text">' . __('Now in', 'seravo') . ': ' . $current_title . '</span>',
-          'href'  => ! empty($_COOKIE['seravo_shadow']) ? $current_url . 'seravo_shadow=' . $_COOKIE['seravo_shadow'] : '#',
+          'href'  => empty($_COOKIE['seravo_shadow']) ? '#' : $current_url . 'seravo_shadow=' . $_COOKIE['seravo_shadow'],
           'meta'  => array(
             'class' => $menuclass,
           ),
@@ -139,7 +140,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
 
       if ( $instances ) {
         // add menu entries for each shadow
-        foreach ( $instances as $key => $instance ) {
+        foreach ( $instances as $instance ) {
           $title = strtoupper($instance['env']);
 
           if ( strlen($instance['info']) > 0 ) {
@@ -159,7 +160,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
           }
 
           if ( $primary_domain !== null ) {
-            $href = ! empty($primary_domain) ? 'https://' . $primary_domain : '#' . substr($instance['name'], -6);
+            $href = empty($primary_domain) ? '#' . substr($instance['name'], -6) : 'https://' . $primary_domain;
 
             $wp_admin_bar->add_menu(
               array(
@@ -180,7 +181,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       // If in a shadow, always show exit link
       if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
         $domain = self::get_production_domain();
-        $exit_href = ! empty($domain) ? 'https://' . $domain : '#exit';
+        $exit_href = empty($domain) ? '#exit' : 'https://' . $domain;
 
         $wp_admin_bar->add_menu(
           array(
@@ -222,7 +223,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       <div id="shadow-indicator">
         <?php
         $domain = self::get_production_domain();
-        $exit_href = ! empty($domain) ? 'https://' . $domain : '#exit';
+        $exit_href = empty($domain) ? '#exit' : 'https://' . $domain;
         // translators: $s Identifier for the shadow instance in use
         printf(__('Your current shadow instance is "%s".', 'seravo'), $shadow_title);
         printf(' <a class="clearlink shadow-exit" href="%s">%s</a> ', $exit_href, __('Exit', 'seravo'));
@@ -242,23 +243,29 @@ if ( ! class_exists('InstanceSwitcher') ) {
       }
     }
 
+    /**
+     * @return string|mixed
+     */
     public static function get_production_domain() {
       if ( ! empty($_COOKIE['seravo_shadow']) ) {
-        // Seravo_shadow cookie indicates cookie based access, no separate domain
-        return '';
-      } elseif ( ! empty($_GET['seravo_production']) && $_GET['seravo_production'] !== 'clear' ) {
-        // With seravo_production param, shadow uses domain based access
-        // Tested before cookie as it may contain newer data
-        return $_GET['seravo_production'];
-      } elseif ( ! empty($_COOKIE['seravo_production']) ) {
-        // With seravo_production cookie, shadow uses domain based access
-        return $_COOKIE['seravo_production'];
-      } elseif ( $_SERVER['SERVER_NAME'] !== getenv('DEFAULT_DOMAIN') && substr_count($_SERVER['SERVER_NAME'], '.') >= 2 ) {
-        // If domain consists of 3 or more parts, remove the downmost
-        // Notice that this DOES NOT necessarily work for multilevel TLD (eg. co.uk)
-        // Slash at end means that only hostname should be used (no path/query etc)
-        // It should be used when redirecting might be needed
-        return explode('.', $_SERVER['SERVER_NAME'], 2)[1] . '/';
+          // Seravo_shadow cookie indicates cookie based access, no separate domain
+          return '';
+      }
+      if ( ! empty($_GET['seravo_production']) && $_GET['seravo_production'] !== 'clear' ) {
+          // With seravo_production param, shadow uses domain based access
+          // Tested before cookie as it may contain newer data
+          return $_GET['seravo_production'];
+      }
+      if ( ! empty($_COOKIE['seravo_production']) ) {
+          // With seravo_production cookie, shadow uses domain based access
+          return $_COOKIE['seravo_production'];
+      }
+      if ( $_SERVER['SERVER_NAME'] !== getenv('DEFAULT_DOMAIN') && substr_count($_SERVER['SERVER_NAME'], '.') >= 2 ) {
+          // If domain consists of 3 or more parts, remove the downmost
+          // Notice that this DOES NOT necessarily work for multilevel TLD (eg. co.uk)
+          // Slash at end means that only hostname should be used (no path/query etc)
+          // It should be used when redirecting might be needed
+          return explode('.', $_SERVER['SERVER_NAME'], 2)[1] . '/';
       }
       // If none of the others work, trust in redirecting
       return getenv('DEFAULT_DOMAIN') . '/';

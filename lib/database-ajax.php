@@ -24,17 +24,16 @@ function seravo_wp_db_info_to_table( $array ) {
 
   if ( is_array($array) ) {
     $output = '<table class="seravo-wb-db-info-table">';
-    foreach ( $array as $i => $value ) {
+    foreach ( $array as $value ) {
       // Columns are separated with tabs
       $columns = explode("\t", $value);
       $output .= '<tr>';
-      foreach ( $columns as $j => $column ) {
+      foreach ( $columns as $column ) {
         $output .= '<td>' . ((Helpers::human_file_size($column) == '0B') ? $column : Helpers::human_file_size($column)) . '</td>';
       }
       $output .= '</tr>';
     }
-    $output .= '</table>';
-    return $output;
+    return $output . '</table>';
   }
   return '';
 
@@ -133,14 +132,10 @@ function seravo_get_wp_db_info() {
  */
 function seravo_ajax_get_wp_db_info() {
   check_ajax_referer('seravo_database', 'nonce');
-  switch ( $_REQUEST['section'] ) {
-    case 'seravo_wp_db_info':
+  if ( $_REQUEST['section'] == 'seravo_wp_db_info' ) {
       echo wp_json_encode(seravo_get_wp_db_info());
-      break;
-
-    default:
+  } else {
       error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
-      break;
   }
 
   wp_die();

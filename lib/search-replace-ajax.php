@@ -18,7 +18,7 @@ function seravo_search_replace( $from, $to, $options ) {
 
   if ( $options['dry_run'] === 'false' && $options['skip_backup'] === 'false' ) {
     $backup = 'wp-backup';
-    array_push($output, '<b>$ ' . $backup . '</b>');
+    $output[] = '<b>$ ' . $backup . '</b>';
     exec($backup . ' 2>&1', $output, $return_code);
   }
   // Only way this is not true, is if the backups fail
@@ -26,10 +26,10 @@ function seravo_search_replace( $from, $to, $options ) {
         $options['skip_backup'] === 'true' ||
     $return_code === 0
   ) {
-    array_push($output, '<b>$ ' . $command . '</b>');
+    $output[] = '<b>$ ' . $command . '</b>';
     exec($command . ' 2>&1', $output);
   } else {
-    array_push($output, 'Backup failed... Aborting');
+    $output[] = 'Backup failed... Aborting';
   }
   return $output;
 }
@@ -52,19 +52,15 @@ function seravo_search_replace_set_flags( $options ) {
 
 function seravo_ajax_search_replace() {
   check_ajax_referer('seravo_database', 'nonce');
-  switch ( $_REQUEST['section'] ) {
-    case 'search_replace':
+  if ( $_REQUEST['section'] == 'search_replace' ) {
       $search_replace_result = seravo_search_replace(
         $_REQUEST['from'],
         $_REQUEST['to'],
         $_REQUEST['options']
       );
       echo wp_json_encode($search_replace_result);
-      break;
-
-    default:
+  } else {
       error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
-      break;
   }
 
   wp_die();

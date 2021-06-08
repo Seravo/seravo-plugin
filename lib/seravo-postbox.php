@@ -19,27 +19,31 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Instance of this class.
+     * @var null|\Seravo\Seravo_Postbox_Factory
      */
-    private static $instance = null;
+    private static $instance;
 
     /**
      * Store data of added postboxes.
+     * @var mixed[][]
      */
     private $postboxes = array();
 
     /**
      * Enable fast postbox search based on id.
+     * @var string[]
      */
     private $registered_postbox_ids = array();
 
     /**
      * Cache closed postboxes to private variable in order to prevent repeated lookups.
+     * @var mixed[]
      */
     private $closed_postboxes = array();
 
     /**
      * Get singleton instance.
-     * @return Seravo_Postbox_Factory Instance of the Seravo_Postbox_Factory class
+     * @return \Seravo\Seravo_Postbox_Factory|null Instance of the Seravo_Postbox_Factory class
      */
     public static function get_instance() {
       if ( self::$instance === null ) {
@@ -144,11 +148,26 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
     private function load() {
       if ( is_admin() ) {
         // Scripts and styles
-        add_action('admin_enqueue_scripts', array( $this, 'enqueue_postboxes_scripts' ));
+        add_action(
+          'admin_enqueue_scripts',
+          function () {
+            return $this->enqueue_postboxes_scripts();
+          }
+        );
 
         // AJAX endpoints for saving postbox order and closed/opened state
-        add_action('wp_ajax_seravo-postbox-order', array( $this, 'ajax_save_postbox_order' ));
-        add_action('wp_ajax_seravo-closed-postboxes', array( $this, 'ajax_save_closed_postboxes' ));
+        add_action(
+          'wp_ajax_seravo-postbox-order',
+          function () {
+            return $this->ajax_save_postbox_order();
+          }
+        );
+        add_action(
+          'wp_ajax_seravo-closed-postboxes',
+          function () {
+            return $this->ajax_save_closed_postboxes();
+          }
+        );
       }
     }
 
@@ -176,32 +195,29 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
         foreach ( $custom_postbox_order as $custom_context => $postbox_order_str ) {
 
           $postbox_order = explode(',', $postbox_order_str);
-          if ( ! empty($postbox_order) ) {
+          // Search for the data for that postbox ID
+          foreach ( $postbox_order as $postbox_id ) {
+            foreach ( $this->postboxes[ $screen ] as &$postboxes_array ) {
 
-            // Search for the data for that postbox ID
-            foreach ( $postbox_order as $postbox_id ) {
-              foreach ( $this->postboxes[ $screen ] as $context => &$postboxes_array ) {
+              // Move the postbox data to the new context
+              if ( array_key_exists($postbox_id, $postboxes_array) ) {
 
-                // Move the postbox data to the new context
-                if ( in_array($postbox_id, array_keys($postboxes_array)) ) {
-
-                  if ( $column_count === 'two_column' ) {
-                    if ( $custom_context === 'column3' ) {
-                      $custom_context = 'normal';
-                    } elseif ( $custom_context === 'column4' ) {
-                      $custom_context = 'side';
-                    }
-                  } elseif ( $column_count === 'one_column' ) {
-                    if ( $custom_context !== 'normal' ) {
-                      $custom_context = 'normal';
-                    }
+                if ( $column_count === 'two_column' ) {
+                  if ( $custom_context === 'column3' ) {
+                    $custom_context = 'normal';
+                  } elseif ( $custom_context === 'column4' ) {
+                    $custom_context = 'side';
                   }
-
-                  $postbox_data = $postboxes_array[$postbox_id];
-                  unset($postboxes_array[$postbox_id]);
-                  $this->postboxes[$screen][$custom_context][$postbox_id] = $postbox_data;
-                  break;
+                } elseif ( $column_count === 'one_column' ) {
+                  if ( $custom_context !== 'normal' ) {
+                    $custom_context = 'normal';
+                  }
                 }
+
+                $postbox_data = $postboxes_array[$postbox_id];
+                unset($postboxes_array[$postbox_id]);
+                $this->postboxes[$screen][$custom_context][$postbox_id] = $postbox_data;
+                break;
               }
             }
           }

@@ -15,8 +15,14 @@ require_once __DIR__ . '/logs.php';
 if ( ! class_exists('Login_Notifications') ) {
   class Login_Notifications {
 
+    /**
+     * @var mixed[]|null
+     */
     private static $login;
     // How many rows will be retrieved when reading logs, affects dashboard load time
+    /**
+     * @var int
+     */
     private static $max_rows = 200;
 
     public static function load() {
@@ -52,11 +58,7 @@ if ( ! class_exists('Login_Notifications') ) {
     public static function retrieve_error_count() {
       // Check the first day of week from wp options, and transform to last day of week
       $wp_first_day = get_option('start_of_week');
-      if ( $wp_first_day === 0 ) {
-        $last_day_int = 6;
-      } else {
-        $last_day_int = $wp_first_day - 1;
-      }
+      $last_day_int = $wp_first_day === 0 ? 6 : $wp_first_day - 1;
       $days = array(
         0 => 'Sunday',
         1 => 'Monday',
@@ -110,7 +112,7 @@ if ( ! class_exists('Login_Notifications') ) {
         $date_str = substr($output_array[0], 1, strlen($output_array[0]));
 
         // Just jump over the lines that don't contain dates, add an error though
-        if ( preg_match('/^(0[1-9]|[1-2][0-9]|3[0-1])-([a-z]|[A-Z]){3}-[0-9]{4}.*$/', $date_str) ) {
+        if ( preg_match('/^(0[1-9]|[1-2]\d|3[0-1])-([a-z]|[A-Z]){3}-\d{4}.*$/', $date_str) ) {
           // Return the amount of errors if the date is already from the previous week
           $date = strtotime($date_str);
           if ( $date <= $last_day_of_week ) {
@@ -130,7 +132,7 @@ if ( ! class_exists('Login_Notifications') ) {
     public static function retrieve_last_login() {
       // Read login log file and reverse it
       $log_read = Logs::read_log_lines_backwards('/data/log/wp-login.log', -1, self::$max_rows);
-      if ( ! $log_read ) {
+      if ( $log_read === array() ) {
         return;
       }
 

@@ -23,6 +23,9 @@ if ( ! class_exists('CheckPHPVersion') ) {
       add_filter('wp_update_php_url', array( __CLASS__, '_seravo_update_php_url' ));
     }
 
+    /**
+     * @return bool|void
+     */
     public static function _seravo_check_php_version() {
 
       // Show only on main dashboard once directly after login so it
@@ -43,6 +46,9 @@ if ( ! class_exists('CheckPHPVersion') ) {
 
     }
 
+    /**
+     * @return string
+     */
     public static function _seravo_update_php_url() {
       return __('https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version', 'seravo');
     }

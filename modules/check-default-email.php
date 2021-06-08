@@ -16,6 +16,9 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('CheckDefaultEmail') ) {
   class CheckDefaultEmail {
 
+    /**
+     * @var string[]
+     */
     private static $bad_email_locals = array( 'no-reply', 'noreply', 'vagrant' );
 
     public static function load() {

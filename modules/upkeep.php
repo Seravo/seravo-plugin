@@ -129,8 +129,7 @@ if ( ! class_exists('Upkeep') ) {
     }
 
     public static function seravo_admin_get_site_info() {
-      $site_info = API::get_site_data();
-      return $site_info;
+      return API::get_site_data();
     }
 
     public static function seravo_updates_postbox() {
@@ -142,11 +141,7 @@ if ( ! class_exists('Upkeep') ) {
         ?>
         <h3><?php _e('Opt-out from updates by Seravo', 'seravo'); ?></h3>
         <?php
-        if ( $site_info['seravo_updates'] === true ) {
-          $checked = 'checked="checked"';
-        } else {
-          $checked = '';
-        }
+        $checked = $site_info['seravo_updates'] === true ? 'checked="checked"' : '';
 
         if ( isset($site_info['notification_webhooks'][0]['url']) &&
           $site_info['notification_webhooks'][0]['type'] === 'slack' ) {
@@ -161,7 +156,7 @@ if ( ! class_exists('Upkeep') ) {
         }
 
         ?>
-        <p><?php _e('The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo\'s updates by unchecking the checkbox below.', 'seravo'); ?></p>
+        <p><?php _e("The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below.", 'seravo'); ?></p>
         <form name="seravo_updates_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
           <?php wp_nonce_field('seravo-updates-nonce'); ?>
           <input type="hidden" name="action" value="toggle_seravo_updates">
@@ -211,7 +206,7 @@ if ( ! class_exists('Upkeep') ) {
       // from the log if needed in the update notification
       $update_logs_arr = glob('/data/log/update.log');
       if ( empty($update_logs_arr) ) {
-        $update_logs_arr = preg_grep('/([0-9]){8}$/', glob('/data/log/update.log-*'));
+        $update_logs_arr = preg_grep('/(\d){8}$/', glob('/data/log/update.log-*'));
       }
       $update_log_name = substr(end($update_logs_arr), 10);
 
@@ -240,7 +235,7 @@ if ( ! class_exists('Upkeep') ) {
                 $buffer = substr(fgets($update_log_fp), 28);
                 if ( substr($buffer, 0, 15) === 'Updates failed!' ) {
                   $update_log_contents[ $index ] = $buffer;
-                  $index++;
+                  ++$index;
                 }
               }
               fclose($update_log_fp);
@@ -303,17 +298,17 @@ if ( ! class_exists('Upkeep') ) {
     public static function tests_status_postbox() {
       exec('zgrep -h -A 1 "Running initial tests in production" /data/log/update.log-* /data/log/update.log | tail -n 1 | cut -d " " -f 4-8', $test_status);
 
-      if ( ! count($test_status) ) {
-        echo '<p><b>' . __('Unknown!', 'seravo') . '</b></p>';
-        echo '<p>' . sprintf(__('No tests have been ran yet. They will be ran during upcoming updates. You can try beforehand if the tests will be succesful or not with the \'Update tests\' feature below.', 'seravo')) . '</p>';
-      } else if ( $test_status[0] == 'Success! Initial tests have passed.' ) {
-        echo '<p style="color: green;"><b>' . __('Success!', 'seravo') . '</b></p>';
-        // translators: Link to Tests page
-        echo '<p>' . sprintf(__('Site baseline tests have passed and updates can run normally.', 'seravo')) . '</p>';
+      if ( count($test_status) === 0 ) {
+          echo '<p><b>' . __('Unknown!', 'seravo') . '</b></p>';
+          echo '<p>' . __("No tests have been ran yet. They will be ran during upcoming updates. You can try beforehand if the tests will be succesful or not with the 'Update tests' feature below.", 'seravo') . '</p>';
+      } elseif ( $test_status[0] == 'Success! Initial tests have passed.' ) {
+          echo '<p style="color: green;"><b>' . __('Success!', 'seravo') . '</b></p>';
+          // translators: Link to Tests page
+          echo '<p>' . __('Site baseline tests have passed and updates can run normally.', 'seravo') . '</p>';
       } else {
         echo '<p style="color: red;"><b>' . __('Failure!', 'seravo') . '</b></p>';
         // translators: Link to Tests page
-        echo '<p>' . sprintf(__('Site baseline tests are failing and needs to be fixed before further updates are run.', 'seravo')) . '</p>';
+        echo '<p>' . __('Site baseline tests are failing and needs to be fixed before further updates are run.', 'seravo') . '</p>';
       }
     }
 
@@ -429,7 +424,7 @@ if ( ! class_exists('Upkeep') ) {
         <span id="overwrite-config-files-span">
           <input type="checkbox" id="overwrite-config-files" class="hidden">
           <?php
-          _e('I\'m aware of the risks associated with edits to the PHP configuration files and want to proceed with the change.', 'seravo');
+          _e("I'm aware of the risks associated with edits to the PHP configuration files and want to proceed with the change.", 'seravo');
           ?>
           <br>
         </span>
@@ -501,7 +496,7 @@ if ( ! class_exists('Upkeep') ) {
             </tr>
             <tbody  style="vertical-align: top; text-align: center;">';
 
-        foreach ( $screenshots as $key => $screenshot ) {
+        foreach ( $screenshots as $screenshot ) {
           // Skip *.shadow.png files from this loop
           if ( strpos($screenshot, '.shadow.png') || strpos($screenshot, '.diff.png') ) {
             continue;
@@ -512,7 +507,7 @@ if ( ! class_exists('Upkeep') ) {
           // Check whether the *.shadow.png exists in the set
           // Do not show the comparison if both images are not found.
           $exists_shadow = false;
-          foreach ( $screenshots as $key => $screenshotshadow ) {
+          foreach ( $screenshots as $screenshotshadow ) {
             // Increment over the known images. Stop when match found
             if ( strpos($screenshotshadow, $name . '.shadow.png') !== false ) {
               $exists_shadow = true;
@@ -544,14 +539,14 @@ if ( ! class_exists('Upkeep') ) {
           echo self::seravo_admin_image_comparison_slider(
             array(
               'difference' => $diff,
-              'img_right'  => "?x-accel-redirect&screenshot=$name.shadow.png",
-              'img_left'   => "?x-accel-redirect&screenshot=$name.png",
+              'img_right'  => "?x-accel-redirect&screenshot={$name}.shadow.png",
+              'img_left'   => "?x-accel-redirect&screenshot={$name}.png",
             )
           );
           echo '
               </td>
             </tr>';
-          $showing++;
+          ++$showing;
         }
         echo '
         </tbody>
@@ -564,6 +559,9 @@ if ( ! class_exists('Upkeep') ) {
       }
     }
 
+    /**
+     * @return string|bool
+     */
     public static function seravo_admin_image_comparison_slider( $atts = array(), $content = null, $tag = 'seravo_admin_image_comparison_slider' ) {
 
       // normalize attribute keys, lowercase
@@ -584,11 +582,7 @@ if ( ! class_exists('Upkeep') ) {
         $atts,
         $tag
       );
-      if ( floatval($img_comp_atts['difference']) > 0.011 ) {
-        $knob_style = 'difference';
-      } else {
-        $knob_style = '';
-      }
+      $knob_style = floatval($img_comp_atts['difference']) > 0.011 ? 'difference' : '';
       ob_start();
       ?>
       <div class="ba-slider <?php echo $knob_style; ?>">
@@ -612,11 +606,7 @@ if ( ! class_exists('Upkeep') ) {
     public static function seravo_admin_toggle_seravo_updates() {
       check_admin_referer('seravo-updates-nonce');
 
-      if ( isset($_POST['seravo_updates']) && $_POST['seravo_updates'] === 'on' ) {
-        $seravo_updates = 'true';
-      } else {
-        $seravo_updates = 'false';
-      }
+      $seravo_updates = isset($_POST['seravo_updates']) && $_POST['seravo_updates'] === 'on' ? 'true' : 'false';
       $data = array( 'seravo_updates' => $seravo_updates );
 
       // Webhooks is an anonymous array of named arrays with type/url pairs

@@ -68,7 +68,7 @@ if ( ! class_exists('Fixes') ) {
      */
     public static function maybe_clear_alloptions_cache( $option ) {
 
-      if ( wp_installing() === false ) {
+      if ( ! wp_installing() ) {
         $alloptions = wp_load_alloptions(); // alloptions should be cached at this point
 
         // If alloptions collection has $option key, clear the collection from cache
@@ -88,6 +88,7 @@ if ( ! class_exists('Fixes') ) {
 
     /**
      * Removes red update bubbles from admin menus
+     * @return array<string, string>|array<string, array<string, int>>
      */
     public static function hide_update_data( $update_data, $titles = '' ) {
       return array(

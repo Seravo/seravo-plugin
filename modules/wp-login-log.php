@@ -66,7 +66,7 @@ if ( ! class_exists('LoginLog') ) {
       // Finally write the log to disk
 
       $log_fp = fopen('/data/log/wp-login.log', 'a');
-      fwrite($log_fp, "$remote_addr - $remote_user [$time_local] \"$request\" $status_code 1000 \"$http_referer\" \"$http_user_agent\" $login_status \n");
+      fwrite($log_fp, "{$remote_addr} - {$remote_user} [{$time_local}] \"{$request}\" {$status_code} 1000 \"{$http_referer}\" \"{$http_user_agent}\" {$login_status} \n");
       fclose($log_fp);
 
       return $redirect_to;

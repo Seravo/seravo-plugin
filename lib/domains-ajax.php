@@ -41,13 +41,11 @@ function seravo_get_forwards_table() {
 function seravo_get_forwards() {
   if ( ! isset($_REQUEST['domain']) ) {
     return;
-    wp_die();
   }
 
   $response = API::get_site_data('/domain/' . $_REQUEST['domain'] . '/mailforwards');
   if ( is_wp_error($response) ) {
     return seravo_respond_error_json($response->get_error_message());
-    wp_die();
   }
 
   return json_encode($response);
@@ -56,14 +54,9 @@ function seravo_get_forwards() {
 function seravo_get_dns_table() {
   if ( ! isset($_REQUEST['domain']) ) {
     return;
-    wp_die();
   }
 
-  if ( $_REQUEST['section'] === 'get_dns_table' ) {
-    $action = 'zone';
-  } else {
-    $action = 'sniff';
-  }
+  $action = $_REQUEST['section'] === 'get_dns_table' ? 'zone' : 'sniff';
 
   Seravo_DNS_Table::display_zone_table($action, $_REQUEST['domain']);
   wp_die();
@@ -72,7 +65,6 @@ function seravo_get_dns_table() {
 function seravo_edit_dns_table() {
   if ( ! isset($_REQUEST['domain']) ) {
     return;
-    wp_die();
   }
 
   Seravo_DNS_Table::display_zone_edit($_REQUEST['domain']);
@@ -85,11 +77,7 @@ function seravo_admin_change_zone_file() {
 
   if ( isset($_REQUEST['zonefile']) && isset($_REQUEST['domain']) ) {
     // Attach the editable records to the compulsory
-    if ( $_REQUEST['compulsory'] ) {
-      $zone = $_REQUEST['compulsory'] . "\n" . $_REQUEST['zonefile'];
-    } else {
-      $zone = $_REQUEST['zonefile'];
-    }
+    $zone = $_REQUEST['compulsory'] ? $_REQUEST['compulsory'] . "\n" . $_REQUEST['zonefile'] : $_REQUEST['zonefile'];
 
     // Remove the escapes that are not needed.
     // This makes \" into "
@@ -101,7 +89,6 @@ function seravo_admin_change_zone_file() {
     $response = API::update_site_data($data, '/domain/' . $_REQUEST['domain'] . '/zone', array( 200, 400 ));
     if ( is_wp_error($response) ) {
       return seravo_respond_error_json($response->get_error_message());
-      wp_die();
     }
 
     // Create 'diff' field by combining modified lines with the
@@ -126,7 +113,7 @@ function seravo_admin_change_zone_file() {
             }
           } elseif ( substr($line, 0, 1) === '-' && substr($line, 1, 1) !== '-' ) {
             // Removed lines (-) can be added as they are
-            array_push($zone_diff, $line);
+            $zone_diff[] = $line;
           }
         }
         $zone_diff = array_merge($records['editable']['records'], $zone_diff);
@@ -142,8 +129,6 @@ function seravo_admin_change_zone_file() {
 
   return $response;
 
-  wp_die();
-
 }
 
 function seravo_fetch_dns() {
@@ -152,15 +137,9 @@ function seravo_fetch_dns() {
     $records = Seravo_Domains_DNS_Table::fetch_dns_records($_REQUEST['domain']);
     if ( is_wp_error($records) ) {
       return seravo_respond_error_json($records->get_error_message());
-      wp_die();
     }
     return json_encode($records);
   }
-
-  // 'No data returned'
-  return;
-
-  wp_die();
 
 }
 
@@ -169,15 +148,9 @@ function seravo_set_primary_domain() {
     $response = API::update_site_data(array( 'domain' => $_REQUEST['domain'] ), '/primary_domain', array( 200 ), 'POST');
     if ( is_wp_error($response) ) {
       return seravo_respond_error_json($response->get_error_message());
-      wp_die();
     }
     return $response;
   }
-
-  // 'No data returned'
-  return;
-
-  wp_die();
 
 }
 
@@ -199,7 +172,7 @@ function seravo_edit_forwards() {
       $destinations_parsed = array();
       foreach ( $destinations as $key => $destination ) {
         if ( strpos($destination, '@') > 0 && strpos($destination, '.') > 0 ) {
-          array_push($destinations_parsed, trim($destination));
+          $destinations_parsed[] = trim($destination);
         } elseif ( empty($destination) ) {
           unset($destinations[$key]);
         }
@@ -214,7 +187,6 @@ function seravo_edit_forwards() {
       $response = API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
       if ( is_wp_error($response) ) {
         return seravo_respond_error_json($response->get_error_message());
-        wp_die();
       }
 
       // Make sure it actually was added
@@ -229,16 +201,15 @@ function seravo_edit_forwards() {
                 'message' => sprintf(__('Forwards for %s have been set', 'seravo'), $source . '@' . $domain),
               )
             );
-          } else {
-            break;
           }
+          break;
         }
       }
 
       return json_encode(
         array(
           'status' => 200,
-          'message' => sprintf(__('Some of the changes weren\'t made', 'seravo'), $source . '@' . $domain),
+          'message' => sprintf(__("Some of the changes weren't made", 'seravo'), $source . '@' . $domain),
         )
       );
     }
@@ -253,7 +224,6 @@ function seravo_edit_forwards() {
       $response = API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
       if ( is_wp_error($response) ) {
         return seravo_respond_error_json($response->get_error_message());
-        wp_die();
       }
 
       return json_encode(
@@ -263,41 +233,38 @@ function seravo_edit_forwards() {
         )
       );
     }
-
     if ( $old_source === '' && $new_source !== '' && ! empty($destinations) ) {
-      // Create a new source (or replace)
-      return create_forward($domain, $new_source, $destinations);
-    } elseif ( $old_source !== '' && $new_source === '' && empty($destinations) ) {
-      // Delete a source
-      return delete_forward($domain, $old_source);
-    } elseif ( $old_source !== '' && $new_source !== '' ) {
-      // Edit an existing source
-      if ( $old_source === $new_source ) {
+        // Create a new source (or replace)
+        return create_forward($domain, $new_source, $destinations);
+    }
+    if ( $old_source !== '' && $new_source === '' && empty($destinations) ) {
+        // Delete a source
+        return delete_forward($domain, $old_source);
+    }
+
+    if ( $old_source !== '' && $new_source !== '' ) {
+        // Edit an existing source
+        if ( $old_source === $new_source ) {
         // Don't modify the source
         return create_forward($domain, $old_source, $destinations);
-      } else {
-         // Modify the source by creating a new one and deleting the old one
+        }
+        // Modify the source by creating a new one and deleting the old one
         $new = json_decode(create_forward($domain, $new_source, $destinations), true);
         if ( isset($new['status']) && $new['status'] === 200 ) {
-          $old = json_decode(delete_forward($domain, $old_source), true);
-          if ( isset($old['status']) && $old['status'] === 200 ) {
-            return json_encode(
-              array(
-                'status' => 200,
-                'message' => __('The forwards were modified', 'seravo'),
-              )
-            );
-          } else {
-            return seravo_respond_error_json(__('Something went wrong, the old source couldn\'t be removed.', 'seravo'));
-          }
-        } else {
-          return seravo_respond_error_json(__('Something went wrong, the forwards couln\'t be modified.', 'seravo'));
+        $old = json_decode(delete_forward($domain, $old_source), true);
+        if ( isset($old['status']) && $old['status'] === 200 ) {
+          return json_encode(
+            array(
+              'status' => 200,
+              'message' => __('The forwards were modified', 'seravo'),
+            )
+          );
         }
-      }
+        return seravo_respond_error_json(__("Something went wrong, the old source couldn't be removed.", 'seravo'));
+        }
+        return seravo_respond_error_json(__("Something went wrong, the forwards couln't be modified.", 'seravo'));
     }
   }
-  // 'No data returned'
-  return;
 }
 
 function seravo_ajax_domains() {

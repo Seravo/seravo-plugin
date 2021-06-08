@@ -29,13 +29,13 @@ if ( ! class_exists('Canonical_Domain_And_Https') ) {
 
       if ( strpos($siteurl, 'https') !== false && strpos($home, 'https') !== false ) {
         // Site uses https
-        if ( headers_sent() === false && is_ssl() === false && isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']) ) {
+        if ( ! headers_sent() && ! is_ssl() && isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']) ) {
           // Request did not use https, force redirect
           $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
           // error_log("Redirect to $url");
 
           // wp_redirect() is not available at this stage, cannot be used
-          header("Location: $url", true, 301);
+          header("Location: {$url}", true, 301);
           exit; // Nothing more to see here!
         }
       }

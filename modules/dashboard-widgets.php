@@ -16,14 +16,29 @@ require_once __DIR__ . '/login-notification.php';
 if ( ! class_exists('Dashboard_Widgets') ) {
   class Dashboard_Widgets {
 
+    /**
+     * @var int|null
+     */
     private static $errors;
     // end of life versions
+    /**
+     * @var int
+     */
     const EOL_MAJOR = 7;
+    /**
+     * @var int
+     */
     const EOL_MINOR = 2;
 
     // the relative disk usage
+    /**
+     * @var float
+     */
     const LOW_DISK_SPACE_USAGE = 0.9;
     // set a transient for 15 minutes
+    /**
+     * @var int
+     */
     const DISK_SPACE_CACHE_TIME = 900;
 
     public static function load() {
@@ -85,6 +100,7 @@ if ( ! class_exists('Dashboard_Widgets') ) {
 
     /**
      * Fetch the full disk space usage, backups and logs excluded. The main logic from sitestatus-ajax.php
+     * @return array<string, mixed>
      */
     private static function disk_space_usage() {
       // Directories not counted against plan's quota but can be visible
@@ -130,13 +146,11 @@ if ( ! class_exists('Dashboard_Widgets') ) {
         $relative_disk_space_usage = 0;
       }
 
-      $output = array(
+      return array(
         'relative_usage' => $relative_disk_space_usage,
         'disk_usage' => $data_size,
         'plan_limit' => $plan_disk_limit,
       );
-
-      return $output;
     }
 
     public static function display_disk_space_low_warning() {
@@ -204,6 +218,7 @@ if ( ! class_exists('Dashboard_Widgets') ) {
 
     /**
      * Display the site status widget which contains HTTPS statistics and some plan details
+     * @return mixed|void
      */
     public static function display_site_status() {
       if ( ! Helpers::is_production() ) {
@@ -269,20 +284,17 @@ if ( ! class_exists('Dashboard_Widgets') ) {
             // show only limited amount of monthly http requests
             break;
           }
-          $report_month_counter++;
-          $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' $report");
-          preg_match('/([0-9]+)/', $total_requests_string, $total_requests_match);
-          $total_requests = intval($total_requests_match[1]);
+          ++$report_month_counter;
+          $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' {$report}");
+          preg_match('/(\d+)/', $total_requests_string, $total_requests_match);
+          $total_requests = (int) $total_requests_match[1];
           if ( $total_requests > $max_requests ) {
             $max_requests = $total_requests;
           }
 
-          array_push(
-            $months,
-            array(
-              'month' => substr($report, 25, 7),
-              'requests' => $total_requests,
-            )
+          $months[] = array(
+            'month' => substr($report, 25, 7),
+            'requests' => $total_requests,
           );
         }
 
@@ -290,11 +302,7 @@ if ( ! class_exists('Dashboard_Widgets') ) {
           $month_date = $month['month'];
           $total_requests = $month['requests'];
 
-          if ( $max_requests > 0 ) {
-            $bar_size = $total_requests / $max_requests * 100;
-          } else {
-            $bar_size = 1;
-          }
+          $bar_size = $max_requests > 0 ? $total_requests / $max_requests * 100 : 1;
 
           $bar_border_color = 'none';
 

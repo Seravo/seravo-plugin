@@ -8,7 +8,7 @@ if ( ! defined('ABSPATH') ) {
 }
 
 if ( ! class_exists('Seravo\WP_List_Table') ) {
-  require_once 'list-table.php';
+  require_once __DIR__ . '/list-table.php';
 }
 
 class Seravo_Domains_List_Table extends WP_List_Table {
@@ -28,7 +28,10 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
   }
 
-  public function column_default( $item, $column_name ) {
+  /**
+   * @return mixed|string|void
+   */
+  protected function column_default( $item, $column_name ) {
     switch ( $column_name ) {
       case 'domain':
       case 'expires':
@@ -40,12 +43,15 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     }
   }
 
+  /**
+   * @return string
+   */
   public function column_domain( $item ) {
 
     $actions = array();
 
-    $page = ! empty($_REQUEST['page']) ? $_REQUEST['page'] : 'domains_page';
-    $paged_str = ! empty($_REQUEST['paged']) ? '&paged=' . $_REQUEST['paged'] : '';
+    $page = empty($_REQUEST['page']) ? 'domains_page' : $_REQUEST['page'];
+    $paged_str = empty($_REQUEST['paged']) ? '' : '&paged=' . $_REQUEST['paged'];
 
     $action_request = '<a href="?page=' . $page . '&domain=' . $item['domain'] . $paged_str . '&action=%s">%s</a>';
     $action_disabled = '<a class="action-link-disabled" title="%s">%s</a>';
@@ -60,23 +66,21 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     }
 
     if ( $item['subdomain'] ) {
-      $actions['view'] = sprintf($action_disabled, __('Subdomains don\'t have their own zone.', 'seravo'), __('View', 'seravo'));
-      $actions['edit'] = sprintf($action_disabled, __('Subdomains don\'t have their own zone.', 'seravo'), __('Edit', 'seravo'));
-    } else {
-      if ( $item['management'] === 'Seravo' ) {
+        $actions['view'] = sprintf($action_disabled, __("Subdomains don't have their own zone.", 'seravo'), __('View', 'seravo'));
+        $actions['edit'] = sprintf($action_disabled, __("Subdomains don't have their own zone.", 'seravo'), __('Edit', 'seravo'));
+    } elseif ( $item['management'] === 'Seravo' ) {
         $actions['view'] = sprintf($action_request, 'view', __('View', 'seravo'));
         if ( get_option('seravo-domain-edit') === 'disabled' ) {
-          $actions['edit'] = sprintf($action_disabled, __('DNS editing is disabled for this site.', 'seravo'), __('Edit', 'seravo'));
+        $actions['edit'] = sprintf($action_disabled, __('DNS editing is disabled for this site.', 'seravo'), __('Edit', 'seravo'));
         } else {
-          $actions['edit'] = sprintf($action_request, 'edit', __('Edit', 'seravo'));
+        $actions['edit'] = sprintf($action_request, 'edit', __('Edit', 'seravo'));
         }
-      } elseif ( $item['management'] === 'Customer' ) {
-        $actions['view'] = sprintf($action_request, 'sniff', __('View', 'seravo'));
-        $actions['edit'] = sprintf($action_disabled, __('DNS not managed by Seravo.', 'seravo'), __('Edit', 'seravo'));
-      } else {
-        $actions['view'] = sprintf($action_disabled, __('This domain doesn\'t have a zone.', 'seravo'), __('View', 'seravo'));
-        $actions['edit'] = sprintf($action_disabled, __('This domain doesn\'t have a zone.', 'seravo'), __('Edit', 'seravo'));
-      }
+    } elseif ( $item['management'] === 'Customer' ) {
+      $actions['view'] = sprintf($action_request, 'sniff', __('View', 'seravo'));
+      $actions['edit'] = sprintf($action_disabled, __('DNS not managed by Seravo.', 'seravo'), __('Edit', 'seravo'));
+    } else {
+      $actions['view'] = sprintf($action_disabled, __("This domain doesn't have a zone.", 'seravo'), __('View', 'seravo'));
+      $actions['edit'] = sprintf($action_disabled, __("This domain doesn't have a zone.", 'seravo'), __('Edit', 'seravo'));
     }
 
     if ( empty($item['primary']) ) {
@@ -95,6 +99,9 @@ class Seravo_Domains_List_Table extends WP_List_Table {
 
   }
 
+  /**
+   * @return string|void
+   */
   public function column_expires( $item ) {
     $expires = $item['expires'];
     if ( ! empty($expires) ) {
@@ -106,6 +113,9 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     }
   }
 
+  /**
+   * @return string
+   */
   public function column_dns( $item ) {
     $dns = $item['dns'];
     if ( ! empty($dns) ) {
@@ -114,31 +124,37 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     return '';
   }
 
+  /**
+   * @return array<string, string>
+   */
   public function get_columns() {
-    $columns = array(
+    return array(
       'domain'     => __('Domain', 'seravo'),
       'expires'    => __('Expires', 'seravo'),
       'dns'        => __('DNS', 'seravo'),
       'management' => __('Managed by', 'seravo'),
     );
-    return $columns;
   }
 
-  public function get_sortable_columns() {
-    $sortable_columns = array(
+  /**
+   * @return array<string, array<string|bool>>
+   */
+  protected function get_sortable_columns() {
+    return array(
       'domain'     => array( 'domain', false ),     // true means it's already sorted
       'expires'    => array( 'expires', false ),
       'dns'        => array( 'dns', false ),
       'management' => array( 'management', false ),
     );
-    return $sortable_columns;
   }
 
-  public function get_bulk_actions() {
-    $actions = array(
+  /**
+   * @return mixed[]
+   */
+  protected function get_bulk_actions() {
+    return array(
     //  'delete' => 'Delete',
     );
-    return $actions;
   }
 
   public function prepare_items() {
@@ -192,7 +208,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
           $dns = array();
           if ( ! empty($nameservers) ) {
             foreach ( $nameservers as $ns ) {
-              array_push($dns, $ns['target']);
+              $dns[] = $ns['target'];
             }
           }
         }
@@ -221,7 +237,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
       // Translate management
       $rawdata[$index]['management'] = str_replace('Customer', __('Customer', 'seravo'), $rawdata[$index]['management']);
 
-      array_push($data, $rawdata[$index]);
+      $data[] = $rawdata[$index];
     }
 
     /**
@@ -234,9 +250,9 @@ class Seravo_Domains_List_Table extends WP_List_Table {
      */
     function usort_reorder( $a, $b ) {
       // If no sort, default to domain name
-      $orderby = (! empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'domain';
+      $orderby = (empty($_REQUEST['orderby'])) ? 'domain' : $_REQUEST['orderby'];
         // If no order, default to asc
-      $order = (! empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc';
+      $order = (empty($_REQUEST['order'])) ? 'asc' : $_REQUEST['order'];
         // Determine sort order
       $result = strcmp($a[ $orderby ], $b[ $orderby ]);
         // Send final sort direction to usort
@@ -298,7 +314,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
           <?php $this->print_column_headers(); ?>
         </tr>
       </thead>
-      <tbody id="the-list" <?php echo $singular ? "data-wp-lists='list:$singular'" : ''; ?>>
+      <tbody id="the-list" <?php echo $singular ? "data-wp-lists='list:{$singular}'" : ''; ?>>
         <?php $this->display_rows_or_placeholder(); ?>
       </tbody>
     </table>
@@ -320,26 +336,34 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
     );
   }
 
-  public function display_tablenav( $which ) {
+  protected function display_tablenav( $which ) {
     if ( $which === 'top' ) {
       echo '<hr style="margin: 15px 0px;">';
     }
   }
 
+  /**
+   * @return array<string, string>
+   */
   public function get_columns() {
-    $columns = array(
+    return array(
       'domain'       => __('Domain', 'seravo'),
       'source'       => __('Forwards', 'seravo'),
     );
-    return $columns;
   }
 
-  public function get_sortable_columns() {
+  /**
+   * @return array<string, array<string|bool>>
+   */
+  protected function get_sortable_columns() {
     return array( 'domain' => array( 'domain', false ) );     // true means it's already sorted
   }
 
+  /**
+   * @return string
+   */
   public function column_domain( $item ) {
-    $page = ! empty($_REQUEST['page']) ? $_REQUEST['page'] : 'domains_page';
+    $page = empty($_REQUEST['page']) ? 'domains_page' : $_REQUEST['page'];
     $view = '<a href="?page=' . $page . '&domain=' . $item['domain'] . '&action=fetch_forwards">' . __('Fetch', 'seravo') . '</a>';
     $edit = '<a href="?page=' . $page . '&domain=' . $item['domain'] . '&action=create_forward">' . __('Create', 'seravo') . '</a>';
 
@@ -368,11 +392,8 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
     $data = array();
     foreach ( $rawdata as $domain ) {
       if ( $domain['management'] === 'Seravo' ) {
-        array_push(
-          $data,
-          array(
-            'domain' => $domain['domain'],
-          )
+        $data[] = array(
+          'domain' => $domain['domain'],
         );
       }
     }
@@ -385,9 +406,9 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
 
     function usort_reorder_domains( $a, $b ) {
       // If no sort, default to domain name
-      $orderby = (! empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'domain';
+      $orderby = (empty($_REQUEST['orderby'])) ? 'domain' : $_REQUEST['orderby'];
       // If no order, default to asc
-      $order = (! empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc';
+      $order = (empty($_REQUEST['order'])) ? 'asc' : $_REQUEST['order'];
       // Determine sort order
       $result = strcmp($a[ $orderby ], $b[ $orderby ]);
       // Send final sort direction to usort
@@ -418,7 +439,7 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
         <?php $this->print_column_headers(); ?>
       </tr>
       </thead>
-      <tbody id="the-list" <?php echo $singular ? "data-wp-lists='list:$singular'" : ''; ?>>
+      <tbody id="the-list" <?php echo $singular ? "data-wp-lists='list:{$singular}'" : ''; ?>>
       <?php $this->display_rows_or_placeholder(); ?>
       </tbody>
     </table>

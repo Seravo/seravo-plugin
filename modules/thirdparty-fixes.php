@@ -12,8 +12,14 @@ if ( ! defined('ABSPATH') ) {
 
 if ( ! class_exists('ThirdpartyFixes') ) {
   class ThirdpartyFixes {
+    /**
+     * @var \Seravo\ThirdpartyFixes|null
+     */
     public static $instance;
 
+    /**
+     * @return \Seravo\ThirdpartyFixes|null
+     */
     public static function init() {
       if ( is_null(self::$instance) ) {
         self::$instance = new ThirdpartyFixes();
@@ -23,22 +29,76 @@ if ( ! class_exists('ThirdpartyFixes') ) {
 
     public function __construct() {
       // Jetpack whitelisting
-      add_filter('jpp_allow_login', array( $this, 'jetpack_whitelist_seravo' ), 10, 1);
+      add_filter(
+        'jpp_allow_login',
+        function ( $ip ) {
+          return $this->jetpack_whitelist_seravo($ip);
+        },
+        10,
+        1
+      );
 
       // Set options for Redirection plugin
       // defined twice because Redirection code and documentation has conflicts,
       // ie. just to be sure...
-      add_filter('red_default_options', array( $this, 'redirection_options_filter' ), 10, 1);
-      add_filter('red_save_options', array( $this, 'redirection_options_filter' ), 10, 1);
-      add_filter('redirection_default_options', array( $this, 'redirection_options_filter' ), 10, 1);
-      add_filter('redirection_save_options', array( $this, 'redirection_options_filter' ), 10, 1);
+      add_filter(
+        'red_default_options',
+        function ( array $options ) {
+          return $this->redirection_options_filter($options);
+        },
+        10,
+        1
+      );
+      add_filter(
+        'red_save_options',
+        function ( array $options ) {
+          return $this->redirection_options_filter($options);
+        },
+        10,
+        1
+      );
+      add_filter(
+        'redirection_default_options',
+        function ( array $options ) {
+          return $this->redirection_options_filter($options);
+        },
+        10,
+        1
+      );
+      add_filter(
+        'redirection_save_options',
+        function ( array $options ) {
+          return $this->redirection_options_filter($options);
+        },
+        10,
+        1
+      );
 
       // Maybe log SQL queries
-      add_action('shutdown', array( $this, 'log_queries' ));
+      add_action(
+        'shutdown',
+        function () {
+          return $this->log_queries();
+        }
+      );
 
       // Maybe cache HTTP requests
-      add_filter('pre_http_request', array( $this, 'http_maybe_use_cached' ), 10, 3);
-      add_filter('http_response', array( $this, 'http_maybe_cache' ), 10, 3);
+      add_filter(
+        'pre_http_request',
+        function ( $preempt, $parsed_args, $url ) {
+          return $this->http_maybe_use_cached($preempt, $parsed_args, $url);
+        },
+        10,
+        3
+      );
+      add_filter(
+        'http_response',
+        function ( $response, $parsed_args, $url ) {
+          return $this->http_maybe_cache($response, $parsed_args, $url);
+        },
+        10,
+        3
+      );
     }
 
     /**
@@ -46,12 +106,13 @@ if ( ! class_exists('ThirdpartyFixes') ) {
      *
      * Related WordPress core code:
      * <https://github.com/WordPress/WordPress/blob/c463e94a3313ca26c305993a0862e758c0ea3dfe/wp-includes/class-http.php#L239-L257>
+     * @return mixed
      **/
     public function http_maybe_use_cached( $preempt, $parsed_args, $url ) {
         $cache_key = 'http_cache_' . md5($url . serialize($parsed_args));
         $cached = get_transient($cache_key);
         if ( $cached !== false ) {
-            return unserialize($cached);
+        return unserialize($cached);
         }
 
         return $preempt;
@@ -75,14 +136,14 @@ if ( ! class_exists('ThirdpartyFixes') ) {
         // Check if we should cache requests to this hostname
         // Filter can return either boolean (true = do cache, false don't cache)
         // or integer (how long we should cache)
-        $do_cache = apply_filters("seravo_cache_http_${method}_${host}", false, $parsed_args, $url);
+        $do_cache = apply_filters("seravo_cache_http_{$method}_{$host}", false, $parsed_args, $url);
 
         if ( $do_cache !== false ) {
-            if ( $do_cache === true ) {
-                $do_cache = 3600;
-            }
-            $cache_key = 'http_cache_' . md5($url . serialize($parsed_args));
-            set_transient($cache_key, serialize($response), $do_cache);
+        if ( $do_cache === true ) {
+            $do_cache = 3600;
+          }
+        $cache_key = 'http_cache_' . md5($url . serialize($parsed_args));
+        set_transient($cache_key, serialize($response), $do_cache);
         }
         return $response;
     }
@@ -100,32 +161,32 @@ if ( ! class_exists('ThirdpartyFixes') ) {
      **/
     public function log_queries() {
         if ( ! defined('SAVEQUERIES') || SAVEQUERIES !== true ) {
-            return;
+        return;
         }
         $logfile = '/data/log/sql.log';
         // If logfile is already over 512MB, just stop logging to prevent
         // filling the disk with probably duplicated queries
         if ( file_exists($logfile) && filesize($logfile) > 512 * 1024 * 1024 ) {
-            return;
+        return;
         }
 
         global $wpdb;
         $handle = fopen($logfile, 'a');
 
         if ( $wpdb->num_queries > 0 && $handle !== false ) {
-          $sid = isset($_SERVER['HTTP_X_SERAVO_REQUEST_ID']) ? $_SERVER['HTTP_X_SERAVO_REQUEST_ID'] : 'none';
-          fwrite($handle, '### ' . date(\DateTime::ISO8601) . ' sid:' . $sid . ' total:' . $wpdb->num_queries . chr(10));
-          foreach ( $wpdb->queries as $q ) {
-              $sql = trim(preg_replace('/[\t\n\r\s]+/', ' ', $q[0]));
-              $data = str_replace("\n", '', print_r($q[4], true));
-              fwrite($handle, "SQL: $sql" . chr(10));
-              fwrite($handle, "Time: $q[1] s" . chr(10));
-              fwrite($handle, "Calling functions: $q[2]" . chr(10));
-              fwrite($handle, "Query begin: $q[3]" . chr(10));
-              fwrite($handle, 'Custom data: ' . $data . chr(10) . '--' . chr(10));
+        $sid = isset($_SERVER['HTTP_X_SERAVO_REQUEST_ID']) ? $_SERVER['HTTP_X_SERAVO_REQUEST_ID'] : 'none';
+        fwrite($handle, '### ' . date(\DateTime::ISO8601) . ' sid:' . $sid . ' total:' . $wpdb->num_queries . chr(10));
+        foreach ( $wpdb->queries as $q ) {
+            $sql = trim(preg_replace('/[\t\n\r\s]+/', ' ', $q[0]));
+            $data = str_replace("\n", '', print_r($q[4], true));
+            fwrite($handle, "SQL: {$sql}" . chr(10));
+            fwrite($handle, "Time: $q[1] s" . chr(10));
+            fwrite($handle, "Calling functions: $q[2]" . chr(10));
+            fwrite($handle, "Query begin: $q[3]" . chr(10));
+            fwrite($handle, 'Custom data: ' . $data . chr(10) . '--' . chr(10));
           }
-          fwrite($handle, '### EOF' . chr(10) . chr(10));
-          fclose($handle);
+        fwrite($handle, '### EOF' . chr(10) . chr(10));
+        fclose($handle);
         }
     }
 
@@ -190,6 +251,7 @@ if ( ! class_exists('ThirdpartyFixes') ) {
      * @version 1.1
      * @see <https://developer.jetpack.com/hooks/jpp_allow_login/>
      * @see <https://developer.jetpack.com/tag/jpp_allow_login/>
+     * @return bool
      **/
     public function jetpack_whitelist_seravo( $ip ) {
       if ( ! function_exists('jetpack_protect_get_ip') ) {

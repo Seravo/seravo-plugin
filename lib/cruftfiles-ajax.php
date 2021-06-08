@@ -30,16 +30,14 @@ function seravo_find_cruft_file( $name ) {
   $user = getenv('WP_USER');
   exec('find /data/wordpress -name ' . $name, $data_files);
   exec('find /home/' . $user . ' -maxdepth 1 -name ' . $name, $home_files);
-  $files = array_merge($data_files, $home_files);
-  return $files;
+  return array_merge($data_files, $home_files);
 }
 
 function seravo_find_cruft_dir( $name ) {
   $user = getenv('WP_USER');
   exec('find /data/wordpress -type d -name ' . $name, $data_dirs);
   exec('find /home/' . $user . ' -maxdepth 1 -type d -name ' . $name, $home_dirs);
-  $dirs = array_merge($data_dirs, $home_dirs);
-  return $dirs;
+  return array_merge($data_dirs, $home_dirs);
 }
 
 function seravo_only_has_whitelisted_content( $dir, $wl_files, $wl_dirs ) {
@@ -65,7 +63,7 @@ function seravo_find_cruft_core() {
   foreach ( $temp as $line ) {
     if ( strpos($line, 'Warning: File should not exist: ') !== false ) {
       $line = '/data/wordpress/htdocs/wordpress/' . substr($line, 32);
-      array_push($output, $line);
+      $output[] = $line;
     }
   }
   return $output;
@@ -85,10 +83,10 @@ function seravo_rmdir_recursive( $dir, $recursive ) {
     if ( '.' === $file || '..' === $file ) {
       continue; // Skip current and upper level directories
     }
-    if ( is_dir("$dir/$file") ) {
-      seravo_rmdir_recursive("$dir/$file", 1);
+    if ( is_dir("{$dir}/{$file}") ) {
+      seravo_rmdir_recursive("{$dir}/{$file}", 1);
     } else {
-      unlink("$dir/$file");
+      unlink("{$dir}/{$file}");
     }
   }
   rmdir($dir);
@@ -99,8 +97,7 @@ function seravo_rmdir_recursive( $dir, $recursive ) {
 
 function seravo_ajax_list_cruft_files() {
   check_ajax_referer('seravo_cruftfiles', 'nonce');
-  switch ( $_REQUEST['section'] ) {
-    case 'cruftfiles_status':
+  if ( $_REQUEST['section'] == 'cruftfiles_status' ) {
       // List of known types of cruft files
       $list_files = array(
         '*.sql',
@@ -170,7 +167,6 @@ function seravo_ajax_list_cruft_files() {
         '/data/wordpress/htdocs/wp-content/ai1wm-backups/.htaccess',
         '/data/wordpress/htdocs/wp-content/ai1wm-backups/web.config',
       );
-
       $crufts = array();
       $crufts = array_merge($crufts, seravo_find_cruft_core());
       foreach ( $list_files as $filename ) {
@@ -191,7 +187,7 @@ function seravo_ajax_list_cruft_files() {
         $keep = array();
         foreach ( $crufts as $filename ) {
           if ( strpos($filename, $dirname) !== false ) {
-            array_push($keep, $filename);
+            $keep[] = $filename;
           }
         }
         $crufts = array_diff($crufts, $keep);
@@ -201,12 +197,11 @@ function seravo_ajax_list_cruft_files() {
         $keep = array();
         foreach ( $crufts as $cruftname ) {
           if ( strpos($cruftname, $filename) !== false ) {
-            array_push($keep, $cruftname);
+            $keep[] = $cruftname;
           }
         }
         $crufts = array_diff($crufts, $keep);
       }
-
       foreach ( $list_known_files as $dirname ) {
         $cruft_found = seravo_list_known_cruft_file($dirname);
         if ( ! empty($cruft_found) ) {
@@ -224,7 +219,6 @@ function seravo_ajax_list_cruft_files() {
           $crufts = array_merge($crufts, $cruft_found);
         }
       }
-
       $crufts = array_filter(
         $crufts,
         function( $item ) use ( $crufts ) {
@@ -236,17 +230,12 @@ function seravo_ajax_list_cruft_files() {
           return true;
         }
       );
-
       $crufts = array_unique($crufts);
       set_transient('cruft_files_found', $crufts, 600);
-
       $crufts = array_map('Seravo\seravo_add_file_information', $crufts);
       echo wp_json_encode($crufts);
-      break;
-
-    default:
+  } else {
       error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
-      break;
   }
 
   wp_die();
@@ -269,15 +258,11 @@ function seravo_ajax_delete_cruft_files() {
       foreach ( $files as $file ) {
         $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
         if ( in_array($file, $legit_cruft_files, true) ) {
-          if ( is_dir($file) ) {
-            $unlink_result = seravo_rmdir_recursive($file, 0);
-          } else {
-            $unlink_result = unlink($file);
-          }
+          $unlink_result = is_dir($file) ? seravo_rmdir_recursive($file, 0) : unlink($file);
           // else - Backwards compatible with old UI
           $result['success'] = (bool) $unlink_result;
           $result['filename'] = $file;
-          array_push($results, $result);
+          $results[] = $result;
         }
       }
       echo wp_json_encode($results);

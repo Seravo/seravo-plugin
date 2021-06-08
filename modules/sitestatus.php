@@ -12,14 +12,29 @@ require_once dirname(__FILE__) . '/check-site-health.php';
 if ( ! class_exists('Site_Status') ) {
   class Site_Status {
     // Default maximum resolution for images
+    /**
+     * @var int
+     */
     private static $max_width_default = 2560;
+    /**
+     * @var int
+     */
     private static $max_height_default = 2560;
 
     // Minimum resolution for images. Can't be set any lower by user.
+    /**
+     * @var int
+     */
     private static $min_width = 500;
+    /**
+     * @var int
+     */
     private static $min_height = 500;
 
     // Object-cache file location
+    /**
+     * @var string
+     */
     const OBJECT_CACHE_PATH = '/data/wordpress/htdocs/wp-content/object-cache.php';
 
     public static function load() {
@@ -270,21 +285,21 @@ if ( ! class_exists('Site_Status') ) {
         <span id='redis-evicted-keys'></span>
         <span class='tooltip dashicons dashicons-info'>
           <span class='tooltiptext'>
-            <?php _e('The number of keys being deleted because the memory usage has hit it\'s limit.', 'seravo'); ?>
+            <?php _e("The number of keys being deleted because the memory usage has hit it's limit.", 'seravo'); ?>
           </span>
         </span>
       </p>
       <h3><?php _e('HTTP Cache', 'seravo'); ?></h3>
-      <p><?php _e('The HTTP cache hit rate is calculated from all Nginx\'s access logs. It describes the long-term cache usage situation.', 'seravo'); ?></p>
+      <p><?php _e("The HTTP cache hit rate is calculated from all Nginx's access logs. It describes the long-term cache usage situation.", 'seravo'); ?></p>
       <h4><?php _e('Cache hit rate', 'seravo'); ?></h4>
       <div class='longterm_cache_loading'>
         <img src='/wp-admin/images/spinner.gif'>
       </div>
       <div id='http-hit-rate-chart'></div>
-      <p><?php _e('There are <span id=\'http-cache-bypass\'></span> bypasses.', 'seravo'); ?></p>
+      <p><?php _e("There are <span id='http-cache-bypass'></span> bypasses.", 'seravo'); ?></p>
       <h3><?php _e('Nginx HTTP Cache', 'seravo'); ?></h3>
       <div id='front_cache_status'>
-        <p><?php _e('Test the functionality of your site\'s front cache. This can also be done via command line with command <code>wp-check-http-cache</code>.', 'seravo'); ?></p>
+        <p><?php _e("Test the functionality of your site's front cache. This can also be done via command line with command <code>wp-check-http-cache</code>.", 'seravo'); ?></p>
         <button type='button' class='button-primary' id='run-cache-tests'><?php _e('Run cache tests', 'seravo'); ?></button>
         <div class='seravo-cache-test-result-wrapper'>
           <div class='seravo_cache_tests_status front_cache_status'>
@@ -350,7 +365,7 @@ if ( ! class_exists('Site_Status') ) {
         </div>
       </p>
       <hr>
-      <?php _e('Logs and automatic backups don\'t count against your quota.', 'seravo'); ?>
+      <?php _e("Logs and automatic backups don't count against your quota.", 'seravo'); ?>
       <br>
       <?php
       printf(
@@ -406,7 +421,7 @@ if ( ! class_exists('Site_Status') ) {
       }
 
       // Nested arrays need to be checked seperately
-      $country = ! empty($site_info['country']) ? $countries[ $site_info['country'] ] : '';
+      $country = empty($site_info['country']) ? '' : $countries[ $site_info['country'] ];
 
       print_item($site_info['name'], __('Site Name', 'seravo'));
       print_item(date('Y-m-d', strtotime($site_info['created'])), __('Site Created', 'seravo'));
@@ -465,15 +480,11 @@ if ( ! class_exists('Site_Status') ) {
             ?>
             <table id="shadow-table">
               <?php
-              foreach ( $shadow_list as $shadow => $shadow_data ) {
+              foreach ( $shadow_list as $shadow_data ) {
                 $primary_domain = '';
                 // Find primary domain of the shadow
                 foreach ( $shadow_data['domains'] as $domain ) {
-                  if ( $domain['primary'] === $shadow_data['name'] ) {
-                    $primary_domain = $domain['domain'];
-                  } else {
-                    $primary_domain = '';
-                  }
+                  $primary_domain = $domain['primary'] === $shadow_data['name'] ? $domain['domain'] : '';
                 }
               ?>
                 <!-- Two rows per shadow: by default, one visibe and another hidden -->
@@ -595,6 +606,9 @@ if ( ! class_exists('Site_Status') ) {
         '<p>' . __('For further information, refer to our <a href="https://help.seravo.com/article/28-seravo-plugin-optimize-images" target="_BLANK">knowledgebase article</a>.', 'seravo') . '</p>';
     }
 
+    /**
+     * @return int|mixed
+     */
     public static function sanitize_image_width( $width ) {
       if ( get_option('seravo-enable-optimize-images') === 'on' && $width !== null ) {
         if ( ! is_numeric($width) || $width < self::$min_width ) {
@@ -621,6 +635,9 @@ if ( ! class_exists('Site_Status') ) {
       return $width;
     }
 
+    /**
+     * @return int|mixed
+     */
     public static function sanitize_image_height( $height ) {
       if ( get_option('seravo-enable-optimize-images') === 'on' && $height !== null ) {
         if ( ! is_numeric($height) || $height < self::$min_height ) {
@@ -643,6 +660,9 @@ if ( ! class_exists('Site_Status') ) {
       return $height;
     }
 
+    /**
+     * @return string[]
+     */
     public static function get_input_field_attributes() {
       if ( get_option('seravo-enable-optimize-images') === 'on' ) {
         return array( 'max-resolution-field', '' );

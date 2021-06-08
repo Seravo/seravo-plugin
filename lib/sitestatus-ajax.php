@@ -17,26 +17,20 @@ function seravo_ajax_report_http_requests() {
   // Track max request value to calculate relative bar widths
   $max_requests = 0;
   foreach ( $reports as $report ) {
-    $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' $report");
-    preg_match('/([0-9]+)/', $total_requests_string, $total_requests_match);
-    $total_requests = intval($total_requests_match[1]);
+    $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' {$report}");
+    preg_match('/(\d+)/', $total_requests_string, $total_requests_match);
+    $total_requests = (int) $total_requests_match[1];
     if ( $total_requests > $max_requests ) {
       $max_requests = $total_requests;
     }
-    array_push(
-      $months,
-      array(
-        'date'     => substr($report, 25, 7),
-        'requests' => $total_requests,
-      )
+    $months[] = array(
+      'date'     => substr($report, 25, 7),
+      'requests' => $total_requests,
     );
   }
-  if ( count($months) > 0 ) {
-    array_push(
-      $months,
-      array(
-        'max_requests' => $max_requests,
-      )
+  if ( $months !== array() ) {
+    $months[] = array(
+      'max_requests' => $max_requests,
     );
   }
   echo wp_json_encode($months);
@@ -145,14 +139,12 @@ function seravo_report_redis_info() {
   $redis->connect('127.0.0.1', 6379);
   $stats = $redis->info('stats');
 
-  $result = array(
+  return array(
     $stats['expired_keys'],
     $stats['evicted_keys'],
     $stats['keyspace_hits'],
     $stats['keyspace_misses'],
   );
-
-  return $result;
 }
 
 function seravo_enable_object_cache() {
@@ -171,11 +163,7 @@ function seravo_enable_object_cache() {
   $write_object_cache = fwrite($object_cache_file, $object_cache_content);
   fclose($object_cache_file);
 
-  if ( $write_object_cache && $object_cache_content ) {
-    $result['success'] = true;
-  } else {
-    $result['success'] = false;
-  }
+  $result['success'] = $write_object_cache && $object_cache_content;
 
   return $result;
 }
@@ -195,13 +183,13 @@ function seravo_report_longterm_cache_stats() {
         $line = fgets($file);
         // " is needed to match the log file
         if ( strpos($line, '" HIT') ) {
-          $hit++;
+          ++$hit;
         } elseif ( strpos($line, '" MISS') ) {
-          $miss++;
+          ++$miss;
         } elseif ( strpos($line, '" STALE') ) {
-          $stale++;
+          ++$stale;
         } elseif ( strpos($line, '" BYPASS') ) {
-          $bypass++;
+          ++$bypass;
         }
       }
     }
@@ -315,11 +303,7 @@ function seravo_speed_test() {
   }
 
   // Check whether to test cached version or not. Default not.
-  if ( isset($_POST['cached']) ) {
-    $cached = $_POST['cached'] === 'true' ? true : false;
-  } else {
-    $cached = false;
-  }
+  $cached = isset($_POST['cached']) && $_POST['cached'] === 'true';
 
   // Prepare curl settings which are same for all requests
   $ch = curl_init($url);

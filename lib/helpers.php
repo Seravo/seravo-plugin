@@ -15,11 +15,17 @@ if ( ! class_exists('Helpers') ) {
   class Helpers {
 
     // Check if this if the site is running in Vagrant
+    /**
+     * @return bool
+     */
     public static function is_development() {
       return (getenv('WP_ENV') && getenv('WP_ENV') === 'development');
     }
 
     // Check if this is a live production site
+    /**
+     * @return bool
+     */
     public static function is_production() {
       return (getenv('WP_ENV') && getenv('WP_ENV') === 'production');
     }
@@ -27,6 +33,9 @@ if ( ! class_exists('Helpers') ) {
     // Check if this is staging shadow
     // There shouldn't be difference between this and production,
     // but might be useful in the future.
+    /**
+     * @return bool
+     */
     public static function is_staging() {
       return (getenv('WP_ENV') && getenv('WP_ENV') === 'staging');
     }
@@ -35,10 +44,13 @@ if ( ! class_exists('Helpers') ) {
       return get_file_data(plugin_dir_path(dirname(__FILE__)) . 'seravo-plugin.php', array( 'Version' ), 'plugin')[0];
     }
 
+    /**
+     * @return string
+     */
     public static function human_file_size( $size, $precision = 2 ) {
       $size = (int) $size; // 'wp db size' returns value with non-numeric characters
       for ( $i = 0; ($size / 1024) > 0.9; ) {
-        $i++;
+        ++$i;
         $size /= 1024;
       }
       return round($size, $precision) . array( 'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' )[ $i ];
@@ -65,6 +77,9 @@ if ( ! class_exists('Helpers') ) {
       return $range;
     }
 
+    /**
+     * @return bool
+     */
     public static function ip_in_range( $range, $ip ) {
       foreach ( $range as $limits ) {
         if ( $ip >= $limits[0] && $ip <= $limits[1] ) {
@@ -74,6 +89,9 @@ if ( ! class_exists('Helpers') ) {
       return false;
     }
 
+    /**
+     * @return string
+     */
     public static function sanitize_full_path( $file ) {
       $path = explode('/', $file);
       foreach ( $path as $index => $part ) {

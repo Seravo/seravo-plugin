@@ -12,8 +12,17 @@ if ( ! defined('ABSPATH') ) {
 
 if ( ! class_exists('Site_Health') ) {
   class Site_Health {
+    /**
+     * @var string[]|mixed[]|int[]|null
+     */
     private static $potential_issues;
+    /**
+     * @var string[]|mixed[]|int[]|null
+     */
     private static $no_issues;
+    /**
+     * @var string[]
+     */
     private static $bad_plugins = array(
       'https-domain-alias',
       'wp-palvelu-plugin',
@@ -78,7 +87,7 @@ if ( ! class_exists('Site_Health') ) {
 
       foreach ( $output as $line ) {
         if ( strpos($line, 'inactive') ) {
-          $inactive_themes++;
+          ++$inactive_themes;
         }
       }
 
@@ -107,7 +116,7 @@ if ( ! class_exists('Site_Health') ) {
       foreach ( $output as $line ) {
 
         if ( strpos($line, 'inactive') ) {
-          $inactive_plugins++;
+          ++$inactive_plugins;
         }
 
         foreach ( self::$bad_plugins as $plugin ) {
@@ -115,7 +124,7 @@ if ( ! class_exists('Site_Health') ) {
           if ( str_contains($line, $plugin) ) {
             $error_msg = '<b>' . $plugin . '</b> ' . __('is deprecated');
             self::$potential_issues[$error_msg] = $deprecated_tooltip;
-            $bad_plugins_found++;
+            ++$bad_plugins_found;
           }
         }
       }
@@ -170,6 +179,7 @@ if ( ! class_exists('Site_Health') ) {
 
     /**
      * Run the test set and return results.
+     * @return array<int, array<string, int>>
      */
     public static function check_site_status() {
       self::$potential_issues = array();
@@ -186,8 +196,7 @@ if ( ! class_exists('Site_Health') ) {
 
       self::$potential_issues['length'] = count(self::$potential_issues);
       self::$no_issues['length'] = count(self::$no_issues);
-      $result_array = array( self::$potential_issues, self::$no_issues );
-      return $result_array;
+      return array( self::$potential_issues, self::$no_issues );
     }
   }
 }

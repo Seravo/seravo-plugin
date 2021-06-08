@@ -18,12 +18,7 @@ if ( ! defined('ABSPATH') ) {
  */
 function seravo_logins_info( $max = 10 ) {
   $logfile = dirname(ini_get('error_log')) . '/wp-login.log';
-  if ( is_readable($logfile) ) {
-    // Get the latest logins from wp-login.log
-    $login_data = file($logfile);
-  } else {
-    $login_data = array();
-  }
+  $login_data = is_readable($logfile) ? file($logfile) : array();
 
   $login_data = preg_grep('/SUCCESS/', $login_data);
   // If the wp-login.log has less than $max entries check older log files
@@ -60,7 +55,7 @@ function seravo_logins_info( $max = 10 ) {
 
   // Clean up login lines, remove unnecessary characters
   $total_row_count = count($login_data);
-  for ( $i = 0; $i < $total_row_count; $i++ ) {
+  for ( $i = 0; $i < $total_row_count; ++$i ) {
     preg_match_all('/^(?<ip>[.:0-9a-f]+) - (?<name>[\w\-_.*@ ]+) \[(?<datetime>[\d\/\w: +]+)\]/', $login_data[ $i ], $matches);
 
     if ( isset($matches['ip'][0]) && isset($matches['name'][0]) && isset($matches['datetime'][0]) ) {
@@ -73,11 +68,7 @@ function seravo_logins_info( $max = 10 ) {
 
       // Fetch login IP and the reverse domain name
       $domain = gethostbyaddr($matches['ip'][0]);
-      if ( empty($domain) ) {
-        $address = $matches['ip'][0];
-      } else {
-        $address = $domain;
-      }
+      $address = empty($domain) ? $matches['ip'][0] : $domain;
 
       $login_data[ $i ] = '<tr>' .
         '<td class="seravo-tooltip" title="' . $date . ' ' . $time . '">' . $date . ' ' . $time . '</td>' .
@@ -106,9 +97,8 @@ function seravo_logins_info( $max = 10 ) {
 
   $login_data = array_reverse($login_data);
   $login_data = array_merge(array( $column_titles ), $login_data);
-  $login_data = array_merge($login_data, array( '</table>' ));
 
-  return $login_data;
+  return array_merge($login_data, array( '</table>' ));
 }
 
 function seravo_check_passwords() {

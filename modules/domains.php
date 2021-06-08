@@ -17,11 +17,17 @@ if ( ! defined('ABSPATH') ) {
 
 if ( ! class_exists('Domains') ) {
   class Domains {
+    /**
+     * @var \Seravo\Domains|null
+     */
     public static $instance;
 
     public static $domains_table;
     public static $mails_table;
 
+    /**
+     * @return \Seravo\Domains|null
+     */
     public static function init() {
       if ( is_null(self::$instance) ) {
         self::$instance = new Domains();
@@ -63,8 +69,8 @@ if ( ! class_exists('Domains') ) {
         $loc_translation_domains = array(
           'ajaxurl'             => admin_url('admin-ajax.php'),
           'ajax_nonce'          => wp_create_nonce('seravo_domains'),
-          'domains_load_failed' => __('Domains couldn\'t be loaded.', 'seravo'),
-          'section_failed'      => __('Couldn\'t fetch the section', 'seravo'),
+          'domains_load_failed' => __("Domains couldn't be loaded.", 'seravo'),
+          'section_failed'      => __("Couldn't fetch the section", 'seravo'),
           'zone_update_no_data' => __('No data returned for the update request.', 'seravo'),
           'zone_update_failed'  => __('The zone update failed!', 'seravo'),
           'zone_update_success' => __('The zone was updated succesfully!', 'seravo'),
@@ -75,10 +81,10 @@ if ( ! class_exists('Domains') ) {
           'primary_failed'      => __('Error! Primary domain might not have been changed.', 'seravo'),
           'primary_no_sr'       => __('Primary domain was changed but was not taken in use yet.', 'seravo'),
           'no_forwards'         => __('This domain has no mail forwards', 'seravo'),
-          'forwards_failed'     => __('Couldn\'t fetch mail forwards for this domain.', 'seravo'),
+          'forwards_failed'     => __("Couldn't fetch mail forwards for this domain.", 'seravo'),
           'forwards_none'       => __('No forwards were found for this domain.', 'seravo'),
           'forwards_edit_fail'  => __('Error! The action might have failed.', 'seravo'),
-          'forwards_no_source'  => __('Source field can\'t be empty.', 'seravo'),
+          'forwards_no_source'  => __("Source field can't be empty.", 'seravo'),
           'continue_edit'       => __('Continue', 'seravo'),
           'forwards'            => __('Forwards', 'seravo'),
         );

@@ -227,7 +227,7 @@ if ( ! class_exists('Security') ) {
       self::add_settings_field_with_desc(
         'seravo-disable-xml-rpc',
         __('Disable authenticated XML-RPC', 'seravo'),
-        __('Prevent brute-force attempts via XML-RPC. Disables e.g. using the WordPress mobile app. Doesn\'t affect the Jetpack plugin as its IPs are whitelisted.', 'seravo'),
+        __("Prevent brute-force attempts via XML-RPC. Disables e.g. using the WordPress mobile app. Doesn't affect the Jetpack plugin as its IPs are whitelisted.", 'seravo'),
         array( __CLASS__, 'seravo_security_xmlrpc_field' ),
         'tools_page_security_page',
         'seravo_security_settings'
@@ -438,15 +438,11 @@ if ( ! class_exists('Security') ) {
           foreach ( $files as $file ) {
             $legit_cruft_files = get_transient('cruft_files_found'); // Check first that the given file or directory is legitimate
             if ( in_array($file, $legit_cruft_files, true) ) {
-              if ( is_dir($file) ) {
-                $unlink_result = self::rmdir_recursive($file, 0);
-              } else {
-                $unlink_result = unlink($file);
-              }
+              $unlink_result = is_dir($file) ? self::rmdir_recursive($file, 0) : unlink($file);
               // else - Backwards compatible with old UI
               $result['success'] = (bool) $unlink_result;
               $result['filename'] = $file;
-              array_push($results, $result);
+              $results[] = $result;
             }
           }
           echo json_encode($results);
@@ -455,15 +451,18 @@ if ( ! class_exists('Security') ) {
       wp_die();
     }
 
+    /**
+     * @return bool|void
+     */
     public static function rmdir_recursive( $dir, $recursive ) {
       foreach ( scandir($dir) as $file ) {
         if ( '.' === $file || '..' === $file ) {
           continue; // Skip current and upper level directories
         }
-        if ( is_dir("$dir/$file") ) {
-          rmdir_recursive("$dir/$file", 1);
+        if ( is_dir("{$dir}/{$file}") ) {
+          rmdir_recursive("{$dir}/{$file}", 1);
         } else {
-          unlink("$dir/$file");
+          unlink("{$dir}/{$file}");
         }
       }
       rmdir($dir);

@@ -30,19 +30,19 @@ function seravo_db_cleanup( $options ) {
 
   if ( $options['dry_run'] === 'false' ) {
     $backup = 'wp-backup';
-    array_push($output, '<b>$ ' . $backup . '</b>');
+    $output[] = '<b>$ ' . $backup . '</b>';
     exec($backup . ' 2>&1', $output, $return_code);
   }
   // Only way this is not true, is if the backups fail
   if ( $options['dry_run'] === 'true' || $return_code === 0 ) {
-    array_push($output, '<b>$ ' . $command . '</b>');
+    $output[] = '<b>$ ' . $command . '</b>';
     $dry_run = exec($command . ' 2>&1', $output);
 
     if ( empty($dry_run) ) {
       $output[$command] = __('Nothing to be cleaned up', 'seravo');
     }
   } else {
-    array_push($output, 'Backup failed... Aborting');
+    $output[] = 'Backup failed... Aborting';
   }
   return $output;
 }

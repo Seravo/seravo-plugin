@@ -57,7 +57,13 @@ if ( ! defined('WP_CLI') ) {
 require_once dirname(__FILE__) . '/lib/security-restrictions.php';
 
 class Loader {
+  /**
+   * @var $this
+   */
   private static $_single; // Let's make this a singleton.
+  /**
+   * @var string
+   */
   private static $domain = 'seravo';
 
   public function __construct() {
@@ -69,19 +75,35 @@ class Loader {
     /*
      * Load translations
      */
-    add_action('plugins_loaded', array( $this, 'load_textdomain' ));
+    add_action(
+      'plugins_loaded',
+      function () {
+        return $this->load_textdomain();
+      }
+    );
 
     /*
      * Register early on the direct download add_action as it must trigger
      * before anything is sent to the output buffer.
      */
-    add_action('plugins_loaded', array( $this, 'protected_downloads' ));
+    add_action(
+      'plugins_loaded',
+      function () {
+        return $this->protected_downloads();
+      }
+    );
 
     /*
      * It is important to load plugins in init hook so that themes and plugins can override the functionality
      * Use smaller priority so that all plugins and themes are run first.
      */
-    add_action('init', array( $this, 'load_all_modules' ), 20);
+    add_action(
+      'init',
+      function () {
+        return $this->load_all_modules();
+      },
+      20
+    );
   }
 
   /**
@@ -139,7 +161,7 @@ class Loader {
 
       // Filename must be of correct form, e.g. 2016-09.html or home.png
       // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-      if ( isset($_GET['report']) && preg_match('/^[0-9]{4}-[0-9]{2}\.html$/', $_GET['report'], $matches) ) {
+      if ( isset($_GET['report']) && preg_match('/^\d{4}-\d{2}\.html$/', $_GET['report'], $matches) ) {
         self::x_accel_redirect('/data/slog/html/goaccess-' . $matches[0]);
       // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
       } elseif ( isset($_GET['screenshot']) && preg_match('/^[a-z-.]+\.png$/', $_GET['screenshot'], $matches) ) {

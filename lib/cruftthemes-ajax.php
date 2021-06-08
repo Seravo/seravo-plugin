@@ -22,7 +22,7 @@ function seravo_ajax_list_cruft_themes() {
         switch_to_blog($site->blog_id);
         $theme = wp_get_theme();
         if ( ! in_array($theme, $active_themes) ) {
-          array_push($active_themes, $theme->get_stylesheet());
+          $active_themes[] = $theme->get_stylesheet();
         }
         restore_current_blog();
       }

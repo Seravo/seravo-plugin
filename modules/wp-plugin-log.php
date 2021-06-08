@@ -26,12 +26,12 @@ if ( ! class_exists('PluginLog') ) {
     }
 
     public static function on_upgrader_process_complete( $upgrader = null, $arr_data = null ) {
-      // Check to make sure there's correct variables passed to this function
       if ( empty($upgrader) || empty($arr_data) ) {
-        return;
-      } elseif ( $arr_data['type'] !== null && $arr_data['action'] !== null ) {
-        $type = $arr_data['type'];
-        $action = $arr_data['action'];
+          return;
+      }
+      if ( $arr_data['type'] !== null && $arr_data['action'] !== null ) {
+          $type = $arr_data['type'];
+          $action = $arr_data['action'];
       } else {
         return;
       }
@@ -49,8 +49,6 @@ if ( ! class_exists('PluginLog') ) {
           self::write_log('updated plugin ' . $upgrader->plugin_info());
         }
       }
-
-      return;
     }
 
     public static function on_delete_plugin( $plugin = '' ) {
@@ -86,10 +84,10 @@ if ( ! class_exists('PluginLog') ) {
       $user_id = $current_user->ID;
       // eg ID is 0 when the change is made using WP CLI
       if ( $user_id === 0 ) {
-        fwrite($log_fp, "$time_local WP-CLI $message\n");
+        fwrite($log_fp, "{$time_local} WP-CLI {$message}\n");
       } else {
         $username = $current_user->user_login;
-        fwrite($log_fp, "$time_local User $username $message\n");
+        fwrite($log_fp, "{$time_local} User {$username} {$message}\n");
       }
       fclose($log_fp);
     }

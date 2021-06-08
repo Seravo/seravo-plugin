@@ -15,6 +15,9 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('Passwords') ) {
   class Passwords {
 
+    /**
+     * @var string|null
+     */
     private static $password_hash;
 
     /**
@@ -100,20 +103,20 @@ if ( ! class_exists('Passwords') ) {
         // Check if the password has been pwned
         exec('wp-check-haveibeenpwned --json ' . self::$password_hash . ' 2>&1', $pwned_check);
         $result = \json_decode(isset($pwned_check[0]) ? $pwned_check[0] : '', true);
-
         if ( count($pwned_check) === 0 || isset($result['error']) || ! isset($result['found']) ) {
-          // Something went wrong
-          error_log("Failed to run 'wp-check-haveibeenpwned'!");
-          return $redirect_to;
-        } elseif ( $result['found'] === false ) {
-          // Password not pwned
-          update_user_meta($user->ID, 'seravo_pwned_check', $time_now);
-          return $redirect_to;
-        } else {
-          // Password has been pwned!
-          self::show_pwned_alert($redirect_to, self::$password_hash);
-          exit();
+            // Something went wrong
+            error_log("Failed to run 'wp-check-haveibeenpwned'!");
+            return $redirect_to;
         }
+
+        if ( $result['found'] === false ) {
+            // Password not pwned
+            update_user_meta($user->ID, 'seravo_pwned_check', $time_now);
+            return $redirect_to;
+        }
+        // Password has been pwned!
+        self::show_pwned_alert($redirect_to, self::$password_hash);
+        exit();
       }
       return $redirect_to;
     }

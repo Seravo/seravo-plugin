@@ -14,10 +14,19 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('Logs') ) {
   class Logs {
 
+    /**
+     * @var string
+     */
     private $capability_required;
 
+    /**
+     * @var \Seravo\Logs|null
+     */
     public static $instance;
 
+    /**
+     * @return \Seravo\Logs|null
+     */
     public static function init() {
       if ( is_null(self::$instance) ) {
         self::$instance = new Logs();
@@ -33,8 +42,18 @@ if ( ! class_exists('Logs') ) {
         $this->capability_required = 'manage_network';
       }
 
-      add_action('admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ));
-      add_action('wp_ajax_fetch_log_rows', array( $this, 'ajax_fetch_log_rows' ));
+      add_action(
+        'admin_enqueue_scripts',
+        function ( $hook ) {
+          $this->admin_enqueue_styles($hook);
+        }
+      );
+      add_action(
+        'wp_ajax_fetch_log_rows',
+        function () {
+          $this->ajax_fetch_log_rows();
+        }
+      );
     }
 
     /**
@@ -103,17 +122,14 @@ if ( ! class_exists('Logs') ) {
       // Store all missing log names to an array
       $missing_logs = array_diff($log_names, $logs);
 
-      // Fetch rotated logs for each missing log and append them to $logs
-      if ( ! empty($missing_logs) ) {
-        foreach ( $missing_logs as $log ) {
-          $found_log = implode('', preg_grep('/([0-9]){8}$/', glob('{' . $log . '}-*', GLOB_BRACE)));
-          if ( ! empty($found_log) ) {
-            if ( $log === '/data/log/' . $default_logfile ) {
-              $found_log_path = explode('/', $found_log);
-              $default_logfile = end($found_log_path);
-            }
-            array_push($logs, $found_log);
+      foreach ( $missing_logs as $log ) {
+        $found_log = implode('', preg_grep('/(\d){8}$/', glob('{' . $log . '}-*', GLOB_BRACE)));
+        if ( ! empty($found_log) ) {
+          if ( $log === '/data/log/' . $default_logfile ) {
+            $found_log_path = explode('/', $found_log);
+            $default_logfile = end($found_log_path);
           }
+          $logs[] = $found_log;
         }
       }
 
@@ -122,7 +138,7 @@ if ( ! class_exists('Logs') ) {
 
       if ( ! file_exists($php_compatibility_log) ) {
         file_put_contents($php_compatibility_log, '');
-        array_push($logs, $php_compatibility_log);
+        $logs[] = $php_compatibility_log;
       }
 
       if ( empty($logs) ) {
@@ -133,16 +149,12 @@ if ( ! class_exists('Logs') ) {
       // Create an array of the logfiles with basename of log as key
       $logfiles = array();
 
-      foreach ( $logs as $key => $log ) {
+      foreach ( $logs as $log ) {
         $logfiles[ basename($log) ] = $log;
       }
 
       // Use supplied log name if given
-      if ( isset($_GET['logfile']) ) {
-        $current_logfile = $_GET['logfile'];
-      } else {
-        $current_logfile = $default_logfile;
-      }
+      $current_logfile = isset($_GET['logfile']) ? $_GET['logfile'] : $default_logfile;
 
       // Set logfile based on supplied log name if it's available
       if ( isset($logfiles[ $current_logfile ]) ) {
@@ -205,46 +217,44 @@ if ( ! class_exists('Logs') ) {
             data-regex="<?php echo esc_attr($regex); ?>">
             <table class="wp-list-table widefat striped" cellspacing="0">
               <tbody>
-                <?php $result = $this->render_rows($logfile, -1, $max_num_of_rows, $regex); ?>
+                <?php $this->render_rows($logfile, -1, $max_num_of_rows, $regex); ?>
               </tbody>
             </table>
           </div>
           <?php
         }
 
-        if ( ! is_null($logfile) ) {
-          if ( ! is_readable($logfile) ) {
-            ?>
+        if ( ! is_readable($logfile) ) {
+          ?>
             <div id="message" class="notice notice-error">
-              <p>
-                <?php
+            <p>
+              <?php
                 // translators: $s name of the logfile
-                printf(__("File %s does not exist or we don't have permissions to read it.", 'seravo'), $logfile);
-                ?>
+              printf(__("File %s does not exist or we don't have permissions to read it.", 'seravo'), $logfile);
+              ?>
               </p>
-            </div>
-            <?php
-          } elseif ( ! $result ) {
-            ?>
+          </div>
+          <?php
+          } elseif ( $result === 0 ) {
+          ?>
             <p>
-              <?php _e('Log empty', 'seravo'); ?>
+          <?php _e('Log empty', 'seravo'); ?>
             </p>
-            <?php
-            // result -1 is the signal that something went wrong with reading the log
-          } elseif ( $result === -1 ) {
-            ?>
+          <?php
+          // result -1 is the signal that something went wrong with reading the log
+        } elseif ( $result === -1 ) {
+          ?>
             <p>
-              <?php _e('Log is broken and can not be displayed.', 'seravo'); ?>
+            <?php _e('Log is broken and can not be displayed.', 'seravo'); ?>
             </p>
-            <?php
+          <?php
           } else {
-            ?>
+          ?>
             <p>
-              <?php _e('Scroll to load more lines from the log.', 'seravo'); ?>
+          <?php _e('Scroll to load more lines from the log.', 'seravo'); ?>
             </p>
-            <?php
+          <?php
           }
-        }
         ?>
     
         <div class="log-view-active"></div>
@@ -269,12 +279,12 @@ if ( ! class_exists('Logs') ) {
      * @param string $regex
      * @param int $cutoff_bytes
      * @access public
-     * @return void
+     * @return int
      */
     public function render_rows( $logfile, $offset, $lines, $regex = null, $cutoff_bytes = null ) {
 
       // escape special regex chars
-      $regex = '#' . preg_quote($regex) . '#';
+      $regex = '#' . preg_quote($regex, '#') . '#';
 
       $read_log = self::read_log_lines_backwards($logfile, $offset, $lines, $regex, $cutoff_bytes);
 
@@ -400,7 +410,7 @@ if ( ! class_exists('Logs') ) {
       }
 
       // the newline in the end accouts for an extra line
-      $lines--;
+      --$lines;
 
       // Set max amount of chunks to be read to match the lines wanted from the log
       $chunk_limit = max($lines, 10);
@@ -425,7 +435,7 @@ if ( ! class_exists('Logs') ) {
         // Read a chunk
         $chunk = fread($f, $seek);
 
-        $chunk_limit--;
+        --$chunk_limit;
         // Return false if we run over the chunk cap
         if ( $chunk_limit === 0 ) {
           $result['status'] = 'BAD_LOG_FILE';
@@ -461,8 +471,8 @@ if ( ! class_exists('Logs') ) {
         $limit = count($complete_lines);
         while ( $offset < -1 && $limit > 0 ) {
           array_pop($complete_lines);
-          $offset++;
-          $limit--;
+          ++$offset;
+          --$limit;
         }
 
         // apply a regex filter

@@ -27,7 +27,7 @@ if ( ! class_exists('HideUsers') ) {
         $current_user_name = wp_get_current_user()->user_login;
 
         // Exclude the current user from the users that will be hidden
-        $current_user_key = array_search($current_user_name, $users_to_hide);
+        $current_user_key = array_search($current_user_name, $users_to_hide, true);
         if ( $current_user_key !== false ) {
             unset($users_to_hide[$current_user_key]);
         }
@@ -46,6 +46,9 @@ if ( ! class_exists('HideUsers') ) {
     }
 
     // Array of users that will be hidden from WP user front-end, wp-cli output and WP Admin panel.
+    /**
+     * @var string[]
+     */
     private static $hidden_user_array = array( 'seravotest', 'seravo' );
 
   }

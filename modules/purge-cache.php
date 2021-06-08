@@ -94,7 +94,7 @@ if ( ! class_exists('Purge_Cache') ) {
       } else {
         // Run wp-purge-cache, return command code and output
         exec('wp-purge-cache 2>&1', $output, $return_code);
-        $response['success'] = (bool) ($return_code === 0);
+        $response['success'] = $return_code === 0;
         $response['output'] = implode("\n", $output);
       }
 

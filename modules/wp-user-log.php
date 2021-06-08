@@ -124,11 +124,7 @@ if ( ! class_exists('UserLog') ) {
       $current_user = wp_get_current_user();
       $user_id = $current_user->ID;
       // eg ID is 0 when the change is made using WP CLI
-      if ( $user_id === 0 ) {
-        $username = 'ID_0';
-      } else {
-        $username = $current_user->user_login;
-      }
+      $username = $user_id === 0 ? 'ID_0' : $current_user->user_login;
       $message = 'User ' . $username . ' (ID:' . $user_id . ') ' . $message;
       self::write_log($message);
     }
@@ -137,7 +133,7 @@ if ( ! class_exists('UserLog') ) {
       $time_local = date('j/M/Y:H:i:s O');
 
       $log_fp = fopen('/data/log/wp-user.log', 'a');
-      fwrite($log_fp, "$time_local $message\n");
+      fwrite($log_fp, "{$time_local} {$message}\n");
       fclose($log_fp);
     }
   }

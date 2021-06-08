@@ -52,8 +52,8 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
       exec(
         'wp-optimize-images --enable ' .
         ((get_option('seravo-enable-strip-image-metadata') === 'on') ? '--strip-metadata' : '') . ' ' .
-        '--set-max-resolution-width=' . intval($max_width) . ' ' .
-        '--set-max-resolution-height=' . intval($max_height) . ' ' .
+        '--set-max-resolution-width=' . (int) $max_width . ' ' .
+        '--set-max-resolution-height=' . (int) $max_height . ' ' .
         '"' . $filename . '"  > /dev/null &'
       );
       // Redirect output AND background command so that PHP execution proceeds
@@ -64,6 +64,9 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
     /*
      * Default WordPress JPEG quality is 82, which some find too low.
      * Override that with 90, which is almost always a high quality level.
+     */
+    /**
+     * @return int
      */
     public static function jpeg_thumbnail_quality() {
       return 90;

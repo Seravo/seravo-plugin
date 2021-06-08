@@ -79,6 +79,9 @@ if ( ! class_exists('Security_Restrictions') ) {
      * list of supported methods is empty.
      * See https://developer.wordpress.org/reference/hooks/xmlrpc_methods/
      */
+    /**
+     * @return mixed[]
+     */
     public static function remove_xmlrpc_methods() {
       return array();
     }
@@ -114,6 +117,9 @@ if ( ! class_exists('Security_Restrictions') ) {
 
     }
 
+    /**
+     * @return bool|void
+     */
     public static function maybe_block_xml_rpc() {
       $whitelist = self::get_jetpack_whitelist();
       $whitelist = apply_filters('seravo_xml_rpc_whitelist', $whitelist);
@@ -135,6 +141,9 @@ if ( ! class_exists('Security_Restrictions') ) {
       }
     }
 
+    /**
+     * @return array<int, mixed[]>|mixed[]|mixed
+     */
     public static function get_jetpack_whitelist() {
       $url = 'https://jetpack.com/ips-v4.json';
       $key = 'jetpack_xml_rpc_whitelist_' . md5($url);
@@ -151,14 +160,13 @@ if ( ! class_exists('Security_Restrictions') ) {
 
         if ( ! empty($data) ) {
           foreach ( $data as $ip ) {
-            array_push($whitelist, Helpers::cidr_to_range($ip));
+            $whitelist[] = Helpers::cidr_to_range($ip);
           }
           // Cache for 24 hours (DAY_IN_SECONDS)
           set_transient($key, $whitelist, DAY_IN_SECONDS);
           return $whitelist;
-        } else {
-          return array();
         }
+        return array();
       }
       return $data;
     }

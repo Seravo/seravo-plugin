@@ -36,22 +36,12 @@ function seravo_change_php_version() {
 
 function seravo_php_check_version() {
   $current_php_version = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-
-  if ( $current_php_version == sanitize_text_field($_REQUEST['version']) ) {
-    return true;
-  } else {
-    return false;
-  }
+  return $current_php_version === sanitize_text_field($_REQUEST['version']);
 }
 
 function seravo_plugin_version_check() {
   $current_version = Helpers::seravo_plugin_version();
-
-  if ( $current_version == seravo_plugin_upstream_version() ) {
-    return true;
-  } else {
-    return false;
-  }
+  return $current_version == seravo_plugin_upstream_version();
 }
 
 function seravo_plugin_upstream_version() {
@@ -70,23 +60,17 @@ function seravo_plugin_version_update() {
 
 function seravo_check_php_compatibility() {
   exec('wp-php-compatibility-check | grep "FOUND.*ERRORS AFFECTING.*" | awk \'{ print $2 }\'', $output, $return_value);
-  $return_arr = array(
+  return array(
     'output' => $output,
     'exit_code' => $return_value,
   );
-  return $return_arr;
 }
 
 function seravo_default_config_file() {
   exec('grep -l "^set \$mode php" /data/wordpress/nginx/*.conf | LC_COLLATE=C sort | tail -1', $config_file);
   $config_file = $config_file[0];
   $configs_array = array( '/data/wordpress/nginx/custom.conf', '/data/wordpress/nginx/examples.conf', '/data/wordpress/nginx/php.conf' );
-
-  if ( ! in_array($config_file, $configs_array) ) {
-    return false;
-  }
-
-  return true;
+  return in_array($config_file, $configs_array);
 }
 
 function seravo_check_php_config_files() {
@@ -115,12 +99,10 @@ function seravo_tests() {
   // Filter out command prompt stylings
   $pattern = '/\x1b\[[0-9;]*m/';
   $output = preg_replace($pattern, '', $output);
-
-  $return_arr = array(
+  return array(
     'test_result' => $output,
     'exit_code' => $return_variable,
   );
-  return $return_arr;
 }
 
 function seravo_changes_since() {
@@ -131,7 +113,7 @@ function seravo_changes_since() {
   try {
     $formal_date = new \DateTime($date);
     unset($formal_date);
-  } catch ( \Exception $e ) {
+  } catch ( \Exception $exception ) {
     $datenow = getdate();
     $y = $datenow['year'];
     $m = $datenow['mon'];
@@ -152,12 +134,10 @@ function seravo_changes_since() {
   $result_count .= exec($cmd . ' | wc -l');
   exec($cmd, $output);
 
-  $return_array = array(
+  return array(
     'rowCount' => $result_count,
     'output' => $output,
   );
-
-  return $return_array;
 }
 
 function seravo_ajax_upkeep( $date ) {
