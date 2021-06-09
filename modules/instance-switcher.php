@@ -234,7 +234,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
     /**
     * Let plugins or themes display admin notice when inside a shadow
     */
-    public static function render_shadow_admin_notice( $current_screen ) {
+    public static function render_shadow_admin_notice( $current_screen = null ) {
       $current_screen = get_current_screen();
       $admin_notice_content = apply_filters('seravo_instance_switcher_admin_notice', '', $current_screen);
       if ( ! empty($admin_notice_content) ) {
