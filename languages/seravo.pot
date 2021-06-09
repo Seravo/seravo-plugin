@@ -1,5 +1,5 @@
 # Copyright (C) 2021 Seravo Oy
-# This file is distributed under the same license as the Seravo Plugin plugin.
+# This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Plugin 1.9.29\n"
@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-04T10:33:54+03:00\n"
+"POT-Creation-Date: 2021-06-09T14:14:58+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: seravo\n"
 
 #. Plugin Name of the plugin
@@ -43,136 +43,136 @@ msgstr ""
 msgid "Nothing to be cleaned up"
 msgstr ""
 
-#: lib/domain-tables.php:55
-#: lib/domain-tables.php:57
+#: lib/domain-tables.php:56
+#: lib/domain-tables.php:58
 msgid "Primary"
 msgstr ""
 
-#: lib/domain-tables.php:62
 #: lib/domain-tables.php:63
+#: lib/domain-tables.php:64
 msgid "Subdomains don't have their own zone."
 msgstr ""
 
-#: lib/domain-tables.php:62
-#: lib/domain-tables.php:66
-#: lib/domain-tables.php:73
-#: lib/domain-tables.php:76
+#: lib/domain-tables.php:63
+#: lib/domain-tables.php:67
+#: lib/domain-tables.php:74
+#: lib/domain-tables.php:77
 msgid "View"
 msgstr ""
 
-#: lib/domain-tables.php:63
-#: lib/domain-tables.php:68
-#: lib/domain-tables.php:70
-#: lib/domain-tables.php:74
-#: lib/domain-tables.php:77
+#: lib/domain-tables.php:64
+#: lib/domain-tables.php:69
+#: lib/domain-tables.php:71
+#: lib/domain-tables.php:75
+#: lib/domain-tables.php:78
 msgid "Edit"
 msgstr ""
 
-#: lib/domain-tables.php:68
+#: lib/domain-tables.php:69
 msgid "DNS editing is disabled for this site."
 msgstr ""
 
-#: lib/domain-tables.php:74
+#: lib/domain-tables.php:75
 msgid "DNS not managed by Seravo."
 msgstr ""
 
-#: lib/domain-tables.php:76
 #: lib/domain-tables.php:77
+#: lib/domain-tables.php:78
 msgid "This domain doesn't have a zone."
 msgstr ""
 
-#: lib/domain-tables.php:82
+#: lib/domain-tables.php:83
 msgid "Make Primary (experimental)"
 msgstr ""
 
-#: lib/domain-tables.php:85
+#: lib/domain-tables.php:86
 msgid "This domain is already a primary domain."
 msgstr ""
 
-#: lib/domain-tables.php:85
+#: lib/domain-tables.php:86
 msgid "Make Primary"
 msgstr ""
 
-#: lib/domain-tables.php:118
-#: lib/domain-tables.php:328
+#: lib/domain-tables.php:119
+#: lib/domain-tables.php:331
 msgid "Domain"
 msgstr ""
 
-#: lib/domain-tables.php:119
+#: lib/domain-tables.php:120
 msgid "Expires"
 msgstr ""
 
-#: lib/domain-tables.php:120
+#: lib/domain-tables.php:121
 msgid "DNS"
 msgstr ""
 
-#: lib/domain-tables.php:121
+#: lib/domain-tables.php:122
 msgid "Managed by"
 msgstr ""
 
-#: lib/domain-tables.php:220
+#: lib/domain-tables.php:222
 msgid "Customer"
 msgstr ""
 
-#: lib/domain-tables.php:329
+#: lib/domain-tables.php:332
 #: modules/domains.php:91
 msgid "Forwards"
 msgstr ""
 
-#: lib/domain-tables.php:340
+#: lib/domain-tables.php:343
 msgid "Fetch"
 msgstr ""
 
-#: lib/domain-tables.php:341
+#: lib/domain-tables.php:344
 msgid "Create"
 msgstr ""
 
-#: lib/domain-tables.php:443
+#: lib/domain-tables.php:446
 msgid "Update time:"
 msgstr ""
 
-#: lib/domain-tables.php:448
+#: lib/domain-tables.php:451
 msgid "Name"
 msgstr ""
 
-#: lib/domain-tables.php:449
+#: lib/domain-tables.php:452
 msgid "TTL"
 msgstr ""
 
-#: lib/domain-tables.php:451
+#: lib/domain-tables.php:454
 msgid "Type"
 msgstr ""
 
-#: lib/domain-tables.php:452
+#: lib/domain-tables.php:455
 msgid "Value"
 msgstr ""
 
 #. translators: %s domain of the site
-#: lib/domain-tables.php:488
+#: lib/domain-tables.php:491
 msgid "Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:"
 msgstr ""
 
-#: lib/domain-tables.php:493
+#: lib/domain-tables.php:496
 msgid "Publish"
 msgstr ""
 
-#: lib/domain-tables.php:503
+#: lib/domain-tables.php:506
 msgid "Compulsory Records"
 msgstr ""
 
-#: lib/domain-tables.php:504
+#: lib/domain-tables.php:507
 msgid "It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them."
 msgstr ""
 
-#: lib/domain-tables.php:506
+#: lib/domain-tables.php:509
 msgid "Editable records"
 msgstr ""
 
-#: lib/domain-tables.php:507
+#: lib/domain-tables.php:510
 msgid "Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated."
 msgstr ""
 
-#: lib/domain-tables.php:514
+#: lib/domain-tables.php:517
 msgid "Update Zone"
 msgstr ""
 
@@ -205,19 +205,19 @@ msgstr ""
 msgid "Something went wrong, the forwards couln't be modified."
 msgstr ""
 
-#: lib/security-ajax.php:96
+#: lib/security-ajax.php:97
 msgid "No login data"
 msgstr ""
 
-#: lib/security-ajax.php:101
+#: lib/security-ajax.php:102
 msgid "Time"
 msgstr ""
 
-#: lib/security-ajax.php:102
+#: lib/security-ajax.php:103
 msgid "User"
 msgstr ""
 
-#: lib/security-ajax.php:103
+#: lib/security-ajax.php:104
 msgid "Address"
 msgstr ""
 
@@ -656,11 +656,10 @@ msgid "Most common autoloaded wp_option values:"
 msgstr ""
 
 #: modules/database.php:307
-#: modules/postbox-tools.php:67
 #: modules/sitestatus.php:297
 #: modules/sitestatus.php:747
-#: modules/upkeep.php:347
-#: modules/upkeep.php:675
+#: modules/upkeep.php:353
+#: modules/upkeep.php:681
 msgid "Toggle Details"
 msgstr ""
 
@@ -778,20 +777,21 @@ msgstr ""
 msgid "Now in"
 msgstr ""
 
-#: modules/instance-switcher.php:184
+#: modules/instance-switcher.php:188
 msgid "Exit Shadow"
 msgstr ""
 
-#: modules/instance-switcher.php:198
+#: modules/instance-switcher.php:202
 msgid "Shadows explained at Seravo.com/docs"
 msgstr ""
 
 #. translators: $s Identifier for the shadow instance in use
-#: modules/instance-switcher.php:223
+#: modules/instance-switcher.php:227
 msgid "Your current shadow instance is \"%s\"."
 msgstr ""
 
-#: modules/instance-switcher.php:224
+#. translators: $s Identifier for the shadow instance in use
+#: modules/instance-switcher.php:228
 msgid "Exit"
 msgstr ""
 
@@ -818,39 +818,39 @@ msgstr ""
 msgid "There is a problem trying to read the php-error.log. This is a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: modules/logs.php:122
+#: modules/logs.php:130
 msgid "No logs found in <code>/data/log/</code>."
 msgstr ""
 
-#: modules/logs.php:149
+#: modules/logs.php:158
 #: modules/toolbox.php:77
 #: modules/toolbox.php:78
 msgid "Logs"
 msgstr ""
 
-#: modules/logs.php:187
+#: modules/logs.php:196
 msgid "Filter"
 msgstr ""
 
 #. translators: $s name of the logfile
-#: modules/logs.php:207
+#: modules/logs.php:216
 msgid "File %s does not exist or we don't have permissions to read it."
 msgstr ""
 
-#: modules/logs.php:212
+#: modules/logs.php:221
 msgid "Log empty"
 msgstr ""
 
-#: modules/logs.php:217
+#: modules/logs.php:226
 msgid "Log is broken and can not be displayed."
 msgstr ""
 
-#: modules/logs.php:219
+#: modules/logs.php:228
 msgid "Scroll to load more lines from the log."
 msgstr ""
 
 #. translators: $s full path of the logfile
-#: modules/logs.php:230
+#: modules/logs.php:239
 msgid "Full log files can be found on the server in the path %s."
 msgstr ""
 
@@ -884,6 +884,7 @@ msgstr ""
 msgid "Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the front-end proxy immediately."
 msgstr ""
 
+#. translators: %s cache refresh interval
 #: modules/purge-cache.php:39
 msgid "Purge Cache"
 msgstr ""
@@ -1144,7 +1145,7 @@ msgid ""
 msgstr ""
 
 #: modules/security.php:358
-#: modules/upkeep.php:337
+#: modules/upkeep.php:343
 msgid "Run"
 msgstr ""
 
@@ -1269,13 +1270,13 @@ msgstr ""
 
 #: modules/sitestatus.php:194
 #: modules/sitestatus.php:445
-#: modules/upkeep.php:304
+#: modules/upkeep.php:310
 msgid "Success!"
 msgstr ""
 
 #: modules/sitestatus.php:195
 #: modules/sitestatus.php:460
-#: modules/upkeep.php:308
+#: modules/upkeep.php:314
 msgid "Failure!"
 msgstr ""
 
@@ -1819,56 +1820,60 @@ msgstr ""
 msgid "Unable to fetch the latest update log."
 msgstr ""
 
-#: modules/upkeep.php:248
+#: modules/upkeep.php:250
 msgid ""
 "Last succesful full site update was over a month ago. A developer should take\n"
 "              a look at the update log and fix the issue preventing the site from updating."
 msgstr ""
 
-#: modules/upkeep.php:254
+#: modules/upkeep.php:256
 msgid "Latest update.log:"
 msgstr ""
 
-#: modules/upkeep.php:257
+#: modules/upkeep.php:259
 msgid "See the logs page for more info."
 msgstr ""
 
-#: modules/upkeep.php:263
+#: modules/upkeep.php:265
 msgid "Latest successful full update"
 msgstr ""
 
-#: modules/upkeep.php:267
+#: modules/upkeep.php:269
 msgid "Latest attempted full update"
 msgstr ""
 
-#: modules/upkeep.php:274
+#: modules/upkeep.php:276
 msgid "Last 5 partial or attempted updates:"
 msgstr ""
 
+#: modules/upkeep.php:286
+msgid "No update attempts yet"
+msgstr ""
+
 #. translators: event count and update.log filename and updates.log and security.log paths
-#: modules/upkeep.php:288
+#: modules/upkeep.php:294
 msgid "For details about last %1$s update attempts by Seravo, see %2$s."
 msgstr ""
 
-#: modules/upkeep.php:301
+#: modules/upkeep.php:307
 msgid "Unknown!"
 msgstr ""
 
-#: modules/upkeep.php:302
+#: modules/upkeep.php:308
 msgid "No tests have been ran yet. They will be ran during upcoming updates. You can try beforehand if the tests will be succesful or not with the 'Update tests' feature below."
 msgstr ""
 
 #. translators: Link to Tests page
-#: modules/upkeep.php:306
+#: modules/upkeep.php:312
 msgid "Site baseline tests have passed and updates can run normally."
 msgstr ""
 
 #. translators: Link to Tests page
-#: modules/upkeep.php:310
+#: modules/upkeep.php:316
 msgid "Site baseline tests are failing and needs to be fixed before further updates are run."
 msgstr ""
 
-#: modules/upkeep.php:318
+#: modules/upkeep.php:324
 msgid ""
 "This tool can be used to run command <code>wp-backup-list-changes-since</code> \n"
 "        which finds folder and file changes in backup data since the given date. For example if you have started to have issues on your site, you can\n"
@@ -1877,106 +1882,106 @@ msgid ""
 "         <p>Backups are stored for 30 days which is also the maximum since offset.  </p>"
 msgstr ""
 
-#: modules/upkeep.php:328
+#: modules/upkeep.php:334
 msgid "Choose a since date"
 msgstr ""
 
-#: modules/upkeep.php:341
+#: modules/upkeep.php:347
 msgid "Click \"run\" to see changes"
 msgstr ""
 
 #. translators: link to log file
-#: modules/upkeep.php:363
+#: modules/upkeep.php:369
 msgid "Latest version is recommended if all plugins and theme support it. Check <a href=\"%s\">compatibility scan results.</a>"
 msgstr ""
 
-#: modules/upkeep.php:369
+#: modules/upkeep.php:375
 msgid "Check PHP compatibility"
 msgstr ""
 
-#: modules/upkeep.php:376
+#: modules/upkeep.php:382
 msgid "See also <a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version\">more information on PHP version upgrades</a>."
 msgstr ""
 
-#: modules/upkeep.php:426
+#: modules/upkeep.php:432
 msgid "I'm aware of the risks associated with edits to the PHP configuration files and want to proceed with the change."
 msgstr ""
 
-#: modules/upkeep.php:430
+#: modules/upkeep.php:436
 msgid "Change version"
 msgstr ""
 
-#: modules/upkeep.php:435
+#: modules/upkeep.php:441
 msgid "Activating... Please wait up to 30 seconds"
 msgstr ""
 
 #. translators: link to log file
-#: modules/upkeep.php:442
+#: modules/upkeep.php:448
 msgid "PHP version has been changed succesfully! Please check <a href=\"%s\">php-error.log</a> for regressions."
 msgstr ""
 
-#: modules/upkeep.php:447
+#: modules/upkeep.php:453
 msgid "PHP version change failed."
 msgstr ""
 
-#: modules/upkeep.php:454
+#: modules/upkeep.php:460
 msgid "Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here."
 msgstr ""
 
 #. translators: current Seravo plugin version
-#: modules/upkeep.php:459
+#: modules/upkeep.php:465
 msgid "Current version: %s"
 msgstr ""
 
 #. translators: upstream Seravo plugin version
-#: modules/upkeep.php:468
+#: modules/upkeep.php:474
 msgid "Upstream version: %s"
 msgstr ""
 
-#: modules/upkeep.php:473
+#: modules/upkeep.php:479
 msgid "The currently installed version is the same as the latest available version."
 msgstr ""
 
-#: modules/upkeep.php:474
+#: modules/upkeep.php:480
 msgid "There is a new version available"
 msgstr ""
 
-#: modules/upkeep.php:475
+#: modules/upkeep.php:481
 msgid "Seravo Plugin updated"
 msgstr ""
 
-#: modules/upkeep.php:478
+#: modules/upkeep.php:484
 msgid "Updating... Please wait up to 5 seconds"
 msgstr ""
 
-#: modules/upkeep.php:480
+#: modules/upkeep.php:486
 msgid "Update plugin now"
 msgstr ""
 
-#: modules/upkeep.php:494
+#: modules/upkeep.php:500
 msgid "The Difference"
 msgstr ""
 
-#: modules/upkeep.php:557
+#: modules/upkeep.php:563
 msgid "No screenshots found. They will become available during the next attempted update."
 msgstr ""
 
-#: modules/upkeep.php:571
+#: modules/upkeep.php:577
 msgid "Current State"
 msgstr ""
 
-#: modules/upkeep.php:572
+#: modules/upkeep.php:578
 msgid "Update Attempt"
 msgstr ""
 
-#: modules/upkeep.php:663
+#: modules/upkeep.php:669
 msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\" target=\"_BLANK\"> Seravo Developer Documentation</a>."
 msgstr ""
 
-#: modules/upkeep.php:666
+#: modules/upkeep.php:672
 msgid "Run Tests"
 msgstr ""
 
-#: modules/upkeep.php:669
+#: modules/upkeep.php:675
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr ""
