@@ -89,12 +89,10 @@ if ( ! class_exists('Postbox_Tools') ) {
                 '<div class="dashicons dashicons-arrow-down-alt2" id="seravo_arrow_"' . $id . '_show_more>
                         </div> </a> </div>';
 
-            $wrapper .= '<div class="seravo-result-wrapper">
+            return $wrapper . ('<div class="seravo-result-wrapper">
                         <div class="seravo_result_wrapper_title">' . $title . '</div>
                         <div class="seravo-result"> <div id="' . $id . '"></div> </div>' .
-                $toggle_icons . '</div>';
-
-            return $wrapper;
+                $toggle_icons . '</div>');
         }
     }
 }
