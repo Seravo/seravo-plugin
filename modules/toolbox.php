@@ -19,7 +19,7 @@ if ( ! class_exists('SeravoToolbox') ) {
         __('Site Status', 'seravo'),
         'manage_options',
         'site_status_page',
-        'Seravo\seravo_postboxes_page'
+        'Seravo\Postbox\seravo_postboxes_page'
       );
 
       add_submenu_page(
@@ -28,7 +28,7 @@ if ( ! class_exists('SeravoToolbox') ) {
         __('Upkeep', 'seravo'),
         'manage_options',
         'upkeep_page',
-        'Seravo\seravo_two_column_postboxes_page'
+        'Seravo\Postbox\seravo_two_column_postboxes_page'
       );
 
       add_submenu_page(
@@ -37,7 +37,7 @@ if ( ! class_exists('SeravoToolbox') ) {
         __('Database', 'seravo'),
         'manage_options',
         'database_page',
-        'Seravo\seravo_postboxes_page'
+        'Seravo\Postbox\seravo_postboxes_page'
       );
 
       // Only show the menu item on systems where wp-backup is available
@@ -48,7 +48,7 @@ if ( ! class_exists('SeravoToolbox') ) {
           __('Backups', 'seravo'),
           'manage_options',
           'backups_page',
-          'Seravo\seravo_two_column_postboxes_page'
+          'Seravo\Postbox\seravo_two_column_postboxes_page'
         );
       }
 
@@ -58,7 +58,7 @@ if ( ! class_exists('SeravoToolbox') ) {
         __('Security', 'seravo'),
         'manage_options',
         'security_page',
-        'Seravo\seravo_postboxes_page'
+        'Seravo\Postbox\seravo_postboxes_page'
       );
 
       if ( getenv('WP_ENV') === 'production' ) {
@@ -68,7 +68,7 @@ if ( ! class_exists('SeravoToolbox') ) {
           __('Domains', 'seravo'),
           'manage_options',
           'domains_page',
-          'Seravo\seravo_wide_column_postboxes_page'
+          'Seravo\Postbox\seravo_wide_column_postboxes_page'
         );
       }
 

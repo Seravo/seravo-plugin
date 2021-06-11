@@ -42,7 +42,7 @@ if ( ! class_exists('Database') ) {
       add_action('wp_ajax_seravo_wp_db_info', 'Seravo\seravo_ajax_get_wp_db_info');
       add_action('wp_ajax_seravo_db_cleanup', 'Seravo\seravo_ajax_db_cleanup');
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'database-access',
         __('Database Access', 'seravo'),
         array( __CLASS__, 'database_access_postbox' ),
@@ -50,7 +50,7 @@ if ( ! class_exists('Database') ) {
         'normal'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'database-adminer',
         __('Manage the Database with Adminer', 'seravo'),
         array( __CLASS__, 'database_adminer_postbox' ),
@@ -58,7 +58,7 @@ if ( ! class_exists('Database') ) {
         'normal'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'database-search-replace',
         __('Search-Replace Tool', 'seravo'),
         array( __CLASS__, 'database_search_replace_postbox' ),
@@ -66,7 +66,7 @@ if ( ! class_exists('Database') ) {
         'side'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'database-cleanup',
         __('Database Cleanup Tool', 'seravo'),
         array( __CLASS__, 'database_cleanup_postbox' ),
@@ -74,7 +74,7 @@ if ( ! class_exists('Database') ) {
         'side'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'database-size',
         __('Database Size', 'seravo'),
         array( __CLASS__, 'database_size_postbox' ),

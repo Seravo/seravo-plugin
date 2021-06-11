@@ -37,7 +37,7 @@ if ( ! class_exists('Domains') ) {
     }
 
     public function __construct() {
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'domains-management',
         __('Domains', 'seravo'),
         array( __CLASS__, 'render_domains_postbox' ),
@@ -45,7 +45,7 @@ if ( ! class_exists('Domains') ) {
         'normal'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'mailforwards-management',
         __('Mails', 'seravo'),
         array( __CLASS__, 'render_mails_postbox' ),

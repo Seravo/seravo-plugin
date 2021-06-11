@@ -1,9 +1,11 @@
 <?php
 /**
- * File for Seravo custom postbox functionality.
+ * File for Seravo postbox rendering and common functionality.
  */
 
-namespace Seravo;
+namespace Seravo\Postbox;
+
+use \Seravo\Helpers;
 
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
@@ -19,7 +21,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Instance of this class.
-     * @var null|\Seravo\Seravo_Postbox_Factory
+     * @var \Seravo\Postbox\Seravo_Postbox_Factory|null
      */
     private static $instance;
 
@@ -132,13 +134,15 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      */
     public function enqueue_postboxes_scripts() {
       if ( ! empty($this->postboxes) ) {
-        wp_enqueue_script('seravo_postbox', plugin_dir_url(__DIR__) . 'js/seravo-postbox.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
+        wp_enqueue_script('seravo_postbox', plugin_dir_url(__DIR__) . '../js/postbox/seravo-postbox.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
         $postbox_l10n = array(
           'postBoxEmptyString' => __('Drag boxes here', 'seravo'),
         );
 
+        wp_enqueue_script('seravo_ajax', plugin_dir_url(__DIR__) . '../js/postbox/seravo-ajax.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
+
         wp_localize_script('seravo_postbox', 'seravoPostboxl10n', $postbox_l10n);
-        wp_enqueue_style('seravo_postbox', plugin_dir_url(__DIR__) . 'style/seravo-postbox.css', array(), Helpers::seravo_plugin_version());
+        wp_enqueue_style('seravo_postbox', plugin_dir_url(__DIR__) . '../style/seravo-postbox.css', array(), Helpers::seravo_plugin_version());
       }
     }
 
@@ -318,7 +322,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
         <!-- Postbox content -->
         <div class="inside">
           <div class="seravo-section">
-            <?php call_user_func_array($postbox_content['callback'], $postbox_content['callback_args']); ?>
+            <?php \call_user_func_array($postbox_content['callback'], $postbox_content['callback_args']); ?>
           </div>
         </div>
       </div>
@@ -345,9 +349,30 @@ if ( ! isset($seravo_postbox_factory) ) {
  * @param string       $context       Default admin dashboard context where the postbox should be displayed in.
  * @param array[mixed] $callback_args Array of arguments that will get passed to the callback function.
  */
-function seravo_add_postbox( $id, $title, $callback, $screen = 'tools_page', $context = 'normal', $callback_args = array() ) {
+function seravo_add_raw_postbox( $id, $title, $callback, $screen = 'tools_page', $context = 'normal', $callback_args = array() ) {
   global $seravo_postbox_factory;
   $seravo_postbox_factory->add_postbox($id, $title, $callback, $screen, $context, $callback_args);
+}
+
+/**
+ * Add a Seravo postbox. This function is only a wrapper for Seravo_Postbox_Factory::add_postbox, but
+ * it unifies the Postbox API with the WP core add_meta_box.
+ * @param string                  $screen Admin screen id where the postbox should be displayed in.
+ * @param \Seravo\Postbox\Postbox $postbox Seravo Postbox to be added.
+ */
+function seravo_add_postbox( $screen, Postbox $postbox ) {
+  global $seravo_postbox_factory;
+
+  $seravo_postbox_factory->add_postbox(
+    $postbox->id,
+    $postbox->title,
+    function () use ( $postbox ) {
+      return $postbox->_build();
+    },
+    $screen,
+    $postbox->context,
+    array()
+  );
 }
 
 /**

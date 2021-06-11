@@ -26,7 +26,7 @@ if ( ! class_exists('Backups') ) {
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_backups_capability' ));
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'backups-info',
         __('Backups', 'seravo'),
         array( __CLASS__, 'backups_info_postbox' ),
@@ -34,7 +34,7 @@ if ( ! class_exists('Backups') ) {
         'normal'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'backups-create',
         __('Create a New Backup', 'seravo'),
         array( __CLASS__, 'backups_create_postbox' ),
@@ -42,7 +42,7 @@ if ( ! class_exists('Backups') ) {
         'normal'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'backups-excludes',
         __('Files Excluded from the Backups', 'seravo'),
         array( __CLASS__, 'backups_excludes_postbox' ),
@@ -50,7 +50,7 @@ if ( ! class_exists('Backups') ) {
         'side'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'backups-list',
         __('Current Backups', 'seravo'),
         array( __CLASS__, 'backups_list_postbox' ),

@@ -21,7 +21,7 @@ if ( ! class_exists('Upkeep') ) {
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
 
       if ( getenv('WP_ENV') === 'production' ) {
-        seravo_add_postbox(
+        \Seravo\Postbox\seravo_add_raw_postbox(
           'site-status',
           __('Update Status', 'seravo'),
           array( __CLASS__, 'site_status_postbox' ),
@@ -29,7 +29,7 @@ if ( ! class_exists('Upkeep') ) {
           'normal'
         );
 
-        seravo_add_postbox(
+        \Seravo\Postbox\seravo_add_raw_postbox(
           'tests-status',
           __('Tests Status', 'seravo'),
           array( __CLASS__, 'tests_status_postbox' ),
@@ -38,7 +38,7 @@ if ( ! class_exists('Upkeep') ) {
         );
       }
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'backup-list-changes',
         __('Changes Status', 'seravo'),
         array( __CLASS__, 'backup_list_changes' ),
@@ -46,7 +46,7 @@ if ( ! class_exists('Upkeep') ) {
         'normal'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'tests',
         __('Update tests', 'seravo'),
         array( __CLASS__, 'tests_postbox' ),
@@ -55,7 +55,7 @@ if ( ! class_exists('Upkeep') ) {
       );
 
       if ( getenv('WP_ENV') === 'production' ) {
-        seravo_add_postbox(
+        \Seravo\Postbox\seravo_add_raw_postbox(
           'seravo-updates',
           __('Seravo Updates', 'seravo'),
           array( __CLASS__, 'seravo_updates_postbox' ),
@@ -63,7 +63,7 @@ if ( ! class_exists('Upkeep') ) {
           'normal'
         );
 
-        seravo_add_postbox(
+        \Seravo\Postbox\seravo_add_raw_postbox(
           'screenshots',
           __('Screenshots', 'seravo'),
           array( __CLASS__, 'screenshots_postbox' ),
@@ -72,7 +72,7 @@ if ( ! class_exists('Upkeep') ) {
         );
       }
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'change-php-version',
         __('Change PHP Version', 'seravo'),
         array( __CLASS__, 'change_php_version_postbox' ),
@@ -80,7 +80,7 @@ if ( ! class_exists('Upkeep') ) {
         'side'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'seravo-plugin-updater',
         __('Seravo Plugin Updater', 'seravo'),
         array( __CLASS__, 'seravo_plugin_updater_postbox' ),

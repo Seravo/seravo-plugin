@@ -47,7 +47,7 @@ if ( ! class_exists('Site_Status') ) {
       add_action('wp_ajax_seravo_speed_test', 'Seravo\seravo_speed_test');
 
       if ( getenv('WP_ENV') === 'production' ) {
-        seravo_add_postbox(
+        \Seravo\Postbox\seravo_add_raw_postbox(
           'site-info',
           __('Site Information', 'seravo'),
           array( __CLASS__, 'seravo_site_info' ),
@@ -57,7 +57,7 @@ if ( ! class_exists('Site_Status') ) {
       }
 
       // Add HTTP request stats postbox
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'http-request-statistics',
         __('HTTP Request Statistics', 'seravo'),
         array( __CLASS__, 'seravo_http_request_statistics' ),
@@ -66,7 +66,7 @@ if ( ! class_exists('Site_Status') ) {
       );
 
       // Add cache status postbox
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'cache-status',
         __('Cache Status', 'seravo'),
         array( __CLASS__, 'seravo_cache_status' ),
@@ -75,7 +75,7 @@ if ( ! class_exists('Site_Status') ) {
       );
 
       if ( getenv('WP_ENV') === 'production' ) {
-        seravo_add_postbox(
+        \Seravo\Postbox\seravo_add_raw_postbox(
           'shadows',
           __('Shadows', 'seravo'),
           array( __CLASS__, 'seravo_shadows_postbox' ),
@@ -85,7 +85,7 @@ if ( ! class_exists('Site_Status') ) {
       }
 
       // Add disk usage postbox
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'disk-usage',
         __('Disk Usage', 'seravo'),
         array( __CLASS__, 'seravo_disk_usage' ),
@@ -93,7 +93,7 @@ if ( ! class_exists('Site_Status') ) {
         'side'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'optimize-images',
         __('Optimize Images', 'seravo'),
         array( __CLASS__, 'optimize_images_postbox' ),
@@ -101,7 +101,7 @@ if ( ! class_exists('Site_Status') ) {
         'side'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'speed-test',
         __('Speed test', 'seravo'),
         array( __CLASS__, 'speed_test' ),
@@ -109,7 +109,7 @@ if ( ! class_exists('Site_Status') ) {
         'side'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'sanitize-uploads',
         __('Sanitize uploads', 'seravo'),
         array( __CLASS__, 'sanitize_uploads' ),
@@ -117,7 +117,7 @@ if ( ! class_exists('Site_Status') ) {
         'side'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'site-checks',
         __('Site checks', 'seravo'),
         array( __CLASS__, 'site_checks' ),

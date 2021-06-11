@@ -44,7 +44,7 @@ if ( ! class_exists('Security') ) {
       add_action('wp_ajax_seravo_list_cruft_themes', 'Seravo\seravo_ajax_list_cruft_themes');
       add_action('wp_ajax_seravo_remove_themes', 'Seravo\seravo_ajax_remove_themes');
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'security_info',
         __('Security', 'seravo'),
         array( __CLASS__, 'security_info_postbox' ),
@@ -52,7 +52,7 @@ if ( ! class_exists('Security') ) {
         'normal'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'logins_info',
         __('Last successful logins', 'seravo'),
         array( __CLASS__, 'logins_info_postbox' ),
@@ -60,7 +60,7 @@ if ( ! class_exists('Security') ) {
         'side'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'check_passwords',
         __('Check passwords (Beta)', 'seravo'),
         array( __CLASS__, 'check_passwords_postbox' ),
@@ -68,7 +68,7 @@ if ( ! class_exists('Security') ) {
         'side'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'cruft-files',
         __('Cruft Files', 'seravo'),
         array( __CLASS__, 'cruftfiles_postbox' ),
@@ -76,7 +76,7 @@ if ( ! class_exists('Security') ) {
         'column3'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'cruft-plugins',
         __('Unnecessary plugins', 'seravo'),
         array( __CLASS__, 'cruftplugins_postbox' ),
@@ -84,7 +84,7 @@ if ( ! class_exists('Security') ) {
         'column4'
       );
 
-      seravo_add_postbox(
+      \Seravo\Postbox\seravo_add_raw_postbox(
         'cruft-themes',
         __('Unnecessary themes', 'seravo'),
         array( __CLASS__, 'cruftthemes_postbox' ),
