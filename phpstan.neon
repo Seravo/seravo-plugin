@@ -1,7 +1,10 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
 parameters:
+    level: 0
+    # TODO level: max
     scanFiles:
-        - src/lib/list-table.php
-        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
         - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
-        - vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php
-        - vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php
+    paths:
+        - seravo-plugin.php
+        - src/
