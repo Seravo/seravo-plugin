@@ -29,10 +29,6 @@ if ( ! class_exists('Template') ) {
      * @param string $content The content to display.
      * @param string $class Paragraph class to apply.
      * @return \Seravo\Postbox\Component Paragraph component.
-     * Display HTML paragraph with given content
-     * @param string $content The content to display
-     * @param string $class Paragraph class to apply
-     * @return \Seravo\Postbox\Component Return the HTML code
      */
     public static function paragraph( $content, $class = 'paragraph-text' ) {
       return Component::from_raw('<p class="' . $class . '">' . $content . '</p>');
@@ -42,9 +38,6 @@ if ( ! class_exists('Template') ) {
      * Display basic Seravo Plugin widget text.
      * @param string $content The content to display.
      * @return \Seravo\Postbox\Component Div component using postbox-text class.
-     * Display basic Seravo Plugin widget text
-     * @param string $content The content to display
-     * @return \Seravo\Postbox\Component Return the HTML code
      */
     public static function text( $content ) {
       return Component::from_raw('<div class="postbox-text">' . $content . '</div>');
@@ -54,9 +47,6 @@ if ( ! class_exists('Template') ) {
      * Display section title on widget.
      * @param string $content The given title to display.
      * @return \Seravo\Postbox\Component Title component.
-     * Display section title on widget
-     * @param string $content The given title to display
-     * @return \Seravo\Postbox\Component Return the HTML code
      */
     public static function section_title( $content ) {
       return Component::from_raw('<h3>' . $content . '</h3>');
@@ -77,9 +67,6 @@ if ( ! class_exists('Template') ) {
      * Display Seravo Plugin tooltip.
      * @param string $tooltiptext The given content to display on tooltip.
      * @return \Seravo\Postbox\Component Tooltip component.
-     * Display Seravo Plugin tooltip
-     * @param string $tooltiptext The given content to display on tooltip
-     * @return \Seravo\Postbox\Component Return the HTML code
      */
     public static function tooltip( $tooltiptext ) {
       return Component::from_raw(
@@ -92,9 +79,6 @@ if ( ! class_exists('Template') ) {
      * Display spinner image. In default it's hidden.
      * @param string $id Id for this spinner.
      * @return \Seravo\Postbox\Component Spinner component.
-     * Display spinner image. In default it's hidden
-     * @param string $id Id for this spinner
-     * @return \Seravo\Postbox\Component Return the HTML code
      */
     public static function spinner( $id ) {
       return Component::from_raw('<div id="' . $id . '"><img src="/wp-admin/images/spinner.gif" hidden></div>');

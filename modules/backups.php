@@ -7,6 +7,12 @@
 
 namespace Seravo;
 
+use Seravo\Postbox\Component;
+use Seravo\Postbox\Postbox;
+use Seravo\Postbox\Requirements;
+use Seravo\Postbox\Template;
+use Seravo\Postbox\Toolpage;
+
 require_once dirname(__FILE__) . '/../lib/backups-ajax.php';
 require_once dirname(__FILE__) . '/postbox-tools.php';
 
@@ -27,7 +33,7 @@ if ( ! class_exists('Backups') ) {
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_backups_capability' ));
 
-      \Seravo\Postbox\seravo_add_raw_postbox(
+      /* \Seravo\Postbox\seravo_add_raw_postbox(
         'backups-info',
         __('Backups', 'seravo'),
         array( __CLASS__, 'backups_info_postbox' ),
@@ -57,16 +63,33 @@ if ( ! class_exists('Backups') ) {
         array( __CLASS__, 'backups_list_postbox' ),
         'tools_page_backups_page',
         'side'
+      ); */
+
+      $page = new Toolpage('tools_page_backups_page');
+      $test_widget = new Postbox('backup-widget', 'normal');
+      $test_widget->set_title('Test widget');
+      //$test_widget->set_data_func(array( __CLASS__, 'backups_info_postbox' ));
+      $test_widget->set_build_func(array( __CLASS__, 'my_test_builder' ));
+      $test_widget->set_requirements(
+        array(
+          Requirements::CAN_BE_PRODUCTION => true,
+        )
       );
 
-      seravo_add_postbox(
-        'test',
-        __('Test Widget', 'seravo'),
-        array( __CLASS__, 'display_test_widget' ),
-        'tools_page_backups_page',
-        'side'
-      );
+      $page->enable_ajax();
+      $page->register_postbox($test_widget);
+      $page->register_page();
 
+    }
+
+    public static function my_test_builder( Component $base, $data ) {
+      $base->set_wrapper('<h3>', '</h3>');
+      $base->add_child(Template::error_paragraph('Error haatana'));
+      $base->add_child(Template::section_title('Test widget'));
+      $base->add_child(Template::spinner('my_spinner'));
+      $base->add_child(Template::tooltip('My tooltip'));
+      $base->add_child(Template::success_failure(true));
+      $base->add_child(Template::success_failure(false));
     }
 
     /**
