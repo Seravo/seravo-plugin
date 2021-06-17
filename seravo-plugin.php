@@ -25,7 +25,7 @@ if ( ! defined('SERAVO_PLUGIN_DIR') ) {
   define('SERAVO_PLUGIN_DIR', plugin_dir_path(__FILE__));
 }
 if ( ! defined('SERAVO_PLUGIN_SRC') ) {
-  define('SERAVO_PLUGIN_SRC', SERAVO_PLUGIN_DIR . '');
+  define('SERAVO_PLUGIN_SRC', SERAVO_PLUGIN_DIR . 'src/');
 }
 
 /*
