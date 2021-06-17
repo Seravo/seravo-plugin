@@ -5,7 +5,7 @@
 
 namespace Seravo;
 
-require_once dirname(dirname(__FILE__)) . '/vendor/autoload.php';
+require_once SERAVO_PLUGIN_DIR . 'vendor/autoload.php';
 
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {

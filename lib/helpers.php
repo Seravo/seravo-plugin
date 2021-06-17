@@ -44,7 +44,7 @@ if ( ! class_exists('Helpers') ) {
     }
 
     public static function seravo_plugin_version() {
-      return get_file_data(plugin_dir_path(dirname(__FILE__)) . 'seravo-plugin.php', array( 'Version' ), 'plugin')[0];
+      return get_file_data(SERAVO_PLUGIN_DIR . 'seravo-plugin.php', array( 'Version' ), 'plugin')[0];
     }
 
     /**

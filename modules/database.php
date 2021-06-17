@@ -12,9 +12,9 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once dirname(__FILE__) . '/../lib/search-replace-ajax.php';
-require_once dirname(__FILE__) . '/../lib/db-cleanup-ajax.php';
-require_once dirname(__FILE__) . '/../lib/database-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/search-replace-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/db-cleanup-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/database-ajax.php';
 
 if ( ! class_exists('Database') ) {
   class Database {
@@ -91,15 +91,15 @@ if ( ! class_exists('Database') ) {
      */
     public static function enqueue_database_scripts( $page ) {
 
-      wp_register_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css', '', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_database', SERAVO_PLUGIN_URL . 'style/database.css', '', Helpers::seravo_plugin_version());
       wp_register_script('apexcharts-js', 'https://cdn.jsdelivr.net/npm/apexcharts', '', Helpers::seravo_plugin_version(), true);
 
       if ( $page === 'tools_page_database_page' ) {
         wp_enqueue_style('seravo_database');
         wp_enqueue_script('apexcharts-js');
-        wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-        wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-        wp_enqueue_script('seravo_database', plugins_url('../js/database.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('color-hash', SERAVO_PLUGIN_URL . 'js/color-hash.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('reports-chart', SERAVO_PLUGIN_URL . 'js/reports-chart.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('seravo_database', SERAVO_PLUGIN_URL . 'js/database.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
 
         $loc_translation_database = array(
           'ajaxurl'    => admin_url('admin-ajax.php'),

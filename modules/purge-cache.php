@@ -45,8 +45,8 @@ if ( ! class_exists('Purge_Cache') ) {
      * Load required scripts and styles for this module
      */
     public static function enqueue_scripts() {
-      wp_enqueue_style('seravo_purge_cache', plugin_dir_url(__DIR__) . 'style/purge-cache.css', '', Helpers::seravo_plugin_version());
-      wp_enqueue_script('seravo_purge_cache', plugins_url('../js/purge-cache.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+      wp_enqueue_style('seravo_purge_cache', SERAVO_PLUGIN_URL . 'style/purge-cache.css', '', Helpers::seravo_plugin_version());
+      wp_enqueue_script('seravo_purge_cache', SERAVO_PLUGIN_URL . 'js/purge-cache.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
       $loc_array = array(
         'seravo_purge_cache_nonce' => wp_create_nonce('seravo_purge_cache_nonce'),
         'ajax_url'                 => admin_url('admin-ajax.php'),

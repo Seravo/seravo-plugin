@@ -9,10 +9,10 @@
 
 namespace Seravo;
 
-require_once dirname(__FILE__) . '/../lib/security-ajax.php';
-require_once dirname(__FILE__) . '/../lib/cruftfiles-ajax.php';
-require_once dirname(__FILE__) . '/../lib/cruftplugins-ajax.php';
-require_once dirname(__FILE__) . '/../lib/cruftthemes-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/security-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/cruftfiles-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/cruftplugins-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/cruftthemes-ajax.php';
 
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
@@ -100,13 +100,13 @@ if ( ! class_exists('Security') ) {
      * @param string $page hook name
      */
     public static function register_security_scripts( $page ) {
-      wp_register_script('seravo_security', plugin_dir_url(__DIR__) . '/js/security.js', '', Helpers::seravo_plugin_version());
-      wp_register_style('seravo_security', plugin_dir_url(__DIR__) . '/style/security.css', '', Helpers::seravo_plugin_version());
+      wp_register_script('seravo_security', SERAVO_PLUGIN_URL . 'js/security.js', '', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_security', SERAVO_PLUGIN_URL . 'style/security.css', '', Helpers::seravo_plugin_version());
 
-      wp_register_style('seravo_cruftfiles', plugin_dir_url(__DIR__) . '/style/cruftfiles.css', '', Helpers::seravo_plugin_version());
-      wp_register_script('seravo_cruftfiles', plugin_dir_url(__DIR__) . '/js/cruftfiles.js', '', Helpers::seravo_plugin_version());
-      wp_register_script('seravo_cruftplugins', plugin_dir_url(__DIR__) . '/js/cruftplugins.js', '', Helpers::seravo_plugin_version());
-      wp_register_script('seravo_cruftthemes', plugin_dir_url(__DIR__) . '/js/cruftthemes.js', '', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_cruftfiles', SERAVO_PLUGIN_URL . 'style/cruftfiles.css', '', Helpers::seravo_plugin_version());
+      wp_register_script('seravo_cruftfiles', SERAVO_PLUGIN_URL . 'js/cruftfiles.js', '', Helpers::seravo_plugin_version());
+      wp_register_script('seravo_cruftplugins', SERAVO_PLUGIN_URL . 'js/cruftplugins.js', '', Helpers::seravo_plugin_version());
+      wp_register_script('seravo_cruftthemes', SERAVO_PLUGIN_URL . 'js/cruftthemes.js', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_security_page' ) {
         wp_enqueue_script('seravo_security');

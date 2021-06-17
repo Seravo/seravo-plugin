@@ -11,7 +11,7 @@ if ( ! defined('ABSPATH') ) {
     die('Access denied!');
 }
 
-require_once __DIR__ . '/login-notification.php';
+require_once SERAVO_PLUGIN_SRC . 'modules/login-notification.php';
 
 if ( ! class_exists('Dashboard_Widgets') ) {
   class Dashboard_Widgets {

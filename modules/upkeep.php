@@ -6,7 +6,7 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once dirname(__FILE__) . '/../lib/upkeep-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/upkeep-ajax.php';
 
 if ( ! class_exists('Upkeep') ) {
   class Upkeep {
@@ -96,8 +96,8 @@ if ( ! class_exists('Upkeep') ) {
      */
     public static function register_scripts( $page ) {
 
-      wp_register_style('seravo_upkeep', plugin_dir_url(__DIR__) . '/style/upkeep.css', '', Helpers::seravo_plugin_version());
-      wp_register_script('seravo_upkeep', plugin_dir_url(__DIR__) . '/js/upkeep.js', 'jquery', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_upkeep', SERAVO_PLUGIN_URL . 'style/upkeep.css', '', Helpers::seravo_plugin_version());
+      wp_register_script('seravo_upkeep', SERAVO_PLUGIN_URL . 'js/upkeep.js', 'jquery', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_upkeep_page' ) {
         wp_enqueue_style('seravo_upkeep');

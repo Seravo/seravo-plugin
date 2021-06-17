@@ -7,7 +7,7 @@
 
 namespace Seravo;
 
-require_once dirname(__FILE__) . '/../lib/backups-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/backups-ajax.php';
 
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
@@ -65,8 +65,8 @@ if ( ! class_exists('Backups') ) {
      * @param string $page hook name
      */
     public static function register_backups_scripts( $page ) {
-      wp_register_script('seravo_backups', plugin_dir_url(__DIR__) . '/js/backups.js', '', Helpers::seravo_plugin_version());
-      wp_register_style('seravo_backups', plugin_dir_url(__DIR__) . '/style/backups.css', '', Helpers::seravo_plugin_version());
+      wp_register_script('seravo_backups', SERAVO_PLUGIN_URL . 'js/backups.js', '', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_backups', SERAVO_PLUGIN_URL . 'style/backups.css', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_backups_page' ) {
         wp_enqueue_script('seravo_backups');

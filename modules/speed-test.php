@@ -65,7 +65,7 @@ if ( ! class_exists('Speed_Test') ) {
      * Load required scripts and styles for this module
      */
     public static function enqueue_scripts() {
-      wp_enqueue_style('seravo_speed_test', plugins_url('../style/speed-test.css', __FILE__), null, Helpers::seravo_plugin_version(), 'all');
+      wp_enqueue_style('seravo_speed_test', SERAVO_PLUGIN_URL . 'style/speed-test.css', null, Helpers::seravo_plugin_version(), 'all');
     }
   }
   /* Caching happens in general only in production */

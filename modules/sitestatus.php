@@ -6,8 +6,8 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once dirname(__FILE__) . '/../lib/sitestatus-ajax.php';
-require_once dirname(__FILE__) . '/check-site-health.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/sitestatus-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'modules/check-site-health.php';
 
 if ( ! class_exists('Site_Status') ) {
   class Site_Status {
@@ -181,14 +181,14 @@ if ( ! class_exists('Site_Status') ) {
 
     public static function enqueue_site_status_scripts( $page ) {
       wp_register_script('apexcharts-js', 'https://cdn.jsdelivr.net/npm/apexcharts', null, Helpers::seravo_plugin_version(), true);
-      wp_register_script('seravo_site_status', plugin_dir_url(__DIR__) . '/js/sitestatus.js', '', Helpers::seravo_plugin_version());
-      wp_register_style('seravo_site_status', plugin_dir_url(__DIR__) . '/style/sitestatus.css', '', Helpers::seravo_plugin_version());
+      wp_register_script('seravo_site_status', SERAVO_PLUGIN_URL . 'js/sitestatus.js', '', Helpers::seravo_plugin_version());
+      wp_register_style('seravo_site_status', SERAVO_PLUGIN_URL . 'style/sitestatus.css', '', Helpers::seravo_plugin_version());
       if ( $page === 'tools_page_site_status_page' ) {
         wp_enqueue_style('seravo_site_status');
         wp_enqueue_script('apexcharts-js');
-        wp_enqueue_script('color-hash', plugins_url('../js/color-hash.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-        wp_enqueue_script('reports-chart', plugins_url('../js/reports-chart.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-        wp_enqueue_script('cache-status-charts', plugins_url('../js/cache-status-charts.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('color-hash', SERAVO_PLUGIN_URL . 'js/color-hash.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('reports-chart', SERAVO_PLUGIN_URL . 'js/reports-chart.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('cache-status-charts', SERAVO_PLUGIN_URL . 'js/cache-status-charts.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('seravo_site_status');
 
         $loc_translation = array(

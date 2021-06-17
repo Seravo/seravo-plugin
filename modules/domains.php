@@ -7,8 +7,8 @@
 
 namespace Seravo;
 
-require_once dirname(__FILE__) . '/../lib/domains-ajax.php';
-require_once dirname(__FILE__) . '/../lib/domain-tables.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/domains-ajax.php';
+require_once SERAVO_PLUGIN_SRC . 'lib/domain-tables.php';
 
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
@@ -63,8 +63,8 @@ if ( ! class_exists('Domains') ) {
 
       if ( $page === 'tools_page_domains_page' ) {
 
-        wp_enqueue_script('seravo_domains', plugins_url('../js/domains.js', __FILE__), array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-        wp_enqueue_style('seravo_domains', plugins_url('../style/domains.css', __FILE__), '', Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('seravo_domains', SERAVO_PLUGIN_URL . 'js/domains.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_style('seravo_domains', SERAVO_PLUGIN_URL . 'style/domains.css', '', Helpers::seravo_plugin_version(), false);
 
         $loc_translation_domains = array(
           'ajaxurl'             => admin_url('admin-ajax.php'),
