@@ -7,6 +7,10 @@ namespace Seravo\Postbox;
 
 use \Seravo\Helpers;
 
+require_once dirname(__FILE__) . '/component/component.php';
+require_once dirname(__FILE__) . '/component/template.php';
+require_once dirname(__FILE__) . '/postbox.php';
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');

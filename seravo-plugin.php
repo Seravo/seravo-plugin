@@ -39,13 +39,10 @@ require_once dirname(__FILE__) . '/lib/helpers.php';
 require_once dirname(__FILE__) . '/lib/api.php';
 
 /**
- * Load Seravo postbox functionalities
+ * Load Seravo postbox and AJAX functionality
  */
-require_once dirname(__FILE__) . '/lib/postbox/component.php';
-require_once dirname(__FILE__) . '/lib/postbox/template.php';
-require_once dirname(__FILE__) . '/lib/postbox/ajax.php';
-require_once dirname(__FILE__) . '/lib/postbox/postbox.php';
 require_once dirname(__FILE__) . '/lib/postbox/handler.php';
+require_once dirname(__FILE__) . '/lib/ajax/handler.php';
 
 /*
  * Load Canonical Domain and HTTPS. Check first that WP CLI is not defined so the module will not
