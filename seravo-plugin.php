@@ -28,6 +28,11 @@ if ( ! defined('SERAVO_PLUGIN_SRC') ) {
   define('SERAVO_PLUGIN_SRC', SERAVO_PLUGIN_DIR . 'src/');
 }
 
+// Use Postbox::class for now to see if autoload needs to be required
+if ( ! class_exists(\Seravo\Postbox\Postbox::class) && is_file(SERAVO_PLUGIN_DIR . 'vendor/autoload.php') ) {
+  require_once SERAVO_PLUGIN_DIR . 'vendor/autoload.php';
+}
+
 /*
  * This plugin should be installed in all WordPress instances at Seravo.com.
  * If you don't want to use some features you can disable any of the modules
@@ -51,10 +56,6 @@ require_once SERAVO_PLUGIN_SRC . 'lib/api.php';
 /**
  * Load Seravo postbox functionalities
  */
-require_once SERAVO_PLUGIN_SRC . 'lib/postbox/component.php';
-require_once SERAVO_PLUGIN_SRC . 'lib/postbox/template.php';
-require_once SERAVO_PLUGIN_SRC . 'lib/postbox/ajax.php';
-require_once SERAVO_PLUGIN_SRC . 'lib/postbox/postbox.php';
 require_once SERAVO_PLUGIN_SRC . 'lib/postbox/handler.php';
 
 /*
