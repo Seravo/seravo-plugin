@@ -211,7 +211,7 @@ return static function ( ContainerConfigurator $container_configurator ) {
 
   // Type Declaration
   $services->set(\Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector::class);
-  $services->set(\Rector\TypeDeclaration\Rector\Property\CompleteVarDocTypePropertyRector::class);
+  //$services->set(\Rector\TypeDeclaration\Rector\Property\CompleteVarDocTypePropertyRector::class);
   $services->set(\Rector\TypeDeclaration\Rector\Param\ParamTypeFromStrictTypedPropertyRector::class);
   $services->set(\Rector\TypeDeclaration\Rector\Property\PropertyTypeDeclarationRector::class);
   $services->set(\Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector::class);

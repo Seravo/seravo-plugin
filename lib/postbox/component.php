@@ -53,9 +53,9 @@ if ( ! class_exists('Component') ) {
       }
 
       foreach ( $children as $child ) {
-        if ( $child instanceof Component ) {
-          $this->children[] = $child;
-        }
+        // Add them with add_child so same checks
+        // are used for each child.
+        $this->add_child($child);
       }
     }
 

@@ -134,14 +134,24 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      */
     public function enqueue_postboxes_scripts() {
       if ( ! empty($this->postboxes) ) {
+        // seravo-postbox.js
         wp_enqueue_script('seravo_postbox', plugin_dir_url(__DIR__) . '../js/postbox/seravo-postbox.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
         $postbox_l10n = array(
           'postBoxEmptyString' => __('Drag boxes here', 'seravo'),
         );
-
-        wp_enqueue_script('seravo_ajax', plugin_dir_url(__DIR__) . '../js/postbox/seravo-ajax.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
-
         wp_localize_script('seravo_postbox', 'seravoPostboxl10n', $postbox_l10n);
+
+        // seravo-ajax.js
+        wp_enqueue_script('seravo_ajax', plugin_dir_url(__DIR__) . '../js/postbox/seravo-ajax.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
+        $ajax_l10n = array(
+          'ajax_url' => admin_url('admin-ajax.php'),
+          'server_invalid_response' => __('Error: Something unexpected happened! Server responded with invalid data.', 'seravo'),
+          'server_timeout' => __("Error: Request timeout! Server didn't respond in time.", 'seravo'),
+          'server_error' => __("Error: Oups, this wasn't supposed to happen! Please see the php-error.log.", 'seravo'),
+        );
+        wp_localize_script('seravo_ajax', 'seravo_ajax_l10n', $ajax_l10n);
+
+        // seravo-postbox.css
         wp_enqueue_style('seravo_postbox', plugin_dir_url(__DIR__) . '../style/seravo-postbox.css', array(), Helpers::seravo_plugin_version());
       }
     }

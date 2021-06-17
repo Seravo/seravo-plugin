@@ -102,5 +102,17 @@ if ( ! class_exists('Template') ) {
       return Component::from_raw('<p style="color: ' . $color . ';">' . $msg . '</p>');
     }
 
+    /**
+     * Get component for showing command output. This component
+     * is not for pretty output, just for scrollable <pre></pre>.
+     * @param string $id ID for the output component.
+     * @param string $class Classes for the output component.
+     * @param string $content Default placeholder content.
+     * @return \Seravo\Postbox\Component Simple command output component.
+     */
+    public static function simple_command_output( $id, $class = '', $content = '' ) {
+      return Component::from_raw('<pre id="' . $id . '" class="seravo-simple-command-output ' . $class . '">' . $content . '</pre>');
+    }
+
   }
 }
