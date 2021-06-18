@@ -3,11 +3,6 @@
 
 namespace Seravo;
 
-// Deny direct access to this file
-if ( ! defined('ABSPATH') ) {
-  die('Access denied!');
-}
-
 /**
  * Base class for displaying a list of items in an ajaxified HTML table.
  *

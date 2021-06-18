@@ -43,16 +43,6 @@ if ( ! class_exists(\Seravo\Postbox\Postbox::class) && is_file(SERAVO_PLUGIN_DIR
  *
  */
 
-/*
- * Load helpers so that these functions can be used in modules
- */
-require_once SERAVO_PLUGIN_SRC . 'lib/helpers.php';
-
-/*
- * Load Seravo API module
- */
-require_once SERAVO_PLUGIN_SRC . 'lib/api.php';
-
 /**
  * Load Seravo postbox functionalities
  */

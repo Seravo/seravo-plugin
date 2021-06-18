@@ -7,10 +7,6 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists('Seravo\WP_List_Table') ) {
-  require_once SERAVO_PLUGIN_SRC . 'lib/list-table.php';
-}
-
 class Seravo_Domains_List_Table extends WP_List_Table {
 
   public function __construct() {

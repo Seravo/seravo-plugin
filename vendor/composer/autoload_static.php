@@ -29,7 +29,6 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
     );
 
     public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Composer\\Installers\\AglInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AglInstaller.php',
         'Composer\\Installers\\AimeosInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
         'Composer\\Installers\\AnnotateCmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -126,9 +125,11 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Composer\\Installers\\YawikInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/YawikInstaller.php',
         'Composer\\Installers\\ZendInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ZendInstaller.php',
         'Composer\\Installers\\ZikulaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ZikulaInstaller.php',
+        'Seravo\\API' => __DIR__ . '/../..' . '/src/lib/api.php',
         'Seravo\\Ajax\\AjaxHandler' => __DIR__ . '/../..' . '/src/lib/ajax/handler.php',
         'Seravo\\Ajax\\AjaxResponse' => __DIR__ . '/../..' . '/src/lib/ajax/response.php',
         'Seravo\\Ajax\\AutoCommand' => __DIR__ . '/../..' . '/src/lib/ajax/templates/auto-command.php',
+        'Seravo\\Helpers' => __DIR__ . '/../..' . '/src/lib/helpers.php',
         'Seravo\\Postbox\\AutoCommand' => __DIR__ . '/../..' . '/src/lib/postbox/templates/auto-command.php',
         'Seravo\\Postbox\\Component' => __DIR__ . '/../..' . '/src/lib/postbox/component/component.php',
         'Seravo\\Postbox\\Postbox' => __DIR__ . '/../..' . '/src/lib/postbox/postbox.php',
@@ -136,6 +137,7 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Seravo\\Postbox\\Seravo_Postbox_Factory' => __DIR__ . '/../..' . '/src/lib/postbox/handler.php',
         'Seravo\\Postbox\\Template' => __DIR__ . '/../..' . '/src/lib/postbox/component/template.php',
         'Seravo\\Postbox\\Toolpage' => __DIR__ . '/../..' . '/src/lib/postbox/toolpage.php',
+        'Seravo\\WP_List_Table' => __DIR__ . '/../..' . '/src/lib/list-table.php',
         'enshrined\\svgSanitize\\ElementReference\\Resolver' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
         'enshrined\\svgSanitize\\ElementReference\\Subject' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',
         'enshrined\\svgSanitize\\ElementReference\\Usage' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Usage.php',
