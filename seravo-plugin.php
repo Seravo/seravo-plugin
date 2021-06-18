@@ -56,7 +56,7 @@ require_once SERAVO_PLUGIN_SRC . 'lib/api.php';
 /**
  * Load Seravo postbox functionalities
  */
-require_once SERAVO_PLUGIN_SRC . 'lib/postbox/handler.php';
+require_once SERAVO_PLUGIN_SRC . 'modules/postbox-init.php';
 
 /*
  * Load Canonical Domain and HTTPS. Check first that WP CLI is not defined so the module will not
