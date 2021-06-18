@@ -4,7 +4,7 @@ jQuery(document).ready(
   function () {
 
     /**
-     * Javascript for Ajax_Auto_Command.
+     * Javascript for AutoCommand.
      * Makes request automatically on page load
      * and shows the output.
      */

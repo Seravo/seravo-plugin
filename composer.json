@@ -41,7 +41,8 @@
   },
   "autoload": {
     "classmap": [
-      "src/lib/postbox"
+      "src/lib/postbox",
+      "src/lib/ajax"
     ]
   },
   "scripts": {

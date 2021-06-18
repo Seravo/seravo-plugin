@@ -7,11 +7,6 @@ namespace Seravo\Postbox;
 
 use \Seravo\Helpers;
 
-// Deny direct access to this file
-if ( ! defined('ABSPATH') ) {
-  die('Access denied!');
-}
-
 if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
   /**
