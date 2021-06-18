@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Composer\\Installers\\AglInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AglInstaller.php',
     'Composer\\Installers\\AimeosInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
     'Composer\\Installers\\AnnotateCmsInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -103,9 +102,11 @@ return array(
     'Composer\\Installers\\YawikInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/YawikInstaller.php',
     'Composer\\Installers\\ZendInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/ZendInstaller.php',
     'Composer\\Installers\\ZikulaInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/ZikulaInstaller.php',
+    'Seravo\\API' => $baseDir . '/src/lib/api.php',
     'Seravo\\Ajax\\AjaxHandler' => $baseDir . '/src/lib/ajax/handler.php',
     'Seravo\\Ajax\\AjaxResponse' => $baseDir . '/src/lib/ajax/response.php',
     'Seravo\\Ajax\\AutoCommand' => $baseDir . '/src/lib/ajax/templates/auto-command.php',
+    'Seravo\\Helpers' => $baseDir . '/src/lib/helpers.php',
     'Seravo\\Postbox\\AutoCommand' => $baseDir . '/src/lib/postbox/templates/auto-command.php',
     'Seravo\\Postbox\\Component' => $baseDir . '/src/lib/postbox/component/component.php',
     'Seravo\\Postbox\\Postbox' => $baseDir . '/src/lib/postbox/postbox.php',
@@ -113,6 +114,7 @@ return array(
     'Seravo\\Postbox\\Seravo_Postbox_Factory' => $baseDir . '/src/lib/postbox/handler.php',
     'Seravo\\Postbox\\Template' => $baseDir . '/src/lib/postbox/component/template.php',
     'Seravo\\Postbox\\Toolpage' => $baseDir . '/src/lib/postbox/toolpage.php',
+    'Seravo\\WP_List_Table' => $baseDir . '/src/lib/list-table.php',
     'enshrined\\svgSanitize\\ElementReference\\Resolver' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
     'enshrined\\svgSanitize\\ElementReference\\Subject' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',
     'enshrined\\svgSanitize\\ElementReference\\Usage' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Usage.php',

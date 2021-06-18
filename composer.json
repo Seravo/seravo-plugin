@@ -42,7 +42,10 @@
   "autoload": {
     "classmap": [
       "src/lib/postbox",
-      "src/lib/ajax"
+      "src/lib/ajax",
+      "src/lib/api.php",
+      "src/lib/helpers.php",
+      "src/lib/list-table.php"
     ]
   },
   "scripts": {
