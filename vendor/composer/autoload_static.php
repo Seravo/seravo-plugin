@@ -29,6 +29,7 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Composer\\Installers\\AglInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AglInstaller.php',
         'Composer\\Installers\\AimeosInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
         'Composer\\Installers\\AnnotateCmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -132,6 +133,7 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Seravo\\Helpers' => __DIR__ . '/../..' . '/src/lib/helpers.php',
         'Seravo\\Postbox\\AutoCommand' => __DIR__ . '/../..' . '/src/lib/postbox/templates/auto-command.php',
         'Seravo\\Postbox\\Component' => __DIR__ . '/../..' . '/src/lib/postbox/component/component.php',
+        'Seravo\\Postbox\\InfoBox' => __DIR__ . '/../..' . '/src/lib/postbox/templates/info-box.php',
         'Seravo\\Postbox\\Postbox' => __DIR__ . '/../..' . '/src/lib/postbox/postbox.php',
         'Seravo\\Postbox\\Requirements' => __DIR__ . '/../..' . '/src/lib/postbox/requirements.php',
         'Seravo\\Postbox\\Seravo_Postbox_Factory' => __DIR__ . '/../..' . '/src/lib/postbox/handler.php',

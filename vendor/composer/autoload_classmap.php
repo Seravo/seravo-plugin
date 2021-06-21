@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Composer\\Installers\\AglInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AglInstaller.php',
     'Composer\\Installers\\AimeosInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
     'Composer\\Installers\\AnnotateCmsInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -109,6 +110,7 @@ return array(
     'Seravo\\Helpers' => $baseDir . '/src/lib/helpers.php',
     'Seravo\\Postbox\\AutoCommand' => $baseDir . '/src/lib/postbox/templates/auto-command.php',
     'Seravo\\Postbox\\Component' => $baseDir . '/src/lib/postbox/component/component.php',
+    'Seravo\\Postbox\\InfoBox' => $baseDir . '/src/lib/postbox/templates/info-box.php',
     'Seravo\\Postbox\\Postbox' => $baseDir . '/src/lib/postbox/postbox.php',
     'Seravo\\Postbox\\Requirements' => $baseDir . '/src/lib/postbox/requirements.php',
     'Seravo\\Postbox\\Seravo_Postbox_Factory' => $baseDir . '/src/lib/postbox/handler.php',
