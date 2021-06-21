@@ -6,14 +6,19 @@ use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
 
 /**
- * Class AutoCommand
+ * Class ButtonCommand
  *
- * AutoCommand is pre-made AjaxHandler for automatically executing
- * a single command and showing the output.
+ * ButtonCommand is pre-made AjaxHandler for executing
+ * a single command on button click showing the output.
  *
- * Adds component for the spinner and output.
+ * Adds component for the button, spinner and output.
  */
-class AutoCommand extends CommandRunner {
+class ButtonCommand extends CommandRunner {
+
+  /**
+   * @var string|null Text to be shown on the button.
+   */
+  private $button_text;
 
   /**
    * Constructor for AjaxHandler. Will be called on new instance.
@@ -39,12 +44,25 @@ class AutoCommand extends CommandRunner {
    * @param string $section Unique section inside the postbox.
    */
   public function build_component( Component $base, $section ) {
-    $component = new Component();
-    $component->set_wrapper("<div class=\"seravo-ajax-auto-command\" data-section=\"{$section}\">", '</div>');
-    $component->add_child(Template::spinner($section . '-spinner', ''));
+    $button_content = $this->button_text !== null ? $this->button_text : __('Run', 'seravo');
+
+    $button = Template::button($button_content, $section . '-button');
+    $spinner = Template::spinner($section . '-spinner');
+    $spinner_button = Template::side_by_side($button, $spinner);
+
+    $component = new Component('', "<div class=\"seravo-ajax-button-command\" data-section=\"{$section}\">", '</div>');
+    $component->add_child($spinner_button);
     $component->add_child(Template::simple_command_output($section . '-output', 'hidden'));
 
     $base->add_child($component);
+  }
+
+  /**
+   * Set text for the command execute button.
+   * @param string $text Text on the button.
+   */
+  public function set_button_text( $text ) {
+    $this->button_text = $text;
   }
 
 }

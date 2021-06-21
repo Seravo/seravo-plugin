@@ -148,6 +148,9 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
         // seravo-postbox.css
         wp_enqueue_style('seravo_postbox', SERAVO_PLUGIN_URL . 'style/seravo-postbox.css', array(), Helpers::seravo_plugin_version());
+
+        // common.css
+        wp_enqueue_style('seravo_common', SERAVO_PLUGIN_URL . 'style/common.css', array(), Helpers::seravo_plugin_version());
       }
     }
 

@@ -26,6 +26,18 @@ class Component {
   private $children = array();
 
   /**
+   * Constructor for AjaxHandler. Will be called on new instance.
+   * @param string The HTML content of the component.
+   * @param string The opening tag of the component.
+   * @param string The closing tag of the component.
+   */
+  public function __construct( $content = '', $wrapper_open = '', $wrapper_close = '' ) {
+    $this->content = $content;
+    $this->wrapper_open = $wrapper_open;
+    $this->wrapper_close = $wrapper_close;
+  }
+
+  /**
    * Add a child which will be rendered after the content.
    * @param \Seravo\Postbox\Component $child Child component to be added.
    */

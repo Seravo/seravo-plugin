@@ -47,17 +47,6 @@ class Template {
   }
 
   /**
-   * Display basic clickable / interactive button to run for example AJAX side commands
-   * $content Text to display in the button.
-   * @param string $id Button id.
-   * @param string $class Specified button class to use.
-   * @return \Seravo\Postbox\Component Button component.
-   */
-  public static function button( $content, $id, $class = 'button-primary' ) {
-    return Component::from_raw('<button id="' . $id . '" class="' . $class . '">' . $content . '</button>');
-  }
-
-  /**
    * Display Seravo Plugin tooltip.
    * @param string $tooltiptext The given content to display on tooltip.
    * @return \Seravo\Postbox\Component Tooltip component.
@@ -70,12 +59,23 @@ class Template {
   }
 
   /**
+   * Display basic clickable / interactive button to run for example AJAX side commands
+   * $content Text to display in the button.
+   * @param string $id Button id.
+   * @param string $class Specified button class to use.
+   * @return \Seravo\Postbox\Component Button component.
+   */
+  public static function button( $content, $id, $class = 'button-primary' ) {
+    return Component::from_raw('<button id="' . $id . '" class="' . $class . '">' . $content . '</button>');
+  }
+
+  /**
    * Display spinner image. In default it's hidden.
    * @param string $id Id for this spinner.
    * @param string $class Class for the div spinner component, default 'spinner'.
    * @return \Seravo\Postbox\Component Spinner component.
    */
-  public static function spinner( $id, $class = 'spinner' ) {
+  public static function spinner( $id, $class = 'seravo-spinner' ) {
     return Component::from_raw('<div id="' . $id . '" class="' . $class . '"><img src="/wp-admin/images/spinner.gif"></div>');
   }
 
@@ -106,6 +106,28 @@ class Template {
    */
   public static function simple_command_output( $id, $class = '', $content = '' ) {
     return Component::from_raw('<pre id="' . $id . '" class="seravo-simple-command-output ' . $class . '">' . $content . '</pre>');
+  }
+
+  /**
+   * Get wrapper component to show two components side by side.
+   * @param \Seravo\Postbox\Component Left component.
+   * @param \Seravo\Postbox\Component Right component.
+   * @return \Seravo\Postbox\Component Side-by-side component.
+   */
+  public static function side_by_side( Component $left, Component $right ) {
+    $component = new Component();
+    $wrapper = new Component('', '<div class="side-by-side-container">', '</div>');
+
+    $left_div = new Component('', '<div>', '</div>');
+    $left_div->add_child($left);
+    $wrapper->add_child($left_div);
+
+    $right_div = new Component('', '<div>', '</div>');
+    $right_div->add_child($right);
+    $wrapper->add_child($right_div);
+
+    $component->add_child($wrapper);
+    return $component;
   }
 
 }
