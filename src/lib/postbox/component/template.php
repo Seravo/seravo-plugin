@@ -47,6 +47,32 @@ class Template {
   }
 
   /**
+    * Display link
+    * @param string $content Text to wrap the link around.
+    * @param string $href Link URL.
+    * @param string $id ID for the link element.
+    * @param string $class Optional class for the link element.
+    * @param string $target Optional link element target, default _blank.
+    * @return \Seravo\Postbox\Component
+    */
+   public static function link( $content, $href, $id, $class = 'button', $target = '_blank' ) {
+    return Component::from_raw('<a id="' . $id . '" class="' . $class . ' href="' . $href . '" target="' . $target . '" >' . $content . '</a>');
+   }
+
+  /**
+   * Generates link with icon.
+   * @param string $href Link URL.
+   * @param string $link_content Content to wrap the link around to.
+   * @return \Seravo\Postbox\Component Button with icon.
+   */
+  public static function button_link_with_icon( $href, $link_content ) {
+    return Component::from_raw(
+      '<a href="' . $href . '" class="button" target="_blank">' . $link_content . '
+      <span aria-hidden="true" class="dashicons dashicons-external"></span> </a>'
+    );
+  }
+
+  /**
    * Display Seravo Plugin tooltip.
    * @param string $tooltiptext The given content to display on tooltip.
    * @return \Seravo\Postbox\Component Tooltip component.

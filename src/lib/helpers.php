@@ -98,4 +98,14 @@ class Helpers {
     return implode('/', $path);
   }
 
+  /**
+   * @return string Escaped adminer_url
+   */
+  public static function adminer_link() {
+    if ( ! self::is_production() ) {
+      return esc_url(str_replace('//', '//adminer.', get_site_url()));
+    }
+    return esc_url(get_site_url(null, '.seravo/adminer'));
+  }
+
   }
