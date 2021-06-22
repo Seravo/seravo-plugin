@@ -21,9 +21,9 @@ class CommandRunner extends AjaxHandler {
   private $command;
 
   /**
-   * @var bool Whether dryrun is enabled.
+   * @var string|null Special command to dry run.
    */
-  private $dryrun = false;
+  private $dryrun_command;
 
   /**
    * @var bool Whether exit code other than 0 should respond with an error.
@@ -63,17 +63,23 @@ class CommandRunner extends AjaxHandler {
    * @return \Seravo\Ajax\AjaxResponse Response for the client.
    */
   public function ajax_command_exec( $section ) {
+    $exec_command = $this->command;
+
     if ( $this->command === null ) {
       return AjaxResponse::unknown_error_response();
     }
 
     if ( $this->is_dryrun_enabled() && isset($_GET['dryrun']) && $_GET['dryrun'] === 'true' ) {
-      $this->command = $command . ' --dry-run';
+
+      if ( $this->dryrun_command === null ) {
+        return AjaxResponse::unknown_error_response();
+      }
+      $exec_command = $this->dryrun_command;
     }
 
     $output = null;
     $retval = null;
-    exec($this->command, $output, $retval);
+    exec($exec_command, $output, $retval);
 
     if ( $retval !== 0 && ! $this->allow_failure ) {
       return AjaxResponse::command_error_response($this->command);
@@ -104,7 +110,20 @@ class CommandRunner extends AjaxHandler {
   public function set_command( $command, $cache_time = 300, $allow_failure = false ) {
     $this->command = $command;
     $this->allow_failure = $allow_failure;
+
+    if ( $this->is_dryrun_enabled() ) {
+      $cache_time = 0;
+    }
+
     $this->set_cache_time($cache_time);
+  }
+
+  /**
+   * Set the special dry run command to be executed.
+   * @param string $command Command for exec.
+   */
+  public function set_dryrun_command( $command ) {
+    $this->dryrun_command = $command;
   }
 
   /**
@@ -124,19 +143,11 @@ class CommandRunner extends AjaxHandler {
   }
 
   /**
-   * Enables dry-run option for the handler.
-   * @param bool $enabled Whether dryrun is enabled.
-   */
-  public function enable_dryrun( $enabled ) {
-    $this->dryrun = $enabled;
-  }
-
-  /**
    * Check if dry-running is enabled for the handler.
    * @return bool Whether dry-run is enabled.
    */
   public function is_dryrun_enabled() {
-    return $this->dryrun;
+    return $this->dryrun_command !== null;
   }
 
 }

@@ -78,15 +78,9 @@ class ButtonCommand extends CommandRunner {
    * @param string $command Command for exec.
    * @param int $cache_time Seconds to cache response for (default is 300).
    * @param bool $allow_failure Whether exit code other than 0 should respond with an error.
-   * @param bool $dryrun Whether dry-running is enabled.
    */
-  public function set_command( $command, $cache_time = 300, $allow_failure = false, $dryrun = false ) {
-    if ( $dryrun ) {
-      $cache_time = 0;
-    }
-
+  public function set_command( $command, $cache_time = 300, $allow_failure = false ) {
     parent::set_command($command, $cache_time, $allow_failure);
-    $this->enable_dryrun($dryrun);
   }
 
   /**
