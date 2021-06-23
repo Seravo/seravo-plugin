@@ -18,21 +18,6 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! defined('SERAVO_PLUGIN_URL') ) {
-  define('SERAVO_PLUGIN_URL', plugin_dir_url(__FILE__));
-}
-if ( ! defined('SERAVO_PLUGIN_DIR') ) {
-  define('SERAVO_PLUGIN_DIR', plugin_dir_path(__FILE__));
-}
-if ( ! defined('SERAVO_PLUGIN_SRC') ) {
-  define('SERAVO_PLUGIN_SRC', SERAVO_PLUGIN_DIR . 'src/');
-}
-
-// Use Postbox::class for now to see if autoload needs to be required
-if ( ! class_exists(\Seravo\Postbox\Postbox::class) && is_file(SERAVO_PLUGIN_DIR . 'vendor/autoload.php') ) {
-  require_once SERAVO_PLUGIN_DIR . 'vendor/autoload.php';
-}
-
 /*
  * This plugin should be installed in all WordPress instances at Seravo.com.
  * If you don't want to use some features you can disable any of the modules
@@ -43,23 +28,37 @@ if ( ! class_exists(\Seravo\Postbox\Postbox::class) && is_file(SERAVO_PLUGIN_DIR
  *
  */
 
+/*
+ * Load helpers so that these functions can be used in modules
+ */
+require_once dirname(__FILE__) . '/lib/helpers.php';
+
+/*
+ * Load Seravo API module
+ */
+require_once dirname(__FILE__) . '/lib/api.php';
+
 /**
  * Load Seravo postbox functionalities
  */
-require_once SERAVO_PLUGIN_SRC . 'modules/postbox-init.php';
+require_once dirname(__FILE__) . '/lib/postbox/component.php';
+require_once dirname(__FILE__) . '/lib/postbox/template.php';
+require_once dirname(__FILE__) . '/lib/postbox/ajax.php';
+require_once dirname(__FILE__) . '/lib/postbox/postbox.php';
+require_once dirname(__FILE__) . '/lib/postbox/handler.php';
 
 /*
  * Load Canonical Domain and HTTPS. Check first that WP CLI is not defined so the module will not
  * perform any redirections locally.
  */
 if ( ! defined('WP_CLI') ) {
-  require_once SERAVO_PLUGIN_SRC . 'lib/canonical-domain-and-https.php';
+  require_once dirname(__FILE__) . '/lib/canonical-domain-and-https.php';
 }
 
 /*
  * Restrict XML-RPC and/or REST-API user enumeration
  */
-require_once SERAVO_PLUGIN_SRC . 'lib/security-restrictions.php';
+require_once dirname(__FILE__) . '/lib/security-restrictions.php';
 
 class Loader {
   /**
@@ -190,7 +189,7 @@ class Loader {
     );
 
     // And then from this plugin folder
-    load_muplugin_textdomain('seravo', basename(SERAVO_PLUGIN_DIR) . '/languages');
+    load_muplugin_textdomain('seravo', basename(dirname(__FILE__)) . '/languages');
   }
 
   public static function load_all_modules() {
@@ -198,86 +197,86 @@ class Loader {
     /*
      * Helpers for hiding useless notifications and small fixes in logging
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/fixes.php';
+    require_once dirname(__FILE__) . '/modules/fixes.php';
 
     /*
      * Helpers for fixing issues with third-party code (plugins etc.)
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/thirdparty-fixes.php';
+    require_once dirname(__FILE__) . '/modules/thirdparty-fixes.php';
 
     /*
      * Add a cache purge button to the WP adminbar
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/purge-cache.php';
+    require_once dirname(__FILE__) . '/modules/purge-cache.php';
 
     /*
      * Add a speed test button to the WP adminbar
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/speed-test.php';
+    require_once dirname(__FILE__) . '/modules/speed-test.php';
 
     /*
      * Hide the domain alias from search engines
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/noindex-domain-alias.php';
+    require_once dirname(__FILE__) . '/modules/noindex-domain-alias.php';
 
     /*
      * Allow automated login for user 'seravotest' if necessary
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/seravotest-auth-bypass.php';
+    require_once dirname(__FILE__) . '/modules/seravotest-auth-bypass.php';
 
     /*
      * Log all login attempts, failed or successful. Use no filters, as this should be mandatory
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/wp-login-log.php';
+    require_once dirname(__FILE__) . '/modules/wp-login-log.php';
 
     /*
      * Log plugin and theme activations, deactivations, installations and deletions
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/wp-plugin-log.php';
+    require_once dirname(__FILE__) . '/modules/wp-plugin-log.php';
 
     /*
      * Log important user changes in user such as roles, passwords and emails
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/wp-user-log.php';
+    require_once dirname(__FILE__) . '/modules/wp-user-log.php';
 
     /*
      * Enforce strong passwords
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/passwords.php';
+    require_once dirname(__FILE__) . '/modules/passwords.php';
 
     /*
      * Instance switcher
      */
     if ( apply_filters('seravo_show_instance_switcher', true) && getenv('WP_ENV') !== 'development' ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/instance-switcher.php';
+      require_once dirname(__FILE__) . '/modules/instance-switcher.php';
     }
 
     /*
      * Check that https is enabled in siteurl
      */
     if ( current_user_can('administrator') ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/check-https.php';
+      require_once dirname(__FILE__) . '/modules/check-https.php';
     }
 
     /*
      * Notify that a newer PHP version is available
      */
     if ( current_user_can('administrator') ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/check-php-version.php';
+      require_once dirname(__FILE__) . '/modules/check-php-version.php';
     }
 
     /*
      * Check that user has changed admin email to something else from no-reply@seravo
      */
     if ( current_user_can('administrator') ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/check-default-email.php';
+      require_once dirname(__FILE__) . '/modules/check-default-email.php';
     }
 
     /*
      * Optimize images on upload. Only logged in users make uploads.
      */
     if ( is_user_logged_in() ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/optimize-on-upload.php';
+      require_once dirname(__FILE__) . '/modules/optimize-on-upload.php';
     }
 
     /*
@@ -285,7 +284,7 @@ class Loader {
      * Only logged in users make uploads.
      */
     if ( is_user_logged_in() ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/sanitize-on-upload.php';
+      require_once dirname(__FILE__) . '/modules/sanitize-on-upload.php';
     }
 
     /*
@@ -293,59 +292,59 @@ class Loader {
      */
     if ( ! is_multisite() || current_user_can('manage_network') ) {
       if ( current_user_can('administrator') ) {
-        require_once SERAVO_PLUGIN_SRC . 'modules/toolbox.php';
+        require_once dirname(__FILE__) . '/modules/toolbox.php';
       }
 
       /*
        * Backups view for Seravo customers
        */
       if ( apply_filters('seravo_show_backups_page', true) && getenv('CONTAINER') ) {
-        require_once SERAVO_PLUGIN_SRC . 'modules/backups.php';
+        require_once dirname(__FILE__) . '/modules/backups.php';
       }
 
       /*
        * Allow Seravo customers to manage their domains & emails
        */
       if ( apply_filters('seravo_show_domains_page', true) && current_user_can('administrator') && getenv('CONTAINER') ) {
-        require_once SERAVO_PLUGIN_SRC . 'modules/domains.php';
+        require_once dirname(__FILE__) . '/modules/domains.php';
       }
 
       /*
        * Show logs from /data/log/*.log in WP-admin
        */
       if ( current_user_can('administrator') ) {
-        require_once SERAVO_PLUGIN_SRC . 'modules/logs.php';
+        require_once dirname(__FILE__) . '/modules/logs.php';
       }
 
       /*
        * Notification with last WordPress login date and error count. This module handles its own
        * capability checks.
        */
-      require_once SERAVO_PLUGIN_SRC . 'modules/login-notification.php';
+      require_once dirname(__FILE__) . '/modules/login-notification.php';
 
       /*
        * Show notification stylish wp-admin dashboard widgets
        */
-      require_once SERAVO_PLUGIN_SRC . 'modules/dashboard-widgets.php';
+      require_once dirname(__FILE__) . '/modules/dashboard-widgets.php';
       /*
        * Upkeep page
        */
       if ( apply_filters('seravo_show_upkeep_page', true) && current_user_can('administrator') ) {
-        require_once SERAVO_PLUGIN_SRC . 'modules/upkeep.php';
+        require_once dirname(__FILE__) . '/modules/upkeep.php';
       }
 
       /*
        * Site Status page
        */
       if ( apply_filters('seravo_show_site_status_page', true) && current_user_can('administrator') ) {
-        require_once SERAVO_PLUGIN_SRC . 'modules/sitestatus.php';
+        require_once dirname(__FILE__) . '/modules/sitestatus.php';
       }
 
       /*
        * Security page
        */
       if ( apply_filters('seravo_show_security_page', true) && current_user_can('administrator') ) {
-        require_once SERAVO_PLUGIN_SRC . 'modules/security.php';
+        require_once dirname(__FILE__) . '/modules/security.php';
       }
     }
 
@@ -354,25 +353,25 @@ class Loader {
      * This module handels it's Network Admin and other permission checks in its own load().
      */
     if ( apply_filters('seravo_show_database_page', true) && current_user_can('administrator') ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/database.php';
+      require_once dirname(__FILE__) . '/modules/database.php';
     }
 
     // Load WP-CLI module 'wp seravo'
     if ( defined('WP_CLI') && WP_CLI ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/wp-cli.php';
+      require_once dirname(__FILE__) . '/modules/wp-cli.php';
     }
 
     /*
      * Hide Users
      * Hides prespecified and given users from a WordPress page
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/hide-users.php';
+    require_once dirname(__FILE__) . '/modules/hide-users.php';
 
     /*
      * Add support for SVG images
      * Allow users to upload SVG
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/svg-support.php';
+    require_once dirname(__FILE__) . '/modules/svg-support.php';
   }
 }
 

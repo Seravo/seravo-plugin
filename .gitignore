@@ -1,11 +1,6 @@
-// Ignore the macOS Finder directory properties
+//Ignore the macOS Finder directory properties
 languages/.DS_Store
 
-// Ignore some Composer files. Wp-seravo-plugin-update doesn't
-// run composer install the files are kept in git.
+//Ignore Composer files
 composer.lock
-!vendor/
-vendor/*
-!vendor/composer
-!vendor/enshrined
-!vendor/autoload.php
+vendor/
