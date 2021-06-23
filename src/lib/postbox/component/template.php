@@ -65,8 +65,9 @@ class Template {
    * @param string $class Specified button class to use.
    * @return \Seravo\Postbox\Component Button component.
    */
-  public static function button( $content, $id, $class = 'button-primary' ) {
-    return Component::from_raw('<button id="' . $id . '" class="' . $class . '">' . $content . '</button>');
+  public static function button( $content, $id, $class = 'button-primary', $disabled = false ) {
+    $disabled = $disabled ? ' disabled' : '';
+    return Component::from_raw('<button id="' . $id . '" class="' . $class . '"' . $disabled . '>' . $content . '</button>');
   }
 
   /**
@@ -110,8 +111,8 @@ class Template {
 
   /**
    * Get wrapper component to show two components side by side.
-   * @param \Seravo\Postbox\Component Left component.
-   * @param \Seravo\Postbox\Component Right component.
+   * @param \Seravo\Postbox\Component $left Left component.
+   * @param \Seravo\Postbox\Component $right Right component.
    * @return \Seravo\Postbox\Component Side-by-side component.
    */
   public static function side_by_side( Component $left, Component $right ) {
@@ -125,6 +126,25 @@ class Template {
     $right_div = new Component('', '<div>', '</div>');
     $right_div->add_child($right);
     $wrapper->add_child($right_div);
+
+    $component->add_child($wrapper);
+    return $component;
+  }
+
+  /**
+   * Get wrapper component to show multiple components side by side.
+   * @param \Seravo\Postbox\Component[] $components Components from left to right.
+   * @return \Seravo\Postbox\Component Side-by-side component.
+   */
+  public static function n_by_side( $components ) {
+    $component = new Component();
+    $wrapper = new Component('', '<div class="side-by-side-container">', '</div>');
+
+    foreach ( $components as $child_component ) {
+      $div = new Component('', '<div>', '</div>');
+      $div->add_child($child_component);
+      $wrapper->add_child($div);
+    }
 
     $component->add_child($wrapper);
     return $component;

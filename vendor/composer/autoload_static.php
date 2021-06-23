@@ -132,6 +132,7 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Seravo\\Ajax\\AutoCommand' => __DIR__ . '/../..' . '/src/lib/ajax/templates/auto-command.php',
         'Seravo\\Ajax\\ButtonCommand' => __DIR__ . '/../..' . '/src/lib/ajax/templates/button-command.php',
         'Seravo\\Ajax\\CommandRunner' => __DIR__ . '/../..' . '/src/lib/ajax/templates/command-runner.php',
+        'Seravo\\Ajax\\DryRunCommand' => __DIR__ . '/../..' . '/src/lib/ajax/templates/dryrun-command.php',
         'Seravo\\Helpers' => __DIR__ . '/../..' . '/src/lib/helpers.php',
         'Seravo\\Postbox\\AutoCommand' => __DIR__ . '/../..' . '/src/lib/postbox/templates/auto-command.php',
         'Seravo\\Postbox\\ButtonCommand' => __DIR__ . '/../..' . '/src/lib/postbox/templates/button-command.php',
