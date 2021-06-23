@@ -31,19 +31,21 @@ class Template {
   /**
    * Display basic Seravo Plugin widget text.
    * @param string $content The content to display.
+   * @param string $class Optional class for the div element.
    * @return \Seravo\Postbox\Component Div component using postbox-text class.
    */
-  public static function text( $content ) {
-    return Component::from_raw('<div class="postbox-text">' . $content . '</div>');
+  public static function text( $content, $class = 'postbox-text' ) {
+    return Component::from_raw('<div class="' . $class . '">' . $content . '</div>');
   }
 
   /**
    * Display section title on widget.
    * @param string $content The given title to display.
+   * @param string $class Optional class for the title element.
    * @return \Seravo\Postbox\Component Title component.
    */
-  public static function section_title( $content ) {
-    return Component::from_raw('<h3>' . $content . '</h3>');
+  public static function section_title( $content, $class = 'title' ) {
+    return Component::from_raw('<h3 class="' . $class . '">' . $content . '</h3>');
   }
 
   /**
@@ -113,14 +115,14 @@ class Template {
    */
   public static function success_failure( $status ) {
     if ( $status ) {
-      $color = 'green';
+      $class = 'success';
       $msg = sprintf('<b>%s</b>', __('Success!', 'seravo'));
     } else {
-      $color = 'red';
+      $class = 'failure';
       $msg = sprintf('<b>%s</b>', __('Failure!', 'seravo'));
     }
 
-    return Component::from_raw('<p style="color: ' . $color . ';">' . $msg . '</p>');
+    return Component::from_raw('<p class="' . $class . '">' . $msg . '</p>');
   }
 
   /**

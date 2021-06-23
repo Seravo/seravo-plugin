@@ -32,10 +32,20 @@
 
  /* Dashicon styles */
 
- .dashicons .dashicons-external {
-  line-height: 1.4;
-  padding-left: 3px;
- }
+  .dashicons .dashicons-external {
+    line-height: 1.4;
+    padding-left: 3px;
+  }
+
+ /* Misc common elements */
+
+  p.success {
+    color: green;
+  }
+
+  p.failure {
+    color: red;
+  }
 
  /* Tooltip css */
 
