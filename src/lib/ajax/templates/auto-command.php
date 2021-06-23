@@ -16,7 +16,7 @@ use \Seravo\Postbox\Template;
 class AutoCommand extends CommandRunner {
 
   /**
-   * Constructor for AjaxHandler. Will be called on new instance.
+   * Constructor for AutoCommand. Will be called on new instance.
    * @param string $section Unique section inside the postbox.
    * @param string|null $command Command to be executed.
    * @param int $cache_time Seconds to cache response for (default is 300).

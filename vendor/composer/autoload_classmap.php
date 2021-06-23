@@ -109,6 +109,7 @@ return array(
     'Seravo\\Ajax\\AutoCommand' => $baseDir . '/src/lib/ajax/templates/auto-command.php',
     'Seravo\\Ajax\\ButtonCommand' => $baseDir . '/src/lib/ajax/templates/button-command.php',
     'Seravo\\Ajax\\CommandRunner' => $baseDir . '/src/lib/ajax/templates/command-runner.php',
+    'Seravo\\Ajax\\DryRunCommand' => $baseDir . '/src/lib/ajax/templates/dryrun-command.php',
     'Seravo\\Helpers' => $baseDir . '/src/lib/helpers.php',
     'Seravo\\Postbox\\AutoCommand' => $baseDir . '/src/lib/postbox/templates/auto-command.php',
     'Seravo\\Postbox\\ButtonCommand' => $baseDir . '/src/lib/postbox/templates/button-command.php',

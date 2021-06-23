@@ -21,6 +21,11 @@ class CommandRunner extends AjaxHandler {
   private $command;
 
   /**
+   * @var bool Whether dryrun is enabled.
+   */
+  private $dryrun = false;
+
+  /**
    * @var bool Whether exit code other than 0 should respond with an error.
    */
   private $allow_failure = false;
@@ -62,6 +67,10 @@ class CommandRunner extends AjaxHandler {
       return AjaxResponse::unknown_error_response();
     }
 
+    if ( $this->is_dryrun_enabled() && isset($_GET['dryrun']) && $_GET['dryrun'] === 'true' ) {
+      $this->command = $command . ' --dry-run';
+    }
+
     $output = null;
     $retval = null;
     exec($this->command, $output, $retval);
@@ -89,9 +98,13 @@ class CommandRunner extends AjaxHandler {
   /**
    * Set the command to be executed.
    * @param string $command Command for exec.
+   * @param int $cache_time Seconds to cache response for (default is 300).
+   * @param bool $allow_failure Whether exit code other than 0 should respond with an error.
    */
-  public function set_command( $command ) {
+  public function set_command( $command, $cache_time = 300, $allow_failure = false ) {
     $this->command = $command;
+    $this->allow_failure = $allow_failure;
+    $this->set_cache_time($cache_time);
   }
 
   /**
@@ -108,6 +121,22 @@ class CommandRunner extends AjaxHandler {
    */
   public function set_empty_message( $message ) {
     $this->empty_message = $message;
+  }
+
+  /**
+   * Enables dry-run option for the handler.
+   * @param bool $enabled Whether dryrun is enabled.
+   */
+  public function enable_dryrun( $enabled ) {
+    $this->dryrun = $enabled;
+  }
+
+  /**
+   * Check if dry-running is enabled for the handler.
+   * @return bool Whether dry-run is enabled.
+   */
+  public function is_dryrun_enabled() {
+    return $this->dryrun;
   }
 
 }
