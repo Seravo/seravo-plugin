@@ -183,7 +183,7 @@ class Postbox {
       $this->component = Template::error_paragraph($error);
     } else {
       // Call the $build_func
-      \call_user_func($this->build_func, $this->component, $this->data);
+      \call_user_func($this->build_func, $this->component, $this, $this->data);
     }
 
     $this->component->print_html();
