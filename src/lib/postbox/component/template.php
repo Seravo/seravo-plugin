@@ -49,6 +49,25 @@ class Template {
   }
 
   /**
+   * Display HTML list view.
+   * @param string|array $element Element or elements to add onto list.
+   * @return \Seravo\Postbox\Component List view component.
+   */
+  public static function list_view( $element ) {
+    $component = new Component('', '<ul class="postbox-ul">', '</ul>');
+
+    if ( is_array($element) ) {
+      foreach ( $element as $list_object ) {
+        $component->add_child(Component::from_raw('<li>' . $list_object . '</li>'));
+      }
+    }
+
+    $component->add_child(Component::from_raw('<li>' . $element . '</li>'));
+
+    return $component;
+  }
+
+  /**
     * Display link
     * @param string $content Text to wrap the link around.
     * @param string $href Link URL.

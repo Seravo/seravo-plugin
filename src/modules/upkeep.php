@@ -20,7 +20,6 @@ if ( ! class_exists('Upkeep') ) {
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
       add_action('wp_ajax_seravo_ajax_upkeep', 'Seravo\seravo_ajax_upkeep');
       add_action('wp_ajax_seravo_changes_since', 'Seravo\seravo_ajax_changes_since');
-
       add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
 
       // TODO: check if this hook actually ever fires for mu-plugins
@@ -30,16 +29,6 @@ if ( ! class_exists('Upkeep') ) {
       self::init_upkeep_postboxes($page);
       $page->enable_ajax();
       $page->register_page();
-
-      if ( getenv('WP_ENV') === 'production' ) {
-        \Seravo\Postbox\seravo_add_raw_postbox(
-          'site-status',
-          __('Update Status', 'seravo'),
-          array( __CLASS__, 'site_status_postbox' ),
-          'tools_page_upkeep_page',
-          'normal'
-        );
-      }
 
       \Seravo\Postbox\seravo_add_raw_postbox(
         'backup-list-changes',
@@ -97,12 +86,53 @@ if ( ! class_exists('Upkeep') ) {
      * @param Toolpage $page The page to init on.
      */
     public static function init_upkeep_postboxes( Toolpage $page ) {
+      /**
+       * Tests Status postbox
+       */
       $tests_status = new Postbox('tests-status');
       $tests_status->set_title(__('Tests Status', 'seravo'));
       $tests_status->set_data_func(array( __CLASS__, 'get_tests_status' ), 300);
       $tests_status->set_build_func(array( __CLASS__, 'build_tests_status' ));
       $tests_status->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
       $page->register_postbox($tests_status);
+
+      /**
+       * Update Status postbox
+       */
+      $update_status = new Postbox('update-status');
+      $update_status->set_title(__('Update Status', 'seravo'));
+      $update_status->set_data_func(array( __CLASS__, 'get_update_status' ), 0);
+      $update_status->set_build_func(array( __CLASS__, 'build_update_status' ));
+      $update_status->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+      $page->register_postbox($update_status);
+    }
+
+    /**
+     * Builder function for tests status postbox.
+     * @param Component $base Base element for the postbox.
+     * @param Postbox $postbox The current postbox.
+     * @param mixed $data Data returned by data function.
+     */
+    public static function build_update_status( Component $base, Postbox $postbox, $data ) {
+      if ( isset($data['error']) ) {
+        $base->add_child(Template::error_paragraph($data['error']));
+      } else {
+        $base->add_children(
+          array(
+            isset($data['created']) ? Template::paragraph(__('Site created: ', 'seravo') . $data['created']) : null,
+            isset($data['no_latest_log']) ? Template::paragraph($data['no_latest_log']) : null,
+            isset($data['over_month_warning']) ? Template::paragraph($data['over_month_warning']) : null,
+            isset($data['latest_update_log']) ? Component::from_raw('<p><b>' . __('Latest update.log:', 'seravo') . '</b></p>') : null,
+            isset($data['latest_update_log']) ? Component::from_raw('<p>' . $data['latest_update_log'] . '</p>') : null,
+            isset($data['see_logs_page_for_more']) ? Template::paragraph($data['see_logs_page_for_more']) : null,
+            isset($data['latest_successful_update']) ? Template::paragraph(__('Latest successful full update: ') . $data['latest_successful_update']) : null,
+            isset($data['latest_update_attempt']) ? Template::paragraph($data['latest_update_attempt']) : null,
+            Template::section_title(__('Last 5 partial or attempted updates:', 'seravo')),
+            isset($data['update_attempts']) ? Template::list_view($data['update_attempts']) : null,
+            isset($data['for_details']) ? Template::paragraph($data['for_details']) : null,
+          )
+        );
+      }
     }
 
     /**
@@ -160,13 +190,24 @@ if ( ! class_exists('Upkeep') ) {
 
     }
 
+    /**
+     * Fetch the site data from API
+     */
     public static function seravo_admin_get_site_info() {
       return API::get_site_data();
     }
 
+    /**
+     * @return mixed|void
+     */
     public static function seravo_updates_postbox() {
 
       $site_info = self::seravo_admin_get_site_info();
+
+      if ( is_wp_error($site_info) ) {
+        error_log($site_info->get_error_message());
+        return _e('An API error occured. Please try again later', 'seravo');
+      }
 
       // WP_error-object
       if ( gettype($site_info) === 'array' ) {
@@ -226,9 +267,19 @@ if ( ! class_exists('Upkeep') ) {
       }
     }
 
-    public static function site_status_postbox() {
-
+    /**
+     * Data function for update status postbox
+     * @return array<string, string>
+     */
+    public static function get_update_status() {
       $site_info = self::seravo_admin_get_site_info();
+
+      if ( is_wp_error($site_info) ) {
+        error_log($site_info->get_error_message());
+        $data['error'] = __('An API error occured. Please try again later', 'seravo');
+        return $data;
+      }
+
       // Calculate the approx. amount of days since last succesful FULL update
       // 86400 is used to get days out of seconds (60*60*24)
       $interval = round((strtotime(date('Y-m-d')) - strtotime($site_info['update_success'])) / 86400);
@@ -242,89 +293,63 @@ if ( ! class_exists('Upkeep') ) {
       }
       $update_log_name = substr(end($update_logs_arr), 10);
 
-      if ( gettype($site_info) === 'array' ) {
-        ?>
-        <p>
-          <?php _e('Site created', 'seravo'); ?>:
-          <?php echo date('Y-m-d', strtotime($site_info['created'])); ?>
-        </p>
-        <?php
-        // Show notification if FULL site update hasn't been succesful in 30 or more days
-        // and the site is using Seravo updates
-        if ( $site_info['seravo_updates'] === true && $interval >= 30 ) {
-          if ( empty($update_logs_arr) ) {
-            echo '<p>' . __('Unable to fetch the latest update log.', 'seravo') . '</p>';
-          } else {
-            // Get last item from logs array
-            $update_log_contents = array();
-            $update_log_output = '';
-            $update_log_fp = fopen(end($update_logs_arr), 'r');
-            if ( $update_log_fp != false ) {
-              $index = 0;
-              while ( ! feof($update_log_fp) ) {
-                // Strip timestamps from log lines
-                // Show only lines with 'Updates failed!'
-                $buffer = substr(fgets($update_log_fp), 28);
-                if ( substr($buffer, 0, 15) === 'Updates failed!' ) {
-                  $update_log_contents[ $index ] = $buffer;
-                  ++$index;
-                }
-              }
-              fclose($update_log_fp);
-              $update_log_output = implode('<br>', $update_log_contents);
-            }
+      $data['created'] = date('Y-m-d', strtotime($site_info['created']));
 
-            echo '<p>' . __(
-              'Last succesful full site update was over a month ago. A developer should take
-              a look at the update log and fix the issue preventing the site from updating.',
-              'seravo'
-            ) . '</p>';
-            if ( ! empty($update_log_contents) ) {
-              echo '<p><b>' . __('Latest update.log:', 'seravo') . '</b></p><p>' .
-                $update_log_output . '</p>';
-            }
-            echo '<p><a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">' . __('See the logs page for more info.', 'seravo') . '</a></p>';
-          }
-        }
-
-        ?>
-
-        <p><?php _e('Latest successful full update', 'seravo'); ?>: <?php echo date('Y-m-d', strtotime($site_info['update_success'])); ?></p>
-
-        <?php
-        if ( ! empty($site_info['update_attempt']) ) {
-          echo '<p>' . __('Latest attempted full update', 'seravo') . ': ';
-          echo date('Y-m-d', strtotime($site_info['update_attempt'])) . '</p>';
-        }
-      } else {
-        echo $site_info->get_error_message();
-      }
-      ?>
-      <h3><?php _e('Last 5 partial or attempted updates:', 'seravo'); ?></h3>
-      <ul>
-        <?php
-        exec('zgrep -h -e "Started updates for" -e "Installing urgent security" /data/log/update.log* | sort -r', $output);
-        // Only match the date, hours and minutes are irrelevant
-        if ( preg_match_all('/\d{4}-\d{2}-\d{2}/', implode(' ', $output), $matches) ) {
-          foreach ( array_slice($matches[0], 0, 5) as $date ) {
-            echo '<li>' . $date . '</li>';
-          }
+      if ( $site_info['seravo_updates'] === true && $interval >= 30 ) {
+        if ( empty($update_logs_arr) ) {
+          $data['no_latest_log'] = __('Unable to fetch the latest update log.', 'seravo');
         } else {
-          echo '<b>' . __('No update attempts yet', 'seravo') . '</b>';
+          // Get last item from logs array
+          $update_log_contents = array();
+          $update_log_output = '';
+          $update_log_fp = fopen(end($update_logs_arr), 'r');
+          if ( $update_log_fp != false ) {
+            $index = 0;
+            while ( ! feof($update_log_fp) ) {
+              // Strip timestamps from log lines
+              // Show only lines with 'Updates failed!'
+              $buffer = substr(fgets($update_log_fp), 28);
+              if ( substr($buffer, 0, 15) === 'Updates failed!' ) {
+                $update_log_contents[ $index ] = $buffer;
+                ++$index;
+              }
+            }
+            fclose($update_log_fp);
+            $update_log_output = implode('<br>', $update_log_contents);
+          }
+
+          $data['over_month_warning'] = __('Last succesful full site update was over a month ago. A developer should take a look at the update log and fix the issue preventing the site from updating.', 'seravo');
+
+          if ( ! empty($update_log_contents) ) {
+            $data['latest_update_log'] = $update_log_output;
+          }
+          $data['see_logs_page_for_more'] = '<a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">' . __('See the logs page for more info.', 'seravo') . '</a>';
         }
-        ?>
-      </ul>
-      <p>
-        <?php
-        printf(
-          // translators: event count and update.log filename and updates.log and security.log paths
-          __('For details about last %1$s update attempts by Seravo, see %2$s.', 'seravo'),
-          count($output),
-          '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>update.log*</code></a>'
-        );
-        ?>
-      </p>
-      <?php
+      }
+
+      $data['latest_successful_update'] = date('Y-m-d', strtotime($site_info['update_success']));
+
+      if ( ! empty($site_info['update_attempt']) ) {
+        $data['latest_update_attempt'] = date('Y-m-d', strtotime($site_info['update_attempt']));
+      }
+
+      exec('zgrep -h -e "Started updates for" -e "Installing urgent security" /data/log/update.log* | sort -r', $output);
+      // Only match the date, hours and minutes are irrelevant
+      if ( preg_match_all('/\d{4}-\d{2}-\d{2}/', implode(' ', $output), $matches) ) {
+        $updates = array_slice($matches[0], 0, 5);
+        $data['update_attempts'] = $updates;
+      } else {
+        $data['update_attempts'] = __('No update attempts yet', 'seravo');
+      }
+
+      $data['for_details'] = sprintf(
+        // translators: event count and update.log filename and updates.log and security.log paths
+        __('For details about last %1$s update attempts by Seravo, see %2$s.', 'seravo'),
+        count($output),
+        '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>update.log*</code></a>'
+      );
+
+      return $data;
     }
 
     /**
