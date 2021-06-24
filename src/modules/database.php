@@ -20,7 +20,6 @@ if ( ! defined('ABSPATH') ) {
 }
 
 require_once SERAVO_PLUGIN_SRC . 'lib/search-replace-ajax.php';
-require_once SERAVO_PLUGIN_SRC . 'lib/db-cleanup-ajax.php';
 require_once SERAVO_PLUGIN_SRC . 'lib/database-ajax.php';
 
 if ( ! class_exists('Database') ) {

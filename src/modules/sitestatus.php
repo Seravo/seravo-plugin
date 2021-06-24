@@ -427,6 +427,12 @@ if ( ! class_exists('Site_Status') ) {
     public static function get_site_info() {
       $info = \Seravo\Upkeep::seravo_admin_get_site_info();
 
+      if ( is_wp_error($info) ) {
+        $data['error'] = __('An API error occured. Please try again later', 'seravo');
+        error_log($info->get_error_message());
+        return $data;
+      }
+
       $plans = array(
         'demo'       => __('Demo', 'seravo'),
         'mini'       => __('WP Mini', 'seravo'),
@@ -466,7 +472,7 @@ if ( ! class_exists('Site_Status') ) {
         $data['country'] = __('Site Location', 'seravo') . ': ' . $countries[$info['country']];
       }
       // Check for contacts
-      $contacts = isset($info['contact_emails']) ? implode(', ', $info['contact_emails']) : array();
+      $contacts = isset($info['contact_emails']) ? implode(', ', $info['contact_emails']) : __('No contacts found', 'seravo');
       $data['contacts'] = '<a href="tools.php?page=upkeep_page#contacts">' . __('Technical Contacts', 'seravo') . '</a>: ' . $contacts;
 
       return $data;
