@@ -39,9 +39,9 @@ class Component {
 
   /**
    * Add a child which will be rendered after the content.
-   * @param \Seravo\Postbox\Component $child Child component to be added.
+   * @param mixed $child $child Child component to be added.
    */
-  public function add_child( Component $child ) {
+  public function add_child( $child ) {
     if ( $child === null ) {
       return;
     }
