@@ -2,6 +2,12 @@
 
 namespace Seravo;
 
+use Seravo\Postbox\Postbox;
+use Seravo\Postbox\Requirements;
+use Seravo\Postbox\Template;
+use Seravo\Postbox\Component;
+use Seravo\Postbox\Toolpage;
+
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
@@ -20,19 +26,16 @@ if ( ! class_exists('Upkeep') ) {
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
 
+      $page = new Toolpage('tools_page_upkeep_page');
+      self::init_upkeep_postboxes($page);
+      $page->enable_ajax();
+      $page->register_page();
+
       if ( getenv('WP_ENV') === 'production' ) {
         \Seravo\Postbox\seravo_add_raw_postbox(
           'site-status',
           __('Update Status', 'seravo'),
           array( __CLASS__, 'site_status_postbox' ),
-          'tools_page_upkeep_page',
-          'normal'
-        );
-
-        \Seravo\Postbox\seravo_add_raw_postbox(
-          'tests-status',
-          __('Tests Status', 'seravo'),
-          array( __CLASS__, 'tests_status_postbox' ),
           'tools_page_upkeep_page',
           'normal'
         );
@@ -86,6 +89,35 @@ if ( ! class_exists('Upkeep') ) {
         array( __CLASS__, 'seravo_plugin_updater_postbox' ),
         'tools_page_upkeep_page',
         'side'
+      );
+    }
+
+    /**
+     * Init the page postboes.
+     * @param Toolpage $page The page to init on.
+     */
+    public static function init_upkeep_postboxes( Toolpage $page ) {
+      $tests_status = new Postbox('tests-status');
+      $tests_status->set_title(__('Tests Status', 'seravo'));
+      $tests_status->set_data_func(array( __CLASS__, 'get_tests_status' ), 300);
+      $tests_status->set_build_func(array( __CLASS__, 'build_tests_status' ));
+      $tests_status->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+      $page->register_postbox($tests_status);
+    }
+
+    /**
+     * Builder function for tests status postbox.
+     * @param Component $base Base element for the postbox.
+     * @param Postbox $postbox The current postbox.
+     * @param mixed $data Data returned by data function.
+     */
+    public static function build_tests_status( Component $base, Postbox $postbox, $data ) {
+      $base->add_children(
+        array(
+          isset($data['status']) ? Template::paragraph($data['status'])->set_wrapper('<b>', '</b>') : null,
+          isset($data['success']) ? Template::success_failure($data['success']) : null,
+          isset($data['msg']) ? Template::paragraph($data['msg']) : null,
+        )
       );
     }
 
@@ -295,21 +327,26 @@ if ( ! class_exists('Upkeep') ) {
       <?php
     }
 
-    public static function tests_status_postbox() {
+    /**
+     * Data function for tests status postbox.
+     * @return array<string, string>|array<string, bool>
+     */
+    public static function get_tests_status() {
       exec('zgrep -h -A 1 "Running initial tests in production" /data/log/update.log-* /data/log/update.log | tail -n 1 | cut -d " " -f 4-8', $test_status);
+      $data = array();
 
       if ( count($test_status) === 0 ) {
-          echo '<p><b>' . __('Unknown!', 'seravo') . '</b></p>';
-          echo '<p>' . __("No tests have been ran yet. They will be ran during upcoming updates. You can try beforehand if the tests will be succesful or not with the 'Update tests' feature below.", 'seravo') . '</p>';
+        $data['status'] = __('Unknown!', 'seravo');
+        $data['msg'] = __("No tests have been ran yet. They will be ran during upcoming updates. You can try beforehand if the tests will be succesful or not with the 'Update tests' feature below.", 'seravo');
       } elseif ( $test_status[0] == 'Success! Initial tests have passed.' ) {
-          echo '<p style="color: green;"><b>' . __('Success!', 'seravo') . '</b></p>';
-          // translators: Link to Tests page
-          echo '<p>' . __('Site baseline tests have passed and updates can run normally.', 'seravo') . '</p>';
+        $data['success'] = true;
+        $data['msg'] = __('Site baseline tests have passed and updates can run normally.', 'seravo');
       } else {
-        echo '<p style="color: red;"><b>' . __('Failure!', 'seravo') . '</b></p>';
-        // translators: Link to Tests page
-        echo '<p>' . __('Site baseline tests are failing and needs to be fixed before further updates are run.', 'seravo') . '</p>';
+        $data['success'] = false;
+        $data['msg'] = __('Site baseline tests are failing and needs to be fixed before further updates are run.', 'seravo');
       }
+
+      return $data;
     }
 
     public static function backup_list_changes() {
