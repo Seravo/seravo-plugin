@@ -2,6 +2,14 @@
 
 namespace Seravo;
 
+use \Seravo\Postbox\Toolpage;
+use \Seravo\Postbox\Postbox;
+use \Seravo\Postbox\Component;
+use \Seravo\Postbox\Template;
+use \Seravo\Postbox\Ajax_Handler;
+use \Seravo\Postbox\Ajax_Response;
+use \Seravo\Postbox\Requirements;
+
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
@@ -46,15 +54,13 @@ if ( ! class_exists('Site_Status') ) {
       add_action('wp_ajax_seravo_report_http_requests', 'Seravo\seravo_ajax_report_http_requests');
       add_action('wp_ajax_seravo_speed_test', 'Seravo\seravo_speed_test');
 
-      if ( getenv('WP_ENV') === 'production' ) {
-        \Seravo\Postbox\seravo_add_raw_postbox(
-          'site-info',
-          __('Site Information', 'seravo'),
-          array( __CLASS__, 'seravo_site_info' ),
-          'tools_page_site_status_page',
-          'normal'
-        );
-      }
+      /**
+       * Init the new Toolpage and postboxes
+       */
+      $page = new Toolpage('tools_page_site_status_page');
+      self::init_sitestatus_postboxes($page);
+      $page->enable_ajax();
+      $page->register_page();
 
       // Add HTTP request stats postbox
       \Seravo\Postbox\seravo_add_raw_postbox(
@@ -125,6 +131,18 @@ if ( ! class_exists('Site_Status') ) {
         'side'
       );
 
+    }
+
+    public static function init_sitestatus_postboxes( Toolpage $page ) {
+      /**
+       * Site info postbox
+       */
+       $site_info = new Postbox('site-info');
+       $site_info->set_title(__('Site Information', 'seravo'));
+       $site_info->set_data_func(array( __CLASS__, 'get_site_info' ), 300);
+       $site_info->set_build_func(array( __CLASS__, 'build_site_info' ));
+       $site_info->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+       $page->register_postbox($site_info);
     }
 
     public static function register_optimize_image_settings() {
@@ -377,17 +395,37 @@ if ( ! class_exists('Site_Status') ) {
       <?php
     }
 
-    public static function seravo_site_info() {
-      if ( ! Helpers::is_production() ) {
-        __('This feature is available only on live production sites.', 'seravo');
+    /**
+     * Build the site-info postbox.
+     * @param Component $base Postbox's base element to add children to.
+     * @param Postbox $postbox Postbox The box.
+     * @param mixed $data Data returned by data func.
+     */
+    public static function build_site_info( Component $base, Postbox $postbox, $data ) {
+      if ( isset($data['error']) ) {
+        $base->add_child(Template::error_paragraph($data['error']));
+        return;
       }
 
-      $site_info = Upkeep::seravo_admin_get_site_info();
+      $base->add_children(
+        array(
+          isset($data['site_name']) ? Template::paragraph($data['site_name']) : null,
+          isset($data['site_created']) ? Template::paragraph($data['site_created']) : null,
+          isset($data['termination']) ? Template::paragraph($data['termination']) : null,
+          isset($data['country']) ? Template::paragraph($data['country']) : null,
+          isset($data['plan_type']) ? Template::paragraph($data['plan_type']) : null,
+          isset($data['account_manager']) ? Template::paragraph($data['account_manager']) : null,
+          isset($data['contacts']) ? Template::paragraph($data['contacts']) : null,
+        )
+      );
+    }
 
-      // If you are devloping locally and want to mock a api request, uncomment the code below and add a valid json response
-      // $response = '{
-      // }';
-      // $site_info = json_decode($response, true);
+    /**
+     * Fetch the plan details. This is a data func for site-info postbox.
+     * @return array<string, mixed>
+     */
+    public static function get_site_info() {
+      $info = \Seravo\Upkeep::seravo_admin_get_site_info();
 
       $plans = array(
         'demo'       => __('Demo', 'seravo'),
@@ -396,7 +434,6 @@ if ( ! class_exists('Site_Status') ) {
         'business'   => __('WP Business', 'seravo'),
         'enterprise' => __('WP Enterprise', 'seravo'),
       );
-
       $countries = array(
         'fi'       => __('Finland', 'seravo'),
         'se'       => __('Sweden', 'seravo'),
@@ -405,37 +442,34 @@ if ( ! class_exists('Site_Status') ) {
         'anywhere' => __('No preference', 'seravo'),
       );
 
-      $contact_emails = array();
-      if ( isset($site_info['contact_emails']) ) {
-        $contact_emails = $site_info['contact_emails'];
-      }
+      // These values always exists
+      $data = array(
+        'site_name' => __('Site Name') . ': ' . $info['name'],
+        'site_created' => __('Site Created') . ': ' . date('Y-m-d', strtotime($info['created'])),
+        'plan_type' => __('Plan Type') . ': ' . $plans[$info['plan']['type']],
+      );
 
-      function print_item( $value, $description ) {
-        if ( is_array($value) ) {
-          echo '<p>' . $description . ': ';
-          $mails = implode(', ', $value);
-          echo $mails . '</p>';
-        } elseif ( ! empty($value) && '1970-01-01' != $value ) {
-          echo '<p>' . $description . ': ' . $value . '</p>';
+      // Check for account manger
+      if ( isset($info['account_manager']) ) {
+        $data['account_manager'] = __('Account Manager', 'seravo') . ': ' . $info['account_manager'];
+      } else {
+        $data['account_manager'] = __('No Account Manager found. Account Manager is only included in Seravo Enterprise plans.', 'seravo');
+      }
+      // Check for termination date (hide 1970-01-01)
+      if ( ! empty($info['termination']) ) {
+        if ( date('Y-m-d', strtotime($info['termination'])) !== '1970-01-01' ) {
+          $data['termination'] = __('Plan Termination', 'seravo') . ': ' . date('Y-m-d', strtotime($info['termination']));
         }
       }
-
-      // Nested arrays need to be checked seperately
-      $country = empty($site_info['country']) ? '' : $countries[ $site_info['country'] ];
-
-      print_item($site_info['name'], __('Site Name', 'seravo'));
-      print_item(date('Y-m-d', strtotime($site_info['created'])), __('Site Created', 'seravo'));
-      print_item(date('Y-m-d', strtotime($site_info['termination'])), __('Plan Termination', 'seravo'));
-      print_item($country, __('Site Location', 'seravo'));
-      print_item($plans[ $site_info['plan']['type'] ], __('Plan Type', 'seravo'));
-
-      if ( isset($site_info['account_manager']) ) {
-        print_item(htmlentities($site_info['account_manager']), __('Account Manager', 'seravo'));
-      } else {
-        echo '<p>' . __('No Account Manager found. Account Manager is only included in Seravo Enterprise plans.', 'seravo') . '</p>';
+      // Check for location
+      if ( ! empty($info['country']) ) {
+        $data['country'] = __('Site Location', 'seravo') . ': ' . $countries[$info['country']];
       }
+      // Check for contacts
+      $contacts = isset($info['contact_emails']) ? implode(', ', $info['contact_emails']) : array();
+      $data['contacts'] = '<a href="tools.php?page=upkeep_page#contacts">' . __('Technical Contacts', 'seravo') . '</a>: ' . $contacts;
 
-      print_item($contact_emails, '<a href="tools.php?page=upkeep_page#contacts">' . __('Technical Contacts', 'seravo') . '</a>');
+      return $data;
     }
 
     public static function seravo_shadows_postbox() {
