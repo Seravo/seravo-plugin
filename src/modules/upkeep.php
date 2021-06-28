@@ -2,7 +2,7 @@
 
 namespace Seravo;
 
-use Seravo\Ajax\ButtonCommand;
+use Seravo\Ajax\AjaxResponse;
 use \Seravo\Postbox;
 use Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
@@ -32,11 +32,6 @@ if ( ! class_exists('Upkeep') ) {
 
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
-
-      $page = new Toolpage('tools_page_upkeep_page');
-      self::init_upkeep_postboxes($page);
-      $page->enable_ajax();
-      $page->register_page();
 
       \Seravo\Postbox\seravo_add_raw_postbox(
         'backup-list-changes',
@@ -71,39 +66,50 @@ if ( ! class_exists('Upkeep') ) {
           'side'
         );
       }
-
-      \Seravo\Postbox\seravo_add_raw_postbox(
-        'change-php-version',
-        __('Change PHP Version', 'seravo'),
-        array( __CLASS__, 'change_php_version_postbox' ),
-        'tools_page_upkeep_page',
-        'side'
-      );
     }
 
     public static function init_upkeep_postboxes( Toolpage $page ) {
+      /**
+       * Seravo Plugin Updater
+       */
       $seravo_plugin_update = new Postbox\Postbox('seravo-plugin-updater');
       $seravo_plugin_update->set_title(__('Seravo Plugin Updater', 'seravo'));
-      $seravo_plugin_update->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+      $seravo_plugin_update->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
 
-      $update_button = new Ajax\ButtonCommand('seravo-plugin-update', 'wp-seravo-plugin-update &', 0);
+      $update_button = new Ajax\SimpleCommand('seravo-plugin-update', 'wp-seravo-plugin-update');
       $update_button->set_button_text(__('Update plugin now', 'seravo'));
+      $update_button->set_spinner_text(__('Updating Seravo Plugin...', 'seravo'));
       $seravo_plugin_update->add_ajax_handler($update_button);
 
       $seravo_plugin_update->set_data_func(array( __CLASS__, 'get_seravo_plugin_update' ), 0);
       $seravo_plugin_update->set_build_func(array( __CLASS__, 'build_seravo_plugin_update_postbox' ));
       $page->register_postbox($seravo_plugin_update);
-    }
 
-    /**
-     * Init the page postboes.
-     * @param Toolpage $page The page to init on.
-     */
-    public static function init_upkeep_postboxes( Toolpage $page ) {
+      /**
+       * PHP Version Tool
+       */
+      $php_version_tool = new Postbox\SimpleForm('change-php-version');
+
+      // Init AJAX
+      $php_compatibility = new Ajax\SimpleForm('check-php-compatibility');
+      $php_compatibility->set_button_text(__('Check PHP compatibility', 'seravo'));
+      $php_compatibility->set_spinner_text(__('Running PHP compatibility check. This may take up to tens of minutes.', 'seravo'));
+      $php_compatibility->set_ajax_func(array( __CLASS__, 'run_php_compatibility' ));
+      $php_version_tool->add_ajax_handler($php_compatibility);
+
+      $php_version_tool->set_title(__('Change PHP Version', 'seravo'));
+      $php_version_tool->set_build_form_func(array( __CLASS__, 'build_php_version_form' ));
+      $php_version_tool->set_spinner_text(__('Activating... Please wait up to 30 seconds', 'seravo'));
+      $php_version_tool->set_button_text(__('Change version', 'seravo'));
+      $php_version_tool->set_button_func(array( __CLASS__, 'set_php_version' ));
+      $php_version_tool->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+      $php_version_tool->set_build_func(array( __CLASS__, 'build_change_php_version_postbox' ));
+      $page->register_postbox($php_version_tool);
+
       /**
        * Tests Status postbox
        */
-      $tests_status = new Postbox('tests-status');
+      $tests_status = new Postbox\Postbox('tests-status');
       $tests_status->set_title(__('Tests Status', 'seravo'));
       $tests_status->set_data_func(array( __CLASS__, 'get_tests_status' ), 300);
       $tests_status->set_build_func(array( __CLASS__, 'build_tests_status' ));
@@ -113,7 +119,7 @@ if ( ! class_exists('Upkeep') ) {
       /**
        * Update Status postbox
        */
-      $update_status = new Postbox('update-status');
+      $update_status = new Postbox\Postbox('update-status');
       $update_status->set_title(__('Update Status', 'seravo'));
       $update_status->set_data_func(array( __CLASS__, 'get_update_status' ), 0);
       $update_status->set_build_func(array( __CLASS__, 'build_update_status' ));
@@ -127,7 +133,7 @@ if ( ! class_exists('Upkeep') ) {
      * @param Postbox $postbox The current postbox.
      * @param mixed $data Data returned by data function.
      */
-    public static function build_update_status( Component $base, Postbox $postbox, $data ) {
+    public static function build_update_status( Component $base, Postbox\Postbox $postbox, $data ) {
       if ( isset($data['error']) ) {
         $base->add_child(Template::error_paragraph($data['error']));
       } else {
@@ -155,7 +161,7 @@ if ( ! class_exists('Upkeep') ) {
      * @param Postbox $postbox The current postbox.
      * @param mixed $data Data returned by data function.
      */
-    public static function build_tests_status( Component $base, Postbox $postbox, $data ) {
+    public static function build_tests_status( Component $base, Postbox\Postbox $postbox, $data ) {
       $base->add_children(
         array(
           isset($data['status']) ? Template::paragraph($data['status'])->set_wrapper('<b>', '</b>') : null,
@@ -201,18 +207,168 @@ if ( ! class_exists('Upkeep') ) {
 
         wp_localize_script('seravo_upkeep', 'seravo_upkeep_loc', $loc_translation);
       }
-
     }
 
     /**
-     * Fetch the site data from API
+     * Build Change PHP version postbox.
+     * @param Component $base Postbox base component.
+     * @param Postbox $postbox Current postbox to build for.
      */
+    public static function build_change_php_version_postbox( Component $base, Postbox\Postbox $postbox ) {
+      $base->add_child(Template::section_title(__('Check PHP compatibility', 'seravo')));
+      $base->add_child(Template::paragraph(__('With this tool you can run command <code>wp-php-compatibility-check</code>. Check <a href="tools.php?page=logs_page&logfile=php-compatibility.log">compatibility scan results.</a>', 'seravo')));
+      $base->add_child($postbox->get_ajax_handler('check-php-compatibility')->get_component());
+      $base->add_child(Template::section_title(__('Change PHP version', 'seravo')));
+      $base->add_child(Template::paragraph(__('Latest version is recommended if all plugins and theme support it. See also <a target="_blank" href="https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo')));
+      $base->add_child($postbox->get_ajax_handler('change-php-version')->get_component());
+    }
+
+    /**
+     * Build function for Change PHP Version postbox radiobuttons.
+     * @param Component $base Base component to add child components.
+     */
+    public static function build_php_version_form( Component $base ) {
+      $data = array(
+        '7.2' => array(
+          'value' => '7.2',
+          'name'  => 'PHP 7.2 (EOL 30 Nov 2020)',
+          'checked' => false,
+        ),
+        '7.3' => array(
+          'value' => '7.3',
+          'name'  => 'PHP 7.3 (EOL 6 Dec 2021)',
+          'checked' => false,
+        ),
+        '7.4' => array(
+          'value' => '7.4',
+          'name'  => 'PHP 7.4',
+          'checked' => false,
+        ),
+        '8.0' => array(
+          'value' => '8.0',
+          'name'  => 'PHP 8.0',
+          'checked' => false,
+        ),
+      );
+
+      $current_version = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+      $data[$current_version]['checked'] = true;
+
+       foreach ( $data as $version ) {
+        $base->add_child(Template::radio_button('php-version', $version['value'], $version['name'], $version['checked']));
+      }
+    }
+
+    /**
+     * Run Check PHP compatibility AJAX call.
+     * @return \Seravo\Ajax\AjaxResponse|mixed
+     */
+    public static function run_php_compatibility() {
+      $polling = Ajax\AjaxHandler::check_polling();
+      $response = new AjaxResponse();
+
+      if ( $polling === true ) {
+        $response->is_success(true);
+        $response->set_data(
+          array(
+            'output' => Template::paragraph(__('PHP compatibility check has been run. See full details on <a href="tools.php?page=logs_page&logfile=php-compatibility.log" target="_blank">compatibility scan results.</a>', 'seravo'))->to_html(),
+          )
+        );
+        return $response;
+      }
+
+      if ( $polling === false ) {
+        $command = 'wp-php-compatibility-check';
+        $pid = Shell::backround_command($command);
+
+        if ( $pid === false ) {
+          return Ajax\AjaxResponse::exception_response();
+        }
+
+        return Ajax\AjaxResponse::require_polling_response($pid);
+      }
+
+      return $polling;
+    }
+
+    /**
+     * Data function for Change PHP Version AJAX.
+     * @return \Seravo\Ajax\AjaxResponse|mixed
+     */
+    public static function set_php_version() {
+      $polling = Ajax\AjaxHandler::check_polling();
+      $response = new AjaxResponse();
+      $php_version = isset($_REQUEST['php-version']) ? sanitize_text_field($_REQUEST['php-version']) : '';
+      $current_version = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+      $php_version_array = array(
+        '7.2' => '7.2',
+        '7.3' => '7.3',
+        '7.4' => '7.4',
+        '8.0' => '8.0',
+      );
+
+      if ( $polling === true ) {
+        $response->is_success(true);
+        $response->set_data(
+          array(
+            'output' => Template::success_failure(true)->to_html() .
+            Template::paragraph(__('PHP version has been changed succesfully! Please check <a href="tools.php?page=logs_page&logfile=php-error.log" target="_blank">php-error.log</a> for regressions.', 'seravo'))->to_html(),
+          )
+        );
+        return $response;
+      }
+
+      if ( $polling === false ) {
+        if ( array_key_exists($php_version, $php_version_array) ) {
+
+          if ( $php_version === $current_version ) {
+            $response = new AjaxResponse();
+            $response->is_success(true);
+            $response->set_data(
+              array(
+                'output' => Template::error_paragraph(__('The selected PHP version is already in use.', 'seravo'))->to_html(),
+                'error' => __('Shit happens', 'seravo'),
+              )
+            );
+            return $response;
+          }
+          file_put_contents('/data/wordpress/nginx/php.conf', 'set $mode php' . $php_version_array[$php_version] . ';' . PHP_EOL);
+          // NOTE! The exec below must end with '&' so that subprocess is sent to the
+          // background and the rest of the PHP execution continues. Otherwise the Nginx
+          // restart will kill this PHP file, and when this PHP files dies, the Nginx
+          // restart will not complete, leaving the server state broken so it can only
+          // recover if wp-restart-nginx is run manually.
+          exec('echo "--> Setting to mode ' . $php_version_array[$php_version] . '" >> /data/log/php-version-change.log');
+          //exec('wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &');
+          $restart_nginx = 'wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &';
+          $pid = Shell::backround_command($restart_nginx);
+
+          if ( $pid === false ) {
+            return Ajax\AjaxResponse::exception_response();
+          }
+
+          if ( is_executable('/usr/local/bin/s-git-commit') && file_exists('/data/wordpress/.git') ) {
+            exec('cd /data/wordpress/ && git add nginx/*.conf && /usr/local/bin/s-git-commit -m "Set new PHP version" && cd /data/wordpress/htdocs/wordpress/wp-admin');
+          }
+
+          return Ajax\AjaxResponse::require_polling_response($pid);
+        }
+      }
+      return $polling;
+    }
+
+    /**
      * Build Seravo Plugin Update postbox.
      * @param Component $base Postbox base component.
      * @param Postbox $postbox Current postbox to build for.
      * @param mixed $data Data returned by data function.
      */
     public static function build_seravo_plugin_update_postbox( Component $base, Postbox\Postbox $postbox, $data ) {
+      if ( ! isset($data['current_version']) || ! isset($data['upstream_version']) ) {
+        $base->add_child(Template::error_paragraph(__('No upstream or current Seravo Plugin version available, please try again later', 'seravo')));
+        return;
+      }
+
       $base->add_child(Template::paragraph(__('Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here.', 'seravo')));
       $base->add_child(Template::paragraph(__('Current version: ', 'seravo') . $data['current_version']));
       $base->add_child(Template::paragraph(__('Upstream version: ', 'seravo') . $data['upstream_version']));
@@ -220,7 +376,7 @@ if ( ! class_exists('Upkeep') ) {
       if ( $data['current_version'] == $data['upstream_version'] ) {
         $base->add_child(Template::paragraph(__('The currently installed version is the same as the latest available version.', 'seravo'), 'success'));
       } else {
-        $base->add_child(Template::paragraph('Update available'));
+        $base->add_child(Template::paragraph(__('There is a new version available', 'seravo'), 'warning'));
         $base->add_child($postbox->get_ajax_handler('seravo-plugin-update')->get_component());
       }
     }
@@ -243,6 +399,9 @@ if ( ! class_exists('Upkeep') ) {
       return $data;
     }
 
+    /**
+     * Fetch the site data from API
+     */
     public static function seravo_admin_get_site_info() {
       return API::get_site_data();
     }
@@ -464,101 +623,6 @@ if ( ! class_exists('Upkeep') ) {
         </div>
       </div>
       
-      <?php
-    }
-
-    public static function change_php_version_postbox() {
-      ?>
-      <p id="change_php_version">
-        <?php
-        printf(
-          // translators: link to log file
-          __('Latest version is recommended if all plugins and theme support it. Check <a href="%s">compatibility scan results.</a>', 'seravo'),
-          'tools.php?page=logs_page&logfile=php-compatibility.log'
-        );
-        ?>
-        </p>
-        
-      <button class="button" id='check-php-compatibility-button'><?php _e('Check PHP compatibility', 'seravo'); ?></button>
-      <div id="check-php-compatibility-status" class="hidden">
-        <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
-      </div>
-
-      <p>
-        <?php
-        _e('See also <a target="_blank" href="https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version">more information on PHP version upgrades</a>.', 'seravo');
-        ?>
-      </p>
-
-      <div id="seravo-php-version">
-        <?php
-        // See https://www.php.net/supported-versions.php
-        $php_versions = array(
-          '7.2' => array(
-            'value' => '7.2',
-            'name'  => 'PHP 7.2 (EOL 30 Nov 2020)',
-          ),
-          '7.3' => array(
-            'value' => '7.3',
-            'name'  => 'PHP 7.3 (EOL 6 Dec 2021)',
-          ),
-          '7.4' => array(
-            'value' => '7.4',
-            'name'  => 'PHP 7.4',
-          ),
-          '8.0' => array(
-            'value' => '8.0',
-            'name'  => 'PHP 8.0',
-          ),
-        );
-
-        $curver = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-
-        foreach ( $php_versions as $php ) {
-          ?>
-          <input type='radio' name="php-version"
-          <?php
-          if ( isset($php['disabled']) && $php['disabled'] ) {
-            echo 'disabled';
-          };
-          ?>
-                 value="<?php echo $php['value']; ?>" class='php-version-radio'
-          <?php
-          if ( $curver == $php['value'] ) {
-            echo 'checked';
-          };
-          ?>
-          ><?php echo $php['name']; ?><br>
-          <?php
-        }
-        ?>
-        <br>
-        <span id="overwrite-config-files-span">
-          <input type="checkbox" id="overwrite-config-files" class="hidden">
-          <?php
-          _e("I'm aware of the risks associated with edits to the PHP configuration files and want to proceed with the change.", 'seravo');
-          ?>
-          <br>
-        </span>
-        <button class="button" id='change-php-version-button'><?php _e('Change version', 'seravo'); ?></button>
-        <br>
-      </div>
-      <div id="change-php-version-status" class="hidden">
-        <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
-        <?php _e('Activating... Please wait up to 30 seconds', 'seravo'); ?>
-      </div>
-      <div id="php-change-end">
-        <p id="activated-line" class="hidden">
-          <?php
-          printf(
-            // translators: link to log file
-            __('PHP version has been changed succesfully! Please check <a href="%s">php-error.log</a> for regressions.', 'seravo'),
-            'tools.php?page=logs_page&logfile=php-error.log'
-          );
-          ?>
-        </p>
-        <p id="activation-failed-line" class="hidden"><?php _e('PHP version change failed.', 'seravo'); ?></p>
-      </div>
       <?php
     }
 

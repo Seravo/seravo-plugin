@@ -63,10 +63,9 @@ class Template {
       foreach ( $element as $list_object ) {
         $component->add_child(Component::from_raw('<li>' . $list_object . '</li>'));
       }
-      return $component;
+    } else {
+      $component->add_child(Component::from_raw('<li>' . $element . '</li>'));
     }
-
-    $component->add_child(Component::from_raw('<li>' . $element . '</li>'));
 
     return $component;
   }
@@ -183,6 +182,20 @@ class Template {
     $wrapper->add_child(Component::from_raw('<input type="checkbox" id="' . $name . '" name="' . $name . '"' . ($checked ? ' checked' : '') . '>'));
     $wrapper->add_child(Component::from_raw($label));
     return $wrapper;
+  }
+
+  /* Add radio_button with the given details.
+   * @param string $name Name for the radio button input.
+   * @param string $value Value of the radio button.
+   * @param string $content Content message for the radio button.
+   * @param bool $checked Check the radiobutton.
+   * @return \Seravo\Postbox\Component Button component.
+   */
+  /**
+   * @return \Seravo\Postbox\Component
+   */
+  public static function radio_button( $name, $value, $content, $checked = false ) {
+    return Component::from_raw('<input type="radio" name="' . $name . '" value="' . $value . '"' . ($checked ? ' checked=""' : '') . '>' . $content . '<br>');
   }
 
   /**

@@ -8,42 +8,6 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-function seravo_change_php_version() {
-  $php_version = sanitize_text_field($_REQUEST['version']);
-
-  $php_version_array = array(
-    '7.2' => '7.2',
-    '7.3' => '7.3',
-    '7.4' => '7.4',
-    '8.0' => '8.0',
-  );
-
-  if ( array_key_exists($php_version, $php_version_array) ) {
-    file_put_contents('/data/wordpress/nginx/php.conf', 'set $mode php' . $php_version_array[ $php_version ] . ';' . PHP_EOL);
-    // NOTE! The exec below must end with '&' so that subprocess is sent to the
-    // background and the rest of the PHP execution continues. Otherwise the Nginx
-    // restart will kill this PHP file, and when this PHP files dies, the Nginx
-    // restart will not complete, leaving the server state broken so it can only
-    // recover if wp-restart-nginx is run manually.
-    exec('echo "--> Setting to mode ' . $php_version_array[ $php_version ] . '" >> /data/log/php-version-change.log');
-    exec('wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &');
-  }
-
-  if ( is_executable('/usr/local/bin/s-git-commit') && file_exists('/data/wordpress/.git') ) {
-    exec('cd /data/wordpress/ && git add nginx/*.conf && /usr/local/bin/s-git-commit -m "Set new PHP version" && cd /data/wordpress/htdocs/wordpress/wp-admin');
-  }
-}
-
-function seravo_php_check_version() {
-  $current_php_version = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-  return $current_php_version === sanitize_text_field($_REQUEST['version']);
-}
-
-function seravo_plugin_version_check() {
-  $current_version = Helpers::seravo_plugin_version();
-  return $current_version == seravo_plugin_upstream_version();
-}
-
 function seravo_plugin_upstream_version() {
   $upstream_version = get_transient('seravo_plugin_upstream_version');
   if ( $upstream_version === false || empty($upstream_version) ) {
@@ -52,18 +16,6 @@ function seravo_plugin_upstream_version() {
   }
 
   return $upstream_version;
-}
-
-function seravo_plugin_version_update() {
-  exec('wp-seravo-plugin-update &');
-}
-
-function seravo_check_php_compatibility() {
-  exec('wp-php-compatibility-check | grep "FOUND.*ERRORS AFFECTING.*" | awk \'{ print $2 }\'', $output, $return_value);
-  return array(
-    'output' => $output,
-    'exit_code' => $return_value,
-  );
 }
 
 function seravo_default_config_file() {
@@ -143,32 +95,9 @@ function seravo_changes_since() {
 function seravo_ajax_upkeep( $date ) {
   check_ajax_referer('seravo_upkeep', 'nonce');
   switch ( sanitize_text_field($_REQUEST['section']) ) {
-    case 'seravo_change_php_version':
-      echo seravo_change_php_version();
-      break;
-
-    case 'seravo_php_check_version':
-      echo seravo_php_check_version();
-      break;
-
-    case 'seravo_plugin_version_check':
-      echo seravo_plugin_version_check();
-      break;
-
-    case 'seravo_plugin_version_update':
-      echo seravo_plugin_version_update();
-      break;
-
-    case 'seravo_check_php_compatibility':
-      echo wp_json_encode(seravo_check_php_compatibility());
-      break;
 
     case 'seravo_default_config_file':
       echo seravo_default_config_file();
-      break;
-
-    case 'seravo_check_php_config_files':
-      echo seravo_check_php_config_files();
       break;
 
     case 'seravo_tests':

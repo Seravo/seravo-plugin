@@ -73,7 +73,7 @@
   p.warning {
     color: orange;
   }
-  
+
   table.widefat {
     width: 100%;
     border: none;
@@ -109,7 +109,7 @@
   .seravo-label-textfield label {
     margin-right: -10px;
   }
-  
+
  /* Tooltip css */
 
   .tooltip {
