@@ -148,6 +148,7 @@ if ( ! class_exists('Database') ) {
 
       $optimize->set_command($db_optimize_command, null, true);
       $optimize->set_button_text(__('Optimize', 'seravo'));
+      $optimize->set_spinner_text(__('Optimizing database...', 'seravo'));
 
       // Initialize cleanup section
       $cleanup_command = new Ajax\SimpleCommand('cleanup-db');

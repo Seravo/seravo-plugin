@@ -7,7 +7,7 @@ namespace Seravo\Postbox;
 
 /**
  * Class Component
- * 
+ *
  * Component in it's simplest form is just a
  * html element. The element may be wrapped with
  * other elements and contain child components.

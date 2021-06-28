@@ -4,7 +4,7 @@ namespace Seravo\Postbox;
 
 /**
  * Class Template
- * 
+ *
  * Template has static methods for building
  * components from 'templates'. Templates should be
  * used to keep the components unified.
@@ -125,11 +125,27 @@ class Template {
   /**
    * Display spinner image. In default it's hidden.
    * @param string $id Id for this spinner.
-   * @param string $class Class for the div spinner component, default 'spinner'.
+   * @param string $class Class for the div spinner component, default 'seravo-spinner-wrapper seravo-spinner'.
    * @return \Seravo\Postbox\Component Spinner component.
    */
   public static function spinner( $id, $class = 'seravo-spinner' ) {
-    return Component::from_raw('<div id="' . $id . '" class="' . $class . '"><img src="/wp-admin/images/spinner.gif"></div>');
+    return Component::from_raw('<div id="' . $id . '" class="seravo-spinner-wrapper ' . $class . '"><img src="/wp-admin/images/spinner.gif"></div>');
+  }
+
+  /**
+   * Display spinner image with loading text next to it. In default it's hidden.
+   * @param string $id Id for this spinner.
+   * @param string $text Text next to spinner.
+   * @param string $spinner_class Class for the div spinner component, default 'spinner'.
+   * @return \Seravo\Postbox\Component Spinner component.
+   */
+  public static function spinner_with_text( $id, $text, $spinner_class = 'seravo-spinner' ) {
+    $spinner = new Component('<div id="' . $id . '" class="' . $spinner_class . '"><img src="/wp-admin/images/spinner.gif"></div>');
+    $text = new Component($text, '<span><b>', '</b></span>');
+
+    $wrapper = new Component('', '<div class="seravo-spinner-wrapper">', '</div>');
+    $wrapper->add_child(self::side_by_side($spinner, $text));
+    return $wrapper;
   }
 
   /**
