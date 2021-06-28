@@ -8,7 +8,7 @@ jQuery(document).ready(
      * Makes request automatically on page load
      * and shows the output.
      */
-    jQuery('.seravo-ajax-auto-command').each(
+    jQuery('.seravo-ajax-lazy-load').each(
       function () {
         var section = jQuery(this).attr('data-section');
         var postbox_id = jQuery(this).closest('.seravo-postbox').attr('data-postbox-id');
@@ -37,8 +37,9 @@ jQuery(document).ready(
      * Makes request on button click
      * and shows the output.
      */
-    jQuery('.seravo-ajax-button-command').each(
+    jQuery('.seravo-ajax-simple-form').each(
       function () {
+        var form = this;
         var section = jQuery(this).attr('data-section');
         var postbox_id = jQuery(this).closest('.seravo-postbox').attr('data-postbox-id');
 
@@ -70,7 +71,7 @@ jQuery(document).ready(
             spinner.show();
 
             // Make the request
-            seravo_ajax_request('get', postbox_id, section, 'output', on_success, on_error);
+            seravo_ajax_request('get', postbox_id, section, 'output', on_success, on_error, get_form_data(form));
           }
         );
 
@@ -81,8 +82,13 @@ jQuery(document).ready(
             output.hide();
             spinner.show();
 
+            var data = {
+              'dryrun': true,
+              ...get_form_data(form)
+            }
+
             // Make the request
-            seravo_ajax_request('get', postbox_id, section, 'output', on_success, on_error, { 'dryrun': true });
+            seravo_ajax_request('get', postbox_id, section, 'output', on_success, on_error, data);
           }
         );
       }
@@ -141,4 +147,28 @@ function seravo_ajax_request(method, postbox_id, section, data_field, on_success
       }
     }
   );
+}
+
+function get_form_data(section) {
+  var data = [];
+
+  // Inputs
+  jQuery(section).find('input').each(
+    function () {
+      var name = jQuery(this).attr('name');
+      var value = jQuery(this).val();
+      data[name] = value;
+    }
+  );
+
+  // Radio inputs
+  jQuery(section).find("input[type='radio']:checked").each(
+    function () {
+      var name = jQuery(this).attr('name');
+      var value = jQuery(this).val();
+      data[name] = value;
+    }
+  );
+
+  return data;
 }

@@ -1,0 +1,96 @@
+<?php
+
+namespace Seravo\Ajax;
+
+use \Seravo\Postbox\Component;
+use \Seravo\Postbox\Template;
+
+/**
+ * Class SimpleForm
+ *
+ * SimpleForm is pre-made AjaxHandler for building
+ * forms with button for executing a function and dry-run.
+ */
+class SimpleForm extends AjaxHandler {
+
+  /**
+   * @var array|null  Callback for building the form.
+   */
+  private $build_form_func;
+
+  /**
+   * @var string|null Text to be shown on the main button.
+   */
+  private $button_text;
+  /**
+   * @var string|null Text to be shown on the dryrun button.
+   */
+  private $dryrun_button_text;
+
+  /**
+   * Constructor for SimpleForm. Will be called on new instance.
+   * @param string $section Unique section inside the postbox.
+   */
+  public function __construct( $section ) {
+    parent::__construct($section);
+
+    $this->set_build_func(
+      function ( Component $base, $section ) {
+        $this->build_component($base, $section);
+      }
+    );
+  }
+
+  /**
+   * Component needed for the AJAX handler.
+   * Can be gotten with get_component().
+   * @param \Seravo\Postbox\Component $base    Base component.
+   * @param string                    $section Unique section inside the postbox.
+   */
+  public function build_component( Component $base, $section ) {
+    $form = new Component();
+    if ( $this->build_form_func !== null ) {
+      \call_user_func($this->build_form_func, $form);
+    }
+
+    if ( $this->dryrun_button_text !== null ) {
+      $spinner_button = Template::n_by_side(
+        array(
+          Template::button($this->dryrun_button_text, $section . '-dryrun-button', 'button-primary'),
+          Template::button($this->button_text, $section . '-button', 'button-primary', true),
+          Template::spinner($section . '-spinner'),
+        )
+      );
+    } else {
+      $button = Template::button($this->button_text, $section . '-button', 'button-primary');
+      $spinner = Template::spinner($section . '-spinner');
+      $spinner_button = Template::side_by_side($button, $spinner);
+    }
+
+    $component = new Component('', "<div class=\"seravo-ajax-simple-form\" data-section=\"{$section}\">", '</div>');
+    $component->add_child($form);
+    $component->add_child($spinner_button);
+    $component->add_child(Template::simple_command_output($section . '-output', 'hidden'));
+
+    $base->add_child($component);
+  }
+
+  /**
+   * Set the callback function to be called for building the form.
+   * @param array $build_form_func Function for building the form.
+   */
+  public function set_build_form_func( $build_form_func ) {
+    $this->build_form_func = $build_form_func;
+  }
+
+  /**
+   * Set text for the buttons.
+   * @param string $text        Text on the button.
+   * @param string $dryrun_text Text on the dry-run button (optional).
+   */
+  public function set_button_text( $text, $dryrun_text = null ) {
+    $this->button_text = $text;
+    $this->dryrun_button_text = $dryrun_text;
+  }
+
+}

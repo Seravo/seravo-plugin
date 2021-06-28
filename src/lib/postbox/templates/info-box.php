@@ -6,9 +6,6 @@ namespace Seravo\Postbox;
  * Class InfoBox
  *
  * InfoBox is pre-made Postbox for showing paragraphs.
- *
- * Component structure
- * - parahraphs
  */
 class InfoBox extends Postbox {
 
@@ -39,6 +36,9 @@ class InfoBox extends Postbox {
   public function build( Component $base ) {
     foreach ( $this->paragraphs as $paragraph ) {
       $base->add_child(Template::paragraph($paragraph));
+    }
+    foreach( $this->ajax_handlers as $ajax_handler ) {
+      $base->add_child($ajax_handler->get_component());
     }
   }
 

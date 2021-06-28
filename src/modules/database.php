@@ -7,7 +7,7 @@
 
 namespace Seravo;
 
-use Seravo\Ajax\ButtonCommand;
+use Seravo\Ajax;
 use \Seravo\Postbox;
 use Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
@@ -137,7 +137,7 @@ if ( ! class_exists('Database') ) {
      */
     public static function init_cleanup_ajax_scripts( Postbox\Postbox $cleanup ) {
       // Initialize optimize section
-      $optimize = new ButtonCommand('optimize-db');
+      $optimize = new Ajax\SimpleCommand('optimize-db');
 
       // define the db credentials for wp-db-optimize
       $db_info = defined('DB_NAME') ? 'DB_NAME=' . DB_NAME . ' ' : '';
@@ -146,13 +146,12 @@ if ( ! class_exists('Database') ) {
       $db_info .= defined('DB_PASSWORD') ? 'DB_PASSWORD=' . DB_PASSWORD . ' ' : '';
       $db_optimize_command = $db_info . 'wp-db-optimize 2>&1';
 
-      $optimize->set_command($db_optimize_command, 0, true);
+      $optimize->set_command($db_optimize_command, null, true);
       $optimize->set_button_text(__('Optimize', 'seravo'));
 
       // Initialize cleanup section
-      $cleanup_command = new ButtonCommand('cleanup-db');
-      $cleanup_command->set_command('wp-backup && wp-db-cleanup 2>&1', 0, false);
-      $cleanup_command->set_dryrun_command('wp-db-cleanup --dry-run');
+      $cleanup_command = new Ajax\SimpleCommand('cleanup-db');
+      $cleanup_command->set_command('wp-backup && wp-db-cleanup 2>&1', 'wp-db-cleanup --dry-run', false);
       $cleanup_command->set_button_text(__('Run wp-db-cleanup', 'seravo'), __('Do a dry run', 'seravo'));
       $cleanup_command->set_empty_message(__('Nothing to be cleaned up', 'seravo'));
 

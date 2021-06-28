@@ -39,9 +39,9 @@ if ( ! class_exists('Backups') ) {
       /**
        * Backup create postbox
        */
-      $backups_create = new Postbox\ButtonCommand('backups-create');
+      $backups_create = new Postbox\SimpleCommand('backups-create');
       $backups_create->set_title(__('Create a New Backup', 'seravo'));
-      $backups_create->set_command('wp-backup 2>&1', 0);
+      $backups_create->set_command('wp-backup 2>&1', null, false);
       $backups_create->set_button_text(__('Create a backup', 'seravo'));
       $backups_create->add_paragraph(__('You can also create backups manually by running <code>wp-backup</code> on the command line. We recommend that you get familiar with the command line option that is accessible to you via SSH. That way recovering a backup will be possible whether the WP Admin is accessible or not.', 'seravo'));
       $backups_create->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
@@ -50,7 +50,7 @@ if ( ! class_exists('Backups') ) {
       /**
        * Backup excludes postbox
        */
-      $backups_excludes = new Postbox\AutoCommand('backups-excludes', 'side');
+      $backups_excludes = new Postbox\LazyCommand('backups-excludes', 'side');
       $backups_excludes->set_title(__('Files Excluded from the Backups', 'seravo'));
       $backups_excludes->set_command('cat /data/backups/exclude.filelist', 60, true);
       $backups_excludes->add_paragraph(__('Below are the contents of <code>/data/backups/exclude.filelist</code>.', 'seravo'));
@@ -61,9 +61,9 @@ if ( ! class_exists('Backups') ) {
       /**
        * Current Backups postbox
        */
-      $backups_list = new Postbox\AutoCommand('backups-list-', 'side');
+      $backups_list = new Postbox\LazyCommand('backups-list', 'side');
       $backups_list->set_title(__('Current Backups', 'seravo'));
-      $backups_list->set_command('wp-backup-status 2>&1', 300);
+      $backups_list->set_command('wp-backup-status 2>&1', 300, false);
       $backups_list->add_paragraph(__('This list is produced by the command <code>wp-backup-status</code>.', 'seravo'));
       $backups_list->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
       $page->register_postbox($backups_list);
