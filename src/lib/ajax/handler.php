@@ -12,11 +12,11 @@ use \Seravo\Postbox\Component;
 class AjaxHandler {
 
   /**
-   * @var string String for transient key to be prefixed with.
+   * @var string      String for transient key to be prefixed with.
    */
   const CACHE_KEY_PREFIX = 'seravo_ajax_';
   /**
-   * @var string String for transient key to be suffixed with.
+   * @var string      String for transient key to be suffixed with.
    */
   const CACHE_KEY_SUFFIX = '_data';
 
@@ -77,7 +77,7 @@ class AjaxHandler {
   /**
    * Set the AJAX function for the handler. The function will be
    * called on AJAX calls here. AJAX function should return an AjaxResponse.
-   * @param array $ajax_func Function to be called on AJAX call.
+   * @param array $ajax_func  Function to be called on AJAX call.
    * @param int   $cache_time Seconds to cache data for (default is 0).
    */
   public function set_ajax_func( $ajax_func, $cache_time = 0 ) {

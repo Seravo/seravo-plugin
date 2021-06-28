@@ -3,7 +3,7 @@
  * styles for postboxes, widgets etc.
  */
 
- /* Dashboard widgets and postboxes */
+/* Dashboard widgets and postboxes */
 
   .side-by-side-container {
     display: flex;
@@ -28,6 +28,12 @@
   .postbox-ul {
     list-style-type: disc;
     padding-left: 18px;
+  }
+
+  .seravo-ajax-lazy-load pre {
+    overflow: scroll;
+    max-width: 100%;
+    max-height: 30vh;
   }
 
   div#seravo-error-widget.postbox,

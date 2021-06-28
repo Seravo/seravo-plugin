@@ -3,46 +3,41 @@
 namespace Seravo\Ajax;
 
 use \Seravo\Postbox\Component;
-use \Seravo\Postbox\Template;
 
 /**
- * Class CommandRunner
+ * Class SimpleCommand
  *
- * CommandRunner is pre-made AjaxHandler for executing
- * commands.
- *
- * This handler doesn't have a pre-made component.
+ * SimpleCommand is pre-made AjaxHandler for executing
+ * a single command on button click and showing the output.
  */
-class CommandRunner extends AjaxHandler {
+class SimpleCommand extends SimpleForm {
 
   /**
    * @var string|null Command to be executed on AJAX request.
    */
   private $command;
-
   /**
    * @var string|null Special command to dry run.
    */
   private $dryrun_command;
 
   /**
-   * @var bool Whether exit code other than 0 should respond with an error.
+   * @var bool        Whether exit code other than 0 should respond with an error.
    */
   private $allow_failure = false;
-
   /**
    * @var string|null Message to be shown for no command output.
    */
   private $empty_message;
 
   /**
-   * Constructor for CommandRunner. Will be called on new instance.
-   * @param string $section Unique section inside the postbox.
-   * @param string|null $command Command to be executed.
-   * @param int $cache_time Seconds to cache response for (default is 300).
-   * @param bool $allow_failure Whether exit code other than 0 should respond with an error.
+   * Constructor for LazyCommand. Will be called on new instance.
+   * @param string      $section       Unique section inside the postbox.
+   * @param string|null $command       Command to be executed.
+   * @param string|null $dryrun        Dry-run command to be executed (default null).
+   * @param bool        $allow_failure Whether exit code other than 0 should respond with an error (default false).
    */
-  public function __construct( $section, $command = null, $cache_time = 300, $allow_failure = false ) {
+  public function __construct( $section, $command = null, $dryrun = null, $allow_failure = false ) {
     parent::__construct($section);
 
     $this->command = $command;
@@ -52,29 +47,33 @@ class CommandRunner extends AjaxHandler {
       function ( $section ) {
         return $this->ajax_command_exec($section);
       },
-      $cache_time
+      0
+    );
+
+    $this->set_build_func(
+      function ( Component $base, $section ) {
+        $this->build_component($base, $section);
+      }
     );
   }
 
   /**
-   * This is called on valid AJAX request.
-   * Command is executed here.
+   * Function called on valid AJAX request. The command is executed here.
    * @param string $section Unique section inside the postbox.
    * @return \Seravo\Ajax\AjaxResponse Response for the client.
    */
   public function ajax_command_exec( $section ) {
-    $exec_command = $this->command;
-
     if ( $this->command === null ) {
       return AjaxResponse::unknown_error_response();
     }
 
-    if ( $this->is_dryrun_enabled() && isset($_GET['dryrun']) && $_GET['dryrun'] === 'true' ) {
-
-      if ( $this->dryrun_command === null ) {
-        return AjaxResponse::unknown_error_response();
-      }
+    $dry_run = isset($_GET['dryrun']) && $_GET['dryrun'] === 'true';
+    if ( $dry_run && $this->dryrun_command === null ) {
+      return AjaxResponse::unknown_error_response();
+    } else if ( $dry_run && $this->dryrun_command !== null ) {
       $exec_command = $this->dryrun_command;
+    } else {
+      $exec_command = $this->command;
     }
 
     $output = null;
@@ -91,6 +90,8 @@ class CommandRunner extends AjaxHandler {
       $output = implode("\n", $output);
     }
 
+    $output = '<pre>' . $output . '</pre>';
+
     $response = new AjaxResponse();
     $response->is_success(true);
     $response->set_data(
@@ -102,35 +103,22 @@ class CommandRunner extends AjaxHandler {
   }
 
   /**
-   * Set the command to be executed.
-   * @param string $command Command for exec.
-   * @param int $cache_time Seconds to cache response for (default is 300).
-   * @param bool $allow_failure Whether exit code other than 0 should respond with an error.
+   * Configure the commands to be executed.
+   * @param string      $command       Command to be executed.
+   * @param string|null $dryrun        Dry-run command to be executed (default null).
+   * @param bool        $allow_failure Whether exit code other than 0 should respond with an error (default false).
    */
-  public function set_command( $command, $cache_time = 300, $allow_failure = false ) {
+  public function set_command( $command, $dryrun = null, $allow_failure = false ) {
     $this->command = $command;
+    $this->dryrun_command = $dryrun;
     $this->allow_failure = $allow_failure;
-
-    if ( $this->is_dryrun_enabled() ) {
-      $cache_time = 0;
-    }
-
-    $this->set_cache_time($cache_time);
-  }
-
-  /**
-   * Set the special dry run command to be executed.
-   * @param string $command Command for exec.
-   */
-  public function set_dryrun_command( $command ) {
-    $this->dryrun_command = $command;
   }
 
   /**
    * Set whether exit code other than 0 should respond with an error.
    * @param bool $allow_failure Whether to allow failure.
    */
-  public function allow_failure( $allow_failure ) {
+  public function set_allow_failure( $allow_failure ) {
     $this->allow_failure = $allow_failure;
   }
 
@@ -140,14 +128,6 @@ class CommandRunner extends AjaxHandler {
    */
   public function set_empty_message( $message ) {
     $this->empty_message = $message;
-  }
-
-  /**
-   * Check if dry-running is enabled for the handler.
-   * @return bool Whether dry-run is enabled.
-   */
-  public function is_dryrun_enabled() {
-    return $this->dryrun_command !== null;
   }
 
 }
