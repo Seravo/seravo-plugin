@@ -1,11 +1,14 @@
 <?php
 
-/**
- * File for Seravo postbox component templates.
- */
-
 namespace Seravo\Postbox;
 
+/**
+ * Class Template
+ * 
+ * Template has static methods for building
+ * components from 'templates'. Templates should be
+ * used to keep the components unified.
+ */
 class Template {
 
   /**
@@ -21,7 +24,7 @@ class Template {
   /**
    * Display HTML paragraph with given content.
    * @param string $content The content to display.
-   * @param string $class Paragraph class to apply.
+   * @param string $class   Paragraph class to apply.
    * @return \Seravo\Postbox\Component Paragraph component.
    */
   public static function paragraph( $content, $class = 'paragraph-text' ) {
@@ -70,11 +73,11 @@ class Template {
   /**
     * Display link
     * @param string $content Text to wrap the link around.
-    * @param string $href Link URL.
-    * @param string $id ID for the link element.
-    * @param string $class Optional class for the link element.
-    * @param string $target Optional link element target, default _blank.
-    * @return \Seravo\Postbox\Component
+    * @param string $href    Link URL.
+    * @param string $id      ID for the link element.
+    * @param string $class   Optional class for the link element.
+    * @param string $target  Optional link element target, default _blank.
+    * @return \Seravo\Postbox\Component Link component.
     */
    public static function link( $content, $href, $id, $class = 'button', $target = '_blank' ) {
     return Component::from_raw('<a id="' . $id . '" class="' . $class . ' href="' . $href . '" target="' . $target . '" >' . $content . '</a>');
@@ -82,7 +85,7 @@ class Template {
 
   /**
    * Generates link with icon.
-   * @param string $href Link URL.
+   * @param string $href         Link URL.
    * @param string $link_content Content to wrap the link around to.
    * @return \Seravo\Postbox\Component Button with icon.
    */
@@ -108,8 +111,10 @@ class Template {
   /**
    * Display basic clickable / interactive button to run for example AJAX side commands
    * $content Text to display in the button.
-   * @param string $id Button id.
-   * @param string $class Specified button class to use.
+   * @param string $content  Button text.
+   * @param string $id       Button id.
+   * @param string $class    Specified button class to use.
+   * @param bool   $disabled Whether the button is disabled.
    * @return \Seravo\Postbox\Component Button component.
    */
   public static function button( $content, $id, $class = 'button-primary', $disabled = false ) {
@@ -147,8 +152,8 @@ class Template {
   /**
    * Get component for showing command output. This component
    * is not for pretty output, just for scrollable <pre></pre>.
-   * @param string $id ID for the output component.
-   * @param string $class Classes for the output component.
+   * @param string $id      ID for the output component.
+   * @param string $class   Classes for the output component.
    * @param string $content Default placeholder content.
    * @return \Seravo\Postbox\Component Simple command output component.
    */
@@ -158,7 +163,7 @@ class Template {
 
   /**
    * Get wrapper component to show two components side by side.
-   * @param \Seravo\Postbox\Component $left Left component.
+   * @param \Seravo\Postbox\Component $left  Left component.
    * @param \Seravo\Postbox\Component $right Right component.
    * @return \Seravo\Postbox\Component Side-by-side component.
    */
