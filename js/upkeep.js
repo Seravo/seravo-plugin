@@ -112,42 +112,42 @@ jQuery(document).ready(function($) {
   });
 
     function seravo_load_change_report(given_date) {
-      jQuery.post(
-        seravo_upkeep_loc.ajaxurl,
-        { 'action': 'seravo_ajax_upkeep',
-          'section': 'seravo_changes',
-          'date': given_date,
-          'nonce': seravo_upkeep_loc.ajax_nonce },
-        function(rawData) {
-          if ( rawData.length == 0 ) {
-            jQuery('#seravo_changes').html(seravo_upkeep_loc.no_data);
-          }
-          jQuery('#seravo_changes_status').fadeOut('slow', function() {
-            var data = JSON.parse(rawData);
-            var data_joined = data['output'].join("\n");
-
-            if ( data['rowCount'] === '0' || data['rowCount'] === 0) {
-              // No rows affected
-              jQuery(this).html(seravo_upkeep_loc.no_affected_rows).fadeIn('slow');
-              jQuery('#changes-wrapper').css('border-left', 'solid 0.5em #e8ba1b');
-            } else {
-              jQuery(this).html(data['rowCount'] + " " + seravo_upkeep_loc.affected_rows).fadeIn('slow');
-              jQuery('#changes-wrapper').css('border-left', 'solid 0.5em #038103');
-            }
-
-            // Display the retrieved data and re-enable the run tests button
-            jQuery('#seravo_changes').append(data_joined);
-            jQuery('#run-changes-since').prop('disabled', false);
-
-            jQuery(this).fadeIn('slow', function() {
-              jQuery('#seravo_changes_show_more_wrapper').fadeIn('slow');
-            });
-          });
+    jQuery.post(
+    seravo_upkeep_loc.ajaxurl,
+    { 'action': 'seravo_ajax_upkeep',
+      'section': 'seravo_changes',
+      'date': given_date,
+      'nonce': seravo_upkeep_loc.ajax_nonce },
+    function(rawData) {
+      if ( rawData.length == 0 ) {
+        jQuery('#seravo_changes').html(seravo_upkeep_loc.no_data);
         }
-      ).fail(function() {
-        jQuery('#seravo_changes_status').html(seravo_upkeep_loc.run_fail);
-        jQuery('#run-changes-since').prop('disabled', false);
-      });
+      jQuery('#seravo_changes_status').fadeOut('slow', function() {
+        var data = JSON.parse(rawData);
+        var data_joined = data['output'].join("\n");
+
+        if ( data['rowCount'] === '0' || data['rowCount'] === 0) {
+          // No rows affected
+          jQuery(this).html(seravo_upkeep_loc.no_affected_rows).fadeIn('slow');
+          jQuery('#changes-wrapper').css('border-left', 'solid 0.5em #e8ba1b');
+          } else {
+          jQuery(this).html(data['rowCount'] + " " + seravo_upkeep_loc.affected_rows).fadeIn('slow');
+          jQuery('#changes-wrapper').css('border-left', 'solid 0.5em #038103');
+          }
+
+          // Display the retrieved data and re-enable the run tests button
+          jQuery('#seravo_changes').append(data_joined);
+          jQuery('#run-changes-since').prop('disabled', false);
+
+          jQuery(this).fadeIn('slow', function() {
+            jQuery('#seravo_changes_show_more_wrapper').fadeIn('slow');
+            });
+        });
+    }
+  ).fail(function() {
+    jQuery('#seravo_changes_status').html(seravo_upkeep_loc.run_fail);
+    jQuery('#run-changes-since').prop('disabled', false);
+    });
     }
 
     jQuery('#run-changes-since').click(function() {
@@ -220,205 +220,6 @@ jQuery(document).ready(function($) {
     }
   });
 
-  jQuery.post(
-    seravo_upkeep_loc.ajaxurl, {
-      'action': 'seravo_ajax_upkeep',
-      'section': 'seravo_default_config_file',
-      'nonce': seravo_upkeep_loc.ajax_nonce
-    },function(defaul_config_file) {
-      if ( ! defaul_config_file ) {
-        jQuery("#change-php-version-button").hide();
-      } else {
-        jQuery("#overwrite-config-files-span").hide();
-      }
-    }
-  );
-
-  jQuery('#overwrite-config-files').change(function() {
-    if (jQuery('#overwrite-config-files').is(':checked')) {
-      jQuery("#change-php-version-button").show();
-    } else {
-      jQuery("#change-php-version-button").hide();
-    }
-  });
-
-  jQuery('#check-php-compatibility-button').click(function() {
-    jQuery(this).fadeOut(400, function(){
-      jQuery(this).hide();
-    });
-    jQuery("#check-php-compatibility-status").fadeOut(400, function() {
-      jQuery(this).html('<img src="/wp-admin/images/spinner.gif" style="display:inline-block"> ' + seravo_upkeep_loc.compatibility_check_running).fadeIn(400);
-    });
-    checkPHPCompatibility();
-  });
-
-  function checkPHPCompatibility() {
-    jQuery.post(
-      seravo_upkeep_loc.ajaxurl, {
-        'action': 'seravo_ajax_upkeep',
-        'section': 'seravo_check_php_compatibility',
-        'nonce': seravo_upkeep_loc.ajax_nonce,
-      },
-      function(rawData) {
-        if ( rawData.length == 0 ) {
-          jQuery('#check-php-compatibility-status').html(seravo_upkeep_loc.no_data);
-        }
-        var data = JSON.parse(rawData);
-
-        /* Display error if wp-php-compatibility-check returns non-zero exit code
-        * Else display the number of errors found.
-        * If output string is empty, show green light for PHP version change
-        */
-        if ( data['exit_code'] != 0 ) {
-          jQuery("#check-php-compatibility-button").fadeOut(400, function() {
-            jQuery(this).show();
-          });
-          jQuery("#check-php-compatibility-status").fadeOut(400, function() {
-            jQuery(this).html('<div>' + seravo_upkeep_loc.compatibility_run_fail + '</div>').fadeIn(400);
-          });
-        } else if ( data['output'].length ) {
-          jQuery("#check-php-compatibility-status").fadeOut(400, function() {
-            jQuery(this).html('<div style="color:red;font-weight:bold">' + data['output'] + seravo_upkeep_loc.compatibility_check_error + '</div>').fadeIn(400);
-          });
-        } else {
-          jQuery("#check-php-compatibility-status").fadeOut(400, function() {
-            jQuery(this).html('<div style="color:green;font-weight:bold">' + seravo_upkeep_loc.compatibility_check_clear + '</div>').fadeIn(400);
-          });
-        }
-      }
-      ).fail(function(msg) {
-        if (msg.status === 504) {
-          jQuery("#check-php-compatibility-status").fadeOut(400, function() {
-            jQuery(this).html('<div style="color:red;font-weight:bold">' + seravo_upkeep_loc.compatibility_run_timeout + '</div>').fadeIn(400);
-          });
-        } else {
-          jQuery("#check-php-compatibility-status").fadeOut(400, function() {
-            jQuery(this).html('<div style="color:red;font-weight:bold">' + seravo_upkeep_loc.compatibility_run_error + msg.status + '</div>').fadeIn(400);
-          });
-        }
-      }
-    );
-  }
-
-  jQuery('#change-php-version-button').click(function() {
-    jQuery("#change-php-version-status").fadeOut(400, function() {
-      jQuery(this).show();
-    });
-    jQuery("#activated-line").hide();
-    jQuery("#activation-failed-line").hide();
-    jQuery("#overwrite-config-files-span").hide();
-
-    jQuery.post(
-      seravo_upkeep_loc.ajaxurl, {
-        'action': 'seravo_ajax_upkeep',
-        'section': 'seravo_check_php_config_files',
-        'nonce': seravo_upkeep_loc.ajax_nonce
-      });
-
-    jQuery("#seravo-php-version").fadeOut(400, function() {
-      $(this).hide();
-    });
-
-    setTimeout(function() {
-      changePHPVersion();
-    }, 500);
-  });
-
-  function changePHPVersion() {
-    var php_version = $('[name=php-version]:checked').val();
-
-    jQuery.post(
-      seravo_upkeep_loc.ajaxurl, {
-        'action': 'seravo_ajax_upkeep',
-        'section': 'seravo_change_php_version',
-        'nonce': seravo_upkeep_loc.ajax_nonce,
-        'version': php_version
-      }
-    );
-
-    var changed = false;
-    var attempt = 0, max_attempts = 5;
-    function check_php_version() {
-      setTimeout(function() {
-        jQuery.post(
-          seravo_upkeep_loc.ajaxurl, {
-            'action': 'seravo_ajax_upkeep',
-            'section': 'seravo_php_check_version',
-            'nonce': seravo_upkeep_loc.ajax_nonce,
-            'version': php_version
-          }, function(success) {
-            if (success) {
-              changed = success;
-              attempt = max_attempts;
-            }
-          }
-        ).always(function () {
-          if ( ++attempt < max_attempts ) {
-            check_php_version();
-          } else {
-            show_result();
-          }
-        });
-      }, 5000);
-    }
-    check_php_version();
-
-    function show_result() {
-      jQuery("#change-php-version-status").fadeOut(400, function() {
-        if ( changed ) {
-          jQuery("#activated-line").fadeIn(400, function() {
-            jQuery(this).show();
-          });
-        } else {
-          jQuery("#activation-failed-line").fadeIn(400, function() {
-            jQuery(this).show();
-          });
-        }
-      });
-
-      jQuery("#seravo-php-version").fadeIn(400, function() {
-        $(this).show();
-      });
-    }
-  }
-
-  jQuery.post(
-    seravo_upkeep_loc.ajaxurl, {
-      'action': 'seravo_ajax_upkeep',
-      'section': 'seravo_plugin_version_check',
-      'nonce': seravo_upkeep_loc.ajax_nonce
-    }, function(is_uptodate_version) {
-      if (is_uptodate_version) {
-        $('#uptodate_seravo_plugin_version').show();
-      } else {
-        $('#old_seravo_plugin_version').show();
-        $("#seravo_plugin_update_button").show();
-      }
-    });
-
-  jQuery('#seravo_plugin_update_button').click(function() {
-    jQuery("#old_seravo_plugin_version").hide();
-    jQuery("#seravo_plugin_update_button").hide();
-    jQuery("#update_seravo_plugin_status").fadeIn(400, function() {
-      jQuery(this).show();
-    });
-    update_seravo_plugin();
-  });
-
-  function update_seravo_plugin() {
-    jQuery.post(
-      seravo_upkeep_loc.ajaxurl, {
-        'action': 'seravo_ajax_upkeep',
-        'section': 'seravo_plugin_version_update',
-        'nonce': seravo_upkeep_loc.ajax_nonce
-      });
-    setTimeout(function() {
-      jQuery("#update_seravo_plugin_status").fadeOut(400, function() {
-        jQuery(this).hide();
-      });
-      jQuery("#seravo_plugin_updated").show();
-    }, 5000);
-  }
 });
 
 jQuery(window).load(function(){
