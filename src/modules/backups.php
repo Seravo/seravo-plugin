@@ -43,6 +43,7 @@ if ( ! class_exists('Backups') ) {
       $backups_create->set_title(__('Create a New Backup', 'seravo'));
       $backups_create->set_command('wp-backup 2>&1', null, false);
       $backups_create->set_button_text(__('Create a backup', 'seravo'));
+      $backups_create->set_spinner_text(__('Creating a backup...', 'seravo'));
       $backups_create->add_paragraph(__('You can also create backups manually by running <code>wp-backup</code> on the command line. We recommend that you get familiar with the command line option that is accessible to you via SSH. That way recovering a backup will be possible whether the WP Admin is accessible or not.', 'seravo'));
       $backups_create->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
       $page->register_postbox($backups_create);

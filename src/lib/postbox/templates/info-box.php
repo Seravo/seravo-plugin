@@ -37,7 +37,7 @@ class InfoBox extends Postbox {
     foreach ( $this->paragraphs as $paragraph ) {
       $base->add_child(Template::paragraph($paragraph));
     }
-    foreach( $this->ajax_handlers as $ajax_handler ) {
+    foreach ( $this->ajax_handlers as $ajax_handler ) {
       $base->add_child($ajax_handler->get_component());
     }
   }

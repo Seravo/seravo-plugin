@@ -28,7 +28,7 @@
 
 .seravo-postbox .inside pre {
   overflow: auto;
-  padding-bottom: 15px;
+  padding-bottom: 0;
 }
 
 .seravo-postbox .inside td {

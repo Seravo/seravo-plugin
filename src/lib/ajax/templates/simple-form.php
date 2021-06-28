@@ -26,6 +26,10 @@ class SimpleForm extends AjaxHandler {
    * @var string|null Text to be shown on the dryrun button.
    */
   private $dryrun_button_text;
+  /**
+   * @var string|null Text to be shown next to the spinner.
+   */
+  private $spinner_text;
 
   /**
    * Constructor for SimpleForm. Will be called on new instance.
@@ -53,17 +57,22 @@ class SimpleForm extends AjaxHandler {
       \call_user_func($this->build_form_func, $form);
     }
 
+    if ( $this->spinner_text !== null ) {
+      $spinner = Template::spinner_with_text($section . '-spinner', $this->spinner_text);
+    } else {
+      $spinner = Template::spinner($section . '-spinner');
+    }
+
     if ( $this->dryrun_button_text !== null ) {
       $spinner_button = Template::n_by_side(
         array(
           Template::button($this->dryrun_button_text, $section . '-dryrun-button', 'button-primary'),
           Template::button($this->button_text, $section . '-button', 'button-primary', true),
-          Template::spinner($section . '-spinner'),
+          $spinner,
         )
       );
     } else {
       $button = Template::button($this->button_text, $section . '-button', 'button-primary');
-      $spinner = Template::spinner($section . '-spinner');
       $spinner_button = Template::side_by_side($button, $spinner);
     }
 
@@ -91,6 +100,14 @@ class SimpleForm extends AjaxHandler {
   public function set_button_text( $text, $dryrun_text = null ) {
     $this->button_text = $text;
     $this->dryrun_button_text = $dryrun_text;
+  }
+
+  /**
+   * Set text to be shown next to the spinner.
+   * @param string $text Spinner text.
+   */
+  public function set_spinner_text( $text ) {
+    $this->spinner_text = $text;
   }
 
 }

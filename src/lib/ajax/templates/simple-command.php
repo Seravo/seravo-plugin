@@ -41,6 +41,7 @@ class SimpleCommand extends SimpleForm {
     parent::__construct($section);
 
     $this->command = $command;
+    $this->dryrun_command = $dryrun;
     $this->allow_failure = $allow_failure;
 
     $this->set_ajax_func(
@@ -70,11 +71,9 @@ class SimpleCommand extends SimpleForm {
     $dry_run = isset($_GET['dryrun']) && $_GET['dryrun'] === 'true';
     if ( $dry_run && $this->dryrun_command === null ) {
       return AjaxResponse::unknown_error_response();
-    } else if ( $dry_run && $this->dryrun_command !== null ) {
-      $exec_command = $this->dryrun_command;
-    } else {
-      $exec_command = $this->command;
     }
+
+    $exec_command = $dry_run ? $this->dryrun_command : $this->command;
 
     $output = null;
     $retval = null;

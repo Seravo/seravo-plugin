@@ -44,4 +44,13 @@ class SimpleForm extends InfoBox {
     $handler->set_button_text($text, $dryrun_text);
   }
 
+  /**
+   * Set text to be shown next to the spinner.
+   * @param string $text Spinner text.
+   */
+  public function set_spinner_text( $text ) {
+    $handler = $this->ajax_handlers[$this->id];
+    $handler->set_spinner_text($text);
+  }
+
 }
