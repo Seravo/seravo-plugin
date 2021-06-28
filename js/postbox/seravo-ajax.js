@@ -45,12 +45,12 @@ jQuery(document).ready(
 
         var button = jQuery(this).find('#' + section + '-button');
         var dryrun_button = jQuery(this).find('#' + section + '-dryrun-button');
-        var spinner = jQuery('#' + section + '-spinner');
+        var spinner = jQuery('#' + section + '-spinner').closest('.seravo-spinner-wrapper');
         var output = jQuery('#' + section + '-output');
 
         function on_success(response) {
           spinner.hide();
-          output.html(response);
+          output.html('<hr>' + response + '<hr>');
           output.show();
           button.prop('disabled', false);
 
@@ -69,6 +69,10 @@ jQuery(document).ready(
             button.prop('disabled', true);
             output.hide();
             spinner.show();
+
+            if (dryrun_button !== undefined) {
+              dryrun_button.prop('disabled', true);
+            }
 
             // Make the request
             seravo_ajax_request('get', postbox_id, section, 'output', on_success, on_error, get_form_data(form));
