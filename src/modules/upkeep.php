@@ -2,11 +2,13 @@
 
 namespace Seravo;
 
-use Seravo\Postbox\Postbox;
-use Seravo\Postbox\Requirements;
-use Seravo\Postbox\Template;
+use Seravo\Ajax\ButtonCommand;
+use \Seravo\Postbox;
 use Seravo\Postbox\Component;
-use Seravo\Postbox\Toolpage;
+use \Seravo\Postbox\Template;
+use \Seravo\Postbox\Toolpage;
+use \Seravo\Postbox\Requirements;
+
 
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
@@ -21,6 +23,12 @@ if ( ! class_exists('Upkeep') ) {
       add_action('wp_ajax_seravo_ajax_upkeep', 'Seravo\seravo_ajax_upkeep');
       add_action('wp_ajax_seravo_changes_since', 'Seravo\seravo_ajax_changes_since');
       add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
+
+      $page = new Toolpage('tools_page_upkeep_page');
+      self::init_upkeep_postboxes($page);
+
+      $page->enable_ajax();
+      $page->register_page();
 
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
@@ -71,14 +79,20 @@ if ( ! class_exists('Upkeep') ) {
         'tools_page_upkeep_page',
         'side'
       );
+    }
 
-      \Seravo\Postbox\seravo_add_raw_postbox(
-        'seravo-plugin-updater',
-        __('Seravo Plugin Updater', 'seravo'),
-        array( __CLASS__, 'seravo_plugin_updater_postbox' ),
-        'tools_page_upkeep_page',
-        'side'
-      );
+    public static function init_upkeep_postboxes( Toolpage $page ) {
+      $seravo_plugin_update = new Postbox\Postbox('seravo-plugin-updater');
+      $seravo_plugin_update->set_title(__('Seravo Plugin Updater', 'seravo'));
+      $seravo_plugin_update->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+
+      $update_button = new Ajax\ButtonCommand('seravo-plugin-update', 'wp-seravo-plugin-update &', 0);
+      $update_button->set_button_text(__('Update plugin now', 'seravo'));
+      $seravo_plugin_update->add_ajax_handler($update_button);
+
+      $seravo_plugin_update->set_data_func(array( __CLASS__, 'get_seravo_plugin_update' ), 0);
+      $seravo_plugin_update->set_build_func(array( __CLASS__, 'build_seravo_plugin_update_postbox' ));
+      $page->register_postbox($seravo_plugin_update);
     }
 
     /**
@@ -193,6 +207,42 @@ if ( ! class_exists('Upkeep') ) {
     /**
      * Fetch the site data from API
      */
+     * Build Seravo Plugin Update postbox.
+     * @param Component $base Postbox base component.
+     * @param Postbox $postbox Current postbox to build for.
+     * @param mixed $data Data returned by data function.
+     */
+    public static function build_seravo_plugin_update_postbox( Component $base, Postbox\Postbox $postbox, $data ) {
+      $base->add_child(Template::paragraph(__('Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here.', 'seravo')));
+      $base->add_child(Template::paragraph(__('Current version: ', 'seravo') . $data['current_version']));
+      $base->add_child(Template::paragraph(__('Upstream version: ', 'seravo') . $data['upstream_version']));
+
+      if ( $data['current_version'] == $data['upstream_version'] ) {
+        $base->add_child(Template::paragraph(__('The currently installed version is the same as the latest available version.', 'seravo'), 'success'));
+      } else {
+        $base->add_child(Template::paragraph('Update available'));
+        $base->add_child($postbox->get_ajax_handler('seravo-plugin-update')->get_component());
+      }
+    }
+
+    /**
+     * Fetch data for Seravo Plugin Update postbox.
+     * @return array<string, mixed>
+     */
+    public static function get_seravo_plugin_update() {
+      $data['current_version'] = Helpers::seravo_plugin_version();
+
+      $upstream_version = get_transient('seravo_plugin_upstream_version');
+      if ( $upstream_version === false || empty($upstream_version) ) {
+        $upstream_version = exec('curl -s https://api.github.com/repos/seravo/seravo-plugin/tags | grep "name" -m 1 | awk \'{gsub("\"","")}; {gsub(",","")}; {print $2}\'');
+        set_transient('seravo_plugin_upstream_version', $upstream_version, 10800);
+      }
+
+      $data['upstream_version'] = $upstream_version;
+
+      return $data;
+    }
+
     public static function seravo_admin_get_site_info() {
       return API::get_site_data();
     }
@@ -509,38 +559,6 @@ if ( ! class_exists('Upkeep') ) {
         </p>
         <p id="activation-failed-line" class="hidden"><?php _e('PHP version change failed.', 'seravo'); ?></p>
       </div>
-      <?php
-    }
-
-    public static function seravo_plugin_updater_postbox() {
-      ?>
-      <p><?php _e('Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here.', 'seravo'); ?></p>
-      <p>
-        <?php
-        printf(
-          // translators: current Seravo plugin version
-          __('Current version: %s', 'seravo'),
-          Helpers::seravo_plugin_version()
-        );
-        ?>
-      </p>
-      <p>
-        <?php
-        printf(
-          // translators: upstream Seravo plugin version
-          __('Upstream version: %s', 'seravo'),
-          seravo_plugin_upstream_version()
-        );
-        ?>
-      </p>
-      <p id='uptodate_seravo_plugin_version' class='hidden' style='color: green'><?php _e('The currently installed version is the same as the latest available version.', 'seravo'); ?></p>
-      <p id='old_seravo_plugin_version' class='hidden' style='color: orange'><?php _e('There is a new version available', 'seravo'); ?></p>
-      <p id='seravo_plugin_updated' class='hidden' style='color: green'><?php _e('Seravo Plugin updated', 'seravo'); ?></p>
-      <div id="update_seravo_plugin_status" class="hidden">
-        <img src="/wp-admin/images/spinner.gif" style="display:inline-block">
-        <?php _e('Updating... Please wait up to 5 seconds', 'seravo'); ?>
-      </div>
-      <button id='seravo_plugin_update_button' class='button hidden'><?php _e('Update plugin now', 'seravo'); ?></button>
       <?php
     }
 
