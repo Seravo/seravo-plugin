@@ -63,7 +63,7 @@ final class Requirements {
    */
   public $is_multisite = \false;
   /**
-   * @var bool Whether site must be multisite install or not.
+   * @var bool Whether site must not be multisite install.
    */
   public $is_not_multisite = \false;
   /**
