@@ -144,6 +144,7 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Seravo\\Postbox\\SimpleForm' => __DIR__ . '/../..' . '/src/lib/postbox/templates/simple-form.php',
         'Seravo\\Postbox\\Template' => __DIR__ . '/../..' . '/src/lib/postbox/component/template.php',
         'Seravo\\Postbox\\Toolpage' => __DIR__ . '/../..' . '/src/lib/postbox/toolpage.php',
+        'Seravo\\Shell' => __DIR__ . '/../..' . '/src/lib/shell.php',
         'Seravo\\WP_List_Table' => __DIR__ . '/../..' . '/src/lib/list-table.php',
         'enshrined\\svgSanitize\\ElementReference\\Resolver' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
         'enshrined\\svgSanitize\\ElementReference\\Subject' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',

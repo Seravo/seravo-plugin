@@ -25,6 +25,15 @@ class SimpleForm extends InfoBox {
   }
 
   /**
+   * Set the callback function to be called for building the form.
+   * @param array $build_form_func Function for building the form.
+   */
+  public function set_build_form_func( $build_form_func ) {
+    $handler = $this->ajax_handlers[$this->id];
+    $handler->set_build_form_func($build_form_func);
+  }
+
+  /**
    * Set the callback function for the postbox. The function will be
    * called on button clicks. The callback function should return an AjaxResponse.
    * @param array $button_func Function to be called on button click.

@@ -18,7 +18,7 @@ jQuery(document).ready(
 
         function on_success(response) {
           spinner.hide();
-          output.html(response);
+          output.html(response['output']);
           output.show();
         }
 
@@ -28,7 +28,7 @@ jQuery(document).ready(
         }
 
         // Make the request
-        seravo_ajax_request('get', postbox_id, section, 'output', on_success, on_error);
+        seravo_ajax_request('get', postbox_id, section, on_success, on_error);
       }
     );
 
@@ -50,9 +50,12 @@ jQuery(document).ready(
 
         function on_success(response) {
           spinner.hide();
-          output.html('<hr>' + response + '<hr>');
+          output.html('<hr>' + response['output'] + '<hr>');
           output.show();
-          button.prop('disabled', false);
+
+          if (! ('dryrun-only' in response) || response['dryrun-only'] === false) {
+            button.prop('disabled', false);
+          }
 
           if (dryrun_button !== undefined) {
             dryrun_button.prop('disabled', false);
@@ -75,7 +78,7 @@ jQuery(document).ready(
             }
 
             // Make the request
-            seravo_ajax_request('get', postbox_id, section, 'output', on_success, on_error, get_form_data(form));
+            seravo_ajax_request('get', postbox_id, section, on_success, on_error, get_form_data(form));
           }
         );
 
@@ -92,7 +95,7 @@ jQuery(document).ready(
             }
 
             // Make the request
-            seravo_ajax_request('get', postbox_id, section, 'output', on_success, on_error, data);
+            seravo_ajax_request('get', postbox_id, section, on_success, on_error, data);
           }
         );
       }
@@ -100,7 +103,7 @@ jQuery(document).ready(
   }
 );
 
-function seravo_ajax_request(method, postbox_id, section, data_field, on_success, on_error, data) {
+function seravo_ajax_request(method, postbox_id, section, on_success, on_error, data) {
   var request_data = {
     'action': 'seravo_ajax_' + postbox_id,
     'section': section,
@@ -122,9 +125,9 @@ function seravo_ajax_request(method, postbox_id, section, data_field, on_success
       try {
         response = jQuery.parseJSON(response);
 
-        if (response !== null && 'success' in response && response['success'] === true && data_field in response) {
+        if (response !== null && 'success' in response && response['success'] === true) {
           // Success
-          on_success(response[data_field]);
+          on_success(response);
           return;
         } else if (response !== null && 'success' in response && response['success'] === false && 'error' in response) {
           // Failure
@@ -170,6 +173,15 @@ function get_form_data(section) {
     function () {
       var name = jQuery(this).attr('name');
       var value = jQuery(this).val();
+      data[name] = value;
+    }
+  );
+
+  // Checkboxes
+  jQuery(section).find("input[type='checkbox']").each(
+    function () {
+      var name = jQuery(this).attr('name');
+      var value = jQuery(this).prop('checked');
       data[name] = value;
     }
   );

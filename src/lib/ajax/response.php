@@ -108,7 +108,8 @@ class AjaxResponse {
   }
 
   /**
-   * Get exception response that's supposed to be send on AJAX function exceptions.
+   * Get exception response that's supposed to be send on command execution errors.
+   * @param string $command The command that errored.
    * @return \Seravo\Ajax\AjaxResponse Exception response
    */
   public static function command_error_response( $command ) {
@@ -119,6 +120,23 @@ class AjaxResponse {
     $response = new AjaxResponse();
     $response->is_success(false);
     $response->set_error($error);
+    return $response;
+  }
+
+  /**
+   * Get response for errors on user inputs in forms.
+   * @param string $message Message to display.
+   * @return \Seravo\Ajax\AjaxResponse Error response.
+   */
+  public static function form_input_error( $message ) {
+    $response = new AjaxResponse();
+    $response->is_success(true);
+    $response->set_data(
+      array(
+        'output' => $message,
+        'dryrun-only' => true,
+      )
+    );
     return $response;
   }
 

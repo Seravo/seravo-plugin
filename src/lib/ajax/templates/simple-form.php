@@ -79,7 +79,7 @@ class SimpleForm extends AjaxHandler {
     $component = new Component('', "<div class=\"seravo-ajax-simple-form\" data-section=\"{$section}\">", '</div>');
     $component->add_child($form);
     $component->add_child($spinner_button);
-    $component->add_child(Template::simple_command_output($section . '-output', 'hidden'));
+    $component->add_child(Component::from_raw('<div id="' . $section . '-output" class="seravo-simple-form-output"></div>'));
 
     $base->add_child($component);
   }
