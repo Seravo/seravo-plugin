@@ -16,13 +16,13 @@ return static function ( ContainerConfigurator $container_configurator ) {
   $parameters->set(
     Option::PATHS,
     array(
-      __DIR__ . '/lib',
-      __DIR__ . '/modules',
+      __DIR__ . '/src/lib',
+      __DIR__ . '/src/modules',
       __DIR__ . '/rector.php',
       __DIR__ . '/seravo-plugin.php',
     )
   );
-  $parameters->set(Option::SKIP, array( __DIR__ . '/lib/list-table.php' ));
+  $parameters->set(Option::SKIP, array( __DIR__ . '/src/lib/list-table.php' ));
 
   // Run Rector on changed files only
   $parameters->set(Option::ENABLE_CACHE, false);
