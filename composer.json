@@ -6,17 +6,8 @@
   "homepage": "http://seravo.com",
   "authors": [
     {
-      "name": "Otto Kekäläinen",
-      "email": "otto@seravo.com",
-      "homepage": "https://github.com/ottok"
-    },
-    {
-      "name": "Leo Toikka",
-      "email": "leo@seravo.com"
-    },
-    {
-      "name": "Simo Kemppainen",
-      "email": "simo@seravo.com"
+      "name": "Seravo",
+      "email": "developers@seravo.com"
     }
   ],
   "keywords": [
@@ -39,6 +30,15 @@
     "pheromone/phpcs-security-audit": "^2.0",
     "phpcompatibility/php-compatibility": "^9.3"
   },
+  "autoload": {
+    "classmap": [
+      "src/lib/postbox",
+      "src/lib/ajax",
+      "src/lib/api.php",
+      "src/lib/helpers.php",
+      "src/lib/list-table.php"
+    ]
+  },
   "scripts": {
     "test": [
       "vendor/bin/rector --dry-run",
@@ -50,12 +50,6 @@
     ],
     "debug": [
       "vendor/bin/rector --dry-run --debug"
-    ],
-    "post-install-cmd": [
-      "git restore vendor/"
-    ],
-    "post-update-cmd": [
-      "git restore vendor/"
     ]
   }
 }
