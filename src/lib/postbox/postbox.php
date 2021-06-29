@@ -64,6 +64,11 @@ class Postbox {
    */
   private $error;
 
+  /**
+   * @var int|null Time it took to build the postbox components.
+   */
+  private $buildtime;
+
 
   /**
    * @var AjaxHandler[] Ajax handlers assigned for this postbox.
@@ -169,6 +174,10 @@ class Postbox {
    * This will take care of calling custom data and build functions.
    */
   public function _build() {
+    if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
+      $this->buildtime = hrtime(true);
+    }
+
     $this->_get_data();
 
     if ( $this->error !== null ) {
@@ -187,6 +196,44 @@ class Postbox {
     }
 
     $this->component->print_html();
+
+    if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
+      $this->buildtime = hrtime(true) - $this->buildtime;
+      $this->debug_print();
+    }
+  }
+
+  /**
+   * Print debug info table for the postbox.
+   */
+  private function debug_print() {
+    echo '<table style="border:2px solid black;width:100%;margin-top:10vh;">';
+    echo '<th colspan="2" style="border-bottom:1px solid black;">Postbox Info</th>';
+    echo "<tr><td>Postbox ID</td><td>{$this->id}</td></tr>";
+    echo "<tr><td>Screen</td><td>{$this->screen}</td></tr>";
+    echo "<tr><td>Title</td><td>{$this->title}</td></tr>";
+    echo "<tr><td>Context</td><td>{$this->context}</td></tr>";
+    echo '<th colspan="2" style="border-bottom:1px solid black;">Postbox Requirements</th>';
+    echo '<tr><td>User must be admin</td><td>' . ($this->requirements->is_admin ? 'true' : 'false') . '</td></tr>';
+    echo '<tr><td>User must be WP-CLI</td><td>' . ($this->requirements->is_wp_cli ? 'true' : 'false') . '</td></tr>';
+    echo '<tr><td>Site must be multisite</td><td>' . ($this->requirements->is_multisite ? 'true' : 'false') . '</td></tr>';
+    echo "<tr><td>Site can't be multisite</td><td>" . ($this->requirements->is_not_multisite ? 'true' : 'false') . '</td></tr>';
+    echo '<tr><td>Can be production</td><td>' . ($this->requirements->can_be_production ? 'true' : 'false') . '</td></tr>';
+    echo '<tr><td>Can be development</td><td>' . ($this->requirements->can_be_development ? 'true' : 'false') . '</td></tr>';
+    echo '<tr><td>Can be staging</td><td>' . ($this->requirements->can_be_staging ? 'true' : 'false') . '</td></tr>';
+    echo '<th colspan="2" style="border-bottom:1px solid black;">Postbox Functionality</th>';
+    echo '<tr><td>Postbox build time</td><td>' . ($this->buildtime !== null ? round($this->buildtime / 1000, 2) . ' µs' : '-') . '</td></tr>';
+    echo '<tr><td>Uses data function</td><td>' . ($this->data_func !== null ? 'true' : 'false') . '</td></tr>';
+    echo '<tr><td>Data cache time</td><td>' . ($this->data_func !== null ? $this->data_cache_time : '-') . '</td></tr>';
+    echo '<th colspan="2" style="border-bottom:1px solid black;">AJAX Functionality</th>';
+    $ajax_handler_count = \count($this->ajax_handlers);
+    echo "<tr><td>Amount of AJAX handlers</td><td>{$ajax_handler_count}</td></tr>";
+    for ( $i = 1; $i <= $ajax_handler_count; ++$i ) {
+      $handler = $this->ajax_handlers[array_keys($this->ajax_handlers)[$i - 1]];
+      echo "<tr><td>{$i}. handler section</td><td>{$handler->get_section()}</td></tr>";
+      echo "<tr><td>{$i}. handler cache time</td><td>{$handler->get_cache_time()}</td></tr>";
+    }
+    echo '</table>';
   }
 
   /**

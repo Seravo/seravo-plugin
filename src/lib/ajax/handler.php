@@ -182,4 +182,12 @@ class AjaxHandler {
     return $this->section;
   }
 
+  /**
+   * Get the data cache time.
+   * @return int|null Seconds to cache data returned by $ajax_func.
+   */
+  public function get_cache_time() {
+    return $this->data_cache_time;
+  }
+
 }

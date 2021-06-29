@@ -63,6 +63,7 @@ class Template {
       foreach ( $element as $list_object ) {
         $component->add_child(Component::from_raw('<li>' . $list_object . '</li>'));
       }
+      return $component;
     }
 
     $component->add_child(Component::from_raw('<li>' . $element . '</li>'));
