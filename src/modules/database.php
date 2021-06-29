@@ -19,7 +19,6 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once SERAVO_PLUGIN_SRC . 'lib/search-replace-ajax.php';
 require_once SERAVO_PLUGIN_SRC . 'lib/database-ajax.php';
 
 if ( ! class_exists('Database') ) {
@@ -30,27 +29,15 @@ if ( ! class_exists('Database') ) {
      */
     public static function load() {
 
-      if ( ! is_multisite() ) {
-        $GLOBALS['sr_networkvisibility'] = false;
-        $GLOBALS['sr_alltables'] = true;
-      } elseif ( current_user_can('manage_network') ) {
-        $GLOBALS['sr_networkvisibility'] = true;
-        $GLOBALS['sr_alltables'] = true;
-      } else {
-        $GLOBALS['sr_networkvisibility'] = false;
-        $GLOBALS['sr_alltables'] = false;
-      }
-
       $page = new Toolpage('tools_page_database_page');
+
       self::init_database_postboxes($page);
 
       $page->enable_ajax();
       $page->register_page();
 
+      // TODO: Remove these after all the postboxes are done.
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_database_scripts' ));
-
-      // Add AJAX endpoints for wp search-replace, database info and database cleanup
-      add_action('wp_ajax_seravo_search_replace', 'Seravo\seravo_ajax_search_replace');
       add_action('wp_ajax_seravo_wp_db_info', 'Seravo\seravo_ajax_get_wp_db_info');
     }
 
@@ -76,12 +63,13 @@ if ( ! class_exists('Database') ) {
 
       /**
        * Search & Replace tool postbox
-       * To be implemented...
        */
-      $search_replace = new Postbox\Postbox('database-search-replace');
+      $search_replace = new Postbox\SimpleForm('database-search-replace');
       $search_replace->set_title(__('Search-Replace Tool', 'seravo'));
-      $search_replace->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
-      $search_replace->set_build_func(array( __CLASS__, 'database_search_replace_postbox' ));
+      $search_replace->set_button_text(__('Run wp search-replace', 'seravo'), __('Do a dry run', 'seravo'));
+      $search_replace->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+      $search_replace->set_button_func(array( __CLASS__, 'execute_search_replace' ));
+      $search_replace->set_build_form_func(array( __CLASS__, 'build_search_replace_postbox' ));
       $page->register_postbox($search_replace);
 
       /**
@@ -133,7 +121,7 @@ if ( ! class_exists('Database') ) {
 
     /**
      * Helper method for initializing cleanup & optimize postbox tools.
-     * @param Postbox $cleanup Postbox on which the commands and ajax are initialized.
+     * @param \Seravo\Postbox\Postbox $cleanup Postbox on which the commands and ajax are initialized.
      */
     public static function init_cleanup_ajax_scripts( Postbox\Postbox $cleanup ) {
       // Initialize optimize section
@@ -162,8 +150,8 @@ if ( ! class_exists('Database') ) {
 
     /**
      * Build the database cleanup and optimize postbox.
-     * @param Component $base The postbox base component.
-     * @param Postbox $postbox To fetch the AJAX components from.
+     * @param \Seravo\Postbox\Component $base The postbox base component.
+     * @param \Seravo\Postbox\Postbox $postbox To fetch the AJAX components from.
      */
     public static function build_database_cleanup( Component $base, Postbox\Postbox $postbox ) {
       $base->add_child(Template::section_title(__('Optimization', 'seravo')));
@@ -177,7 +165,7 @@ if ( ! class_exists('Database') ) {
 
     /**
      * Build the Adminer info postbox.
-     * @param Component $base The base component to add content.
+     * @param \Seravo\Postbox\Component $base The base component to add content.
      */
     public static function build_adminer_postbox( Component $base ) {
       $base->add_child(Template::paragraph(__('<a href="https://www.adminer.org" target="_BLANK">Adminer</a> is a visual database management tool, which is simpler and safer than its competitor phpMyAdmin.', 'seravo')));
@@ -188,43 +176,109 @@ if ( ! class_exists('Database') ) {
       $base->add_child($button);
     }
 
-    public static function database_search_replace_postbox() {
-      ?>
-      <?php if ( exec('which wp') && apply_filters('seravo_search_replace', true) ) : ?>
-        <p> <?php _e('You can use this tool to run <code>wp search-replace</code>. For safety reason a dry run is compulsory before the actual search-replace can be done.', 'seravo'); ?></p>
-        <div class="sr-navbar">
-          <span class="label_buttons"><label class="from_label" for="sr-from"><?php _e('From:', 'seravo'); ?></label> <input type="text" id="sr-from" value=""></span><br>
-          <span class="label_buttons to_button"><label class="to_label" for="sr-to"><?php _e('To:', 'seravo'); ?></label> <input type="text" id="sr-to" value=""></span>
-          <!-- To add new arbitrary option put it below. Use class optionbox
-              Custom options will be overriden upon update -->
-          <ul class="optionboxes">
-              <li class="sr_option">
-                <input type="checkbox" id="skip_backup" class="optionbox">
-                <label for="skip_backup"><?php _e('Skip backups', 'seravo'); ?></label>
-              </li>
-            <?php if ( $GLOBALS['sr_alltables'] ) : ?>
-              <li class="sr_option">
-                <input type="checkbox" id="all_tables" class="optionbox">
-                <label for="all_tables"><?php _e('All tables', 'seravo'); ?></label>
-              </li>
-            <?php endif; ?>
-            <?php if ( $GLOBALS['sr_networkvisibility'] ) : ?>
-              <li class="sr_option">
-                <input type="checkbox" id="network" class="optionbox">
-                <label for="network"><?php _e('Network', 'seravo'); ?></label>
-              </li>
-            <?php endif; ?>
-          </ul>
-          <div class="datab_buttons">
-            <button id="sr-drybutton" class="button sr-button"> <?php _e('Do a dry run', 'seravo'); ?> </button>
-            <button id="sr-button" class="button sr-button" disabled> <?php _e('Run wp search-replace', 'seravo'); ?> </button>
-          </div>
-        </div>
-        <div id="search_replace_loading"><img class="hidden" src="/wp-admin/images/spinner.gif"></div>
-        <div id="search_replace_command"></div>
-        <table id="search_replace"></table>
-        <?php
-      endif;
+    /**
+     * Build the search-replace postbox.
+     * @param \Seravo\Postbox\Component $base The base component to add content.
+     */
+    public static function build_search_replace_postbox( Component $base ) {
+      $base->add_child(Template::paragraph(__('You can use this tool to run <code>wp search-replace</code>. For safety reason a dry run is compulsory before the actual search-replace can be done.', 'seravo')));
+
+      $from_to = new Component('', '<table>', '</table>');
+      $from_to->add_child(Template::textfield_with_label('<b>' . __('FROM:', 'seravo') . '</b>', 'sr-from'));
+      $from_to->add_child(Template::textfield_with_label('<b>' . __('TO:', 'seravo') . '</b>', 'sr-to'));
+      $base->add_child($from_to);
+
+      $base->add_child(
+        Template::n_by_side(
+          array(
+            Template::checkbox_with_label(__('Skip backups', 'seravo'), 'skip-backup'),
+            (! is_multisite() || current_user_can('manage_network')) ? Template::checkbox_with_label(__('All tables', 'seravo'), 'all-tables') : null,
+            (is_multisite() && current_user_can('manage_network')) ? Template::checkbox_with_label(__('Network', 'seravo'), 'network') : null,
+          )
+        )
+      );
+    }
+
+    /**
+     * AJAX function for search-replace postbox. Executes
+     * the search-replace itself.
+     * @return \Seravo\Ajax\AjaxResponse Response with the result.
+     */
+    public static function execute_search_replace() {
+      // Check that both to and from are set
+      if ( ! isset($_REQUEST['sr-from']) || empty($_REQUEST['sr-from']) ||
+           ! isset($_REQUEST['sr-to']) || empty($_REQUEST['sr-to']) ) {
+        return Ajax\AjaxResponse::form_input_error(__('Error: Both <code>from</code> and <code>to</code> needs to be set', 'seravo'));
+      }
+
+      $from = $_REQUEST['sr-from'];
+      $to = $_REQUEST['sr-to'];
+
+      // Make sure the are not the same
+      if ( $from === $to ) {
+        // translators: Search replace 'from' value and 'to' value
+        $message = __('Error: Value %1$s is identical to %2$s', 'seravo');
+        return Ajax\AjaxResponse::form_input_error(sprintf($message, '<code>' . $to . '</code>', '<code>' . $from . '</code>'));
+      }
+
+      // Get arguments
+      $dryrun = isset($_REQUEST['dryrun']) && $_REQUEST['dryrun'] === 'true';
+      $backup = isset($_REQUEST['skip-backup']) && $_REQUEST['skip-backup'] === 'true' ? false : ! $dryrun;
+      $all_tables = isset($_REQUEST['all-tables']) && $_REQUEST['all-tables'] === 'true' && (! is_multisite() || current_user_can('manage_network'));
+      $network = isset($_REQUEST['network']) && $_REQUEST['network'] === 'true' && (is_multisite() && current_user_can('manage_network'));
+
+      $args = array(
+        $dryrun ? '--dry-run' : null,
+        $all_tables ? '--all-tables' : null,
+        $network ? '--network' : '--url=' . get_site_url(),
+        $from,
+        $to,
+      );
+
+      $output = array();
+
+      // Take backup
+      if ( $backup ) {
+        $output[] = "<b>$ wp-backup 2>&1\n</b>";
+        exec('wp-backup 2>&1', $output, $return_code);
+
+        if ( $return_code !== 0 ) {
+          return Ajax\AjaxResponse::command_error_response('wp-backup 2>&1');
+        }
+      }
+
+      // Execute search-replace
+      $output = array();
+      $command = Shell::sanitize_command('wp search-replace', $args);
+      exec($command . ' --format=table 2>&1', $sr_output, $return_code);
+
+      // Convert output as table
+      $output[] = '<div class="result-table-wrapper"><table class="result-table">';
+      foreach ( $sr_output as $i => $line ) {
+        if ( $i === 0 ) {
+          $output[] = '<td><b>Table</b></td><td><b>Column</b></td><td><b>Count</b></td>';
+          continue;
+        }
+
+        $columns = preg_split('/\s+/', $line, -1, PREG_SPLIT_NO_EMPTY);
+        $row = "<tr><td class=\"seravo-ellipsis\" title=\"{$columns[0]}\">{$columns[0]}</td>";
+        $row .= "<td class=\"seravo-ellipsis\" title=\"{$columns[1]}\">{$columns[1]}</td>";
+        $row .= "<td class=\"seravo-ellipsis\" title=\"{$columns[2]}\">{$columns[2]}</td></tr>";
+        $output[] = $row;
+      }
+      \array_pop($output);
+      $output[] = '</table></div>';
+
+      // Send the response
+      $response = new Ajax\AjaxResponse();
+      $response->is_success(true);
+      $response->set_data(
+        array(
+          'output' => implode("\n", $output),
+          'dryrun-only' => false,
+        )
+      );
+      return $response;
     }
 
     public static function database_size_postbox() {

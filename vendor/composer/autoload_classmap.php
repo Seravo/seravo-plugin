@@ -121,6 +121,7 @@ return array(
     'Seravo\\Postbox\\SimpleForm' => $baseDir . '/src/lib/postbox/templates/simple-form.php',
     'Seravo\\Postbox\\Template' => $baseDir . '/src/lib/postbox/component/template.php',
     'Seravo\\Postbox\\Toolpage' => $baseDir . '/src/lib/postbox/toolpage.php',
+    'Seravo\\Shell' => $baseDir . '/src/lib/shell.php',
     'Seravo\\WP_List_Table' => $baseDir . '/src/lib/list-table.php',
     'enshrined\\svgSanitize\\ElementReference\\Resolver' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
     'enshrined\\svgSanitize\\ElementReference\\Subject' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',

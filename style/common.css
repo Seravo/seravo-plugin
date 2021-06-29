@@ -9,10 +9,11 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    margin: 15px 0 15px 0;
   }
 
   .side-by-side-container > div {
-    padding: 10px 10px 10px 0;
+    padding: 0 10px 0 0;
   }
 
   .seravo-spinner-wrapper {
@@ -63,6 +64,24 @@
     color: red;
   }
 
+  .result-table-wrapper {
+    max-height: 30vh;
+    overflow-y: scroll;
+  }
+
+  .result-table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .seravo-label-textfield {
+    padding-top: 5px;
+  }
+
+  .seravo-label-textfield label {
+    margin-right: -10px;
+  }
+
  /* Tooltip css */
 
   .tooltip {
@@ -109,6 +128,12 @@
 
   .dashicons-info {
     color: #b1b2b3;
+  }
+
+  .seravo-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   /* Result wrapper components */

@@ -36,7 +36,8 @@
       "src/lib/ajax",
       "src/lib/api.php",
       "src/lib/helpers.php",
-      "src/lib/list-table.php"
+      "src/lib/list-table.php",
+      "src/lib/shell.php"
     ]
   },
   "scripts": {

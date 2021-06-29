@@ -124,6 +124,38 @@ class Template {
   }
 
   /**
+   * Display textfield with label next to it. The component is a row (<tr>)
+   * as labels and textfields often need to be aligned with others like them.
+   * @param string $label The label text.
+   * @param string $name  Name if the input.
+   * @param string $value Default value for input.
+   * @return \Seravo\Postbox\Component Component with label and input field.
+   */
+  public static function textfield_with_label( $label, $name, $value = '' ) {
+    $label = new Component($label, '<td><label for="' . $name . '">', '</label></td>');
+    $input = Component::from_raw('<td><input type="text" id="' . $name . '" value="' . $value . '" name="' . $name . '"></td>');
+
+    $wrapper = new Component('', '<tr class="seravo-label-textfield">', '</tr>');
+    $wrapper->add_child($label);
+    $wrapper->add_child($input);
+    return $wrapper;
+  }
+
+  /**
+   * Display checkbox with label next to it.
+   * @param string $label   The label text.
+   * @param string $name    Name if the input.
+   * @param bool   $checked Whether the checkbox is checked by default.
+   * @return \Seravo\Postbox\Component Component with label and checkbox.
+   */
+  public static function checkbox_with_label( $label, $name, $checked = false ) {
+    $wrapper = new Component('', '<label for="' . $name . '">', '</label>');
+    $wrapper->add_child(Component::from_raw('<input type="checkbox" id="' . $name . '" name="' . $name . '"' . ($checked ? ' checked' : '') . '>'));
+    $wrapper->add_child(Component::from_raw($label));
+    return $wrapper;
+  }
+
+  /**
    * Display spinner image. In default it's hidden.
    * @param string $id Id for this spinner.
    * @param string $class Class for the div spinner component, default 'seravo-spinner-wrapper seravo-spinner'.
@@ -167,18 +199,6 @@ class Template {
   }
 
   /**
-   * Get component for showing command output. This component
-   * is not for pretty output, just for scrollable <pre></pre>.
-   * @param string $id      ID for the output component.
-   * @param string $class   Classes for the output component.
-   * @param string $content Default placeholder content.
-   * @return \Seravo\Postbox\Component Simple command output component.
-   */
-  public static function simple_command_output( $id, $class = '', $content = '' ) {
-    return Component::from_raw('<pre id="' . $id . '" class="seravo-simple-command-output ' . $class . '">' . $content . '</pre>');
-  }
-
-  /**
    * Get wrapper component to show two components side by side.
    * @param \Seravo\Postbox\Component $left  Left component.
    * @param \Seravo\Postbox\Component $right Right component.
@@ -208,6 +228,25 @@ class Template {
   public static function n_by_side( $components ) {
     $component = new Component();
     $wrapper = new Component('', '<div class="side-by-side-container">', '</div>');
+
+    foreach ( $components as $child_component ) {
+      $div = new Component('', '<div>', '</div>');
+      $div->add_child($child_component);
+      $wrapper->add_child($div);
+    }
+
+    $component->add_child($wrapper);
+    return $component;
+  }
+
+  /**
+   * Get wrapper component to show multiple components from up to down.
+   * @param \Seravo\Postbox\Component[] $components Components from up to down.
+   * @return \Seravo\Postbox\Component Side-by-side component.
+   */
+  public static function n_up_to_down( $components ) {
+    $component = new Component();
+    $wrapper = new Component('', '<div class="up-to-down-container">', '</div>');
 
     foreach ( $components as $child_component ) {
       $div = new Component('', '<div>', '</div>');
