@@ -47,6 +47,12 @@
       border-left: 0.2em solid #e8ba1b;
   }
 
+  .seravo-tooltip {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
  /* Dashicon styles */
 
   .dashicons .dashicons-external {
@@ -72,6 +78,10 @@
   .result-table {
     width: 100%;
     table-layout: fixed;
+  }
+
+  .result-table th {
+    text-align: left;
   }
 
   .seravo-label-textfield {

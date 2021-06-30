@@ -9,14 +9,13 @@
 
 namespace Seravo;
 
-use Seravo\Ajax;
+use Seravo\Ajax\AjaxResponse;
 use \Seravo\Postbox;
 use Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox\Requirements;
 
-require_once SERAVO_PLUGIN_SRC . 'lib/security-ajax.php';
 require_once SERAVO_PLUGIN_SRC . 'lib/cruftfiles-ajax.php';
 require_once SERAVO_PLUGIN_SRC . 'lib/cruftplugins-ajax.php';
 require_once SERAVO_PLUGIN_SRC . 'lib/cruftthemes-ajax.php';
@@ -34,10 +33,6 @@ if ( ! class_exists('Security') ) {
 
       add_action('admin_init', array( __CLASS__, 'register_security_settings' ));
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_security_scripts' ));
-
-      add_action('wp_ajax_seravo_security', 'Seravo\seravo_ajax_security');
-
-      add_action('wp_ajax_seravo_check_passwords', 'seravo_ajax_check_passwords');
 
       // AJAX functionality for listing and deleting files
       add_action('wp_ajax_seravo_cruftfiles', 'Seravo\seravo_ajax_list_cruft_files');
@@ -66,14 +61,6 @@ if ( ! class_exists('Security') ) {
       );
 
       \Seravo\Postbox\seravo_add_raw_postbox(
-        'logins_info',
-        __('Last successful logins', 'seravo'),
-        array( __CLASS__, 'logins_info_postbox' ),
-        'tools_page_security_page',
-        'side'
-      );
-
-      \Seravo\Postbox\seravo_add_raw_postbox(
         'cruft-files',
         __('Cruft Files', 'seravo'),
         array( __CLASS__, 'cruftfiles_postbox' ),
@@ -96,7 +83,6 @@ if ( ! class_exists('Security') ) {
         'tools_page_security_page',
         'column4'
       );
-
     }
 
     /**
@@ -109,12 +95,124 @@ if ( ! class_exists('Security') ) {
        */
       $passwords = new Postbox\SimpleCommand('check-passwords');
       $passwords->set_title(__('Check passwords (Beta)', 'seravo'));
-      $passwords->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+      $passwords->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
       $passwords->set_button_text(__('Run', 'seravo'));
       $passwords->set_spinner_text(__('Running the password check', 'seravo'));
       $passwords->set_command('wp-check-passwords');
       $passwords->add_paragraph(__('This tool can be used to run command <code>wp-check-passwords</code> which finds weak passwords from the users of the site. Note: This may fail, if there are many users.', 'seravo'));
       $page->register_postbox($passwords);
+
+      /**
+       * Last successful logins postbox
+       */
+      $logins = new Postbox\LazyLoader('logins-info');
+      $logins->set_title(__('Last successful logins', 'seravo'));
+      $logins->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+      $logins->set_ajax_func(array( __CLASS__, 'get_last_successful_logins' ));
+      $logins->set_build_func(array( __CLASS__, 'build_last_logins' ));
+      $page->register_postbox($logins);
+    }
+
+    /**
+     * Build function for last successfull logins postbox.
+     * @param Component $base Base component.
+     * @param Postbox $postbox Postbox widget.
+     */
+    public static function build_last_logins( Component $base, Postbox\Postbox $postbox ) {
+      $base->add_child(Template::paragraph(__('This tool can be used to retrieve last 10 successful logins. For more details and full login log see <a href="tools.php?page=logs_page&logfile=wp-login.log" target="_blank">wp-login.log</a>.', 'seravo')));
+      $base->add_child($postbox->get_ajax_handler('logins-info')->get_component());
+    }
+
+    /**
+     * AJAX function for last successful logins postbox.
+     * @return \Seravo\Ajax\AjaxResponse
+     */
+    public static function get_last_successful_logins() {
+      $max = 10;
+      $logfile = dirname(ini_get('error_log')) . '/wp-login.log';
+      $login_data = is_readable($logfile) ? file($logfile) : array();
+      $login_data = preg_grep('/SUCCESS/', $login_data);
+
+      // If the wp-login.log has less than $max entries check older log files
+      if ( count($login_data) < $max ) {
+        // Check the second newest log file (not gzipped yet)
+        $login_data2_filename = glob('/data/log/wp-login.log-[0-9]*[!\.gz]');
+        // There should be only a maximum of one file matching previous criterion, but
+        // count the files just in case and choose the biggest index
+        $login_data2_count = count($login_data2_filename) - 1;
+        // Merge log file if it exists
+        if ( $login_data2_count >= 0 ) {
+          // Merge with the first log filelogins_info
+          $login_data2 = file($login_data2_filename[$login_data2_count]);
+          $login_data = array_merge(preg_grep('/SUCCESS/', $login_data2), $login_data);
+        }
+
+        // Opening necessary amount of gzipped log files
+        // Find the gzip log files
+        $login_data_gz_filename = glob('/data/log/wp-login.log-[0-9]*.gz');
+        // Get the number of gzip log files
+        // Using the count as an index to go through gzips starting from the newest
+        $gz_count = count($login_data_gz_filename) - 1;
+        // Opening gzips and merging to $login_data until enough logins or out of data
+        $successful_logins_count = count(preg_grep('/SUCCESS/', $login_data));
+        while ( $successful_logins_count < $max && $gz_count >= 0 ) {
+          $zipped_data = preg_grep('/SUCCESS/', gzfile($login_data_gz_filename[$gz_count]));
+          $login_data = array_merge($zipped_data, $login_data);
+          --$gz_count;
+        }
+      }
+
+      // Limit amount of login lines to $max
+      $login_data = array_slice($login_data, -$max);
+
+      // Clean up login lines, remove unnecessary characters
+      $total_row_count = count($login_data);
+      for ( $i = 0; $i < $total_row_count; ++$i ) {
+        preg_match_all('/^(?<ip>[.:0-9a-f]+) - (?<name>[\w\-_.*@ ]+) \[(?<datetime>[\d\/\w: +]+)\]/', $login_data[$i], $matches);
+
+        if ( isset($matches['ip'][0]) && isset($matches['name'][0]) && isset($matches['datetime'][0]) ) {
+          // If valid line
+          $timezone = get_option('timezone_string');
+          $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $matches['datetime'][0]);
+          $datetime->setTimezone(new \DateTimeZone(empty($timezone) ? 'UTC' : $timezone));
+          $date = $datetime->format(get_option('date_format'));
+          $time = $datetime->format(get_option('time_format'));
+
+          // Fetch login IP and the reverse domain name
+          $domain = gethostbyaddr($matches['ip'][0]);
+          $address = empty($domain) ? $matches['ip'][0] : $domain;
+
+          $login_data[$i] = array( $date . ' ' . $time, $matches['name'][0], $address );
+        } else {
+          // If invalid line
+          unset($login_data[$i]);
+        }
+      }
+      // Re-index the array after unsetting invalid lines
+      $login_data = array_values($login_data);
+
+      $response = new AjaxResponse();
+      $response->is_success(true);
+
+      if ( empty($login_data) ) {
+        $response->set_data(
+          array(
+            'output' => Template::error_paragraph(__('No login data available', 'seravo'))->to_html(),
+          )
+        );
+      } else {
+        // Adding column titles
+        $column_titles = array( __('Time', 'seravo'), __('User', 'seravo'), __('Address', 'seravo') );
+        $login_data = array_reverse($login_data);
+        $table_component = Template::table_view('result-table', 'result-table th', 'seravo-tooltip', $column_titles, $login_data);
+
+        $response->set_data(
+          array(
+            'output' => $table_component->to_html(),
+          )
+        );
+      }
+      return $response;
     }
 
     /**
@@ -123,16 +221,13 @@ if ( ! class_exists('Security') ) {
      * @param string $page hook name
      */
     public static function register_security_scripts( $page ) {
-      wp_register_script('seravo_security', SERAVO_PLUGIN_URL . 'js/security.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_security', SERAVO_PLUGIN_URL . 'style/security.css', '', Helpers::seravo_plugin_version());
-
       wp_register_style('seravo_cruftfiles', SERAVO_PLUGIN_URL . 'style/cruftfiles.css', '', Helpers::seravo_plugin_version());
       wp_register_script('seravo_cruftfiles', SERAVO_PLUGIN_URL . 'js/cruftfiles.js', '', Helpers::seravo_plugin_version());
       wp_register_script('seravo_cruftplugins', SERAVO_PLUGIN_URL . 'js/cruftplugins.js', '', Helpers::seravo_plugin_version());
       wp_register_script('seravo_cruftthemes', SERAVO_PLUGIN_URL . 'js/cruftthemes.js', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_security_page' ) {
-        wp_enqueue_script('seravo_security');
         wp_enqueue_style('seravo_security');
         wp_enqueue_style('seravo_cruftfiles');
         wp_enqueue_script('seravo_cruftfiles');
@@ -189,7 +284,6 @@ if ( ! class_exists('Security') ) {
           'ajaxurl'        => admin_url('admin-ajax.php'),
           'ajax_nonce'     => wp_create_nonce('seravo_cruftthemes'),
         );
-        wp_localize_script('seravo_security', 'seravo_security_loc', $loc_translation_security);
         wp_localize_script('seravo_cruftfiles', 'seravo_cruftfiles_loc', $loc_translation_files);
         wp_localize_script('seravo_cruftplugins', 'seravo_cruftplugins_loc', $loc_translation_plugins);
         wp_localize_script('seravo_cruftthemes', 'seravo_cruftthemes_loc', $loc_translation_themes);
@@ -352,39 +446,6 @@ if ( ! class_exists('Security') ) {
       do_settings_sections('tools_page_security_page');
       submit_button(__('Save', 'seravo'), 'primary', 'btnSubmit');
       echo '</form>';
-    }
-    public static function logins_info_postbox() {
-      ?>
-
-      <div id="logins_info_loading">
-        <img src="/wp-admin/images/spinner.gif">
-      </div>
-
-      <div id="logins_info"></div>
-
-      <?php
-    }
-
-    public static function check_passwords_postbox() {
-      ?>
-      <p>
-      <?php
-      _e(
-        'This tool can be used to run command <code>wp-check-passwords</code>
-        which finds weak passwords from the users of the site. Note: This may fail, if
-        there are many users.',
-        'seravo'
-      );
-      ?>
-      </p>
-      <p>
-      <button id='run_check_passwords' class='button'><?php _e('Run', 'seravo'); ?></button>
-      </p>
-      <div id="wp_check_passwords_loading">
-        <img class="hidden" src="/wp-admin/images/spinner.gif">
-      </div>
-      <p id='wp_check_passwords'></p>
-      <?php
     }
 
     public static function cruftfiles_postbox() {

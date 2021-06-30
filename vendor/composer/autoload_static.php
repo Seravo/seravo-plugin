@@ -141,6 +141,7 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Seravo\\Postbox\\Component' => __DIR__ . '/../..' . '/src/lib/postbox/component/component.php',
         'Seravo\\Postbox\\InfoBox' => __DIR__ . '/../..' . '/src/lib/postbox/templates/info-box.php',
         'Seravo\\Postbox\\LazyCommand' => __DIR__ . '/../..' . '/src/lib/postbox/templates/lazy-command.php',
+        'Seravo\\Postbox\\LazyLoader' => __DIR__ . '/../..' . '/src/lib/postbox/templates/lazy-loader.php',
         'Seravo\\Postbox\\Postbox' => __DIR__ . '/../..' . '/src/lib/postbox/postbox.php',
         'Seravo\\Postbox\\Requirements' => __DIR__ . '/../..' . '/src/lib/postbox/requirements.php',
         'Seravo\\Postbox\\Seravo_Postbox_Factory' => __DIR__ . '/../..' . '/src/lib/postbox/handler.php',
