@@ -72,6 +72,35 @@ class Template {
   }
 
   /**
+   * Display elements in a specified table.
+   * @param string $class Specified table class.
+   * @param string $th_class Class for th elements.
+   * @param string $td_class Class for td elements.
+   * @param array $column_titles Column titles in array.
+   * @param array $all_rows Rows as $rows => $row array.
+   * @return \Seravo\Postbox\Component
+   */
+  public static function table_view( $class, $th_class, $td_class, $column_titles, $all_rows ) {
+    $main_table = new Component('', '<table class="' . $class . '">', '</table>');
+    $titles = new Component('', '<tr>', '</tr>');
+
+    foreach ( $column_titles as $title ) {
+      $titles->add_child(Component::from_raw('<th class="' . $th_class . '">' . $title . '</th>'));
+    }
+    $main_table->add_child($titles);
+
+    foreach ( $all_rows as $rows ) {
+      $row = new Component('', '<tr>', '</tr>');
+
+      foreach ( $rows as $row_element ) {
+        $row->add_child(Component::from_raw('<td class="' . $td_class . '" title="' . $row_element . '">' . $row_element . '</td>'));
+      }
+      $main_table->add_child($row);
+    }
+    return $main_table;
+  }
+
+  /**
     * Display link
     * @param string $content Text to wrap the link around.
     * @param string $href    Link URL.

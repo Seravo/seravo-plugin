@@ -9,7 +9,7 @@ use \Seravo\Postbox\Template;
  * Class LazyLoader
  *
  * LazyLoader is pre-made AjaxHandler for automatically executing
- * a funciton on page load showing the output.
+ * a function on page load showing the output.
  */
 class LazyLoader extends AjaxHandler {
 
