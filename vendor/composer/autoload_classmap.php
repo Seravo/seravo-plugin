@@ -118,6 +118,7 @@ return array(
     'Seravo\\Postbox\\Component' => $baseDir . '/src/lib/postbox/component/component.php',
     'Seravo\\Postbox\\InfoBox' => $baseDir . '/src/lib/postbox/templates/info-box.php',
     'Seravo\\Postbox\\LazyCommand' => $baseDir . '/src/lib/postbox/templates/lazy-command.php',
+    'Seravo\\Postbox\\LazyLoader' => $baseDir . '/src/lib/postbox/templates/lazy-loader.php',
     'Seravo\\Postbox\\Postbox' => $baseDir . '/src/lib/postbox/postbox.php',
     'Seravo\\Postbox\\Requirements' => $baseDir . '/src/lib/postbox/requirements.php',
     'Seravo\\Postbox\\Seravo_Postbox_Factory' => $baseDir . '/src/lib/postbox/handler.php',
