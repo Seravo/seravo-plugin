@@ -9,6 +9,13 @@
 
 namespace Seravo;
 
+use Seravo\Ajax;
+use \Seravo\Postbox;
+use Seravo\Postbox\Component;
+use \Seravo\Postbox\Template;
+use \Seravo\Postbox\Toolpage;
+use \Seravo\Postbox\Requirements;
+
 require_once SERAVO_PLUGIN_SRC . 'lib/security-ajax.php';
 require_once SERAVO_PLUGIN_SRC . 'lib/cruftfiles-ajax.php';
 require_once SERAVO_PLUGIN_SRC . 'lib/cruftplugins-ajax.php';
@@ -44,6 +51,12 @@ if ( ! class_exists('Security') ) {
       add_action('wp_ajax_seravo_list_cruft_themes', 'Seravo\seravo_ajax_list_cruft_themes');
       add_action('wp_ajax_seravo_remove_themes', 'Seravo\seravo_ajax_remove_themes');
 
+      $page = new Toolpage('tools_page_security_page');
+      self::init_security_postboxes($page);
+
+      $page->enable_ajax();
+      $page->register_page();
+
       \Seravo\Postbox\seravo_add_raw_postbox(
         'security_info',
         __('Security', 'seravo'),
@@ -56,14 +69,6 @@ if ( ! class_exists('Security') ) {
         'logins_info',
         __('Last successful logins', 'seravo'),
         array( __CLASS__, 'logins_info_postbox' ),
-        'tools_page_security_page',
-        'side'
-      );
-
-      \Seravo\Postbox\seravo_add_raw_postbox(
-        'check_passwords',
-        __('Check passwords (Beta)', 'seravo'),
-        array( __CLASS__, 'check_passwords_postbox' ),
         'tools_page_security_page',
         'side'
       );
@@ -92,6 +97,24 @@ if ( ! class_exists('Security') ) {
         'column4'
       );
 
+    }
+
+    /**
+     * Init postboxes on Security page.
+     * @param Toolpage $page Page to init postboxes.
+     */
+    public static function init_security_postboxes( Toolpage $page ) {
+      /**
+       * Check passwords postbox (Beta)
+       */
+      $passwords = new Postbox\SimpleCommand('check-passwords');
+      $passwords->set_title(__('Check passwords (Beta)', 'seravo'));
+      $passwords->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+      $passwords->set_button_text(__('Run', 'seravo'));
+      $passwords->set_spinner_text(__('Running the password check', 'seravo'));
+      $passwords->set_command('wp-check-passwords');
+      $passwords->add_paragraph(__('This tool can be used to run command <code>wp-check-passwords</code> which finds weak passwords from the users of the site. Note: This may fail, if there are many users.', 'seravo'));
+      $page->register_postbox($passwords);
     }
 
     /**
