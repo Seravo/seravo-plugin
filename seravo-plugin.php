@@ -353,6 +353,10 @@ class Loader {
       if ( apply_filters('seravo_show_security_page', true) && current_user_can('administrator') ) {
         require_once SERAVO_PLUGIN_SRC . 'modules/security.php';
       }
+
+      if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
+        require_once SERAVO_PLUGIN_SRC . 'modules/test-page.php';
+      }
     }
 
     /*
