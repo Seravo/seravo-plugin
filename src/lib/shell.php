@@ -21,7 +21,7 @@ class Shell {
   public static function safe_exec( $command, $args = array(), $env = array(), &$output = null, &$result_code = null ) {
     $safe_command = self::sanitize_command($command, $args, $env);
 
-    exec($safe_command, output, result_code);
+    exec($safe_command, $output, $result_code);
   }
   /**
    * Function for sanitizing commands to be more safe.
@@ -51,6 +51,31 @@ class Shell {
     }
 
     return escapeshellcmd($safe_command);
+  }
+
+  /**
+   * Run a command on background.
+   * @param string $command Command to run.
+   * @return mixed|bool Pid of the program.
+   */
+  public static function backround_command( $command ) {
+    $output = array();
+    exec('(' . $command . ') > /dev/null & echo $!', $output);
+
+    if ( count($output) >= 1 ) {
+      return $output[0];
+    }
+
+    return false;
+  }
+
+  /**
+   * Check if command is running.
+   * @param int $pid Pid of the program.
+   * @return bool Whether the command is running.
+   */
+  public static function is_pid_running( $pid ) {
+    return file_exists("/proc/{$pid}");
   }
 
 }
