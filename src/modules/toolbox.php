@@ -80,6 +80,17 @@ if ( ! class_exists('SeravoToolbox') ) {
         'logs_page',
         array( Logs::init(), 'render_tools_page' )
       );
+
+      if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
+        add_submenu_page(
+          'tools.php',
+          __('Test-page', 'seravo'),
+          __('Test-page', 'seravo'),
+          'manage_options',
+          'test_page',
+          'Seravo\Postbox\seravo_two_column_postboxes_page'
+        );
+      }
     }
   }
 
