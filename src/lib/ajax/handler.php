@@ -190,4 +190,23 @@ class AjaxHandler {
     return $this->data_cache_time;
   }
 
+  /**
+   * Check if polling is no longer needed or continue doing it.
+   * @return mixed|bool AjaxResponse if still polling, true if
+   *                    polling is done, false if not polling yet.
+   */
+  public static function check_polling() {
+    if ( isset($_REQUEST['poller_id']) && ! empty($_REQUEST['poller_id']) ) {
+      $pid = base64_decode($_REQUEST['poller_id']);
+
+      if ( \Seravo\Shell::is_pid_running($pid) ) {
+        return AjaxResponse::require_polling_response($pid);
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
 }

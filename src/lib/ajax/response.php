@@ -124,6 +124,22 @@ class AjaxResponse {
   }
 
   /**
+   * Get response for requesting polling.
+   * @param string $pid Pid of the program to poll.
+   * @return \Seravo\Ajax\AjaxResponse Polling response.
+   */
+  public static function require_polling_response( $pid ) {
+    $response = new AjaxResponse();
+    $response->is_success(true);
+    $response->set_data(
+      array(
+        'poller_id' => base64_encode($pid),
+      )
+    );
+    return $response;
+  }
+
+  /**
    * Get response for errors on user inputs in forms.
    * @param string $message Message to display.
    * @return \Seravo\Ajax\AjaxResponse Error response.
