@@ -13,7 +13,7 @@ jQuery(document).ready(
         var section = jQuery(this).attr('data-section');
         var postbox_id = jQuery(this).closest('.seravo-postbox').attr('data-postbox-id');
 
-        var spinner = jQuery('#' + section + '-spinner');
+        var spinner = jQuery('#' + section + '-spinner').closest('.seravo-spinner-wrapper');
         var output = jQuery('#' + section + '-output');
 
         function on_success(response) {
@@ -26,6 +26,8 @@ jQuery(document).ready(
           spinner.hide();
           output.replaceWith('<p><b>' + error + '</b></p>');
         }
+
+        spinner.show();
 
         // Make the request
         seravo_ajax_request('get', postbox_id, section, on_success, on_error);
