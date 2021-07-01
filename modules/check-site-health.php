@@ -120,8 +120,7 @@ if ( ! class_exists('Site_Health') ) {
         }
 
         foreach ( self::$bad_plugins as $plugin ) {
-
-          if ( str_contains($line, $plugin) ) {
+          if ( strpos($line, $plugin) !== false ) {
             $error_msg = '<b>' . $plugin . '</b> ' . __('is deprecated');
             self::$potential_issues[$error_msg] = $deprecated_tooltip;
             ++$bad_plugins_found;
