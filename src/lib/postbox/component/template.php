@@ -78,9 +78,10 @@ class Template {
    * @param string $td_class Class for td elements.
    * @param array $column_titles Column titles in array.
    * @param array $all_rows Rows as $rows => $row array.
+   * @param bool $tooltip_titles Display tooltips in titles field or not.
    * @return \Seravo\Postbox\Component
    */
-  public static function table_view( $class, $th_class, $td_class, $column_titles, $all_rows ) {
+  public static function table_view( $class, $th_class, $td_class, $column_titles, $all_rows, $tooltip_titles = false ) {
     $main_table = new Component('', '<table class="' . $class . '">', '</table>');
     $titles = new Component('', '<tr>', '</tr>');
 
@@ -93,7 +94,7 @@ class Template {
       $row = new Component('', '<tr>', '</tr>');
 
       foreach ( $rows as $row_element ) {
-        $row->add_child(Component::from_raw('<td class="' . $td_class . '" title="' . $row_element . '">' . $row_element . '</td>'));
+        $row->add_child(Component::from_raw('<td class="' . $td_class . '"' . ($tooltip_titles ? 'title="' . $row_element . '"' : '') . '>' . $row_element . '</td>'));
       }
       $main_table->add_child($row);
     }
@@ -110,7 +111,7 @@ class Template {
     * @return \Seravo\Postbox\Component Link component.
     */
    public static function link( $content, $href, $id, $class = 'button', $target = '_blank' ) {
-    return Component::from_raw('<a id="' . $id . '" class="' . $class . ' href="' . $href . '" target="' . $target . '" >' . $content . '</a>');
+    return Component::from_raw('<a id="' . $id . '" class="' . $class . '" href="' . $href . '" target="' . $target . '" >' . $content . '</a>');
    }
 
   /**
