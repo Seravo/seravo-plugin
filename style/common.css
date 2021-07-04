@@ -70,6 +70,20 @@
     color: red;
   }
 
+  table.widefat {
+    width: 100%;
+    border: none;
+  }
+
+  .statistics {
+    background: #44A1CB;
+    color: #fff;
+    padding: 3px;
+    width: auto;
+    display: inline-block;
+    white-space: nowrap;
+  }
+
   .result-table-wrapper {
     max-height: 30vh;
     overflow-y: scroll;

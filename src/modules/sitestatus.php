@@ -2,12 +2,11 @@
 
 namespace Seravo;
 
+use Seravo\Ajax\AjaxResponse;
 use \Seravo\Postbox\Toolpage;
-use \Seravo\Postbox\Postbox;
+use \Seravo\Postbox;
 use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
-use \Seravo\Postbox\Ajax_Handler;
-use \Seravo\Postbox\Ajax_Response;
 use \Seravo\Postbox\Requirements;
 
 if ( ! defined('ABSPATH') ) {
@@ -61,15 +60,6 @@ if ( ! class_exists('Site_Status') ) {
       self::init_sitestatus_postboxes($page);
       $page->enable_ajax();
       $page->register_page();
-
-      // Add HTTP request stats postbox
-      \Seravo\Postbox\seravo_add_raw_postbox(
-        'http-request-statistics',
-        __('HTTP Request Statistics', 'seravo'),
-        array( __CLASS__, 'seravo_http_request_statistics' ),
-        'tools_page_site_status_page',
-        'normal'
-      );
 
       // Add cache status postbox
       \Seravo\Postbox\seravo_add_raw_postbox(
@@ -137,12 +127,22 @@ if ( ! class_exists('Site_Status') ) {
       /**
        * Site info postbox
        */
-       $site_info = new Postbox('site-info');
+       $site_info = new Postbox\Postbox('site-info');
        $site_info->set_title(__('Site Information', 'seravo'));
        $site_info->set_data_func(array( __CLASS__, 'get_site_info' ), 300);
        $site_info->set_build_func(array( __CLASS__, 'build_site_info' ));
        $site_info->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
        $page->register_postbox($site_info);
+
+       /**
+        * HTTP Request Statistics  postbox
+        */
+        $http_stats = new Postbox\LazyLoader('http-request-statistics');
+        $http_stats->set_title(__('HTTP Request Statistics', 'seravo'));
+        $http_stats->set_build_func(array( __CLASS__, 'build_http_statistics' ));
+        $http_stats->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+        $http_stats->set_ajax_func(array( __CLASS__, 'get_http_statistics' ));
+        $page->register_postbox($http_stats);
     }
 
     public static function register_optimize_image_settings() {
@@ -244,30 +244,6 @@ if ( ! class_exists('Site_Status') ) {
         );
         wp_localize_script('seravo_site_status', 'seravo_site_status_loc', $loc_translation);
       }
-    }
-
-    public static function seravo_http_request_statistics() {
-      if ( ! Helpers::is_production() ) {
-        __('This feature is available only on live production sites.', 'seravo');
-      }
-      ?>
-      <div>
-        <p><?php _e('These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo'); ?></p>
-      </div>
-      <div class="http-requests_info_loading" style="padding: 0px;">
-        <table class="widefat striped" style="width: 100%; border: none;">
-          <thead>
-          <tr>
-            <th style="width: 25%;"><?php _e('Month', 'seravo'); ?></th>
-            <th style="width: 50%;"><?php _e('HTTP Requests', 'seravo'); ?></th>
-            <th style="width: 25%;"><?php _e('Report', 'seravo'); ?></th>
-          </tr>
-          </thead>
-          <tbody id="http-reports_table"></tbody>
-        </table>
-      </div>
-      <pre id="http-requests_info"></pre>
-      <?php
     }
 
     public static function seravo_cache_status() {
@@ -396,12 +372,71 @@ if ( ! class_exists('Site_Status') ) {
     }
 
     /**
+     * Build the HTTP Request Statistics postbox.
+     * @param Component $base Postbox's base element to add children to.
+     * @param Postbox $postbox Postbox The box.
+     */
+    public static function build_http_statistics( Component $base, Postbox\Postbox $postbox ) {
+      $base->add_child(Template::paragraph(__('These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo')));
+      $base->add_child($postbox->get_ajax_handler('http-request-statistics')->get_component());
+    }
+
+    /**
+     * AJAX function for HTTP Request Statistics postbox.
+     * @return \Seravo\Ajax\AjaxResponse
+     */
+    public static function get_http_statistics() {
+      $response = new AjaxResponse();
+      $reports = glob('/data/slog/html/goaccess-*.html');
+
+      if ( $reports !== array() ) {
+        $column_titles = array( __('Month', 'seravo'), __('HTTP Requests', 'seravo'), __('Report', 'seravo') );
+
+        // Track max request value to calculate relative bar widths
+        $max_requests = 0;
+        $months = array();
+
+        foreach ( array_reverse($reports) as $report ) {
+          $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' {$report}");
+          preg_match('/(\d+)/', $total_requests_string, $total_requests_match);
+          $total_requests = (int) $total_requests_match[1];
+          if ( $total_requests > $max_requests ) {
+            $max_requests = $total_requests;
+          }
+
+          $month = substr($report, 25, 7);
+          $stats_link = 'tools.php?x-accel-redirect&report=' . $month . '.html';
+          $min_width = ($max_requests > 0 ? $total_requests / $max_requests * 100 : 1);
+
+          $months[] = array(
+            'month' => Template::link($month, $stats_link, $month, 'link')->to_html(),
+            'requests' => '<div class="statistics" style="min-width: ' . $min_width . '%;">' . $total_requests . '</div>',
+            'span' => Template::button_link_with_icon($stats_link, __('View report', 'seravo'))->to_html(),
+          );
+        }
+
+        $output = Template::table_view('widefat striped', 'th', 'td', $column_titles, $months)->to_html();
+      } else {
+        $output = Template::error_paragraph(__('The site has no HTTP requests statistics yet.', 'seravo'))->to_html();
+      }
+
+      $response->is_success(true);
+      $response->set_data(
+        array(
+          'output' => $output,
+        )
+      );
+
+      return $response;
+    }
+
+    /**
      * Build the site-info postbox.
      * @param Component $base Postbox's base element to add children to.
      * @param Postbox $postbox Postbox The box.
      * @param mixed $data Data returned by data func.
      */
-    public static function build_site_info( Component $base, Postbox $postbox, $data ) {
+    public static function build_site_info( Component $base, Postbox\Postbox $postbox, $data ) {
       if ( isset($data['error']) ) {
         $base->add_child(Template::error_paragraph($data['error']));
         return;
