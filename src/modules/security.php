@@ -204,7 +204,7 @@ if ( ! class_exists('Security') ) {
         // Adding column titles
         $column_titles = array( __('Time', 'seravo'), __('User', 'seravo'), __('Address', 'seravo') );
         $login_data = array_reverse($login_data);
-        $table_component = Template::table_view('result-table', 'result-table th', 'seravo-tooltip', $column_titles, $login_data);
+        $table_component = Template::table_view('result-table', 'result-table th', 'seravo-tooltip', $column_titles, $login_data, true);
 
         $response->set_data(
           array(
