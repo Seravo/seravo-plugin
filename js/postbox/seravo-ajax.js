@@ -102,6 +102,137 @@ jQuery(document).ready(
         );
       }
     );
+
+    /**
+     * Javascript for ButtonCommand.
+     * Makes request on button click
+     * and shows the output in fancy wrapper.
+     */
+    jQuery('.seravo-ajax-fancy-form').each(
+      function () {
+        var form = this;
+        var section = jQuery(this).attr('data-section');
+        var postbox_id = jQuery(this).closest('.seravo-postbox').attr('data-postbox-id');
+
+        var wrapper = jQuery(this).find('.seravo-result-wrapper');
+        var button = jQuery(this).find('#' + section + '-button');
+        var dryrun_button = jQuery(this).find('#' + section + '-dryrun-button');
+        var spinner = jQuery('#' + section + '-spinner').closest('.seravo-spinner-wrapper');
+
+        var output = jQuery('#' + section + '-output');
+        var show_more = jQuery(wrapper).find('.seravo-show-more-wrapper');
+
+        var status = jQuery('#' + section + '-status');
+
+        function on_success(response) {
+          status.html(response['title']);
+
+          if ('color' in response) {
+            wrapper.css('border-color', response['color']);
+          }
+
+          if ('output' in response) {
+            output.html(response['output']);
+            show_more.show();
+          }
+
+          spinner.hide();
+          status.show();
+
+          if (! ('dryrun-only' in response) || response['dryrun-only'] === false) {
+            button.prop('disabled', false);
+          }
+
+          if (dryrun_button !== undefined) {
+            dryrun_button.prop('disabled', false);
+          }
+        }
+
+        function on_error(error) {
+          status.html(error);
+          wrapper.css('border-color', 'red');
+
+          spinner.hide();
+          status.show();
+        }
+
+        button.click(
+          function () {
+            button.prop('disabled', true);
+            wrapper.css('border-color', '#e8ba1b');
+
+            status.hide();
+            spinner.show();
+
+            if (dryrun_button !== undefined) {
+              dryrun_button.prop('disabled', true);
+            }
+
+            // Make the request
+            seravo_ajax_request('get', postbox_id, section, on_success, on_error, get_form_data(form));
+          }
+        );
+
+        dryrun_button.click(
+          function () {
+            button.prop('disabled', true);
+            dryrun_button.prop('disabled', true);
+            wrapper.css('border-color', '#e8ba1b');
+
+            status.hide();
+            spinner.show();
+
+            var data = {
+              'dryrun': true,
+              ...get_form_data(form)
+            }
+
+            // Make the request
+            seravo_ajax_request('get', postbox_id, section, on_success, on_error, data);
+          }
+        );
+      }
+    );
+
+    jQuery('.seravo-show-more-wrapper').click(
+      function (event) {
+        event.preventDefault();
+
+        var link = jQuery(this).find('a');
+        var icon = jQuery(this).find('.dashicons');
+        var form = jQuery(this).closest('.seravo-ajax-fancy-form');
+        var output = jQuery('#' + jQuery(form).attr('data-section') + '-output');
+
+        if (icon.hasClass('dashicons-arrow-down-alt2')) {
+          icon.slideDown(
+            'fast',
+            function () {
+              icon.removeClass('dashicons-arrow-down-alt2').addClass('dashicons-arrow-up-alt2');
+              link.html(link.html().replace(seravo_ajax_l10n.show_more, seravo_ajax_l10n.show_less));
+            }
+          );
+          output.slideDown(
+            'fast',
+            function () {
+              output.show();
+            }
+          );
+        } else if (icon.hasClass('dashicons-arrow-up-alt2')) {
+          icon.slideDown(
+            function () {
+              icon.removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
+              link.html(link.html().replace(seravo_ajax_l10n.show_less, seravo_ajax_l10n.show_more));
+            }
+          );
+          output.slideUp(
+            'fast',
+            function () {
+              output.hide();
+            }
+          );
+        }
+      }
+    );
   }
 );
 

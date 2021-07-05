@@ -101,7 +101,7 @@ if ( ! class_exists('Upkeep') ) {
       $php_version_tool->set_build_form_func(array( __CLASS__, 'build_php_version_form' ));
       $php_version_tool->set_spinner_text(__('Activating... Please wait up to 30 seconds', 'seravo'));
       $php_version_tool->set_button_text(__('Change version', 'seravo'));
-      $php_version_tool->set_button_func(array( __CLASS__, 'set_php_version' ));
+      $php_version_tool->set_ajax_func(array( __CLASS__, 'set_php_version' ));
       $php_version_tool->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
       $php_version_tool->set_build_func(array( __CLASS__, 'build_change_php_version_postbox' ));
       $page->register_postbox($php_version_tool);

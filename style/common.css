@@ -5,168 +5,172 @@
 
 /* Dashboard widgets and postboxes */
 
-  .side-by-side-container {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    margin: 15px 0 15px 0;
-  }
+.side-by-side-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 15px 0 15px 0;
+}
 
-  .side-by-side-container > div {
-    padding: 0 10px 0 0;
-  }
+.side-by-side-container > div {
+  padding: 0 10px 0 0;
+}
 
-  .seravo-spinner-wrapper {
-    display: none;
-  }
+.seravo-spinner-wrapper {
+  display: inline-block;
+}
 
-  .seravo-spinner {
-    background: url(../../../../wp-admin/images/spinner.gif) no-repeat;
-    background-size: 20px 20px;
-    vertical-align: middle;
-    opacity: 0.7;
-    filter: alpha(opacity=70);
-    width: 20px;
-    height: 20px;
-    margin-right: -5px;
-  }
+.seravo-spinner {
+  background: url(../../../../wp-admin/images/spinner.gif) no-repeat;
+  background-size: 20px 20px;
+  vertical-align: middle;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+  width: 20px;
+  height: 20px;
+  margin-right: -5px;
+}
 
-  .postbox-ul {
-    list-style-type: disc;
-    padding-left: 18px;
-  }
+.postbox-ul {
+  list-style-type: disc;
+  padding-left: 18px;
+}
 
-  .seravo-ajax-lazy-load pre {
-    overflow: scroll;
-    max-width: 100%;
-    max-height: 30vh;
-  }
+.seravo-ajax-lazy-load pre {
+  overflow: scroll;
+  max-width: 100%;
+  max-height: 30vh;
+}
 
-  div#seravo-error-widget.postbox,
-  div#seravo-low-disk-space-widget.postbox {
-      border-left: 0.2em solid #e8ba1b;
-  }
+div#seravo-error-widget.postbox,
+div#seravo-low-disk-space-widget.postbox {
+  border-left: 0.2em solid #e8ba1b;
+}
 
-  .seravo-tooltip {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
+.seravo-tooltip {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 
- /* Dashicon styles */
+/* Dashicon styles */
 
-  .dashicons .dashicons-external {
-    line-height: 1.4;
-    padding-left: 3px;
-  }
+.dashicons .dashicons-external {
+  line-height: 1.4;
+  padding-left: 3px;
+}
 
- /* Misc common elements */
+/* Misc common elements */
 
-  p.success {
-    color: green;
-  }
+p.success {
+  color: green;
+}
 
-  p.failure {
-    color: red;
-  }
+p.failure {
+  color: red;
+}
 
-  p.warning {
-    color: orange;
-  }
+p.warning {
+  color: orange;
+}
 
-  table.widefat {
-    width: 100%;
-    border: none;
-  }
+table.widefat {
+  width: 100%;
+  border: none;
+}
 
-  .statistics {
-    background: #44A1CB;
-    color: #fff;
-    padding: 3px;
-    width: auto;
-    display: inline-block;
-    white-space: nowrap;
-  }
+.statistics {
+  background: #44A1CB;
+  color: #fff;
+  padding: 3px;
+  width: auto;
+  display: inline-block;
+  white-space: nowrap;
+}
 
-  .result-table-wrapper {
-    max-height: 30vh;
-    overflow-y: scroll;
-  }
+.result-table-wrapper {
+  max-height: 30vh;
+  overflow-y: scroll;
+}
 
-  .result-table {
-    width: 100%;
-    table-layout: fixed;
-  }
+.result-table {
+  width: 100%;
+  table-layout: fixed;
+}
 
-  .result-table th {
-    text-align: left;
-  }
+.result-table th {
+  text-align: left;
+}
 
-  .seravo-label-textfield {
-    padding-top: 5px;
-  }
+.seravo-label-textfield {
+  padding-top: 5px;
+}
 
-  .seravo-label-textfield label {
-    margin-right: -10px;
-  }
+.seravo-label-textfield label {
+  margin-right: -10px;
+}
 
- /* Tooltip css */
+/* Tooltip css */
 
-  .tooltip {
-    position: relative;
-    padding-left: 5px;
-    content: "\f348";
-  }
+.tooltip {
+  position: relative;
+  padding-left: 5px;
+  content: "\f348";
+}
 
-  .tooltip .tooltiptext {
-    font-size: 0.6em;
-    visibility: hidden;
-    width: 130px;
-    background-color: #555555;
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    padding: 8px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    line-height: 1.3;
-    font-family: sans-serif;
-  }
+.tooltip .tooltiptext {
+  font-size: 0.6em;
+  visibility: hidden;
+  width: 130px;
+  background-color: #555555;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  line-height: 1.3;
+  font-family: sans-serif;
+}
 
-  .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555555 transparent transparent transparent;
-  }
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555555 transparent transparent transparent;
+}
 
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
 
-  .dashicons-info {
-    color: #b1b2b3;
-  }
+.dashicons-info {
+  color: #b1b2b3;
+}
 
-  .seravo-ellipsis {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
+.seravo-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 
-  /* Result wrapper components */
+/* Result wrapper components */
 
-  .seravo-result-wrapper {
+.seravo-ajax-fancy-form {
+  margin-top: 2em;
+}
+
+.seravo-result-wrapper {
   -moz-transition: border 1s ease-in;
   -o-transition: border 1s ease-in;
   -webkit-transition: border 1s ease-in;
@@ -174,31 +178,40 @@
   border-left: solid 0.5em #e8ba1b;
   box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.12);
   display: block;
-  margin-top: 2em;
+  margin-top: 1em;
   max-width: 55em;
   min-height: 5em;
   overflow: hidden;
-  transition: border 1s ease-in;
+  transition: border 0.5s ease-in;
 }
 
-.seravo-result {
+.seravo-result-wrapper-output {
   box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
   display: none;
   margin: 1em;
   max-height: 30em;
   padding: 1em;
+  overflow-y: scroll;
 }
 
-.seravo_result_wrapper_title {
+.seravo-result-wrapper-title {
   font-size: 15px;
   font-weight: bold;
   margin-top: 1.6em;
   margin-left: 0.5em;
-  padding-bottom: 7px;
+  padding: 0 5px 7px 0;
   text-align: center;
 }
 
-.seravo_show_more_wrapper {
+.seravo-result-wrapper-title .seravo-spinner {
+  margin: -2px -4px 0 0;
+}
+
+.seravo-result-wrapper-title > .seravo-spinner-wrapper > div {
+  margin: 0;
+}
+
+.seravo-show-more-wrapper {
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   float: right;
@@ -207,12 +220,13 @@
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+  margin: 5px;
 }
 
-.seravo_show_more,
-.seravo_show_more:hover,
-.seravo_show_more:active,
-.seravo_show_more:focus {
+.seravo-show-more,
+.seravo-show-more:hover,
+.seravo-show-more:active,
+.seravo-show-more:focus {
   box-shadow: none;
   color: inherit;
   text-decoration: none;
