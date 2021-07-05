@@ -68,7 +68,7 @@ if ( ! class_exists('Database') ) {
       $search_replace->set_title(__('Search-Replace Tool', 'seravo'));
       $search_replace->set_button_text(__('Run wp search-replace', 'seravo'), __('Do a dry run', 'seravo'));
       $search_replace->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
-      $search_replace->set_button_func(array( __CLASS__, 'execute_search_replace' ));
+      $search_replace->set_ajax_func(array( __CLASS__, 'execute_search_replace' ));
       $search_replace->set_build_form_func(array( __CLASS__, 'build_search_replace_postbox' ));
       $page->register_postbox($search_replace);
 

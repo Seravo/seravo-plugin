@@ -5,22 +5,23 @@ namespace Seravo\Postbox;
 use \Seravo\Ajax;
 
 /**
- * Class SimpleForm
+ * Class FancyForm
  *
- * SimpleForm is pre-made Postbox for building forms
- * with button for executing a function and dry-run.
+ * FancyForm is pre-made Postbox for building
+ * forms with button for executing a function and dry-run
+ * and showing the output in a fancy wrapper.
  */
-class SimpleForm extends InfoBox {
+class FancyForm extends InfoBox {
 
   /**
-   * Constructor for SimpleForm. Will be called on new instance.
+   * Constructor for FancyForm. Will be called on new instance.
    * @param string $id      Unique id/slug of the postbox.
    * @param string $context Default admin dashboard context where the postbox should be displayed in.
    */
   public function __construct( $id, $context = 'normal' ) {
     parent::__construct($id, $context);
 
-    $ajax_handler = new Ajax\SimpleForm($id);
+    $ajax_handler = new Ajax\FancyForm($id);
     $this->add_ajax_handler($ajax_handler);
   }
 
@@ -60,6 +61,15 @@ class SimpleForm extends InfoBox {
   public function set_spinner_text( $text ) {
     $handler = $this->ajax_handlers[$this->id];
     $handler->set_spinner_text($text);
+  }
+
+  /**
+   * Set text to be shown in wrapper by default.
+   * @param string $text Title text.
+   */
+  public function set_title_text( $text ) {
+    $handler = $this->ajax_handlers[$this->id];
+    $handler->set_title_text($text);
   }
 
 }

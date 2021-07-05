@@ -205,11 +205,13 @@ class Template {
    * @return \Seravo\Postbox\Component Spinner component.
    */
   public static function spinner( $id, $class = 'seravo-spinner' ) {
-    return Component::from_raw('<div id="' . $id . '" class="seravo-spinner-wrapper ' . $class . '"><img src="/wp-admin/images/spinner.gif"></div>');
+    $spinner = new Component('', '<div id="' . $id . '" class="seravo-spinner-wrapper ' . $class . '" style="display:none;">', '</div>');
+    $spinner->set_content('<img src="/wp-admin/images/spinner.gif">');
+    return $spinner;
   }
 
   /**
-   * Display spinner image with loading text next to it. In default it's hidden.
+   * Display spinner image with loading text next to it. By default it's hidden.
    * @param string $id Id for this spinner.
    * @param string $text Text next to spinner.
    * @param string $spinner_class Class for the div spinner component, default 'spinner'.
@@ -219,8 +221,25 @@ class Template {
     $spinner = new Component('<div id="' . $id . '" class="' . $spinner_class . '"><img src="/wp-admin/images/spinner.gif"></div>');
     $text = new Component($text, '<span><b>', '</b></span>');
 
-    $wrapper = new Component('', '<div class="seravo-spinner-wrapper">', '</div>');
+    $wrapper = new Component('', '<div class="seravo-spinner-wrapper" style="display:none;">', '</div>');
     $wrapper->add_child(self::side_by_side($spinner, $text));
+    return $wrapper;
+  }
+
+  /**
+   * Display a 'show more' link.
+   * @param string $class Class for the link wrapper, default 'hidden'.
+   * @return \Seravo\Postbox\Component Show more component.
+   */
+  public static function show_more_link( $class = 'hidden' ) {
+    $icon = new Component('', '<div class="dashicons dashicons-arrow-down-alt2">', '</div>');
+
+    $link = new Component(__('Show more', 'seravo') . ' ', '<a href="" class="seravo-show-more">', '</a>');
+    $link->add_child($icon);
+
+    $wrapper = new Component('', '<div class="seravo-show-more-wrapper ' . $class . '">', '</div>');
+    $wrapper->add_child($link);
+
     return $wrapper;
   }
 
