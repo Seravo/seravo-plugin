@@ -50,7 +50,6 @@ if ( ! class_exists('Site_Status') ) {
       self::check_default_settings();
       add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_site_status_scripts' ));
       add_action('wp_ajax_seravo_ajax_site_status', 'Seravo\seravo_ajax_site_status');
-      add_action('wp_ajax_seravo_report_http_requests', 'Seravo\seravo_ajax_report_http_requests');
       add_action('wp_ajax_seravo_speed_test', 'Seravo\seravo_speed_test');
 
       /**
@@ -58,6 +57,7 @@ if ( ! class_exists('Site_Status') ) {
        */
       $page = new Toolpage('tools_page_site_status_page');
       self::init_sitestatus_postboxes($page);
+      $page->enable_charts();
       $page->enable_ajax();
       $page->register_page();
 
@@ -79,15 +79,6 @@ if ( ! class_exists('Site_Status') ) {
           'side'
         );
       }
-
-      // Add disk usage postbox
-      \Seravo\Postbox\seravo_add_raw_postbox(
-        'disk-usage',
-        __('Disk Usage', 'seravo'),
-        array( __CLASS__, 'seravo_disk_usage' ),
-        'tools_page_site_status_page',
-        'side'
-      );
 
       \Seravo\Postbox\seravo_add_raw_postbox(
         'optimize-images',
@@ -123,35 +114,51 @@ if ( ! class_exists('Site_Status') ) {
       /**
        * Site info postbox
        */
-       $site_info = new Postbox\Postbox('site-info');
-       $site_info->set_title(__('Site Information', 'seravo'));
-       $site_info->set_data_func(array( __CLASS__, 'get_site_info' ), 300);
-       $site_info->set_build_func(array( __CLASS__, 'build_site_info' ));
-       $site_info->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
-       $page->register_postbox($site_info);
+      $site_info = new Postbox\Postbox('site-info');
+      $site_info->set_title(__('Site Information', 'seravo'));
+      $site_info->set_data_func(array( __CLASS__, 'get_site_info' ), 300);
+      $site_info->set_build_func(array( __CLASS__, 'build_site_info' ));
+      $site_info->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+      $page->register_postbox($site_info);
 
-       /**
-        * HTTP Request Statistics  postbox
-        */
-        $http_stats = new Postbox\LazyLoader('http-request-statistics');
-        $http_stats->set_title(__('HTTP Request Statistics', 'seravo'));
-        $http_stats->set_build_func(array( __CLASS__, 'build_http_statistics' ));
-        $http_stats->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
-        $http_stats->set_ajax_func(array( __CLASS__, 'get_http_statistics' ));
-        $page->register_postbox($http_stats);
+      /**
+       * HTTP Request Statistics  postbox
+       */
+      $http_stats = new Postbox\LazyLoader('http-request-statistics');
+      $http_stats->set_title(__('HTTP Request Statistics', 'seravo'));
+      $http_stats->set_build_func(array( __CLASS__, 'build_http_statistics' ));
+      $http_stats->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+      $http_stats->set_ajax_func(array( __CLASS__, 'get_http_statistics' ));
+      $page->register_postbox($http_stats);
 
-        /**
-         * Site checks postbox
-         */
-        $site_checks = new Postbox\FancyForm('site-checks');
-        $site_checks->set_title(__('Site checks', 'seravo'));
-        $site_checks->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
-        $site_checks->set_ajax_func(array( __CLASS__, 'run_site_checks' ));
-        $site_checks->set_button_text(__('Run site checks', 'seravo'));
-        $site_checks->set_spinner_text(__(' Running site checks', 'seravo'));
-        $site_checks->set_title_text(__(' Click "Run site checks" to run the tests', 'seravo'));
-        $site_checks->add_paragraph(__('Site checks provide a report about your site health and show potential issues. Checks include for example php related errors, inactive themes and plugins.', 'seravo'));
-        $page->register_postbox($site_checks);
+      /**
+       * Site checks postbox
+       */
+      $site_checks = new Postbox\FancyForm('site-checks');
+      $site_checks->set_title(__('Site checks', 'seravo'));
+      $site_checks->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+      $site_checks->set_ajax_func(array( __CLASS__, 'run_site_checks' ));
+      $site_checks->set_button_text(__('Run site checks', 'seravo'));
+      $site_checks->set_spinner_text(__(' Running site checks', 'seravo'));
+      $site_checks->set_title_text(__(' Click "Run site checks" to run the tests', 'seravo'));
+      $site_checks->add_paragraph(__('Site checks provide a report about your site health and show potential issues. Checks include for example php related errors, inactive themes and plugins.', 'seravo'));
+      $page->register_postbox($site_checks);
+
+      /**
+       * Disk Usage postbox
+       */
+      $disk_usage = new Postbox\LazyLoader('disk-usage');
+      $disk_usage->set_build_func(array( __CLASS__, 'build_disk_usage' ));
+      $disk_usage->use_hr(false);
+      $disk_usage->set_title(__('Disk Usage', 'seravo'));
+      $disk_usage->set_ajax_func(array( __CLASS__, 'get_disk_usage' ));
+      $disk_usage->set_requirements(
+        array(
+          Requirements::CAN_BE_PRODUCTION => true,
+          Requirements::CAN_BE_STAGING => true,
+        )
+      );
+      $page->register_postbox($disk_usage);
     }
 
     public static function register_optimize_image_settings() {
@@ -241,8 +248,6 @@ if ( ! class_exists('Site_Status') ) {
           'hits'                => __('Hits', 'seravo'),
           'misses'              => __('Misses', 'seravo'),
           'stales'              => __('Stales', 'seravo'),
-          'used'                => __('Used', 'seravo'),
-          'available'           => __('Available', 'seravo'),
           'ajaxurl'             => admin_url('admin-ajax.php'),
           'ajax_nonce'          => wp_create_nonce('seravo_site_status'),
         );
@@ -317,62 +322,129 @@ if ( ! class_exists('Site_Status') ) {
       <?php
     }
 
-    public static function seravo_disk_usage() {
-      ?>
-      <p id="disk_usage_heading">
-        <?php
-          $api_response = API::get_site_data();
-          if ( is_wp_error($api_response) ) {
-          $max_disk = null;
-          $disk_display = 'none';
-          } else {
-          $max_disk = $api_response['plan']['disklimit']; // in GB
-          $disk_display = 'block';
-          }
-        ?>
-        <div id="donut_single" style="width: 30%; float: right"></div>
-        <div style="display: <?php echo $disk_display; ?>" class="disk_usage_desc">
-          <?php _e('Disk space in your plan: ', 'seravo'); ?>
-          <span id="maximum_disk_space"><?php echo $max_disk; ?></span> GB
-          <br>
-          <?php _e('Space in use: ', 'seravo'); ?>
-          <span id="total_disk_usage"></span>
-          <br>
-          <span id="disk_use_notification" style="display: none">
-            <?php _e('Disk space low! ', 'seravo'); ?>
-            <a href='https://help.seravo.com/article/280-seravo-plugin-site-status#diskusage' target='_BLANK'>
-              <?php _e('Read more.', 'seravo'); ?>
-            </a>
-          </span>
-          <br>
-        </div>
-        <div class="folders_chart_loading">
-          <img src="/wp-admin/images/spinner.gif">
-        </div>
-      </p>
-      <p>
-        <hr style="display: <?php echo $disk_display; ?>">
-        <b>
-          <?php _e('Disk usage by directory', 'seravo'); ?>
-        </b>
-        <div class="folders_chart_loading">
-          <img src="/wp-admin/images/spinner.gif">
-        </div>
-        <div class="bars_container">
-          <div id="bars_single" style="width: 100%"></div>
-        </div>
-      </p>
-      <hr>
-      <?php _e("Logs and automatic backups don't count against your quota.", 'seravo'); ?>
-      <br>
-      <?php
-      printf(
-        // translators: %s is the link to curftfiles
-        __('Use <a href="%s">cruft remover</a> to remove unnecessary files.', 'seravo'),
-        'tools.php?page=security_page#cruftfiles_tool'
+    /**
+     * Build function for the disk usage postbox.
+     * @param Component $base Postbox base component to add elements.
+     * @param Postbox $postbox The postbox the func is building.
+     */
+    public static function build_disk_usage( Component $base, Postbox\Postbox $postbox ) {
+      $base->add_child(Template::side_by_side(Component::from_raw('<div id="disk-usage-donut" style="width: 100px;"></div>'), $postbox->get_ajax_handler('disk-usage')->get_component(), 'evenly'));
+      $base->add_child(Component::from_raw('<span id="disk-use-notification" style="display: none;">' . __('Disk space low! ', 'seravo') . '<a href="https://help.seravo.com/article/280-seravo-plugin-site-status#diskusage" target="_BLANK">' . __('Read more.', 'seravo') . '</a></span>'));
+      $base->add_child(Component::from_raw('<hr><b>' . __('Disk usage by directory', 'seravo') . '</b>'));
+      $base->add_child(Component::from_raw('<div id="disk-bars-single" style="width: 100%"></div><hr>'));
+      $base->add_child(Template::paragraph(__("Logs and automatic backups don't count against your quota.", 'seravo') . '<br>' . __('Use <a href="tools.php?page=security_page#cruftfiles_tool">cruft remover</a> to remove unnecessary files.', 'seravo')));
+    }
+
+    /**
+     * Helper function for the disk usage AJAX.
+     * @return array<string, array<array<string, float|int|string>|string>>
+     */
+    public static function report_disk_usage() {
+      $dir_max_limit = 1000000;
+      $dir_threshold = 100000000;
+
+      // Directories not counted against plan's quota but can be visible
+      // in the front end
+      $exclude_dirs = array(
+        '--exclude=/data/backups',
+        '--exclude=/data/log',
+        '--exclude=/data/slog',
       );
-      ?>
-      <?php
+      // Directories not shown in the front-end even if their size
+      // exceed $dir_threshold. Produces a list string of the directories
+      // in a format accepted by grep:  /data/dir_1\|/data/dir_1\| ...
+      $hidden_dirs = implode(
+        '\|',
+        array(
+          '/data/backups',
+        )
+      );
+
+      // Get total disk usage
+      $cached_usage = get_transient('disk_space_usage');
+
+      if ( ! $cached_usage ) {
+        exec('du -sb /data ' . implode(' ', $exclude_dirs), $data_folder);
+        set_transient('disk_space_usage', $data_folder, Dashboard_Widgets::DISK_SPACE_CACHE_TIME);
+      } else {
+        $data_folder = $cached_usage;
+      }
+
+      list($data_size, $data_name) = preg_split('/\s+/', $data_folder[0]);
+
+      // Get the sizes of certain directories and directories with the
+      // size larger than $dir_threshold, ones in $hidden_dirs will be
+      // excluded from the output using grep
+      exec(
+        '(
+        du --separate-dirs -b --threshold=' . $dir_threshold . ' /data/*/ &&
+        du -sb /data/wordpress/htdocs/wp-content/uploads/ &&
+        du -sb /data/wordpress/htdocs/wp-content/themes/ &&
+        du -sb /data/wordpress/htdocs/wp-content/plugins/ &&
+        du -sb /data/wordpress/htdocs/wordpress/wp-includes/ &&
+        du -sb /data/wordpress/htdocs/wordpress/wp-admin/ &&
+        du -sb /data/redis/ &&
+        du -sb /data/reports/ &&
+        du -sb /data/db/
+        ) | grep -v "' . $hidden_dirs . '" | sort -hr',
+        $data_sub
+      );
+
+      // Generate sub folder array
+      $data_folders = array();
+      foreach ( $data_sub as $folder ) {
+        list($folder_size, $folder_name) = preg_split('/\s+/', $folder);
+        $folder_name = str_replace('/data/wordpress/htdocs/wordpress/wp-', '.../wp-', $folder_name);
+        $folder_name = str_replace('/data/wordpress/htdocs/wp-content/', '.../wp-content/', $folder_name);
+
+        if ( $folder_size > $dir_max_limit ) {
+          $data_folders[$folder_name] = array(
+            'percentage' => (($folder_size / $data_size) * 100),
+            'human'      => Helpers::human_file_size($folder_size),
+            'size'       => $folder_size,
+          );
+        }
+      }
+      // Create output array
+      $output = array(
+        'data'        => array(
+          'human' => Helpers::human_file_size($data_size),
+          'size'  => $data_size,
+        ),
+        'dataFolders' => $data_folders,
+      );
+      return $output;
+    }
+
+    /**
+     * AJAX function for Disk Usage postbox.
+     * @return \Seravo\Ajax\AjaxResponse
+     */
+    public static function get_disk_usage() {
+      $response = new AjaxResponse();
+      $api_response = API::get_site_data();
+
+      if ( is_wp_error($api_response) ) {
+        error_log($api_response->get_error_message());
+        $response->is_success(false);
+        $response->set_error(__('An API error occured, please try again later.', 'seravo'));
+        return $response;
+      }
+
+      $disk_usage = self::report_disk_usage();
+      $disk_usage['data']['disk_limit'] = $api_response['plan']['disklimit'];
+      $output = Template::text(__('Disk space in your plan: ', 'seravo') . $disk_usage['data']['disk_limit'] . 'GB <br>' . __('Space in use: ', 'seravo') . $disk_usage['data']['human'], 'space-info')->to_html();
+
+      $response->is_success(true);
+      $response->set_data(
+        array(
+          'data' => $disk_usage['data'],
+          'folders' => $disk_usage['dataFolders'],
+          'output' => $output,
+        )
+      );
+
+      return $response;
     }
 
     /**

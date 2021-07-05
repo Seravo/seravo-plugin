@@ -185,14 +185,7 @@ th, td {
   text-decoration: none;
 }
 
-.disk_usage_desc {
-  display: block;
-  padding-top: 3vh;
-  height: 9vh;
-  width: 60%;
-}
-
-#disk_use_notification {
+#disk-use-notification {
   color: #cc0000;
 }
 
@@ -253,13 +246,6 @@ th, td {
 
 .speed_test_form {
   padding: 10px;
-}
-
-.bars_container {
-  max-height: 700px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  padding-right: 15px;
 }
 
 .arrow_box {
