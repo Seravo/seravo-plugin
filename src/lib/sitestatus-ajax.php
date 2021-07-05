@@ -7,112 +7,6 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-use Seravo\Helpers;
-
-function seravo_ajax_report_http_requests() {
-  check_ajax_referer('seravo_site_status', 'nonce');
-  $reports = glob('/data/slog/html/goaccess-*.html');
-  // Create array of months with total request sums
-  $months = array();
-  // Track max request value to calculate relative bar widths
-  $max_requests = 0;
-  foreach ( $reports as $report ) {
-    $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' {$report}");
-    preg_match('/(\d+)/', $total_requests_string, $total_requests_match);
-    $total_requests = (int) $total_requests_match[1];
-    if ( $total_requests > $max_requests ) {
-      $max_requests = $total_requests;
-    }
-    $months[] = array(
-      'date'     => substr($report, 25, 7),
-      'requests' => $total_requests,
-    );
-  }
-  if ( $months !== array() ) {
-    $months[] = array(
-      'max_requests' => $max_requests,
-    );
-  }
-  echo wp_json_encode($months);
-  wp_die();
-}
-
-
-function seravo_report_folders() {
-  $dir_max_limit = 1000000;
-  $dir_threshold = 100000000;
-
-  // Directories not counted against plan's quota but can be visible
-  // in the front end
-  $exclude_dirs = array(
-    '--exclude=/data/backups',
-    '--exclude=/data/log',
-    '--exclude=/data/slog',
-  );
-  // Directories not shown in the front-end even if their size
-  // exceed $dir_threshold. Produces a list string of the directories
-  // in a format accepted by grep:  /data/dir_1\|/data/dir_1\| ...
-  $hidden_dirs = implode(
-    '\|',
-    array(
-      '/data/backups',
-    )
-  );
-
-  // Get total disk usage
-  $cached_usage = get_transient('disk_space_usage');
-
-  if ( ! $cached_usage ) {
-    exec('du -sb /data ' . implode(' ', $exclude_dirs), $data_folder);
-    set_transient('disk_space_usage', $data_folder, Dashboard_Widgets::DISK_SPACE_CACHE_TIME);
-  } else {
-    $data_folder = $cached_usage;
-  }
-
-  list($data_size, $data_name) = preg_split('/\s+/', $data_folder[0]);
-
-  // Get the sizes of certain directories and directories with the
-  // size larger than $dir_threshold, ones in $hidden_dirs will be
-  // excluded from the output using grep
-  exec(
-    '(
-    du --separate-dirs -b --threshold=' . $dir_threshold . ' /data/*/ &&
-    du -sb /data/wordpress/htdocs/wp-content/uploads/ &&
-    du -sb /data/wordpress/htdocs/wp-content/themes/ &&
-    du -sb /data/wordpress/htdocs/wp-content/plugins/ &&
-    du -sb /data/wordpress/htdocs/wordpress/wp-includes/ &&
-    du -sb /data/wordpress/htdocs/wordpress/wp-admin/ &&
-    du -sb /data/redis/ &&
-    du -sb /data/reports/ &&
-    du -sb /data/db/
-    ) | grep -v "' . $hidden_dirs . '" | sort -hr',
-    $data_sub
-  );
-
-  // Generate sub folder array
-  $data_folders = array();
-  foreach ( $data_sub as $folder ) {
-    list($folder_size, $folder_name) = preg_split('/\s+/', $folder);
-
-    if ( $folder_size > $dir_max_limit ) {
-      $data_folders[ $folder_name ] = array(
-        'percentage' => (($folder_size / $data_size) * 100),
-        'human'      => Helpers::human_file_size($folder_size),
-        'size'       => $folder_size,
-      );
-    }
-  }
-  // Create output array
-  $output = array(
-    'data'        => array(
-      'human' => Helpers::human_file_size($data_size),
-      'size'  => $data_size,
-    ),
-    'dataFolders' => $data_folders,
-  );
-  return $output;
-}
-
 function seravo_report_wp_core_verify() {
   exec('wp core verify-checksums 2>&1', $output);
   array_unshift($output, '$ wp core verify-checksums');
@@ -233,9 +127,6 @@ function seravo_ajax_site_status() {
   check_ajax_referer('seravo_site_status', 'nonce');
 
   switch ( sanitize_text_field($_REQUEST['section']) ) {
-    case 'folders_chart':
-      echo wp_json_encode(seravo_report_folders());
-      break;
 
     case 'wp_core_verify':
       echo wp_json_encode(seravo_report_wp_core_verify());
