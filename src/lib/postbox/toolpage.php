@@ -58,6 +58,15 @@ class Toolpage {
 
         wp_enqueue_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', '', \Seravo\Helpers::seravo_plugin_version(), true);
         wp_enqueue_script('seravo-charts', SERAVO_PLUGIN_URL . 'js/charts.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), false);
+
+        $charts_l10n = array(
+          'ajax_url' => admin_url('admin-ajax.php'),
+          'show_more' => __('Show more', 'seravo'),
+          'show_less' => __('Show less', 'seravo'),
+          'used' => __('Used', 'seravo'),
+          'available' => __('Available', 'seravo'),
+        );
+        wp_localize_script('seravo_ajax', 'seravo_charts_l10n', $charts_l10n);
       }
     );
   }

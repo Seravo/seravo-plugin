@@ -33,4 +33,12 @@ class LazyLoader extends InfoBox {
     $handler->set_ajax_func($ajax_func);
   }
 
+  /**
+   * Set <hr> element usage for the AJAX handler.
+   * @param bool $use_hr True for using <hr>.
+   */
+  public function use_hr( $use_hr ) {
+    $this->ajax_handlers[$this->id]->use_hr($use_hr);
+  }
+
 }

@@ -12,6 +12,10 @@
   margin: 15px 0 15px 0;
 }
 
+.side-by-side-container.evenly {
+  justify-content: space-evenly;
+}
+
 .side-by-side-container > div {
   padding: 0 10px 0 0;
 }

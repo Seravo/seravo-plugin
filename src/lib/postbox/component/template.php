@@ -276,11 +276,12 @@ class Template {
    * Get wrapper component to show two components side by side.
    * @param \Seravo\Postbox\Component $left  Left component.
    * @param \Seravo\Postbox\Component $right Right component.
+   * @param string $additional_class Additional CSS class for the container.
    * @return \Seravo\Postbox\Component Side-by-side component.
    */
-  public static function side_by_side( Component $left, Component $right ) {
+  public static function side_by_side( Component $left, Component $right, $additional_class = '' ) {
     $component = new Component();
-    $wrapper = new Component('', '<div class="side-by-side-container">', '</div>');
+    $wrapper = new Component('', '<div class="side-by-side-container ' . $additional_class . '">', '</div>');
 
     $left_div = new Component('', '<div>', '</div>');
     $left_div->add_child($left);
@@ -297,11 +298,12 @@ class Template {
   /**
    * Get wrapper component to show multiple components side by side.
    * @param \Seravo\Postbox\Component[] $components Components from left to right.
+   * @param string $additional_class Additional CSS class for the container.
    * @return \Seravo\Postbox\Component Side-by-side component.
    */
-  public static function n_by_side( $components ) {
+  public static function n_by_side( $components, $additional_class = '' ) {
     $component = new Component();
-    $wrapper = new Component('', '<div class="side-by-side-container">', '</div>');
+    $wrapper = new Component('', '<div class="side-by-side-container ' . $additional_class . '">', '</div>');
 
     foreach ( $components as $child_component ) {
       $div = new Component('', '<div>', '</div>');

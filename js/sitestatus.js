@@ -12,56 +12,6 @@
 })(jQuery);
 
 jQuery(document).ready(function($) {
-  function seravo_load_http_request_reports(){
-    $.post(
-      seravo_site_status_loc.ajaxurl,
-      { 'action': 'seravo_report_http_requests',
-        'nonce': seravo_site_status_loc.ajax_nonce, },
-      function(rawData) {
-        var data = JSON.parse(rawData);
-        //test if this is still valid
-        if (data.length == 0) {
-          //echo '<tr><td colspan=3>' . seravo_site_status.no_reports . '</td></tr>';
-          jQuery('#http-requests_info').html(seravo_site_status_loc.no_reports);
-        } else {
-          // take months separately
-
-          //max value is in it's own little container
-          var result = data.filter(function( obj ) {
-            return obj.hasOwnProperty('max_requests');
-          });
-          var max_requests = result[0].max_requests;
-
-          data.forEach( function(month) {
-            if (month.hasOwnProperty('date')) {
-              var bar_size = month.requests / max_requests * 100;
-              if ( bar_size <= 10 ) {
-                var bar_css = 'auto';
-              } else {
-                var bar_css = bar_size + '%';
-              }
-              jQuery( '#http-reports_table' ).prepend('<tr><td><a href="?x-accel-redirect&report=' +
-                month.date +
-                '.html" target="_blank"> ' +
-                month.date +
-                ' </a> </td> <td><div style="background: #44A1CB; color: #fff; padding: 3px; width: ' +
-                bar_css +
-                '; display: inline-block;"><div style="white-space: nowrap;">' +
-                month.requests +
-                '</div></div></td> <td><a href="?x-accel-redirect&report=' +
-                month.date +
-                '.html" target="_blank" class="button hideMobile">' +
-                seravo_site_status_loc.view_report +
-                '<span aria-hidden="true" class="dashicons dashicons-external" style="line-height: 1.4; padding-left: 3px;"></span></a></td></tr>'
-              );
-            }
-
-          });
-        }
-      }
-    );
-  }
-
   // Speed test data for the chart
   let speedData = [];
   // Speed test data for the chart
@@ -263,24 +213,7 @@ jQuery(document).ready(function($) {
         jQuery('#' + section).html(seravo_site_status_loc.no_data);
       }
 
-      if (section === 'folders_chart') {
-        var allData = JSON.parse(rawData);
-
-        // Try reading plan's maximum disk space
-        var max_disk = $("#maximum_disk_space").html();
-
-        // Draw total usage donut if plan's available space can be retrieved
-        if (max_disk != null && max_disk != '') {
-          // Calculate the used disk space;
-          // allData.data.size is in bytes, so divide into GB
-          var used_disk = (allData.data.size) / 1e9;
-
-          // Display as GB here as the plan quotas are also in GB
-          jQuery('#total_disk_usage').text(Math.round(used_disk) + ' GB');
-          generateDiskDonut(used_disk, max_disk, ' GB');
-        }
-        generateDiskBars(allData.dataFolders);
-      } else if (section === 'front_cache_status') {
+      if (section === 'front_cache_status') {
         var data = JSON.parse(rawData);
         var data_joined = data['test_result'].join("\n");
 
@@ -328,8 +261,6 @@ jQuery(document).ready(function($) {
       jQuery('.' + section + '_loading').html(seravo_site_status_loc.failed);
     });
   }
-  seravo_load_http_request_reports();
-  seravo_load_report('folders_chart');
   seravo_load_report('wp_core_verify');
   seravo_load_report('git_status');
   seravo_load_report('redis_info');
