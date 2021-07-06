@@ -9,37 +9,23 @@ use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox\Requirements;
 
-
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
-
-require_once SERAVO_PLUGIN_SRC . 'lib/upkeep-ajax.php';
 
 if ( ! class_exists('Upkeep') ) {
   class Upkeep {
     public static function load() {
       add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
-      add_action('wp_ajax_seravo_ajax_upkeep', 'Seravo\seravo_ajax_upkeep');
-      add_action('wp_ajax_seravo_changes_since', 'Seravo\seravo_ajax_changes_since');
       add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
 
       $page = new Toolpage('tools_page_upkeep_page');
       self::init_upkeep_postboxes($page);
-
       $page->enable_ajax();
       $page->register_page();
 
       // TODO: check if this hook actually ever fires for mu-plugins
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
-
-      \Seravo\Postbox\seravo_add_raw_postbox(
-        'tests',
-        __('Update tests', 'seravo'),
-        array( __CLASS__, 'tests_postbox' ),
-        'tools_page_upkeep_page',
-        'normal'
-      );
 
       if ( getenv('WP_ENV') === 'production' ) {
         \Seravo\Postbox\seravo_add_raw_postbox(
@@ -132,6 +118,19 @@ if ( ! class_exists('Upkeep') ) {
       $changes_status->set_title_text(__('Click "Run" to see changes', 'seravo'));
       $changes_status->set_spinner_text(__('Fetching changes...', 'seravo'));
       $page->register_postbox($changes_status);
+
+      /**
+       * Update Tests postbox
+       */
+      $update_tests = new Postbox\FancyForm('update-tests');
+      $update_tests->set_title(__('Update tests', 'seravo'));
+      $update_tests->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+      $update_tests->set_ajax_func(array( __CLASS__, 'run_update_tests' ));
+      $update_tests->set_button_text(__('Run Tests', 'seravo'));
+      $update_tests->set_spinner_text(__('Running rspec tests...', 'seravo'));
+      $update_tests->set_title_text(__('Click "Run Tests" to run the Codeception tests', 'seravo'));
+      $update_tests->add_paragraph(__('Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href="https://seravo.com/docs/tests/ng-integration-tests/" target="_BLANK"> Seravo Developer Documentation</a>.', 'seravo'));
+      $page->register_postbox($update_tests);
     }
 
     /**
@@ -184,26 +183,12 @@ if ( ! class_exists('Upkeep') ) {
      * @param string $page hook name
      */
     public static function register_scripts( $page ) {
-
       wp_register_style('seravo_upkeep', SERAVO_PLUGIN_URL . 'style/upkeep.css', '', Helpers::seravo_plugin_version());
       wp_register_script('seravo_upkeep', SERAVO_PLUGIN_URL . 'js/upkeep.js', 'jquery', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_upkeep_page' ) {
         wp_enqueue_style('seravo_upkeep');
         wp_enqueue_script('seravo_upkeep');
-
-        $loc_translation = array(
-          'no_data'       => __('No data returned for the section.', 'seravo'),
-          'test_success'  => __('Tests were run without any errors!', 'seravo'),
-          'test_fail'     => __('At least one of the tests failed.', 'seravo'),
-          'run_fail'      => __('Failed to load. Please try again.', 'seravo'),
-          'running_tests' => __('Running rspec tests...', 'seravo'),
-          'ajaxurl'    => admin_url('admin-ajax.php'),
-          'ajax_nonce' => wp_create_nonce('seravo_upkeep'),
-          'email_fail' => __('There must be at least one contact email', 'seravo'),
-        );
-
-        wp_localize_script('seravo_upkeep', 'seravo_upkeep_loc', $loc_translation);
       }
     }
 
@@ -820,29 +805,41 @@ if ( ! class_exists('Upkeep') ) {
       die();
     }
 
-    public static function tests_postbox() {
-      ?>
-      <p>
-        <?php
-        _e('Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href="https://seravo.com/docs/tests/ng-integration-tests/" target="_BLANK"> Seravo Developer Documentation</a>.', 'seravo');
-        ?>
-      </p>
-      <button type="button" class="button-primary" id="run-wp-tests"><?php _e('Run Tests', 'seravo'); ?></button>
-      <div id="tests-wrapper" class="seravo-result-wrapper">
-        <div class="seravo-status" id="seravo_tests_status">
-          <?php _e('Click "Run Tests" to run the Codeception tests', 'seravo'); ?>
-        </div>
-        <div id="test-result" class="seravo-result">
-          <pre id="seravo_tests"></pre>
-        </div>
-        <div id="seravo_test_show_more_wrapper" class="hidden">
-          <a href="" id="seravo_test_show_more"><?php _e('Toggle Details', 'seravo'); ?>
-            <div class="dashicons dashicons-arrow-down-alt2" id="seravo_arrow_show_more">
-            </div>
-          </a>
-        </div>
-      </div>
-      <?php
+    /**
+     * AJAX function for Update tests postbox
+     * @return \Seravo\Ajax\AjaxResponse
+     */
+    public static function run_update_tests() {
+      $response = new AjaxResponse();
+      $retval = null;
+      $output = array();
+      exec('wp-test', $output, $retval);
+
+      if ( empty($output) ) {
+        return Ajax\AjaxResponse::command_error_response('wp-test');
+      }
+
+      $message = __('At least one of the tests failed.', 'seravo');
+      $status_color = Ajax\FancyForm::STATUS_RED;
+
+      if ( count(preg_grep('/OK \(/i', $output)) >= 1 && $retval === 0 ) {
+        // Success
+        $message = __('Tests were run without any errors!', 'seravo');
+        $status_color = Ajax\FancyForm::STATUS_GREEN;
+      }
+
+      // Format the output
+      $pattern = '/\x1b\[[0-9;]*m/';
+      $output = preg_replace($pattern, '', $output);
+      $response->is_success(true);
+      $response->set_data(
+        array(
+          'output' => '<pre>' . implode("\n", $output) . '</pre>',
+          'title' => $message,
+          'color' => $status_color,
+        )
+      );
+      return $response;
     }
   }
 
