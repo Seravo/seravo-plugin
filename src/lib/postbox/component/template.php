@@ -184,6 +184,18 @@ class Template {
     return $wrapper;
   }
 
+  /**
+   * Display datetime picker as HTML input element.
+   * @param string $label   The label text.
+   * @param string $id      Unique id of the input.
+   * @param string $min     Optional min date offset.
+   * @param string $max     Optional max date offset.
+   * @return \Seravo\Postbox\Component Component with label and datetime picker.
+   */
+  public static function datetime_picker( $label, $id, $min = '', $max = '' ) {
+    return Component::from_raw($label . ' <input type="date" id="' . $id . '" name="' . $id . '" ' . (empty($min) ? '' : 'min="' . $min . '"') . (empty($max) ? '' : 'max="' . $max . '"') . '>');
+  }
+
   /* Add radio_button with the given details.
    * @param string $name Name for the radio button input.
    * @param string $value Value of the radio button.

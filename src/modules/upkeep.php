@@ -34,14 +34,6 @@ if ( ! class_exists('Upkeep') ) {
       register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
 
       \Seravo\Postbox\seravo_add_raw_postbox(
-        'backup-list-changes',
-        __('Changes Status', 'seravo'),
-        array( __CLASS__, 'backup_list_changes' ),
-        'tools_page_upkeep_page',
-        'normal'
-      );
-
-      \Seravo\Postbox\seravo_add_raw_postbox(
         'tests',
         __('Update tests', 'seravo'),
         array( __CLASS__, 'tests_postbox' ),
@@ -125,6 +117,21 @@ if ( ! class_exists('Upkeep') ) {
       $update_status->set_build_func(array( __CLASS__, 'build_update_status' ));
       $update_status->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
       $page->register_postbox($update_status);
+
+      /**
+       * Changes Status postbox
+       */
+      $changes_status = new Postbox\FancyForm('backup-list-changes');
+      $changes_status->set_title(__('Changes Status', 'seravo'));
+      $changes_status->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+      $changes_status->set_ajax_func(array( __CLASS__, 'fetch_backup_list_changes' ));
+      $changes_status->add_paragraph(__('This tool can be used to run command <code>wp-backup-list-changes-since</code> which finds folder and file changes in backup data since the given date. For example if you have started to have issues on your site, you can track down what folders or files have changed.', 'seravo'));
+      $changes_status->add_paragraph(__('Backups are stored for 30 days which is also the maximum since offset.', 'seravo'));
+      $changes_status->set_build_form_func(array( __CLASS__, 'build_backup_list_changes' ));
+      $changes_status->set_button_text(__('Run', 'seravo'));
+      $changes_status->set_title_text(__('Click "Run" to see changes', 'seravo'));
+      $changes_status->set_spinner_text(__('Fetching changes...', 'seravo'));
+      $page->register_postbox($changes_status);
     }
 
     /**
@@ -186,20 +193,11 @@ if ( ! class_exists('Upkeep') ) {
         wp_enqueue_script('seravo_upkeep');
 
         $loc_translation = array(
-          'compatibility_check_running' => __('Running PHP compatibility check, this can take a while depending on the number of plugins and themes installed.', 'seravo'),
-          'compatibility_check_error' => __(' errors found. See logs for more information.', 'seravo'),
-          'compatibility_check_clear' => __('&#x2705; No errors found! See logs for more information.', 'seravo'),
-          'compatibility_run_fail' => __('There was an error starting the compatibility check.', 'seravo'),
-          'compatibility_run_timeout' => __('The compatibility check has taken too long and has timed out. You can run the test from command line. See instructions from the link below.', 'seravo'),
-          'compatibility_run_error' => __('The compatibility check has failed with response code: ', 'seravo'),
           'no_data'       => __('No data returned for the section.', 'seravo'),
           'test_success'  => __('Tests were run without any errors!', 'seravo'),
           'test_fail'     => __('At least one of the tests failed.', 'seravo'),
           'run_fail'      => __('Failed to load. Please try again.', 'seravo'),
           'running_tests' => __('Running rspec tests...', 'seravo'),
-          'running_changes_since' => __('Fetching changes...', 'seravo'),
-          'no_affected_rows' => __('No changes were found', 'seravo'),
-          'affected_rows' => __('rows affected', 'seravo'),
           'ajaxurl'    => admin_url('admin-ajax.php'),
           'ajax_nonce' => wp_create_nonce('seravo_upkeep'),
           'email_fail' => __('There must be at least one contact email', 'seravo'),
@@ -583,47 +581,73 @@ if ( ! class_exists('Upkeep') ) {
       return $data;
     }
 
-    public static function backup_list_changes() {
-      ?>
-      <p>
-      <?php
-      _e(
-        'This tool can be used to run command <code>wp-backup-list-changes-since</code> 
-        which finds folder and file changes in backup data since the given date. For example if you have started to have issues on your site, you can
-        track down what folders or files have changed.  
-        
-         <p>Backups are stored for 30 days which is also the maximum since offset.  </p>',
-        'seravo'
-      );
-?>
-</p>
-      <?php _e('Choose a since date', 'seravo'); ?> <input type='date' id ='datepicker' 
-      <?php
-        $current_date = date('Y-m-d');
-        $date_offset = date('Y-m-d', strtotime('-30 days'));
+    public static function build_backup_list_changes( Component $base ) {
+      $base->add_child(Template::datetime_picker(__('Choose a since date', 'seravo'), 'datepicker', date('Y-m-d', strtotime('-30 days')), date('Y-m-d')));
+      $base->add_child(Component::from_raw('<br>'));
+    }
 
-        echo 'min="' . $date_offset . '" max="' . $current_date . '"';
-      ?>
-       >
-      <p>
-      <button id='run-changes-since' class='button-primary'><?php _e('Run', 'seravo'); ?></button>
-    </p>
-      <div id="changes-wrapper" class="seravo-result-wrapper">
-        <div class="seravo-status" id="seravo_changes_status">
-          <?php _e('Click "run" to see changes', 'seravo'); ?>
-        </div>
-        <div id="changes-result" class="seravo-result">
-          <pre id="seravo_changes" style="display: inline-block;"></pre>
-        </div>
-        <div id="seravo_changes_show_more_wrapper" class="hidden">
-          <a href="" id="seravo_changes_show_more"><?php _e('Toggle Details', 'seravo'); ?>
-            <div class="dashicons dashicons-arrow-down-alt2" id="seravo_arrow_changes_show_more">
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <?php
+    /**
+     * Fetch 2 days offset date
+     * @return array With formatted date and message.
+     */
+    public static function get_offset_date() {
+      $datenow = getdate();
+      $y = $datenow['year'];
+      $m = $datenow['mon'];
+
+      if ( $datenow['mday'] >= 3 ) {
+        $d = $datenow['mday'] - 2;
+        $message = __('Invalid date, using 2 days offset <br><br>', 'seravo');
+      } else {
+        // Show since the month beginning
+        $d = 1;
+        $message = __('Invalid date, showing since month beginning <br><br>', 'seravo');
+      }
+      $date = $y . '-' . $m . '-' . $d;
+
+      return array( $date, $message );
+    }
+
+    /**
+     * AJAX function for backup list changes postbox.
+     * @return \Seravo\Ajax\AjaxResponse
+     */
+    public static function fetch_backup_list_changes() {
+      $response = new AjaxResponse();
+      $date = $_REQUEST['datepicker'];
+      $message = '';
+
+      if ( empty($date) ) {
+        $offset_date = self::get_offset_date();
+        $date = $offset_date[0];
+        $message = $offset_date[1];
+      }
+
+      // Check whether the date is a proper date or not
+      try {
+        $formal_date = new \DateTime($date);
+        unset($formal_date);
+      } catch ( \Exception $exception ) {
+        $offset_date = self::get_offset_date();
+        $date = $offset_date[0];
+        $message = $offset_date[1];
+      }
+
+      $cmd = 'wp-backup-list-changes-since ' . $date;
+      $message .= exec($cmd . ' | wc -l') . ' ' . __('rows affected', 'seravo');
+      $color = Ajax\FancyForm::STATUS_GREEN;
+      exec($cmd, $output);
+
+      $response->is_success(true);
+      $response->set_data(
+        array(
+          'output' => '<pre>' . implode("\n", $output) . '</pre>',
+          'title' => $message,
+          'color' => $color,
+        )
+      );
+
+      return $response;
     }
 
     public static function screenshots_postbox() {
