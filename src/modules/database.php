@@ -101,12 +101,12 @@ if ( ! class_exists('Database') ) {
     public static function enqueue_database_scripts( $page ) {
 
       wp_register_style('seravo_database', SERAVO_PLUGIN_URL . 'style/database.css', '', Helpers::seravo_plugin_version());
-      wp_register_script('apexcharts-js', 'https://cdn.jsdelivr.net/npm/apexcharts', '', Helpers::seravo_plugin_version(), true);
+      wp_register_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', '', Helpers::seravo_plugin_version(), true);
 
       if ( $page === 'tools_page_database_page' ) {
         wp_enqueue_style('seravo_database');
         wp_enqueue_script('apexcharts-js');
-        wp_enqueue_script('color-hash', SERAVO_PLUGIN_URL . 'js/color-hash.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('color-hash', SERAVO_PLUGIN_URL . 'js/lib/color-hash.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('reports-chart', SERAVO_PLUGIN_URL . 'js/reports-chart.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('seravo_database', SERAVO_PLUGIN_URL . 'js/database.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
 

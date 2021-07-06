@@ -198,13 +198,13 @@ if ( ! class_exists('Site_Status') ) {
     }
 
     public static function enqueue_site_status_scripts( $page ) {
-      wp_register_script('apexcharts-js', 'https://cdn.jsdelivr.net/npm/apexcharts', null, Helpers::seravo_plugin_version(), true);
+      wp_register_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', null, Helpers::seravo_plugin_version(), true);
       wp_register_script('seravo_site_status', SERAVO_PLUGIN_URL . 'js/sitestatus.js', '', Helpers::seravo_plugin_version());
       wp_register_style('seravo_site_status', SERAVO_PLUGIN_URL . 'style/sitestatus.css', '', Helpers::seravo_plugin_version());
       if ( $page === 'tools_page_site_status_page' ) {
         wp_enqueue_style('seravo_site_status');
         wp_enqueue_script('apexcharts-js');
-        wp_enqueue_script('color-hash', SERAVO_PLUGIN_URL . 'js/color-hash.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('color-hash', SERAVO_PLUGIN_URL . 'js/lib/color-hash.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('reports-chart', SERAVO_PLUGIN_URL . 'js/reports-chart.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('cache-status-charts', SERAVO_PLUGIN_URL . 'js/cache-status-charts.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
         wp_enqueue_script('seravo_site_status');
