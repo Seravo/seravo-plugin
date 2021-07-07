@@ -29,6 +29,8 @@ if ( ! class_exists('TestPage') ) {
 
       $page->enable_ajax();
       $page->register_page();
+
+      add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_database_scripts' ));
     }
 
     /**
@@ -62,6 +64,30 @@ if ( ! class_exists('TestPage') ) {
       $fancy_demo->set_button_text('Click me');
       $page->register_postbox($fancy_demo);
 
+      /**
+       * Chart test postbox
+       */
+      $chart_demo = new Postbox\LazyLoader('chart-test');
+      $chart_demo->set_title('Chart test');
+      $chart_demo->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+      $chart_demo->add_paragraph('You should see a chart below.');
+      $chart_demo->set_ajax_func(array( __CLASS__, 'chart_test' ));
+      $page->register_postbox($chart_demo);
+
+    }
+
+    /**
+     * Register scripts
+     *
+     * @param string $page hook name
+     */
+    public static function enqueue_database_scripts( $page ) {
+      wp_register_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', '', Helpers::seravo_plugin_version(), true);
+
+      if ( $page === 'tools_page_test_page' ) {
+        wp_enqueue_script('apexcharts-js');
+        wp_enqueue_script('seravo-charts', SERAVO_PLUGIN_URL . 'js/charts.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
+      }
     }
 
     /**
@@ -127,6 +153,22 @@ if ( ! class_exists('TestPage') ) {
           'output' => '<pre>' . implode("\n", $output) . '</pre>',
           'title' => $message,
           'color' => $status_color,
+        )
+      );
+      return $response;
+    }
+
+    public static function chart_test() {
+      $response = new Ajax\AjaxResponse();
+      $response->is_success(true);
+      $response->set_data(
+        array(
+          'random_data' => array(
+            'First thing' => 30,
+            'Second thing' => 50,
+            'Third thing' => 20,
+          ),
+          'output' => '<div id="test-page-test-chart"></div>',
         )
       );
       return $response;
