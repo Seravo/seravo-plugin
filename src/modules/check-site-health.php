@@ -6,6 +6,8 @@
 
 namespace Seravo;
 
+use \Seravo\Postbox\Template;
+
 if ( ! defined('ABSPATH') ) {
     die('Access denied!');
 }
@@ -178,10 +180,59 @@ if ( ! class_exists('Site_Health') ) {
     }
 
     /**
+     * Return passed and failed tests formatted in HTML.
+     * @return array Output, title and status color.
+     */
+    private static function result_to_html() {
+      $output = '';
+
+      if ( empty(self::$potential_issues) ) {
+        $title = __('No issues were found', 'seravo');
+        $status_color = Ajax\FancyForm::STATUS_GREEN;
+      } else {
+        $title = __('Potential issues were found', 'seravo');
+        $status_color = Ajax\FancyForm::STATUS_YELLOW;
+        $output .= Template::section_title(__('Potential issues', 'seravo'), 'failure')->to_html();
+        $counter = 0;
+
+        foreach ( self::$potential_issues as $element => $tooltip ) {
+          $tooltip_component = Template::tooltip($tooltip)->to_html();
+
+          if ( $counter === count(self::$potential_issues) - 1 ) {
+            // Apply border-bottom to the last element
+            $output .= '<div class="issue-box" style="border-bottom: 1px solid #ccd0d4">' . $tooltip_component . $element . '</div>';
+          } else {
+            $output .= Template::text($tooltip_component . $element, 'issue-box')->to_html();
+          }
+          ++$counter;
+        }
+        $output .= '<br>';
+      }
+
+      $output .= Template::section_title(__('Passed tests', 'seravo'), 'success')->to_html();
+      $counter = 0;
+
+      foreach ( self::$no_issues as $element => $tooltip ) {
+        $tooltip_component = Template::tooltip($tooltip)->to_html();
+
+        if ( $counter === count(self::$no_issues) - 1 ) {
+          // Apply border-bottom to the last element
+          $output .= '<div class="success-box" style="border-bottom: 1px solid #ccd0d4">' . $tooltip_component . $element . '</div>';
+        } else {
+          $output .= Template::text($tooltip_component . $element, 'success-box')->to_html();
+        }
+        ++$counter;
+      }
+
+      return array( $output, $title, $status_color );
+    }
+
+    /**
      * Run the test set and return results.
+     * @param bool $formatted Return formatted output.
      * @return array<int, array<string, int>>
      */
-    public static function check_site_status() {
+    public static function check_site_status( $formatted = false ) {
       self::$potential_issues = array();
       self::$no_issues = array();
 
@@ -194,8 +245,10 @@ if ( ! class_exists('Site_Health') ) {
       self::check_php_errors();
       self::check_wp_test();
 
-      self::$potential_issues['length'] = count(self::$potential_issues);
-      self::$no_issues['length'] = count(self::$no_issues);
+      if ( $formatted ) {
+        return self::result_to_html();
+      }
+
       return array( self::$potential_issues, self::$no_issues );
     }
   }
