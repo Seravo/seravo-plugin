@@ -113,16 +113,12 @@ if ( ! class_exists('Site_Status') ) {
         'side'
       );
 
-      \Seravo\Postbox\seravo_add_raw_postbox(
-        'site-checks',
-        __('Site checks', 'seravo'),
-        array( __CLASS__, 'site_checks' ),
-        'tools_page_site_status_page',
-        'side'
-      );
-
     }
 
+    /**
+     * Init postboxes.
+     * @param Toolpage $page Page to init postboxes to.
+     */
     public static function init_sitestatus_postboxes( Toolpage $page ) {
       /**
        * Site info postbox
@@ -143,6 +139,19 @@ if ( ! class_exists('Site_Status') ) {
         $http_stats->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
         $http_stats->set_ajax_func(array( __CLASS__, 'get_http_statistics' ));
         $page->register_postbox($http_stats);
+
+        /**
+         * Site checks postbox
+         */
+        $site_checks = new Postbox\FancyForm('site-checks');
+        $site_checks->set_title(__('Site checks', 'seravo'));
+        $site_checks->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+        $site_checks->set_ajax_func(array( __CLASS__, 'run_site_checks' ));
+        $site_checks->set_button_text(__('Run site checks', 'seravo'));
+        $site_checks->set_spinner_text(__(' Running site checks', 'seravo'));
+        $site_checks->set_title_text(__(' Click "Run site checks" to run the tests', 'seravo'));
+        $site_checks->add_paragraph(__('Site checks provide a report about your site health and show potential issues. Checks include for example php related errors, inactive themes and plugins.', 'seravo'));
+        $page->register_postbox($site_checks);
     }
 
     public static function register_optimize_image_settings() {
@@ -219,11 +228,6 @@ if ( ! class_exists('Site_Status') ) {
           'running_cache_tests' => __('Running cache tests...', 'seravo'),
           'cache_success'       => __('HTTP cache working', 'seravo'),
           'cache_failure'       => __('HTTP cache not working', 'seravo'),
-          'running_site_checks' => __('Running site checks', 'seravo'),
-          'site_checks_success' => __('No issues were found', 'seravo'),
-          'site_checks_issues'  => __('Potential issues were found', 'seravo'),
-          'site_checks_pass'    => __('Passed tests', 'seravo'),
-          'site_checks_fail'    => __('Potential issues', 'seravo'),
           'success'             => __('Success!', 'seravo'),
           'failure'             => __('Failure!', 'seravo'),
           'error'               => __('Error!', 'seravo'),
@@ -815,33 +819,27 @@ if ( ! class_exists('Site_Status') ) {
       echo('<div id="speed-test-error"></div>');
     }
 
-    public static function site_checks() {
-      ?>
-      <div id='site_check_status'>
-        <?php
-        echo('<p>' . __(
-          'Site checks provide a report about your site health and show potential issues. Checks include for example
-      php related errors, inactive themes and plugins.',
-          'seravo'
-        ) . '</p>');
-        echo "<button type='button' class='button-primary' id='run-site-checks'>" . __('Run site checks', 'seravo') . '</button>';
-        ?>
-        <div class='seravo-site-check-result-wrapper'>
-          <div class='seravo_site_check_status'>
-            <?php _e('Click "Run site checks" to run the tests', 'seravo'); ?>
-          </div>
-          <div class='seravo-site-check-result'>
-            <div id='seravo_site_check'></div>
-          </div>
-          <div class='seravo_site_check_show_more_wrapper hidden'>
-            <a href='' class='seravo_site_check_show_more'><?php _e('Toggle Details', 'seravo'); ?>
-              <div class='dashicons dashicons-arrow-down-alt2' id='seravo_arrow_check_show_more'>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-      <?php
+    /**
+     * AJAX function for Site checks postbox.
+     * @return \Seravo\Ajax\AjaxResponse
+     */
+    public static function run_site_checks() {
+      $response = new AjaxResponse();
+      $results = Site_Health::check_site_status(true);
+      $output = $results[0];
+      $title = $results[1];
+      $status_color = $results[2];
+
+      $response->is_success(true);
+      $response->set_data(
+        array(
+          'output' => $output,
+          'title' => $title,
+          'color' => $status_color,
+        )
+      );
+
+      return $response;
     }
   }
 

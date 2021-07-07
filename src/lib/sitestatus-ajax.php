@@ -229,17 +229,6 @@ function seravo_reset_shadow() {
   wp_die();
 }
 
-function seravo_site_checks() {
-  $results = Site_Health::check_site_status();
-  $issues = $results[0];
-  $success = $results[1];
-
-  return array(
-    'success' => $success,
-    'issues' => $issues,
-  );
-}
-
 function seravo_ajax_site_status() {
   check_ajax_referer('seravo_site_status', 'nonce');
 
@@ -274,10 +263,6 @@ function seravo_ajax_site_status() {
 
     case 'seravo_reset_shadow':
       seravo_reset_shadow();
-      break;
-
-    case 'seravo_site_checks':
-      echo wp_json_encode(seravo_site_checks());
       break;
 
     default:

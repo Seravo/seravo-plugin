@@ -53,6 +53,32 @@ div#seravo-low-disk-space-widget.postbox {
   white-space: nowrap;
 }
 
+.success-box {
+  padding: 10px;
+  border: 1.5px solid#ccd0d4;
+  border-left: solid 0.3em #038103;
+  border-bottom: none;
+}
+
+.issue-box {
+  padding: 10px;
+  border: 1.5px solid#ccd0d4;
+  border-left: solid 0.3em red;
+  border-bottom: none;
+}
+
+.success-box .tooltip,
+.issue-box .tooltip {
+  padding-left: 0px;
+  margin-right: 5px;
+}
+
+.success-box .tooltip a,
+.issue-box .tooltip a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 /* Dashicon styles */
 
 .dashicons .dashicons-external {
@@ -62,16 +88,16 @@ div#seravo-low-disk-space-widget.postbox {
 
 /* Misc common elements */
 
-p.success {
-  color: green;
+p.success, h3.success {
+  color: green !important;
 }
 
-p.failure {
-  color: red;
+p.failure, h3.failure {
+  color: red !important;
 }
 
-p.warning {
-  color: orange;
+p.warning, h3.warning {
+  color: orange !important;
 }
 
 table.widefat {
