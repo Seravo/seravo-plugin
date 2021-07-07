@@ -10,6 +10,7 @@ jQuery(document).ready(
      */
     jQuery('.seravo-ajax-lazy-load').each(
       function () {
+        var elem = jQuery(this);
         var section = jQuery(this).attr('data-section');
         var postbox_id = jQuery(this).closest('.seravo-postbox').attr('data-postbox-id');
 
@@ -20,6 +21,8 @@ jQuery(document).ready(
           spinner.hide();
           output.html(response['output']);
           output.show();
+
+          elem.trigger("seravoAjaxSuccess", [response]);
         }
 
         function on_error(error) {
@@ -42,6 +45,7 @@ jQuery(document).ready(
     jQuery('.seravo-ajax-simple-form').each(
       function () {
         var form = this;
+        var elem = jQuery(this);
         var section = jQuery(this).attr('data-section');
         var postbox_id = jQuery(this).closest('.seravo-postbox').attr('data-postbox-id');
 
@@ -55,13 +59,15 @@ jQuery(document).ready(
           output.html('<hr>' + response['output'] + '<hr>');
           output.show();
 
-          if (! ('dryrun-only' in response) || response['dryrun-only'] === false) {
+          if (!('dryrun-only' in response) || response['dryrun-only'] === false) {
             button.prop('disabled', false);
           }
 
           if (dryrun_button !== undefined) {
             dryrun_button.prop('disabled', false);
           }
+
+          elem.trigger("seravoAjaxSuccess", [response]);
         }
 
         function on_error(error) {
@@ -111,6 +117,7 @@ jQuery(document).ready(
     jQuery('.seravo-ajax-fancy-form').each(
       function () {
         var form = this;
+        var elem = jQuery(this);
         var section = jQuery(this).attr('data-section');
         var postbox_id = jQuery(this).closest('.seravo-postbox').attr('data-postbox-id');
 
@@ -139,13 +146,15 @@ jQuery(document).ready(
           spinner.hide();
           status.show();
 
-          if (! ('dryrun-only' in response) || response['dryrun-only'] === false) {
+          if (!('dryrun-only' in response) || response['dryrun-only'] === false) {
             button.prop('disabled', false);
           }
 
           if (dryrun_button !== undefined) {
             dryrun_button.prop('disabled', false);
           }
+
+          elem.trigger("seravoAjaxSuccess", [response]);
         }
 
         function on_error(error) {
@@ -279,7 +288,8 @@ function seravo_ajax_request(method, postbox_id, section, on_success, on_error, 
           return;
         }
       } catch (error) {
-        // Failed to parse JSON
+        // Failed to parse JSON / or error in code
+        console.log("Error: ", error);
         on_error(seravo_ajax_l10n.server_invalid_response);
         return;
       }
