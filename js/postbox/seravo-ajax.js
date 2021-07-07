@@ -59,7 +59,7 @@ jQuery(document).ready(
           output.html('<hr>' + response['output'] + '<hr>');
           output.show();
 
-          if (!('dryrun-only' in response) || response['dryrun-only'] === false) {
+          if (! ('dryrun-only' in response) || response['dryrun-only'] === false) {
             button.prop('disabled', false);
           }
 
@@ -146,7 +146,7 @@ jQuery(document).ready(
           spinner.hide();
           status.show();
 
-          if (!('dryrun-only' in response) || response['dryrun-only'] === false) {
+          if (! ('dryrun-only' in response) || response['dryrun-only'] === false) {
             button.prop('disabled', false);
           }
 

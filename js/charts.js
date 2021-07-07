@@ -1,11 +1,15 @@
 function generate_test_chart(event, response) {
   series = [];
-  Object.entries(response.random_data).forEach(function (entry) {
-    series.push({
-      name: entry[0],
-      data: [entry[1]],
-    })
-  });
+  Object.entries(response.random_data).forEach(
+    function (entry) {
+      series.push(
+        {
+          name: entry[0],
+          data: [entry[1]],
+        }
+      )
+    }
+  );
 
   var options = {
     series: series,
@@ -51,11 +55,11 @@ function generate_test_chart(event, response) {
     colors: ['#6aa84f', '#ef7c1a']
   };
 
-  new ApexCharts(document.querySelector("#test-page-test-chart"), options).render();
+  new ApexCharts(document.querySelector('#test-page-test-chart'), options).render();
 };
 
 jQuery(document).ready(
   function () {
-    jQuery(`[data-section='chart-test']`).on("seravoAjaxSuccess", generate_test_chart);
+    jQuery('[data-section="chart-test"]').on('seravoAjaxSuccess', generate_test_chart);
   }
 );

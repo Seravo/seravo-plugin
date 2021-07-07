@@ -28,9 +28,8 @@ if ( ! class_exists('TestPage') ) {
       self::init_test_postboxes($page);
 
       $page->enable_ajax();
+      $page->enable_charts();
       $page->register_page();
-
-      add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_database_scripts' ));
     }
 
     /**
@@ -73,21 +72,6 @@ if ( ! class_exists('TestPage') ) {
       $chart_demo->add_paragraph('You should see a chart below.');
       $chart_demo->set_ajax_func(array( __CLASS__, 'chart_test' ));
       $page->register_postbox($chart_demo);
-
-    }
-
-    /**
-     * Register scripts
-     *
-     * @param string $page hook name
-     */
-    public static function enqueue_database_scripts( $page ) {
-      wp_register_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', '', Helpers::seravo_plugin_version(), true);
-
-      if ( $page === 'tools_page_test_page' ) {
-        wp_enqueue_script('apexcharts-js');
-        wp_enqueue_script('seravo-charts', SERAVO_PLUGIN_URL . 'js/charts.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-      }
     }
 
     /**
@@ -158,6 +142,10 @@ if ( ! class_exists('TestPage') ) {
       return $response;
     }
 
+    /**
+     * AJAX function for charts. Just returns test data.
+     * @return \Seravo\Ajax\AjaxResponse Response with chart data.
+     */
     public static function chart_test() {
       $response = new Ajax\AjaxResponse();
       $response->is_success(true);
