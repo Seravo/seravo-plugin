@@ -88,7 +88,7 @@ if ( ! class_exists('TestPage') ) {
         $response->is_success(true);
         $response->set_data(
           array(
-            'output' => '<pre>' . file_get_contents('/data/log/nginx-restart-test.log') . '</pre>',
+            'output' => '<hr><pre>' . file_get_contents('/data/log/nginx-restart-test.log') . '</pre><hr>',
           )
         );
         return $response;

@@ -39,7 +39,14 @@ class Helpers {
   }
 
   public static function seravo_plugin_version() {
-     return get_file_data(SERAVO_PLUGIN_DIR . 'seravo-plugin.php', array( 'Version' ), 'plugin')[0];
+     $version = get_file_data(SERAVO_PLUGIN_DIR . 'seravo-plugin.php', array( 'Version' ), 'plugin')[0];
+
+     // Development cache bursting
+     if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
+       $version .= '.' . random_int(10000, 99999);
+     }
+
+     return $version;
   }
 
   /**

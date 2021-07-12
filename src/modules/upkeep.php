@@ -254,7 +254,7 @@ if ( ! class_exists('Upkeep') ) {
         $response->is_success(true);
         $response->set_data(
           array(
-            'output' => Template::paragraph(__('PHP compatibility check has been run. See full details on <a href="tools.php?page=logs_page&logfile=php-compatibility.log" target="_blank">compatibility scan results.</a>', 'seravo'))->to_html(),
+            'output' => '<hr>' . Template::paragraph(__('PHP compatibility check has been run. See full details on <a href="tools.php?page=logs_page&logfile=php-compatibility.log" target="_blank">compatibility scan results.</a>', 'seravo'))->to_html() . '<hr>',
           )
         );
         return $response;
@@ -294,8 +294,8 @@ if ( ! class_exists('Upkeep') ) {
         $response->is_success(true);
         $response->set_data(
           array(
-            'output' => Template::success_failure(true)->to_html() .
-            Template::paragraph(__('PHP version has been changed succesfully! Please check <a href="tools.php?page=logs_page&logfile=php-error.log" target="_blank">php-error.log</a> for regressions.', 'seravo'))->to_html(),
+            'output' => '<hr>' . Template::success_failure(true)->to_html() .
+            Template::paragraph(__('PHP version has been changed succesfully! Please check <a href="tools.php?page=logs_page&logfile=php-error.log" target="_blank">php-error.log</a> for regressions.', 'seravo'))->to_html() . '<hr>',
           )
         );
         return $response;
@@ -309,7 +309,7 @@ if ( ! class_exists('Upkeep') ) {
             $response->is_success(true);
             $response->set_data(
               array(
-                'output' => Template::error_paragraph(__('The selected PHP version is already in use.', 'seravo'))->to_html(),
+                'output' => '<hr>' . Template::error_paragraph(__('The selected PHP version is already in use.', 'seravo'))->to_html() . '<hr>',
                 'error' => __('Shit happens', 'seravo'),
               )
             );
