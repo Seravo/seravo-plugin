@@ -33,6 +33,28 @@ class Toolpage {
    * on the page if there's even a single postbox using AJAX.
    */
   public function enable_ajax() {
+    add_action(
+      'admin_enqueue_scripts',
+      function( $page ) {
+        if ( $page !== $this->screen ) {
+          return;
+        }
+
+        wp_enqueue_script('seravo-ajax', SERAVO_PLUGIN_URL . 'js/lib/ajax/seravo-ajax.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), false);
+        wp_enqueue_script('seravo-ajax-handler', SERAVO_PLUGIN_URL . 'js/lib/ajax/ajax-handler.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), true);
+
+        $ajax_l10n = array(
+          'ajax_url' => admin_url('admin-ajax.php'),
+          'server_invalid_response' => __('Error: Something unexpected happened! Server responded with invalid data.', 'seravo'),
+          'server_timeout' => __("Error: Request timeout! Server didn't respond in time.", 'seravo'),
+          'server_error' => __("Error: Oups, this wasn't supposed to happen! Please see the php-error.log.", 'seravo'),
+          'show_more' => __('Show more', 'seravo'),
+          'show_less' => __('Show less', 'seravo'),
+        );
+        wp_localize_script('seravo-ajax', 'seravo_ajax_l10n', $ajax_l10n);
+      }
+    );
+
     // Generates WordPress nonce for this page
     // and prints it as JavaScipt variable inside <SCRIPT>.
     add_action(
@@ -52,9 +74,9 @@ class Toolpage {
     add_action(
       'admin_enqueue_scripts',
       function( $page ) {
-      if ( $page !== $this->screen ) {
+        if ( $page !== $this->screen ) {
           return;
-      }
+        }
 
         wp_enqueue_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', '', \Seravo\Helpers::seravo_plugin_version(), true);
         wp_enqueue_script('seravo-charts', SERAVO_PLUGIN_URL . 'js/charts.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), false);

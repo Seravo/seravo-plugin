@@ -274,7 +274,7 @@ if ( ! class_exists('Database') ) {
       $response->is_success(true);
       $response->set_data(
         array(
-          'output' => implode("\n", $output),
+          'output' => '<hr>' . implode("\n", $output) . '<hr>',
           'dryrun-only' => false,
         )
       );
