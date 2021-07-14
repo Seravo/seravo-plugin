@@ -8,6 +8,8 @@ namespace Seravo;
 
 use \Seravo\Ajax;
 use \Seravo\Postbox;
+use \Seravo\Postbox\Component;
+use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox\Requirements;
 
@@ -72,6 +74,44 @@ if ( ! class_exists('TestPage') ) {
       $chart_demo->add_paragraph('You should see a chart below.');
       $chart_demo->set_ajax_func(array( __CLASS__, 'chart_test' ));
       $page->register_postbox($chart_demo);
+
+      /**
+       * Chart test postbox
+       */
+      $nag_demo = new Postbox\Postbox('nag-test', 'side');
+      $nag_demo->set_title('Nag test');
+      $nag_demo->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+      $nag_demo->set_build_func(array( __CLASS__, 'build_nag_test' ));
+
+      $purge_cache_btn = new Ajax\SimpleForm('nag-test');
+      $purge_cache_btn->set_button_text('Purge Cache');
+      $purge_cache_btn->set_spinner_flip(true);
+      $purge_cache_btn->set_ajax_func(
+        function() {
+          // Use a proper function in real situation
+          exec('wp-purge-cache');
+          $response = new Ajax\AjaxResponse();
+          $response->is_success(true);
+          return $response;
+        }
+      );
+      $purge_cache_btn2 = new Ajax\SimpleForm('nag-test-2');
+      $purge_cache_btn2->set_button_text('Purge Cache');
+      $purge_cache_btn2->set_spinner_flip(true);
+      $purge_cache_btn2->set_ajax_func(
+        function() {
+          // Use a proper function in real situation
+          exec('wp-purge-cache');
+          $response = new Ajax\AjaxResponse();
+          $response->is_success(true);
+          $response->set_data(array( 'output' => Template::paragraph('This bar returned output :)')->to_html() ));
+          return $response;
+        }
+      );
+
+      $nag_demo->add_ajax_handler($purge_cache_btn);
+      $nag_demo->add_ajax_handler($purge_cache_btn2);
+      $page->register_postbox($nag_demo);
     }
 
     /**
@@ -160,6 +200,28 @@ if ( ! class_exists('TestPage') ) {
         )
       );
       return $response;
+    }
+
+    /**
+     * Function for building nag-test postbox.
+     * @param \Seravo\Postbox\Component $base    Component to build on.
+     * @param \Seravo\Postbox\Postbox   $postbox The nag-test postbox.
+     */
+    public static function build_nag_test( Component $base, Postbox\Postbox $postbox ) {
+      // Always true
+      if ( random_int(0, 0) === 0 ) {
+        $notice = new Component('', '<table><tr>', '</tr></table>');
+        $notice->add_child(new Component('You have cache! Please purge it now!', '<td><b>', '</b></td>'));
+        $notice->add_child($postbox->get_ajax_handler('nag-test')->get_component()->set_wrapper('<td>', '</td>'));
+        $base->add_child(Template::nag_notice($notice, 'notice-error', true));
+
+        $notice = new Component('', '<table><tr>', '</tr></table>');
+        $notice->add_child(new Component('You have cache! Please purge it now! (2)', '<td><b>', '</b></td>'));
+        $notice->add_child($postbox->get_ajax_handler('nag-test-2')->get_component()->set_wrapper('<td>', '</td>'));
+        $base->add_child(Template::nag_notice($notice, 'notice-error', true));
+      }
+
+      $base->add_child(Template::paragraph('You should see two nags above. The second nag will return output.'));
     }
 
   }

@@ -46,6 +46,22 @@
   max-height: 30vh;
 }
 
+.seravo-nag {
+  margin: -5px 0 10px 0;
+  padding: 2px 30px 2px 12px;
+  padding-right: 15px !important;
+}
+
+.seravo-nag table {
+  width: 100%;
+}
+
+.seravo-nag .side-by-side-container {
+  margin: 0px 0 0px 0;
+  flex-wrap: nowrap;
+  float: right;
+}
+
 div#seravo-error-widget.postbox,
 div#seravo-low-disk-space-widget.postbox {
   border-left: 0.2em solid #e8ba1b;

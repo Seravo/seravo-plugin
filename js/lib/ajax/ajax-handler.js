@@ -21,6 +21,12 @@ jQuery(document).ready(
       }
     );
 
+    jQuery('.seravo-nag').each(
+      function () {
+        init_seravo_nags(this);
+      }
+    )
+
   }
 );
 
@@ -230,6 +236,34 @@ function init_fancy_form(section) {
       }
     );
   }
+}
+
+/**
+ * JavaScript for Seravo nags. This just
+ * removes the nag after any requests.
+ */
+function init_seravo_nags(nag) {
+  jQuery(nag).find('.seravo-ajax-simple-form').each(
+    function () {
+      jQuery(this).on(
+        'seravoAjaxSuccess',
+        function (event, response) {
+          if ('output' in response) {
+            jQuery(nag).find('.nag-content').html(response['output']);
+            jQuery(nag).addClass('notice-success');
+            jQuery(nag).removeClass('notice-error notice-warning notice-info');
+          } else {
+            jQuery(nag).fadeOut(
+              "fast",
+              function () {
+                nag.remove();
+              }
+            );
+          }
+        }
+      )
+    }
+  )
 }
 
 // Called before making a request

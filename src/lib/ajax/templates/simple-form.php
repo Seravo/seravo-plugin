@@ -32,6 +32,11 @@ class SimpleForm extends AjaxHandler {
   private $spinner_text;
 
   /**
+   * @var bool Whether the spinner and buttons should switch places.
+   */
+  private $flip_spinner = false;
+
+  /**
    * Constructor for SimpleForm. Will be called on new instance.
    * @param string $section Unique section inside the postbox.
    */
@@ -64,16 +69,29 @@ class SimpleForm extends AjaxHandler {
     }
 
     if ( $this->dryrun_button_text !== null ) {
-      $spinner_button = Template::n_by_side(
-        array(
-          Template::button($this->dryrun_button_text, $section . '-dryrun-button', 'button-primary'),
-          Template::button($this->button_text, $section . '-button', 'button-primary', true),
-          $spinner,
-        )
+      $main = Template::button($this->dryrun_button_text, $section . '-dryrun-button', 'button-primary');
+      $dryrun = Template::button($this->button_text, $section . '-button', 'button-primary', true);
+
+      $spinner_button_components = array(
+        $spinner,
+        $dryrun,
+        $main,
       );
+
+      if ( $this->flip_spinner ) {
+        $spinner_button_components = array_reverse($spinner_button_components);
+      }
+
+      $spinner_button = Template::n_by_side($spinner_button_components);
+
     } else {
       $button = Template::button($this->button_text, $section . '-button', 'button-primary');
-      $spinner_button = Template::side_by_side($button, $spinner);
+
+      if ( $this->flip_spinner ) {
+        $spinner_button = Template::side_by_side($spinner, $button);
+      } else {
+        $spinner_button = Template::side_by_side($button, $spinner);
+      }
     }
 
     $component = new Component('', "<div class=\"seravo-ajax-simple-form\" data-section=\"{$section}\">", '</div>');
@@ -108,6 +126,14 @@ class SimpleForm extends AjaxHandler {
    */
   public function set_spinner_text( $text ) {
     $this->spinner_text = $text;
+  }
+
+  /**
+   * Set whether the spinner and buttons should switch places.
+   * @param bool $flip Whether to flip.
+   */
+  public function set_spinner_flip( $flip ) {
+    $this->flip_spinner = $flip;
   }
 
 }
