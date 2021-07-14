@@ -334,4 +334,19 @@ class Template {
     return $component;
   }
 
+  /**
+   * Get nag bar with custom component in it.
+   * @param \Seravo\Postbox\Component $content     Content inside the bar.
+   * @param string                    $nag_type    Type of the nag, 'notice-error' by default (can be error/warning/success/info).
+   * @param bool                      $dismissible Whether the nag bar can be closed with (X) button.
+   * @return \Seravo\Postbox\Component A nag notice.
+   */
+  public static function nag_notice( Component $content, $nag_type = 'notice-error', $dismissible = true ) {
+    $notice = new Component('', '<div class="seravo-nag notice ' . $nag_type . ' ' . ($dismissible ? 'is-dismissible' : '') . '">', '</div>');
+    $wrapper = new Component('', '<div class="nag-content">', '</div>');
+    $wrapper->add_child($content);
+    $notice->add_child($wrapper);
+    return $notice;
+  }
+
 }
