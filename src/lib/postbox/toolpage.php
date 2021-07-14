@@ -92,6 +92,10 @@ class Toolpage {
           'hits' => __('Hits', 'seravo'),
           'misses' => __('Misses', 'seravo'),
           'stales' => __('Stales', 'seravo'),
+          'avg_latency' => __('Avg latency: ', 'seravo'),
+          'avg_cached_latency' => __('Avg cached latency: ', 'seravo'),
+          'latency' => __('Latency', 'seravo'),
+          'cached_latency' => __('Cached latency', 'seravo'),
         );
         wp_localize_script('seravo-charts', 'seravo_charts_l10n', $charts_l10n);
       }
