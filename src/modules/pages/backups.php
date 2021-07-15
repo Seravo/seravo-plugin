@@ -1,7 +1,4 @@
 <?php
-/**
- * File for backups page.
- */
 
 namespace Seravo;
 
@@ -9,18 +6,68 @@ use \Seravo\Postbox;
 use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox\Requirements;
 
-class Backups {
+/**
+ * Class Backups
+ *
+ * Backups is a page for info
+ * and management of backups.
+ */
+class Backups extends Toolpage {
 
+  /**
+   * @var \Seravo\Backups Instance of this page.
+   */
+  private static $instance;
+
+  /**
+   * Function for creating an instance of the page. This should be
+   * used instead of 'new' as there can only be one instance at a time.
+   * @return \Seravo\Backups Instance of this page.
+   */
   public static function load() {
-    $page = new Toolpage('tools_page_backups_page');
+    if ( self::$instance === null ) {
+      self::$instance = new Backups();
+    }
 
-    self::init_backups_postboxes($page);
-
-    $page->enable_ajax();
-    $page->register_page();
+    return self::$instance;
   }
 
-  public static function init_backups_postboxes( Toolpage $page ) {
+  /**
+   * Constructor for Backups. Will be called on new instance.
+   * Basic page details are given here.
+   */
+  public function __construct() {
+    parent::__construct(
+      __('Backups', 'seravo'),
+      'tools_page_backups_page',
+      'backups_page',
+      'Seravo\Postbox\seravo_two_column_postboxes_page'
+    );
+  }
+
+  /**
+   * Will be called for page initialization. Includes scripts
+   * and enables toolpage features needed for this page.
+   */
+  public function init_page() {
+    self::init_postboxes($this);
+
+    $this->enable_ajax();
+  }
+
+  /**
+   * Will be called for setting requirements. The requirements
+   * must be as strict as possible but as loose as the
+   * postbox with the loosest requirements on the page.
+   * @param \Seravo\Postbox\Requirements $requirements Instance to set requirements to.
+   */
+  public function set_requirements( Requirements $requirements ) {
+    $requirements->can_be_production = \true;
+    $requirements->can_be_staging = \true;
+    $requirements->can_be_development = \true;
+  }
+
+  public static function init_postboxes( Toolpage $page ) {
     /**
      * Backup info postbox
      */

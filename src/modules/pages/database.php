@@ -1,39 +1,80 @@
 <?php
-/*
- * Plugin name: Database
- * Description: View database credentials and link to Adminer
- * Version: 1.0
- */
 
 namespace Seravo;
 
-use Seravo\Ajax;
-use Seravo\Ajax\AjaxResponse;
+use \Seravo\Ajax;
+use \Seravo\Ajax\AjaxResponse;
 use \Seravo\Postbox;
-use Seravo\Postbox\Component;
+use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox\Requirements;
 
-class Database {
+/**
+ * Class Database
+ *
+ * Database is a page for info
+ * and management of the database.
+ */
+class Database extends Toolpage {
 
   /**
-   * Load database features
+   * @var \Seravo\Database Instance of this page.
+   */
+  private static $instance;
+
+  /**
+   * Function for creating an instance of the page. This should be
+   * used instead of 'new' as there can only be one instance at a time.
+   * @return \Seravo\Database Instance of this page.
    */
   public static function load() {
+    if ( self::$instance === null ) {
+      self::$instance = new Database();
+    }
 
-    $page = new Toolpage('tools_page_database_page');
-
-    self::init_database_postboxes($page);
-
-    $page->enable_charts();
-    $page->enable_ajax();
-    $page->register_page();
-
-    add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+    return self::$instance;
   }
 
-  public static function init_database_postboxes( Toolpage $page ) {
+  /**
+   * Constructor for Database. Will be called on new instance.
+   * Basic page details are given here.
+   */
+  public function __construct() {
+    parent::__construct(
+      __('Database', 'seravo'),
+      'tools_page_database_page',
+      'database_page',
+      'Seravo\Postbox\seravo_postboxes_page'
+    );
+  }
+
+  /**
+   * Will be called for page initialization. Includes scripts
+   * and enables toolpage features needed for this page.
+   */
+  public function init_page() {
+    self::init_postboxes($this);
+
+    add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+
+    $this->enable_charts();
+    $this->enable_ajax();
+  }
+
+  /**
+   * Will be called for setting requirements. The requirements
+   * must be as strict as possible but as loose as the
+   * postbox with the loosest requirements on the page.
+   * @param \Seravo\Postbox\Requirements $requirements Instance to set requirements to.
+   */
+  public function set_requirements( Requirements $requirements ) {
+    $requirements->can_be_production = \true;
+    $requirements->can_be_staging = \true;
+    $requirements->can_be_development = \true;
+  }
+
+  public static function init_postboxes( Toolpage $page ) {
     /**
      * Database access info postbox
      */
