@@ -2,14 +2,21 @@
 
 namespace Seravo;
 
-use Seravo\Ajax\AjaxResponse;
+use \Seravo\Ajax\AjaxResponse;
 use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox;
 use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Requirements;
 
-class Site_Status {
+/**
+ * Class Site_Status
+ *
+ * Site_Status is a page for general management
+ * and info of the site
+ */
+class Site_Status extends Toolpage {
+
   // Default maximum resolution for images
   /**
    * @var int
@@ -36,7 +43,44 @@ class Site_Status {
    */
   const OBJECT_CACHE_PATH = '/data/wordpress/htdocs/wp-content/object-cache.php';
 
+  /**
+   * @var \Seravo\Site_Status Instance of this page.
+   */
+  private static $instance;
+
+  /**
+   * Function for creating an instance of the page. This should be
+   * used instead of 'new' as there can only be one instance at a time.
+   * @return \Seravo\Site_Status Instance of this page.
+   */
   public static function load() {
+    if ( self::$instance === null ) {
+      self::$instance = new Site_Status();
+    }
+
+    return self::$instance;
+  }
+
+  /**
+   * Constructor for Site_Status. Will be called on new instance.
+   * Basic page details are given here.
+   */
+  public function __construct() {
+    parent::__construct(
+      __('Site Status', 'seravo'),
+      'tools_page_site_status_page',
+      'site_status_page',
+      'Seravo\Postbox\seravo_postboxes_page'
+    );
+  }
+
+  /**
+   * Will be called for page initialization. Includes scripts
+   * and enables toolpage features needed for this page.
+   */
+  public function init_page() {
+    self::init_postboxes($this);
+
     add_action('admin_init', array( __CLASS__, 'register_optimize_image_settings' ));
     add_action('admin_init', array( __CLASS__, 'register_sanitize_uploads_settings' ));
     self::check_default_settings();
@@ -44,15 +88,27 @@ class Site_Status {
     add_action('wp_ajax_seravo_ajax_site_status', 'Seravo\seravo_ajax_site_status');
     add_action('wp_ajax_seravo_speed_test', 'Seravo\seravo_speed_test');
 
-    /**
-     * Init the new Toolpage and postboxes
-     */
-    $page = new Toolpage('tools_page_site_status_page');
-    self::init_sitestatus_postboxes($page);
-    $page->enable_charts();
-    $page->enable_ajax();
-    $page->register_page();
+    $this->enable_charts();
+    $this->enable_ajax();
+  }
 
+  /**
+   * Will be called for setting requirements. The requirements
+   * must be as strict as possible but as loose as the
+   * postbox with the loosest requirements on the page.
+   * @param \Seravo\Postbox\Requirements $requirements Instance to set requirements to.
+   */
+  public function set_requirements( Requirements $requirements ) {
+    $requirements->can_be_production = \true;
+    $requirements->can_be_staging = \true;
+    $requirements->can_be_development = \true;
+  }
+
+  /**
+   * Init postboxes.
+   * @param Toolpage $page Page to init postboxes to.
+   */
+  public static function init_postboxes( Toolpage $page ) {
     if ( getenv('WP_ENV') === 'production' ) {
       \Seravo\Postbox\seravo_add_raw_postbox(
         'shadows',
@@ -79,13 +135,6 @@ class Site_Status {
       'side'
     );
 
-  }
-
-  /**
-   * Init postboxes.
-   * @param Toolpage $page Page to init postboxes to.
-   */
-  public static function init_sitestatus_postboxes( Toolpage $page ) {
     /**
      * Site info postbox
      */

@@ -1,11 +1,15 @@
 <?php
-/*
- * Plugin name: Reports
- * Description: View various reports, e.g. HTTP request staistics from GoAccess
- */
 
 namespace Seravo;
 
+/**
+ * Class Logs
+ *
+ * Logs is a page for reading
+ * log files under /data/log.
+ *
+ * TODO: Rewrite as toolpage.
+ */
 class Logs {
 
   /**
@@ -14,21 +18,28 @@ class Logs {
   private $capability_required;
 
   /**
-   * @var \Seravo\Logs|null
+   * @var \Seravo\Logs Instance of this page.
    */
-  public static $instance;
+  private static $instance;
 
   /**
-   * @return \Seravo\Logs|null
+   * Function for creating an instance of the page. This should be
+   * used instead of 'new' as there can only be one instance at a time.
+   * @return \Seravo\Logs Instance of this page.
    */
   public static function load() {
-    if ( is_null(self::$instance) ) {
+    if ( self::$instance === null ) {
       self::$instance = new Logs();
     }
+
     return self::$instance;
   }
 
-  private function __construct() {
+  /**
+   * Constructor for Logs. Will be called on new instance.
+   * Basic page details are given here.
+   */
+  public function __construct() {
     $this->capability_required = 'activate_plugins';
 
     // on multisite, only the super-admin can use this plugin
@@ -46,6 +57,22 @@ class Logs {
       'wp_ajax_fetch_log_rows',
       function () {
         $this->ajax_fetch_log_rows();
+      }
+    );
+
+    add_action(
+      'admin_menu',
+      function() {
+        add_submenu_page(
+          'tools.php',
+          __('Logs', 'seravo'),
+          __('Logs', 'seravo'),
+          'manage_options',
+          'logs_page',
+          function() {
+            Logs::render_tools_page();
+          }
+        );
       }
     );
   }

@@ -1,33 +1,75 @@
 <?php
-/*
- * Plugin name: Domains
- * Description: View and edit domains, DNS and mail forwards
- * Version: 1.1
- */
 
 namespace Seravo;
 
-class Domains {
-  /**
-   * @var \Seravo\Domains|null
-   */
-  public static $instance;
+use \Seravo\Postbox\Toolpage;
+use \Seravo\Postbox\Requirements;
+
+/**
+ * Class Domains
+ *
+ * Domains is a page for info
+ * and management of domains and mail.
+ */
+class Domains extends Toolpage {
 
   public static $domains_table;
   public static $mails_table;
 
   /**
-   * @return \Seravo\Domains|null
+   * @var \Seravo\Domains Instance of this page.
+   */
+  private static $instance;
+
+  /**
+   * Function for creating an instance of the page. This should be
+   * used instead of 'new' as there can only be one instance at a time.
+   * @return \Seravo\Domains Instance of this page.
    */
   public static function load() {
-    if ( is_null(self::$instance) ) {
+    if ( self::$instance === null ) {
       self::$instance = new Domains();
     }
 
     return self::$instance;
   }
 
+  /**
+   * Constructor for Domains. Will be called on new instance.
+   * Basic page details are given here.
+   */
   public function __construct() {
+    parent::__construct(
+      __('Domains', 'seravo'),
+      'tools_page_domains_page',
+      'domains_page',
+      'Seravo\Postbox\seravo_wide_column_postboxes_page'
+    );
+  }
+
+  /**
+   * Will be called for page initialization. Includes scripts
+   * and enables toolpage features needed for this page.
+   */
+  public function init_page() {
+    self::init_postboxes();
+
+    add_action('wp_ajax_seravo_ajax_domains', 'Seravo\seravo_ajax_domains');
+    add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
+    add_thickbox();
+  }
+
+  /**
+   * Will be called for setting requirements. The requirements
+   * must be as strict as possible but as loose as the
+   * postbox with the loosest requirements on the page.
+   * @param \Seravo\Postbox\Requirements $requirements Instance to set requirements to.
+   */
+  public function set_requirements( Requirements $requirements ) {
+    $requirements->can_be_production = \true;
+  }
+
+  public static function init_postboxes() {
     \Seravo\Postbox\seravo_add_raw_postbox(
       'domains-management',
       __('Domains', 'seravo'),
@@ -43,11 +85,6 @@ class Domains {
       'tools_page_domains_page',
       'normal'
     );
-
-    add_action('wp_ajax_seravo_ajax_domains', 'Seravo\seravo_ajax_domains');
-    add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
-
-    add_thickbox();
   }
 
   public static function register_scripts( $page ) {

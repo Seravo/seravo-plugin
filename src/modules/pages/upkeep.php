@@ -2,26 +2,80 @@
 
 namespace Seravo;
 
-use Seravo\Ajax\AjaxResponse;
+use \Seravo\Ajax\AjaxResponse;
 use \Seravo\Postbox;
-use Seravo\Postbox\Component;
+use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox\Requirements;
 
-class Upkeep {
+/**
+ * Class Upkeep
+ *
+ * Upkeep is a page for the page upkeep.
+ */
+class Upkeep extends Toolpage {
+
+  /**
+   * @var \Seravo\Upkeep Instance of this page.
+   */
+  private static $instance;
+
+  /**
+   * Function for creating an instance of the page. This should be
+   * used instead of 'new' as there can only be one instance at a time.
+   * @return \Seravo\Upkeep Instance of this page.
+   */
   public static function load() {
+    if ( self::$instance === null ) {
+      self::$instance = new Upkeep();
+    }
+
+    return self::$instance;
+  }
+
+  /**
+   * Constructor for Upkeep. Will be called on new instance.
+   * Basic page details are given here.
+   */
+  public function __construct() {
+    parent::__construct(
+      __('Upkeep', 'seravo'),
+      'tools_page_upkeep_page',
+      'upkeep_page',
+      'Seravo\Postbox\seravo_two_column_postboxes_page'
+    );
+  }
+
+  /**
+   * Will be called for page initialization. Includes scripts
+   * and enables toolpage features needed for this page.
+   */
+  public function init_page() {
+    self::init_postboxes($this);
+
     add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
     add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
-
-    $page = new Toolpage('tools_page_upkeep_page');
-    self::init_upkeep_postboxes($page);
-    $page->enable_ajax();
-    $page->register_page();
 
     // TODO: check if this hook actually ever fires for mu-plugins
     register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
 
+    $this->enable_ajax();
+  }
+
+  /**
+   * Will be called for setting requirements. The requirements
+   * must be as strict as possible but as loose as the
+   * postbox with the loosest requirements on the page.
+   * @param \Seravo\Postbox\Requirements $requirements Instance to set requirements to.
+   */
+  public function set_requirements( Requirements $requirements ) {
+    $requirements->can_be_production = \true;
+    $requirements->can_be_staging = \true;
+    $requirements->can_be_development = \true;
+  }
+
+  public static function init_postboxes( Toolpage $page ) {
     if ( getenv('WP_ENV') === 'production' ) {
       \Seravo\Postbox\seravo_add_raw_postbox(
         'seravo-updates',
@@ -31,9 +85,7 @@ class Upkeep {
         'normal'
       );
     }
-  }
 
-  public static function init_upkeep_postboxes( Toolpage $page ) {
     /**
      * Seravo Plugin Updater
      */

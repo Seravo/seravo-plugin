@@ -1,7 +1,6 @@
 <?php
 /**
- * File for test postboxes page. No need to
- * translate anything here.
+ *
  */
 
 namespace Seravo;
@@ -13,26 +12,76 @@ use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox\Requirements;
 
-class TestPage {
+/**
+ * Class TestPage
+ *
+ * TestPage is a page for testing postbox
+ * and toolpage features. Only shown in
+ * SERAVO_PLUGIN_DEBUG mode.
+ *
+ * No strings should be translated for this page.
+ */
+class TestPage extends Toolpage {
 
   /**
-   * Initialize test-page.
+   * @var \Seravo\TestPage Instance of this page.
+   */
+  private static $instance;
+
+  /**
+   * Function for creating an instance of the page. This should be
+   * used instead of 'new' as there can only be one instance at a time.
+   * @return \Seravo\TestPage Instance of this page.
    */
   public static function load() {
-    $page = new Toolpage('tools_page_test_page');
+    if ( self::$instance === null ) {
+      self::$instance = new TestPage();
+    }
 
-    self::init_test_postboxes($page);
+    return self::$instance;
+  }
 
-    $page->enable_ajax();
-    $page->enable_charts();
-    $page->register_page();
+  /**
+   * Constructor for TestPage. Will be called on new instance.
+   * Basic page details are given here.
+   */
+  public function __construct() {
+    parent::__construct(
+      'Test-page',
+      'tools_page_test_page',
+      'test_page',
+      'Seravo\Postbox\seravo_two_column_postboxes_page'
+    );
+  }
+
+  /**
+   * Will be called for page initialization. Includes scripts
+   * and enables toolpage features needed for this page.
+   */
+  public function init_page() {
+    self::init_postboxes($this);
+
+    $this->enable_ajax();
+    $this->enable_charts();
+  }
+
+  /**
+   * Will be called for setting requirements. The requirements
+   * must be as strict as possible but as loose as the
+   * postbox with the loosest requirements on the page.
+   * @param \Seravo\Postbox\Requirements $requirements Instance to set requirements to.
+   */
+  public function set_requirements( Requirements $requirements ) {
+    $requirements->can_be_production = \true;
+    $requirements->can_be_staging = \true;
+    $requirements->can_be_development = \true;
   }
 
   /**
    * Initialize test-page postboxes.
    * @param \Seravo\Postbox\Toolpage $page The page for postboxes.
    */
-  public static function init_test_postboxes( Toolpage $page ) {
+  public static function init_postboxes( Toolpage $page ) {
     /**
      * Polling test postbox
      */
