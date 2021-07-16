@@ -142,6 +142,14 @@ table.widefat {
   overflow-wrap: anywhere;
 }
 
+.seravo-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 400px;
+  white-space: pre-line;
+  padding-right: 15px;
+}
+
 .result-table-wrapper {
   max-height: 30vh;
   overflow-y: scroll;
@@ -216,6 +224,11 @@ table.widefat {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.arrow-box {
+  font-size: 11px;
+  padding: 3px;
 }
 
 /* Result wrapper components */

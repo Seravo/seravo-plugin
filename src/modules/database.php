@@ -8,6 +8,7 @@
 namespace Seravo;
 
 use Seravo\Ajax;
+use Seravo\Ajax\AjaxResponse;
 use \Seravo\Postbox;
 use Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
@@ -19,8 +20,6 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-require_once SERAVO_PLUGIN_SRC . 'lib/database-ajax.php';
-
 if ( ! class_exists('Database') ) {
   class Database {
 
@@ -28,17 +27,13 @@ if ( ! class_exists('Database') ) {
      * Load database features
      */
     public static function load() {
-
       $page = new Toolpage('tools_page_database_page');
-
       self::init_database_postboxes($page);
-
+      $page->enable_charts();
       $page->enable_ajax();
       $page->register_page();
 
-      // TODO: Remove these after all the postboxes are done.
-      add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_database_scripts' ));
-      add_action('wp_ajax_seravo_wp_db_info', 'Seravo\seravo_ajax_get_wp_db_info');
+      add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
     }
 
     public static function init_database_postboxes( Toolpage $page ) {
@@ -84,13 +79,13 @@ if ( ! class_exists('Database') ) {
 
       /**
        * Database size postbox
-       * To be implemented...
        */
-      $size = new Postbox\Postbox('database-size');
-      $size->set_title(__('Database Size', 'seravo'));
-      $size->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
-      $size->set_build_func(array( __CLASS__, 'database_size_postbox' ));
-      $page->register_postbox($size);
+      $db_size = new Postbox\Postbox('database-size');
+      $db_size->set_title(__('Database Size', 'seravo'));
+      $db_size->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+      $db_size->set_build_func(array( __CLASS__, 'build_database_size' ));
+      self::init_database_size_scripts($db_size);
+      $page->register_postbox($db_size);
     }
 
     /**
@@ -98,25 +93,12 @@ if ( ! class_exists('Database') ) {
      *
      * @param string $page hook name
      */
-    public static function enqueue_database_scripts( $page ) {
-
-      wp_register_style('seravo_database', SERAVO_PLUGIN_URL . 'style/database.css', '', Helpers::seravo_plugin_version());
-      wp_register_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', '', Helpers::seravo_plugin_version(), true);
+    public static function enqueue_scripts( $page ) {
+      wp_register_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css', '', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_database_page' ) {
         wp_enqueue_style('seravo_database');
-        wp_enqueue_script('apexcharts-js');
-        wp_enqueue_script('color-hash', SERAVO_PLUGIN_URL . 'js/lib/color-hash.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-        wp_enqueue_script('reports-chart', SERAVO_PLUGIN_URL . 'js/reports-chart.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-        wp_enqueue_script('seravo_database', SERAVO_PLUGIN_URL . 'js/database.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-
-        $loc_translation_database = array(
-          'ajaxurl'    => admin_url('admin-ajax.php'),
-          'ajax_nonce' => wp_create_nonce('seravo_database'),
-        );
-        wp_localize_script('seravo_database', 'seravo_database_loc', $loc_translation_database);
       }
-
     }
 
     /**
@@ -164,6 +146,29 @@ if ( ! class_exists('Database') ) {
     }
 
     /**
+     * Helper method for initializing database size AJAX handlers.
+     * @param Postbox\Postbox $postbox Postbox to init AJAX handlers.
+     */
+    public static function init_database_size_scripts( Postbox\Postbox $postbox ) {
+      $cache_time = 300;
+      // Database details & info
+      $db_info = new Ajax\LazyLoader('db-info', $cache_time);
+      $db_info->set_ajax_func(array( __CLASS__, 'fetch_db_info' ));
+      $db_info->use_hr(false);
+      $postbox->add_ajax_handler($db_info);
+
+      // Table sizes and their details
+      $table_sizes = new Ajax\LazyLoader('table-sizes', $cache_time);
+      $table_sizes->set_ajax_func(array( __CLASS__, 'fetch_db_table_sizes' ));
+      $table_sizes->use_hr(false);
+      $postbox->add_ajax_handler($table_sizes);
+
+      $table_details = new Ajax\LazyLoader('table-details', $cache_time);
+      $table_details->set_ajax_func(array( __CLASS__, 'fetch_db_table_sizes_details' ));
+      $postbox->add_ajax_handler($table_details);
+    }
+
+    /**
      * Build the Adminer info postbox.
      * @param \Seravo\Postbox\Component $base The base component to add content.
      */
@@ -172,7 +177,7 @@ if ( ! class_exists('Database') ) {
       $base->add_child(Template::paragraph(__('At Seravo it can always be accessed at <code>example.com/.seravo/adminer</code>', 'seravo')));
 
       $button = Template::button_link_with_icon(Helpers::adminer_link(), __('Open Adminer', 'seravo'));
-      $button->set_wrapper('<p class="adminer_button">', '</p>');
+      $button->set_wrapper('<p class="adminer-button">', '</p>');
       $base->add_child($button);
     }
 
@@ -281,65 +286,159 @@ if ( ! class_exists('Database') ) {
       return $response;
     }
 
-    public static function database_size_postbox() {
-      ?>
-      <?php if ( exec('which wp') !== '' ) : ?>
-        <div class="section_chart_mobile">
-          <p>
-            <div class="seravo_wp_db_info_loading"><img src="/wp-admin/images/spinner.gif"></div>
-            <div id="seravo_wp_db_info"></div>
-            <hr>
-            <b>
-              <?php _e('Table sizes', 'seravo'); ?>
-            </b>
-            <div class="seravo_wp_db_info_loading"><img src="/wp-admin/images/spinner.gif"></div>
-            <div class="chart_container">
-              <div id="bars_single"></div>
-            </div>
-          </p>
-        </div>
+    /**
+     * @param Component $base The base component to add child elements.
+     * @param Postbox\Postbox $postbox The postbox to add the components.
+     */
+    public static function build_database_size( Component $base, Postbox\Postbox $postbox ) {
+      $base->add_child($postbox->get_ajax_handler('db-info')->get_component());
+      $base->add_child(Component::from_raw('<hr><b>' . __('Table sizes', 'seravo') . '</b>'));
+      $table_sizes_container = new Component('', '<div class="seravo-container">', '</div><br>');
+      $table_sizes_container->add_child(Component::from_raw('<div id="database-bars-single"></div>'));
+      $base->add_child($table_sizes_container);
+      $base->add_child($postbox->get_ajax_handler('table-sizes')->get_component());
+      $base->add_child(Template::section_title(__('Details about database table sizes', 'seravo')));
+      $base->add_child($postbox->get_ajax_handler('table-details')->get_component());
+    }
 
-        <div class='seravo-database-detail-wrapper'>
-          <div class='seravo_database_detail'>
-            <?php _e('Details about database table sizes', 'seravo'); ?>
-          </div>
-          <div class='seravo-database-detail hidden'>
-            <table class="database_detail_table" id="long_postmeta_values">
-              <?php _e('Longest wp_postmeta values:', 'seravo'); ?>
-            </table>
-            <hr>
-            <table class="database_detail_table" id="cumulative_postmeta_sizes">
-              <?php _e('Cumulative size of meta_value per meta_key:', 'seravo'); ?>
-            </table>
-            <hr>
-            <table class="database_detail_table" id="common_postmeta_values">
-              <?php _e('Rows per meta_key:', 'seravo'); ?>
-            </table>
-            <hr>
-            <table class="database_detail_table" id="autoload_option_count">
-              <?php _e('Autoload options count (read to memory on each WP page load):', 'seravo'); ?>
-            </table>
-            <hr>
-            <table class="database_detail_table" id="total_autoload_option_size">
-              <?php _e('Autoload options total size of values:', 'seravo'); ?>
-            </table>
-            <hr>
-            <table class="database_detail_table" id="long_autoload_option_values">
-              <?php _e('Longest autoloaded wp_option values:', 'seravo'); ?>
-            </table>
-            <hr>
-            <table class="database_detail_table" id="common_autoload_option_values">
-              <?php _e('Most common autoloaded wp_option values:', 'seravo'); ?>
-            </table>
-          </div>
-          <div class='seravo_database_detail_show_more_wrapper'>
-            <a href='#' class='seravo_database_detail_show_more'><?php _e('Toggle Details', 'seravo'); ?>
-              <div class='dashicons dashicons-arrow-down-alt2' id='seravo_arrow_database_detail_show_more'></div>
-            </a>
-          </div>
-        </div>
-        <?php
-      endif; // end database info
+    /**
+     * AJAX function for fetching database name and size.
+     * @return Ajax\AjaxResponse Response with error or db info in table.
+     */
+    public static function fetch_db_info() {
+      $response = new AjaxResponse();
+      $db_columns = array();
+      $cmd = exec('wp db size', $output, $return_code);
+
+      if ( $cmd === false || $return_code !== 0 ) {
+        $response->is_success(false);
+        $response->set_error(__('Error in fetching database details. Command <code>wp db size</code> returned with ', 'seravo') . $return_code);
+        return $response;
+      }
+
+      foreach ( $output as $value ) {
+        // Columns are separated with tabs
+        $columns = explode("\t", $value);
+        $updated_columns = array();
+
+        foreach ( $columns as $column ) {
+          $updated_columns[] = (Helpers::human_file_size($column) == '0B') ? $column : Helpers::human_file_size($column);
+        }
+        $db_columns[] = $updated_columns;
+      }
+
+      $response->is_success(true);
+      $response->set_data(
+        array(
+          'output' => Template::table_view('seravo-wb-db-info-table', 'db-info-th', 'db-info-td', array( '', '' ), $db_columns)->to_html(),
+        )
+      );
+
+      return $response;
+    }
+
+    /**
+     * AJAX function for fetching database table sizes.
+     * @return Ajax\AjaxResponse Response with return data.
+     */
+    public static function fetch_db_table_sizes() {
+      $response = new AjaxResponse();
+      $size_in_format = exec('wp db size --size_format=b', $total, $result_code_normal);
+      $size_in_json = exec('wp db size --tables --format=json', $json, $result_code_json);
+      $execution_fail = __('Executing command <code>wp db size</code> failed. Command returned with exit status ', 'seravo');
+
+      if ( $size_in_format === false || $result_code_normal !== 0 ) {
+        $response->is_success(false);
+        $response->set_error($execution_fail . $result_code_normal);
+        return $response;
+      }
+      if ( $size_in_json === false || $result_code_json !== 0 ) {
+        $response->is_success(false);
+        $response->set_error($execution_fail . $result_code_json);
+        return $response;
+      }
+
+      $tables = json_decode($json[0], true);
+      $data_folders = array();
+
+      foreach ( $tables as $table ) {
+        $size = preg_replace('/[^0-9]/', '', $table['Size']);
+        $data_folders[$table['Name']] = array(
+          'percentage' => (($size / $total[0]) * 100),
+          'human'      => Helpers::human_file_size($size),
+          'size'       => $size,
+        );
+      }
+
+      $response->is_success(true);
+      $response->set_data(
+        array(
+          'data' => array(
+            'human' => Helpers::human_file_size($total[0]),
+            'size'  => $total,
+          ),
+          'folders' => $data_folders,
+        )
+      );
+
+      return $response;
+    }
+
+    /**
+     * AJAX function for fetching database table sizes in detail.
+     * @return Ajax\AjaxResponse Response with table sizes details.
+     */
+    public static function fetch_db_table_sizes_details() {
+      $response = new AjaxResponse();
+      $common_column_titles = array( '', '' );
+      global $wpdb;
+      // Make the database queries
+      $cumulative_postmeta_sizes = $wpdb->get_results("SELECT meta_key, SUBSTRING(meta_value, 1, 30) AS meta_value_snip, LENGTH(meta_value) AS meta_value_length, SUM(LENGTH(meta_value)) AS length_sum FROM $wpdb->postmeta GROUP BY meta_key ORDER BY length_sum DESC LIMIT 15");
+      $common_postmeta_values = $wpdb->get_results("SELECT SUBSTRING(meta_key, 1, 20) AS meta_key, COUNT(*) AS key_count FROM $wpdb->postmeta GROUP BY meta_key ORDER BY key_count DESC LIMIT 15");
+      $autoload_option_count = $wpdb->get_results("SELECT COUNT(*) AS options_count FROM $wpdb->options WHERE autoload = 'yes'");
+      $total_autoload_option_size = $wpdb->get_results("SELECT SUM(LENGTH(option_value)) AS total_size FROM $wpdb->options WHERE autoload='yes'");
+      $long_autoload_option_values = $wpdb->get_results("SELECT SUBSTRING(option_name, 1, 20) AS option_name, LENGTH(option_value) AS option_value_length FROM $wpdb->options WHERE autoload='yes' ORDER BY LENGTH(option_value) DESC LIMIT 15");
+
+      // Fetch the data in a readable format
+      foreach ( $cumulative_postmeta_sizes as $size ) {
+        $cumulative_postmeta[] = array( $size->meta_key, $size->length_sum );
+      }
+      foreach ( $common_postmeta_values as $value ) {
+        $common_postmeta[] = array( $value->meta_key, $value->key_count );
+      }
+      foreach ( $autoload_option_count as $value ) {
+        $autoload_option = $value->options_count;
+      }
+      foreach ( $total_autoload_option_size as $size ) {
+        $total_autoload = Helpers::human_file_size($size->total_size);
+      }
+      foreach ( $long_autoload_option_values as $value ) {
+        $long_autoload[] = array( $value->option_name, $value->option_value_length );
+      }
+      // Add components for return output
+      $db_details = new Component('', '<div class="seravo-container">', '</div>');
+      $db_details->add_child(Component::from_raw('<b>' . __('Longest wp_postmeta values', 'seravo') . '</b>'));
+      $db_details->add_child(Template::table_view('result-table', 'sizes-th', 'sizes-td', $common_column_titles, $cumulative_postmeta));
+
+      $db_details->add_child(Component::from_raw('<hr><b>' . __('Cumulative size of meta_value per meta_key', 'seravo') . '</b>'));
+      $db_details->add_child(Template::table_view('result-table', 'sizes-th', 'sizes-td', $common_column_titles, $common_postmeta));
+
+      $db_details->add_child(Component::from_raw('<hr><b>' . __('Autoload options count (read to memory on each WP page load)', 'seravo') . '</b>'));
+      $db_details->add_child(Template::paragraph($autoload_option));
+
+      $db_details->add_child(Component::from_raw('<hr><b>' . __('Autoload options total size of values', 'seravo') . '</b>'));
+      $db_details->add_child(Template::paragraph($total_autoload));
+
+      $db_details->add_child(Component::from_raw('<hr><b>' . __('Longest autoloaded wp_option values', 'seravo') . '</b>'));
+      $db_details->add_child(Template::table_view('result-table', 'sizes-th', 'sizes-td', $common_column_titles, $long_autoload));
+
+      $response->is_success(true);
+      $response->set_data(
+        array(
+          'output' => $db_details->to_html(),
+        )
+      );
+      return $response;
     }
   }
 

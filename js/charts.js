@@ -13,6 +13,7 @@ jQuery(document).ready(
     jQuery('[data-section="disk-usage"]').on('seravoAjaxSuccess', generate_disk_bars);
     jQuery('[data-section="cache-status-ajax"]').on('seravoAjaxSuccess', generate_redis_hitchart);
     jQuery('[data-section="cache-status-ajax"]').on('seravoAjaxSuccess', generate_http_hitchart);
+    jQuery('[data-section="table-sizes"]').on('seravoAjaxSuccess', generate_database_bars);
   }
 );
 
@@ -83,7 +84,7 @@ function generate_test_chart(event, response) {
  * ApexChart: Bars and disc donut
  */
 
-function generate_database_bars( json_data ) {
+function generate_database_bars( event, response ) {
   var data = [];
   var labels = [];
   var human_vals = [];
@@ -101,11 +102,11 @@ function generate_database_bars( json_data ) {
     }
   };
 
-  Object.keys(json_data).forEach(
+  Object.keys(response.folders).forEach(
     function( folder ) {
-      data.push(json_data[folder].percentage);
+      data.push(response.folders[folder].percentage);
       labels.push(folder);
-      human_vals.push(json_data[folder].human);
+      human_vals.push(response.folders[folder].human);
     }
   );
 
@@ -175,8 +176,10 @@ function generate_database_bars( json_data ) {
     },
     tooltip: {
       enabled: true,
+      shared: true,
+      intersect: false,
       custom: function({series, seriesIndex, dataPointIndex, w}) {
-        return '<div class="arrow_box">' +
+        return '<div class="arrow-box">' +
           '<span>' + w.globals.labels[dataPointIndex] + ": " + human_vals[dataPointIndex] + '</span>' +
           '</div>'
       },
@@ -321,7 +324,7 @@ function generate_disk_bars(event, response) {
       shared: true,
       intersect: false,
       custom: function({series, seriesIndex, dataPointIndex, w}) {
-        return '<div class="arrow_box">' +
+        return '<div class="arrow-box">' +
           '<span>' + w.globals.labels[dataPointIndex] + ": " + human_vals[dataPointIndex] + '</span>' +
           '</div>'
       },
