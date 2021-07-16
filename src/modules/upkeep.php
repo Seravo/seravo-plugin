@@ -35,14 +35,6 @@ if ( ! class_exists('Upkeep') ) {
           'tools_page_upkeep_page',
           'normal'
         );
-
-        \Seravo\Postbox\seravo_add_raw_postbox(
-          'screenshots',
-          __('Screenshots', 'seravo'),
-          array( __CLASS__, 'screenshots_postbox' ),
-          'tools_page_upkeep_page',
-          'side'
-        );
       }
     }
 
@@ -131,6 +123,16 @@ if ( ! class_exists('Upkeep') ) {
       $update_tests->set_title_text(__('Click "Run Tests" to run the Codeception tests', 'seravo'));
       $update_tests->add_paragraph(__('Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href="https://seravo.com/docs/tests/ng-integration-tests/" target="_BLANK"> Seravo Developer Documentation</a>.', 'seravo'));
       $page->register_postbox($update_tests);
+
+      /**
+       * Screenshots postbox
+       */
+       $screenshots = new Postbox\Postbox('screenshots');
+       $screenshots->set_title(__('Screenshots', 'seravo'));
+       $screenshots->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+       $screenshots->set_build_func(array( __CLASS__, 'build_screenshots_postbox' ));
+       $screenshots->set_data_func(array( __CLASS__, 'get_screenshots' ), 300);
+       $page->register_postbox($screenshots);
     }
 
     /**
@@ -185,10 +187,20 @@ if ( ! class_exists('Upkeep') ) {
     public static function register_scripts( $page ) {
       wp_register_style('seravo_upkeep', SERAVO_PLUGIN_URL . 'style/upkeep.css', '', Helpers::seravo_plugin_version());
       wp_register_script('seravo_upkeep', SERAVO_PLUGIN_URL . 'js/upkeep.js', 'jquery', Helpers::seravo_plugin_version());
+      wp_register_script('screenshots-js', SERAVO_PLUGIN_URL . 'js/screenshots.js', 'jquery', Helpers::seravo_plugin_version());
 
       if ( $page === 'tools_page_upkeep_page' ) {
         wp_enqueue_style('seravo_upkeep');
         wp_enqueue_script('seravo_upkeep');
+        wp_enqueue_script('screenshots-js');
+
+        $loc_translation = array(
+          'ajaxurl'    => admin_url('admin-ajax.php'),
+          'ajax_nonce' => wp_create_nonce('seravo_upkeep'),
+          'email_fail' => __('There must be at least one contact email', 'seravo'),
+        );
+
+        wp_localize_script('seravo_upkeep', 'seravo_upkeep_loc', $loc_translation);
       }
     }
 
@@ -635,19 +647,31 @@ if ( ! class_exists('Upkeep') ) {
       return $response;
     }
 
-    public static function screenshots_postbox() {
+    /**
+     * Build function for screenshots postbox.
+     * @param Component $base The base component of the postbox.
+     * @param Postbox\Postbox $postbox The postbox to add components / elements.
+     * @param array $data Data returned by data function.
+     */
+    public static function build_screenshots_postbox( Component $base, Postbox\Postbox $postbox, $data ) {
+      if ( ! isset($data['showing']) || $data['showing'] === 0 ) {
+        $base->add_child(Template::error_paragraph(__('No screenshots found. They will become available during the next attempted update.', 'seravo')));
+      } else {
+        $base->add_child($data['screenshots_table']);
+      }
+    }
 
+    /**
+     * Data function for screenshots postbox.
+     * @return array Data component containing screenshots and the count.
+     */
+    public static function get_screenshots() {
       $screenshots = glob('/data/reports/tests/debug/*.png');
-      $showing = 0;
-      # Shows a comparison of any and all image pair of *.png and *.shadow.png found.
-      if ( count($screenshots) > 3 ) {
+      $screenshot_rows = array();
+      $data = array();
 
-        echo '
-          <table>
-            <tr>
-              <th>' . __('The Difference', 'seravo') . '</th>
-            </tr>
-            <tbody  style="vertical-align: top; text-align: center;">';
+      // Shows a comparison of any and all image pair of *.png and *.shadow.png found.
+      if ( count($screenshots) > 3 ) {
 
         foreach ( $screenshots as $screenshot ) {
           // Skip *.shadow.png files from this loop
@@ -656,7 +680,6 @@ if ( ! class_exists('Upkeep') ) {
           }
 
           $name = substr(basename($screenshot), 0, -4);
-
           // Check whether the *.shadow.png exists in the set
           // Do not show the comparison if both images are not found.
           $exists_shadow = false;
@@ -676,84 +699,47 @@ if ( ! class_exists('Upkeep') ) {
           if ( preg_match('/Total: ([0-9.]+)/', $diff_txt, $matches) ) {
             $diff = (float) $matches[1];
           }
-
-          echo '
-            <tr>
-              <td>
-              <hr class="seravo-updates-hr">
-              <a href="?x-accel-redirect&screenshot=' . $name . '.diff.png" class="diff-img-title">' . $name . '</a>
-              <span';
+          $screenshot_element = '<hr class="seravo-updates-hr">' . Template::link($name, '?x-accel-redirect&screenshot=' . $name . '.diff.png', $name, 'diff-img-title')->to_html() . '<span';
           // Make the difference number stand out if it is non-zero
           if ( $diff > 0.011 ) {
-            echo ' style="background-color: yellow;color: red;"';
+            $screenshot_element .= ' style="background-color: yellow; color: red;"';
           }
-          echo '>' . round($diff * 100, 2) . ' %</span>';
-
-          echo self::seravo_admin_image_comparison_slider(
+          $screenshot_element .= '> ' . round($diff * 100, 2) . ' %</span>';
+          $screenshot_element .= self::seravo_admin_image_comparison_slider(
             array(
               'difference' => $diff,
               'img_right'  => "?x-accel-redirect&screenshot={$name}.shadow.png",
               'img_left'   => "?x-accel-redirect&screenshot={$name}.png",
             )
           );
-          echo '
-              </td>
-            </tr>';
-          ++$showing;
+          $screenshot_rows[] = array( $screenshot_element );
         }
-        echo '
-        </tbody>
-      </table>';
-
+        $data['screenshots_table'] = Template::table_view('seravo-screenshots', 'screenshots-title', 'screenshots-element', array( __('The Difference', 'seravo') ), $screenshot_rows);
       }
+      $data['showing'] = count($screenshot_rows);
 
-      if ( $showing == 0 ) {
-        echo __('No screenshots found. They will become available during the next attempted update.', 'seravo');
-      }
+      return $data;
     }
 
     /**
-     * @return string|bool
+     * Helper function for screenshots construction.
+     * @param array $atts Attributes containing comparison images and their difference.
+     * @return string Image element as a string.
      */
-    public static function seravo_admin_image_comparison_slider( $atts = array(), $content = null, $tag = 'seravo_admin_image_comparison_slider' ) {
+    public static function seravo_admin_image_comparison_slider( $atts ) {
+      $knob_style = floatval($atts['difference']) > 0.011 ? ' difference' : '';
 
-      // normalize attribute keys, lowercase
-      $atts = array_change_key_case((array) $atts, CASE_LOWER);
-
-      $img_comp_atts = shortcode_atts(
-        array(
-          'difference'           => '',
-          'img_left'             => '',
-          'img_right'            => '',
-          'desc_left'            => __('Current State', 'seravo'),
-          'desc_right'           => __('Update Attempt', 'seravo'),
-          'desc_left_bg_color'   => 'green',
-          'desc_right_bg_color'  => 'red',
-          'desc_left_txt_color'  => 'white',
-          'desc_right_txt_color' => 'white',
-        ),
-        $atts,
-        $tag
-      );
-      $knob_style = floatval($img_comp_atts['difference']) > 0.011 ? 'difference' : '';
-      ob_start();
-      ?>
-      <div class="ba-slider <?php echo $knob_style; ?>">
-        <img src="<?php echo $img_comp_atts['img_right']; ?>">
-        <div class="ba-text-block" style="background-color:<?php echo $img_comp_atts['desc_right_bg_color']; ?>;color:<?php echo $img_comp_atts['desc_right_txt_color']; ?>;">
-          <?php echo $img_comp_atts['desc_right']; ?>
-        </div>
+      return '<div class="ba-slider' . $knob_style . '">
+        <img src="' . $atts['img_right'] . '">
+        <div class="ba-text-block" style="background-color: red; color: white;">' . __('Update Attempt', 'seravo') . '</div>
         <div class="ba-resize">
-          <img src="<?php echo $img_comp_atts['img_left']; ?>">
-          <div class="ba-text-block" style="background-color:<?php echo $img_comp_atts['desc_left_bg_color']; ?>;color:<?php echo $img_comp_atts['desc_left_txt_color']; ?>;">
-            <?php echo $img_comp_atts['desc_left']; ?>
+          <img src="' . $atts['img_left'] . '">
+          <div class="ba-text-block" style="background-color: green; color: white;">' .
+          __('Current State', 'seravo') .
+          '</div>
           </div>
-        </div>
         <span class="ba-handle"></span>
-      </div>
-      <?php
-
-      return ob_get_clean();
+      </div>';
     }
 
     public static function seravo_admin_toggle_seravo_updates() {
