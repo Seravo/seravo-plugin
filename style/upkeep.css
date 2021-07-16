@@ -64,6 +64,10 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
   color: #eb819f;
 }
 
+.seravo-screenshots tbody {
+  text-align: center;
+}
+
 .ba-slider {
   margin: 20px auto;
   overflow: hidden;
