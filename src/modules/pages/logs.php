@@ -47,12 +47,7 @@ class Logs {
       $this->capability_required = 'manage_network';
     }
 
-    add_action(
-      'admin_enqueue_scripts',
-      function ( $hook ) {
-        $this->admin_enqueue_styles($hook);
-      }
-    );
+    add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
     add_action(
       'wp_ajax_fetch_log_rows',
       function () {
@@ -77,21 +72,18 @@ class Logs {
     );
   }
 
-  /**
-   * Enqueues styles and scripts for the admin tools page
-   *
-   * @param mixed $hook
-   * @access public
-   * @return void
-   */
-  public function admin_enqueue_styles( $hook ) {
-    wp_register_style('log_viewer', SERAVO_PLUGIN_URL . 'style/log-viewer.css', '', Helpers::seravo_plugin_version());
-    wp_register_script('log_viewer', SERAVO_PLUGIN_URL . 'js/log-viewer.js', '', Helpers::seravo_plugin_version());
 
-    if ( $hook === 'tools_page_logs_page' ) {
-      wp_enqueue_style('log_viewer');
-      wp_enqueue_script('log_viewer');
+  /**
+   * Register scripts.
+   * @param string $screen The current screen.
+   */
+  public static function enqueue_scripts( $screen ) {
+    if ( $screen !== 'tools_page_logs_page' ) {
+      return;
     }
+
+    wp_enqueue_script('log-viewer-js', SERAVO_PLUGIN_URL . 'js/log-viewer.js', '', Helpers::seravo_plugin_version());
+    wp_enqueue_style('log-viewer-css', SERAVO_PLUGIN_URL . 'style/log-viewer.css', '', Helpers::seravo_plugin_version());
   }
 
   /**

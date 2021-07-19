@@ -54,7 +54,7 @@ class Upkeep extends Toolpage {
   public function init_page() {
     self::init_postboxes($this);
 
-    add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
+    add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
     add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
 
     // TODO: check if this hook actually ever fires for mu-plugins
@@ -73,6 +73,27 @@ class Upkeep extends Toolpage {
     $requirements->can_be_production = \true;
     $requirements->can_be_staging = \true;
     $requirements->can_be_development = \true;
+  }
+
+  /**
+   * Register scripts.
+   * @param string $screen The current screen.
+   */
+  public static function enqueue_scripts( $screen ) {
+    if ( $screen !== 'tools_page_upkeep_page' ) {
+      return;
+    }
+
+    wp_enqueue_script('seravo-upkeep-js', SERAVO_PLUGIN_URL . 'js/upkeep.js', 'jquery', Helpers::seravo_plugin_version());
+    wp_enqueue_script('screenshots-js', SERAVO_PLUGIN_URL . 'js/screenshots.js', 'jquery', Helpers::seravo_plugin_version());
+    wp_enqueue_style('seravo-upkeep-css', SERAVO_PLUGIN_URL . 'style/upkeep.css', '', Helpers::seravo_plugin_version());
+
+    $loc_translation = array(
+      'ajaxurl'    => admin_url('admin-ajax.php'),
+      'ajax_nonce' => wp_create_nonce('seravo_upkeep'),
+      'email_fail' => __('There must be at least one contact email', 'seravo'),
+    );
+    wp_localize_script('seravo-upkeep-js', 'seravo_upkeep_loc', $loc_translation);
   }
 
   public static function init_postboxes( Toolpage $page ) {
@@ -224,31 +245,6 @@ class Upkeep extends Toolpage {
         isset($data['msg']) ? Template::paragraph($data['msg']) : null,
       )
     );
-  }
-
-  /**
-   * Register scripts
-   *
-   * @param string $page hook name
-   */
-  public static function register_scripts( $page ) {
-    wp_register_style('seravo_upkeep', SERAVO_PLUGIN_URL . 'style/upkeep.css', '', Helpers::seravo_plugin_version());
-    wp_register_script('seravo_upkeep', SERAVO_PLUGIN_URL . 'js/upkeep.js', 'jquery', Helpers::seravo_plugin_version());
-    wp_register_script('screenshots-js', SERAVO_PLUGIN_URL . 'js/screenshots.js', 'jquery', Helpers::seravo_plugin_version());
-
-    if ( $page === 'tools_page_upkeep_page' ) {
-      wp_enqueue_style('seravo_upkeep');
-      wp_enqueue_script('seravo_upkeep');
-      wp_enqueue_script('screenshots-js');
-
-      $loc_translation = array(
-        'ajaxurl'    => admin_url('admin-ajax.php'),
-        'ajax_nonce' => wp_create_nonce('seravo_upkeep'),
-        'email_fail' => __('There must be at least one contact email', 'seravo'),
-      );
-
-      wp_localize_script('seravo_upkeep', 'seravo_upkeep_loc', $loc_translation);
-    }
   }
 
   /**
