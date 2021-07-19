@@ -84,7 +84,7 @@ class Site_Status extends Toolpage {
     add_action('admin_init', array( __CLASS__, 'register_optimize_image_settings' ));
     add_action('admin_init', array( __CLASS__, 'register_sanitize_uploads_settings' ));
     self::check_default_settings();
-    add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_site_status_scripts' ));
+    add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
     add_action('wp_ajax_seravo_ajax_site_status', 'Seravo\seravo_ajax_site_status');
     add_action('wp_ajax_seravo_speed_test', 'Seravo\seravo_speed_test');
 
@@ -102,6 +102,34 @@ class Site_Status extends Toolpage {
     $requirements->can_be_production = \true;
     $requirements->can_be_staging = \true;
     $requirements->can_be_development = \true;
+  }
+
+  /**
+   * Register scripts.
+   * @param string $screen The current screen.
+   */
+  public static function enqueue_scripts( $screen ) {
+    if ( $screen !== 'tools_page_site_status_page' ) {
+      return;
+    }
+
+    wp_enqueue_script('seravo-site-status-js', SERAVO_PLUGIN_URL . 'js/sitestatus.js', '', Helpers::seravo_plugin_version());
+    wp_enqueue_script('seravo-speedtest-js', SERAVO_PLUGIN_URL . 'js/speedtest.js', array( 'jquery' ), Helpers::seravo_plugin_version());
+    wp_enqueue_style('seravo-site-status-css', SERAVO_PLUGIN_URL . 'style/sitestatus.css', '', Helpers::seravo_plugin_version());
+
+    $loc_translation = array(
+      'no_data'             => __('No data returned for the section.', 'seravo'),
+      'failed'              => __('Failed to load. Please try again.', 'seravo'),
+      'no_reports'          => __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'),
+      'view_report'         => __('View report', 'seravo'),
+      'success'             => __('Success!', 'seravo'),
+      'failure'             => __('Failure!', 'seravo'),
+      'error'               => __('Error!', 'seravo'),
+      'confirm'             => __('Are you sure? This replaces all information in the selected environment.', 'seravo'),
+      'ajaxurl'             => admin_url('admin-ajax.php'),
+      'ajax_nonce'          => wp_create_nonce('seravo_site_status'),
+    );
+    wp_localize_script('seravo-site-status-js', 'seravo_site_status_loc', $loc_translation);
   }
 
   /**
@@ -256,34 +284,6 @@ class Site_Status extends Toolpage {
       'seravo-optimize-images-settings'
     );
 
-  }
-
-  public static function enqueue_site_status_scripts( $page ) {
-    wp_register_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', null, Helpers::seravo_plugin_version(), true);
-    wp_register_script('speedtest-js', SERAVO_PLUGIN_URL . 'js/speedtest.js', array( 'jquery' ), Helpers::seravo_plugin_version());
-    wp_register_script('seravo_site_status', SERAVO_PLUGIN_URL . 'js/sitestatus.js', '', Helpers::seravo_plugin_version());
-    wp_register_style('seravo_site_status', SERAVO_PLUGIN_URL . 'style/sitestatus.css', '', Helpers::seravo_plugin_version());
-    if ( $page === 'tools_page_site_status_page' ) {
-      wp_enqueue_style('seravo_site_status');
-      wp_enqueue_script('apexcharts-js');
-      wp_enqueue_script('speedtest-js');
-      wp_enqueue_script('color-hash', SERAVO_PLUGIN_URL . 'js/lib/color-hash.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-      wp_enqueue_script('seravo_site_status');
-
-      $loc_translation = array(
-        'no_data'             => __('No data returned for the section.', 'seravo'),
-        'failed'              => __('Failed to load. Please try again.', 'seravo'),
-        'no_reports'          => __('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'),
-        'view_report'         => __('View report', 'seravo'),
-        'success'             => __('Success!', 'seravo'),
-        'failure'             => __('Failure!', 'seravo'),
-        'error'               => __('Error!', 'seravo'),
-        'confirm'             => __('Are you sure? This replaces all information in the selected environment.', 'seravo'),
-        'ajaxurl'             => admin_url('admin-ajax.php'),
-        'ajax_nonce'          => wp_create_nonce('seravo_site_status'),
-      );
-      wp_localize_script('seravo_site_status', 'seravo_site_status_loc', $loc_translation);
-    }
   }
 
   /**

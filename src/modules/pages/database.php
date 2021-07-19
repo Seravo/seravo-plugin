@@ -74,6 +74,18 @@ class Database extends Toolpage {
     $requirements->can_be_development = \true;
   }
 
+  /**
+   * Register scripts.
+   * @param string $screen The current screen.
+   */
+  public static function enqueue_scripts( $screen ) {
+    if ( $screen !== 'tools_page_database_page' ) {
+      return;
+    }
+
+    wp_enqueue_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css', '', Helpers::seravo_plugin_version());
+  }
+
   public static function init_postboxes( Toolpage $page ) {
     /**
      * Database access info postbox
@@ -124,19 +136,6 @@ class Database extends Toolpage {
     $db_size->set_build_func(array( __CLASS__, 'build_database_size' ));
     self::init_database_size_scripts($db_size);
     $page->register_postbox($db_size);
-  }
-
-  /**
-   * Register scripts
-   *
-   * @param string $page hook name
-   */
-  public static function enqueue_scripts( $page ) {
-    wp_register_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css', '', Helpers::seravo_plugin_version());
-
-    if ( $page === 'tools_page_database_page' ) {
-      wp_enqueue_style('seravo_database');
-    }
   }
 
   /**
