@@ -56,8 +56,6 @@ class Database extends Toolpage {
   public function init_page() {
     self::init_postboxes($this);
 
-    add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
-
     $this->enable_charts();
     $this->enable_ajax();
   }
@@ -72,18 +70,6 @@ class Database extends Toolpage {
     $requirements->can_be_production = \true;
     $requirements->can_be_staging = \true;
     $requirements->can_be_development = \true;
-  }
-
-  /**
-   * Register scripts.
-   * @param string $screen The current screen.
-   */
-  public static function enqueue_scripts( $screen ) {
-    if ( $screen !== 'tools_page_database_page' ) {
-      return;
-    }
-
-    wp_enqueue_style('seravo_database', plugin_dir_url(__DIR__) . '/style/database.css', '', Helpers::seravo_plugin_version());
   }
 
   public static function init_postboxes( Toolpage $page ) {

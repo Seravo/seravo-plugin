@@ -100,8 +100,7 @@ div#seravo-low-disk-space-widget.postbox {
 }
 
 /* Dashicon styles */
-
-.dashicons .dashicons-external {
+.dashicons.dashicons-external {
   line-height: 1.4;
   padding-left: 3px;
 }

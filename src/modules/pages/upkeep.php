@@ -89,8 +89,6 @@ class Upkeep extends Toolpage {
     wp_enqueue_style('seravo-upkeep-css', SERAVO_PLUGIN_URL . 'style/upkeep.css', '', Helpers::seravo_plugin_version());
 
     $loc_translation = array(
-      'ajaxurl'    => admin_url('admin-ajax.php'),
-      'ajax_nonce' => wp_create_nonce('seravo_upkeep'),
       'email_fail' => __('There must be at least one contact email', 'seravo'),
     );
     wp_localize_script('seravo-upkeep-js', 'seravo_upkeep_loc', $loc_translation);

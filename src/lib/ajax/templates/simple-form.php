@@ -71,13 +71,13 @@ class SimpleForm extends AjaxHandler {
     }
 
     if ( $this->dryrun_button_text !== null ) {
-      $main = Template::button($this->dryrun_button_text, $section . '-dryrun-button', 'button-primary');
-      $dryrun = Template::button($this->button_text, $section . '-button', 'button-primary', true);
+      $main = Template::button($this->button_text, $section . '-button', 'button-primary', true);
+      $dryrun = Template::button($this->dryrun_button_text, $section . '-dryrun-button', 'button-primary');
 
       $spinner_button_components = array(
-        $spinner,
         $dryrun,
         $main,
+        $spinner,
       );
 
       if ( $this->flip_spinner ) {
