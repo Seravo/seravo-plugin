@@ -83,8 +83,7 @@ function generate_test_chart(event, response) {
 /**
  * ApexChart: Bars and disc donut
  */
-
-function generate_database_bars( event, response ) {
+function generate_database_bars(event, response) {
   var data = [];
   var labels = [];
   var human_vals = [];
@@ -103,7 +102,7 @@ function generate_database_bars( event, response ) {
   };
 
   Object.keys(response.folders).forEach(
-    function( folder ) {
+    function (folder) {
       data.push(response.folders[folder].percentage);
       labels.push(folder);
       human_vals.push(response.folders[folder].human);
@@ -114,11 +113,11 @@ function generate_database_bars( event, response ) {
   var list = [];
   var dataItems = data.length;
   for (var j = 0; j < dataItems; j++) {
-    list.push({'datapoint': data[j], 'label': labels[j], 'human': human_vals[j]});
+    list.push({ 'datapoint': data[j], 'label': labels[j], 'human': human_vals[j] });
   }
 
   list.sort(
-    function(a, b) {
+    function (a, b) {
       return ((a.datapoint > b.datapoint) ? -1 : ((a.datapoint == b.datapoint) ? 0 : 1));
     }
   );
@@ -168,17 +167,17 @@ function generate_database_bars( event, response ) {
     grid: {
       show: false,
       padding: {
-       left: 0,
-       right: 0,
-       top: 0,
-       bottom: 0
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0
       }
     },
     tooltip: {
       enabled: true,
       shared: true,
       intersect: false,
-      custom: function({series, seriesIndex, dataPointIndex, w}) {
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
         return '<div class="arrow-box">' +
           '<span>' + w.globals.labels[dataPointIndex] + ": " + human_vals[dataPointIndex] + '</span>' +
           '</div>'
@@ -198,7 +197,7 @@ function generate_disk_donut(event, response) {
   var max_disk;
 
   Object.keys(response.data).forEach(
-    function( data ) {
+    function (data) {
       disk_use = response.data['size'] / 1e9;
       max_disk = response.data['disk_limit'];
     }
@@ -237,12 +236,12 @@ function generate_disk_donut(event, response) {
         show: false
       },
       y: {
-        formatter: function(value){
+        formatter: function (value) {
           return value.toFixed(2) + ' GB';
         }
       },
     }
-};
+  };
 
   new ApexCharts(document.querySelector("#disk-usage-donut"), options).render();
 }
@@ -266,7 +265,7 @@ function generate_disk_bars(event, response) {
   };
 
   Object.keys(response.folders).forEach(
-    function( folder ) {
+    function (folder) {
       data.push(response.folders[folder].percentage);
       labels.push(folder);
       human_vals.push(response.folders[folder].human);
@@ -313,17 +312,17 @@ function generate_disk_bars(event, response) {
     grid: {
       show: false,
       padding: {
-       left: 0,
-       right: 0,
-       top: 0,
-       bottom: 0
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0
       }
     },
     tooltip: {
       enabled: true,
       shared: true,
       intersect: false,
-      custom: function({series, seriesIndex, dataPointIndex, w}) {
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
         return '<div class="arrow-box">' +
           '<span>' + w.globals.labels[dataPointIndex] + ": " + human_vals[dataPointIndex] + '</span>' +
           '</div>'
@@ -338,8 +337,7 @@ function generate_disk_bars(event, response) {
 /**
  * Cache status charts
  */
-
- function generate_redis_hitchart(event, response) {
+function generate_redis_hitchart(event, response) {
   var hits = response.redis_data['hits'];
   var misses = response.redis_data['misses'];
 
@@ -462,85 +460,76 @@ function generate_http_hitchart(event, response) {
 /**
  * Speed test chart. The chart is generated in speedtest.js file.
  */
-
-function generate_speed_test_chart( speedChart, speedData, speedDataCached ) {
+function generate_speed_test_chart(speedChart, speedData, speedDataCached) {
   // If an instance of the chart already exists, wipe it out
   if (speedChart instanceof ApexCharts) {
-      speedChart.destroy();
-      speedData = [];
-      speedDataCached = [];
+    speedChart.destroy();
+    speedData = [];
+    speedDataCached = [];
   }
 
   var options = {
-      series: [{
-          name: seravo_charts_l10n.latency,
-          data: speedData,
-        },
-        {
-          name: seravo_charts_l10n.cached_latency,
-          data: speedDataCached,
-        }
-      ],
-      chart: {
+    series: [{
+      name: seravo_charts_l10n.latency,
+      data: speedData,
+    },
+    {
+      name: seravo_charts_l10n.cached_latency,
+      data: speedDataCached,
+    }
+    ],
+    chart: {
       type: 'line',
       height: 350,
       zoom: {
-          enabled: false
-          }
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          endingShape: 'flat',
-        },
-      },
-      dataLabels: {
         enabled: false
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        curve: 'smooth'
-      },
-      yaxis: {
-        title: {
-          text: 'ms'
-        },
-        min: 0
-      },
-      xaxis: {
-        min: 1,
-        max: speedNumberOfTests,
-        tickAmount: speedNumberOfTests,
-        tickPlacement: 'on'
-      },
-      fill: {
-        opacity: 1
-      },
-      tooltip: {
-        y: {
-          formatter: function (val) {
-          return val + " ms"
-            }
-        }
-      },
-      legend: {
-        onItemClick: {
-          toggleDataSeries: false
-        },
       }
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        endingShape: 'flat',
+      },
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      curve: 'smooth'
+    },
+    yaxis: {
+      title: {
+        text: 'ms'
+      },
+      min: 0
+    },
+    xaxis: {
+      min: 1,
+      max: speedNumberOfTests,
+      tickAmount: speedNumberOfTests,
+      tickPlacement: 'on'
+    },
+    fill: {
+      opacity: 1
+    },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return val + " ms"
+        }
+      }
+    },
+    legend: {
+      onItemClick: {
+        toggleDataSeries: false
+      },
+    }
   };
 
   speedChart = new ApexCharts(document.querySelector("#speed-test-results"), options);
   speedChart.render();
 
-  return {'chart' : speedChart, 'data' : speedData, 'data_cached' : speedDataCached};
+  return { 'chart': speedChart, 'data': speedData, 'data_cached': speedDataCached };
 }
-
-jQuery(document).ready(
-  function () {
-    jQuery('[data-section="chart-test"]').on('seravoAjaxSuccess', generate_test_chart);
-    jQuery('[data-section="disk-usage"]').on('seravoAjaxSuccess', generate_disk_donut);
-    jQuery('[data-section="disk-usage"]').on('seravoAjaxSuccess', generate_disk_bars);
-  }
-);
