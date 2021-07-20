@@ -14,10 +14,6 @@ parameters:
         - src/lib/domain-tables.php
         - src/lib/domains-ajax.php
         - src/lib/list-table.php
-        - src/lib/cruftfiles-ajax.php
-        - src/lib/cruftplugins-ajax.php
-        - src/lib/cruftthemes-ajax.php
-        - src/modules/pages/security.php
     dynamicConstantNames:
         - SERAVO_PLUGIN_DEBUG
     ignoreErrors:
@@ -30,6 +26,8 @@ parameters:
         - '#^Constant WP_LANG_DIR not found\.$#'
         # Uses function_exists()
         - '#^Function jetpack_protect_get_ip not found\.$#'
+        # TODO: Remove this temp fix caused by \get_sites()
+        - '#^Argument of an invalid type array|int supplied for foreach, only iterables are supported\.$#'
     reportUnmatchedIgnoredErrors: false
     # TODO: Remove after 5.6/7.0 not supported at all
     checkMissingClosureNativeReturnTypehintRule : false

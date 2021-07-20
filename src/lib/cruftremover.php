@@ -16,7 +16,7 @@ class CruftRemover {
   public static function add_file_information( $file ) {
     if ( $file !== Helpers::sanitize_full_path($file) ) {
       return array(
-        'size' => 0,
+        'size' => '0B',
         'mod_date' => null,
         'filename' => $file,
       );
@@ -26,8 +26,8 @@ class CruftRemover {
     $size = \explode("\t", $output[0]);
 
     return array(
-      'size' => $size[0],
-      'mod_date' => $size[1],
+      'size' => $size[0] . 'B',
+      'mod_date' => \explode(' ', $size[1], 2)[0],
       'filename' => $file,
     );
   }
@@ -261,14 +261,14 @@ class CruftRemover {
 
     foreach ( $list_known_dirs as $dirname ) {
       \exec('ls -d ' . $dirname, $cruft_found);
-        if ( $cruft_found !== array() ) {
+      if ( $cruft_found !== array() ) {
         foreach ( $cruft_found as $key => $cruft_dir ) {
           if ( self::only_has_whitelisted_content($cruft_dir, $white_list_files, $white_list_dirs) ) {
             unset($cruft_found[$key]);
-            }
           }
-        $crufts = \array_merge($crufts, $cruft_found);
         }
+        $crufts = \array_merge($crufts, $cruft_found);
+      }
     }
 
     $crufts = \array_filter(
@@ -287,6 +287,282 @@ class CruftRemover {
 
     return \array_map(array( __CLASS__, 'add_file_information' ), $crufts);
   }
+
+  /**
+   * List the found cruft plugins.
+   * @return mixed[] Array containing the found cruft plugins by category.
+   */
+  public static function list_cruft_plugins() {
+    //https://help.seravo.com/en/knowledgebase/19-themes-and-plugins/docs/51-wordpress-plugins-in-seravo-com
+    $plugins_list = array(
+      //Unneeded cache plugins
+      'cache_plugins'    => array(
+        'title' => __('Unnecessary Cache Plugins:', 'seravo'),
+        'description' => __('Your website is running on a server that does takes care of caching automatically. Any additional plugins that do caching will not improve the service.', 'seravo'),
+        'plugins' => array(
+          'w3-total-cache',
+          'wp-super-cache',
+          'wp-file-cache',
+          'wp-fastest-cache',
+          'litespeed-cache',
+          'comet-cache',
+        ),
+      ),
+      //False sense of security
+      'security_plugins' => array(
+        'title' => __('Unnecessary Security Plugins:', 'seravo'),
+        'description' => __('Your website runs on a server that is designed to provide a high level of security. Any plugins providing additional security measures will likely just slow down your website.', 'seravo'),
+        'plugins' => array(
+          'better-wp-security',
+          'wordfence',
+          'limit-login-attempts-reloaded',
+          'wp-limit-login-attempts',
+          'wordfence-assistant',
+        ),
+      ),
+      // Known to mess up your DB
+      'db_plugins' => array(
+        'title' => __('Unnecessary Database Manipulation Plugins:', 'seravo'),
+        'description' => __('These plugins may cause issues with your database.', 'seravo'),
+        'plugins' => array(
+          'broken-link-checker',
+          'tweet-blender',
+        ),
+      ),
+      // A list of most used backup-plugins
+      'backup_plugins' => array(
+        'title' => __('Unnecessary Backup Plugins:', 'seravo'),
+        'description' => __('Backups of your website are automatically run on the server on a daily basis. Any plugins creating additional backups are redundant and will unnecessesarily fill up your data storage space.', 'seravo'),
+        'plugins' => array(
+          'updraftplus',
+          'backwpup',
+          'jetpack',
+          'duplicator',
+          'backup',
+          'all-in-one-wp-migration',
+          'dropbox-backup',
+          'wp-db-backup',
+          'really-simple-ssl',
+          'xcloner-backup-and-restore',
+        ),
+      ),
+      // Known for poor security
+      'poor_security' => array(
+        'title' => __('Unsecure Plugins:', 'seravo'),
+        'description' => __('These plugins have known issues with security.', 'seravo'),
+        'plugins' => array(
+          'wp-phpmyadmin-extension',
+          'ari-adminer',
+          'sweetcaptcha-revolutionary-free-captcha-service',
+          'wp-cerber',
+          'sucuri-scanner',
+          'wp-simple-firewall',
+        ),
+      ),
+      // Hard to differentiate from actual malicious
+      'bad_code' => array(
+        'title' => __('Bad Code:', 'seravo'),
+        'description' => __('These plugins code are hard to differentiate from actual malicious codes.', 'seravo'),
+        'plugins' => array(
+          'wp-client',
+          'wp-filebase-pro',
+          'miniorange-oauth-client-premium',
+        ),
+      ),
+      // Not malicious but do unwanted things
+      'foolish_plugins'  => array(
+        'title' => __('Foolish Plugins:', 'seravo'),
+        'description'=> __('These plugins are known to do foolish things.', 'seravo'),
+        'plugins' => array(
+          'video-capture',
+          'simple-subscribe',
+        ),
+      ),
+    );
+
+    $found_cruft_plugins_categorized = array();
+    $found_cruft_plugins = array();
+
+    \exec('wp plugin list --fields=name,title,status --format=json --skip-plugins --skip-themes', $output);
+    $output = \json_decode($output[0]);
+
+    foreach ( $output as $plugin ) {
+      foreach ( $plugins_list as $category => $category_details ) {
+        if ( \in_array($plugin->name, $category_details['plugins'], true) ) {
+
+          if ( isset($found_cruft_plugins_categorized[$category]) ) {
+            $found_cruft_plugins_categorized[$category][] = $plugin->name;
+          } else {
+            $found_cruft_plugins_categorized[$category] = array( $plugin->name );
+          }
+          $found_cruft_plugins[] = $plugin->name;
+        }
+      }
+    }
+
+    // To check if the system has these
+    \set_transient('cruft_plugins_found', $found_cruft_plugins, 600);
+
+    $result = array();
+    foreach ( $found_cruft_plugins_categorized as $category => $plugins ) {
+      $result[] = array(
+        'category' => $category,
+        'title' => $plugins_list[$category]['title'],
+        'description' => $plugins_list[$category]['description'],
+        'cruft' => $plugins,
+      );
+    }
+
+    return $result;
+  }
+
+  /**
+   * List inactive themes. Themes with installed child themes are ignored.
+   * @return string[] Array of cruft themes.
+   */
+  public static function list_cruft_themes() {
+    if ( \is_multisite() ) {
+      if ( \wp_is_large_network() ) {
+        // Can't get the needed data for large network (1000+ sites)
+        \delete_transient('cruft_themes_found');
+        return array();
+      }
+
+      // Gets all active themes across the sites
+      $active_themes = array();
+      $sites = \get_sites();
+      foreach ( $sites as $site ) {
+        \switch_to_blog($site->blog_id);
+        $theme = \wp_get_theme();
+        if ( ! \in_array($theme->get_stylesheet(), $active_themes, true) ) {
+          $active_themes[] = $theme->get_stylesheet();
+        }
+        \restore_current_blog();
+      }
+    } else {
+      $active_themes = array( \wp_get_theme()->get_stylesheet() );
+    }
+
+    // Get an array of WP_Theme -objects
+    $all_themes = array();
+    foreach ( \wp_get_themes() as $theme ) {
+      $all_themes[$theme->get_stylesheet()] = array(
+        'name'   => $theme->get_stylesheet(),
+        'title'  => $theme->get('Name'),
+        'parent' => $theme->get('Template'),
+        'active' => (\in_array($theme->get_stylesheet(), $active_themes, true)),
+      );
+    }
+
+    // Get child themes for all themes
+    $children = array();
+    foreach ( $all_themes as $theme ) {
+      if ( \is_string($theme['parent']) && $theme['parent'] !== '' ) {
+        // This theme has a parent
+        if ( isset($children[$theme['parent']]) ) {
+          $children[$theme['parent']][] = $theme['name'];
+        } else {
+          $children[$theme['parent']] = array( $theme['name'] );
+        }
+      }
+    }
+
+    // Only return inactive themes without child themes
+    $output = array();
+    foreach ( $all_themes as $theme ) {
+      if ( ! $theme['active'] && ! isset($children[$theme['name']]) ) {
+        $output[] = $theme['name'];
+      }
+    }
+
+    \set_transient('cruft_themes_found', $output, 600);
+
+    return $output;
+  }
+
+  /**
+   * Remove found cruft files.
+   * @param array<string>|string $cruft_entries The cruft files to remove.
+   * @return array<string> Possible failed deletions.
+   */
+  public static function remove_cruft_files( $cruft_entries ) {
+    $results = array();
+    $files = $cruft_entries;
+
+    if ( \is_string($files) ) {
+      $files = array( $files );
+    }
+
+    foreach ( $files as $file ) {
+      $legit_cruft_files = \get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
+      if ( \in_array($file, $legit_cruft_files, true) ) {
+        $unlink_result = \is_dir($file) ? self::rmdir_recursive($file, 0) : \unlink($file);
+        // Log files if removing fails
+        if ( $unlink_result === false ) {
+          $results[] = $file;
+        }
+      }
+    }
+
+    return $results;
+  }
+
+  /**
+   * Remove found cruft plugins.
+   * @param array<string>|string $cruft_entries The cruft plugins to remove.
+   * @return array<string> Possible failed deletions.
+   */
+  public static function remove_cruft_plugins( $cruft_entries ) {
+    $plugins = $cruft_entries;
+    $remove_failed = array();
+
+    if ( \is_string($plugins) ) {
+      $plugins = array( $plugins );
+    }
+
+    foreach ( $plugins as $plugin ) {
+      $legit_removeable_plugins = \get_transient('cruft_plugins_found');
+
+      foreach ( $legit_removeable_plugins as $legit_plugin ) {
+        if ( $legit_plugin == $plugin ) {
+          $result = Compatibility::exec('wp plugin deactivate ' . $plugin . ' --skip-plugins --skip-themes && wp plugin delete ' . $plugin . ' --skip-plugins --skip-themes', $output);
+          if ( $result === false || strpos($result, 'Success') === false ) {
+            $remove_failed[] = $plugin;
+          }
+        }
+      }
+    }
+
+    return $remove_failed;
+  }
+
+  /**
+   * Remove found cruft themes.
+   * @param array<string>|string $themes The cruft themes to remove.
+   * @return array<string> Possible failed deletions.
+   */
+  public static function remove_cruft_themes( $themes ) {
+    $legit_removeable_themes = \get_transient('cruft_themes_found');
+    $remove_failed = array();
+
+    if ( \is_string($themes) ) {
+      $themes = array( $themes );
+    }
+
+    if ( $themes !== array() && $legit_removeable_themes !== false ) {
+      foreach ( $themes as $theme ) {
+          if ( ! \in_array($theme, $legit_removeable_themes, true) ) {
+          continue;
+          }
+          if ( \delete_theme($theme) === true ) {
+          continue;
+          }
+          // Removal failed
+          $remove_failed[] = $theme;
+      }
+    }
+
+    return $remove_failed;
+  }
+
 }
-
-

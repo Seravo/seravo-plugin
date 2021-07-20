@@ -281,8 +281,6 @@ class Loader {
     // OLD AJAX FILES
     require_once SERAVO_PLUGIN_SRC . 'lib/domains-ajax.php';
     require_once SERAVO_PLUGIN_SRC . 'lib/domain-tables.php';
-    require_once SERAVO_PLUGIN_SRC . 'lib/cruftplugins-ajax.php';
-    require_once SERAVO_PLUGIN_SRC . 'lib/cruftthemes-ajax.php';
 
     // Site Status page
     Page\SiteStatus::load();

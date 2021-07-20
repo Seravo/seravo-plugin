@@ -89,7 +89,7 @@ class Upkeep extends Toolpage {
       return;
     }
 
-    \wp_enqueue_script('seravo-updates-js', SERAVO_PLUGIN_URL . 'js/updates.js', array( 'jquery' ), Helpers::seravo_plugin_version());
+    \wp_enqueue_script('seravo-updates-js', SERAVO_PLUGIN_URL . 'js/updates.js', array( 'jquery', 'seravo-common-js' ), Helpers::seravo_plugin_version());
     \wp_enqueue_script('seravo-screenshots-js', SERAVO_PLUGIN_URL . 'js/screenshots.js', array( 'jquery' ), Helpers::seravo_plugin_version());
     \wp_enqueue_style('seravo-upkeep-css', SERAVO_PLUGIN_URL . 'style/upkeep.css', array(), Helpers::seravo_plugin_version());
 

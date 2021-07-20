@@ -12,7 +12,7 @@ class InfoBox extends Postbox {
   /**
    * @var string[] Paragraphs to display.
    */
-  protected $paragraphs = array();
+  public $paragraphs = array();
 
   /**
    * Constructor for InfoBox. Will be called on new instance.

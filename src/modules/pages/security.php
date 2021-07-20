@@ -64,13 +64,6 @@ class Security extends Toolpage {
     \add_action('admin_notices', array( __CLASS__, '_seravo_check_security_options' ));
     \add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
 
-    // AJAX functionality for listing and removing plugins
-    \add_action('wp_ajax_seravo_list_cruft_plugins', 'Seravo\seravo_ajax_list_cruft_plugins');
-    \add_action('wp_ajax_seravo_remove_plugins', 'Seravo\seravo_ajax_remove_plugins');
-    // AJAX functionality for listing and removing themes
-    \add_action('wp_ajax_seravo_list_cruft_themes', 'Seravo\seravo_ajax_list_cruft_themes');
-    \add_action('wp_ajax_seravo_remove_themes', 'Seravo\seravo_ajax_remove_themes');
-
     $this->enable_ajax();
   }
 
@@ -87,108 +80,11 @@ class Security extends Toolpage {
   }
 
   /**
-   * Register scripts.
-   * @param string $screen The current screen.
-   * @return void
-   */
-  public static function enqueue_scripts( $screen ) {
-    if ( $screen !== 'tools_page_security_page' ) {
-      return;
-    }
-
-    \wp_enqueue_script('cruftremover-js', SERAVO_PLUGIN_URL . 'js/cruftremover.js', 'jquery', Helpers::seravo_plugin_version());
-    \wp_enqueue_style('cruftremover-css', SERAVO_PLUGIN_URL . 'style/cruftremover.css', '', Helpers::seravo_plugin_version());
-
-    \wp_enqueue_script('seravo-cruftplugins-js', SERAVO_PLUGIN_URL . 'js/cruftplugins.js', '', Helpers::seravo_plugin_version());
-    \wp_enqueue_script('seravo-cruftthemes-js', SERAVO_PLUGIN_URL . 'js/cruftthemes.js', '', Helpers::seravo_plugin_version());
-    \wp_enqueue_style('seravo-security-css', SERAVO_PLUGIN_URL . 'style/security.css', '', Helpers::seravo_plugin_version());
-
-    $cruftremover_l10n = array(
-      'confirm'       => \__('Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo'),
-      'confirmation_title' => \__('Cruft remove confirmation', 'seravo'),
-      'no_cruftfiles' => \__('Congratulations! You do not have any unnecessary files around.', 'seravo'),
-      'delete'        => \__('Delete', 'seravo'),
-      'mod_date'      => \__('Last modified', 'seravo'),
-      'select_all'    => \__('Select all files', 'seravo'),
-      'filesize'      => \__('File size', 'seravo'),
-      'failed_to_remove' => \__('The following files could not be deleted', 'seravo'),
-      'files_removed' => \__('The selected files have been removed.', 'seravo'),
-    );
-
-    $loc_translation_files = array(
-      'confirm'       => \__('Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo'),
-      'no_cruftfiles' => \__('Congratulations! You do not have any unnecessary files around.', 'seravo'),
-      'delete'        => \__('Delete', 'seravo'),
-      'mod_date'      => \__('Last modified', 'seravo'),
-      'select_all'    => \__('Select all files', 'seravo'),
-      'filesize'      => \__('File size', 'seravo'),
-    );
-    $loc_translation_plugins = array(
-      'inactive'              => \__('Inactive Plugins:', 'seravo'),
-      'inactive_desc'         => \__('These plugins are currently not in use. They can be removed to save disk storage space.', 'seravo'),
-      'cache_plugins'         => \__('Unnecessary Cache Plugins:', 'seravo'),
-      'cache_plugins_desc'    => \__('Your website is running on a server that does takes care of caching automatically. Any additional plugins that do caching will not improve the service.', 'seravo'),
-      'security_plugins'      => \__('Unnecessary Security Plugins:', 'seravo'),
-      'security_plugins_desc' => \__('Your website runs on a server that is designed to provide a high level of security. Any plugins providing additional security measures will likely just slow down your website.', 'seravo'),
-      'db_plugins'            => \__('Unnecessary Database Manipulation Plugins:', 'seravo'),
-      'db_plugins_desc'       => \__('These plugins may cause issues with your database.', 'seravo'),
-      'backup_plugins'        => \__('Unnecessary Backup Plugins:', 'seravo'),
-      'backup_plugins_desc'   => \__('Backups of your website are automatically run on the server on a daily basis. Any plugins creating additional backups are redundant and will unnecessesarily fill up your data storage space.', 'seravo'),
-      'poor_security'         => \__('Unsecure Plugins:', 'seravo'),
-      'poor_security_desc'    => \__('These plugins have known issues with security.', 'seravo'),
-      'bad_code'              => \__('Bad Code:', 'seravo'),
-      'bad_code_desc'         => \__('These plugins code are hard to differentiate from actual malicious codes.', 'seravo'),
-      'foolish_plugins'       => \__('Foolish Plugins:', 'seravo'),
-      'foolish_plugins_desc'  => \__('These plugins are known to do foolish things.', 'seravo'),
-      'no_cruftplugins'       => \__('All the plugins that were found are currently active and do not have any known issues.', 'seravo'),
-      'cruftplugins'          => \__('The following plugins were found and are suggested to be removed:', 'seravo'),
-      'confirm'               => \__('Are you sure you want to remove this plugin?', 'seravo'),
-      'failure'               => \__('Failed to remove plugin', 'seravo'),
-      'ajaxurl'               => \admin_url('admin-ajax.php'),
-      'ajax_nonce'            => \wp_create_nonce('seravo_cruftplugins'),
-    );
-    $loc_translation_themes = array(
-      'isparentto'     => \__('is parent to: ', 'seravo'),
-      'confirm'        => \__('Are you sure you want to remove this theme?', 'seravo'),
-      'failure'        => \__('Failed to remove some themes!', 'seravo'),
-      'no_cruftthemes' => \__('There are currently no unused themes on the website.', 'seravo'),
-      'cruftthemes'    => \__('The following themes are inactive and can be removed.', 'seravo'),
-      'no_data'       => \__('No data returned for the section.', 'seravo'),
-      'fail'          => \__('Failed to load. Please try again.', 'seravo'),
-      'ajaxurl'        => \admin_url('admin-ajax.php'),
-      'ajax_nonce'     => \wp_create_nonce('seravo_cruftthemes'),
-    );
-
-    \wp_localize_script('cruftremover-js', 'cruftremover_l10n', $cruftremover_l10n);
-    \wp_localize_script('seravo-cruftplugins-js', 'seravo_cruftplugins_loc', $loc_translation_plugins);
-    // Register this for cruftplugins as it uses the loc files. Will be converted when widget rewrite
-    \wp_localize_script('seravo-cruftplugins-js', 'seravo_cruftfiles_loc', $loc_translation_files);
-    \wp_localize_script('seravo-cruftthemes-js', 'seravo_cruftthemes_loc', $loc_translation_themes);
-  }
-
-  /**
    * Init postboxes on Security page.
    * @param Toolpage $page Page to init postboxes.
    * @return void
    */
   public static function init_postboxes( Toolpage $page ) {
-
-    \Seravo\Postbox\seravo_add_raw_postbox(
-      'cruft-plugins',
-      \__('Unnecessary plugins', 'seravo'),
-      array( __CLASS__, 'cruftplugins_postbox' ),
-      'tools_page_security_page',
-      'column4'
-    );
-
-    \Seravo\Postbox\seravo_add_raw_postbox(
-      'cruft-themes',
-      \__('Unnecessary themes', 'seravo'),
-      array( __CLASS__, 'cruftthemes_postbox' ),
-      'tools_page_security_page',
-      'column4'
-    );
-
     /**
      * Security settings postbox
      */
@@ -224,16 +120,86 @@ class Security extends Toolpage {
     /**
      * Cruft files postbox
      */
-    $cruft_files = new Postbox\LazyLoader('cruftfiles');
+    $cruft_files = self::create_cruft_box('cruftfiles', 'files');
     $cruft_files->set_title(\__('Cruft Files', 'seravo'));
-    $cruft_files->set_build_func(array( __CLASS__, 'build_cruft_files' ));
-    $cruft_files->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
-    $cruft_files->set_ajax_func(array( __CLASS__, 'list_cruft_files' ));
-
-    $remove_cruft_files = new AjaxHandler('remove-cruft-files');
-    $remove_cruft_files->set_ajax_func(array( __CLASS__, 'remove_cruft_files' ));
-    $cruft_files->add_ajax_handler($remove_cruft_files);
+    $cruft_files->add_paragraph(\__('Find and delete any extraneous and potentially harmful files taking up space in the file system. Note that not everything is necessarily safe to delete.', 'seravo'));
     $page->register_postbox($cruft_files);
+
+    /**
+     * Cruft plugins postbox
+     */
+    $cruft_plugins = self::create_cruft_box('cruftplugins', 'plugins');
+    $cruft_plugins->set_title(\__('Unnecessary plugins', 'seravo'));
+    $cruft_plugins->add_paragraph(\__('Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href="https://help.seravo.com/article/165-recommended-plugins" target="_BLANK">recommendations for plugins in our environment</a>.', 'seravo'));
+    $page->register_postbox($cruft_plugins);
+
+    /**
+     * Cruft themes postbox
+     */
+    $cruft_themes = self::create_cruft_box('cruftthemes', 'themes');
+    $cruft_themes->set_title(\__('Unnecessary themes', 'seravo'));
+    $cruft_themes->add_paragraph(\__('Find and remove themes that are inactive. For more information, please read our <a href="https://help.seravo.com/article/70-can-i-install-my-own-plugins-and-themes-on-the-website" target="_BLANK">documentation concerning themes and plugins</a>.', 'seravo'));
+    $page->register_postbox($cruft_themes);
+  }
+
+  /**
+   * Create initialized postbox for the cruft removers.
+   * @param string $id ID for the postbox.
+   * @param string $type Type of the cruft remover (files/plugins/themes).
+   * @return \Seravo\Postbox\LazyLoader Pre-initialized postbox.
+   */
+  public static function create_cruft_box( $id, $type ) {
+    $cruftbox = new Postbox\LazyLoader($id, 'side');
+    $cruftbox->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+
+    // Postbox build function
+    $cruftbox->set_build_func(
+      function( Component $base, Postbox\Postbox $postbox ) use ( $type ) {
+        self::build_cruftbox($base, $postbox, $type);
+      }
+    );
+
+    // LazyLoader AJAX function
+    $cruftbox->set_ajax_func(
+      function() use ( $type ) {
+        return self::get_cruft($type);
+      }
+    );
+
+    // Remove cruft AJAX function
+    $remove_cruft = new AjaxHandler('remove-cruft-' . $id);
+    $remove_cruft->set_ajax_func(
+      function() use ( $type ) {
+        return self::remove_cruft($type);
+      }
+    );
+    $cruftbox->add_ajax_handler($remove_cruft);
+
+    return $cruftbox;
+  }
+
+  /**
+   * Register scripts.
+   * @param string $screen The current screen.
+   * @return void
+   */
+  public static function enqueue_scripts( $screen ) {
+    if ( $screen !== 'tools_page_security_page' ) {
+      return;
+    }
+
+    \wp_enqueue_script('cruftremover-js', SERAVO_PLUGIN_URL . 'js/cruftremover.js', array( 'jquery', 'seravo-common-js' ), Helpers::seravo_plugin_version());
+    \wp_enqueue_style('cruftremover-css', SERAVO_PLUGIN_URL . 'style/cruftremover.css', array(), Helpers::seravo_plugin_version());
+
+    $cruftremover_l10n = array(
+      'confirm'    => \__('Cruft remove confirmation', 'seravo'),
+      'no_cruft'   => \__("Congratulations! There's nothing to remove.", 'seravo'),
+      'delete'     => \__('Delete', 'seravo'),
+      'select_all' => \__('Select all', 'seravo'),
+      'failure'    => \__('Failed to remove some files!', 'seravo'),
+    );
+
+    \wp_localize_script('cruftremover-js', 'cruftremover_l10n', $cruftremover_l10n);
   }
 
   /**
@@ -302,11 +268,12 @@ class Security extends Toolpage {
       'seravo-disable-get-author-enumeration' => \__('Disable GET author enumeration', 'seravo'),
     );
     foreach ( $real_fields as $name => $details ) {
-      $label = $details;
       $description = '';
       if ( \is_array($details) ) {
         $label = $details[0];
         $description = $details[1];
+      } else {
+        $label = $details;
       }
 
       $security_settings->add_field($name, $label, '', '<small>' . $description . '</small>', Settings::FIELD_TYPE_BOOLEAN, 'off');
@@ -332,14 +299,25 @@ class Security extends Toolpage {
    */
   public static function get_last_successful_logins() {
     $max = 10;
-    $logfile = \dirname(\ini_get('error_log')) . '/wp-login.log';
+    $logfile = '/data/log/wp-login.log';
+
     $login_data = \is_readable($logfile) ? \file($logfile) : array();
+    if ( $login_data === false ) {
+      $login_data = array();
+    }
+
     $login_data = \preg_grep('/SUCCESS/', $login_data);
+    if ( $login_data === false ) {
+      $login_data = array();
+    }
 
     // If the wp-login.log has less than $max entries check older log files
     if ( \count($login_data) < $max ) {
       // Check the second newest log file (not gzipped yet)
       $login_data2_filename = \glob('/data/log/wp-login.log-[0-9]*[!\.gz]');
+      if ( $login_data2_filename === false ) {
+        $login_data2_filename = array();
+      }
       // There should be only a maximum of one file matching previous criterion, but
       // count the files just in case and choose the biggest index
       $login_data2_count = \count($login_data2_filename) - 1;
@@ -347,19 +325,41 @@ class Security extends Toolpage {
       if ( $login_data2_count >= 0 ) {
         // Merge with the first log filelogins_info
         $login_data2 = \file($login_data2_filename[$login_data2_count]);
-        $login_data = \array_merge(\preg_grep('/SUCCESS/', $login_data2), $login_data);
+        if ( $login_data2 !== false ) {
+          $login_data2 = \preg_grep('/SUCCESS/', $login_data2);
+          if ( $login_data2 !== false ) {
+            $login_data = \array_merge($login_data2, $login_data);
+          }
+        }
       }
 
       // Opening necessary amount of gzipped log files
       // Find the gzip log files
       $login_data_gz_filename = \glob('/data/log/wp-login.log-[0-9]*.gz');
+      if ( $login_data_gz_filename === false ) {
+        $login_data_gz_filename = array();
+      }
       // Get the number of gzip log files
       // Using the count as an index to go through gzips starting from the newest
       $gz_count = \count($login_data_gz_filename) - 1;
       // Opening gzips and merging to $login_data until enough logins or out of data
-      $successful_logins_count = \count(\preg_grep('/SUCCESS/', $login_data));
+      $success_lines = \preg_grep('/SUCCESS/', $login_data);
+      if ( $success_lines === false ) {
+        $success_lines = array();
+      }
+
+      $successful_logins_count = \count($success_lines);
       while ( $successful_logins_count < $max && $gz_count >= 0 ) {
-        $zipped_data = \preg_grep('/SUCCESS/', \gzfile($login_data_gz_filename[$gz_count]));
+        $gz_lines = \gzfile($login_data_gz_filename[$gz_count]);
+        if ( $gz_lines === false ) {
+          $gz_lines = array();
+        }
+
+        $zipped_data = \preg_grep('/SUCCESS/', $gz_lines);
+        if ( $zipped_data === false ) {
+          $zipped_data = array();
+        }
+
         $login_data = \array_merge($zipped_data, $login_data);
         --$gz_count;
       }
@@ -377,13 +377,17 @@ class Security extends Toolpage {
         // If valid line
         $timezone = \get_option('timezone_string');
         $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $matches['datetime'][0]);
-        $datetime->setTimezone(new \DateTimeZone(empty($timezone) ? 'UTC' : $timezone));
+        if ( $datetime === false ) {
+          continue;
+        }
+
+        $datetime->setTimezone(new \DateTimeZone(($timezone === false || $timezone === '') ? 'UTC' : $timezone));
         $date = $datetime->format(\get_option('date_format'));
         $time = $datetime->format(\get_option('time_format'));
 
         // Fetch login IP and the reverse domain name
         $domain = \gethostbyaddr($matches['ip'][0]);
-        $address = empty($domain) ? $matches['ip'][0] : $domain;
+        $address = ($domain === false || $domain === '') ? $matches['ip'][0] : $domain;
 
         $login_data[$i] = array( $date . ' ' . $time, $matches['name'][0], $address );
       } else {
@@ -394,7 +398,7 @@ class Security extends Toolpage {
     // Re-index the array after unsetting invalid lines
     $login_data = \array_values($login_data);
 
-    if ( empty($login_data) ) {
+    if ( $login_data === array() ) {
       $output = Template::error_paragraph(\__('No login data available', 'seravo'))->to_html();
     } else {
       // Adding column titles
@@ -407,97 +411,91 @@ class Security extends Toolpage {
   }
 
   /**
-   * Build func for cruft files postbox.
-   * @param Component       $base    The base of the postbox to add elements.
-   * @param Postbox\Postbox $postbox The postbox to build.
+   * Build cruftbox postbox.
+   * @param \Seravo\Postbox\Component  $base    Base component to build on.
+   * @param \Seravo\Postbox\Postbox    $postbox The postbox to build components for.
+   * @param string                     $type    Type of the cruftbox (files/plugins/themes).
+   * @return void
    */
-  public static function build_cruft_files( Component $base, Postbox\Postbox $postbox ) {
-    $base->add_child(Template::paragraph(\__('Find and delete any extraneous and potentially harmful files taking up space in the file system. Note that not everything is necessarily safe to delete.', 'seravo')));
-    $base->add_child($postbox->get_ajax_handler('cruftfiles')->get_component());
-    $base->add_child(Component::from_raw('<div class="cruft-remove-status"></div>'));
-    $base->add_child(Component::from_raw('<div class="cruft-area" style="display: none;"><div class="seravo-container"><table class="cruft-entries-table"><tbody class="cruft-entries"></tbody></table></div></div>'));
-    $base->add_child(Template::confirmation_modal('remove-cruft-files-modal', \__('Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo'), \__('Proceed', 'seravo'), \__('Cancel', 'seravo')));
-  }
-
-  /**
-   * AJAX function for fetching cruft files
-   * @return \Seravo\Ajax\AjaxResponse
-   */
-  public static function list_cruft_files() {
-    $response = new AjaxResponse();
-    $response->is_success(true);
-    $cruft_files_found = CruftRemover::list_cruft_files();
-
-    return AjaxResponse::response_with_output($cruft_files_found, 'data');
-  }
-
-  /**
-   * AJAX func for removing the found cruft files.
-   * @return \Seravo\Ajax\AjaxResponse
-   */
-  public static function remove_cruft_files() {
-    $results = array();
-    $files = (isset($_POST['deletefile']) && ! empty($_POST['deletefile'])) ? $_POST['deletefile'] : array();
-
-    if ( \is_string($files) ) {
-      $files = array( $files );
-    }
-    if ( ! empty($files) ) {
-      foreach ( $files as $file ) {
-        $legit_cruft_files = \get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
-        if ( \in_array($file, $legit_cruft_files, true) ) {
-          $unlink_result = \is_dir($file) ? CruftRemover::rmdir_recursive($file, 0) : \unlink($file);
-          // Log files if removing fails
-          if ( $unlink_result === false ) {
-            $results[] = $file;
-          }
-        }
+  public static function build_cruftbox( Component $base, Postbox\Postbox $postbox, $type ) {
+    if ( \property_exists($postbox, 'paragraphs') ) {
+      foreach ( $postbox->paragraphs as $paragraph ) {
+        $base->add_child(Template::paragraph($paragraph));
       }
     }
 
-    return AjaxResponse::response_with_output($results, 'data');
+    $cruft_section = new Component('', '<div class="seravo-cruft-section" data-cruft-type="' . $type . '">', '</div>');
+    $cruft_section->add_child($postbox->get_ajax_handler($postbox->id)->get_component());
+    $cruft_section->add_child(Component::from_raw('<div class="cruft-area"></div>'));
+    $base->add_child($cruft_section);
+
+    $warning = \sprintf(\__('Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo'), $type);
+    $base->add_child(Template::confirmation_modal('remove-cruft-' . $type, $warning, \__('Proceed', 'seravo'), \__('Cancel', 'seravo')));
   }
 
   /**
-   * @return void
+   * Get cruft of specific type.
+   * @param string $type Cruft type (files/plugins/themes).
+   * @return \Seravo\Ajax\AjaxResponse Cruft list response.
    */
-  public static function cruftplugins_postbox() {
-    ?>
-    <p>
-      <?php \_e('Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href="https://help.seravo.com/article/165-recommended-plugins" target="_BLANK">recommendations for plugins in our environment</a>.', 'seravo'); ?>
-    </p>
-    <p>
-    <div id="cruftplugins_status">
-      <div id="cruftplugins_status_loading">
-        <?php \_e('Searching for plugins...', 'seravo'); ?>
-        <img src="/wp-admin/images/spinner.gif">
-      </div>
-      <!-- Filled by JS -->
-      <div id="cruftplugins_status_loading" style="display: none;">
-        <?php \_e('Searching for files...', 'seravo'); ?>
-        <img src="/wp-admin/images/spinner.gif">
-      </div>
-    </div>
-    </p>
-    <?php
+  public static function get_cruft( $type ) {
+    $cruft = array();
+    if ( $type === 'files' ) {
+      $files = CruftRemover::list_cruft_files();
+      if ( $files !== array() ) {
+        $cruft = array(
+          array(
+            'category' => 'default',
+            'title' => '',
+            'description' => '',
+            'cruft' => $files,
+          ),
+        );
+      }
+    } elseif ( $type === 'plugins' ) {
+      $plugins = CruftRemover::list_cruft_plugins();
+      if ( $plugins !== array() ) {
+        $cruft = $plugins;
+      }
+    } elseif ( $type === 'themes' ) {
+      $themes = CruftRemover::list_cruft_themes();
+      if ( $themes !== array() ) {
+        $cruft = array(
+          array(
+            'category' => 'default',
+            'title' => '',
+            'description' => '',
+            'cruft' => $themes,
+          ),
+        );
+      }
+    } else {
+      return AjaxResponse::invalid_request_response();
+    }
+
+    return AjaxResponse::response_with_output($cruft, 'data');
   }
 
   /**
-   * @return void
+   * Remove given cruft of specific type.
+   * @param string $type Cruft type (files/plugins/themes).
+   * @return \Seravo\Ajax\AjaxResponse Ajax response with cruft that couldn't be removed.
    */
-  public static function cruftthemes_postbox() {
-    ?>
-    <p>
-      <?php \_e('Find and remove themes that are inactive. For more information, please read our <a href="https://help.seravo.com/article/70-can-i-install-my-own-plugins-and-themes-on-the-website" target="_BLANK">documentation concerning themes and plugins</a>.', 'seravo'); ?>
-    </p>
-    <p>
-    <div id="cruftthemes_status">
-      <div id="cruftthemes_status_loading">
-        <?php \_e('Searching for themes...', 'seravo'); ?>
-        <img src="/wp-admin/images/spinner.gif">
-      </div>
-    </div>
-    </p>
-    <?php
+  public static function remove_cruft( $type ) {
+    $cruft = (isset($_POST['cruft']) && $_POST['cruft'] !== '' && $_POST['cruft'] !== array()) ? $_POST['cruft'] : array();
+
+    $failed_to_remove = array();
+    if ( $type === 'files' ) {
+      $failed_to_remove = CruftRemover::remove_cruft_files($cruft);
+    } elseif ( $type === 'plugins' ) {
+      $failed_to_remove = CruftRemover::remove_cruft_plugins($cruft);
+    } elseif ( $type === 'themes' ) {
+      $failed_to_remove = CruftRemover::remove_cruft_themes($cruft);
+    } else {
+      return AjaxResponse::invalid_request_response();
+    }
+
+    return AjaxResponse::response_with_output($failed_to_remove, 'data');
   }
+
 }

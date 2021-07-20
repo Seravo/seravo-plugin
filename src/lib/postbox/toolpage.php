@@ -100,7 +100,7 @@ abstract class Toolpage {
         }
 
         \wp_enqueue_script('seravo-ajax', SERAVO_PLUGIN_URL . 'js/lib/ajax/seravo-ajax.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), false);
-        \wp_enqueue_script('seravo-ajax-handler', SERAVO_PLUGIN_URL . 'js/lib/ajax/ajax-handler.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), true);
+        \wp_enqueue_script('seravo-ajax-handler', SERAVO_PLUGIN_URL . 'js/lib/ajax/ajax-handler.js', array( 'jquery', 'seravo-common-js' ), \Seravo\Helpers::seravo_plugin_version(), true);
 
         $ajax_l10n = array(
           'ajax_url' => \admin_url('admin-ajax.php'),

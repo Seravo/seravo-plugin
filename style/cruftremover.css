@@ -1,127 +1,36 @@
-.cruftplugin-delete-button, .crufttheme-delete-button {
-  background: #DA534F;
-  border-radius: 3px;
-  border-color: #AA5955;
-  box-shadow: 0 1px 0 #AA5955;
-  color: #ffffff;
-  cursor: pointer;
-  height: 28px;
-  line-height: 22px;
-  margin-top: 20px;
-  padding: 0 10px 1px;
+.cruft-area {
+  overflow-y: auto;
+  max-height: 50vh;
+  max-width: 100%;
 }
 
-.cruftplugin-delete-button {
-  margin-bottom: 20px;
-}
-
-.plugin-separation-line {
-  margin: 30px 0px;
-  border-top: 2px solid #F9F9F9;
-}
-
-.cruft-plugin-td {
+.cruft-table {
   width: 100%;
+  table-layout: fixed;
 }
 
-.cruft-themes-td {
-  width: 100%;
+.cruft-table td.cruft-checkbox-col {
+  width: 10px;
 }
 
-.cruft-plugin-set {
-  padding-top: 15px;
-}
-
-.postbox-container-max {
-  width: 100%;
-}
-
-.cruft-tool-selector {
+.cruft-table td.cruft-title {
   background-color: #F9F9F9;
   font-weight: 600;
-  height: 45px;
+  height: 30px;
+  padding-left: 5px;
 }
 
-table {
-  border: collapse;
+.cruft-area button.cruft-delete {
+  margin-bottom: 10px;
 }
 
-.cruft-theme-table {
-  border-bottom: 2px solid black;
-}
-
-.crufttheme {
-  flex-direction: row;
-  padding: 1px 1px 1px 1px;
-}
-
-.crufttheme-child {
-  border-top: none;
-}
-
-.child-delete-button {
-  margin-left: 30px;
-}
-
-table {
-  border: collapse;
-}
-
-.cruft-theme-table {
-  border-bottom: 2px solid black;
-}
-
-.crufttheme-child {
-  border-top: none;
-}
-
-/* TODO check this  */
-.child-delete-button {
-  margin-left: 30px;
-}
-
-.cruft-button-hide {
-  clip-path: polygon(0px 0px, 0px 0px, 0px 0px, 0px 0px) !important;
-  color: #CCC;
-}
-
-.cruft-highlight {
-  background: red !important;
-}
-
-.crufttheme-delete {
-  padding-right: 10px;
-}
-
-.crufttheme[data-active="true"] {
+.cruft-area img.cruft-spinner {
   display: none;
+  position: relative;
+  top: 4px;
+  left: 5px;
 }
 
-[data-childs="true"] .crufttheme-path {
-  padding-top: 1em;
-  font-weight: bold;
-}
-
-/* If theme has children, hide the checkbox so the parent cannot be deleted */
-[data-childs="true"] .crufttheme-delete input {
-  display: none;
-}
-
-@media only screen and (max-width: 1025px) {
-  .label_buttons {
-    display: block;
-  }
-  .to_button,
-  .adminer_button {
-    padding-top: 15px;
-  }
-  .optionboxes {
-    padding-left: 10%;
-  }
-  .to_label {
-    padding-right: 15%;
-  }
-  .from_label {
-    padding-right: 10%;
-  }
+.cruft-area .cruft-error {
+  color: red;
 }

@@ -23,6 +23,8 @@
 
   <!-- Don't check composer dependencies and extras -->
   <exclude-pattern>/vendor/</exclude-pattern>
+  <!-- PHPCS glitches here, TODO: fix -->
+  <exclude-pattern>js/cruftremover.js</exclude-pattern>
 
   <!-- Extend the exclude patterns to match your .gitignore -->
 
