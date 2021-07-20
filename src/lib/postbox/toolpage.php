@@ -69,8 +69,13 @@ abstract class Toolpage {
       return;
     }
 
-    $this->init_page();
-    $this->register_page();
+    add_action(
+      'admin_init',
+      function() {
+        $this->init_page();
+        $this->register_page();
+      }
+    );
 
     add_action(
       'admin_menu',

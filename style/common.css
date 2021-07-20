@@ -105,6 +105,10 @@ div#seravo-low-disk-space-widget.postbox {
   padding-left: 3px;
 }
 
+.dashicons.dashicons-no {
+  line-height: 1.4;
+}
+
 /* Misc common elements */
 
 p.success, h3.success {
@@ -169,6 +173,52 @@ table.widefat {
 
 .seravo-label-textfield label {
   margin-right: -10px;
+}
+
+.form-table .description td {
+  padding: 0 15px 0 0;
+}
+
+.form-table input[type=text], .form-table input[type=email], .form-table input[type=number]  {
+  width: 200px;
+}
+
+/* Email list */
+
+.email-list-input {
+  table-layout: fixed;
+  width: max-content;
+  border-spacing: 0;
+}
+
+.email-list-input td {
+  padding: 0 !important;
+}
+
+.email-list-row td {
+  padding-top: 5px !important;
+}
+
+.email-list-add-button {
+  margin-left: 5px !important;
+}
+
+.email-button {
+  width: 200px;
+  height: 20px;
+  padding-left: 0 !important;
+}
+
+.email-button-content {
+  width: 85%;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+  font-size: 13px !important;
+}
+
+.email-button .dashicons  {
+  float: right;
 }
 
 /* Tooltip css */

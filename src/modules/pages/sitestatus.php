@@ -81,8 +81,8 @@ class Site_Status extends Toolpage {
   public function init_page() {
     self::init_postboxes($this);
 
-    add_action('admin_init', array( __CLASS__, 'register_optimize_image_settings' ));
-    add_action('admin_init', array( __CLASS__, 'register_sanitize_uploads_settings' ));
+    self::register_optimize_image_settings();
+    self::register_sanitize_uploads_settings();
     self::check_default_settings();
     add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
     add_action('wp_ajax_seravo_ajax_site_status', 'Seravo\seravo_ajax_site_status');

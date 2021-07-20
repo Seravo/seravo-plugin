@@ -1,12 +1,10 @@
 <?php
-/**
- *
- */
 
 namespace Seravo;
 
 use \Seravo\Ajax;
 use \Seravo\Postbox;
+use \Seravo\Postbox\Settings;
 use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Toolpage;
@@ -99,7 +97,7 @@ class TestPage extends Toolpage {
      * Fancy form test postbox
      */
     $fancy_demo = new Postbox\FancyForm('fancy-form-test', 'side');
-    $fancy_demo->set_title('FancyForm test');
+    $fancy_demo->set_title('FancyForm Test');
     $fancy_demo->set_ajax_func(array( __CLASS__, 'fancy_form_test' ));
     $fancy_demo->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $fancy_demo->add_paragraph('Click the button to test the fancy form. The AJAX function executes <code>wp-test</code>.');
@@ -112,7 +110,7 @@ class TestPage extends Toolpage {
      * Chart test postbox
      */
     $chart_demo = new Postbox\LazyLoader('chart-test');
-    $chart_demo->set_title('Chart test');
+    $chart_demo->set_title('Chart Test');
     $chart_demo->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $chart_demo->add_paragraph('You should see a chart below.');
     $chart_demo->set_ajax_func(array( __CLASS__, 'chart_test' ));
@@ -122,10 +120,9 @@ class TestPage extends Toolpage {
      * Chart test postbox
      */
     $nag_demo = new Postbox\Postbox('nag-test', 'side');
-    $nag_demo->set_title('Nag test');
+    $nag_demo->set_title('Nag Test');
     $nag_demo->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $nag_demo->set_build_func(array( __CLASS__, 'build_nag_test' ));
-
     $purge_cache_btn = new Ajax\SimpleForm('nag-test');
     $purge_cache_btn->set_button_text('Purge Cache');
     $purge_cache_btn->set_spinner_flip(true);
@@ -151,10 +148,33 @@ class TestPage extends Toolpage {
         return $response;
       }
     );
-
     $nag_demo->add_ajax_handler($purge_cache_btn);
     $nag_demo->add_ajax_handler($purge_cache_btn2);
     $page->register_postbox($nag_demo);
+
+    /**
+     * Settings test postbox
+     */
+    $settings_demo = new Postbox\SettingsForm('settings-test');
+    $settings_demo->set_title('Settings Test');
+    $settings_demo->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $settings_demo->add_paragraph('Here you can test the Seravo wrapper for WordPress settings API.');
+    $settings_demo->add_setting_section(self::get_demo_settings());
+    $page->register_postbox($settings_demo);
+  }
+
+  /**
+   * Get setting section for the setting demo postbox.
+   * @return \Seravo\Postbox\Setting The setting section instance.
+   */
+  private static function get_demo_settings() {
+    $demo_settings = new Settings('demo-settings', 'This title is optional');
+    $demo_settings->add_field('seravo-test-setting-enable', 'Enable a feature', '', '', Settings::FIELD_TYPE_BOOLEAN, 'on');
+    $demo_settings->add_field('seravo-test-setting-string', 'Give a string', 'write something', '', Settings::FIELD_TYPE_STRING);
+    $demo_settings->add_field('seravo-test-setting-integer', 'Give an integer', '', '<p>Integer fields only accept whole numbers</p>', Settings::FIELD_TYPE_INTEGER, 12345);
+    $demo_settings->add_field('seravo-test-setting-number', 'Give a number', '', '<p>But number fields accept any numeric value</p>', Settings::FIELD_TYPE_NUMBER, 3.14159);
+    $demo_settings->add_field('seravo-test-setting-emails', 'Give an email list', 'name@example.com', '', Settings::FIELD_TYPE_EMAIL_LIST);
+    return $demo_settings;
   }
 
   /**

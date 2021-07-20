@@ -71,9 +71,13 @@ class Postbox {
 
 
   /**
-   * @var AjaxHandler[] Ajax handlers assigned for this postbox.
+   * @var \Seravo\Ajax\AjaxHandler[] Ajax handlers assigned for this postbox.
    */
   protected $ajax_handlers = array();
+  /**
+   * @var \Seravo\Postbox\Settings[] Setting sections assigned for this postbox.
+   */
+  protected $setting_sections = array();
 
 
   /**
@@ -257,7 +261,7 @@ class Postbox {
   }
 
   /**
-   * Adds an AJAX handler for the Postbox. The same AjaxHandler instance
+   * Adds an AJAX handler for the postbox. The same AjaxHandler instance
    * shouldn't be added to multiple postboxes without cloning.
    * @param \Seravo\Ajax\AjaxHandler $ajax_handler Ajax handler to be added for the postbox.
    */
@@ -273,6 +277,31 @@ class Postbox {
   public function get_ajax_handler( $section ) {
     if ( isset($this->ajax_handlers[$section]) ) {
       return $this->ajax_handlers[$section];
+    }
+
+    return null;
+  }
+
+  /**
+   * Adds a setting section for the postbox. The same instance
+   * shouldn't be added to multiple postboxes without cloning.
+   * @param \Seravo\Postbox\Settings $settings Setting section instance to be added.
+   */
+  public function add_setting_section( $settings ) {
+    $settings->set_postbox($this->id);
+    $settings->register();
+
+    $this->setting_sections[$settings->get_section()] = $settings;
+  }
+
+  /**
+   * Gets setting section by section id.
+   * @param string $section The section ID to get the handler by.
+   * @return \Seravo\Postbox\Settings The setting section.
+   */
+  public function get_setting_section( $section ) {
+    if ( isset($this->setting_sections[$section]) ) {
+      return $this->setting_sections[$section];
     }
 
     return null;
