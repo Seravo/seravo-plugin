@@ -29,7 +29,6 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
     );
 
     public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Composer\\Installers\\AglInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AglInstaller.php',
         'Composer\\Installers\\AimeosInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
         'Composer\\Installers\\AnnotateCmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -135,6 +134,7 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Seravo\\Ajax\\SimpleCommand' => __DIR__ . '/../..' . '/src/lib/ajax/templates/simple-command.php',
         'Seravo\\Ajax\\SimpleForm' => __DIR__ . '/../..' . '/src/lib/ajax/templates/simple-form.php',
         'Seravo\\Backups' => __DIR__ . '/../..' . '/src/modules/pages/backups.php',
+        'Seravo\\CruftRemover' => __DIR__ . '/../..' . '/src/lib/cruftremover.php',
         'Seravo\\Database' => __DIR__ . '/../..' . '/src/modules/pages/database.php',
         'Seravo\\Domains' => __DIR__ . '/../..' . '/src/modules/pages/domains.php',
         'Seravo\\Helpers' => __DIR__ . '/../..' . '/src/lib/helpers.php',

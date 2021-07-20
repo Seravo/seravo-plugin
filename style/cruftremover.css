@@ -1,4 +1,4 @@
-.cruftfile-delete-button, .cruftplugin-delete-button, .crufttheme-delete-button {
+.cruftplugin-delete-button, .crufttheme-delete-button {
   background: #DA534F;
   border-radius: 3px;
   border-color: #AA5955;
@@ -26,23 +26,6 @@
 
 .cruft-themes-td {
   width: 100%;
-}
-
-.cruftfile-delete-button:hover {
-  box-shadow: none;
-  color: #EA6161;
-  outline: none;
-}
-
-.cruftfile-delete-button:active,
-.cruftfile-delete-button:focus,
-.cruftfile-delete-button:visited,
-.cruftfile-delete-button:active,
-.cruftfile-delete-button:focus,
-.cruftfile-delete-button:visited {
-  box-shadow: none;
-  color: #a00;
-  outline: none;
 }
 
 .cruft-plugin-set {
