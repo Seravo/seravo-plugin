@@ -3,19 +3,15 @@
 namespace Seravo\Postbox;
 
 /**
- * Class InfoBox
+ * Class SettingsForm
  *
- * InfoBox is pre-made Postbox for showing paragraphs.
+ * SettingsForm is pre-made postbox for only showing
+ * paragraphs and setting sections.
  */
-class InfoBox extends Postbox {
+class SettingsForm extends InfoBox {
 
   /**
-   * @var string[] Paragraphs to display.
-   */
-  protected $paragraphs = array();
-
-  /**
-   * Constructor for InfoBox. Will be called on new instance.
+   * Constructor for SettingsForm. Will be called on new instance.
    * @param string $id      Unique id/slug of the postbox.
    * @param string $context Default admin dashboard context where the postbox should be displayed in.
    */
@@ -34,20 +30,17 @@ class InfoBox extends Postbox {
    * @param \Seravo\Postbox\Component $base Base component to build postbox on.
    */
   public function build( Component $base ) {
+    foreach ( $this->setting_sections as $section ) {
+      $base->add_child($section->get_notifications());
+    }
+
     foreach ( $this->paragraphs as $paragraph ) {
       $base->add_child(Template::paragraph($paragraph));
     }
-    foreach ( $this->ajax_handlers as $ajax_handler ) {
-      $base->add_child($ajax_handler->get_component());
-    }
-  }
 
-  /**
-   * Add new paragraph to display.
-   * @param string $text Info text.
-   */
-  public function add_paragraph( $text ) {
-    $this->paragraphs[] = $text;
+    foreach ( $this->setting_sections as $section ) {
+      $base->add_child($section->get_component());
+    }
   }
 
 }
