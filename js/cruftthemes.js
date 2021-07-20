@@ -17,7 +17,7 @@ jQuery(document).ready(function ($) {
       '<thead>' +
       '<tr>' +
       '<td><input class="' + section + '_select-all" type="checkbox"></td>' +
-      '<td class="cruft-tool-selector cruft-themes-td"><b>' + seravo_cruftfiles_loc.select_all + '</b></td>' +
+      '<td class="cruft-tool-selector cruft-themes-td"><b>' + cruftremover_l10n.select_all + '</b></td>' +
       '</tr>' +
       '</thead>' +
       '<tbody class="' + section + '_entries">' +
@@ -25,11 +25,11 @@ jQuery(document).ready(function ($) {
       '<tfoot class="' + section + '_less-than" style="display: none;">' +
       '<tr>' +
       '<td><input class="' + section + '_select-all" type="checkbox"></td>' +
-      '<td class="cruft-tool-selector"><b>' + seravo_cruftfiles_loc.select_all + '</b></td>' +
+      '<td class="cruft-tool-selector"><b>' + cruftremover_l10n.select_all + '</b></td>' +
       '</tr>' +
       '</tfoot>' +
       '</table>' +
-      '<button class="crufttheme-delete-button ' + section + '_delete" type="button">' + seravo_cruftfiles_loc.delete + '</button>';
+      '<button class="crufttheme-delete-button ' + section + '_delete" type="button">' + cruftremover_l10n.delete + '</button>';
     $body.append(html)
     $entries = $('.' + section + '_entries');
     return $entries;

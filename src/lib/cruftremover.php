@@ -264,14 +264,14 @@ class CruftRemover {
 
     foreach ( $list_known_dirs as $dirname ) {
       exec('ls -d ' . $dirname, $cruft_found);
-        if ( ! empty($cruft_found) ) {
-          foreach ( $cruft_found as $key => $cruft_dir ) {
-            if ( self::only_has_whitelisted_content($cruft_dir, $white_list_files, $white_list_dirs) ) {
-              unset($cruft_found[$key]);
-            }
+      if ( ! empty($cruft_found) ) {
+        foreach ( $cruft_found as $key => $cruft_dir ) {
+          if ( self::only_has_whitelisted_content($cruft_dir, $white_list_files, $white_list_dirs) ) {
+            unset($cruft_found[$key]);
           }
-          $crufts = array_merge($crufts, $cruft_found);
         }
+        $crufts = array_merge($crufts, $cruft_found);
+      }
     }
 
     $crufts = array_filter(
@@ -289,6 +289,147 @@ class CruftRemover {
     set_transient('cruft_files_found', $crufts, 600);
 
     return array_map(array( __CLASS__, 'add_file_information' ), $crufts);
+  }
+
+  /**
+   * List the found cruft plugins.
+   * @return array<string, mixed> JSON encoded array containing the found cruft plugins.
+   */
+  public static function list_cruft_plugins() {
+    //https://help.seravo.com/en/knowledgebase/19-themes-and-plugins/docs/51-wordpress-plugins-in-seravo-com
+    $plugins_list = array(
+      'cache_plugins'    => array(                               //Unneeded cache plugins
+        'w3-total-cache',
+        'wp-super-cache',
+        'wp-file-cache',
+        'wp-fastest-cache',
+        'litespeed-cache',
+        'comet-cache',
+      ),
+      'security_plugins' => array(                            //False sense of security
+        'better-wp-security',                                 //iThemes Security aka Better WP Security
+        'wordfence',
+        'limit-login-attempts-reloaded',
+        'wp-limit-login-attempts',
+        'wordfence-assistant',
+      ),
+      'db_plugins'       => array(                                  //Known to mess up your DB
+        'broken-link-checker',                               //Broken Link Checker
+        'tweet-blender',                                     //Tweet Blender
+      ),
+      'backup_plugins'   => array(                             //A list of most used backup-plugins
+        'updraftplus',
+        'backwpup',
+        'jetpack',
+        'duplicator',
+        'backup',
+        'all-in-one-wp-migration',
+        'dropbox-backup',
+        'wp-db-backup',
+        'really-simple-ssl',
+        'xcloner-backup-and-restore',
+      ),
+      'poor_security'    => array(                             //Known for poor security
+        'wp-phpmyadmin-extension',                          //phpMyAdmin
+        'ari-adminer',                                      //Adminer
+        'sweetcaptcha-revolutionary-free-captcha-service',  //Sweet Captcha
+        'wp-cerber',
+        'sucuri-scanner',
+        'wp-simple-firewall',
+      ),
+      'bad_code'         => array(                                  //Hard to differentiate from actual malicious
+        'wp-client',
+        'wp-filebase-pro',
+        'miniorange-oauth-client-premium',
+      ),
+      'foolish_plugins'  => array(                            //Not malicious but do unwanted things
+        'all-in-one-wp-migration',
+        'video-capture',
+        'simple-subscribe',
+      ),
+    );
+    $found_cruft_plugins_categorized = array();
+    $found_cruft_plugins = array();
+
+    exec('wp plugin list --fields=name,title,status --format=json --skip-plugins --skip-themes', $output);
+    $output = json_decode($output[0]);
+
+    foreach ( $output as $plugin ) {
+      foreach ( $plugins_list as $category => $plugin_list ) {
+        if ( in_array($plugin->name, $plugin_list) ) {
+
+          if ( isset($found_cruft_plugins_categorized[$category]) ) {
+            array_push($found_cruft_plugins_categorized[$category], $plugin->name);
+          } else {
+            $found_cruft_plugins_categorized[$category] = array( $plugin->name );
+          }
+          array_push($found_cruft_plugins, $plugin->name);
+        }
+      }
+    }
+    //to check if the system has these
+    set_transient('cruft_plugins_found', $found_cruft_plugins, 600);
+
+    return $found_cruft_plugins_categorized;
+  }
+
+  /**
+   * Remove found cruft files.
+   * @param array<string> $cruft_entries The cruft files to remove.
+   * @return array<string> Possible failed deletions.
+   */
+  public static function remove_cruft_files( $cruft_entries ) {
+    $results = array();
+    $files = $cruft_entries;
+
+    if ( is_string($files) ) {
+      $files = array( $files );
+    }
+    if ( ! empty($files) ) {
+      foreach ( $files as $file ) {
+        $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
+        if ( in_array($file, $legit_cruft_files, true) ) {
+          $unlink_result = is_dir($file) ? self::rmdir_recursive($file, 0) : unlink($file);
+          // Log files if removing fails
+          if ( $unlink_result === false ) {
+            array_push($results, $file);
+          }
+        }
+      }
+    }
+
+    return $results;
+  }
+
+  /**
+   * Remove found cruft plugins.
+   * @param array<string> $cruft_entries The cruft plugins to remove.
+   * @return array<string> Possible failed deletions.
+   */
+  public static function remove_cruft_plugins( $cruft_entries ) {
+    $plugins = $cruft_entries;
+    $remove_failed = array();
+
+    if ( is_string($plugins) ) {
+      $plugins = array( $plugins );
+    }
+    if ( ! empty($plugins) ) {
+      foreach ( $plugins as $plugin ) {
+        $legit_removeable_plugins = get_transient('cruft_plugins_found');
+
+        foreach ( $legit_removeable_plugins as $legit_plugin ) {
+          if ( $legit_plugin == $plugin ) {
+            $result = exec('wp plugin deactivate ' . $plugin . ' --skip-plugins --skip-themes && wp plugin delete ' . $plugin . ' --skip-plugins --skip-themes', $output);
+            // log if plugin remove fails
+            if ( $result === false ) {
+              array_push($remove_failed, $plugin);
+            }
+          }
+        }
+      }
+    }
+
+    return $remove_failed;
   }
 }
 

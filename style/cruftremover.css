@@ -1,4 +1,4 @@
-.cruftplugin-delete-button, .crufttheme-delete-button {
+.crufttheme-delete-button {
   background: #DA534F;
   border-radius: 3px;
   border-color: #AA5955;
@@ -11,28 +11,20 @@
   padding: 0 10px 1px;
 }
 
-.cruftplugin-delete-button {
-  margin-bottom: 20px;
+.cruft-delete-button {
+  background: #DA534F;
+  border-radius: 3px;
+  border-color: #AA5955;
+  box-shadow: 0 1px 0 #AA5955;
+  color: #ffffff;
+  cursor: pointer;
+  height: 28px;
+  line-height: 22px;
+  margin-top: 20px;
+  padding: 0 10px 1px;
 }
 
-.plugin-separation-line {
-  margin: 30px 0px;
-  border-top: 2px solid #F9F9F9;
-}
-
-.cruft-plugin-td {
-  width: 100%;
-}
-
-.cruft-themes-td {
-  width: 100%;
-}
-
-.cruft-plugin-set {
-  padding-top: 15px;
-}
-
-.postbox-container-max {
+.cruft-plugin-td, .cruft-themes-td {
   width: 100%;
 }
 
@@ -40,10 +32,6 @@
   background-color: #F9F9F9;
   font-weight: 600;
   height: 45px;
-}
-
-table {
-  border: collapse;
 }
 
 .cruft-theme-table {
@@ -57,36 +45,6 @@ table {
 
 .crufttheme-child {
   border-top: none;
-}
-
-.child-delete-button {
-  margin-left: 30px;
-}
-
-table {
-  border: collapse;
-}
-
-.cruft-theme-table {
-  border-bottom: 2px solid black;
-}
-
-.crufttheme-child {
-  border-top: none;
-}
-
-/* TODO check this  */
-.child-delete-button {
-  margin-left: 30px;
-}
-
-.cruft-button-hide {
-  clip-path: polygon(0px 0px, 0px 0px, 0px 0px, 0px 0px) !important;
-  color: #CCC;
-}
-
-.cruft-highlight {
-  background: red !important;
 }
 
 .crufttheme-delete {
@@ -105,23 +63,4 @@ table {
 /* If theme has children, hide the checkbox so the parent cannot be deleted */
 [data-childs="true"] .crufttheme-delete input {
   display: none;
-}
-
-@media only screen and (max-width: 1025px) {
-  .label_buttons {
-    display: block;
-  }
-  .to_button,
-  .adminer_button {
-    padding-top: 15px;
-  }
-  .optionboxes {
-    padding-left: 10%;
-  }
-  .to_label {
-    padding-right: 15%;
-  }
-  .from_label {
-    padding-right: 10%;
-  }
 }
