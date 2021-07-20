@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Composer\\Installers\\AglInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AglInstaller.php',
     'Composer\\Installers\\AimeosInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
     'Composer\\Installers\\AnnotateCmsInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -112,6 +111,7 @@ return array(
     'Seravo\\Ajax\\SimpleCommand' => $baseDir . '/src/lib/ajax/templates/simple-command.php',
     'Seravo\\Ajax\\SimpleForm' => $baseDir . '/src/lib/ajax/templates/simple-form.php',
     'Seravo\\Backups' => $baseDir . '/src/modules/pages/backups.php',
+    'Seravo\\CruftRemover' => $baseDir . '/src/lib/cruftremover.php',
     'Seravo\\Database' => $baseDir . '/src/modules/pages/database.php',
     'Seravo\\Domains' => $baseDir . '/src/modules/pages/domains.php',
     'Seravo\\Helpers' => $baseDir . '/src/lib/helpers.php',

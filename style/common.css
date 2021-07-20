@@ -153,6 +153,10 @@ table.widefat {
   padding-right: 15px;
 }
 
+.seravo-container.large {
+  max-height: 700px;
+}
+
 .result-table-wrapper {
   max-height: 30vh;
   overflow-y: scroll;

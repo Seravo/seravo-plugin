@@ -356,4 +356,21 @@ class Template {
     return $notice;
   }
 
+  /**
+   * @param string $modal_id           The unique ID of this modal element.
+   * @param string $confirmation_text  The text to display before buttons.
+   * @param string $accept             Accept button text.
+   * @param string $cancel             Cancel button text.
+   * @return \Seravo\Postbox\Component Confirmation modal component.
+   */
+  public static function confirmation_modal( $modal_id, $confirmation_text, $accept, $cancel ) {
+    $modal_base = new Component('', '<div id="' . $modal_id . '" style="display: none;">', '</div>');
+    $components = array(
+      self::paragraph($confirmation_text),
+      self::side_by_side(self::button($cancel, $modal_id . '-cancel', 'cancel button'), self::button($accept, $modal_id . '-proceed', 'proceed button')),
+    );
+    $modal_base->add_children($components);
+    return $modal_base;
+  }
+
 }

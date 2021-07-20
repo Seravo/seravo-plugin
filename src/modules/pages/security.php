@@ -2,6 +2,7 @@
 
 namespace Seravo;
 
+use \Seravo\Ajax\AjaxHandler;
 use \Seravo\Ajax\AjaxResponse;
 use \Seravo\Postbox;
 use \Seravo\Postbox\Settings;
@@ -58,9 +59,7 @@ class Security extends Toolpage {
 
     add_action('admin_notices', array( __CLASS__, '_seravo_check_security_options' ));
     add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
-    // AJAX functionality for listing and deleting files
-    add_action('wp_ajax_seravo_cruftfiles', 'Seravo\seravo_ajax_list_cruft_files');
-    add_action('wp_ajax_seravo_delete_file', 'Seravo\seravo_ajax_delete_cruft_files');
+
     // AJAX functionality for listing and removing plugins
     add_action('wp_ajax_seravo_list_cruft_plugins', 'Seravo\seravo_ajax_list_cruft_plugins');
     add_action('wp_ajax_seravo_remove_plugins', 'Seravo\seravo_ajax_remove_plugins');
@@ -93,24 +92,32 @@ class Security extends Toolpage {
       return;
     }
 
-    wp_enqueue_script('seravo-cruftfiles-js', SERAVO_PLUGIN_URL . 'js/cruftfiles.js', array(), Helpers::seravo_plugin_version());
-    wp_enqueue_script('seravo-cruftplugins-js', SERAVO_PLUGIN_URL . 'js/cruftplugins.js', array(), Helpers::seravo_plugin_version());
-    wp_enqueue_script('seravo-cruftthemes-js', SERAVO_PLUGIN_URL . 'js/cruftthemes.js', array(), Helpers::seravo_plugin_version());
-    wp_enqueue_style('seravo-security-css', SERAVO_PLUGIN_URL . 'style/security.css', array(), Helpers::seravo_plugin_version());
-    wp_enqueue_style('seravo-cruftfiles-css', SERAVO_PLUGIN_URL . 'style/cruftfiles.css', array(), Helpers::seravo_plugin_version());
+    wp_enqueue_script('cruftremover-js', SERAVO_PLUGIN_URL . 'js/cruftremover.js', 'jquery', Helpers::seravo_plugin_version());
+    wp_enqueue_style('cruftremover-css', SERAVO_PLUGIN_URL . 'style/cruftremover.css', '', Helpers::seravo_plugin_version());
 
-    $loc_translation_files = array(
-      'no_data'       => __('No data returned for the section.', 'seravo'),
+    wp_enqueue_script('seravo-cruftplugins-js', SERAVO_PLUGIN_URL . 'js/cruftplugins.js', '', Helpers::seravo_plugin_version());
+    wp_enqueue_script('seravo-cruftthemes-js', SERAVO_PLUGIN_URL . 'js/cruftthemes.js', '', Helpers::seravo_plugin_version());
+    wp_enqueue_style('seravo-security-css', SERAVO_PLUGIN_URL . 'style/security.css', '', Helpers::seravo_plugin_version());
+
+    $cruftremover_l10n = array(
       'confirm'       => __('Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo'),
-      'fail'          => __('Failed to load. Please try again.', 'seravo'),
-      'no_cruftfiles' => __('Congratulations! You have do not have any unnecessary files around.', 'seravo'),
+      'confirmation_title' => __('Cruft remove confirmation', 'seravo'),
+      'no_cruftfiles' => __('Congratulations! You do not have any unnecessary files around.', 'seravo'),
       'delete'        => __('Delete', 'seravo'),
-      'bytes'         => __('b', 'seravo'),
       'mod_date'      => __('Last modified', 'seravo'),
       'select_all'    => __('Select all files', 'seravo'),
       'filesize'      => __('File size', 'seravo'),
-      'ajaxurl'       => admin_url('admin-ajax.php'),
-      'ajax_nonce'    => wp_create_nonce('seravo_cruftfiles'),
+      'failed_to_remove' => __('The following files could not be deleted', 'seravo'),
+      'files_removed' => __('The selected files have been removed.', 'seravo'),
+    );
+
+    $loc_translation_files = array(
+      'confirm'       => __('Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo'),
+      'no_cruftfiles' => __('Congratulations! You do not have any unnecessary files around.', 'seravo'),
+      'delete'        => __('Delete', 'seravo'),
+      'mod_date'      => __('Last modified', 'seravo'),
+      'select_all'    => __('Select all files', 'seravo'),
+      'filesize'      => __('File size', 'seravo'),
     );
     $loc_translation_plugins = array(
       'inactive'              => __('Inactive Plugins:', 'seravo'),
@@ -142,11 +149,16 @@ class Security extends Toolpage {
       'failure'        => __('Failed to remove some themes!', 'seravo'),
       'no_cruftthemes' => __('There are currently no unused themes on the website.', 'seravo'),
       'cruftthemes'    => __('The following themes are inactive and can be removed.', 'seravo'),
+      'no_data'       => __('No data returned for the section.', 'seravo'),
+      'fail'          => __('Failed to load. Please try again.', 'seravo'),
       'ajaxurl'        => admin_url('admin-ajax.php'),
       'ajax_nonce'     => wp_create_nonce('seravo_cruftthemes'),
     );
-    wp_localize_script('seravo-cruftfiles-js', 'seravo_cruftfiles_loc', $loc_translation_files);
+
+    wp_localize_script('cruftremover-js', 'cruftremover_l10n', $cruftremover_l10n);
     wp_localize_script('seravo-cruftplugins-js', 'seravo_cruftplugins_loc', $loc_translation_plugins);
+    // Register this for cruftplugins as it uses the loc files. Will be converted when widget rewrite
+    wp_localize_script('seravo-cruftplugins-js', 'seravo_cruftfiles_loc', $loc_translation_files);
     wp_localize_script('seravo-cruftthemes-js', 'seravo_cruftthemes_loc', $loc_translation_themes);
   }
 
@@ -156,13 +168,6 @@ class Security extends Toolpage {
    * @return void
    */
   public static function init_postboxes( Toolpage $page ) {
-    \Seravo\Postbox\seravo_add_raw_postbox(
-      'cruft-files',
-      __('Cruft Files', 'seravo'),
-      array( __CLASS__, 'cruftfiles_postbox' ),
-      'tools_page_security_page',
-      'column3'
-    );
 
     \Seravo\Postbox\seravo_add_raw_postbox(
       'cruft-plugins',
@@ -211,6 +216,20 @@ class Security extends Toolpage {
     $logins->set_ajax_func(array( __CLASS__, 'get_last_successful_logins' ));
     $logins->set_build_func(array( __CLASS__, 'build_last_logins' ));
     $page->register_postbox($logins);
+
+    /**
+     * Cruft files postbox
+     */
+    $cruft_files = new Postbox\LazyLoader('cruftfiles');
+    $cruft_files->set_title(__('Cruft Files', 'seravo'));
+    $cruft_files->set_build_func(array( __CLASS__, 'build_cruft_files' ));
+    $cruft_files->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $cruft_files->set_ajax_func(array( __CLASS__, 'list_cruft_files' ));
+
+    $remove_cruft_files = new AjaxHandler('remove-cruft-files');
+    $remove_cruft_files->set_ajax_func(array( __CLASS__, 'remove_cruft_files' ));
+    $cruft_files->add_ajax_handler($remove_cruft_files);
+    $page->register_postbox($cruft_files);
   }
 
   /**
@@ -396,26 +415,68 @@ class Security extends Toolpage {
   }
 
   /**
-   * @return void
+   * Build func for cruft files postbox.
+   * @param Component $base The base of the postbox to add elements.
+   * @param Postbox\Postbox $postbox The postbox to build.
    */
-  public static function cruftfiles_postbox() {
-    ?>
-    <p id="cruftfiles_tool">
-      <?php _e('Find and delete any extraneous and potentially harmful files taking up space in the file system. Note that not everything is necessarily safe to delete.', 'seravo'); ?>
-    </p>
-    <p>
-    <div id="cruftfiles_status">
-      <table>
-        <tbody id="cruftfiles_entries">
-        </tbody>
-      </table>
-      <div id="cruftfiles_status_loading">
-        <?php _e('Searching for files...', 'seravo'); ?>
-        <img src="/wp-admin/images/spinner.gif">
-      </div>
-    </div>
-    </p>
-    <?php
+  public static function build_cruft_files( Component $base, Postbox\Postbox $postbox ) {
+    $base->add_child(Template::paragraph(__('Find and delete any extraneous and potentially harmful files taking up space in the file system. Note that not everything is necessarily safe to delete.', 'seravo')));
+    $base->add_child($postbox->get_ajax_handler('cruftfiles')->get_component());
+    $base->add_child(Component::from_raw('<div class="cruft-remove-status"></div>'));
+    $base->add_child(Component::from_raw('<div class="cruft-area" style="display: none;"><div class="seravo-container"><table class="cruft-entries-table"><tbody class="cruft-entries"></tbody></table></div></div>'));
+    $base->add_child(Template::confirmation_modal('remove-cruft-files-modal', __('Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo'), __('Proceed', 'seravo'), __('Cancel', 'seravo')));
+  }
+
+  /**
+   * AJAX function for fetching cruft files
+   * @return \Seravo\Ajax\AjaxResponse
+   */
+  public static function list_cruft_files() {
+    $response = new AjaxResponse();
+    $response->is_success(true);
+    $cruft_files_found = CruftRemover::list_cruft_files();
+    $response->set_data(
+      array(
+        'data' => $cruft_files_found,
+      )
+    );
+
+    return $response;
+  }
+
+  /**
+   * AJAX func for removing the found cruft files.
+   * @return \Seravo\Ajax\AjaxResponse
+   */
+  public static function remove_cruft_files() {
+    $response = new AjaxResponse();
+    $results = array();
+    $files = (isset($_POST['deletefile']) && ! empty($_POST['deletefile'])) ? $_POST['deletefile'] : array();
+
+    if ( is_string($files) ) {
+      $files = array( $files );
+    }
+    if ( ! empty($files) ) {
+      foreach ( $files as $file ) {
+        $legit_cruft_files = get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
+        if ( in_array($file, $legit_cruft_files, true) ) {
+          $unlink_result = is_dir($file) ? CruftRemover::rmdir_recursive($file, 0) : unlink($file);
+          // Log files if removing fails
+          if ( $unlink_result === false ) {
+            array_push($results, $file);
+          }
+        }
+      }
+    }
+
+    $response->is_success(true);
+    $response->set_data(
+      array(
+        'data' => $results,
+      )
+    );
+
+    return $response;
   }
 
   /**
@@ -460,58 +521,4 @@ class Security extends Toolpage {
     </p>
     <?php
   }
-
-  /**
-   * $_POST['deletefile'] is either a string denoting only one file
-   * or it can contain an array containing strings denoting files.
-   * @return void
-   */
-  public static function ajax_delete_file() {
-    check_ajax_referer('seravo_cruftfiles', 'nonce');
-    if ( isset($_POST['deletefile']) && ! empty($_POST['deletefile']) ) {
-      $files = $_POST['deletefile'];
-      if ( is_string($files) ) {
-        $files = array( $files );
-      }
-      if ( ! empty($files) ) {
-        $result = array();
-        $results = array();
-        foreach ( $files as $file ) {
-          $legit_cruft_files = get_transient('cruft_files_found'); // Check first that the given file or directory is legitimate
-          if ( in_array($file, $legit_cruft_files, true) ) {
-            $unlink_result = is_dir($file) ? self::rmdir_recursive($file, 0) : unlink($file);
-            // else - Backwards compatible with old UI
-            $result['success'] = (bool) $unlink_result;
-            $result['filename'] = $file;
-            $results[] = $result;
-          }
-        }
-        echo json_encode($results);
-      }
-    }
-    wp_die();
-  }
-
-  /**
-   * @param string $dir
-   * @param int    $recursive
-   * @return bool|void
-   */
-  public static function rmdir_recursive( $dir, $recursive ) {
-    foreach ( scandir($dir) as $file ) {
-      if ( '.' === $file || '..' === $file ) {
-        continue; // Skip current and upper level directories
-      }
-      if ( is_dir("{$dir}/{$file}") ) {
-        self::rmdir_recursive("{$dir}/{$file}", 1);
-      } else {
-        unlink("{$dir}/{$file}");
-      }
-    }
-    rmdir($dir);
-    if ( $recursive == 0 ) {
-      return true; // when not called recursively
-    }
-  }
-
 }
