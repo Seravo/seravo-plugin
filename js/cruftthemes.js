@@ -92,7 +92,7 @@ jQuery(document).ready(function ($) {
               getData();
             }
           } else {
-            $('#' + section).html('<b>' + seravo_cruftfiles_loc.no_data + '</b>');
+            $('#' + section).html('<b>' + seravo_cruftthemes_loc.no_data + '</b>');
           }
         });
       }
@@ -153,7 +153,7 @@ jQuery(document).ready(function ($) {
       // Create delete function
       createOnClick();
     }).fail(function() {
-      $('#' + section + '_loading').html(seravo_cruftfiles_loc.fail);
+      $('#' + section + '_loading').html(seravo_cruftthemes_loc.fail);
     });
   }
   // Create triggers
