@@ -4,6 +4,7 @@ namespace Seravo;
 
 use \Seravo\Ajax\AjaxResponse;
 use \Seravo\Postbox;
+use \Seravo\Postbox\Settings;
 use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Toolpage;
@@ -56,7 +57,6 @@ class Security extends Toolpage {
     self::init_postboxes($this);
 
     add_action('admin_notices', array( __CLASS__, '_seravo_check_security_options' ));
-    add_action('admin_init', array( __CLASS__, 'register_security_settings' ));
     add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
     // AJAX functionality for listing and deleting files
     add_action('wp_ajax_seravo_cruftfiles', 'Seravo\seravo_ajax_list_cruft_files');
@@ -155,14 +155,6 @@ class Security extends Toolpage {
    */
   public static function init_postboxes( Toolpage $page ) {
     \Seravo\Postbox\seravo_add_raw_postbox(
-      'security_info',
-      __('Security', 'seravo'),
-      array( __CLASS__, 'security_info_postbox' ),
-      'tools_page_security_page',
-      'normal'
-    );
-
-    \Seravo\Postbox\seravo_add_raw_postbox(
       'cruft-files',
       __('Cruft Files', 'seravo'),
       array( __CLASS__, 'cruftfiles_postbox' ),
@@ -187,6 +179,16 @@ class Security extends Toolpage {
     );
 
     /**
+     * Security settings postbox
+     */
+    $security = new Postbox\SettingsForm('security');
+    $security->set_title(__('Security', 'seravo'));
+    $security->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $security->add_paragraph('Seravo has security built-in. There are however a few extra measures that the site owner can choose to do if their site will not miss any functionality because of it.');
+    $security->add_setting_section(self::get_security_settings());
+    $page->register_postbox($security);
+
+    /**
      * Check passwords postbox (Beta)
      */
     $passwords = new Postbox\SimpleCommand('check-passwords');
@@ -207,6 +209,84 @@ class Security extends Toolpage {
     $logins->set_ajax_func(array( __CLASS__, 'get_last_successful_logins' ));
     $logins->set_build_func(array( __CLASS__, 'build_last_logins' ));
     $page->register_postbox($logins);
+  }
+
+  /**
+   * Check if the security settings have been set and show a notice if they
+   * haven't been. No matter if the features are disabled or enabled.
+   */
+  public static function _seravo_check_security_options() {
+    $options = array(
+      'seravo-disable-xml-rpc',
+      'seravo-disable-xml-rpc-all-methods',
+      'seravo-disable-json-user-enumeration',
+      'seravo-disable-get-author-enumeration',
+    );
+
+    foreach ( $options as $option ) {
+      if ( get_option($option) === false ) {
+        ?>
+        <div class="notice notice-error">
+          <p>
+            <?php
+            printf(
+              // translators: URL to security page
+              __('Please enable all possible <a href="%s">security features</a>. Save settings even if no changes were made to get rid of this notice.', 'seravo'),
+              esc_url(get_option('siteurl')) . '/wp-admin/tools.php?page=security_page'
+            );
+            ?>
+          </p>
+        </div>
+        <?php
+        break;
+      }
+    }
+  }
+
+  /**
+   * Get setting section for the security settings postbox.
+   * @return \Seravo\Postbox\Setting The setting section instance.
+   */
+  public static function get_security_settings() {
+    $security_settings = new Settings('seravo-security-settings');
+
+    // Fake checkboxes
+    $fake_fields = array(
+      'seravo-automatic-backups'         => __('Automatic backups', 'seravo'),
+      'seravo-security-updates'          => __('Quick security updates', 'seravo'),
+      'seravo-malicious-code-monitoring' => __('Monitoring of malicius code and database contents', 'seravo'),
+      'seravo-dos-protection'            => __('Denial-of-service protection', 'seravo'),
+      'seravo-brute-force-protection'    => __('Brute-force login protection', 'seravo'),
+    );
+    foreach ( $fake_fields as $name => $label ) {
+      $security_settings->add_field($name, $label, '', '', Settings::FIELD_TYPE_BOOLEAN, '', null, array( Template::class, 'fake_checkbox' ));
+    }
+
+    // Real fields
+    $real_fields = array(
+      'seravo-disable-xml-rpc' => array(
+        __('Disable authenticated XML-RPC', 'seravo'),
+        __("Disabling authenticated XML-RPC prevents brute-force attempts via XML-RPC. Disables e.g. using the WordPress mobile app. Doesn't affect the Jetpack plugin as its IPs are whitelisted.", 'seravo'),
+      ),
+      'seravo-disable-xml-rpc-all-methods' => array(
+        __('Completely disable XML-RPC', 'seravo'),
+        __('Completely disabling XML-RPC prevents XML-RPC from responding to any methods at all. Disables e.g. pingbacks.', 'seravo'),
+      ),
+      'seravo-disable-json-user-enumeration'  => __('Disable WP-JSON user enumeration', 'seravo'),
+      'seravo-disable-get-author-enumeration' => __('Disable GET author enumeration', 'seravo'),
+    );
+    foreach ( $real_fields as $name => $details ) {
+      $label = $details;
+      $description = '';
+      if ( is_array($details) ) {
+        $label = $details[0];
+        $description = $details[1];
+      }
+
+      $security_settings->add_field($name, $label, '', '<small>' . $description . '</small>', Settings::FIELD_TYPE_BOOLEAN, 'off');
+    }
+
+    return $security_settings;
   }
 
   /**
@@ -309,163 +389,6 @@ class Security extends Toolpage {
       );
     }
     return $response;
-  }
-
-  public static function register_security_settings() {
-    add_settings_section(
-      'seravo_security_settings',
-      '', // Empty on purpose, postbox title is enough
-      array( __CLASS__, 'security_settings_description' ),
-      'tools_page_security_page'
-    );
-
-    /* Dummy settings that cannot be changed */
-    add_settings_field(
-      'seravo-automatic-backups',
-      __('Automatic backups', 'seravo'),
-      array( __CLASS__, 'seravo_security_checked_field' ),
-      'tools_page_security_page',
-      'seravo_security_settings'
-    );
-
-    add_settings_field(
-      'seravo-security-updates',
-      __('Quick security updates', 'seravo'),
-      array( __CLASS__, 'seravo_security_checked_field' ),
-      'tools_page_security_page',
-      'seravo_security_settings'
-    );
-
-    add_settings_field(
-      'seravo-malicious-code-monitoring',
-      __('Monitoring of malicius code and database contents', 'seravo'),
-      array( __CLASS__, 'seravo_security_checked_field' ),
-      'tools_page_security_page',
-      'seravo_security_settings'
-    );
-
-    add_settings_field(
-      'seravo-dos-protection',
-      __('Denial-of-service protection', 'seravo'),
-      array( __CLASS__, 'seravo_security_checked_field' ),
-      'tools_page_security_page',
-      'seravo_security_settings'
-    );
-
-    add_settings_field(
-      'seravo-brute-force-protection',
-      __('Brute-force login protection', 'seravo'),
-      array( __CLASS__, 'seravo_security_checked_field' ),
-      'tools_page_security_page',
-      'seravo_security_settings'
-    );
-
-    /* Real settings below */
-    self::add_settings_field_with_desc(
-      'seravo-disable-xml-rpc',
-      __('Disable authenticated XML-RPC', 'seravo'),
-      __("Prevent brute-force attempts via XML-RPC. Disables e.g. using the WordPress mobile app. Doesn't affect the Jetpack plugin as its IPs are whitelisted.", 'seravo'),
-      array( __CLASS__, 'seravo_security_xmlrpc_field' ),
-      'tools_page_security_page',
-      'seravo_security_settings'
-    );
-
-    self::add_settings_field_with_desc(
-      'seravo-disable-xml-rpc-all-methods',
-      __('Completely disable XML-RPC', 'seravo'),
-      __('Prevent XML-RPC from responding to any methods at all. Disables e.g. pingbacks.', 'seravo'),
-      array( __CLASS__, 'seravo_security_xmlrpc_completely_field' ),
-      'tools_page_security_page',
-      'seravo_security_settings'
-    );
-
-    add_settings_field(
-      'seravo-disable-json-user-enumeration',
-      __('Disable WP-JSON user enumeration', 'seravo'),
-      array( __CLASS__, 'seravo_security_json_user_enum_field' ),
-      'tools_page_security_page',
-      'seravo_security_settings'
-    );
-
-    add_settings_field(
-      'seravo-disable-get-author-enumeration',
-      __('Disable GET author enumeration', 'seravo'),
-      array( __CLASS__, 'seravo_security_get_author_enum_field' ),
-      'tools_page_security_page',
-      'seravo_security_settings'
-    );
-
-    register_setting('seravo_security_settings', 'seravo-disable-xml-rpc');
-    register_setting('seravo_security_settings', 'seravo-disable-xml-rpc-all-methods');
-    register_setting('seravo_security_settings', 'seravo-disable-json-user-enumeration');
-    register_setting('seravo_security_settings', 'seravo-disable-get-author-enumeration');
-  }
-
-  public static function _seravo_check_security_options() {
-    $options = array(
-      'seravo-disable-xml-rpc',
-      'seravo-disable-xml-rpc-all-methods',
-      'seravo-disable-json-user-enumeration',
-      'seravo-disable-get-author-enumeration',
-    );
-
-    foreach ( $options as $option ) {
-      if ( get_option($option) === false ) {
-        ?>
-        <div class="notice notice-error">
-          <p>
-            <?php
-            printf(
-              // translators: user's website url
-              __('Please enable all possible <a href="%s/wp-admin/tools.php?page=security_page">security features</a>. Save settings even if no changes were made to get rid of this notice.', 'seravo'),
-              esc_url(get_option('siteurl'))
-            );
-            ?>
-          </p>
-        </div>
-        <?php
-        break;
-      }
-    }
-  }
-
-  public static function security_settings_description() {
-    $msg = __(
-      'Seravo has security built-in. There are however a few extra measures
-      that the site owner can choose to do if their site will not miss any functionality
-      because of it.',
-      'seravo'
-    );
-    echo '<p>' . $msg . '</p>';
-  }
-
-  public static function seravo_security_checked_field() {
-    echo '<input type="checkbox" checked="on" disabled="disabled">';
-  }
-
-  public static function seravo_security_xmlrpc_field() {
-    echo '<input type="checkbox" name="seravo-disable-xml-rpc" id="disable-xmlrpc" ' . checked('on', get_option('seravo-disable-xml-rpc'), false) . '>';
-  }
-
-  public static function seravo_security_xmlrpc_completely_field() {
-    echo '<input type="checkbox" name="seravo-disable-xml-rpc-all-methods" id="complete-disable-xmlrpc" ' . checked('on', get_option('seravo-disable-xml-rpc-all-methods'), false) . '>';
-  }
-
-  public static function seravo_security_json_user_enum_field() {
-    echo '<input type="checkbox" name="seravo-disable-json-user-enumeration" id="disable-json-user-enumaration" ' . checked('on', get_option('seravo-disable-json-user-enumeration'), false) . '>';
-  }
-
-  public static function seravo_security_get_author_enum_field() {
-    echo '<input type="checkbox" name="seravo-disable-get-author-enumeration" id="disable-get-author-enumeration" ' . checked('on', get_option('seravo-disable-get-author-enumeration'), false) . '>';
-  }
-
-  public static function security_info_postbox() {
-    settings_errors();
-    echo '<form method="post" action="options.php">';
-    settings_fields('seravo_security_settings');
-    do_settings_sections('tools_page_security_page');
-    submit_button(__('Save', 'seravo'), 'primary', 'btnSubmit');
-    echo '</form>';
   }
 
   public static function cruftfiles_postbox() {
@@ -575,14 +498,4 @@ class Security extends Toolpage {
     }
   }
 
-  public static function add_settings_field_with_desc( $id, $title, $description, $callback, $page, $section = 'default', $args = array() ) {
-    add_settings_field(
-      $id,
-      $title . '<br><i class="seravo_field_description">' . $description . '</i>',
-      $callback,
-      $page,
-      $section,
-      $args
-    );
-  }
 }

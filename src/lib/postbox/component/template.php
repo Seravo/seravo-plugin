@@ -186,6 +186,14 @@ class Template {
   }
 
   /**
+   * Display fake checkbox used to tell features that can't be disabled.
+   * @return \Seravo\Postbox\Component Disabled fake checkbox.
+   */
+  public static function fake_checkbox() {
+    return Component::from_raw('<input type="checkbox" checked="on" disabled="disabled"/>');
+  }
+
+  /**
    * Display datetime picker as HTML input element.
    * @param string $label   The label text.
    * @param string $id      Unique id of the input.
