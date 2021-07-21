@@ -18,29 +18,17 @@ use \Seravo\Postbox\Requirements;
  */
 class Site_Status extends Toolpage {
 
-  // Default maximum resolution for images
   /**
-   * @var int
+   * @var int Default maximum resolution for images.
    */
-  private static $max_width_default = 2560;
+  const IMAGE_MAX_SIZE_DEFAULT = 2560;
   /**
-   * @var int
+   * @var int Minimum resolution for images. Can't be set any lower by user.
    */
-  private static $max_height_default = 2560;
-
-  // Minimum resolution for images. Can't be set any lower by user.
-  /**
-   * @var int
-   */
-  private static $min_width = 500;
-  /**
-   * @var int
-   */
-  private static $min_height = 500;
+  const IMAGE_MIN_SIZE = 500;
 
   /**
-   * Object-cache file location
-   * @var string
+   * @var string Object-cache file location.
    */
   const OBJECT_CACHE_PATH = '/data/wordpress/htdocs/wp-content/object-cache.php';
 
@@ -82,7 +70,6 @@ class Site_Status extends Toolpage {
   public function init_page() {
     self::init_postboxes($this);
 
-    self::register_optimize_image_settings();
     self::check_default_settings();
     add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
     add_action('wp_ajax_seravo_ajax_site_status', 'Seravo\seravo_ajax_site_status');
@@ -146,14 +133,6 @@ class Site_Status extends Toolpage {
         'side'
       );
     }
-
-    \Seravo\Postbox\seravo_add_raw_postbox(
-      'optimize-images',
-      __('Optimize Images', 'seravo'),
-      array( __CLASS__, 'optimize_images_postbox' ),
-      'tools_page_site_status_page',
-      'side'
-    );
 
     /**
      * Site info postbox
@@ -233,58 +212,19 @@ class Site_Status extends Toolpage {
     $speed_test->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $speed_test->set_button_text(__('Run Test', 'seravo'));
     $page->register_postbox($speed_test);
-  }
 
-  public static function register_optimize_image_settings() {
-    add_settings_section(
-      'seravo-optimize-images-settings',
-      '',
-      array( __CLASS__, 'optimize_images_settings_description' ),
-      'optimize_images_settings'
-    );
-
-    register_setting('seravo-optimize-images-settings-group', 'seravo-enable-optimize-images');
-    register_setting('seravo-optimize-images-settings-group', 'seravo-enable-strip-image-metadata');
-    register_setting(
-      'seravo-optimize-images-settings-group',
-      'seravo-image-max-resolution-width',
-      array( 'sanitize_callback' => array( __CLASS__, 'sanitize_image_width' ) )
-    );
-    register_setting(
-      'seravo-optimize-images-settings-group',
-      'seravo-image-max-resolution-height',
-      array( 'sanitize_callback' => array( __CLASS__, 'sanitize_image_height' ) )
-    );
-
-    add_settings_field(
-      'seravo-images-enabled-field',
-      __('Optimize Images', 'seravo'),
-      array( __CLASS__, 'seravo_image_enabled_field' ),
-      'optimize_images_settings',
-      'seravo-optimize-images-settings'
-    );
-    add_settings_field(
-      'seravo-strip-image-metadata-field',
-      __('Strip Image Metadata', 'seravo'),
-      array( __CLASS__, 'seravo_image_metadata_enabled_field' ),
-      'optimize_images_settings',
-      'seravo-optimize-images-settings'
-    );
-    add_settings_field(
-      'seravo-images-max-width-field',
-      __('Maximum Image Width (px)', 'seravo'),
-      array( __CLASS__, 'seravo_image_max_width_field' ),
-      'optimize_images_settings',
-      'seravo-optimize-images-settings'
-    );
-    add_settings_field(
-      'seravo-images-max-height-field',
-      __('Maximum Image Height (px)', 'seravo'),
-      array( __CLASS__, 'seravo_image_max_height_field' ),
-      'optimize_images_settings',
-      'seravo-optimize-images-settings'
-    );
-
+    /**
+     * Optimize images postbox
+     */
+    $optimize_images = new Postbox\SettingsForm('optimize-images', 'side');
+    $optimize_images->set_title(__('Optimize Images', 'seravo'));
+    $optimize_images->add_paragraph(__('Optimization reduces image file size. This improves the performance and browsing experience of your site.', 'seravo'));
+    $optimize_images->add_paragraph(__('By setting the maximum image resolution, you can determine the maximum allowed dimensions for images.', 'seravo'));
+    $optimize_images->add_paragraph(__('By enabling metadata stripping, you can further reduce image sizes by removing metadata. Please note that occasionally metadata can be useful.', 'seravo'));
+    $optimize_images->add_paragraph(__('For further information, refer to our <a href="https://help.seravo.com/article/28-seravo-plugin-optimize-images" target="_BLANK">knowledgebase article</a>.', 'seravo'));
+    $optimize_images->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $optimize_images->add_setting_section(self::get_optimize_images_settings());
+    $page->register_postbox($optimize_images);
   }
 
   /**
@@ -322,10 +262,10 @@ class Site_Status extends Toolpage {
       update_option('seravo-image-max-resolution-height', self::$max_height_default);
     }
     if ( get_option('seravo-enable-optimize-images') === false ) {
-      update_option('seravo-enable-optimize-images', '');
+      update_option('seravo-enable-optimize-images', 'off');
     }
     if ( get_option('seravo-enable-strip-image-metadata') === false ) {
-      update_option('seravo-enable-strip-image-metadata', '');
+      update_option('seravo-enable-strip-image-metadata', 'off');
     }
     if ( get_option('seravo-enable-sanitize-uploads') === false ) {
       update_option('seravo-enable-sanitize-uploads', 'off');
@@ -348,6 +288,60 @@ class Site_Status extends Toolpage {
       'off'
     );
     return $sanitize_settings;
+  }
+
+  /**
+   * Get setting section for optimize images postbox.
+   * @return \Seravo\Postbox\Settings Setting section instance.
+   */
+  public static function get_optimize_images_settings() {
+    $optimize_settings = new Settings('seravo-optimize-images-settings');
+    $optimize_settings->add_field('seravo-enable-optimize-images', __('Optimize Images', 'seravo'), '', '', Settings::FIELD_TYPE_BOOLEAN, 'off');
+    $optimize_settings->add_field('seravo-enable-strip-image-metadata', __('Strip Image Metadata', 'seravo'), '', '', Settings::FIELD_TYPE_BOOLEAN, 'off');
+    // Image max width field
+    $optimize_settings->add_field(
+      'seravo-image-max-resolution-width',
+      __('Maximum Image Width (px)', 'seravo'),
+      '',
+      '',
+      Settings::FIELD_TYPE_INTEGER,
+      self::IMAGE_MAX_SIZE_DEFAULT,
+      function( $value ) use ( $optimize_settings ) {
+        return self::check_image_optimization_resolution($value, $optimize_settings);
+      }
+    );
+    // Image max height field
+    $optimize_settings->add_field(
+      'seravo-image-max-resolution-height',
+      __('Maximum Image Height (px)', 'seravo'),
+      '',
+      '',
+      Settings::FIELD_TYPE_INTEGER,
+      self::IMAGE_MAX_SIZE_DEFAULT,
+      function( $value ) use ( $optimize_settings ) {
+        return self::check_image_optimization_resolution($value, $optimize_settings);
+      }
+    );
+    return $optimize_settings;
+  }
+
+  /**
+   * Check that image optimization resolution is in limits.
+   * @param string                   $value             Value from the form.
+   * @param \Seravo\Postbox\Settings $optimize_settings The optimize setting section.
+   * @return mixed The value to be set.
+   */
+  public static function check_image_optimization_resolution( $value, $optimize_settings ) {
+    $value = $optimize_settings->sanitize_integer_field($value, get_option('seravo-image-max-resolution-height'));
+    if ( (int) $value < self::IMAGE_MIN_SIZE ) {
+      $optimize_settings->add_notification(
+        'size-under-limit',
+        // translators: %1$s is minimum size in pixels and %2$s is the recommended maximum.
+        sprintf(__('The minimum size for image optimisation is %1$s px. Setting suggested size of %2$s px.', 'seravo'), self::IMAGE_MIN_SIZE, self::IMAGE_MAX_SIZE_DEFAULT)
+      );
+      return self::IMAGE_MAX_SIZE_DEFAULT;
+    }
+    return $value;
   }
 
   /**
@@ -896,106 +890,6 @@ class Site_Status extends Toolpage {
     </div>
     <pre id="git_status"></pre>
     <?php
-  }
-
-  public static function seravo_image_max_width_field() {
-    $image_max_width = get_option('seravo-image-max-resolution-width');
-    echo '<input type="number" class="' . self::get_input_field_attributes()[0] . '" name="seravo-image-max-resolution-width"' . self::get_input_field_attributes()[1] . '
-      placeholder="' . __('Width', 'seravo') . '" value="' . $image_max_width . '">';
-  }
-
-  public static function seravo_image_max_height_field() {
-    $image_max_height = get_option('seravo-image-max-resolution-height');
-    echo '<input type="number" class="' . self::get_input_field_attributes()[0] . '" name="seravo-image-max-resolution-height" ' . self::get_input_field_attributes()[1] . ' placeholder="'
-      . __('Height', 'seravo') . '" value="' . $image_max_height . '">';
-  }
-
-  public static function seravo_image_enabled_field() {
-    echo '<input type="checkbox" name="seravo-enable-optimize-images" id="enable-optimize-images" ' . checked('on', get_option('seravo-enable-optimize-images'), false) . '>';
-  }
-
-  public static function seravo_image_metadata_enabled_field() {
-    echo '<input type="checkbox" name="seravo-enable-strip-image-metadata" id="enable-strip-image-metadata" ' . checked('on', get_option('seravo-enable-strip-image-metadata'), false) . '>';
-  }
-
-  public static function optimize_images_settings_description() {
-    echo '<p>' . __('Optimization reduces image file size. This improves the performance and browsing experience of your site.', 'seravo') . '</p>' .
-      '<p>' . __('By setting the maximum image resolution, you can determine the maximum allowed dimensions for images.', 'seravo') . '</p>' .
-      '<p>' . __('By enabling metadata stripping, you can further reduce image sizes by removing metadata. Please note that occasionally metadata can be useful.', 'seravo') . '</p>' .
-      '<p>' . __('For further information, refer to our <a href="https://help.seravo.com/article/28-seravo-plugin-optimize-images" target="_BLANK">knowledgebase article</a>.', 'seravo') . '</p>';
-  }
-
-  /**
-   * @return int|mixed
-   */
-  public static function sanitize_image_width( $width ) {
-    if ( get_option('seravo-enable-optimize-images') === 'on' && $width !== null ) {
-      if ( ! is_numeric($width) || $width < self::$min_width ) {
-        add_settings_error(
-          'optimize_images_error',
-          'invalid-width',
-          sprintf(
-            // translators: %s numeric value for the minimum image width
-            __('The minimum width for image optimisation is %1$s px. Setting suggested width of %2$s px.', 'seravo'),
-            self::$min_width,
-            self::$max_width_default
-          )
-        );
-        return self::$max_width_default;
-      }
-    }
-    // A settings error for succesful settings change
-    add_settings_error(
-      'optimize_images_error',
-      'optimize_images_width_ok',
-      __('Width setting saved', 'seravo'),
-      'success'
-    );
-    return $width;
-  }
-
-  /**
-   * @return int|mixed
-   */
-  public static function sanitize_image_height( $height ) {
-    if ( get_option('seravo-enable-optimize-images') === 'on' && $height !== null ) {
-      if ( ! is_numeric($height) || $height < self::$min_height ) {
-        add_settings_error(
-          'optimize_images_error',
-          'invalid-height',
-          // translators: %s numeric value for the minimum image height
-          sprintf(__('The minimum height for image optimisation is %1$s px. Setting suggested height of %2$s px.', 'seravo'), self::$min_height, self::$max_height_default)
-        );
-        return self::$max_height_default;
-      }
-    }
-    // A settings error for succesful settings change
-    add_settings_error(
-      'optimize_images_error',
-      'optimize_images_height_ok',
-      __('Height setting saved', 'seravo'),
-      'success'
-    );
-    return $height;
-  }
-
-  /**
-   * @return string[]
-   */
-  public static function get_input_field_attributes() {
-    if ( get_option('seravo-enable-optimize-images') === 'on' ) {
-      return array( 'max-resolution-field', '' );
-    }
-    return array( 'max-resolution-field', 'disabled=""' );
-  }
-
-  public static function optimize_images_postbox() {
-    settings_errors('optimize_images_error');
-    echo '<form method="post" action="options.php" class="seravo-general-form">';
-    settings_fields('seravo-optimize-images-settings-group');
-    do_settings_sections('optimize_images_settings');
-    submit_button(__('Save', 'seravo'), 'primary', 'btnSubmitOptimize');
-    echo '</form>';
   }
 
   /**

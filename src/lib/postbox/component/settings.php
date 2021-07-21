@@ -184,8 +184,10 @@ class Settings {
     $form->add_child(Component::from_raw('<input type="hidden" name="option_page" value="' . esc_attr($this->section) . '"/>'));
     $form->add_child(Component::from_raw('<input type="hidden" name="action" value="update"/>'));
 
-    // Add nonce
-    $form->add_child(Component::from_raw(wp_nonce_field("{$this->section}-options", '_wpnonce', true, false)));
+    // Add nonce and referer
+    $referer = esc_attr(wp_unslash($_SERVER['REQUEST_URI'])) . '&section=' . $this->section;
+    $form->add_child(Component::from_raw(wp_nonce_field("{$this->section}-options", '_wpnonce', false, false)));
+    $form->add_child(Component::from_raw('<input type="hidden" name="_wp_http_referer" value="' . $referer . '" />'));
 
     // Maybe add title
     if ( $this->title !== null ) {
@@ -270,13 +272,15 @@ class Settings {
     $notifications = get_settings_errors($this->section);
 
     if ( empty($notifications) && isset($_REQUEST['settings-updated']) && $_REQUEST['settings-updated'] === 'true' ) {
-      $notifications = array(
-        array(
-          'type' => 'updated',
-          'code' => 'ok',
-          'message' => __('Settings saved', 'seravo'),
-        ),
-      );
+      if ( isset($_REQUEST['section']) && $_REQUEST['section'] === $this->section ) {
+        $notifications = array(
+          array(
+            'type' => 'updated',
+            'code' => 'ok',
+            'message' => __('Settings saved', 'seravo'),
+          ),
+        );
+      }
     }
 
     // Generate components
