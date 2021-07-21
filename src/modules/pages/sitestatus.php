@@ -5,6 +5,7 @@ namespace Seravo;
 use \Seravo\Ajax\AjaxResponse;
 use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox;
+use \Seravo\Postbox\Settings;
 use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Requirements;
@@ -82,7 +83,6 @@ class Site_Status extends Toolpage {
     self::init_postboxes($this);
 
     self::register_optimize_image_settings();
-    self::register_sanitize_uploads_settings();
     self::check_default_settings();
     add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
     add_action('wp_ajax_seravo_ajax_site_status', 'Seravo\seravo_ajax_site_status');
@@ -155,14 +155,6 @@ class Site_Status extends Toolpage {
       'side'
     );
 
-    \Seravo\Postbox\seravo_add_raw_postbox(
-      'sanitize-uploads',
-      __('Sanitize uploads', 'seravo'),
-      array( __CLASS__, 'sanitize_uploads' ),
-      'tools_page_site_status_page',
-      'side'
-    );
-
     /**
      * Site info postbox
      */
@@ -195,6 +187,15 @@ class Site_Status extends Toolpage {
     $site_checks->set_title_text(__(' Click "Run site checks" to run the tests', 'seravo'));
     $site_checks->add_paragraph(__('Site checks provide a report about your site health and show potential issues. Checks include for example php related errors, inactive themes and plugins.', 'seravo'));
     $page->register_postbox($site_checks);
+
+    /**
+     * Sanitize uploads postbox
+     */
+    $sanitize_uploads = new Postbox\SettingsForm('sanitize-uploads', 'side');
+    $sanitize_uploads->set_title(__('Sanitize Uploads', 'seravo'));
+    $sanitize_uploads->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $sanitize_uploads->add_setting_section(self::get_sanitize_uploads_settings());
+    $page->register_postbox($sanitize_uploads);
 
     /**
      * Disk Usage postbox
@@ -310,6 +311,43 @@ class Site_Status extends Toolpage {
     $postbox->add_ajax_handler($object_cache);
     $postbox->add_ajax_handler($http_cache_wrapper);
     $postbox->add_ajax_handler($cache_status);
+  }
+
+  /**
+   * Set default settings if they haven't been set.
+   */
+  public static function check_default_settings() {
+    if ( get_option('seravo-image-max-resolution-width') === false || get_option('seravo-image-max-resolution-height') === false ) {
+      update_option('seravo-image-max-resolution-width', self::$max_width_default);
+      update_option('seravo-image-max-resolution-height', self::$max_height_default);
+    }
+    if ( get_option('seravo-enable-optimize-images') === false ) {
+      update_option('seravo-enable-optimize-images', '');
+    }
+    if ( get_option('seravo-enable-strip-image-metadata') === false ) {
+      update_option('seravo-enable-strip-image-metadata', '');
+    }
+    if ( get_option('seravo-enable-sanitize-uploads') === false ) {
+      update_option('seravo-enable-sanitize-uploads', 'off');
+    }
+  }
+
+  /**
+   * Get setting section for sanitize uploads postbox.
+   * @return \Seravo\Postbox\Settings Setting section instance.
+   */
+  public static function get_sanitize_uploads_settings() {
+    $sanitize_settings = new Settings('seravo-sanitize-uploads-settings');
+    $sanitize_settings->add_field(
+      'seravo-enable-sanitize-uploads',
+      __('Sanitize uploads', 'seravo'),
+      '',
+      '<p>' . __('Special characters in filenames, such as ä, ö or æ, may cause problems with the site.', 'seravo') . '</p>' .
+      '<p>' . __('Toggling this on replaces such characters with other standard letters, like ä -> a, ö -> o or æ -> a when a file is uploaded.', 'seravo') . '</p>',
+      Settings::FIELD_TYPE_BOOLEAN,
+      'off'
+    );
+    return $sanitize_settings;
   }
 
   /**
@@ -860,24 +898,6 @@ class Site_Status extends Toolpage {
     <?php
   }
 
-  public static function check_default_settings() {
-    // Set the default settings for the user if the settings don't exist in database
-    if ( get_option('seravo-image-max-resolution-width') === false || get_option('seravo-image-max-resolution-height') === false ) {
-      update_option('seravo-image-max-resolution-width', self::$max_width_default);
-      update_option('seravo-image-max-resolution-height', self::$max_height_default);
-    }
-    if ( get_option('seravo-enable-optimize-images') === false ) {
-      update_option('seravo-enable-optimize-images', '');
-    }
-    if ( get_option('seravo-enable-strip-image-metadata') === false ) {
-      update_option('seravo-enable-strip-image-metadata', '');
-    }
-    if ( get_option('seravo-enable-sanitize-uploads') === false ) {
-      update_option('seravo-enable-sanitize-uploads', 'off');
-    }
-
-  }
-
   public static function seravo_image_max_width_field() {
     $image_max_width = get_option('seravo-image-max-resolution-width');
     echo '<input type="number" class="' . self::get_input_field_attributes()[0] . '" name="seravo-image-max-resolution-width"' . self::get_input_field_attributes()[1] . '
@@ -976,58 +996,6 @@ class Site_Status extends Toolpage {
     do_settings_sections('optimize_images_settings');
     submit_button(__('Save', 'seravo'), 'primary', 'btnSubmitOptimize');
     echo '</form>';
-  }
-
-  public static function register_sanitize_uploads_settings() {
-    add_settings_section(
-      'seravo-sanitize-uploads-settings',
-      '',
-      array( __CLASS__, 'sanitize_uploads_description' ),
-      'sanitize_uploads_settings'
-    );
-
-    register_setting(
-      'seravo-sanitize-uploads-settings-group',
-      'seravo-enable-sanitize-uploads',
-      array(
-        'sanitize_callback' => function ( $setting ) {
-          // A settings error for succesful settings change
-          add_settings_error(
-            'sanitize_uploads_error',
-            'sanitize_uploads_ok',
-            __('Settings saved', 'seravo'),
-            'success'
-          );
-          return $setting;
-      },
-      )
-    );
-
-    add_settings_field(
-      'seravo-sanitize-uploads-enabled-field',
-      __('Sanitize uploads', 'seravo'),
-      array( __CLASS__, 'seravo_sanitize_uploads_enabled_field' ),
-      'sanitize_uploads_settings',
-      'seravo-sanitize-uploads-settings'
-    );
-  }
-
-  public static function sanitize_uploads() {
-    settings_errors('sanitize_uploads_error');
-    echo '<form method="post" action="options.php" class="seravo-general-form">';
-    settings_fields('seravo-sanitize-uploads-settings-group');
-    do_settings_sections('sanitize_uploads_settings');
-    submit_button(__('Save', 'seravo'), 'primary', 'btnSubmitSanitize');
-    echo '</form>';
-  }
-
-  public static function sanitize_uploads_description() {
-    echo '<p>' . __('Special characters in filenames, such as ä, ö or æ, may cause problems with the site.', 'seravo') . '</p>';
-    echo '<p>' . __('Toggling this on replaces such characters with other standard letters, like ä -> a, ö -> o or æ -> a when a file is uploaded.', 'seravo') . '</p>';
-  }
-
-  public static function seravo_sanitize_uploads_enabled_field() {
-    echo '<input type="checkbox" name="seravo-enable-sanitize-uploads" id="seravo-enable-sanitize-uploads" ' . checked('on', get_option('seravo-enable-sanitize-uploads'), false) . '>';
   }
 
   /**
