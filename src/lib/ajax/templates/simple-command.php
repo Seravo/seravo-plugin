@@ -68,12 +68,14 @@ class SimpleCommand extends SimpleForm {
       return AjaxResponse::unknown_error_response();
     }
 
-    $dry_run = isset($_GET['dryrun']) && $_GET['dryrun'] === 'true';
-    if ( $dry_run && $this->dryrun_command === null ) {
-      return AjaxResponse::unknown_error_response();
-    }
+    $exec_command = $this->command;
 
-    $exec_command = $dry_run ? $this->dryrun_command : $this->command;
+    $dry_run = isset($_GET['dryrun']) && $_GET['dryrun'] === 'true';
+    if ( $dry_run && $this->dryrun_command !== null ) {
+        $exec_command = $this->dryrun_command;
+    } elseif ( $dry_run ) {
+        return AjaxResponse::unknown_error_response();
+    }
 
     $output = null;
     $retval = null;
@@ -106,6 +108,7 @@ class SimpleCommand extends SimpleForm {
    * @param string      $command       Command to be executed.
    * @param string|null $dryrun        Dry-run command to be executed (default null).
    * @param bool        $allow_failure Whether exit code other than 0 should respond with an error (default false).
+   * @return void
    */
   public function set_command( $command, $dryrun = null, $allow_failure = false ) {
     $this->command = $command;
@@ -116,6 +119,7 @@ class SimpleCommand extends SimpleForm {
   /**
    * Set whether exit code other than 0 should respond with an error.
    * @param bool $allow_failure Whether to allow failure.
+   * @return void
    */
   public function set_allow_failure( $allow_failure ) {
     $this->allow_failure = $allow_failure;
@@ -124,6 +128,7 @@ class SimpleCommand extends SimpleForm {
   /**
    * Set a message to be shown if command returns no data.
    * @param string $message Message to be shown for no command output.
+   * @return void
    */
   public function set_empty_message( $message ) {
     $this->empty_message = $message;

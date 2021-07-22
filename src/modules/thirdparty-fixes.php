@@ -32,7 +32,7 @@ if ( ! class_exists('ThirdpartyFixes') ) {
       add_filter(
         'jpp_allow_login',
         function ( $ip ) {
-          return $this->jetpack_whitelist_seravo($ip);
+          return $this->jetpack_whitelist_seravo();
         },
         10,
         1
@@ -78,7 +78,7 @@ if ( ! class_exists('ThirdpartyFixes') ) {
       add_action(
         'shutdown',
         function () {
-          return $this->log_queries();
+          $this->log_queries();
         }
       );
 
@@ -106,7 +106,11 @@ if ( ! class_exists('ThirdpartyFixes') ) {
      *
      * Related WordPress core code:
      * <https://github.com/WordPress/WordPress/blob/c463e94a3313ca26c305993a0862e758c0ea3dfe/wp-includes/class-http.php#L239-L257>
-     * @return mixed
+     *
+     * @param false|\WP_Error|mixed[] $preempt     A preemptive return value of an HTTP request.
+     * @param mixed[]                 $parsed_args HTTP request arguments.
+     * @param string                  $url         The request URL.
+     * @return false|\WP_Error|mixed[] The $preempt passed.
      **/
     public function http_maybe_use_cached( $preempt, $parsed_args, $url ) {
         $cache_key = 'http_cache_' . md5($url . serialize($parsed_args));
@@ -127,10 +131,20 @@ if ( ! class_exists('ThirdpartyFixes') ) {
      *
      * Related:
      * <https://github.com/WordPress/WordPress/blob/c463e94a3313ca26c305993a0862e758c0ea3dfe/wp-includes/class-http.php#L438-L446>
+     *
+     * @param mixed[] $response    A preemptive return value of an HTTP request.
+     * @param mixed[] $parsed_args HTTP request arguments.
+     * @param string  $url         The request URL.
+     * @return mixed[] The $response passed.
      */
     public function http_maybe_cache( $response, $parsed_args, $url ) {
         // Parse hostname from the URL
-        $host = str_replace('.', '_', parse_url($url, PHP_URL_HOST));
+        $host = parse_url($url, PHP_URL_HOST);
+        if ( $host === null || $host == false ) {
+        return $response;
+        }
+
+        $host = str_replace('.', '_', $host);
         $method = strtolower($parsed_args['method']);
 
         // Check if we should cache requests to this hostname
@@ -155,39 +169,41 @@ if ( ! class_exists('ThirdpartyFixes') ) {
      * of database resources. This helper function makes it easier to toggle
      * SQL logging for a site temporarily.
      *
-     * @see <https://developer.wordpress.org/reference/classes/wpdb/>
+     *
      *
      * Based on <https://stackoverflow.com/a/4660903>
-     **/
+     * @see <https://developer.wordpress.org/reference/classes/wpdb/>
+     * @return void
+     */
     public function log_queries() {
-        if ( ! defined('SAVEQUERIES') || SAVEQUERIES !== true ) {
+      if ( ! defined('SAVEQUERIES') || SAVEQUERIES !== true ) {
         return;
-        }
-        $logfile = '/data/log/sql.log';
-        // If logfile is already over 512MB, just stop logging to prevent
-        // filling the disk with probably duplicated queries
-        if ( file_exists($logfile) && filesize($logfile) > 512 * 1024 * 1024 ) {
+      }
+      $logfile = '/data/log/sql.log';
+      // If logfile is already over 512MB, just stop logging to prevent
+      // filling the disk with probably duplicated queries
+      if ( file_exists($logfile) && filesize($logfile) > 512 * 1024 * 1024 ) {
         return;
-        }
+      }
 
-        global $wpdb;
-        $handle = fopen($logfile, 'a');
+      global $wpdb;
+      $handle = fopen($logfile, 'a');
 
-        if ( $wpdb->num_queries > 0 && $handle !== false ) {
+      if ( $wpdb->num_queries > 0 && $handle !== false ) {
         $sid = isset($_SERVER['HTTP_X_SERAVO_REQUEST_ID']) ? $_SERVER['HTTP_X_SERAVO_REQUEST_ID'] : 'none';
         fwrite($handle, '### ' . date(\DateTime::ISO8601) . ' sid:' . $sid . ' total:' . $wpdb->num_queries . chr(10));
         foreach ( $wpdb->queries as $q ) {
-            $sql = trim(preg_replace('/[\t\n\r\s]+/', ' ', $q[0]));
-            $data = str_replace("\n", '', print_r($q[4], true));
-            fwrite($handle, "SQL: {$sql}" . chr(10));
-            fwrite($handle, "Time: $q[1] s" . chr(10));
-            fwrite($handle, "Calling functions: $q[2]" . chr(10));
-            fwrite($handle, "Query begin: $q[3]" . chr(10));
-            fwrite($handle, 'Custom data: ' . $data . chr(10) . '--' . chr(10));
+          $sql = trim(preg_replace('/[\t\n\r\s]+/', ' ', $q[0]));
+          $data = str_replace("\n", '', print_r($q[4], true));
+          fwrite($handle, "SQL: {$sql}" . chr(10));
+          fwrite($handle, "Time: $q[1] s" . chr(10));
+          fwrite($handle, "Calling functions: $q[2]" . chr(10));
+          fwrite($handle, "Query begin: $q[3]" . chr(10));
+          fwrite($handle, 'Custom data: ' . $data . chr(10) . '--' . chr(10));
           }
         fwrite($handle, '### EOF' . chr(10) . chr(10));
         fclose($handle);
-        }
+      }
     }
 
     /**
@@ -197,8 +213,8 @@ if ( ! class_exists('ThirdpartyFixes') ) {
      * quite often, and we don't like that. Our infrastructure does
      * caching anyways.
      *
-     * @param array $options User-provided (or default) options
-     * @return array Updated options with our customizations
+     * @param mixed[] $options User-provided (or default) options
+     * @return mixed[] Updated options with our customizations
      * @since 1.9.15
      * @see <https://redirection.me/developer/wordpress-hooks/>
      **/
@@ -217,6 +233,7 @@ if ( ! class_exists('ThirdpartyFixes') ) {
      *
      * @since 1.9.4
      * @version 1.0
+     * @return string[] List of Seravo monitoring IPs.
      **/
     public function retrieve_whitelist() {
       $url = 'https://api.seravo.com/v0/infrastructure/monitoring-hosts.json';
@@ -226,10 +243,19 @@ if ( ! class_exists('ThirdpartyFixes') ) {
       $data = get_transient($key);
 
       // If cachet data wasn't found, fetch it (otherwise, just use cached data)
-      if ( ($data === false) || count($data) < 1 ) {
+      if ( $data === false || ! is_array($data) || count($data) < 1 ) {
         // Retrieve data from API
         $response = wp_remote_get(esc_url_raw($url));
+        if ( is_wp_error($response) ) {
+          // Not much we can do but lets not cache this
+          return array();
+        }
+
         $data = json_decode(wp_remote_retrieve_body($response));
+        if ( $data === null || ! is_array($data) ) {
+          // JSON decode failed
+          return array();
+        }
 
         // Cache for 24 hours (DAY_IN_SECONDS)
         set_transient($key, $data, DAY_IN_SECONDS);
@@ -253,7 +279,7 @@ if ( ! class_exists('ThirdpartyFixes') ) {
      * @see <https://developer.jetpack.com/tag/jpp_allow_login/>
      * @return bool
      **/
-    public function jetpack_whitelist_seravo( $ip ) {
+    public function jetpack_whitelist_seravo() {
       if ( ! function_exists('jetpack_protect_get_ip') ) {
         return false;
       }

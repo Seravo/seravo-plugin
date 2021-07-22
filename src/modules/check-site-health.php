@@ -33,6 +33,8 @@ if ( ! class_exists('Site_Health') ) {
     /**
      * Helper method for the class to execute given command & wrapping the return value
      * automatically as result array.
+     * @param string $command The command to be executed.
+     * @return string[] Output from the command.
      */
     private static function exec_command( $command ) {
         $output = array();
@@ -44,6 +46,7 @@ if ( ! class_exists('Site_Health') ) {
     /**
      * Check siteurl & home HTTPS usage status
      * Logic is from check-https-module
+     * @return void
      */
     private static function check_https() {
       $siteurl = get_option('siteurl');
@@ -59,6 +62,7 @@ if ( ! class_exists('Site_Health') ) {
 
     /**
      * Check that some recaptcha plugin is installed and active on WordPress.
+     * @return void
      */
     private static function check_recaptcha() {
       $output = self::exec_command('wp plugin list');
@@ -81,6 +85,7 @@ if ( ! class_exists('Site_Health') ) {
 
     /**
      * Count the inactive themes.
+     * @return void
      */
     private static function check_inactive_themes() {
       $output = self::exec_command('wp theme list');
@@ -106,6 +111,7 @@ if ( ! class_exists('Site_Health') ) {
 
     /**
      * Check potential bad and deprecated plugins specified by @bad_plugins array.
+     * @return void
      */
     private static function check_plugins() {
       // check inactive plugins and all plugin related issues
@@ -147,6 +153,7 @@ if ( ! class_exists('Site_Health') ) {
 
     /**
      * Fetch the PHP error count by using the error count of Login_Notifications module.
+     * @return void
      */
     private static function check_php_errors() {
       $php_info = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log" target="_blank">php-error.log</a>';
@@ -166,6 +173,7 @@ if ( ! class_exists('Site_Health') ) {
 
     /**
      * Execute command wp-test and wrap up whether it runs successfully or not.
+     * @return void
      */
     private static function check_wp_test() {
       exec('wp-test', $output, $return_variable);
@@ -180,7 +188,7 @@ if ( ! class_exists('Site_Health') ) {
 
     /**
      * Return passed and failed tests formatted in HTML.
-     * @return array Output, title and status color.
+     * @return mixed[] Output, title and status color.
      */
     private static function result_to_html() {
       $output = '';
@@ -211,16 +219,18 @@ if ( ! class_exists('Site_Health') ) {
       $output .= Template::section_title(__('Passed tests', 'seravo'), 'success')->to_html();
       $counter = 0;
 
-      foreach ( self::$no_issues as $element => $tooltip ) {
-        $tooltip_component = Template::tooltip($tooltip)->to_html();
+      if ( self::$no_issues !== null ) {
+        foreach ( self::$no_issues as $element => $tooltip ) {
+          $tooltip_component = Template::tooltip($tooltip)->to_html();
 
-        if ( $counter === count(self::$no_issues) - 1 ) {
-          // Apply border-bottom to the last element
-          $output .= '<div class="success-box" style="border-bottom: 1px solid #ccd0d4">' . $tooltip_component . $element . '</div>';
-        } else {
-          $output .= Template::text($tooltip_component . $element, 'success-box')->to_html();
+          if ( $counter === count(self::$no_issues) - 1 ) {
+            // Apply border-bottom to the last element
+            $output .= '<div class="success-box" style="border-bottom: 1px solid #ccd0d4">' . $tooltip_component . $element . '</div>';
+          } else {
+            $output .= Template::text($tooltip_component . $element, 'success-box')->to_html();
+          }
+          ++$counter;
         }
-        ++$counter;
       }
 
       return array( $output, $title, $status_color );

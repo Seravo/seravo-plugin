@@ -17,22 +17,25 @@ if ( ! class_exists('Login_Notifications') ) {
      * @var mixed[]|null
      */
     private static $login;
-    // How many rows will be retrieved when reading logs, affects dashboard load time
     /**
-     * @var int
+     * @var int Amount of rows read from logs, affects dashboard load time.
      */
     private static $max_rows = 200;
 
+    /**
+     * @return void
+     */
     public static function load() {
       add_action('load-index.php', array( __CLASS__, 'retrieve_notification_data' ));
       add_action('load-profile.php', array( __CLASS__, 'retrieve_notification_data' ));
     }
 
     /**
-    * Retreives login notification data when loading the dashboard page.
-    */
+     * Retreives login notification data when loading the dashboard page.
+     * @return void
+     */
     public static function retrieve_notification_data() {
-      wp_enqueue_style('login-notification', SERAVO_PLUGIN_URL . 'style/login-notification.css', '', Helpers::seravo_plugin_version());
+      wp_enqueue_style('login-notification', SERAVO_PLUGIN_URL . 'style/login-notification.css', array(), Helpers::seravo_plugin_version());
 
       // Retrieve last login notification only if the user has just logged in
       if ( isset($_SERVER['HTTP_REFERER']) ) {
@@ -79,7 +82,7 @@ if ( ! class_exists('Login_Notifications') ) {
             wp_add_dashboard_widget(
               'seravo-error-widget',
               __('Large error log', 'seravo'),
-              array( __CLASS__, 'display_admin_log_read_notification' )
+              array( __CLASS__, 'display_admin_large_log_read_notification' )
             );
           }
         );
@@ -123,25 +126,29 @@ if ( ! class_exists('Login_Notifications') ) {
     }
 
     /**
-    * Get the last login details from the current user logged into WordPress.
-    *
-    * @return array Previous login ip address and date, or empty array if not found
-    */
+     * Get the last login details from the current user logged into WordPress.
+     * @return array<string,mixed> Previous login data.
+     */
     public static function retrieve_last_login() {
       // Read login log file and reverse it
       $log_read = Logs::read_log_lines_backwards('/data/log/wp-login.log', -1, self::$max_rows);
       if ( $log_read === array() ) {
-        return;
+        return array();
       }
 
       $output_reversed = array_reverse($log_read['output']);
 
       $already_skipped = false;
 
+      $user_data = get_userdata(wp_get_current_user()->ID);
+      if ( $user_data === false ) {
+        return array();
+      }
+
       foreach ( $output_reversed as $line ) {
         preg_match('/^(?<ip>[.:0-9a-f]+) - (?<name>[\w\-_.*@ ]+) \[(?<datetime>[\d\/\w: +]+)\] .* (?<status>[A-Z]+$)/', $line, $entry);
 
-        $is_current_user_login = (get_userdata(wp_get_current_user()->ID)->user_login === $entry['name']);
+        $is_current_user_login = $user_data->user_login === $entry['name'];
 
         // Handle only successful logins
         if ( $entry['status'] == 'SUCCESS' && $is_current_user_login ) {
@@ -157,14 +164,19 @@ if ( ! class_exists('Login_Notifications') ) {
 
           // Fetch login date and time
           $timezone = get_option('timezone_string');
+
           $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $entry['datetime']);
+          if ( $datetime === false ) {
+            continue;
+          }
+
           $datetime->setTimezone(new \DateTimeZone(empty($timezone) ? 'UTC' : $timezone));
 
           return array(
             'date'   => $datetime->format(get_option('date_format')),
             'time'   => $datetime->format(get_option('time_format')),
             'ip'     => $ip,
-            'domain' => $domain,
+            'domain' => $domain !== false ? $domain : '',
           );
         }
       }
@@ -172,10 +184,18 @@ if ( ! class_exists('Login_Notifications') ) {
     }
 
     /**
-    * Display the latest login of the current user logged in.
-    */
+     * Display the latest login of the current user logged in.
+     * @return void
+     */
     public static function display_admin_logins_notification() {
+      if ( self::$login === null ) {
+        return;
+      }
+
       $user_data = get_userdata(wp_get_current_user()->ID);
+      if ( $user_data === false ) {
+        return;
+      }
 
       if ( empty(self::$login['domain']) ) {
         $msg = wp_sprintf(
@@ -211,8 +231,9 @@ if ( ! class_exists('Login_Notifications') ) {
     }
 
     /**
-    * Display an error if the php-error.log file is exceptionally large
-    */
+     * Display an error if the php-error.log file is exceptionally large
+     * @return void
+     */
     public static function display_admin_large_log_read_notification() {
       $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log">php-error.log</a>';
       $msg = wp_sprintf(
@@ -222,8 +243,9 @@ if ( ! class_exists('Login_Notifications') ) {
     }
 
     /**
-    * Display an error if there is problem reading the php-error.log file
-    */
+     * Display an error if there is problem reading the php-error.log file
+     * @return void
+     */
     public static function display_admin_broken_log_read_notification() {
       $url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log">php-error.log</a>';
       $msg = wp_sprintf(
@@ -232,5 +254,7 @@ if ( ! class_exists('Login_Notifications') ) {
       echo '<div>' . $msg . '</div>';
     }
   }
+
   Login_Notifications::load();
+
 }

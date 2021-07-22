@@ -14,10 +14,17 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('HideUsers') ) {
   class HideUsers {
 
+    /**
+     * @return void
+     */
     public static function load() {
         add_action('pre_user_query', array( __CLASS__, 'hide_user_from_page' ), 10, 3);
     }
 
+    /**
+     * @param \WP_User_Query $user_query
+     * @return void
+     */
     public static function hide_user_from_page( $user_query ) {
         if ( defined('WP_CLI') ) {
             return;
@@ -45,9 +52,8 @@ if ( ! class_exists('HideUsers') ) {
         );
     }
 
-    // Array of users that will be hidden from WP user front-end, wp-cli output and WP Admin panel.
     /**
-     * @var string[]
+     * @var string[] Array of users that will be hidden from WP user front-end, wp-cli output and WP Admin panel.
      */
     private static $hidden_user_array = array( 'seravotest', 'seravo' );
 

@@ -34,9 +34,9 @@ class Component {
 
   /**
    * Constructor for AjaxHandler. Will be called on new instance.
-   * @param string The HTML content of the component.
-   * @param string The opening tag of the component.
-   * @param string The closing tag of the component.
+   * @param string $content       The HTML content of the component.
+   * @param string $wrapper_open  The opening tag of the component.
+   * @param string $wrapper_close The closing tag of the component.
    */
   public function __construct( $content = '', $wrapper_open = '', $wrapper_close = '' ) {
     $this->content = $content;
@@ -46,7 +46,8 @@ class Component {
 
   /**
    * Add a child which will be rendered after the content.
-   * @param mixed $child $child Child component to be added.
+   * @param \Seravo\Postbox\Component|null $child Child component to be added.
+   * @return void
    */
   public function add_child( $child ) {
     if ( $child === null ) {
@@ -58,7 +59,8 @@ class Component {
 
   /**
    * Add children which are rendered after the content.
-   * @param \Seravo\Postbox\Component[] $children List of children to be added.
+   * @param \Seravo\Postbox\Component[]|null|null[] $children List of children to be added.
+   * @return void
    */
   public function add_children( $children ) {
     if ( $children === null || empty($children) ) {
@@ -79,10 +81,6 @@ class Component {
   public function to_html() {
     $html = $this->wrapper_open . $this->content;
     foreach ( $this->children as $child ) {
-      if ( $child === null ) {
-        continue;
-      }
-
       $html .= $child->to_html();
     }
     return $html . $this->wrapper_close;
@@ -90,6 +88,7 @@ class Component {
 
   /**
    * Prints the HTML for the component.
+   * @return void
    */
   public function print_html() {
     echo $this->to_html();

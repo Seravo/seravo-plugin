@@ -539,6 +539,9 @@ class Seravo_DNS_Table {
 
  }
 
+  /**
+   * @return mixed[]|\WP_Error
+   */
   public static function fetch_dns_records( $action, $domain ) {
     $api_query = '/domain/' . $domain . '/' . $action;
 

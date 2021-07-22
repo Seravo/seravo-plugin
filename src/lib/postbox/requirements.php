@@ -91,6 +91,7 @@ final class Requirements {
    * Initialize requirements from array. Array should
    * be in "[Requirements::*] => value" format.
    * @param array<string, mixed> $requirements Requirements to be initialized.
+   * @return void
    */
   public function init_from_array( $requirements ) {
     if ( isset($requirements[self::IS_ADMIN]) ) {

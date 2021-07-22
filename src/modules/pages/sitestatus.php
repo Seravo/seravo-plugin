@@ -73,7 +73,6 @@ class Site_Status extends Toolpage {
     self::check_default_settings();
     add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
     add_action('wp_ajax_seravo_ajax_site_status', 'Seravo\seravo_ajax_site_status');
-    add_action('wp_ajax_seravo_speed_test', 'Seravo\seravo_speed_test');
 
     $this->enable_charts();
     $this->enable_ajax();
@@ -94,15 +93,16 @@ class Site_Status extends Toolpage {
   /**
    * Register scripts.
    * @param string $screen The current screen.
+   * @return void
    */
   public static function enqueue_scripts( $screen ) {
     if ( $screen !== 'tools_page_site_status_page' ) {
       return;
     }
 
-    wp_enqueue_script('seravo-site-status-js', SERAVO_PLUGIN_URL . 'js/sitestatus.js', '', Helpers::seravo_plugin_version());
+    wp_enqueue_script('seravo-site-status-js', SERAVO_PLUGIN_URL . 'js/sitestatus.js', array(), Helpers::seravo_plugin_version());
     wp_enqueue_script('seravo-speedtest-js', SERAVO_PLUGIN_URL . 'js/speedtest.js', array( 'jquery' ), Helpers::seravo_plugin_version());
-    wp_enqueue_style('seravo-site-status-css', SERAVO_PLUGIN_URL . 'style/sitestatus.css', '', Helpers::seravo_plugin_version());
+    wp_enqueue_style('seravo-site-status-css', SERAVO_PLUGIN_URL . 'style/sitestatus.css', array(), Helpers::seravo_plugin_version());
 
     $loc_translation = array(
       'no_data'             => __('No data returned for the section.', 'seravo'),
@@ -121,7 +121,8 @@ class Site_Status extends Toolpage {
 
   /**
    * Init postboxes.
-   * @param Toolpage $page Page to init postboxes to.
+   * @param \Seravo\Postbox\Toolpage $page Page to init postboxes to.
+   * @return void
    */
   public static function init_postboxes( Toolpage $page ) {
     if ( getenv('WP_ENV') === 'production' ) {
@@ -230,6 +231,7 @@ class Site_Status extends Toolpage {
   /**
    * Helper method for initializing cache status postbox.
    * @param Postbox\Postbox $postbox The postbox to init AJAX handlers for.
+   * @return void
    */
   public static function init_cache_status( Postbox\Postbox $postbox ) {
     // Object cache hit rate
@@ -255,11 +257,12 @@ class Site_Status extends Toolpage {
 
   /**
    * Set default settings if they haven't been set.
+   * @return void
    */
   public static function check_default_settings() {
     if ( get_option('seravo-image-max-resolution-width') === false || get_option('seravo-image-max-resolution-height') === false ) {
-      update_option('seravo-image-max-resolution-width', self::$max_width_default);
-      update_option('seravo-image-max-resolution-height', self::$max_height_default);
+      update_option('seravo-image-max-resolution-width', self::IMAGE_MAX_SIZE_DEFAULT);
+      update_option('seravo-image-max-resolution-height', self::IMAGE_MAX_SIZE_DEFAULT);
     }
     if ( get_option('seravo-enable-optimize-images') === false ) {
       update_option('seravo-enable-optimize-images', 'off');
@@ -329,11 +332,11 @@ class Site_Status extends Toolpage {
    * Check that image optimization resolution is in limits.
    * @param string                   $value             Value from the form.
    * @param \Seravo\Postbox\Settings $optimize_settings The optimize setting section.
-   * @return mixed The value to be set.
+   * @return int The value to be set.
    */
   public static function check_image_optimization_resolution( $value, $optimize_settings ) {
     $value = $optimize_settings->sanitize_integer_field($value, get_option('seravo-image-max-resolution-height'));
-    if ( (int) $value < self::IMAGE_MIN_SIZE ) {
+    if ( $value < self::IMAGE_MIN_SIZE ) {
       $optimize_settings->add_notification(
         'size-under-limit',
         // translators: %1$s is minimum size in pixels and %2$s is the recommended maximum.
@@ -346,8 +349,9 @@ class Site_Status extends Toolpage {
 
   /**
    * Build the cache status postbox.
-   * @param Component $base Postbox's base element to add children to.
-   * @param Postbox\Postbox $postbox Postbox The box.
+   * @param \Seravo\Postbox\Component $base    Postbox's base element to add children to.
+   * @param \Seravo\Postbox\Postbox   $postbox Postbox The box.
+   * @return void
    */
   public static function build_cache_status( Component $base, Postbox\Postbox $postbox ) {
     if ( ! file_exists(self::OBJECT_CACHE_PATH) ) {
@@ -380,31 +384,47 @@ class Site_Status extends Toolpage {
     $object_cache_url = 'https://raw.githubusercontent.com/Seravo/wordpress/master/htdocs/wp-content/object-cache.php';
 
     // Remove all possible object-cache.php.* files
-    foreach ( glob(self::OBJECT_CACHE_PATH . '.*') as $file ) {
-      unlink($file);
+    $files = glob(self::OBJECT_CACHE_PATH . '.*');
+    if ( $files !== false ) {
+      foreach ( $files as $file ) {
+        unlink($file);
+      }
     }
 
     // Get the newest file and write it
     $object_cache_content = file_get_contents($object_cache_url);
+    if ( $object_cache_content === false ) {
+      // Downloading failed
+      $response->is_success(false);
+      $response->set_error(__('Error with downloading the latest object-cache file. Please try again later.', 'seravo'));
+      return $response;
+    }
+
     $object_cache_file = fopen(self::OBJECT_CACHE_PATH, 'w');
+    if ( $object_cache_file === false ) {
+      // Failed to open file handle
+      $response->is_success(false);
+      $response->set_error(__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
+      return $response;
+    }
+
     $write_object_cache = fwrite($object_cache_file, $object_cache_content);
     fclose($object_cache_file);
 
-    if ( $object_cache_content !== false && $write_object_cache !== false ) {
-      $response->is_success(true);
-      $output = __('Object cache is now enabled!', 'seravo');
-      $style = 'success bold';
-    } else {
+    if ( $write_object_cache === false ) {
+      // Failed to write
       $response->is_success(false);
-      $response->set_error(__('Error with downloading the latest object-cache file. Please try again later.', 'seravo'));
+      $response->set_error(__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
+      return $response;
     }
 
+    // All good!
+    $response->is_success(true);
     $response->set_data(
       array(
-        'output' => Template::paragraph($output, $style)->to_html(),
+        'output' => Template::paragraph(__('Object cache is now enabled!', 'seravo'), 'success bold')->to_html(),
       )
     );
-
     return $response;
   }
 
@@ -422,6 +442,10 @@ class Site_Status extends Toolpage {
 
     // Fetch the HTTP cache
     $access_logs = glob('/data/slog/*_total-access.log');
+    if ( $access_logs === false ) {
+      // Glob had an error
+      $access_logs = array();
+    }
 
     $hit = 0;
     $miss = 0;
@@ -433,6 +457,10 @@ class Site_Status extends Toolpage {
       if ( $file ) {
         while ( ! feof($file) ) {
           $line = fgets($file);
+          if ( $line === false ) {
+            continue;
+          }
+
           // " is needed to match the log file
           if ( strpos($line, '" HIT') ) {
             ++$hit;
@@ -506,6 +534,7 @@ class Site_Status extends Toolpage {
    * Build function for the disk usage postbox.
    * @param Component $base Postbox base component to add elements.
    * @param Postbox\Postbox $postbox The postbox the func is building.
+   * @return void
    */
   public static function build_disk_usage( Component $base, Postbox\Postbox $postbox ) {
     $base->add_child(Template::side_by_side(Component::from_raw('<div id="disk-usage-donut" style="width: 100px;"></div>'), $postbox->get_ajax_handler('disk-usage')->get_component(), 'evenly'));
@@ -580,7 +609,7 @@ class Site_Status extends Toolpage {
       if ( $folder_size > $dir_max_limit ) {
         $data_folders[$folder_name] = array(
           'percentage' => (($folder_size / $data_size) * 100),
-          'human'      => Helpers::human_file_size($folder_size),
+          'human'      => Helpers::human_file_size((int) $folder_size),
           'size'       => $folder_size,
         );
       }
@@ -588,7 +617,7 @@ class Site_Status extends Toolpage {
     // Create output array
     $output = array(
       'data'        => array(
-        'human' => Helpers::human_file_size($data_size),
+        'human' => Helpers::human_file_size((int) $data_size),
         'size'  => $data_size,
       ),
       'dataFolders' => $data_folders,
@@ -631,6 +660,7 @@ class Site_Status extends Toolpage {
    * Build the HTTP Request Statistics postbox.
    * @param Component $base Postbox's base element to add children to.
    * @param Postbox\Postbox $postbox Postbox The box.
+   * @return void
    */
   public static function build_http_statistics( Component $base, Postbox\Postbox $postbox ) {
     $base->add_child(Template::paragraph(__('These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo')));
@@ -643,7 +673,11 @@ class Site_Status extends Toolpage {
    */
   public static function get_http_statistics() {
     $response = new AjaxResponse();
+
     $reports = glob('/data/slog/html/goaccess-*.html');
+    if ( $reports === false ) {
+      $reports = array();
+    }
 
     if ( $reports !== array() ) {
       $column_titles = array( __('Month', 'seravo'), __('HTTP Requests', 'seravo'), __('Report', 'seravo') );
@@ -654,6 +688,10 @@ class Site_Status extends Toolpage {
 
       foreach ( array_reverse($reports) as $report ) {
         $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' {$report}");
+        if ( $total_requests_string === false ) {
+          continue;
+        }
+
         preg_match('/(\d+)/', $total_requests_string, $total_requests_match);
         $total_requests = (int) $total_requests_match[1];
         if ( $total_requests > $max_requests ) {
@@ -691,6 +729,7 @@ class Site_Status extends Toolpage {
    * @param Component $base Postbox's base element to add children to.
    * @param Postbox\Postbox $postbox Postbox The box.
    * @param mixed $data Data returned by data func.
+   * @return void
    */
   public static function build_site_info( Component $base, Postbox\Postbox $postbox, $data ) {
     if ( isset($data['error']) ) {
@@ -713,7 +752,7 @@ class Site_Status extends Toolpage {
 
   /**
    * Fetch the plan details. This is a data func for site-info postbox.
-   * @return array<string, mixed>
+   * @return array<string, string>
    */
   public static function get_site_info() {
     $info = \Seravo\Upkeep::seravo_admin_get_site_info();
@@ -769,6 +808,9 @@ class Site_Status extends Toolpage {
     return $data;
   }
 
+  /**
+   * @return void
+   */
   public static function seravo_shadows_postbox() {
     ?>
     <div class="seravo-section">
@@ -875,6 +917,9 @@ class Site_Status extends Toolpage {
     <?php
   }
 
+  /**
+   * @return void
+   */
   public static function seravo_data_integrity() {
     ?>
     <h3>
@@ -894,7 +939,8 @@ class Site_Status extends Toolpage {
 
   /**
    * Build form func for the speed test postbox.
-   * @param Component $base Base component of the postbox to add items.
+   * @param \Seravo\Postbox\Component $base Base component of the postbox to add items.
+   * @return void
    */
   public static function build_speed_test( Component $base ) {
     $target_location = isset($_GET['speed_test_target']) ? $_GET['speed_test_target'] : '';
@@ -908,6 +954,9 @@ class Site_Status extends Toolpage {
     $base->add_child(Component::from_raw('<div id="speed-test-error"></div>'));
   }
 
+  /**
+   * @return void
+   */
   public static function speed_test() {
     $target_location = isset($_GET['speed_test_target']) ? $_GET['speed_test_target'] : '';
     echo ('<p>' . __('Speed test measures the time how long it takes for PHP to produce the HTML output for the WordPress page.', 'seravo') . '</p>');
@@ -941,6 +990,12 @@ class Site_Status extends Toolpage {
 
     // Prepare curl settings which are same for all requests
     $ch = curl_init($url);
+    if ( $ch === false ) {
+      $response->is_success(false);
+      $response->set_error(__('Error! Curl not available', 'seravo'));
+      return $response;
+    }
+
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // equals the command line -k option
 

@@ -64,7 +64,7 @@ class Security extends Toolpage {
     // AJAX functionality for listing and removing plugins
     add_action('wp_ajax_seravo_list_cruft_plugins', 'Seravo\seravo_ajax_list_cruft_plugins');
     add_action('wp_ajax_seravo_remove_plugins', 'Seravo\seravo_ajax_remove_plugins');
-    // AJAX functionality for listing and removing themess
+    // AJAX functionality for listing and removing themes
     add_action('wp_ajax_seravo_list_cruft_themes', 'Seravo\seravo_ajax_list_cruft_themes');
     add_action('wp_ajax_seravo_remove_themes', 'Seravo\seravo_ajax_remove_themes');
 
@@ -86,17 +86,18 @@ class Security extends Toolpage {
   /**
    * Register scripts.
    * @param string $screen The current screen.
+   * @return void
    */
   public static function enqueue_scripts( $screen ) {
     if ( $screen !== 'tools_page_security_page' ) {
       return;
     }
 
-    wp_enqueue_script('seravo-cruftfiles-js', SERAVO_PLUGIN_URL . 'js/cruftfiles.js', '', Helpers::seravo_plugin_version());
-    wp_enqueue_script('seravo-cruftplugins-js', SERAVO_PLUGIN_URL . 'js/cruftplugins.js', '', Helpers::seravo_plugin_version());
-    wp_enqueue_script('seravo-cruftthemes-js', SERAVO_PLUGIN_URL . 'js/cruftthemes.js', '', Helpers::seravo_plugin_version());
-    wp_enqueue_style('seravo-security-css', SERAVO_PLUGIN_URL . 'style/security.css', '', Helpers::seravo_plugin_version());
-    wp_enqueue_style('seravo-cruftfiles-css', SERAVO_PLUGIN_URL . 'style/cruftfiles.css', '', Helpers::seravo_plugin_version());
+    wp_enqueue_script('seravo-cruftfiles-js', SERAVO_PLUGIN_URL . 'js/cruftfiles.js', array(), Helpers::seravo_plugin_version());
+    wp_enqueue_script('seravo-cruftplugins-js', SERAVO_PLUGIN_URL . 'js/cruftplugins.js', array(), Helpers::seravo_plugin_version());
+    wp_enqueue_script('seravo-cruftthemes-js', SERAVO_PLUGIN_URL . 'js/cruftthemes.js', array(), Helpers::seravo_plugin_version());
+    wp_enqueue_style('seravo-security-css', SERAVO_PLUGIN_URL . 'style/security.css', array(), Helpers::seravo_plugin_version());
+    wp_enqueue_style('seravo-cruftfiles-css', SERAVO_PLUGIN_URL . 'style/cruftfiles.css', array(), Helpers::seravo_plugin_version());
 
     $loc_translation_files = array(
       'no_data'       => __('No data returned for the section.', 'seravo'),
@@ -152,6 +153,7 @@ class Security extends Toolpage {
   /**
    * Init postboxes on Security page.
    * @param Toolpage $page Page to init postboxes.
+   * @return void
    */
   public static function init_postboxes( Toolpage $page ) {
     \Seravo\Postbox\seravo_add_raw_postbox(
@@ -214,6 +216,7 @@ class Security extends Toolpage {
   /**
    * Check if the security settings have been set and show a notice if they
    * haven't been. No matter if the features are disabled or enabled.
+   * @return void
    */
   public static function _seravo_check_security_options() {
     $options = array(
@@ -245,7 +248,7 @@ class Security extends Toolpage {
 
   /**
    * Get setting section for the security settings postbox.
-   * @return \Seravo\Postbox\Setting The setting section instance.
+   * @return \Seravo\Postbox\Settings The setting section instance.
    */
   public static function get_security_settings() {
     $security_settings = new Settings('seravo-security-settings');
@@ -291,8 +294,9 @@ class Security extends Toolpage {
 
   /**
    * Build function for last successfull logins postbox.
-   * @param Component $base Base component.
-   * @param Postbox $postbox Postbox widget.
+   * @param \Seravo\Postbox\Component $base    Base component.
+   * @param \Seravo\Postbox\Postbox   $postbox Postbox widget.
+   * @return void
    */
   public static function build_last_logins( Component $base, Postbox\Postbox $postbox ) {
     $base->add_child(Template::paragraph(__('This tool can be used to retrieve last 10 successful logins. For more details and full login log see <a href="tools.php?page=logs_page&logfile=wp-login.log" target="_blank">wp-login.log</a>.', 'seravo')));
@@ -391,6 +395,9 @@ class Security extends Toolpage {
     return $response;
   }
 
+  /**
+   * @return void
+   */
   public static function cruftfiles_postbox() {
     ?>
     <p id="cruftfiles_tool">
@@ -411,6 +418,9 @@ class Security extends Toolpage {
     <?php
   }
 
+  /**
+   * @return void
+   */
   public static function cruftplugins_postbox() {
     ?>
     <p>
@@ -432,6 +442,9 @@ class Security extends Toolpage {
     <?php
   }
 
+  /**
+   * @return void
+   */
   public static function cruftthemes_postbox() {
     ?>
     <p>
@@ -451,6 +464,7 @@ class Security extends Toolpage {
   /**
    * $_POST['deletefile'] is either a string denoting only one file
    * or it can contain an array containing strings denoting files.
+   * @return void
    */
   public static function ajax_delete_file() {
     check_ajax_referer('seravo_cruftfiles', 'nonce');
@@ -479,6 +493,8 @@ class Security extends Toolpage {
   }
 
   /**
+   * @param string $dir
+   * @param int    $recursive
    * @return bool|void
    */
   public static function rmdir_recursive( $dir, $recursive ) {
@@ -487,7 +503,7 @@ class Security extends Toolpage {
         continue; // Skip current and upper level directories
       }
       if ( is_dir("{$dir}/{$file}") ) {
-        rmdir_recursive("{$dir}/{$file}", 1);
+        self::rmdir_recursive("{$dir}/{$file}", 1);
       } else {
         unlink("{$dir}/{$file}");
       }

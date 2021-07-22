@@ -61,7 +61,7 @@ class LazyCommand extends LazyLoader {
   public function ajax_command_exec( $section ) {
     $exec_command = $this->command;
 
-    if ( $this->command === null ) {
+    if ( $exec_command === null ) {
       return AjaxResponse::unknown_error_response();
     }
 
@@ -70,7 +70,7 @@ class LazyCommand extends LazyLoader {
     exec($exec_command, $output, $retval);
 
     if ( $retval !== 0 && ! $this->allow_failure ) {
-      return AjaxResponse::command_error_response($this->command);
+      return AjaxResponse::command_error_response($exec_command);
     }
 
     if ( empty($output) ) {
@@ -96,6 +96,7 @@ class LazyCommand extends LazyLoader {
    * @param string $command       Command for exec.
    * @param int    $cache_time    Seconds to cache response for (default 300).
    * @param bool   $allow_failure Whether exit code other than 0 should respond with an error (default false).
+   * @return void
    */
   public function set_command( $command, $cache_time = 300, $allow_failure = false ) {
     $this->command = $command;
@@ -107,6 +108,7 @@ class LazyCommand extends LazyLoader {
   /**
    * Set whether exit code other than 0 should respond with an error.
    * @param bool $allow_failure Whether to allow failure.
+   * @return void
    */
   public function set_allow_failure( $allow_failure ) {
     $this->allow_failure = $allow_failure;
@@ -115,6 +117,7 @@ class LazyCommand extends LazyLoader {
   /**
    * Set a message to be shown if command returns no data.
    * @param string $message Message to be shown for no command output.
+   * @return void
    */
   public function set_empty_message( $message ) {
     $this->empty_message = $message;

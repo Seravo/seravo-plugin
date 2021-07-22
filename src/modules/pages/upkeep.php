@@ -57,9 +57,6 @@ class Upkeep extends Toolpage {
     add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
     add_action('admin_post_toggle_seravo_updates', array( __CLASS__, 'seravo_admin_toggle_seravo_updates' ), 20);
 
-    // TODO: check if this hook actually ever fires for mu-plugins
-    register_activation_hook(__FILE__, array( __CLASS__, 'register_view_updates_capability' ));
-
     $this->enable_ajax();
   }
 
@@ -78,15 +75,16 @@ class Upkeep extends Toolpage {
   /**
    * Register scripts.
    * @param string $screen The current screen.
+   * @return void
    */
   public static function enqueue_scripts( $screen ) {
     if ( $screen !== 'tools_page_upkeep_page' ) {
       return;
     }
 
-    wp_enqueue_script('seravo-upkeep-js', SERAVO_PLUGIN_URL . 'js/upkeep.js', 'jquery', Helpers::seravo_plugin_version());
-    wp_enqueue_script('screenshots-js', SERAVO_PLUGIN_URL . 'js/screenshots.js', 'jquery', Helpers::seravo_plugin_version());
-    wp_enqueue_style('seravo-upkeep-css', SERAVO_PLUGIN_URL . 'style/upkeep.css', '', Helpers::seravo_plugin_version());
+    wp_enqueue_script('seravo-upkeep-js', SERAVO_PLUGIN_URL . 'js/upkeep.js', array( 'jquery' ), Helpers::seravo_plugin_version());
+    wp_enqueue_script('screenshots-js', SERAVO_PLUGIN_URL . 'js/screenshots.js', array( 'jquery' ), Helpers::seravo_plugin_version());
+    wp_enqueue_style('seravo-upkeep-css', SERAVO_PLUGIN_URL . 'style/upkeep.css', array(), Helpers::seravo_plugin_version());
 
     $loc_translation = array(
       'email_fail' => __('There must be at least one contact email', 'seravo'),
@@ -94,6 +92,10 @@ class Upkeep extends Toolpage {
     wp_localize_script('seravo-upkeep-js', 'seravo_upkeep_loc', $loc_translation);
   }
 
+  /**
+   * @param \Seravo\Postbox\Toolpage $page Toolpage to add postboxes to.
+   * @return void
+   */
   public static function init_postboxes( Toolpage $page ) {
     if ( getenv('WP_ENV') === 'production' ) {
       \Seravo\Postbox\seravo_add_raw_postbox(
@@ -203,9 +205,10 @@ class Upkeep extends Toolpage {
 
   /**
    * Builder function for tests status postbox.
-   * @param Component $base Base element for the postbox.
-   * @param Postbox $postbox The current postbox.
-   * @param mixed $data Data returned by data function.
+   * @param \Seravo\Postbox\Component $base    Base element for the postbox.
+   * @param \Seravo\Postbox\Postbox   $postbox The current postbox.
+   * @param mixed                     $data    Data returned by data function.
+   * @return void
    */
   public static function build_update_status( Component $base, Postbox\Postbox $postbox, $data ) {
     if ( isset($data['error']) ) {
@@ -231,9 +234,10 @@ class Upkeep extends Toolpage {
 
   /**
    * Builder function for tests status postbox.
-   * @param Component $base Base element for the postbox.
-   * @param Postbox $postbox The current postbox.
-   * @param mixed $data Data returned by data function.
+   * @param \Seravo\Postbox\Component $base    Base element for the postbox.
+   * @param \Seravo\Postbox\Postbox   $postbox The current postbox.
+   * @param mixed                     $data    Data returned by data function.
+   * @return void
    */
   public static function build_tests_status( Component $base, Postbox\Postbox $postbox, $data ) {
     $base->add_children(
@@ -247,8 +251,9 @@ class Upkeep extends Toolpage {
 
   /**
    * Build Change PHP version postbox.
-   * @param Component $base Postbox base component.
-   * @param Postbox $postbox Current postbox to build for.
+   * @param \Seravo\Postbox\Component $base    Postbox base component.
+   * @param \Seravo\Postbox\Postbox   $postbox Current postbox to build for.
+   * @return void
    */
   public static function build_change_php_version_postbox( Component $base, Postbox\Postbox $postbox ) {
     $base->add_child(Template::section_title(__('Check PHP compatibility', 'seravo')));
@@ -261,7 +266,8 @@ class Upkeep extends Toolpage {
 
   /**
    * Build function for Change PHP Version postbox radiobuttons.
-   * @param Component $base Base component to add child components.
+   * @param \Seravo\Postbox\Component $base Base component to add child components.
+   * @return void
    */
   public static function build_php_version_form( Component $base ) {
     $data = array(
@@ -329,7 +335,7 @@ class Upkeep extends Toolpage {
 
   /**
    * Data function for Change PHP Version AJAX.
-   * @return \Seravo\Ajax\AjaxResponse|mixed
+   * @return \Seravo\Ajax\AjaxResponse
    */
   public static function set_php_version() {
     $polling = Ajax\AjaxHandler::check_polling();
@@ -389,15 +395,18 @@ class Upkeep extends Toolpage {
 
         return Ajax\AjaxResponse::require_polling_response($pid);
       }
+      return Ajax\AjaxResponse::invalid_request_response();
     }
+
     return $polling;
   }
 
   /**
    * Build Seravo Plugin Update postbox.
-   * @param Component $base Postbox base component.
-   * @param Postbox $postbox Current postbox to build for.
-   * @param mixed $data Data returned by data function.
+   * @param \Seravo\Postbox\Component $base    Postbox base component.
+   * @param \Seravo\Postbox\Postbox   $postbox Current postbox to build for.
+   * @param mixed                     $data    Data returned by data function.
+   * @return void
    */
   public static function build_seravo_plugin_update_postbox( Component $base, Postbox\Postbox $postbox, $data ) {
     if ( ! isset($data['current_version']) || ! isset($data['upstream_version']) ) {
@@ -437,13 +446,14 @@ class Upkeep extends Toolpage {
 
   /**
    * Fetch the site data from API
+   * @return mixed[]|\WP_Error
    */
   public static function seravo_admin_get_site_info() {
     return API::get_site_data();
   }
 
   /**
-   * @return mixed|void
+   * @return void
    */
   public static function seravo_updates_postbox() {
 
@@ -451,70 +461,71 @@ class Upkeep extends Toolpage {
 
     if ( is_wp_error($site_info) ) {
       error_log($site_info->get_error_message());
-      return _e('An API error occured. Please try again later', 'seravo');
+      _e('An API error occured. Please try again later', 'seravo');
+      return;
     }
 
-    // WP_error-object
-    if ( gettype($site_info) === 'array' ) {
-      ?>
-      <h3><?php _e('Opt-out from updates by Seravo', 'seravo'); ?></h3>
-      <?php
-      $checked = $site_info['seravo_updates'] === true ? 'checked="checked"' : '';
+    ?>
+    <h3><?php _e('Opt-out from updates by Seravo', 'seravo'); ?></h3>
+    <?php
+    $checked = $site_info['seravo_updates'] === true ? 'checked="checked"' : '';
 
-      if ( isset($site_info['notification_webhooks'][0]['url']) &&
-        $site_info['notification_webhooks'][0]['type'] === 'slack' ) {
-        $slack_webhook = $site_info['notification_webhooks'][0]['url'];
-      } else {
-        $slack_webhook = '';
-      }
-
-      $contact_emails = array();
-      if ( isset($site_info['contact_emails']) ) {
-        $contact_emails = $site_info['contact_emails'];
-      }
-
-      ?>
-      <p><?php _e("The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below.", 'seravo'); ?></p>
-      <form name="seravo_updates_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
-        <?php wp_nonce_field('seravo-updates-nonce'); ?>
-        <input type="hidden" name="action" value="toggle_seravo_updates">
-        <div class="checkbox allow_updates_checkbox">
-          <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo'); ?><br>
-        </div>
-
-        <hr class="seravo-updates-hr">
-        <h3><?php _e('Update Notifications with a Slack Webhook', 'seravo'); ?></h3>
-        <p><?php _e('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks" target="_BLANK">Read more about webhooks</a>.', 'seravo'); ?></p>
-        <input name="slack_webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="<?php echo $slack_webhook; ?>">
-        <button type="button" class="button" id="slack_webhook_test"><?php _e('Send a Test Notification', 'seravo'); ?></button>
-
-        <hr class="seravo-updates-hr">
-        <h3 id='contacts'><?php _e('Contacts', 'seravo'); ?></h3>
-        <p><?php _e('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo'); ?></p>
-        <input class="technical_contacts_input" type="email" multiple size="30" placeholder="<?php _e('example@example.com', 'seravo'); ?>" value="" data-emails="<?php echo htmlspecialchars(json_encode($contact_emails)); ?>">
-        <button type="button" class="technical_contacts_add button"><?php _e('Add', 'seravo'); ?></button>
-        <span class="technical_contacts_error"><?php _e('Email must be formatted as name@domain.com', 'seravo'); ?></span>
-        <input name="technical_contacts" type="hidden">
-        <div class="technical_contacts_buttons"></div>
-        <br>
-        <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
-        <p><small class="seravo-developer-letter-hint">
-            <?php
-            // translators: %1$s link to Newsletter for WordPress developers
-            printf(__('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/" target="_BLANK">', '</a>');
-            ?>
-          </small></p>
-        <br>
-      </form>
-      <?php
+    if ( isset($site_info['notification_webhooks'][0]['url']) &&
+      $site_info['notification_webhooks'][0]['type'] === 'slack' ) {
+      $slack_webhook = $site_info['notification_webhooks'][0]['url'];
     } else {
-      echo $site_info->get_error_message();
+      $slack_webhook = '';
     }
+
+    $contact_emails = array();
+    if ( isset($site_info['contact_emails']) ) {
+      $contact_emails = $site_info['contact_emails'];
+    }
+
+    $contact_emails = json_encode($contact_emails);
+    if ( $contact_emails === false ) {
+      $contact_emails = '[]';
+    }
+
+    ?>
+    <p><?php _e("The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below.", 'seravo'); ?></p>
+    <form name="seravo_updates_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
+      <?php wp_nonce_field('seravo-updates-nonce'); ?>
+      <input type="hidden" name="action" value="toggle_seravo_updates">
+      <div class="checkbox allow_updates_checkbox">
+        <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php _e('Seravo updates enabled', 'seravo'); ?><br>
+      </div>
+
+      <hr class="seravo-updates-hr">
+      <h3><?php _e('Update Notifications with a Slack Webhook', 'seravo'); ?></h3>
+      <p><?php _e('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks" target="_BLANK">Read more about webhooks</a>.', 'seravo'); ?></p>
+      <input name="slack_webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="<?php echo $slack_webhook; ?>">
+      <button type="button" class="button" id="slack_webhook_test"><?php _e('Send a Test Notification', 'seravo'); ?></button>
+
+      <hr class="seravo-updates-hr">
+      <h3 id='contacts'><?php _e('Contacts', 'seravo'); ?></h3>
+      <p><?php _e('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo'); ?></p>
+      <input class="technical_contacts_input" type="email" multiple size="30" placeholder="<?php _e('example@example.com', 'seravo'); ?>" value="" data-emails="<?php echo htmlspecialchars($contact_emails); ?>">
+      <button type="button" class="technical_contacts_add button"><?php _e('Add', 'seravo'); ?></button>
+      <span class="technical_contacts_error"><?php _e('Email must be formatted as name@domain.com', 'seravo'); ?></span>
+      <input name="technical_contacts" type="hidden">
+      <div class="technical_contacts_buttons"></div>
+      <br>
+      <input type="submit" id="save_settings_button" class="button button-primary" value="<?php _e('Save settings', 'seravo'); ?>">
+      <p><small class="seravo-developer-letter-hint">
+          <?php
+          // translators: %1$s link to Newsletter for WordPress developers
+          printf(__('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/" target="_BLANK">', '</a>');
+          ?>
+        </small></p>
+      <br>
+    </form>
+    <?php
   }
 
   /**
    * Data function for update status postbox
-   * @return array<string, string>
+   * @return array<string,array|string>
    */
   public static function get_update_status() {
     $site_info = self::seravo_admin_get_site_info();
@@ -533,8 +544,16 @@ class Upkeep extends Toolpage {
     // for linking to correct log on the logs page as well as fetching the failed lines
     // from the log if needed in the update notification
     $update_logs_arr = glob('/data/log/update.log');
-    if ( empty($update_logs_arr) ) {
-      $update_logs_arr = preg_grep('/(\d){8}$/', glob('/data/log/update.log-*'));
+    if ( $update_logs_arr === false || empty($update_logs_arr) ) {
+      $update_logs = glob('/data/log/update.log-*');
+      if ( $update_logs === false ) {
+        $update_logs_arr = array();
+      } else {
+        $update_logs_arr = preg_grep('/(\d){8}$/', $update_logs);
+        if ( $update_logs_arr === false ) {
+          $update_logs_arr = array();
+        }
+      }
     }
     $update_log_name = substr(end($update_logs_arr), 10);
 
@@ -551,9 +570,14 @@ class Upkeep extends Toolpage {
         if ( $update_log_fp != false ) {
           $index = 0;
           while ( ! feof($update_log_fp) ) {
+            $line = fgets($update_log_fp);
+            if ( $line === false ) {
+              continue;
+            }
+
             // Strip timestamps from log lines
             // Show only lines with 'Updates failed!'
-            $buffer = substr(fgets($update_log_fp), 28);
+            $buffer = substr($line, 28);
             if ( substr($buffer, 0, 15) === 'Updates failed!' ) {
               $update_log_contents[ $index ] = $buffer;
               ++$index;
@@ -599,7 +623,7 @@ class Upkeep extends Toolpage {
 
   /**
    * Data function for tests status postbox.
-   * @return array<string, string>|array<string, bool>
+   * @return array<string,mixed>
    */
   public static function get_tests_status() {
     exec('zgrep -h -A 1 "Running initial tests in production" /data/log/update.log-* /data/log/update.log | tail -n 1 | cut -d " " -f 4-8', $test_status);
@@ -619,6 +643,9 @@ class Upkeep extends Toolpage {
     return $data;
   }
 
+  /**
+   * @return void
+   */
   public static function build_backup_list_changes( Component $base ) {
     $base->add_child(Template::datetime_picker(__('Choose a since date', 'seravo'), 'datepicker', date('Y-m-d', strtotime('-30 days')), date('Y-m-d')));
     $base->add_child(Component::from_raw('<br>'));
@@ -626,7 +653,7 @@ class Upkeep extends Toolpage {
 
   /**
    * Fetch 2 days offset date
-   * @return array With formatted date and message.
+   * @return array<int,string> With formatted date and message.
    */
   public static function get_offset_date() {
     $datenow = getdate();
@@ -690,9 +717,10 @@ class Upkeep extends Toolpage {
 
   /**
    * Build function for screenshots postbox.
-   * @param Component $base The base component of the postbox.
-   * @param Postbox\Postbox $postbox The postbox to add components / elements.
-   * @param array $data Data returned by data function.
+   * @param \Seravo\Postbox\Component $base    The base component of the postbox.
+   * @param \Seravo\Postbox\Postbox   $postbox The postbox to add components / elements.
+   * @param mixed[] $data Data returned by data function.
+   * @return void
    */
   public static function build_screenshots_postbox( Component $base, Postbox\Postbox $postbox, $data ) {
     if ( ! isset($data['showing']) || $data['showing'] === 0 ) {
@@ -704,10 +732,14 @@ class Upkeep extends Toolpage {
 
   /**
    * Data function for screenshots postbox.
-   * @return array Data component containing screenshots and the count.
+   * @return mixed[] Data component containing screenshots and the count.
    */
   public static function get_screenshots() {
     $screenshots = glob('/data/reports/tests/debug/*.png');
+    if ( $screenshots === false ) {
+      $screenshots = array();
+    }
+
     $screenshot_rows = array();
     $data = array();
 
@@ -736,10 +768,12 @@ class Upkeep extends Toolpage {
           continue;
         }
 
+        $diff = 0.0;
         $diff_txt = file_get_contents(substr($screenshot, 0, -4) . '.diff.txt');
-        if ( preg_match('/Total: ([0-9.]+)/', $diff_txt, $matches) ) {
+        if ( $diff_txt !== false && preg_match('/Total: ([0-9.]+)/', $diff_txt, $matches) ) {
           $diff = (float) $matches[1];
         }
+
         $screenshot_element = '<hr class="seravo-updates-hr">' . Template::link($name, '?x-accel-redirect&screenshot=' . $name . '.diff.png', $name, 'diff-img-title')->to_html() . '<span';
         // Make the difference number stand out if it is non-zero
         if ( $diff > 0.011 ) {
@@ -764,7 +798,7 @@ class Upkeep extends Toolpage {
 
   /**
    * Helper function for screenshots construction.
-   * @param array $atts Attributes containing comparison images and their difference.
+   * @param array{'difference':float,'img_right':string,'img_left':string} $atts Attributes containing comparison images and their difference.
    * @return string Image element as a string.
    */
   public static function seravo_admin_image_comparison_slider( $atts ) {
@@ -783,6 +817,9 @@ class Upkeep extends Toolpage {
     </div>';
   }
 
+  /**
+   * @return void
+   */
   public static function seravo_admin_toggle_seravo_updates() {
     check_admin_referer('seravo-updates-nonce');
 
@@ -849,7 +886,8 @@ class Upkeep extends Toolpage {
     $message = __('At least one of the tests failed.', 'seravo');
     $status_color = Ajax\FancyForm::STATUS_RED;
 
-    if ( count(preg_grep('/OK \(/i', $output)) >= 1 && $retval === 0 ) {
+    $oks = preg_grep('/OK \(/i', $output);
+    if ( $oks !== false && count($oks) >= 1 && $retval === 0 ) {
       // Success
       $message = __('Tests were run without any errors!', 'seravo');
       $status_color = Ajax\FancyForm::STATUS_GREEN;

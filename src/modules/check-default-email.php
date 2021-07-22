@@ -21,10 +21,16 @@ if ( ! class_exists('CheckDefaultEmail') ) {
      */
     private static $bad_email_locals = array( 'no-reply', 'noreply', 'vagrant' );
 
+    /**
+     * @return void
+     */
     public static function load() {
       add_action('admin_notices', array( __CLASS__, '_seravo_check_default_email' ));
     }
 
+    /**
+     * @return void
+     */
     public static function _seravo_check_default_email() {
       // Get admin email option and take the local part before the @ sign
       $email = get_option('admin_email');
@@ -36,6 +42,9 @@ if ( ! class_exists('CheckDefaultEmail') ) {
       }
     }
 
+    /**
+     * @return void
+     */
     public static function _seravo_show_email_warning() {
       ?><div class="notice notice-error"><p>
       <?php

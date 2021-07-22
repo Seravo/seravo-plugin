@@ -12,11 +12,12 @@ class Shell {
   /**
    * Function for executing command more safely. Note that
    * this still isn't bulletproof.
-   * @param string $command      The hardcoded command to execute.
-   * @param array  $args         Optional extra arguments.
-   * @param array  $env          Optional extra env variables (key=>value).
-   * @param array  &$output      Array for the output.
-   * @param array  &$result_code Command exit code.
+   * @param string   $command     The hardcoded command to execute.
+   * @param string[] $args        Optional extra arguments.
+   * @param string[] $env         Optional extra env variables (key => value).
+   * @param string[] $output      Array for the output.
+   * @param int      $result_code Command exit code.
+   * @return void
    */
   public static function safe_exec( $command, $args = array(), $env = array(), &$output = null, &$result_code = null ) {
     $safe_command = self::sanitize_command($command, $args, $env);
@@ -26,9 +27,9 @@ class Shell {
   /**
    * Function for sanitizing commands to be more safe.
    * Note that this still isn't bulletproof.
-   * @param string $command      The hardcoded command to execute.
-   * @param array  $args         Optional extra arguments.
-   * @param array  $env          Optional extra env variables (key=>value).
+   * @param string          $command The hardcoded command to execute.
+   * @param null[]|string[] $args    Optional extra arguments.
+   * @param string[]        $env     Optional extra env variables (key=>value).
    * @return string Sanitized command.
    */
   public static function sanitize_command( $command, $args = array(), $env = array() ) {
@@ -71,7 +72,7 @@ class Shell {
 
   /**
    * Check if command is running.
-   * @param int $pid Pid of the program.
+   * @param string $pid Pid of the program.
    * @return bool Whether the command is running.
    */
   public static function is_pid_running( $pid ) {

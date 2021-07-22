@@ -17,30 +17,30 @@ if ( ! class_exists('Dashboard_Widgets') ) {
   class Dashboard_Widgets {
 
     /**
-     * @var int|null
+     * @var int|null The amount of PHP errors.
      */
     private static $errors;
-    // end of life versions
     /**
-     * @var int
+     * @var int Major end of life version.
      */
     const EOL_MAJOR = 7;
     /**
-     * @var int
+     * @var int Major end of life version.
      */
     const EOL_MINOR = 2;
 
-    // the relative disk usage
     /**
-     * @var float
+     * @var float The relative disk usage.
      */
     const LOW_DISK_SPACE_USAGE = 0.9;
-    // set a transient for 15 minutes
     /**
-     * @var int
+     * @var int Set a transient for 15 minutes.
      */
     const DISK_SPACE_CACHE_TIME = 900;
 
+    /**
+     * @return void
+     */
     public static function load() {
       // remove wp own PHP nag
       add_action('wp_dashboard_setup', array( __CLASS__, 'remove_wp_php_nag' ));
@@ -93,6 +93,7 @@ if ( ! class_exists('Dashboard_Widgets') ) {
 
     /**
      * Remove the WordPress old PHP nag on admin dashboard
+     * @return void
      */
     public static function remove_wp_php_nag() {
       remove_meta_box('dashboard_php_nag', 'dashboard', 'normal');
@@ -128,7 +129,8 @@ if ( ! class_exists('Dashboard_Widgets') ) {
       }
 
       if ( ! empty($data_folder) ) {
-        $data_size = preg_split('/\s+/', $data_folder[0])[0];
+        $data_size = preg_split('/\s+/', $data_folder[0]);
+        $data_size = $data_size !== false ? $data_size[0] : 0;
       }
       $plan_details = API::get_site_data();
 
@@ -153,6 +155,9 @@ if ( ! class_exists('Dashboard_Widgets') ) {
       );
     }
 
+    /**
+     * @return void
+     */
     public static function display_disk_space_low_warning() {
       $disk_space = self::disk_space_usage();
       $disk_usage_url = '<a href="' . get_option('siteurl') . '/wp-admin/tools.php?page=site_status_page#disk_usage_heading" target="_blank">' .
@@ -174,8 +179,9 @@ if ( ! class_exists('Dashboard_Widgets') ) {
     }
 
     /**
-    * Display the amount of php-error.log lines that have appeared this week and old PHP version.
-    */
+     * Display the amount of php-error.log lines that have appeared this week and old PHP version.
+     * @return void
+     */
     public static function display_php_warning_widget() {
 
       if ( self::$errors > 0 ) {
@@ -251,7 +257,7 @@ if ( ! class_exists('Dashboard_Widgets') ) {
       <?php
       $reports = glob('/data/slog/html/goaccess-*.html');
 
-      if ( count($reports) !== 0 ) {
+      if ( $reports !== false && ! empty($reports) ) {
         $contact_email_url = '<a href="mailto:help@seravo.com">help@seravo.com</a>';
         $msg = wp_sprintf(
         // translators: %1$s contact email link
@@ -285,7 +291,12 @@ if ( ! class_exists('Dashboard_Widgets') ) {
             break;
           }
           ++$report_month_counter;
+
           $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' {$report}");
+          if ( $total_requests_string === false ) {
+            continue;
+          }
+
           preg_match('/(\d+)/', $total_requests_string, $total_requests_match);
           $total_requests = (int) $total_requests_match[1];
           if ( $total_requests > $max_requests ) {

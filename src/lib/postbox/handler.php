@@ -40,7 +40,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Get singleton instance.
-     * @return \Seravo\Seravo_Postbox_Factory|null Instance of the Seravo_Postbox_Factory class
+     * @return \Seravo\Postbox\Seravo_Postbox_Factory|null Instance of the Seravo_Postbox_Factory class
      */
     public static function get_instance() {
       if ( self::$instance === null ) {
@@ -58,12 +58,13 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Add a Seravo postbox.
-     * @param string       $id            Unique id/slug of the postbox.
-     * @param string       $title         Display title of the postbox.
-     * @param callable     $callback      A function that outputs the postbox content.
-     * @param string       $screen        Admin screen id where the postbox should be displayed in.
-     * @param string       $context       Default admin dashboard context where the postbox should be displayed in.
-     * @param array[mixed] $callback_args Array of arguments that will get passed to the callback function.
+     * @param string   $id            Unique id/slug of the postbox.
+     * @param string   $title         Display title of the postbox.
+     * @param callable $callback      A function that outputs the postbox content.
+     * @param string   $screen        Admin screen id where the postbox should be displayed in.
+     * @param string   $context       Default admin dashboard context where the postbox should be displayed in.
+     * @param mixed[]  $callback_args Array of arguments that will get passed to the callback function.
+     * @return void
      */
     public function add_postbox( $id, $title, $callback, $screen, $context, $callback_args ) {
       // Index the postboxes base on the page they are registered to, allowing faster filtering based
@@ -92,6 +93,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Save info about closed/opened Seravo postboxes to wp user meta.
+     * @return void
      */
     public function ajax_save_closed_postboxes() {
       check_ajax_referer('seravo-save-closed-postboxes', 'seravo_closed_postboxes_nonce');
@@ -109,6 +111,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Save the Seravo postbox order into wp user meta.
+     * @return void
      */
     public function ajax_save_postbox_order() {
       check_ajax_referer('seravo-save-postbox-order', 'seravo_save_postbox_order_nonce');
@@ -126,6 +129,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Enqueue necessary scripts and styles for Seravo postbox functionality.
+     * @return void
      */
     public function enqueue_postboxes_scripts() {
       if ( ! empty($this->postboxes) ) {
@@ -149,6 +153,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Load the Seravo custom postbox functionality.
+     * @return void
      */
     private function load() {
       if ( is_admin() ) {
@@ -156,7 +161,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
         add_action(
           'admin_enqueue_scripts',
           function () {
-            return $this->enqueue_postboxes_scripts();
+            $this->enqueue_postboxes_scripts();
           }
         );
 
@@ -164,13 +169,13 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
         add_action(
           'wp_ajax_seravo-postbox-order',
           function () {
-            return $this->ajax_save_postbox_order();
+            $this->ajax_save_postbox_order();
           }
         );
         add_action(
           'wp_ajax_seravo-closed-postboxes',
           function () {
-            return $this->ajax_save_closed_postboxes();
+            $this->ajax_save_closed_postboxes();
           }
         );
       }
@@ -179,9 +184,15 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Filter the postboxes in such a way that they are in the user specified order.
+     * @param string $column_count The columnt count (four_column/two_column/one_column).
+     * @return void
      */
     private function apply_user_postbox_settings( $column_count = 'four_column' ) {
-      $screen = get_current_screen()->id;
+      $screen = get_current_screen();
+      if ( $screen === null ) {
+        return;
+      }
+      $screen = $screen->id;
 
       // Preload closed postboxes. If the setting is not set, WP returns an empty string, so don't
       // do anything in that case. If only a single postbox is closed, WP returns a single string so
@@ -232,6 +243,9 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Display Seravo postboxes that are registered to a certain screen and context.
+     * @param string $screen  Admin screen id where the postbox should be displayed in.
+     * @param string $context Default admin dashboard context where the postbox should be displayed in.
+     * @return void
      */
     private function do_postboxes( $screen, $context ) {
       // Loop through the postboxes for this context
@@ -244,6 +258,8 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
     /**
      * Display a page with all currently registered postboxes.
+     * @param string $column_count  The columnt count (four_column/two_column/one_column).
+     * @return void
      */
     public function display_postboxes_page( $column_count = 'four_column' ) {
       // These are the same postbox contexts that are used in WP core.
@@ -256,7 +272,11 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
       }
 
       $context_index = 1;
-      $current_screen = get_current_screen()->id;
+      $current_screen = get_current_screen();
+      if ( $current_screen === null ) {
+        return;
+      }
+      $current_screen = $current_screen->id;
       $this->apply_user_postbox_settings($column_count);
 
       if ( $column_count === 'two_column' ) {
@@ -297,6 +317,11 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
       do_action('after_seravo_postboxes_' . $current_screen);
     }
 
+    /**
+     * @param string  $postbox_id      Unique id/slug of the postbox.
+     * @param mixed[] $postbox_content The postbox metadata.
+     * @return void
+     */
     private function display_single_postbox( $postbox_id, $postbox_content ) {
       $closed = in_array($postbox_id, $this->closed_postboxes);
       ?>

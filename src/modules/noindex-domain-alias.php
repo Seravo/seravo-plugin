@@ -14,14 +14,20 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('Noindex') ) {
   class Noindex {
 
+    /**
+     * @return void
+     */
     public static function load() {
-
       add_filter('robots_txt', array( __CLASS__, 'maybe_hide_domain_alias' ), 10, 2);
-
     }
 
+    /**
+     * @param string $output The contents of robots.txt to be outputted.
+     * @param bool   $public Whether the site is considered "public".
+     * @return string The robots.txt content.
+     */
     public static function maybe_hide_domain_alias( $output, $public ) {
-      if ( '0' === $public ) {
+      if ( ! $public ) {
         // bail early if blog is not public
         return $output;
       }

@@ -13,6 +13,9 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('Speed_Test') ) {
   class Speed_Test {
 
+    /**
+     * @return void
+     */
     public static function load() {
       // Check permissions before registering actions
       if ( current_user_can(self::custom_capability()) ) {
@@ -22,11 +25,18 @@ if ( ! class_exists('Speed_Test') ) {
       }
     }
 
+    /**
+     * @return string
+     */
     public static function custom_capability() {
       return apply_filters('seravo_speed_test_capability', 'edit_posts');
     }
 
-    // Add speed test button to WP Admin Bar
+    /**
+     * Add speed test button to WP Admin Bar
+     * @param \WP_Admin_Bar $admin_bar Instance of the admin bar.
+     * @return void
+     */
     public static function speed_test_button( $admin_bar ) {
       $target_location = ltrim($_SERVER['REQUEST_URI'], '/');
       $url = get_home_url() . '/wp-admin/tools.php?page=site_status_page';
@@ -63,11 +73,13 @@ if ( ! class_exists('Speed_Test') ) {
 
     /**
      * Load required scripts and styles for this module
+     * @return void
      */
     public static function enqueue_scripts() {
-      wp_enqueue_style('seravo_speed_test', SERAVO_PLUGIN_URL . 'style/speed-test.css', null, Helpers::seravo_plugin_version(), 'all');
+      wp_enqueue_style('seravo_speed_test', SERAVO_PLUGIN_URL . 'style/speed-test.css', array(), Helpers::seravo_plugin_version(), 'all');
     }
   }
+
   /* Caching happens in general only in production */
   if ( Helpers::is_production() ) {
     Speed_Test::load();

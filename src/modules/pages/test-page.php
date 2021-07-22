@@ -78,6 +78,7 @@ class TestPage extends Toolpage {
   /**
    * Initialize test-page postboxes.
    * @param \Seravo\Postbox\Toolpage $page The page for postboxes.
+   * @return void
    */
   public static function init_postboxes( Toolpage $page ) {
     /**
@@ -165,7 +166,7 @@ class TestPage extends Toolpage {
 
   /**
    * Get setting section for the setting demo postbox.
-   * @return \Seravo\Postbox\Setting The setting section instance.
+   * @return \Seravo\Postbox\Settings The setting section instance.
    */
   private static function get_demo_settings() {
     $demo_settings = new Settings('demo-settings', 'This title is optional');
@@ -227,7 +228,8 @@ class TestPage extends Toolpage {
 
     $message = 'This is bad mmkay?';
     $status_color = Ajax\FancyForm::STATUS_RED;
-    if ( count(preg_grep('/OK \(/i', $output)) >= 1 && $retval === 0 ) {
+    $ok = preg_grep('/OK \(/i', $output);
+    if ( $ok !== false && count($ok) >= 1 && $retval === 0 ) {
       // Success
       $message = "It's all good!";
       $status_color = Ajax\FancyForm::STATUS_GREEN;
@@ -269,6 +271,7 @@ class TestPage extends Toolpage {
    * Function for building nag-test postbox.
    * @param \Seravo\Postbox\Component $base    Component to build on.
    * @param \Seravo\Postbox\Postbox   $postbox The nag-test postbox.
+   * @return void
    */
   public static function build_nag_test( Component $base, Postbox\Postbox $postbox ) {
     // Always true

@@ -32,19 +32,19 @@ class Settings {
   const FIELD_TYPE_EMAIL_LIST = 'email-list';
 
   /**
-   * @var string Unique ID for the section.
+   * @var string      Unique ID for the section.
    */
   private $section;
   /**
-   * @var string Title for the section. This field is optional.
+   * @var string|null Title for the section. This field is optional.
    */
   private $title;
   /**
-   * @var string Postbox ID for the section. This replaces pages in WordPress setting API.
+   * @var string      Postbox ID for the section. This replaces pages in WordPress setting API.
    */
   private $postbox;
   /**
-   * @var array  Fields to be added on register().
+   * @var mixed[]     Fields to be added on register().
    */
   private $fields = array();
 
@@ -62,12 +62,15 @@ class Settings {
    * Register the section and fields. The settings have already been automatically
    * registered but the fields and section must be registered seperately for the WordPress
    * settings API. This is called automatically when section is added for a postbox.
+   * @return void
    */
   public function register() {
     add_settings_section(
       $this->section,
-      $this->title,
-      null,
+      $this->title !== null ? $this->title : '',
+      function() {
+        return '';
+      },
       'seravo-' . $this->postbox
     );
 
@@ -85,14 +88,15 @@ class Settings {
 
   /**
    * Add a field for the section.
-   * @param string $name        Name of the field. Should be prefixed with "seravo-". This is used for the field name and option name.
-   * @param string $title       Label for the field. Use empty for no field (not recommended).
-   * @param string $placeholder The placeholder text for the field. This is not supported by all the field types.
-   * @param string $description Description for the field. This may be empty. Description is printed above the field.
-   * @param string $type        Type of the field. Use type constants in Settings::FIELD_TYPE_*.
-   * @param mixed  $default     Default data for the option.
-   * @param array  $sanitizer   Sanitizer function for the field. Most field types have one built-in but custom may be set.
-   * @param array  $build_func  Function for building the field. Using this is optional and not recommended. Should return \Seravo\Postbox\Component.
+   * @param string        $name        Name of the field. Should be prefixed with "seravo-". This is used for the field name and option name.
+   * @param string        $title       Label for the field. Use empty for no field (not recommended).
+   * @param string        $placeholder The placeholder text for the field. This is not supported by all the field types.
+   * @param string        $description Description for the field. This may be empty. Description is printed above the field.
+   * @param string        $type        Type of the field. Use type constants in Settings::FIELD_TYPE_*.
+   * @param mixed         $default     Default data for the option.
+   * @param callable|null $sanitizer   Sanitizer function for the field. Most field types have one built-in but custom may be set.
+   * @param callable|null $build_func  Function for building the field. Using this is optional and not recommended. Should return \Seravo\Postbox\Component.
+   * @return void
    */
   public function add_field( $name, $title, $placeholder, $description, $type, $default = null, $sanitizer = null, $build_func = null ) {
     $this->determine_type($name, $type, $default, $sanitizer, $build_func);
@@ -120,6 +124,14 @@ class Settings {
     );
   }
 
+  /**
+   * @param string        $name       Name of the field. Should be prefixed with "seravo-". This is used for the field name and option name.
+   * @param string        $type       Type of the field. Use type constants in Settings::FIELD_TYPE_*.
+   * @param mixed         $default    Default data for the option.
+   * @param callable|null $sanitizer  Sanitizer function for the field. Most field types have one built-in but custom may be set.
+   * @param callable|null $build_func Function for building the field. Using this is optional and not recommended. Should return \Seravo\Postbox\Component.
+   * @return void
+   */
   private function determine_type( &$name, &$type, &$default, &$sanitizer, &$build_func ) {
     if ( $build_func === null ) {
       // No build function, determine from type
@@ -257,6 +269,7 @@ class Settings {
    * @param string $code    Code for identifying the notification.
    * @param string $message The message to be shown for the user.
    * @param string $type    Type of the message. Default is 'error'.
+   * @return void
    */
   public function add_notification( $code, $message, $type = 'error' ) {
     add_settings_error($this->section, $code, $message, $type);
@@ -266,7 +279,7 @@ class Settings {
    * Get the notification component. This should be added at the
    * top of the postbox. If there's no notifications and a change
    * has been made, a success message is shown automatically.
-   * @return \seravo\Postbox\Component Component with the notifications.
+   * @return \Seravo\Postbox\Component Component with the notifications.
    */
   public function get_notifications() {
     $notifications = get_settings_errors($this->section);
@@ -286,12 +299,12 @@ class Settings {
     // Generate components
     $base = new Component();
     $codes = array();
-    foreach ( $notifications as $key => $notification ) {
+    foreach ( $notifications as $notification ) {
       if ( in_array($notification['code'], $codes) ) {
         continue;
       }
 
-      array_push($codes, $notification['code']);
+      $codes[] = $notification['code'];
 
       if ( 'updated' === $notification['type'] ) {
         $notification['type'] = 'success';
@@ -312,16 +325,18 @@ class Settings {
 
   /**
    * Function for building a textfield component.
+   * @param mixed[] $field Field passed from wp_settings_fields.
    * @return \Seravo\Postbox\Component Textfield component.
    */
   public static function build_string_field( $field ) {
-    $value = ! empty(get_option($field['id'])) ? get_option($field['id']) : '';
-    $placeholder = ! empty($field['args']['placeholder']) ? $field['args']['placeholder'] : '';
+    $value = empty(get_option($field['id'])) ? '' : get_option($field['id']);
+    $placeholder = empty($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
     return Component::from_raw('<input type="text" placeholder="' . $placeholder . '" name="' . $field['id'] . '" value="' . $value . '"/>');
   }
 
   /**
    * Function for building a checkbox component.
+   * @param mixed[] $field Field passed from wp_settings_fields.
    * @return \Seravo\Postbox\Component Checkbox component.
    */
   public static function build_boolean_field( $field ) {
@@ -331,31 +346,34 @@ class Settings {
 
   /**
    * Function for building a integer component.
+   * @param mixed[] $field Field passed from wp_settings_fields.
    * @return \Seravo\Postbox\Component Integer component.
    */
   public static function build_integer_field( $field ) {
     $value = is_numeric(get_option($field['id'])) ? get_option($field['id']) : '';
-    $placeholder = ! empty($field['args']['placeholder']) ? $field['args']['placeholder'] : '';
+    $placeholder = empty($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
     return Component::from_raw('<input type="number" step="1" pattern="\d+" placeholder="' . $placeholder . '" name="' . $field['id'] . '" value="' . $value . '"/>');
   }
 
   /**
    * Function for building a number component.
+   * @param mixed[] $field Field passed from wp_settings_fields.
    * @return \Seravo\Postbox\Component Number component.
    */
   public static function build_number_field( $field ) {
     $value = is_numeric(get_option($field['id'])) ? get_option($field['id']) : '';
-    $placeholder = ! empty($field['args']['placeholder']) ? $field['args']['placeholder'] : '';
+    $placeholder = empty($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
     return Component::from_raw('<input type="number" placeholder="' . $placeholder . '" name="' . $field['id'] . '" value="' . $value . '"/>');
   }
 
   /**
    * Function for building a email list component.
+   * @param mixed[] $field Field passed from wp_settings_fields.
    * @return \Seravo\Postbox\Component Email list component.
    */
   public static function build_email_list_field( $field ) {
     $value = is_array(get_option($field['id'])) ? implode(',', get_option($field['id'])) : '';
-    $placeholder = ! empty($field['args']['placeholder']) ? $field['args']['placeholder'] : '';
+    $placeholder = empty($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
 
     $hidden_field = Component::from_raw('<tr><td><input type="text" value="' . $value . '" name="' . $field['id'] . '" class="email-data hidden"/></td></tr>');
     $input = new Component('', '<tr>', '</tr>');
@@ -385,7 +403,7 @@ class Settings {
    * Function for sanitizing integer field.
    * @param string $value   Value from the form.
    * @param int    $default The default value to use instead of invalid value.
-   * @return string The sanitized integer.
+   * @return int The sanitized integer.
    */
   public function sanitize_integer_field( $value, $default ) {
     // Only accept whole numbers
@@ -393,35 +411,31 @@ class Settings {
       $this->add_notification('invalid-integer', __('Invalid integer', 'seravo'));
       return $default;
     }
-    return $value;
+    return (int) $value;
   }
 
   /**
    * Function for sanitizing number field.
    * @param string $value   Value from the form.
    * @param float  $default The default value to use instead of invalid value.
-   * @return string The sanitized integer.
+   * @return float The sanitized integer.
    */
   public function sanitize_number_field( $value, $default ) {
     if ( ! is_numeric($value) ) {
       $this->add_notification('invalid-number', __('Invalid number', 'seravo'));
       return $default;
     }
-    return $value;
+    return (float) $value;
   }
 
   /**
    * Function for sanitizing email list field.
-   * @param string $value   Value from the form.
-   * @param array  $default The default value to use instead of invalid value.
-   * @return string The sanitized email list.
+   * @param string|string[] $value   Value from the form.
+   * @param string|string[] $default The default value to use instead of invalid value.
+   * @return string|string[] The sanitized email list.
    */
   public function sanitize_email_list_field( $value, $default ) {
-    if ( ! is_array($value) ) {
-      $emails = explode(',', $value);
-    } else {
-      $emails = $value;
-    }
+    $emails = is_array($value) ? $value : explode(',', $value);
 
     $invalid = false;
     $valid_emails = array();
@@ -465,6 +479,7 @@ class Settings {
   /**
    * Set the postbox ID.
    * @param string $postbox Postbox ID.
+   * @return void
    */
   public function set_postbox( $postbox ) {
     $this->postbox = $postbox;

@@ -18,8 +18,11 @@ if ( ! class_exists('Canonical_Domain_And_Https') ) {
 
   class Canonical_Domain_And_Https {
 
-    // NOTE! This function is executed on every page load.
-    // Be careful to keep the overhead here minimal.
+    /**
+     * NOTE! This function is executed on every page load.
+     * Be careful to keep the overhead here minimal.
+     * @return void
+     */
     public static function load() {
 
       // Check if siteurl and home both include https addresses. If so, enforce
