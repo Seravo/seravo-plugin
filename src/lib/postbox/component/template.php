@@ -53,7 +53,7 @@ class Template {
 
   /**
    * Display HTML list view.
-   * @param string|array $element Element or elements to add onto list.
+   * @param string|string[] $element Element or elements to add onto list.
    * @return \Seravo\Postbox\Component List view component.
    */
   public static function list_view( $element ) {
@@ -72,13 +72,13 @@ class Template {
 
   /**
    * Display elements in a specified table.
-   * @param string $class Specified table class.
-   * @param string $th_class Class for th elements.
-   * @param string $td_class Class for td elements.
-   * @param array $column_titles Column titles in array.
-   * @param array $all_rows Rows as $rows => $row array.
-   * @param bool $tooltip_titles Display tooltips in titles field or not.
-   * @return \Seravo\Postbox\Component
+   * @param string     $class          Specified table class.
+   * @param string     $th_class       Class for th elements.
+   * @param string     $td_class       Class for td elements.
+   * @param string[]   $column_titles  Column titles in array.
+   * @param string[][] $all_rows       Rows as $row => $cell[] array.
+   * @param bool       $tooltip_titles Display tooltips in titles field or not.
+   * @return \Seravo\Postbox\Component A table component.
    */
   public static function table_view( $class, $th_class, $td_class, $column_titles, $all_rows, $tooltip_titles = false ) {
     $main_table = new Component('', '<table class="' . $class . '">', '</table>');
@@ -92,8 +92,8 @@ class Template {
     foreach ( $all_rows as $rows ) {
       $row = new Component('', '<tr>', '</tr>');
 
-      foreach ( $rows as $row_element ) {
-        $row->add_child(Component::from_raw('<td class="' . $td_class . '"' . ($tooltip_titles ? 'title="' . $row_element . '"' : '') . '>' . $row_element . '</td>'));
+      foreach ( $rows as $cell ) {
+        $row->add_child(Component::from_raw('<td class="' . $td_class . '"' . ($tooltip_titles ? 'title="' . $cell . '"' : '') . '>' . $cell . '</td>'));
       }
       $main_table->add_child($row);
     }
@@ -205,15 +205,13 @@ class Template {
     return Component::from_raw($label . ' <input type="date" id="' . $id . '" name="' . $id . '" ' . (empty($min) ? '' : 'min="' . $min . '"') . (empty($max) ? '' : 'max="' . $max . '"') . '>');
   }
 
-  /* Add radio_button with the given details.
-   * @param string $name Name for the radio button input.
-   * @param string $value Value of the radio button.
-   * @param string $content Content message for the radio button.
-   * @param bool $checked Check the radiobutton.
-   * @return \Seravo\Postbox\Component Button component.
-   */
   /**
-   * @return \Seravo\Postbox\Component
+   * Add radio button with the given details.
+   * @param string $name    The input name.
+   * @param string $value   The input value.
+   * @param string $content The label.
+   * @param bool   $checked Whether the button is checked or not.
+   * @return \Seravo\Postbox\Component Radio button component.
    */
   public static function radio_button( $name, $value, $content, $checked = false ) {
     return Component::from_raw('<input type="radio" name="' . $name . '" value="' . $value . '"' . ($checked ? ' checked=""' : '') . '>' . $content . '<br>');
@@ -306,8 +304,8 @@ class Template {
 
   /**
    * Get wrapper component to show multiple components side by side.
-   * @param \Seravo\Postbox\Component[] $components Components from left to right.
-   * @param string $additional_class Additional CSS class for the container.
+   * @param \Seravo\Postbox\Component[]|null[] $components       Components from left to right.
+   * @param string                             $additional_class Additional CSS class for the container.
    * @return \Seravo\Postbox\Component Side-by-side component.
    */
   public static function n_by_side( $components, $additional_class = '' ) {

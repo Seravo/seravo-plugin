@@ -11,7 +11,7 @@ namespace Seravo\Ajax;
 class AjaxResponse {
 
   /**
-   * @var bool[]|string[]|mixed[]|mixed Data to respond with.
+   * @var mixed[] Data to respond with.
    */
   public $data = array();
 
@@ -22,6 +22,7 @@ class AjaxResponse {
   /**
    * Set whether the request was succesful or not.
    * @param bool $is_success Value for 'success' field.
+   * @return void
    */
   public function is_success( $is_success ) {
     $this->data['success'] = $is_success;
@@ -30,6 +31,7 @@ class AjaxResponse {
   /**
    * Set error message in 'error' field in case there was one.
    * @param string $error Error to be shown for user.
+   * @return void
    */
   public function set_error( $error ) {
     $this->data['error'] = $error;
@@ -38,7 +40,8 @@ class AjaxResponse {
   /**
    * Set the data to be responded with. Data is merged with
    * success and error fields.
-   * @param array $data The response data.
+   * @param mixed[] $data The response data.
+   * @return void
    */
   public function set_data( $data ) {
     $this->data = array_merge($this->data, $data);
@@ -46,7 +49,8 @@ class AjaxResponse {
 
   /**
    * Set raw response data overwriting all current fields.
-   * @param mixed $response Raw response that won't be tampered with.
+   * @param mixed[] $response Raw response that won't be tampered with.
+   * @return void
    */
   public function set_raw_response( $response ) {
     $this->data = $response;
@@ -68,6 +72,7 @@ class AjaxResponse {
 
   /**
    * Send the response. No coming back from here.
+   * @return void
    */
   public function send() {
     echo $this->to_json();

@@ -14,6 +14,9 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
 
   class OptimizeImagesOnUpload {
 
+    /**
+     * @return void
+     */
     public static function load() {
       /*
        * Run optimizer for all thumbnail sizes. Don't use 'handle_upload' as it
@@ -42,6 +45,8 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
      * If the file does not exists or is not an image, the optimizer will just
      * quickly bail out without any problems.
      *
+     * @param string $filename Name of the image file to be optimized.
+     * @return string The filename that was passed in.
      */
     public static function optimize_images_on_upload( $filename ) {
       $max_width = get_option('seravo-image-max-resolution-width');
@@ -61,11 +66,9 @@ if ( ! class_exists('OptimizeImagesOnUpload') ) {
       return $filename;
     }
 
-    /*
+    /**
      * Default WordPress JPEG quality is 82, which some find too low.
      * Override that with 90, which is almost always a high quality level.
-     */
-    /**
      * @return int
      */
     public static function jpeg_thumbnail_quality() {

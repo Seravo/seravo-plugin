@@ -11,20 +11,19 @@ namespace Seravo\Postbox;
 abstract class Toolpage {
 
   /**
-   * @var string Admin screen id where the page should be displayed in.
+   * @var string   Admin screen id where the page should be displayed in.
    */
   private $screen;
   /**
-   * @var string Slug name to refer to this page.
+   * @var string   Slug name to refer to this page.
    */
   private $slug;
   /**
-   * @var string The text to be displayed in the title tags of the page and menu.
+   * @var string   The text to be displayed in the title tags of the page and menu.
    */
   private $title;
   /**
-   * TODO: Check if this is used for wrong purpose in Seravo Plugin!
-   * @var string The position in the menu order this item should appear
+   * @var callable The position in the menu order this item should appear
    */
   private $position;
 
@@ -40,21 +39,23 @@ abstract class Toolpage {
   /**
    * Will be called for page initialization. Scripts are
    * included and charts/ajax enabled here.
+   * @return void
    */
   abstract public function init_page();
 
   /**
    * Will be called for setting requirements. Nothing else
    * should be done here.
+   * @return void
    */
   abstract public function set_requirements( Requirements $requirements);
 
   /**
    * Constructor for Toolpage. Will be called on new instance.
-   * @param string $title The text to be displayed in the title tags of the page and menu.
-   * @param string $screen Admin screen id where the page should be displayed in.
-   * @param string $slug Slug name to refer to this page.
-   * @param string $position The position in the menu order this item should appear.
+   * @param string   $title The text to be displayed in the title tags of the page and menu.
+   * @param string   $screen Admin screen id where the page should be displayed in.
+   * @param string   $slug Slug name to refer to this page.
+   * @param callable $position The position in the menu order this item should appear.
    */
   public function __construct( $title, $screen, $slug, $position ) {
     $this->title = $title;
@@ -88,6 +89,7 @@ abstract class Toolpage {
   /**
    * Enables AJAX features for this page. This must be called
    * on the page if there's even a single postbox using AJAX.
+   * @return void
    */
   public function enable_ajax() {
     add_action(
@@ -126,6 +128,7 @@ abstract class Toolpage {
   /**
    * Enables chart features for this page. This must be called
    * on the page if there's even a single postbox using charts.
+   * @return void
    */
   public function enable_charts() {
     add_action(
@@ -135,7 +138,7 @@ abstract class Toolpage {
           return;
         }
 
-        wp_enqueue_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', '', \Seravo\Helpers::seravo_plugin_version(), true);
+        wp_enqueue_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', array(), \Seravo\Helpers::seravo_plugin_version(), true);
         wp_enqueue_script('seravo-charts', SERAVO_PLUGIN_URL . 'js/charts.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), false);
 
         $charts_l10n = array(
@@ -163,6 +166,7 @@ abstract class Toolpage {
    * Register postbox to be shown on the page. The same postbox
    * instance shouldn't be used elsewhere without clone.
    * @param \Seravo\Postbox\Postbox $postbox Postbox to be registered.
+   * @return void
    */
   public function register_postbox( Postbox $postbox ) {
     $postbox->on_page_assign($this->screen);
@@ -189,6 +193,7 @@ abstract class Toolpage {
   /**
    * Register the page to be rendered. This should be called once
    * the page is ready and all the postboxes are added.
+   * @return void
    */
   private function register_page() {
     foreach ( $this->postboxes as $postbox ) {
@@ -200,6 +205,7 @@ abstract class Toolpage {
 
   /**
    * Register the page in "Tools" submenu.
+   * @return void
    */
   private function register_submenu() {
     add_submenu_page(

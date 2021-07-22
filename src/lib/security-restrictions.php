@@ -15,8 +15,10 @@ if ( ! class_exists('Security_Restrictions') ) {
 
   class Security_Restrictions {
 
-    // NOTE! This function is executed on every page load
-
+    /**
+     * NOTE! This function is executed on every page load
+     * @return void
+     */
     public static function load() {
 
       add_action('activate_seravo-plugin/seravo-plugin.php', array( __CLASS__, 'maybe_enable_xml_rpc_blocking' ));
@@ -78,18 +80,25 @@ if ( ! class_exists('Security_Restrictions') ) {
      * Prevent XML-RPC for responding to anything by simply making sure the
      * list of supported methods is empty.
      * See https://developer.wordpress.org/reference/hooks/xmlrpc_methods/
-     *
      * @return mixed[]
      */
     public static function remove_xmlrpc_methods() {
       return array();
     }
 
+    /**
+     * @param mixed[] $headers Headers with X-Pingback possibly in.
+     * @return mixed[] Headers after removing X-Pingback.
+     */
     public static function disable_x_pingback( $headers ) {
       unset($headers['X-Pingback']);
       return $headers;
     }
 
+    /**
+     * @param mixed[] $endpoints Endpoints about to be enabled.
+     * @return mixed[] Endpoints with user endpoints disabled.
+     */
     public static function disable_user_endpoints( $endpoints ) {
       // Don't disable API for logged in users, otherwise e.g. the author change
       // dropdown in Gutenberg will emit JavaScript errors and fail to render.
@@ -109,11 +118,12 @@ if ( ! class_exists('Security_Restrictions') ) {
       return $endpoints;
     }
 
+    /**
+     * @return void
+     */
     public static function maybe_enable_xml_rpc_blocking() {
-
       // Add option used so no existing options will be overridden
       add_option('seravo-disable-xml-rpc', 'on');
-
     }
 
     /**
@@ -124,7 +134,7 @@ if ( ! class_exists('Security_Restrictions') ) {
       $whitelist = apply_filters('seravo_xml_rpc_whitelist', $whitelist);
 
       $ip = ip2long($_SERVER['REMOTE_ADDR']);
-      if ( ! Helpers::ip_in_range($whitelist, $ip) ) {
+      if ( $ip !== false && ! Helpers::ip_in_range($whitelist, $ip) ) {
         // Disable X-Pingback to header
         // since when XML-RPC is disabled pingbacks will not work anyway
         add_filter('wp_headers', array( __CLASS__, 'disable_x_pingback' ));
@@ -155,6 +165,12 @@ if ( ! class_exists('Security_Restrictions') ) {
         $whitelist = array();
         // Retrieve data from API
         $response = wp_remote_get(esc_url_raw($url), array( 'user-agent' => 'Seravo/1.0; https://seravo.com' ));
+
+        if ( is_wp_error($response) ) {
+          // Jetpack.com didn't respond, not much we can do
+          return array();
+        }
+
         $data = json_decode(wp_remote_retrieve_body($response));
 
         if ( ! empty($data) ) {

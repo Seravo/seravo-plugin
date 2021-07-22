@@ -19,13 +19,14 @@ if ( ! defined('ABSPATH') ) {
 }
 
 // Use debug mode only in development
-define('SERAVO_PLUGIN_DEBUG', false);
+//define('SERAVO_PLUGIN_DEBUG', false);
+
 if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
   nocache_headers();
 }
 
 if ( ! defined('SERAVO_PLUGIN_URL') ) {
-  define('SERAVO_PLUGIN_URL', plugin_dir_url(__FILE__));
+  define('SERAVO_PLUGIN_URL', \plugin_dir_url(__FILE__));
 }
 if ( ! defined('SERAVO_PLUGIN_DIR') ) {
   define('SERAVO_PLUGIN_DIR', plugin_dir_path(__FILE__));
@@ -89,7 +90,7 @@ class Loader {
     add_action(
       'plugins_loaded',
       function () {
-        return $this->load_textdomain();
+        $this->load_textdomain();
       }
     );
 
@@ -100,7 +101,7 @@ class Loader {
     add_action(
       'plugins_loaded',
       function () {
-        return $this->protected_downloads();
+        $this->protected_downloads();
       }
     );
 
@@ -111,7 +112,7 @@ class Loader {
     add_action(
       'init',
       function () {
-        return $this->load_all_modules();
+        $this->load_all_modules();
       },
       20
     );
@@ -120,6 +121,7 @@ class Loader {
   /**
    * Pass file download to Nginx with X-Accel-Redirect headers
    * @param string $file Path to file on filesystem, or URL with .seravo prefix
+   * @return void
    */
   public static function x_accel_redirect( $file ) {
     // If a real file path was given, send out MIME type and file size headers
@@ -151,6 +153,7 @@ class Loader {
 
   /**
    * Pass report file on to admin users
+   * @return void
    */
   public static function protected_downloads() {
     global $pagenow;
@@ -185,6 +188,9 @@ class Loader {
     }
   }
 
+  /**
+   * @return void
+   */
   public static function load_textdomain() {
 
     // Load translations first from the languages directory
@@ -196,9 +202,12 @@ class Loader {
     );
 
     // And then from this plugin folder
-    load_muplugin_textdomain('seravo', basename(SERAVO_PLUGIN_DIR) . '/languages');
+    load_muplugin_textdomain('seravo', SERAVO_PLUGIN_DIR . 'languages');
   }
 
+  /**
+   * @return void
+   */
   public static function load_all_modules() {
     /*
      * Helpers for hiding useless notifications and small fixes in logging

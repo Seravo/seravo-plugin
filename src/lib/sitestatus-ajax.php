@@ -7,12 +7,18 @@ if ( ! defined('ABSPATH') ) {
   die('Access denied!');
 }
 
+/**
+ * @return string[] Output from verify-checksums command.
+ */
 function seravo_report_wp_core_verify() {
   exec('wp core verify-checksums 2>&1', $output);
   array_unshift($output, '$ wp core verify-checksums');
   return $output;
 }
 
+/**
+ * @return string[] Output from git status or error if git not available.
+ */
 function seravo_report_git_status() {
   exec('git -C /data/wordpress status', $output);
 
@@ -28,12 +34,22 @@ function seravo_report_git_status() {
   return $output;
 }
 
+/**
+ * @return void
+ */
 function seravo_reset_shadow() {
   if ( isset($_POST['shadow']) && ! empty($_POST['shadow']) ) {
     $shadow = $_POST['shadow'];
     $output = array();
+
     // Check if the shadow is known
-    foreach ( API::get_site_data('/shadows') as $data ) {
+    $shadows = API::get_site_data('/shadows');
+
+    if ( is_wp_error($shadows) ) {
+      wp_die();
+    }
+
+    foreach ( $shadows as $data ) {
       if ( $data['name'] == $shadow ) {
         exec('wp-shadow-reset ' . $shadow . ' --force 2>&1', $output);
         echo json_encode($output);
@@ -44,6 +60,9 @@ function seravo_reset_shadow() {
   wp_die();
 }
 
+/**
+ * @return void
+ */
 function seravo_ajax_site_status() {
   check_ajax_referer('seravo_site_status', 'nonce');
 

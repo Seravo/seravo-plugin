@@ -48,6 +48,7 @@ class Backups extends Toolpage {
   /**
    * Will be called for page initialization. Includes scripts
    * and enables toolpage features needed for this page.
+   * @return void
    */
   public function init_page() {
     self::init_postboxes($this);
@@ -67,6 +68,9 @@ class Backups extends Toolpage {
     $requirements->can_be_development = \true;
   }
 
+  /**
+   * @return void
+   */
   public static function init_postboxes( Toolpage $page ) {
     /**
      * Backup info postbox

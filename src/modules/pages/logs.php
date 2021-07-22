@@ -76,14 +76,15 @@ class Logs {
   /**
    * Register scripts.
    * @param string $screen The current screen.
+   * @return void
    */
   public static function enqueue_scripts( $screen ) {
     if ( $screen !== 'tools_page_logs_page' ) {
       return;
     }
 
-    wp_enqueue_script('log-viewer-js', SERAVO_PLUGIN_URL . 'js/log-viewer.js', '', Helpers::seravo_plugin_version());
-    wp_enqueue_style('log-viewer-css', SERAVO_PLUGIN_URL . 'style/log-viewer.css', '', Helpers::seravo_plugin_version());
+    wp_enqueue_script('log-viewer-js', SERAVO_PLUGIN_URL . 'js/log-viewer.js', array(), Helpers::seravo_plugin_version());
+    wp_enqueue_style('log-viewer-css', SERAVO_PLUGIN_URL . 'style/log-viewer.css', array(), Helpers::seravo_plugin_version());
   }
 
   /**
@@ -112,6 +113,11 @@ class Logs {
 
     // Automatically fetch all logs from /data/log/*.log
     $logs = glob('/data/log/*.log');
+    if ( $logs === false ) {
+      // Glob had an error
+      echo '<div class="notice notice-warning" style="padding:1em;margin:1em;">' . __('There was an error reading logs.', 'seravo') . '</div>';
+      return;
+    }
 
     // Check for missing .log files and fetch rotated .log-12345678 file instead
     // using an array of possible log names to compare fetched array against.
@@ -136,7 +142,17 @@ class Logs {
     $missing_logs = array_diff($log_names, $logs);
 
     foreach ( $missing_logs as $log ) {
-      $found_log = implode('', preg_grep('/(\d){8}$/', glob('{' . $log . '}-*', GLOB_BRACE)));
+      $variations = glob('{' . $log . '}-*', GLOB_BRACE);
+      if ( $variations === false ) {
+        continue;
+      }
+
+      $match = preg_grep('/(\d){8}$/', $variations);
+      if ( $match === false ) {
+        continue;
+      }
+
+      $found_log = implode('', $match);
       if ( ! empty($found_log) ) {
         if ( $log === '/data/log/' . $default_logfile ) {
           $found_log_path = explode('/', $found_log);
@@ -201,18 +217,18 @@ class Logs {
   /**
    * Renders the log view for a specific $logfile on the tools page
    *
-   * @param string $logfile
-   * @param string $regex
+   * @param string|null $logfile
+   * @param string      $regex
+   * @param int         $max_num_of_rows
    * @access public
    * @return void
    */
-  public function render_log_view( $logfile, $regex = null, $max_num_of_rows = 50 ) {
+  public function render_log_view( $logfile, $regex = '', $max_num_of_rows = 50 ) {
     global $current_log;
     ?>
     <div class="log-view">
       <?php
-      $result = -1;
-      if ( is_readable($logfile) ) {
+      if ( $logfile !== null && is_readable($logfile) ) {
       ?>
         <div class="tablenav top">
           <form class="log-filter" method="get">
@@ -226,7 +242,7 @@ class Logs {
         </div>
         <div class="log-table-view"
           data-logfile="<?php echo esc_attr($logfile); ?>"
-          data-logbytes="<?php echo esc_attr(filesize($logfile)); ?>"
+          data-logbytes="<?php echo esc_attr((string) filesize($logfile)); ?>"
           data-regex="<?php echo esc_attr($regex); ?>">
           <table class="wp-list-table widefat striped" cellspacing="0">
             <tbody>
@@ -235,9 +251,7 @@ class Logs {
           </table>
         </div>
         <?php
-      }
-
-      if ( ! is_readable($logfile) ) {
+      } else {
         ?>
           <div id="message" class="notice notice-error">
           <p>
@@ -248,28 +262,9 @@ class Logs {
             </p>
         </div>
         <?php
-        } elseif ( $result === 0 ) {
-        ?>
-          <p>
-        <?php _e('Log empty', 'seravo'); ?>
-          </p>
-        <?php
-        // result -1 is the signal that something went wrong with reading the log
-      } elseif ( $result === -1 ) {
-        ?>
-          <p>
-          <?php _e('Log is broken and can not be displayed.', 'seravo'); ?>
-          </p>
-        <?php
-        } else {
-        ?>
-          <p>
-        <?php _e('Scroll to load more lines from the log.', 'seravo'); ?>
-          </p>
-        <?php
-        }
+      }
+
       ?>
-  
       <div class="log-view-active"></div>
 
       <p>
@@ -287,15 +282,14 @@ class Logs {
    * Renders $lines rows of a $logfile ending at $offset from the end of the cutoff marker
    *
    * @param string $logfile
-   * @param int $offset
-   * @param int $lines
+   * @param int    $offset
+   * @param int    $lines
    * @param string $regex
-   * @param int $cutoff_bytes
+   * @param int    $cutoff_bytes
    * @access public
    * @return int
    */
-  public function render_rows( $logfile, $offset, $lines, $regex = null, $cutoff_bytes = null ) {
-
+  public function render_rows( $logfile, $offset, $lines, $regex = '', $cutoff_bytes = null ) {
     // escape special regex chars
     $regex = '#' . preg_quote($regex, '#') . '#';
 
@@ -368,11 +362,13 @@ class Logs {
    * @param int $cutoff_bytes
    * @static
    * @access public
-   * @return array
+   * @return mixed[]
    */
   public static function read_log_lines_backwards( $filepath, $offset = -1, $lines = 1, $regex = null, $cutoff_bytes = null ) {
     // Check that $filepath is valid log path
-    $valid_log_path = in_array($filepath, glob('/data/log/*'));
+    $files = glob('/data/log/*');
+    $valid_log_path = $files !== false && in_array($filepath, $files);
+
     $f = $valid_log_path ? @fopen($filepath, 'rb') : false;
 
     /**
@@ -447,6 +443,11 @@ class Logs {
 
       // Read a chunk
       $chunk = fread($f, $seek);
+      if ( $chunk === false ) {
+        // Error!
+        $result['status'] = 'BAD_LOG_FILE';
+        return $result;
+      }
 
       --$chunk_limit;
       // Return false if we run over the chunk cap
@@ -466,18 +467,26 @@ class Logs {
 
       if ( $last_buffer ) {
         // last line is whatever is in the line buffer before the second line
-        $complete_lines [] = rtrim(substr($linebuffer, 0, strpos($linebuffer, "\n")));
+        $eol = strpos($linebuffer, "\n");
+        if ( $eol !== false ) {
+          $complete_lines[] = rtrim(substr($linebuffer, 0, $eol));
+        }
       }
 
       while ( preg_match('/\n(.*?\n)/s', $linebuffer, $matched) ) {
         // get the $1 match
         $match = $matched[1];
 
+        $offset = strpos($linebuffer, $match);
+        if ( $offset === false ) {
+          continue;
+        }
+
         // remove matched line from line buffer
-        $linebuffer = substr_replace($linebuffer, '', strpos($linebuffer, $match), strlen($match));
+        $linebuffer = substr_replace($linebuffer, '', $offset, strlen($match));
 
         // add the line
-        $complete_lines [] = rtrim($match);
+        $complete_lines[] = rtrim($match);
       }
 
       // remove any offset lines off the end
@@ -491,18 +500,20 @@ class Logs {
       // apply a regex filter
       if ( ! is_null($regex) ) {
         $complete_lines = preg_grep($regex, $complete_lines);
-
-        // wrap regex match part in <span class="highlight">
-        foreach ( $complete_lines as &$line ) {
-          $line = preg_replace($regex, '<span class="highlight">$0</span>', $line);
+        if ( $complete_lines !== false ) {
+          // wrap regex match part in <span class="highlight">
+          foreach ( $complete_lines as &$line ) {
+            $line = preg_replace($regex, '<span class="highlight">$0</span>', $line);
+          }
         }
       }
 
-      // decrement lines needed
-      $lines -= count($complete_lines);
-
-      // prepend complete lines to our output
-      $output = array_merge($complete_lines, $output);
+      if ( $complete_lines !== false ) {
+        // decrement lines needed
+        $lines -= count($complete_lines);
+        // prepend complete lines to our output
+        $output = array_merge($complete_lines, $output);
+      }
     }
 
     // remove any lines that might have gone over due to the chunk size

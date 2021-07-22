@@ -15,15 +15,19 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('Seravotest_User_Login') ) {
   class Seravotest_Auth_Bypass {
 
+    /**
+     * @return void
+     */
     public static function load() {
-
       // Check for permission to enter only if flag is set
       if ( isset($_GET['seravotest-auth-bypass']) ) {
         add_action('login_init', array( __CLASS__, 'attempt_login' ), 10, 2);
       }
-
     }
 
+    /**
+     * @return void
+     */
     public static function attempt_login() {
       // If special authentication bypass key is found, check if a matching
       // key is found, and if soautomatically login user and redirect to wp-admin.
@@ -35,7 +39,7 @@ if ( ! class_exists('Seravotest_User_Login') ) {
 
         $user = get_user_by('login', 'seravotest');
 
-        if ( ! is_wp_error($user) ) {
+        if ( $user !== false ) {
           wp_clear_auth_cookie();
           wp_set_current_user($user->ID);
           wp_set_auth_cookie($user->ID);

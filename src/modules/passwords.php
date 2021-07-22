@@ -22,6 +22,7 @@ if ( ! class_exists('Passwords') ) {
 
     /**
      * Load passwords features
+     * @return void
      */
     public static function load() {
 
@@ -38,22 +39,12 @@ if ( ! class_exists('Passwords') ) {
      * Register scripts
      *
      * @param string $page hook name
+     * @return void
      */
     public static function register_scripts( $page ) {
 
-      wp_register_style(
-        'seravo_passwords',
-        SERAVO_PLUGIN_URL . 'style/passwords.css',
-        '',
-        Helpers::seravo_plugin_version()
-      );
-      wp_register_script(
-        'seravo_passwords',
-        SERAVO_PLUGIN_URL . 'js/passwords.js',
-        array( 'jquery' ),
-        Helpers::seravo_plugin_version(), // version string
-        true // in footer
-      );
+      wp_register_style('seravo_passwords', SERAVO_PLUGIN_URL . 'style/passwords.css', array(), Helpers::seravo_plugin_version());
+      wp_register_script('seravo_passwords', SERAVO_PLUGIN_URL . 'js/passwords.js', array( 'jquery' ), Helpers::seravo_plugin_version(), true);
 
       if ( $page === 'profile.php' || $page === 'user-new.php' ) {
         wp_enqueue_style('seravo_passwords');
@@ -74,6 +65,9 @@ if ( ! class_exists('Passwords') ) {
      * check from running too frequently. When the user changes their password,
      * this field needs to be reset so that the check is guaranteed to run on
      * the next login.
+     *
+     * @param int $user_id ID of the user with changed meta.
+     * @return void
      */
     public static function clear_seravo_pwned_check_timestamp( $user_id ) {
       if ( isset($_POST['pass1']) && ! empty($_POST['pass1']) ) {
@@ -81,11 +75,22 @@ if ( ! class_exists('Passwords') ) {
       }
     }
 
+    /**
+     * @param \WP_User|\WP_Error $user     WP_User or WP_Error object if a previous callback failed authentication.
+     * @param string             $password Password used to login.
+     * @return \WP_Error|\WP_User The object given as $user.
+     */
     public static function calculate_password_hash( $user, $password ) {
       self::$password_hash = sha1($password);
       return $user;
     }
 
+    /**
+     * @param string             $redirect_to           The redirect destination URL.
+     * @param string             $requested_redirect_to The requested redirect destination URL passed as a parameter.
+     * @param \WP_User|\WP_Error $user                  WP_User object if login was successful, WP_Error object otherwise.
+     * @return string The new $redirect_to.
+     */
     public static function search_password_database( $redirect_to, $requested_redirect_to, $user ) {
       // Check if user has capability 'publish_pages'. By default user roles
       // editor, admin and superadmin are the only ones that have it.
@@ -121,6 +126,11 @@ if ( ! class_exists('Passwords') ) {
       return $redirect_to;
     }
 
+    /**
+     * @param string $redirect_to The URL user was really about to be redirected.
+     * @param string $hash        The user password hash.
+     * @return void
+     */
     public static function show_pwned_alert( $redirect_to, $hash ) {
     ?>
       <!DOCTYPE html>
@@ -152,4 +162,5 @@ if ( ! class_exists('Passwords') ) {
   }
 
   Passwords::load();
+
 }

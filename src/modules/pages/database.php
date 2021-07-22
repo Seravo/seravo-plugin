@@ -72,6 +72,9 @@ class Database extends Toolpage {
     $requirements->can_be_development = \true;
   }
 
+  /**
+   * @return void
+   */
   public static function init_postboxes( Toolpage $page ) {
     /**
      * Database access info postbox
@@ -127,6 +130,7 @@ class Database extends Toolpage {
   /**
    * Helper method for initializing cleanup & optimize postbox tools.
    * @param \Seravo\Postbox\Postbox $cleanup Postbox on which the commands and ajax are initialized.
+   * @return void
    */
   public static function init_cleanup_ajax_scripts( Postbox\Postbox $cleanup ) {
     // Initialize optimize section
@@ -157,6 +161,7 @@ class Database extends Toolpage {
    * Build the database cleanup and optimize postbox.
    * @param \Seravo\Postbox\Component $base The postbox base component.
    * @param \Seravo\Postbox\Postbox $postbox To fetch the AJAX components from.
+   * @return void
    */
   public static function build_database_cleanup( Component $base, Postbox\Postbox $postbox ) {
     $base->add_child(Template::section_title(__('Optimization', 'seravo')));
@@ -171,6 +176,7 @@ class Database extends Toolpage {
   /**
    * Helper method for initializing database size AJAX handlers.
    * @param Postbox\Postbox $postbox Postbox to init AJAX handlers.
+   * @return void
    */
   public static function init_database_size_scripts( Postbox\Postbox $postbox ) {
     $cache_time = 300;
@@ -194,6 +200,7 @@ class Database extends Toolpage {
   /**
    * Build the Adminer info postbox.
    * @param \Seravo\Postbox\Component $base The base component to add content.
+   * @return void
    */
   public static function build_adminer_postbox( Component $base ) {
     $base->add_child(Template::paragraph(__('<a href="https://www.adminer.org" target="_BLANK">Adminer</a> is a visual database management tool, which is simpler and safer than its competitor phpMyAdmin.', 'seravo')));
@@ -207,6 +214,7 @@ class Database extends Toolpage {
   /**
    * Build the search-replace postbox.
    * @param \Seravo\Postbox\Component $base The base component to add content.
+   * @return void
    */
   public static function build_search_replace_postbox( Component $base ) {
     $base->add_child(Template::paragraph(__('You can use this tool to run <code>wp search-replace</code>. For safety reason a dry run is compulsory before the actual search-replace can be done.', 'seravo')));
@@ -289,6 +297,10 @@ class Database extends Toolpage {
       }
 
       $columns = preg_split('/\s+/', $line, -1, PREG_SPLIT_NO_EMPTY);
+      if ( $columns === false || count($columns) < 3 ) {
+        continue;
+      }
+
       $row = "<tr><td class=\"seravo-ellipsis\" title=\"{$columns[0]}\">{$columns[0]}</td>";
       $row .= "<td class=\"seravo-ellipsis\" title=\"{$columns[1]}\">{$columns[1]}</td>";
       $row .= "<td class=\"seravo-ellipsis\" title=\"{$columns[2]}\">{$columns[2]}</td></tr>";
@@ -310,8 +322,9 @@ class Database extends Toolpage {
   }
 
   /**
-   * @param Component $base The base component to add child elements.
-   * @param Postbox\Postbox $postbox The postbox to add the components.
+   * @param \Seravo\Postbox\Component $base    The base component to add child elements.
+   * @param \Seravo\Postbox\Postbox   $postbox The postbox to add the components.
+   * @return void
    */
   public static function build_database_size( Component $base, Postbox\Postbox $postbox ) {
     $base->add_child($postbox->get_ajax_handler('db-info')->get_component());
@@ -345,7 +358,7 @@ class Database extends Toolpage {
       $updated_columns = array();
 
       foreach ( $columns as $column ) {
-        $updated_columns[] = (Helpers::human_file_size($column) == '0B') ? $column : Helpers::human_file_size($column);
+        $updated_columns[] = (Helpers::human_file_size((int) $column) == '0B') ? $column : Helpers::human_file_size((int) $column);
       }
       $db_columns[] = $updated_columns;
     }
@@ -386,9 +399,16 @@ class Database extends Toolpage {
 
     foreach ( $tables as $table ) {
       $size = preg_replace('/[^0-9]/', '', $table['Size']);
+      if ( $size === null ) {
+        continue;
+      }
+      if ( is_array($size) ) {
+        $size = $size[0];
+      }
+
       $data_folders[$table['Name']] = array(
         'percentage' => (($size / $total[0]) * 100),
-        'human'      => Helpers::human_file_size($size),
+        'human'      => Helpers::human_file_size((int) $size),
         'size'       => $size,
       );
     }
@@ -423,18 +443,23 @@ class Database extends Toolpage {
     $long_autoload_option_values = $wpdb->get_results("SELECT SUBSTRING(option_name, 1, 20) AS option_name, LENGTH(option_value) AS option_value_length FROM $wpdb->options WHERE autoload='yes' ORDER BY LENGTH(option_value) DESC LIMIT 15");
 
     // Fetch the data in a readable format
+    $cumulative_postmeta = array();
     foreach ( $cumulative_postmeta_sizes as $size ) {
       $cumulative_postmeta[] = array( $size->meta_key, $size->length_sum );
     }
+    $common_postmeta = array();
     foreach ( $common_postmeta_values as $value ) {
       $common_postmeta[] = array( $value->meta_key, $value->key_count );
     }
+    $autoload_option = 0;
     foreach ( $autoload_option_count as $value ) {
       $autoload_option = $value->options_count;
     }
+    $total_autoload = '';
     foreach ( $total_autoload_option_size as $size ) {
       $total_autoload = Helpers::human_file_size($size->total_size);
     }
+    $long_autoload = array();
     foreach ( $long_autoload_option_values as $value ) {
       $long_autoload[] = array( $value->option_name, $value->option_value_length );
     }
@@ -447,7 +472,7 @@ class Database extends Toolpage {
     $db_details->add_child(Template::table_view('result-table', 'sizes-th', 'sizes-td', $common_column_titles, $common_postmeta));
 
     $db_details->add_child(Component::from_raw('<hr><b>' . __('Autoload options count (read to memory on each WP page load)', 'seravo') . '</b>'));
-    $db_details->add_child(Template::paragraph($autoload_option));
+    $db_details->add_child(Template::paragraph((string) $autoload_option));
 
     $db_details->add_child(Component::from_raw('<hr><b>' . __('Autoload options total size of values', 'seravo') . '</b>'));
     $db_details->add_child(Template::paragraph($total_autoload));

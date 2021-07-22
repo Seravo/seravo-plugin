@@ -14,8 +14,10 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('LoginLog') ) {
   class LoginLog {
 
+    /**
+     * @return void
+     */
     public static function load() {
-
       // At least the username must be correct for 'wp_authenticate_user' to run,
       // so it isn't good enough for our log, which also should log brute force
       // attacks. Instead use 'login_redirect' which is fired right after
@@ -23,11 +25,15 @@ if ( ! class_exists('LoginLog') ) {
       // wp-login.php load, so we shall not process it unless we really detect a
       // login in progress.
       add_filter('login_redirect', array( __CLASS__, 'wp_login_redirect_log' ), 10, 3);
-
     }
 
+    /**
+     * @param string             $redirect_to           The redirect destination URL.
+     * @param string             $requested_redirect_to The requested redirect destination URL passed as a parameter.
+     * @param \WP_User|\WP_Error $user                  WP_User object if login was successful, WP_Error object otherwise.
+     * @return string The $redirect_to passed.
+     */
     public static function wp_login_redirect_log( $redirect_to, $requested_redirect_to, $user ) {
-
       // Bail out quickly if username and password were not sent on this load
       if ( ! isset($_POST['log']) ||
             empty($_POST['log']) ||
@@ -66,6 +72,11 @@ if ( ! class_exists('LoginLog') ) {
       // Finally write the log to disk
 
       $log_fp = fopen('/data/log/wp-login.log', 'a');
+      if ( $log_fp === false ) {
+        // Couldn't open the file
+        return $redirect_to;
+      }
+
       fwrite($log_fp, "{$remote_addr} - {$remote_user} [{$time_local}] \"{$request}\" {$status_code} 1000 \"{$http_referer}\" \"{$http_user_agent}\" {$login_status} \n");
       fclose($log_fp);
 

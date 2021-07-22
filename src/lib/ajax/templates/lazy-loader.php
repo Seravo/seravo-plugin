@@ -14,7 +14,7 @@ use \Seravo\Postbox\Template;
 class LazyLoader extends AjaxHandler {
 
   /**
-   * @var Bool Whether to use <hr> element or not.
+   * @var bool Whether to use <hr> element or not.
    */
   private $use_hr = true;
 
@@ -40,6 +40,7 @@ class LazyLoader extends AjaxHandler {
    * Can be gotten with get_component().
    * @param \Seravo\Postbox\Component $base Base component.
    * @param string $section Unique section inside the postbox.
+   * @return void
    */
   public function build_component( Component $base, $section ) {
     $component = new Component();
@@ -53,6 +54,7 @@ class LazyLoader extends AjaxHandler {
   /**
    * Set <hr> element usage for the AJAX handler.
    * @param bool $use_hr True for using <hr>.
+   * @return void
    */
   public function use_hr( $use_hr ) {
     $this->use_hr = $use_hr;

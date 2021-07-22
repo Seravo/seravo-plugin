@@ -32,6 +32,7 @@ class InfoBox extends Postbox {
   /**
    * Postbox will be built here.
    * @param \Seravo\Postbox\Component $base Base component to build postbox on.
+   * @return void
    */
   public function build( Component $base ) {
     foreach ( $this->paragraphs as $paragraph ) {
@@ -45,6 +46,7 @@ class InfoBox extends Postbox {
   /**
    * Add new paragraph to display.
    * @param string $text Info text.
+   * @return void
    */
   public function add_paragraph( $text ) {
     $this->paragraphs[] = $text;

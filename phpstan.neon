@@ -1,13 +1,34 @@
 includes:
     - vendor/szepeviktor/phpstan-wordpress/extension.neon
 parameters:
-    level: 0
     # TODO level: max
+    level: 8
     scanFiles:
         - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+        - src/lib/domain-tables.php
+        - src/lib/domains-ajax.php
     paths:
         - seravo-plugin.php
         - src/
+    bootstrapFiles:
+        - seravo-plugin.php
+    excludes_analyse:
+        # TODO: remove excludes
+        - src/lib/domain-tables.php
+        - src/lib/domains-ajax.php
+        - src/lib/list-table.php
+        - src/lib/cruftfiles-ajax.php
+        - src/lib/cruftplugins-ajax.php
+        - src/lib/cruftthemes-ajax.php
+        - src/modules/pages/security.php
     ignoreErrors:
         # Uses func_get_args()
         - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
+        - '#^Function current_user_can invoked with \d parameters, 1 required\.$#'
+        - '#^Function wp_sprintf invoked with \d parameters, 1 required\.$#'
+        - '#^Function add_query_arg invoked with 2 parameters, 0 required\.$#'
+        # Defined in wp-config.php
+        - '#^Constant WP_LANG_DIR not found\.$#'
+        # Uses function_exists()
+        - '#^Function jetpack_protect_get_ip not found\.$#'
+    reportUnmatchedIgnoredErrors: false

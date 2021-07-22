@@ -23,11 +23,16 @@ class Seravo_WP_CLI extends \WP_CLI_Command {
    *
    *     wp seravo updates
    *
+   * @param string[] $args       Arguments for the command.
+   * @param string[] $assoc_args Associated arguments for the command.
+   * @return void
    */
   public function updates( $args, $assoc_args ) {
-
-    require_once SERAVO_PLUGIN_SRC . 'modules/upkeep.php';
     $site_info = Upkeep::seravo_admin_get_site_info();
+    if ( is_wp_error($site_info) ) {
+      \WP_CLI::error('Seravo API failed to return information about updates.');
+      return;
+    }
 
     if ( $site_info['seravo_updates'] === true ) {
       \WP_CLI::success('Seravo Updates: enabled');
@@ -36,8 +41,8 @@ class Seravo_WP_CLI extends \WP_CLI_Command {
     } else {
       \WP_CLI::error('Seravo API failed to return information about updates.');
     }
-
   }
+
 }
 
-\WP_CLI::add_command('seravo', 'Seravo\Seravo_WP_CLI');
+\WP_CLI::add_command('seravo updates', array( Seravo_WP_CLI::class, 'updates' ));

@@ -17,8 +17,10 @@ if ( ! class_exists('CheckPHPVersion') ) {
 
   class CheckPHPVersion {
 
+    /**
+     * @return void
+     */
     public static function load() {
-
       add_action('admin_notices', array( __CLASS__, '_seravo_check_php_version' ));
       add_filter('wp_update_php_url', array( __CLASS__, '_seravo_update_php_url' ));
     }
@@ -39,9 +41,7 @@ if ( ! class_exists('CheckPHPVersion') ) {
       $recommended_version = '7.4';
 
       if ( version_compare(PHP_VERSION, $recommended_version, '<') ) {
-
         self::_seravo_show_php_recommendation($recommended_version);
-
       }
 
     }
@@ -53,6 +53,10 @@ if ( ! class_exists('CheckPHPVersion') ) {
       return __('https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version', 'seravo');
     }
 
+    /**
+     * @param string $recommended_version The currently recommended PHP-version.
+     * @return void
+     */
     public static function _seravo_show_php_recommendation( $recommended_version ) {
       $url = self::_seravo_update_php_url();
       ?>

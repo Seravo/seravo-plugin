@@ -14,6 +14,9 @@ if ( ! defined('ABSPATH') ) {
 if ( ! class_exists('InstanceSwitcher') ) {
   class InstanceSwitcher {
 
+    /**
+     * @return void
+     */
     public static function load() {
 
       # Show the red banner only in staging/testing instances
@@ -45,29 +48,27 @@ if ( ! class_exists('InstanceSwitcher') ) {
         return;
       }
 
-      // admin ajax action
-      add_action('wp_ajax_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ));
-      add_action('wp_ajax_nopriv_instance_switcher_change_container', array( 'Seravo\InstanceSwitcher', 'change_wp_container' ));
-
       // add the instance switcher menu
       add_action('admin_bar_menu', array( 'Seravo\InstanceSwitcher', 'add_switcher' ), 999);
 
     }
 
     /**
-    * Make capability filterable
-    */
+     * Make capability filterable
+     * @return string
+     */
     public static function custom_capability() {
       return apply_filters('seravo_instance_switcher_capability', 'edit_posts');
     }
 
     /**
-    * Load JavaScript and stylesheets for the switcher and the banner
-    */
+     * Load JavaScript and stylesheets for the switcher and the banner
+     * @return void
+     */
     public static function assets() {
       if ( is_user_logged_in() || Helpers::is_staging() ) {
         wp_enqueue_script('seravo_instance_switcher', SERAVO_PLUGIN_URL . 'js/instance-switcher.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-        wp_enqueue_style('seravo_instance_switcher', SERAVO_PLUGIN_URL . 'style/instance-switcher.css', null, Helpers::seravo_plugin_version(), 'all');
+        wp_enqueue_style('seravo_instance_switcher', SERAVO_PLUGIN_URL . 'style/instance-switcher.css', array(), Helpers::seravo_plugin_version(), 'all');
       }
     }
 
@@ -98,8 +99,10 @@ if ( ! class_exists('InstanceSwitcher') ) {
     }
 
     /**
-    * Create the menu itself
-    */
+     * Create the menu itself
+     * @param \WP_Admin_Bar $wp_admin_bar Instance of the admin bar.
+     * @return void
+     */
     public static function add_switcher( $wp_admin_bar ) {
 
       // Bail out if there is no WP Admin bar
@@ -110,12 +113,18 @@ if ( ! class_exists('InstanceSwitcher') ) {
       $id = 'instance-switcher';
       $menuclass = '';
 
+      $wp_env = getenv('WP_ENV');
+      if ( $wp_env === false ) {
+        // Not Seravo environment
+        return;
+      }
+
       # Color the instance switcher red if not in production
-      if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
+      if ( $wp_env !== 'production' ) {
         $menuclass = 'instance-switcher-warning';
       }
 
-      $current_title = strtoupper(getenv('WP_ENV'));
+      $current_title = strtoupper($wp_env);
       $current_url = "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
       if ( strpos($current_url, '?') > -1 ) {
         $current_url .= '&';
@@ -179,7 +188,7 @@ if ( ! class_exists('InstanceSwitcher') ) {
       }
 
       // If in a shadow, always show exit link
-      if ( getenv('WP_ENV') && getenv('WP_ENV') !== 'production' ) {
+      if ( $wp_env !== 'production' ) {
         $domain = self::get_production_domain();
         $exit_href = empty($domain) ? '#exit' : 'https://' . $domain;
 
@@ -210,14 +219,22 @@ if ( ! class_exists('InstanceSwitcher') ) {
     }
 
     /**
-    * Front facing big fat red banner
-    */
+     * Front facing big fat red banner
+     * @return void
+     */
     public static function render_shadow_indicator() {
-      // in case WP_ENV_COMMENT is empty
-      $shadow_title = strtoupper(getenv('WP_ENV'));
+      $wp_env = getenv('WP_ENV');
+      if ( $wp_env === false ) {
+        // Not Seravo environment
+        return;
+      }
+
+      // In case WP_ENV_COMMENT is empty
+      $shadow_title = strtoupper($wp_env);
       if ( getenv('WP_ENV_COMMENT') && ! empty(getenv('WP_ENV_COMMENT')) ) {
         $shadow_title = getenv('WP_ENV_COMMENT');
       }
+
       ?>
       <style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px } #shadow-indicator a.clearlink { text-decoration: underline; color: #fff; }</style>
       <div id="shadow-indicator">
@@ -233,9 +250,10 @@ if ( ! class_exists('InstanceSwitcher') ) {
     }
 
     /**
-    * Let plugins or themes display admin notice when inside a shadow
-    */
-    public static function render_shadow_admin_notice( $current_screen = null ) {
+     * Let plugins or themes display admin notice when inside a shadow
+     * @return void
+     */
+    public static function render_shadow_admin_notice() {
       $current_screen = get_current_screen();
       $admin_notice_content = apply_filters('seravo_instance_switcher_admin_notice', '', $current_screen);
       if ( ! empty($admin_notice_content) ) {

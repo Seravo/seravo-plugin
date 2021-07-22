@@ -28,25 +28,25 @@ class FancyForm extends AjaxHandler {
   const STATUS_RED = 'red';
 
   /**
-   * @var array|null  Callback for building the form.
+   * @var callable|null Callback for building the form.
    */
   private $build_form_func;
 
   /**
-   * @var string|null Text to be shown on the main button.
+   * @var string|null   Text to be shown on the main button.
    */
   private $button_text;
   /**
-   * @var string|null Text to be shown on the dryrun button.
+   * @var string|null   Text to be shown on the dryrun button.
    */
   private $dryrun_button_text;
 
   /**
-   * @var string|null Text to be shown next to the spinner.
+   * @var string|null   Text to be shown next to the spinner.
    */
   private $spinner_text;
   /**
-   * @var string|null Text to be shown in wrapper by default.
+   * @var string|null   Text to be shown in wrapper by default.
    */
   private $title_text;
 
@@ -69,11 +69,16 @@ class FancyForm extends AjaxHandler {
    * Can be gotten with get_component().
    * @param \Seravo\Postbox\Component $base    Base component.
    * @param string                    $section Unique section inside the postbox.
+   * @return void
    */
   public function build_component( Component $base, $section ) {
     $form = new Component();
     if ( $this->build_form_func !== null ) {
       \call_user_func($this->build_form_func, $form);
+    }
+
+    if ( $this->button_text === null ) {
+      $this->button_text = __('Run', 'seravo');
     }
 
     if ( $this->dryrun_button_text !== null ) {
@@ -107,7 +112,8 @@ class FancyForm extends AjaxHandler {
 
   /**
    * Set the callback function to be called for building the form.
-   * @param array $build_form_func Function for building the form.
+   * @param callable $build_form_func Function for building the form.
+   * @return void
    */
   public function set_build_form_func( $build_form_func ) {
     $this->build_form_func = $build_form_func;
@@ -115,8 +121,9 @@ class FancyForm extends AjaxHandler {
 
   /**
    * Set text for the buttons.
-   * @param string $text        Text on the button.
-   * @param string $dryrun_text Text on the dry-run button (optional).
+   * @param string      $text        Text on the button.
+   * @param string|null $dryrun_text Text on the dry-run button (optional).
+   * @return void
    */
   public function set_button_text( $text, $dryrun_text = null ) {
     $this->button_text = $text;
@@ -125,7 +132,8 @@ class FancyForm extends AjaxHandler {
 
   /**
    * Set text to be shown next to the spinner.
-   * @param string $text Spinner text.
+   * @param string|null $text Spinner text.
+   * @return void
    */
   public function set_spinner_text( $text ) {
     $this->spinner_text = $text;
@@ -133,7 +141,8 @@ class FancyForm extends AjaxHandler {
 
   /**
    * Set text to be shown in wrapper by default.
-   * @param string $text Title text.
+   * @param string|null $text Title text.
+   * @return void
    */
   public function set_title_text( $text ) {
     $this->title_text = $text;

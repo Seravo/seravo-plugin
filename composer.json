@@ -45,6 +45,7 @@
   },
   "scripts": {
     "test": [
+      "vendor/bin/phpstan --memory-limit=512M analyse",
       "vendor/bin/rector --dry-run",
       "vendor/bin/phpcs -n"
     ],

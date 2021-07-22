@@ -14,27 +14,27 @@ use \Seravo\Postbox\Template;
 class SimpleForm extends AjaxHandler {
 
   /**
-   * @var array|null  Callback for building the form.
+   * @var callable|null Callback for building the form.
    */
   private $build_form_func;
 
   /**
-   * @var string|null Text to be shown on the main button.
+   * @var string|null  Text to be shown on the main button.
    */
   private $button_text;
 
   /**
-   * @var string|null Text to be shown on the dryrun button.
+   * @var string|null  Text to be shown on the dryrun button.
    */
   private $dryrun_button_text;
 
   /**
-   * @var string|null Text to be shown next to the spinner.
+   * @var string|null  Text to be shown next to the spinner.
    */
   private $spinner_text;
 
   /**
-   * @var bool Whether the spinner and buttons should switch places.
+   * @var bool         Whether the spinner and buttons should switch places.
    */
   private $flip_spinner = false;
 
@@ -57,6 +57,7 @@ class SimpleForm extends AjaxHandler {
    * Can be gotten with get_component().
    * @param \Seravo\Postbox\Component $base    Base component.
    * @param string                    $section Unique section inside the postbox.
+   * @return void
    */
   public function build_component( Component $base, $section ) {
     $form = new Component();
@@ -68,6 +69,10 @@ class SimpleForm extends AjaxHandler {
       $spinner = Template::spinner_with_text($section . '-spinner', $this->spinner_text);
     } else {
       $spinner = Template::spinner($section . '-spinner');
+    }
+
+    if ( $this->button_text === null ) {
+      $this->button_text = __('Run', 'seravo');
     }
 
     if ( $this->dryrun_button_text !== null ) {
@@ -106,7 +111,8 @@ class SimpleForm extends AjaxHandler {
 
   /**
    * Set the callback function to be called for building the form.
-   * @param array $build_form_func Function for building the form.
+   * @param callable $build_form_func Function for building the form.
+   * @return void
    */
   public function set_build_form_func( $build_form_func ) {
     $this->build_form_func = $build_form_func;
@@ -116,6 +122,7 @@ class SimpleForm extends AjaxHandler {
    * Set text for the buttons.
    * @param string $text        Text on the button.
    * @param string $dryrun_text Text on the dry-run button (optional).
+   * @return void
    */
   public function set_button_text( $text, $dryrun_text = null ) {
     $this->button_text = $text;
@@ -125,6 +132,7 @@ class SimpleForm extends AjaxHandler {
   /**
    * Set text to be shown next to the spinner.
    * @param string $text Spinner text.
+   * @return void
    */
   public function set_spinner_text( $text ) {
     $this->spinner_text = $text;
@@ -133,6 +141,7 @@ class SimpleForm extends AjaxHandler {
   /**
    * Set whether the spinner and buttons should switch places.
    * @param bool $flip Whether to flip.
+   * @return void
    */
   public function set_spinner_flip( $flip ) {
     $this->flip_spinner = $flip;

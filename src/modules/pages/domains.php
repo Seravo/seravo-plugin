@@ -13,7 +13,13 @@ use \Seravo\Postbox\Requirements;
  */
 class Domains extends Toolpage {
 
+  /**
+   * @var \Seravo\Seravo_Domains_List_Table
+   */
   public static $domains_table;
+  /**
+   * @var \Seravo\Seravo_Mails_Forward_Table
+   */
   public static $mails_table;
 
   /**
@@ -50,6 +56,7 @@ class Domains extends Toolpage {
   /**
    * Will be called for page initialization. Includes scripts
    * and enables toolpage features needed for this page.
+   * @return void
    */
   public function init_page() {
     self::init_postboxes();
@@ -64,6 +71,7 @@ class Domains extends Toolpage {
    * must be as strict as possible but as loose as the
    * postbox with the loosest requirements on the page.
    * @param \Seravo\Postbox\Requirements $requirements Instance to set requirements to.
+   * @return void
    */
   public function set_requirements( Requirements $requirements ) {
     $requirements->can_be_production = \true;
@@ -72,6 +80,7 @@ class Domains extends Toolpage {
   /**
    * Register scripts.
    * @param string $screen The current screen.
+   * @return void
    */
   public static function enqueue_scripts( $screen ) {
     if ( $screen !== 'tools_page_domains_page' ) {
@@ -79,7 +88,7 @@ class Domains extends Toolpage {
     }
 
     wp_enqueue_script('seravo-domains-js', SERAVO_PLUGIN_URL . 'js/domains.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-    wp_enqueue_style('seravo-domains-css', SERAVO_PLUGIN_URL . 'style/domains.css', '', Helpers::seravo_plugin_version(), false);
+    wp_enqueue_style('seravo-domains-css', SERAVO_PLUGIN_URL . 'style/domains.css', array(), Helpers::seravo_plugin_version());
 
     $loc_translation_domains = array(
       'ajaxurl'             => admin_url('admin-ajax.php'),
@@ -106,6 +115,9 @@ class Domains extends Toolpage {
     wp_localize_script('seravo-domains-js', 'seravo_domains_loc', $loc_translation_domains);
   }
 
+  /**
+   * @return void
+   */
   public static function init_postboxes() {
     \Seravo\Postbox\seravo_add_raw_postbox(
       'domains-management',
@@ -124,6 +136,9 @@ class Domains extends Toolpage {
     );
   }
 
+  /**
+   * @return void
+   */
   public static function render_domains_postbox() {
     ?>
     <p><?php _e('Domains routed to this WordPress site are listed below.', 'seravo'); ?></p>
@@ -142,6 +157,9 @@ class Domains extends Toolpage {
     <?php
   }
 
+  /**
+   * @return void
+   */
   public static function render_mails_postbox() {
     ?>
     <div class="mail-table">

@@ -17,6 +17,7 @@ if ( ! class_exists('Fixes') ) {
 
     /**
      * Loads Seravo features
+     * @return void
      */
     public static function load() {
 
@@ -65,6 +66,8 @@ if ( ! class_exists('Fixes') ) {
      * See https://core.trac.wordpress.org/ticket/31245
      * and https://github.com/tillkruss/redis-cache/issues/58
      *
+     * @param string $option Option that changed.
+     * @return void
      */
     public static function maybe_clear_alloptions_cache( $option ) {
 
@@ -81,6 +84,7 @@ if ( ! class_exists('Fixes') ) {
 
     /**
      * Removes core update notifications
+     * @return void
      */
     public static function hide_update_notifications() {
       remove_action('admin_notices', 'update_nag', 3);
@@ -90,7 +94,7 @@ if ( ! class_exists('Fixes') ) {
      * Removes red update bubbles from admin menus
      * @return array<string, string>|array<string, array<string, int>>
      */
-    public static function hide_update_data( $update_data, $titles = '' ) {
+    public static function hide_update_data() {
       return array(
         'counts' => array(
           'plugins'      => 0,
@@ -105,6 +109,8 @@ if ( ! class_exists('Fixes') ) {
 
     /**
      * Removes Site Health update check
+     * @param mixed[] $tests
+     * @return mixed[]
      */
     public static function remove_update_check( $tests ) {
       unset($tests['async']['background_updates']);
@@ -118,6 +124,8 @@ if ( ! class_exists('Fixes') ) {
      *
      * Doesn't force http 401 for AJAX calls as some AJAX actions don't
      * need authorization.
+     *
+     * @return void
      */
     public static function change_http_code_to_unauthorized() {
       if ( ! defined('DOING_AJAX') ) {
@@ -125,6 +133,9 @@ if ( ! class_exists('Fixes') ) {
       }
     }
 
+    /**
+     * @return void
+     */
     public static function send_no_cache_headers() {
       // Use WP function for this
       nocache_headers();

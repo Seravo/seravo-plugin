@@ -44,19 +44,19 @@ class Postbox {
 
 
   /**
-   * @var array|null Function to be called for building the components.
+   * @var callable|null Function to be called for building the components.
    */
   private $build_func;
   /**
-   * @var array|null Function to be called for data processing.
+   * @var callable|null Function to be called for data processing.
    */
   private $data_func;
   /**
-   * @var int|null Seconds to cache data returned by $data_func.
+   * @var int|null      Seconds to cache data returned by $data_func.
    */
   private $data_cache_time;
   /**
-   * @var mixed|null Data returned by $data_func.
+   * @var mixed|null    Data returned by $data_func.
    */
   private $data;
   /**
@@ -120,7 +120,8 @@ class Postbox {
   /**
    * Called when postbox is assigned a page. This is the reason
    * the same postbox instance can't be added on multiple pages.
-   * @param string Admin screen id where the postbox should be displayed in
+   * @param string $screen Admin screen id where the postbox should be displayed in.
+   * @return void
    */
   public function on_page_assign( $screen ) {
     $this->screen = $screen;
@@ -135,9 +136,10 @@ class Postbox {
    *
    * Result is stored in either $this->data or $this->error.
    * Only valid results are cache in transients.
+   * @return void
    */
   public function _get_data() {
-    if ( ! $this->data_func ) {
+    if ( $this->data_func === null ) {
       return;
     }
 
@@ -176,6 +178,7 @@ class Postbox {
   /**
    * WordPress will call this when it's time to render the postbox.
    * This will take care of calling custom data and build functions.
+   * @return void
    */
   public function _build() {
     if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
@@ -185,18 +188,16 @@ class Postbox {
     $this->_get_data();
 
     if ( $this->error !== null ) {
-      // Show error instead of the real content
-
-      // translators: link to php-error.log
-      $message = __('Whoops! Something went wrong. Please see %s for instructions.', 'seravo');
-      $url = get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log';
-      $link = sprintf('<a href="%s">php-error.log</a>', $url);
-      $error = sprintf($message, $link);
-
-      $this->component = Template::error_paragraph($error);
-    } else {
-      // Call the $build_func
-      \call_user_func($this->build_func, $this->component, $this, $this->data);
+        // Show error instead of the real content
+        // translators: link to php-error.log
+        $message = __('Whoops! Something went wrong. Please see %s for instructions.', 'seravo');
+        $url = get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log';
+        $link = sprintf('<a href="%s">php-error.log</a>', $url);
+        $error = sprintf($message, $link);
+        $this->component = Template::error_paragraph($error);
+    } elseif ( is_callable($this->build_func) ) {
+        // Call the $build_func
+        \call_user_func($this->build_func, $this->component, $this, $this->data);
     }
 
     $this->component->print_html();
@@ -209,6 +210,7 @@ class Postbox {
 
   /**
    * Print debug info table for the postbox.
+   * @return void
    */
   private function debug_print() {
     echo '<table style="border:2px solid black;width:100%;margin-top:10vh;">';
@@ -243,7 +245,8 @@ class Postbox {
   /**
    * Set the build function for the postbox. The function will be
    * called when it's time render the postbox.
-   * @param array $build_func Function to be called for building the components.
+   * @param callable $build_func Function to be called for building the components.
+   * @return void
    */
   public function set_build_func( $build_func ) {
     $this->build_func = $build_func;
@@ -252,8 +255,9 @@ class Postbox {
   /**
    * Set the optional data function for the postbox. The function will be
    * called right before build function.
-   * @param array $data_func  Function to be called for data processing.
-   * @param int   $cache_time Seconds to cache the data for (default is 0).
+   * @param callable $data_func  Function to be called for data processing.
+   * @param int      $cache_time Seconds to cache the data for (default is 0).
+   * @return void
    */
   public function set_data_func( $data_func, $cache_time = 0 ) {
     $this->data_func = $data_func;
@@ -264,6 +268,7 @@ class Postbox {
    * Adds an AJAX handler for the postbox. The same AjaxHandler instance
    * shouldn't be added to multiple postboxes without cloning.
    * @param \Seravo\Ajax\AjaxHandler $ajax_handler Ajax handler to be added for the postbox.
+   * @return void
    */
   public function add_ajax_handler( $ajax_handler ) {
     $this->ajax_handlers[$ajax_handler->get_section()] = $ajax_handler;
@@ -272,20 +277,17 @@ class Postbox {
   /**
    * Gets AJAX handler by section.
    * @param string $section Section to get handler by.
-   * @return \Seravo\Ajax\AjaxHandler|null AJAX handler with $section as section or null if none.
+   * @return \Seravo\Ajax\AjaxHandler AJAX handler with $section as section. It must exists.
    */
   public function get_ajax_handler( $section ) {
-    if ( isset($this->ajax_handlers[$section]) ) {
-      return $this->ajax_handlers[$section];
-    }
-
-    return null;
+    return $this->ajax_handlers[$section];
   }
 
   /**
    * Adds a setting section for the postbox. The same instance
    * shouldn't be added to multiple postboxes without cloning.
    * @param \Seravo\Postbox\Settings $settings Setting section instance to be added.
+   * @return void
    */
   public function add_setting_section( $settings ) {
     $settings->set_postbox($this->id);
@@ -297,13 +299,12 @@ class Postbox {
   /**
    * Gets setting section by section id.
    * @param string $section The section ID to get the handler by.
-   * @return \Seravo\Postbox\Settings The setting section.
+   * @return \Seravo\Postbox\Settings|null The setting section.
    */
   public function get_setting_section( $section ) {
     if ( isset($this->setting_sections[$section]) ) {
       return $this->setting_sections[$section];
     }
-
     return null;
   }
 
@@ -311,6 +312,7 @@ class Postbox {
    * Set the requirements for the postbox. Requirements can be given as
    * Requirements instance or array in "[Requirements::*] => mixed" format.
    * @param array<string, mixed>|Requirements $requirements Requirements for the postbox.
+   * @return void
    */
   public function set_requirements( $requirements ) {
     if ( is_array($requirements) ) {
@@ -339,6 +341,7 @@ class Postbox {
   /**
    * Set the title for the postbox.
    * @param string $title Display title of the postbox.
+   * @return void
    */
   public function set_title( $title ) {
     $this->title = $title;
