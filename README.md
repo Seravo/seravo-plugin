@@ -1,5 +1,6 @@
 ![Seravo.com](https://seravo.com/wp-content/themes/seravo/images/seravo-banner-808x300.png)
 
+
 # Seravo Must-use Plugin
 
 [![Build Status](https://travis-ci.org/Seravo/seravo-plugin.svg?branch=master)](https://travis-ci.org/seravo/seravo-plugin) [![Latest Stable Version](https://poser.pugx.org/seravo/seravo-plugin/v/stable)](https://packagist.org/packages/seravo/seravo-plugin) [![Total Downloads](https://poser.pugx.org/seravo/seravo-plugin/downloads)](https://packagist.org/packages/seravo/seravo-plugin) [![Latest Unstable Version](https://poser.pugx.org/seravo/seravo-plugin/v/unstable)](https://packagist.org/packages/seravo/seravo-plugin) [![License](https://poser.pugx.org/seravo/seravo-plugin/license)](https://packagist.org/packages/seravo/seravo-plugin)
