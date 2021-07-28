@@ -64,9 +64,10 @@ if ( ! defined('WP_CLI') ) {
 }
 
 /*
- * Restrict XML-RPC and/or REST-API user enumeration
+ * Load Canonical Domain and HTTPS. Check first that WP CLI is not defined so the module will not
+ * perform any redirections locally.
  */
-require_once SERAVO_PLUGIN_SRC . 'lib/security-restrictions.php';
+SecurityRestrictions::load();
 
 class Loader {
   /**
@@ -212,100 +213,99 @@ class Loader {
     /*
      * Helpers for hiding useless notifications and small fixes in logging
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/fixes.php';
+    Fixes::load();
 
     /*
      * Helpers for fixing issues with third-party code (plugins etc.)
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/thirdparty-fixes.php';
+    ThirdPartyFixes::init();
 
     /*
      * Add a cache purge button to the WP adminbar
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/purge-cache.php';
+    if ( getenv('WP_ENV') === 'production' ) {
+      PurgeCache::load();
+    }
 
     /*
      * Add a speed test button to the WP adminbar
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/speed-test.php';
+    if ( getenv('WP_ENV') === 'production' ) {
+      SpeedTest::load();
+    }
 
     /*
      * Hide the domain alias from search engines
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/noindex-domain-alias.php';
+    Noindex::load();
 
     /*
      * Allow automated login for user 'seravotest' if necessary
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/seravotest-auth-bypass.php';
+    SeravoTestAuthBypass::load();
 
     /*
      * Log all login attempts, failed or successful. Use no filters, as this should be mandatory
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/wp-login-log.php';
+    LoginLog::load();
 
     /*
      * Log plugin and theme activations, deactivations, installations and deletions
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/wp-plugin-log.php';
+    PluginLog::load();
 
     /*
      * Log important user changes in user such as roles, passwords and emails
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/wp-user-log.php';
+    UserLog::load();
 
     /*
      * Enforce strong passwords
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/passwords.php';
+    Passwords::load();
 
     /*
      * Instance switcher
      */
     if ( apply_filters('seravo_show_instance_switcher', true) && getenv('WP_ENV') !== 'development' ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/instance-switcher.php';
+      InstanceSwitcher::load();
     }
 
     /*
      * Check that https is enabled in siteurl
      */
     if ( current_user_can('administrator') ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/check-https.php';
+      CheckHttps::load();
     }
 
     /*
      * Notify that a newer PHP version is available
      */
     if ( current_user_can('administrator') ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/check-php-version.php';
+      CheckPHPVersion::load();
     }
 
     /*
      * Check that user has changed admin email to something else from no-reply@seravo
      */
     if ( current_user_can('administrator') ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/check-default-email.php';
+      CheckDefaultEmail::load();
     }
 
     /*
      * Optimize images on upload. Only logged in users make uploads.
      */
-    if ( is_user_logged_in() ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/optimize-on-upload.php';
+    if ( is_user_logged_in() && get_option('seravo-enable-optimize-images') === 'on' ) {
+      OptimizeImagesOnUpload::load();
     }
 
     /*
      * Sanitize a filename on upload to remove special characters.
      * Only logged in users make uploads.
      */
-    if ( is_user_logged_in() ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/sanitize-on-upload.php';
+    if ( is_user_logged_in() && get_option('seravo-enable-sanitize-uploads') === 'on' ) {
+      SanitizeOnUpload::load();
     }
-
-    /*
-     * Module for checking site health
-     */
-    require_once SERAVO_PLUGIN_SRC . 'modules/check-site-health.php';
 
     // OLD AJAX FILES
     require_once SERAVO_PLUGIN_SRC . 'lib/domains-ajax.php';
@@ -319,7 +319,7 @@ class Loader {
      */
 
     // Site Status page
-    Site_Status::load();
+    SiteStatus::load();
     // Upkeep page
     Upkeep::load();
     // Database page
@@ -339,15 +339,15 @@ class Loader {
     }
 
     /*
-      * Notification with last WordPress login date and error count. This module handles its own
-      * capability checks.
-      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/login-notification.php';
+     * Notification with last WordPress login date and error count. This module handles its own
+     * capability checks.
+     */
+    LoginNotifications::load();
 
     /*
-      * Show notification stylish wp-admin dashboard widgets
-      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/dashboard-widgets.php';
+     * Show notification stylish wp-admin dashboard widgets
+     */
+    DashboardWidgets::load();
 
     // Load WP-CLI module 'wp seravo'
     if ( defined('WP_CLI') && WP_CLI ) {
@@ -358,13 +358,13 @@ class Loader {
      * Hide Users
      * Hides prespecified and given users from a WordPress page
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/hide-users.php';
+    HideUsers::load();
 
     /*
      * Add support for SVG images
      * Allow users to upload SVG
      */
-    require_once SERAVO_PLUGIN_SRC . 'modules/svg-support.php';
+    SVGSupport::load();
   }
 }
 

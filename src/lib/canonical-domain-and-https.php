@@ -16,7 +16,7 @@ if ( ! defined('ABSPATH') ) {
 
 if ( ! class_exists('Canonical_Domain_And_Https') ) {
 
-  class Canonical_Domain_And_Https {
+  class CanonicalDomainAndHttps {
 
     /**
      * NOTE! This function is executed on every page load.
@@ -47,5 +47,5 @@ if ( ! class_exists('Canonical_Domain_And_Https') ) {
 
   }
 
-  Canonical_Domain_And_Https::load();
+  CanonicalDomainAndHttps::load();
 }
