@@ -11,12 +11,12 @@ use \Seravo\Postbox\Template;
 use \Seravo\Postbox\Requirements;
 
 /**
- * Class Site_Status
+ * Class SiteStatus
  *
- * Site_Status is a page for general management
+ * SiteStatus is a page for general management
  * and info of the site
  */
-class Site_Status extends Toolpage {
+class SiteStatus extends Toolpage {
 
   /**
    * @var int Default maximum resolution for images.
@@ -33,25 +33,25 @@ class Site_Status extends Toolpage {
   const OBJECT_CACHE_PATH = '/data/wordpress/htdocs/wp-content/object-cache.php';
 
   /**
-   * @var \Seravo\Site_Status Instance of this page.
+   * @var \Seravo\SiteStatus Instance of this page.
    */
   private static $instance;
 
   /**
    * Function for creating an instance of the page. This should be
    * used instead of 'new' as there can only be one instance at a time.
-   * @return \Seravo\Site_Status Instance of this page.
+   * @return \Seravo\SiteStatus Instance of this page.
    */
   public static function load() {
     if ( self::$instance === null ) {
-      self::$instance = new Site_Status();
+      self::$instance = new SiteStatus();
     }
 
     return self::$instance;
   }
 
   /**
-   * Constructor for Site_Status. Will be called on new instance.
+   * Constructor for SiteStatus. Will be called on new instance.
    * Basic page details are given here.
    */
   public function __construct() {
@@ -574,7 +574,7 @@ class Site_Status extends Toolpage {
 
     if ( ! $cached_usage ) {
       exec('du -sb /data ' . implode(' ', $exclude_dirs), $data_folder);
-      set_transient('disk_space_usage', $data_folder, Dashboard_Widgets::DISK_SPACE_CACHE_TIME);
+      set_transient('disk_space_usage', $data_folder, DashboardWidgets::DISK_SPACE_CACHE_TIME);
     } else {
       $data_folder = $cached_usage;
     }
@@ -1031,7 +1031,7 @@ class Site_Status extends Toolpage {
    */
   public static function run_site_checks() {
     $response = new AjaxResponse();
-    $results = Site_Health::check_site_status(true);
+    $results = SiteHealth::check_site_status(true);
     $output = $results[0];
     $title = $results[1];
     $status_color = $results[2];
