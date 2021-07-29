@@ -163,3 +163,15 @@ function get_form_data(section) {
 
   return data;
 }
+
+var seravo = {
+
+  add_url_param: function(name, value) {
+    var url_params = new URLSearchParams(window.location.search);
+    url_params.set(name, value);
+
+    var new_url = '?' + url_params.toString();
+    window.history.pushState({ path: new_url }, '', new_url);
+  },
+
+}

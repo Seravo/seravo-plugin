@@ -319,23 +319,23 @@ class Loader {
      */
 
     // Site Status page
-    SiteStatus::load();
+    Page\SiteStatus::load();
     // Upkeep page
-    Upkeep::load();
+    Page\Upkeep::load();
     // Database page
-    Database::load();
+    Page\Database::load();
     // Backups page
-    Backups::load();
+    Page\Backups::load();
     // Security page
-    Security::load();
+    Page\Security::load();
     // Domains page
     Domains::load();
     // Logs page
-    Logs::load();
+    Page\Logs::load();
 
     if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
       // Test page
-      TestPage::load();
+      Page\TestPage::load();
     }
 
     /*

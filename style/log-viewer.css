@@ -1,61 +1,172 @@
-.log-view input[name=regex] {
-  height: 28px;
-  margin: 0 4px 0 0;
+/**
+ * Log viewer
+ */
+
+.log-viewer-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  height: 60vh;
+  border: 1px solid #c3c4c7;
 }
 
-.log-view .log-table-view {
-  border: 1px solid #e5e5e5;
-  max-height: 450px;
-  min-height: 25px;
-  overflow: auto;
-  position: relative;
-  resize: both;
+.log-viewer-wrapper ::-webkit-scrollbar-track, .log-viewer-wrapper ::-webkit-scrollbar {
+  border-radius: 0;
+}
+
+
+/**
+ * Side menu
+ */
+
+.log-menu-wrapper {
+  height: 100%;
+  overflow-y: scroll;
+  background-color: white;
+}
+
+.log-menu > ul {
+  margin: 0;
+  list-style-type: none;
+}
+
+.log-menu > ul > li {
+  margin: 2px 0 2px 0;
+}
+
+.log-menu-entry {
   width: 100%;
+  min-width: 180px;
+  padding-right: 0;
+  font-size: 1.3em;
+  border: none !important;
+  border-radius: 0 !important;
+  border-left: 4px solid transparent !important;
 }
 
-.log-view .log-table-view table {
-  border: 0;
+.log-menu-entry.selected, .log-menu-entry:hover {
+  border-left: 4px solid !important;
+  font-weight: bold;
+}
+
+
+/**
+ * Log view
+ */
+
+.log-view-wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-height: 100%;
+  /* WTF? Don't remove or everything breaks. The
+     value can be anything but must be something. */
+  width: 0;
+}
+
+.log-view {
+  flex: 1;
+  overflow: scroll;
+  border-top: 1px solid #c3c4c7;
+  border-bottom: 1px solid #c3c4c7;
+}
+
+table.log-table {
+  width: 100%;
   font-family: monospace;
   white-space: nowrap;
 }
 
-.log-view .log-table-view table td {
-  padding-bottom: 0;
-  padding-top: 0;
+table.log-table td {
+  padding: 0 0 0 5px;
+  vertical-align: top;
 }
 
-.log-view .log-table-view table td:hover {
-  background-color: #44A1CB;
-}
-
-.log-view .log-table-view table td span.highlight {
+.log-table td span.highlight {
   background-color: #ff0;
 }
 
-.log-view .log-table-view .overlay {
-  background: rgba(0, 0, 0, .5);
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 300%;
-}
-
-.log-view .log-table-view .logrow {
-  display: block;
-}
-
-.logrow:hover {
+table.log-table td:hover {
   background-color: #44A1CB;
   color: white;
   cursor: pointer;
 }
 
-.log-view-active {
-  background-color: #fff;
-  border: 1px solid #e5e5e5;
+
+/**
+ * Top filter bar
+ */
+
+.filter-bar-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 40px;
+}
+
+.log-view-date {
+  display: flex;
+  height: min-content;
+  padding-left: 4px;
+  word-spacing: -3px;
+}
+
+.log-view-date > .log-date-input {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  border: 1px solid grey !important;
+  text-align: center;
+  color: black !important;
+}
+
+.log-view-date > .log-date-pick {
+  border-radius: 0;
+}
+
+.log-view-date > .log-date-pick.disabled {
+  border-color: grey !important;
+}
+
+.log-view-date > .log-date-pick.date-previous {
+  border-right: 0 !important;
+}
+
+.log-view-date > .log-date-pick.date-next {
+  border-left: 0 !important;
+}
+
+.log-view-search {
+  padding-right: 4px;
+}
+
+.log-view-search > button {
+  margin-left: 2px !important;
+}
+
+
+/**
+ * Loading spinner
+ */
+
+.log-view-spinner {
+  display: flex;
+  width: 100%;
   height: 100%;
-  padding: 20px;
-  word-wrap: break-word;
+  align-items: center;
+  background-position: center;
+  background-color: rgba(220, 220, 220, 128);
+}
+
+.log-view-spinner > img {
+  margin: 0 auto;
+}
+
+
+/**
+ * Bottom bar
+ */
+
+.info-bar-wrapper {
+  padding-left: 10px;
+  word-wrap: anywhere;
 }

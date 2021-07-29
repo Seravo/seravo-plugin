@@ -1,10 +1,18 @@
 <?php
 
-namespace Seravo;
+namespace Seravo\Page;
 
+use \Seravo\Helpers;
+use \Seravo\Dashboard_Widgets;  // TODO: Not good, get rid of
+use \Seravo\Site_Health;        // TODO: Not good, get rid of (??)
+use \Seravo\API;
+use \Seravo\Page\Upkeep;        // TODO: Not good, get rid of
+
+use \Seravo\Ajax;
 use \Seravo\Ajax\AjaxResponse;
-use \Seravo\Postbox\Toolpage;
+
 use \Seravo\Postbox;
+use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox\Settings;
 use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
@@ -33,14 +41,14 @@ class SiteStatus extends Toolpage {
   const OBJECT_CACHE_PATH = '/data/wordpress/htdocs/wp-content/object-cache.php';
 
   /**
-   * @var \Seravo\SiteStatus Instance of this page.
+   * @var \Seravo\Page\SiteStatus Instance of this page.
    */
   private static $instance;
 
   /**
    * Function for creating an instance of the page. This should be
    * used instead of 'new' as there can only be one instance at a time.
-   * @return \Seravo\SiteStatus Instance of this page.
+   * @return \Seravo\Page\SiteStatus Instance of this page.
    */
   public static function load() {
     if ( self::$instance === null ) {
@@ -755,7 +763,7 @@ class SiteStatus extends Toolpage {
    * @return array<string, string>
    */
   public static function get_site_info() {
-    $info = \Seravo\Upkeep::seravo_admin_get_site_info();
+    $info = \Seravo\Page\Upkeep::seravo_admin_get_site_info();
 
     if ( is_wp_error($info) ) {
       $data['error'] = __('An API error occured. Please try again later', 'seravo');

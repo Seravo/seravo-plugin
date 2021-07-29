@@ -1,9 +1,13 @@
 <?php
 
-namespace Seravo;
+namespace Seravo\Page;
+
+use \Seravo\Helpers;
+use \Seravo\CruftRemover;
 
 use \Seravo\Ajax\AjaxHandler;
 use \Seravo\Ajax\AjaxResponse;
+
 use \Seravo\Postbox;
 use \Seravo\Postbox\Settings;
 use \Seravo\Postbox\Component;
@@ -20,14 +24,14 @@ use \Seravo\Postbox\Requirements;
 class Security extends Toolpage {
 
   /**
-   * @var \Seravo\Security Instance of this page.
+   * @var \Seravo\Page\Security Instance of this page.
    */
   private static $instance;
 
   /**
    * Function for creating an instance of the page. This should be
    * used instead of 'new' as there can only be one instance at a time.
-   * @return \Seravo\Security Instance of this page.
+   * @return \Seravo\Page\Security Instance of this page.
    */
   public static function load() {
     if ( self::$instance === null ) {
@@ -463,7 +467,7 @@ class Security extends Toolpage {
           $unlink_result = is_dir($file) ? CruftRemover::rmdir_recursive($file, 0) : unlink($file);
           // Log files if removing fails
           if ( $unlink_result === false ) {
-            array_push($results, $file);
+            $results[] = $file;
           }
         }
       }

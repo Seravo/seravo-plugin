@@ -22,7 +22,13 @@ return static function ( ContainerConfigurator $container_configurator ) {
       __DIR__ . '/seravo-plugin.php',
     )
   );
-  $parameters->set(Option::SKIP, array( __DIR__ . '/src/lib/list-table.php' ));
+  $parameters->set(
+    Option::SKIP,
+    array(
+      __DIR__ . '/src/lib/list-table.php',
+      __DIR__ . '/src/lib/compatibility.php',
+    )
+  );
 
   // Run Rector on changed files only
   $parameters->set(Option::ENABLE_CACHE, false);
