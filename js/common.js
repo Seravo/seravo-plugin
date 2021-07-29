@@ -47,6 +47,36 @@ function on_show_more_wrapper_click(event) {
   }
 }
 
+
+
+/**
+ * Show modal to ask user for confirmation.
+ * @param {Object}   caller           The caller of the function. May be anything, passed as parameter to proceed_callback.
+ * @param {String}   caption          Title for the modal.
+ * @param {String}   modal_id         ID of the modal.
+ * @param {Callable} proceed_callback Function called on proceed button click.
+ */
+ function seravo_confirm(caller, caption, modal_id, proceed_callback) {
+  tb_remove();
+
+  // Init cancel button
+  jQuery('#' + modal_id + '-cancel').off('click').click(
+    function() {
+      tb_remove();
+    }
+  );
+
+  // Init proceed button
+  jQuery('#' + modal_id + '-proceed').off('click').click(
+    function() {
+      tb_remove();
+      proceed_callback(caller);
+    }
+  );
+
+  tb_show(caption, '#TB_inline?width=600&height=120&inlineId=' + modal_id);
+}
+
 function is_email_valid(email) {
   var regex = /^([ÆØÅæøåõäöüa-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})$/;
   return regex.test(email);
