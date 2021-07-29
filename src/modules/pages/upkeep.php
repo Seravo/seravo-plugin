@@ -88,14 +88,14 @@ class Upkeep extends Toolpage {
       return;
     }
 
-    \wp_enqueue_script('seravo-upkeep-js', SERAVO_PLUGIN_URL . 'js/upkeep.js', array( 'jquery' ), Helpers::seravo_plugin_version());
-    \wp_enqueue_script('screenshots-js', SERAVO_PLUGIN_URL . 'js/screenshots.js', array( 'jquery' ), Helpers::seravo_plugin_version());
+    \wp_enqueue_script('seravo-updates-js', SERAVO_PLUGIN_URL . 'js/updates.js', array( 'jquery' ), Helpers::seravo_plugin_version());
+    \wp_enqueue_script('seravo-screenshots-js', SERAVO_PLUGIN_URL . 'js/screenshots.js', array( 'jquery' ), Helpers::seravo_plugin_version());
     \wp_enqueue_style('seravo-upkeep-css', SERAVO_PLUGIN_URL . 'style/upkeep.css', array(), Helpers::seravo_plugin_version());
 
     $loc_translation = array(
       'email_fail' => \__('There must be at least one contact email', 'seravo'),
     );
-    \wp_localize_script('seravo-upkeep-js', 'seravo_upkeep_loc', $loc_translation);
+    \wp_localize_script('seravo-updates-js', 'seravo_upkeep_loc', $loc_translation);
   }
 
   /**
@@ -103,16 +103,6 @@ class Upkeep extends Toolpage {
    * @return void
    */
   public static function init_postboxes( Toolpage $page ) {
-    if ( \getenv('WP_ENV') === 'production' ) {
-      \Seravo\Postbox\seravo_add_raw_postbox(
-        'seravo-updates',
-        \__('Seravo Updates', 'seravo'),
-        array( __CLASS__, 'seravo_updates_postbox' ),
-        'tools_page_upkeep_page',
-        'normal'
-      );
-    }
-
     /**
      * Seravo Plugin Updater
      */
@@ -207,6 +197,16 @@ class Upkeep extends Toolpage {
     $screenshots->set_build_func(array( __CLASS__, 'build_screenshots_postbox' ));
     $screenshots->set_data_func(array( __CLASS__, 'get_screenshots' ), 300);
     $page->register_postbox($screenshots);
+
+    /**
+     * Seravo Updates postbox
+     */
+    $seravo_updates = new Postbox\Postbox('updates');
+    $seravo_updates->set_title(\__('Seravo Updates', 'seravo'));
+    $seravo_updates->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+    $seravo_updates->set_data_func(array( __CLASS__, 'get_seravo_updates_data' ));
+    $seravo_updates->set_build_func(array( __CLASS__, 'build_seravo_updates' ));
+    $page->register_postbox($seravo_updates);
   }
 
   /**
@@ -453,36 +453,71 @@ class Upkeep extends Toolpage {
   }
 
   /**
-   * Fetch the site data from API
-   * @return mixed[]|\WP_Error
+   * Build func for Seravo Updates postbox
+   * @param Component $base          The base of the postbox to add elements.
+   * @param Postbox\Postbox $postbox The postbox that is built.
+   * @param array<mixed> $data       Data returned by data func.
+   * @return void
    */
-  public static function seravo_admin_get_site_info() {
-    return API::get_site_data();
+  public static function build_seravo_updates( Component $base, Postbox\Postbox $postbox, $data ) {
+    if ( isset($data['error']) ) {
+      $base->add_child(Template::error_paragraph($data['error']));
+      return;
+    }
+    $base->add_child(Template::section_title(\__('Opt-out from updates by Seravo', 'seravo')));
+    $base->add_child(Template::paragraph(\__("The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below.", 'seravo')));
+    $updates_form = new Component('', '<form name="seravo-updates-form" action="' . \esc_url(\admin_url('admin-post.php')) . '" method="post">', '</form>');
+    $updates_form->add_child(Component::from_raw(\wp_nonce_field('seravo-updates-nonce')));
+    // Seravo Updates toggle
+    $updates_form->add_child(Component::from_raw('<input type="hidden" name="action" value="toggle_seravo_updates">'));
+    $updates_form->add_child(Template::checkbox_with_text('seravo-updates', \__('Seravo updates enabled', 'seravo'), $data['seravo_updates_on']));
+    $updates_form->add_child(Template::paragraph('<hr>'));
+    // Slack webhook
+    $updates_form->add_child(Template::section_title(\__('Update Notifications with a Slack Webhook', 'seravo')));
+    $updates_form->add_child(Template::paragraph(\__('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks" target="_BLANK">Read more about webhooks</a>.', 'seravo')));
+    $updates_form->add_child(
+      Template::side_by_side(
+        Component::from_raw('<input class="slack-webhook-input" name="slack-webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="' . $data['slack_webhook'] . '">'),
+        Component::from_raw('<button type="button" class="slack-webhook-test button">' . \__('Send a Test Notification', 'seravo') . '</button>')
+      )
+    );
+    $updates_form->add_child(Template::paragraph('<hr>'));
+    // Technical contacts
+    $updates_form->add_child(Template::section_title(\__('Contacts', 'seravo')));
+    $updates_form->add_child(Template::paragraph(\__('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo')));
+    $updates_form->add_child(
+      Template::side_by_side(
+        Component::from_raw('<input class="technical-contacts-input" type="email" multiple size="30" placeholder="' . \__('example@example.com', 'seravo') . '" value="" data-emails="' . \htmlspecialchars($data['contact_emails']) . '">'),
+        Component::from_raw('<button type="button" class="technical-contacts-add button">' . \__('Add', 'seravo') . '</button>')
+      )
+    );
+    $updates_form->add_child(Component::from_raw('<span class="technical-contacts-error">' . \__('Email must be formatted as name@domain.com', 'seravo') . '</span>'));
+    $updates_form->add_child(Component::from_raw('<input name="technical-contacts" type="hidden"><div class="technical-contacts-buttons"></div><br>'));
+    $updates_form->add_child(Component::from_raw('<input type="submit" id="save-settings-button" class="button button-primary" value="' . \__('Save settings', 'seravo') . '">'));
+    $updates_form->add_child(Template::paragraph('<small>' . \__('P.S. Subscribe to our <a href="https://seravo.com/newsletter-for-wordpress-developers/" target="_blank">Newsletter for WordPress Developers</a> to get up-to-date information about our new features.', 'seravo') . '</small>'));
+    $base->add_child($updates_form);
   }
 
   /**
-   * @return void
+   * Data func for Seravo Updates postbox.
+   * @return array<mixed> Data containing the slack webhook, updates on/off status etc.
    */
-  public static function seravo_updates_postbox() {
-
-    $site_info = self::seravo_admin_get_site_info();
-
+  public static function get_seravo_updates_data() {
+    $data = array();
+    $site_info = API::get_site_data();
     if ( \is_wp_error($site_info) ) {
       \error_log($site_info->get_error_message());
-      \_e('An API error occured. Please try again later', 'seravo');
-      return;
+      $data['error'] = \__('An API error occured. Please try again later', 'seravo');
+      return $data;
     }
 
-    ?>
-    <h3><?php \_e('Opt-out from updates by Seravo', 'seravo'); ?></h3>
-    <?php
-    $checked = $site_info['seravo_updates'] === true ? 'checked="checked"' : '';
+    $data['seravo_updates_on'] = $site_info['seravo_updates'] === true;
+    $data['slack_webhook'] = '';
 
-    if ( isset($site_info['notification_webhooks'][0]['url']) &&
-      $site_info['notification_webhooks'][0]['type'] === 'slack' ) {
-      $slack_webhook = $site_info['notification_webhooks'][0]['url'];
-    } else {
-      $slack_webhook = '';
+    // Check that webhooks really exist
+    if ( isset($site_info['notification_webhooks']) && (isset($site_info['notification_webhooks'][0]['url']) &&
+    $site_info['notification_webhooks'][0]['type'] === 'slack') ) {
+      $data['slack_webhook'] = $site_info['notification_webhooks'][0]['url'];
     }
 
     $contact_emails = array();
@@ -495,40 +530,9 @@ class Upkeep extends Toolpage {
       $contact_emails = '[]';
     }
 
-    ?>
-    <p><?php \_e("The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below.", 'seravo'); ?></p>
-    <form name="seravo_updates_form" action="<?php echo \esc_url(\admin_url('admin-post.php')); ?>" method="post">
-      <?php \wp_nonce_field('seravo-updates-nonce'); ?>
-      <input type="hidden" name="action" value="toggle_seravo_updates">
-      <div class="checkbox allow_updates_checkbox">
-        <input id="seravo_updates" name="seravo_updates" type="checkbox" <?php echo $checked; ?>> <?php \_e('Seravo updates enabled', 'seravo'); ?><br>
-      </div>
+    $data['contact_emails'] = $contact_emails;
 
-      <hr class="seravo-updates-hr">
-      <h3><?php \_e('Update Notifications with a Slack Webhook', 'seravo'); ?></h3>
-      <p><?php \_e('By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href="https://api.slack.com/incoming-webhooks" target="_BLANK">Read more about webhooks</a>.', 'seravo'); ?></p>
-      <input name="slack_webhook" type="url" size="30" placeholder="https://hooks.slack.com/services/..." value="<?php echo $slack_webhook; ?>">
-      <button type="button" class="button" id="slack_webhook_test"><?php \_e('Send a Test Notification', 'seravo'); ?></button>
-
-      <hr class="seravo-updates-hr">
-      <h3 id='contacts'><?php \_e('Contacts', 'seravo'); ?></h3>
-      <p><?php \_e('Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address.', 'seravo'); ?></p>
-      <input class="technical_contacts_input" type="email" multiple size="30" placeholder="<?php \_e('example@example.com', 'seravo'); ?>" value="" data-emails="<?php echo \htmlspecialchars($contact_emails); ?>">
-      <button type="button" class="technical_contacts_add button"><?php \_e('Add', 'seravo'); ?></button>
-      <span class="technical_contacts_error"><?php \_e('Email must be formatted as name@domain.com', 'seravo'); ?></span>
-      <input name="technical_contacts" type="hidden">
-      <div class="technical_contacts_buttons"></div>
-      <br>
-      <input type="submit" id="save_settings_button" class="button button-primary" value="<?php \_e('Save settings', 'seravo'); ?>">
-      <p><small class="seravo-developer-letter-hint">
-          <?php
-          // translators: %1$s link to Newsletter for WordPress developers
-          \printf(\__('P.S. Subscribe to our %1$sNewsletter for WordPress Developers%2$s to get up-to-date information about our new features.', 'seravo'), '<a href="https://seravo.com/newsletter-for-wordpress-developers/" target="_BLANK">', '</a>');
-          ?>
-        </small></p>
-      <br>
-    </form>
-    <?php
+    return $data;
   }
 
   /**
@@ -536,7 +540,7 @@ class Upkeep extends Toolpage {
    * @return array<string,array|string>
    */
   public static function get_update_status() {
-    $site_info = self::seravo_admin_get_site_info();
+    $site_info = API::get_site_data();
     $data = array();
 
     if ( \is_wp_error($site_info) ) {
@@ -833,31 +837,32 @@ class Upkeep extends Toolpage {
   }
 
   /**
+   * Toggle Seravo Updates postbox settings
    * @return never
    */
   public static function seravo_admin_toggle_seravo_updates() {
     \check_admin_referer('seravo-updates-nonce');
 
-    $seravo_updates = isset($_POST['seravo_updates']) && $_POST['seravo_updates'] === 'on' ? 'true' : 'false';
+    $seravo_updates = isset($_POST['seravo-updates']) && $_POST['seravo-updates'] === 'on' ? 'true' : 'false';
     $data = array( 'seravo_updates' => $seravo_updates );
 
     // Webhooks is an anonymous array of named arrays with type/url pairs
     $data['notification_webhooks'] = array(
       array(
         'type' => 'slack',
-        'url'  => $_POST['slack_webhook'],
+        'url'  => $_POST['slack-webhook'],
       ),
     );
 
     // Handle site technical contact email addresses
-    if ( isset($_POST['technical_contacts']) ) {
+    if ( isset($_POST['technical-contacts']) ) {
       $validated_addresses = array();
 
       // There must be at least one contact email
-      if ( isset($_POST['technical_contacts']) && $_POST['technical_contacts'] !== '' ) {
+      if ( isset($_POST['technical-contacts']) && $_POST['technical-contacts'] !== '' ) {
 
         // Only unique emails are valid
-        $contact_addresses = \array_unique(\explode(',', $_POST['technical_contacts']));
+        $contact_addresses = \array_unique(\explode(',', $_POST['technical-contacts']));
 
         // Perform email validation before making API request
         foreach ( $contact_addresses as $contact_address ) {

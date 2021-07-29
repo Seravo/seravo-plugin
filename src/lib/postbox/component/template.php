@@ -187,6 +187,17 @@ class Template {
   }
 
   /**
+   * Display checkbox with text.
+   * @param string $name    Name if the input.
+   * @param string $content Content to display with the input.
+   * @param bool   $checked Whether the checkbox is checked by default.
+   * @return \Seravo\Postbox\Component Component with checkbox and text.
+   */
+  public static function checkbox_with_text( $name, $content, $checked = false ) {
+    return Component::from_raw('<input type="checkbox" id="' . $name . '" name="' . $name . '"' . ($checked ? ' checked' : '') . '> ' . $content . '</input>');
+  }
+
+  /**
    * Display fake checkbox used to tell features that can't be disabled.
    * @return \Seravo\Postbox\Component Disabled fake checkbox.
    */
