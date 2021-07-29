@@ -80,7 +80,6 @@ class SiteStatus extends Toolpage {
 
     self::check_default_settings();
     \add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
-    \add_action('wp_ajax_seravo_ajax_site_status', 'Seravo\seravo_ajax_site_status');
 
     $this->enable_charts();
     $this->enable_ajax();
@@ -108,23 +107,15 @@ class SiteStatus extends Toolpage {
       return;
     }
 
-    \wp_enqueue_script('seravo-site-status-js', SERAVO_PLUGIN_URL . 'js/sitestatus.js', array(), Helpers::seravo_plugin_version());
+    \wp_enqueue_script('seravo-shadows-js', SERAVO_PLUGIN_URL . 'js/shadows.js', array( 'jquery' ), Helpers::seravo_plugin_version());
     \wp_enqueue_script('seravo-speedtest-js', SERAVO_PLUGIN_URL . 'js/speedtest.js', array( 'jquery' ), Helpers::seravo_plugin_version());
     \wp_enqueue_style('seravo-site-status-css', SERAVO_PLUGIN_URL . 'style/sitestatus.css', array(), Helpers::seravo_plugin_version());
 
     $loc_translation = array(
-      'no_data'             => \__('No data returned for the section.', 'seravo'),
-      'failed'              => \__('Failed to load. Please try again.', 'seravo'),
-      'no_reports'          => \__('No reports found at /data/slog/html/. Reports should be available within a month of the creation of a new site.', 'seravo'),
-      'view_report'         => \__('View report', 'seravo'),
-      'success'             => \__('Success!', 'seravo'),
-      'failure'             => \__('Failure!', 'seravo'),
-      'error'               => \__('Error!', 'seravo'),
-      'confirm'             => \__('Are you sure? This replaces all information in the selected environment.', 'seravo'),
-      'ajaxurl'             => \admin_url('admin-ajax.php'),
-      'ajax_nonce'          => \wp_create_nonce('seravo_site_status'),
+      'confirm' => \__('Confirm shadow reset', 'seravo'),
     );
-    \wp_localize_script('seravo-site-status-js', 'seravo_site_status_loc', $loc_translation);
+
+    \wp_localize_script('seravo-shadows-js', 'shadow_loc', $loc_translation);
   }
 
   /**
@@ -133,16 +124,6 @@ class SiteStatus extends Toolpage {
    * @return void
    */
   public static function init_postboxes( Toolpage $page ) {
-    if ( \getenv('WP_ENV') === 'production' ) {
-      \Seravo\Postbox\seravo_add_raw_postbox(
-        'shadows',
-        \__('Shadows', 'seravo'),
-        array( __CLASS__, 'seravo_shadows_postbox' ),
-        'tools_page_site_status_page',
-        'side'
-      );
-    }
-
     /**
      * Site info postbox
      */
@@ -234,6 +215,20 @@ class SiteStatus extends Toolpage {
     $optimize_images->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $optimize_images->add_setting_section(self::get_optimize_images_settings());
     $page->register_postbox($optimize_images);
+
+    /**
+     * Shadows postox
+     */
+    $shadows = new Postbox\Postbox('shadows');
+    $shadows->set_title(\__('Shadows', 'seravo'));
+    $shadows->set_build_func(array( __CLASS__, 'build_shadows' ));
+    $shadows->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+    $shadows->set_data_func(array( __CLASS__, 'get_shadows_data' ));
+    // Init AJAX handler for resetting shadows
+    $reset_shadow = new Ajax\AjaxHandler('reset-shadows');
+    $reset_shadow->set_ajax_func(array( __CLASS__, 'reset_shadows' ));
+    $shadows->add_ajax_handler($reset_shadow);
+    $page->register_postbox($shadows);
   }
 
   /**
@@ -820,132 +815,134 @@ class SiteStatus extends Toolpage {
   }
 
   /**
+   * Build func for Shadows postbox.
+   * @param Component $base          Base element of this postbox to add elements to.
+   * @param Postbox\Postbox $postbox Postbox that is built.
+   * @param array<mixed> $data       Shadows data returned by data function.
    * @return void
    */
-  public static function seravo_shadows_postbox() {
-    ?>
-    <div class="seravo-section">
-      <div>
-        <p><?php \_e('Manage the site shadows.', 'seravo'); ?></p>
-        <p><?php \_e('<strong>Warning: </strong>Resetting a shadow copies the state of the production site to the shadow. All files under <code>/data/wordpress/</code> will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo'); ?></p>
-      </div>
-      <div>
-        <?php
-        // Get a list of site shadows
-        $api_query = '/shadows';
-        $shadow_list = API::get_site_data($api_query);
-        if ( \is_wp_error($shadow_list) ) {
-          die($shadow_list->get_error_message());
-        }
-        ?>
-        <!-- Alerts after shadow reset -->
-        <div class="alert" id="alert-success">
-          <button class="closebtn">&times;</button>
-          <p><?php \_e('Success!', 'seravo'); ?></p>
-          <!-- Search-replace info -->
-          <div class="shadow-reset-sr-alert alert">
-            <p><?php \_e('Because this shadow uses a custom domain, <strong>please go to the shadow and run search-replace there with the values below</strong> for the shadow to be accessible after reset: ', 'seravo'); ?></p>
-            <p>
-              <?php
-                \_e('<strong>From:</strong> ', 'seravo');
-                echo \str_replace(array( 'https://', 'http://' ), '://', \get_home_url());
-                \_e('<br><strong>To:</strong> ', 'seravo');
-              ?>
-              ://<span id="shadow-primary-domain"></span>
-            </p>
-            <p><?php \_e('When you\'re in the shadow, run search-replace either on "Tools --> Database --> Search-Replace Tool" or with wp-cli. Instructions can be found from <a href="https://help.seravo.com/en/docs/151" target="_BLANK">documentation</a>.', 'seravo'); ?></p>
-          </div>
-        </div>
-        <div class="alert" id="alert-failure"><button class="closebtn">&times;</button><p><?php \_e('Failure!', 'seravo'); ?></p></div>
-        <div class="alert" id="alert-timeout"><button class="closebtn">&times;</button><p><?php \_e('The shadow reset is still running on the background. You should check the status of the shadow after a few minutes. If there are problems with the shadow, see the documentation from the link above.', 'seravo'); ?></p></div>
-        <div class="alert" id="alert-error"><button class="closebtn">&times;</button><p><?php \_e('Error!', 'seravo'); ?></p></div>
-        <?php
-        if ( $shadow_list !== array() ) {
-          ?>
-          <table id="shadow-table">
-            <?php
-            foreach ( $shadow_list as $shadow_data ) {
-              $primary_domain = '';
-              // Find primary domain of the shadow
-              foreach ( $shadow_data['domains'] as $domain ) {
-                $primary_domain = $domain['primary'] === $shadow_data['name'] ? $domain['domain'] : '';
-              }
-            ?>
-              <!-- Two rows per shadow: by default, one visibe and another hidden -->
-              <tbody id="<?php echo ($shadow_data['name']); ?>">
-                <tr class="view" >
-                  <td class="open-folded"><?php echo $shadow_data['name']; ?></td>
-                  <td><button class="button reset"><?php \_e('Reset', 'seravo'); ?></button></td>
-                  <td class="open-folded" id="shadow-reset-status"></td>
-                  <td class="open-folded closed-icon"><span></span></td>
-                </tr>
-                <tr class="fold">
-                  <td colspan="4">
-                    <!-- More info of the shadow -->
-                    <p><?php \_e('Port: ', 'seravo'); ?> <?php echo $shadow_data['ssh']; ?></p>
-                    <p><?php \_e('Creation Date: ', 'seravo'); ?> <?php echo $shadow_data['created']; ?></p>
-                    <p><?php \_e('Information: ', 'seravo'); ?> <?php echo $shadow_data['info']; ?></p>
-                    <p><?php \_e('Domain: ', 'seravo'); ?> <?php echo ($primary_domain === '' ? '-' : $primary_domain); ?></p>
-                    <!-- Search-replace info -->
-                    <form>
-                      <div class="shadow-reset-sr-alert shadow-hidden">
-                        <p><?php \_e('This shadow uses a custom domain. <strong>For the shadow to be accessible after reset, please run search-replace in the shadow with the values below:</strong>', 'seravo'); ?></p>
-                        <p>
-                          <?php
-                            \_e('<strong>From:</strong> ', 'seravo');
-                            echo \str_replace(array( 'https://', 'http://' ), '://', \get_home_url());
-                            \_e('<br><strong>To:</strong> ://', 'seravo');
-                            echo $primary_domain;
-                          ?>
-                        </p>
-                        <p><?php \_e('When you\'re in the shadow, you can run search-replace either on "Tools --> Database --> Search-Replace Tool" or with wp-cli. Instructions can be found from <a href="https://help.seravo.com/en/docs/151" target="_BLANK">documentation</a>.', 'seravo'); ?></p>
-                      </div>
-                      <input type="hidden" name="shadow-reset-production" value="<?php echo \str_replace(array( 'https://', 'http://' ), '://', \get_home_url()); ?>">
-                      <input type="hidden" name="shadow-domain" value="<?php echo ($primary_domain); ?>">
-                      <table class="shadow-rs-table shadow-hidden">
-                        <tr><td><input type="text" name="shadow-reset-sr-from" disabled></td></tr>
-                        <tr><td><input type="text" name="shadow-reset-sr-to" disabled></td></tr>
-                      </table>
-                    </form>
-                  </td>
-                </tr>
-              </tbody>
-              <?php
-            }
-            ?>
-          </table>
-          <?php
-        } else {
-          ?>
-          <p style="padding: 15px 15px 0 15px;">
-            <?php \_e('No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href="mailto:help@seravo.com">help@seravo.com</a>.', 'seravo'); ?>
-          </p>
-          <?php
-        }
-        ?>
-      </div>
-    </div>
-    <?php
+  public static function build_shadows( Component $base, Postbox\Postbox $postbox, $data ) {
+    if ( isset($data['error']) ) {
+      $base->add_child(Template::error_paragraph($data['error']));
+      return;
+    }
+    $shadows_component = new Component('', '<div class="shadow-section">', '</div>');
+    $shadows_component->add_child(Template::confirmation_modal('remove-shadow-modal', \__('Are you sure? This replaces all information in the selected environment.', 'seravo'), \__('OK', 'seravo'), \__('Cancel', 'seravo')));
+    $shadows_component->add_child(Template::paragraph(\__('Manage the site shadows.', 'seravo')));
+    $shadows_component->add_child(Template::paragraph(\__('<strong>Warning: </strong>Resetting a shadow copies the state of the production site to the shadow. All files under <code>/data/wordpress/</code> will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo')));
+
+    if ( isset($data['shadows']) && $data['shadows'] !== array() ) {
+      $alert_success = new Component('', '<div class="alert" id="alert-success">', '</div>');
+      $alert_success->add_child(Template::button('&times', 'shadow-closebtn', 'shadow-closebtn'));
+      $alert_success->add_child(Template::paragraph('<b>' . \__('Shadow reset successfully!', 'seravo') . '</b>'));
+      $shadow_reset_alert = new Component('', '<div class="shadow-reset-sr-alert alert">', '</div>');
+      $shadow_reset_alert->add_child(Template::paragraph(\__('Because this shadow uses a custom domain, <strong>please go to the shadow and run search-replace there with the values below</strong> for the shadow to be accessible after reset: ', 'seravo')));
+      $shadow_reset_alert->add_child(Template::paragraph(\__('<strong>From:</strong> ', 'seravo') . \str_replace(array( 'https://', 'http://' ), '://', \get_home_url()) . \__('<br><strong>To:</strong> ', 'seravo') . '://<span id="shadow-primary-domain"></span>'));
+      $shadow_reset_alert->add_child(Template::paragraph(\__('When you\'re in the shadow, run search-replace with WP-CLI. Instructions can be found from <a href="https://help.seravo.com/en/docs/151" target="_BLANK">documentation</a>.', 'seravo')));
+      $alert_success->add_child($shadow_reset_alert);
+
+      $shadows_component->add_child($alert_success);
+      $shadows_component->add_child(Component::from_raw('<div class="alert" id="alert-error"><button class="shadow-closebtn">&times;</button><p><b>' . \__('Shadow reset failed!', 'seravo') . '</b></p></div>'));
+      $shadows_component->add_child(self::build_shadows_table($data['shadows']));
+    } else {
+      $shadows_component->add_child(Template::paragraph(\__('No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href="mailto:help@seravo.com">help@seravo.com</a>.', 'seravo')));
+    }
+    $base->add_child($shadows_component);
   }
 
   /**
-   * @return void
+   * Helper function for Shadows postbox to build shadow table.
+   * @param array<mixed> $shadow_list Shadow data to build this form.
+   * @return Component   Shadow table component.
    */
-  public static function seravo_data_integrity() {
-    ?>
-    <h3>
-      <?php \_e('WordPress core', 'seravo'); ?>
-    </h3>
-    <div class="wp_core_verify_loading">
-      <img src="/wp-admin/images/spinner.gif">
-    </div>
-    <pre id="wp_core_verify"></pre>
-    <h3>Git</h3>
-    <div class="git_status_loading">
-      <img src="/wp-admin/images/spinner.gif">
-    </div>
-    <pre id="git_status"></pre>
-    <?php
+  public static function build_shadows_table( $shadow_list ) {
+    $shadow_table = new Component('', '<table id="shadow-table" cellpadding="9">', '</table>');
+    $shadow_counter = 0;
+
+    foreach ( $shadow_list as $shadow_data ) {
+      ++$shadow_counter;
+      $primary_domain = '';
+      // Find primary domain of the shadow
+      foreach ( $shadow_data['domains'] as $domain ) {
+        $primary_domain = $domain['primary'] === $shadow_data['name'] ? $domain['domain'] : '';
+      }
+      $tbody = new Component('', '<tbody id="' . $shadow_data['name'] . '" class="shadow-instance">', '</tbody>');
+      // view
+      $tr_view = new Component('', '<tr class="view"' . ($shadow_counter === \count($shadow_list) ? 'style="border-bottom: 1.5px solid #ccd0d4;"' : '') . '>', '</tr>');
+      $tr_view->add_child(Component::from_raw('<td class="open-folded"><b>' . $shadow_data['name'] . '</b></td>'));
+      $tr_view->add_child(Component::from_raw('<td class="open-folded reset-status"></td>'));
+      $tr_view->add_child(Component::from_raw('<td><button class="button reset">' . \__('Reset', 'seravo') . '</button></td>'));
+      $tr_view->add_child(Component::from_raw('<td class="open-folded closed-icon"><span></span></td>'));
+      // fold
+      $tr_fold = new Component('', '<tr class="fold"><td colspan="4"><ul class="postbox-ul">', '</ul></td></tr>');
+      $tr_fold->add_child(Template::paragraph('<li><b>' . \__('Port: ', 'seravo') . '</b>' . $shadow_data['ssh']));
+      $tr_fold->add_child(Template::paragraph('<li><b>' . \__('Creation Date: ', 'seravo') . '</b>' . $shadow_data['created']));
+      $tr_fold->add_child(Template::paragraph('<li><b>' . \__('Information: ', 'seravo') . '</b>' . $shadow_data['info']));
+      $tr_fold->add_child(Template::paragraph('<li><b>' . \__('Domain: ', 'seravo') . '</b>' . ($primary_domain !== '' ? $primary_domain : '-')));
+      // add the elements to the table
+      $tbody->add_children(array( $tr_view, $tr_fold, Component::from_raw('<input type="hidden" name="shadow-domain" value="' . $primary_domain . '">') ));
+      $shadow_table->add_child($tbody);
+    }
+    return $shadow_table;
+  }
+
+  /**
+   * Data function for Shadows postbox
+   * @return array<mixed> Data of the shadows if the container has any.
+   */
+  public static function get_shadows_data() {
+    $data = array();
+    $shadow_data = API::get_site_data('/shadows');
+
+    if ( \is_wp_error($shadow_data) ) {
+      \error_log($shadow_data->get_error_message());
+      $data['error'] = \__('An API error occured. Please try again later.', 'seravo');
+      return $data;
+    }
+
+    $data['shadows'] = $shadow_data;
+
+    return $data;
+  }
+
+  /**
+   * AJAX function for resetting shadows.
+   * @return Ajax\AjaxResponse Response for the AJAX request or response for polling.
+   */
+  public static function reset_shadows() {
+    $polling = Ajax\AjaxHandler::check_polling();
+
+    if ( $polling === true ) {
+      $response = new AjaxResponse();
+      $response->is_success(true);
+      return $response;
+    }
+
+    if ( $polling === false ) {
+      // run the shadow reset here
+      if ( isset($_POST['shadow']) && $_POST['shadow'] !== '' ) {
+        $shadows = API::get_site_data('/shadows');
+        $shadow = $_POST['shadow'];
+
+        if ( \is_wp_error($shadows) ) {
+          $response = new AjaxResponse();
+          $response->is_success(false);
+          $response->set_error(\__('An API error occured. Please try again later.', 'seravo'));
+          return $response;
+        }
+
+        $pid = \Seravo\Shell::backround_command('wp-shadow-reset ' . $shadow . ' --force 2>&1');
+
+        if ( $pid === false ) {
+          return Ajax\AjaxResponse::exception_response();
+        }
+        return Ajax\AjaxResponse::require_polling_response($pid);
+      }
+
+      return Ajax\AjaxResponse::exception_response();
+    }
+
+    return $polling;
   }
 
   /**
@@ -963,18 +960,6 @@ class SiteStatus extends Toolpage {
     $base->add_child(Template::n_by_side(array( $label, Template::side_by_side($field, $clear) )));
     $base->add_child(Component::from_raw('<div id="speed-test-results"></div>'));
     $base->add_child(Component::from_raw('<div id="speed-test-error"></div>'));
-  }
-
-  /**
-   * @return void
-   */
-  public static function speed_test() {
-    $target_location = isset($_GET['speed_test_target']) ? $_GET['speed_test_target'] : '';
-    echo ('<p>' . \__('Speed test measures the time how long it takes for PHP to produce the HTML output for the WordPress page.', 'seravo') . '</p>');
-    echo('<br><label for="speed_test_url" class="speed_test_form" for="sr-from"> ' . \get_home_url() . '/</label> <input class="speed_test_input" type="text" placeholder="' . \__('Front Page by Default', 'seravo') . '" id="speed_test_url" value="' . $target_location . '"><br>');
-    echo('<button type="button" class="button-primary" id="run-speed-test">' . \__('Run Test', 'seravo') . '</button>');
-    echo('<div id="speed-test-results"></div>');
-    echo('<div id="speed-test-error"></div>');
   }
 
   /**

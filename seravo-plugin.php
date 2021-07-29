@@ -296,7 +296,6 @@ class Loader {
     require_once SERAVO_PLUGIN_SRC . 'lib/domain-tables.php';
     require_once SERAVO_PLUGIN_SRC . 'lib/cruftplugins-ajax.php';
     require_once SERAVO_PLUGIN_SRC . 'lib/cruftthemes-ajax.php';
-    require_once SERAVO_PLUGIN_SRC . 'lib/sitestatus-ajax.php';
 
     /**
      * Seravo tool pages

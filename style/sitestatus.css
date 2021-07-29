@@ -2,17 +2,31 @@
   text-align: left;
   padding-right: 20px;
   border-collapse: collapse;
-  /*table-layout: fixed;*/
   width: 100%;
+}
+
+#shadow-table tr.view {
+  border: 1.5px solid #ccd0d4;
+  border-bottom: none;
+}
+
+#shadow-table tr.fold {
+  border-left: 1.5px solid #ccd0d4;
+  border-right: 1.5px solid #ccd0d4;
+  border-bottom: 1.5px solid #ccd0d4;
 }
 
 /* Keep 2nd, 3rd and 4th columns (Reset button, load icon and arrow icon) of shadows table
    only the content width */
-   tr.view > td:nth-child(2), tr.view > td:nth-child(3), tr.view > td:nth-child(4) {
+tr.view > td:nth-child(2), tr.view > td:nth-child(3), tr.view > td:nth-child(4) {
   width:1%;
   white-space: nowrap;
 }
 
+/* For a smooth transition back from hover */
+tr.view {
+  transition: 0.3s;
+}
 
 tr.view:hover {
   background-color: #007CBA;
@@ -26,6 +40,10 @@ tr.view:hover {
 
 .open {
   display: table-row;
+}
+
+.open-folded:hover {
+  cursor: pointer;
 }
 
 .closed-icon span:before {
@@ -79,9 +97,10 @@ tr.view:hover {
 .alert {
   display: none;
   color: #FFFFFF;
-  border-radius: 2px;
+  border-radius: 3px;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 3px;
+  padding-left: 10px;
 }
 
 .alert > p > a {
@@ -109,7 +128,7 @@ tr.view:hover {
   color: black;
 }
 
-.closebtn {
+.shadow-closebtn {
   font-size: large;
   color: white;
   float: right;
@@ -118,67 +137,15 @@ tr.view:hover {
   padding: 10px;
 }
 
-.closebtn:hover {
+.shadow-closebtn:hover {
   color: black;
+  cursor: pointer;
 }
 
 /* Override the overflow-y on common css */
 #site-checks-output.seravo-result-wrapper-output {
   overflow-y: initial;
   padding: 2em;
-}
-
-.seravo-cache-test-result-wrapper {
-  -moz-transition: border 1s ease-in;
-  -o-transition: border 1s ease-in;
-  -webkit-transition: border 1s ease-in;
-  background-color: white;
-  border-left: solid 0.5em #e8ba1b;
-  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.12);
-  display: block;
-  margin-top: 2em;
-  max-width: 55em;
-  min-height: 5em;
-  overflow: hidden;
-  transition: border 1s ease-in;
-}
-
-.seravo-cache-test-result {
-  box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
-  display: none;
-  margin: 1em;
-  max-height: 30em;
-  padding: 1em;
-  overflow: auto;
-}
-
-.seravo_cache_tests_status {
-  font-size: 15px;
-  font-weight: bold;
-  margin-top: 1.6em;
-  margin-left: 0.5em;
-  padding-bottom: 7px;
-  text-align: center;
-}
-
-.seravo_cache_test_show_more_wrapper {
-  -ms-transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
-  float: right;
-  height: 1em;
-  margin-right: 0.5em;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.seravo_cache_test_show_more,
-.seravo_cache_test_show_more:hover,
-.seravo_cache_test_show_more:active,
-.seravo_cache_test_show_more:focus {
-  box-shadow: none;
-  color: inherit;
-  text-decoration: none;
 }
 
 #disk-use-notification {
@@ -189,48 +156,6 @@ tr.view:hover {
 #http-hit-rate-chart {
   margin-left: -15px;
   margin-top: -30px;
-}
-
-.tooltip {
-  position: relative;
-  padding-left: 5px;
-  content: "\f348";
-}
-
-.tooltip .tooltiptext {
-  font-size: 0.6em;
-  visibility: hidden;
-  width: 130px;
-  background-color: #555555;
-  color: #fff;
-  text-align: center;
-  border-radius: 5px;
-  padding: 8px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
-  opacity: 0;
-  transition: opacity 0.3s;
-  line-height: 1.3;
-  font-family: sans-serif;
-}
-
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555555 transparent transparent transparent;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
 }
 
 .dashicons-info {
