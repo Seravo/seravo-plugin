@@ -1,31 +1,31 @@
 <?php
 
-namespace Seravo;
+namespace Seravo\Page;
+
+use \Seravo\Ajax;
+
+use \Seravo\Postbox;
+use \Seravo\Postbox\Component;
+use \Seravo\Postbox\Template;
+use \Seravo\Postbox\Toolpage;
+use \Seravo\Postbox\Requirements;
 
 /**
  * Class Logs
  *
- * Logs is a page for reading
- * log files under /data/log.
- *
- * TODO: Rewrite as toolpage.
+ * Logs page is for browsing the site logs.
  */
-class Logs {
+class Logs extends Toolpage {
 
   /**
-   * @var string
-   */
-  private $capability_required;
-
-  /**
-   * @var \Seravo\Logs Instance of this page.
+   * @var \Seravo\Page\Logs Instance of this page.
    */
   private static $instance;
 
   /**
    * Function for creating an instance of the page. This should be
    * used instead of 'new' as there can only be one instance at a time.
-   * @return \Seravo\Logs Instance of this page.
+   * @return \Seravo\Page\Logs Instance of this page.
    */
   public static function load() {
     if ( self::$instance === null ) {
@@ -40,38 +40,37 @@ class Logs {
    * Basic page details are given here.
    */
   public function __construct() {
-    $this->capability_required = 'activate_plugins';
-
-    // on multisite, only the super-admin can use this plugin
-    if ( is_multisite() ) {
-      $this->capability_required = 'manage_network';
-    }
-
-    add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
-    add_action(
-      'wp_ajax_fetch_log_rows',
-      function () {
-        $this->ajax_fetch_log_rows();
-      }
-    );
-
-    add_action(
-      'admin_menu',
-      function() {
-        add_submenu_page(
-          'tools.php',
-          __('Logs', 'seravo'),
-          __('Logs', 'seravo'),
-          'manage_options',
-          'logs_page',
-          function() {
-            Logs::render_tools_page();
-          }
-        );
-      }
+    parent::__construct(
+      __('Logs', 'seravo'),
+      'tools_page_logs_page',
+      'logs_page',
+      'Seravo\Postbox\seravo_wide_column_postboxes_page'
     );
   }
 
+  /**
+   * Will be called for page initialization. Includes scripts
+   * and enables toolpage features needed for this page.
+   */
+  public function init_page() {
+    self::init_postboxes($this);
+
+    add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+
+    $this->enable_ajax();
+  }
+
+  /**
+   * Will be called for setting requirements. The requirements
+   * must be as strict as possible but as loose as the
+   * postbox with the loosest requirements on the page.
+   * @param \Seravo\Postbox\Requirements $requirements Instance to set requirements to.
+   */
+  public function set_requirements( Requirements $requirements ) {
+    $requirements->can_be_production = \true;
+    $requirements->can_be_staging = \true;
+    $requirements->can_be_development = \true;
+  }
 
   /**
    * Register scripts.
@@ -83,450 +82,164 @@ class Logs {
       return;
     }
 
-    wp_enqueue_script('log-viewer-js', SERAVO_PLUGIN_URL . 'js/log-viewer.js', array(), Helpers::seravo_plugin_version());
-    wp_enqueue_style('log-viewer-css', SERAVO_PLUGIN_URL . 'style/log-viewer.css', array(), Helpers::seravo_plugin_version());
+    //wp_enqueue_script('seravo-site-status-js', SERAVO_PLUGIN_URL . 'js/sitestatus.js', array(), Helpers::seravo_plugin_version());
+    wp_enqueue_script('seravo-log-viewer-js', SERAVO_PLUGIN_URL . 'js/log-viewer.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version());
+    wp_enqueue_style('seravo-log-viewer-css', SERAVO_PLUGIN_URL . 'style/log-viewer.css', array(), \Seravo\Helpers::seravo_plugin_version());
   }
 
   /**
-   * Renders the admin tools page content
-   *
-   * @see add_submenu_page
-   *
-   * @access public
+   * Initialize logs page postboxes.
+   * @param \Seravo\Postbox\Toolpage $page The page for postboxes.
    * @return void
    */
-  public function render_tools_page() {
-    global $current_log;
-
-    $regex = null;
-    if ( isset($_GET['regex']) ) {
-      $regex = $_GET['regex'];
-    }
-
-    // Default log view is the PHP error log as it is the most important one
-    $default_logfile = 'php-error.log';
-
-    $max_num_of_rows = 50;
-    if ( isset($_GET['max_num_of_rows']) ) {
-        $max_num_of_rows = (int) $_GET['max_num_of_rows'];
-    }
-
-    // Automatically fetch all logs from /data/log/*.log
-    $logs = glob('/data/log/*.log');
-    if ( $logs === false ) {
-      // Glob had an error
-      echo '<div class="notice notice-warning" style="padding:1em;margin:1em;">' . __('There was an error reading logs.', 'seravo') . '</div>';
-      return;
-    }
-
-    // Check for missing .log files and fetch rotated .log-12345678 file instead
-    // using an array of possible log names to compare fetched array against.
-    $log_names = array(
-      '/data/log/chromedriver.log',
-      '/data/log/mail.log',
-      '/data/log/nginx-access.log',
-      '/data/log/nginx-error.log',
-      '/data/log/php-error.log',
-      '/data/log/security.log',
-      '/data/log/tideways.log',
-      '/data/log/update.log',
-      '/data/log/wp-login.log',
-      '/data/log/wp-theme-security.log',
-      '/data/log/wp-settings.log',
-      '/data/log/wp-user.log',
-    );
-    // Skip runit.log and bootstrap.log and other logs that are not relevant
-    // for customers and only list the ones a UI user might be interested in.
-
-    // Store all missing log names to an array
-    $missing_logs = array_diff($log_names, $logs);
-
-    foreach ( $missing_logs as $log ) {
-      $variations = glob('{' . $log . '}-*', GLOB_BRACE);
-      if ( $variations === false ) {
-        continue;
-      }
-
-      $match = preg_grep('/(\d){8}$/', $variations);
-      if ( $match === false ) {
-        continue;
-      }
-
-      $found_log = implode('', $match);
-      if ( ! empty($found_log) ) {
-        if ( $log === '/data/log/' . $default_logfile ) {
-          $found_log_path = explode('/', $found_log);
-          $default_logfile = end($found_log_path);
-        }
-        $logs[] = $found_log;
-      }
-    }
-
-    // Check if PHP compatibility log exists and generate new if not
-    $php_compatibility_log = '/data/log/php-compatibility.log';
-
-    if ( ! file_exists($php_compatibility_log) ) {
-      file_put_contents($php_compatibility_log, '');
-      $logs[] = $php_compatibility_log;
-    }
-
-    if ( empty($logs) ) {
-        echo '<div class="notice notice-warning" style="padding:1em;margin:1em;">' .
-        __('No logs found in <code>/data/log/</code>.', 'seravo') . '</div>';
-    }
-
-    // Create an array of the logfiles with basename of log as key
-    $logfiles = array();
-
-    foreach ( $logs as $log ) {
-      $logfiles[ basename($log) ] = $log;
-    }
-
-    // Use supplied log name if given
-    $current_logfile = isset($_GET['logfile']) ? $_GET['logfile'] : $default_logfile;
-
-    // Set logfile based on supplied log name if it's available
-    if ( isset($logfiles[ $current_logfile ]) ) {
-      $logfile = $logfiles[ $current_logfile ];
-    } elseif ( isset($logfiles[ $default_logfile ]) ) {
-      $logfile = $logfiles[ $default_logfile ];
-    } else {
-      $logfile = null;
-    }
-
-    ?>
-<div class="wrap">
-  <h1><?php _e('Logs', 'seravo'); ?></h1>
-  <h2 class="screen-reader-text">Select log file list</h2>
-  <ul class="subsubsub">
-    <?php foreach ( $logs as $key => $log ) : ?>
-    <li><a href="tools.php?page=logs_page&logfile=<?php echo basename($log); ?>&max_num_of_rows=<?php echo $max_num_of_rows; ?>"
-          class="<?php echo basename($log) == $current_logfile ? 'current' : ''; ?>">
-          <?php echo basename($log); ?>
-        </a>
-        <?php echo ($key < (count($logs) - 1)) ? ' |' : ''; ?>
-    </li>
-    <?php endforeach; ?>
-  </ul>
-  <p class="clear"></p>
-    <?php $this->render_log_view($logfile, $regex, $max_num_of_rows); ?>
-</div>
-    <?php
-  }
-
-  /**
-   * Renders the log view for a specific $logfile on the tools page
-   *
-   * @param string|null $logfile
-   * @param string      $regex
-   * @param int         $max_num_of_rows
-   * @access public
-   * @return void
-   */
-  public function render_log_view( $logfile, $regex = '', $max_num_of_rows = 50 ) {
-    global $current_log;
-    ?>
-    <div class="log-view">
-      <?php
-      if ( $logfile !== null && is_readable($logfile) ) {
-      ?>
-        <div class="tablenav top">
-          <form class="log-filter" method="get">
-            <label class="screen-reader-text" for="regex">Regex:</label>
-            <input type="hidden" name="page" value="logs_page">
-            <input type="hidden" name="log" value="<?php echo $current_log; ?>">
-            <input type="hidden" name="logfile" value="<?php echo basename($logfile); ?>">
-            <input type="search" name="regex" value="<?php echo $regex; ?>" placeholder="">
-            <input type="submit" class="button" value="<?php _e('Filter', 'seravo'); ?>">
-          </form>
-        </div>
-        <div class="log-table-view"
-          data-logfile="<?php echo esc_attr($logfile); ?>"
-          data-logbytes="<?php echo esc_attr((string) filesize($logfile)); ?>"
-          data-regex="<?php echo esc_attr($regex); ?>">
-          <table class="wp-list-table widefat striped" cellspacing="0">
-            <tbody>
-              <?php $this->render_rows($logfile, -1, $max_num_of_rows, $regex); ?>
-            </tbody>
-          </table>
-        </div>
-        <?php
-      } else {
-        ?>
-          <div id="message" class="notice notice-error">
-          <p>
-            <?php
-              // translators: $s name of the logfile
-            printf(__("File %s does not exist or we don't have permissions to read it.", 'seravo'), $logfile);
-            ?>
-            </p>
-        </div>
-        <?php
-      }
-
-      ?>
-      <div class="log-view-active"></div>
-
-      <p>
-        <?php
-        // translators: $s full path of the logfile
-        printf(__('Full log files can be found on the server in the path %s.', 'seravo'), '<code>/data/log/</code>');
-        ?>
-      </p>
-    </div>
-    <?php
-  }
-
-
-  /**
-   * Renders $lines rows of a $logfile ending at $offset from the end of the cutoff marker
-   *
-   * @param string $logfile
-   * @param int    $offset
-   * @param int    $lines
-   * @param string $regex
-   * @param int    $cutoff_bytes
-   * @access public
-   * @return int
-   */
-  public function render_rows( $logfile, $offset, $lines, $regex = '', $cutoff_bytes = null ) {
-    // escape special regex chars
-    $regex = '#' . preg_quote($regex, '#') . '#';
-
-    $read_log = self::read_log_lines_backwards($logfile, $offset, $lines, $regex, $cutoff_bytes);
-
-    // If the error log was unreadble return error signal
-    if ( $read_log['status'] === 'BAD_LOG_FILE' ) {
-      return -1;
-    }
-
-    $rows = $read_log['output'];
-
-    $num_of_rows = 0;
-    foreach ( $rows as $row ) {
-      ++$num_of_rows;
-      ?>
-      <tr>
-        <td><span class="logrow"><?php echo $row; ?></span></td>
-      </tr>
-      <?php
-    }
-    return $num_of_rows;
-  }
-
-
-  /**
-   * An ajax endpoint that fetches and renders the log rows for a logfile
-   *
-   * @access public
-   * @return void
-   */
-  public function ajax_fetch_log_rows() {
-    // check permissions
-    if ( ! current_user_can($this->capability_required) ) {
-      exit;
-    }
-
-    if ( isset($_REQUEST['logfile']) ) {
-      $logfile = $_REQUEST['logfile'];
-    } else {
-      exit;
-    }
-
-    $offset = 0;
-    if ( isset($_REQUEST['offset']) ) {
-      $offset = -(1 + (int) $_REQUEST['offset']);
-    }
-
-    $regex = null;
-    if ( isset($_REQUEST['regex']) ) {
-      $regex = $_REQUEST['regex'];
-    }
-
-    $cutoff_bytes = null;
-    if ( isset($_REQUEST['cutoff_bytes']) ) {
-      $cutoff_bytes = (int) $_REQUEST['cutoff_bytes'];
-    }
-
-    $this->render_rows($logfile, $offset, 100, $regex, $cutoff_bytes);
-    exit;
-  }
-
-  /**
-   * Reads $lines lines from $filename ending at $offset and returns the lines as array
-   *
-   * @param string $filepath
-   * @param int $offset
-   * @param int $lines
-   * @param string $regex
-   * @param int $cutoff_bytes
-   * @static
-   * @access public
-   * @return mixed[]
-   */
-  public static function read_log_lines_backwards( $filepath, $offset = -1, $lines = 1, $regex = null, $cutoff_bytes = null ) {
-    // Check that $filepath is valid log path
-    $files = glob('/data/log/*');
-    $valid_log_path = $files !== false && in_array($filepath, $files);
-
-    $f = $valid_log_path ? @fopen($filepath, 'rb') : false;
-
+  public static function init_postboxes( Toolpage $page ) {
     /**
-     * Initiate return value
-     *
-     * status describes the status of the log file as a string:
-     * 'OK_LOG_FILE' - Log file is ok.
-     * 'NO_LOG_FILE' - Log file is missing. This is not necessarily an error.
-     * 'LARGE_LOG_FILE' - Log file is exceptionally large.
-     * 'BAD_LOG_FILE' - Log file can not be read.
-     * output is the log rows read
+     * Logs postbox
      */
-    $result = array(
-      'status' => 'OK_LOG_FILE',
-      'output' => array(),
-    );
+    $logs = new Postbox\Postbox('seravologs');
+    $logs->set_title(__('Logs', 'seravo'));
+    $logs->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $logs->set_data_func(array( __CLASS__, 'get_log_entries' ));
+    $logs->set_build_func(array( __CLASS__, 'build_logs' ));
 
-    if ( $f === false ) {
-      $result['status'] = 'NO_LOG_FILE';
-      return $result;
-    }
+    $log_handler = new Ajax\AjaxHandler('fetch-logs');
+    $log_handler->set_ajax_func(array( __CLASS__, 'fetch_logs' ));
+    $logs->add_ajax_handler($log_handler);
 
-    $filesize = filesize($filepath);
+    $page->register_postbox($logs);
+  }
 
-    // Prevent reading huge files (over 256MB)
-    if ( $filesize >= 268435456 ) {
-      $result['status'] = 'LARGE_LOG_FILE';
-    }
+  /**
+   * Data function for Logs -postbox. Gets all log files
+   * in groups and ordered by time.
+   * @return array<string,mixed> Array with log files, default log and the keyword.
+   */
+  public static function get_log_entries() {
+    $log_files = \Seravo\Logs::get_logs_with_time();
 
-    // buffer size is 4096 bytes
-    $buffer = 4096;
-
-    if ( is_null($cutoff_bytes) ) {
-      // Jump to last character
-      fseek($f, -1, SEEK_END);
-    } else {
-      // Jump to cutoff point
-      fseek($f, $cutoff_bytes - 1, SEEK_SET);
-    }
-
-    // Start reading
-    $output = array();
-    $linebuffer = '';
-
-    // start with a newline if the last character of the file isn't one
-    if ( fread($f, 1) !== "\n" ) {
-      $linebuffer = "\n";
-    }
-
-    // the newline in the end accouts for an extra line
-    --$lines;
-
-    // Set max amount of chunks to be read to match the lines wanted from the log
-    $chunk_limit = max($lines, 10);
-
-    // While we would like more
-    while ( $lines > 0 ) {
-      // Figure out how far back we should jump
-      $seek = min(ftell($f), $buffer);
-
-      // if this is the last buffer we're looking at we need to take the first
-      // line without leading newline into account
-      $last_buffer = (ftell($f) <= $buffer);
-
-      // file has ended
-      if ( $seek <= 0 ) {
-        break;
-      }
-
-      // Do the jump (backwards, relative to where we are)
-      fseek($f, -$seek, SEEK_CUR);
-
-      // Read a chunk
-      $chunk = fread($f, $seek);
-      if ( $chunk === false ) {
-        // Error!
-        $result['status'] = 'BAD_LOG_FILE';
-        return $result;
-      }
-
-      --$chunk_limit;
-      // Return false if we run over the chunk cap
-      if ( $chunk_limit === 0 ) {
-        $result['status'] = 'BAD_LOG_FILE';
-        return $result;
-      }
-
-      // Jump back to where we started reading
-      fseek($f, -mb_strlen($chunk, '8bit'), SEEK_CUR);
-
-      // prepend it to our line buffer
-      $linebuffer = $chunk . $linebuffer;
-
-      // see if there are any complete lines in the line buffer
-      $complete_lines = array();
-
-      if ( $last_buffer ) {
-        // last line is whatever is in the line buffer before the second line
-        $eol = strpos($linebuffer, "\n");
-        if ( $eol !== false ) {
-          $complete_lines[] = rtrim(substr($linebuffer, 0, $eol));
-        }
-      }
-
-      while ( preg_match('/\n(.*?\n)/s', $linebuffer, $matched) ) {
-        // get the $1 match
-        $match = $matched[1];
-
-        $offset = strpos($linebuffer, $match);
-        if ( $offset === false ) {
-          continue;
-        }
-
-        // remove matched line from line buffer
-        $linebuffer = substr_replace($linebuffer, '', $offset, strlen($match));
-
-        // add the line
-        $complete_lines[] = rtrim($match);
-      }
-
-      // remove any offset lines off the end
-      $limit = count($complete_lines);
-      while ( $offset < -1 && $limit > 0 ) {
-        array_pop($complete_lines);
-        ++$offset;
-        --$limit;
-      }
-
-      // apply a regex filter
-      if ( ! is_null($regex) ) {
-        $complete_lines = preg_grep($regex, $complete_lines);
-        if ( $complete_lines !== false ) {
-          // wrap regex match part in <span class="highlight">
-          foreach ( $complete_lines as &$line ) {
-            $line = preg_replace($regex, '<span class="highlight">$0</span>', $line);
+    // Select default group and variation
+    $group = null;
+    $variation = 0;
+    if ( isset($_GET['logfile']) ) {
+      foreach ( $log_files as $log_group => $logs ) {
+        foreach ( $logs as $i => $log ) {
+          if ( $log['file'] === $_GET['logfile'] ) {
+            // Found the file, default to it
+            $group = $log_group;
+            $variation = $i;
+            break;
           }
         }
-      }
-
-      if ( $complete_lines !== false ) {
-        // decrement lines needed
-        $lines -= count($complete_lines);
-        // prepend complete lines to our output
-        $output = array_merge($complete_lines, $output);
+        if ( 0 === strpos($logs[0]['file'], $_GET['logfile']) ) {
+          // Didn't find the file but found the group
+          $group = $log_group;
+        }
       }
     }
 
-    // remove any lines that might have gone over due to the chunk size
-    while ( ++$lines < 0 ) {
-      array_shift($output);
+    if ( $group === null ) {
+      $group = $log_files !== array() ? array_keys($log_files)[0] : '';
     }
 
-    // Close file
-    fclose($f);
+    return array(
+      'logs' => $log_files,
+      'group' => $group,
+      'variation' => $variation,
+      'keyword' => isset($_GET['log-keyword']) ? esc_attr($_GET['log-keyword']) : '',
+    );
+  }
 
-    $result['output'] = $output;
+  /**
+   * Build the Logs -postbox.
+   * @param \Seravo\Postbox\Component $base    The base component to build on.
+   * @param \Seravo\Postbox\Postbox   $postbox The postbox to build for.
+   * @param mixed                     $data    Data from 'get_log_entries' data function.
+   * @return void
+   */
+  public static function build_logs( Component $base, Postbox\Postbox $postbox, $data ) {
+    $php_error_log = '<a href="' . site_url('/wp-admin/tools.php?page=logs_page&logfile=php-error.log') . '">php-error.log</a>';
+    $base->add_child(
+      Template::paragraph(
+        __('Here you can browse and view the logs for your sites. The same log files can be found on server under <code>/data/log/*</code>.', 'seravo') . ' ' .
+        // translators: Link to php-error.log
+        sprintf(__("Be sure to check %s, it's a good metric of the site's health.", 'seravo'), $php_error_log)
+      )
+    );
 
-    return $result;
+    $log_viewer = new Component('', '<div class="log-viewer-wrapper">', '</div>');
+    // Log menu wrapper
+    $log_menu_wrapper = new Component('', '<div class="log-menu-wrapper">', '</div>');
+    $log_viewer->add_child($log_menu_wrapper);
+    // Log menu
+    $log_menu = new Component('', '<div class="log-menu"><ul>', '</ul></div>');
+    $log_menu_wrapper->add_child($log_menu);
+    // Log menu entries
+    foreach ( $data['logs'] as $log_group => $logs ) {
+      $sel = $data['group'] === $log_group ? ' selected' : '';
+      $json = json_encode($logs);
+      if ( $json === false ) {
+        continue;
+      }
+      $vars = htmlspecialchars($json, ENT_QUOTES, 'UTF-8');
+
+      $menu_entry = new Component('', '<li title="' . $log_group . '">', '</li>');
+      $menu_entry->add_child(new Component($log_group, '<div class="log-menu-entry button' . $sel . '" data-variations="' . $vars . '">', '</div>'));
+      $log_menu->add_child($menu_entry);
+    }
+    // Log view wrapper
+    $log_view_wrapper = new Component('', '<div class="log-view-wrapper">', '</div>');
+    $log_viewer->add_child($log_view_wrapper);
+    // Filter bar
+    $filter_bar = new Component('', '<div class="filter-bar-wrapper">', '</div>');
+    $log_view_wrapper->add_child($filter_bar);
+    // Date picker
+    $log_date = new Component('', '<div class="log-view-date" data-default-variation="' . $data['variation'] . '">', '</div>');
+    $log_date->add_child(Template::button('<', 'log-date-previous', 'button log-date-pick date-previous disabled'));
+    $log_date->add_child(Component::from_raw('<input type="text" name="log-view-date" class="log-date-input" value="" disabled> '));
+    $log_date->add_child(Template::button('>', 'log-date-next', 'button log-date-pick date-next disabled'));
+    $filter_bar->add_child($log_date);
+    // Search bar
+    $log_search = new Component('', '<div class="log-view-search">', '</div>');
+    $log_search->add_child(new Component('', '<input type="text" name="log-view-keyword" value="' . $data['keyword'] . '" placeholder="' . __('Keyword', 'seravo') . '"/>'));
+    $log_search->add_child(Template::button(__('Search', 'seravo'), 'log-view-search', 'button'));
+    $filter_bar->add_child($log_search);
+    // Log view
+    $log_view = new Component('', '<div class="log-view">', '</div>');
+    $log_view_wrapper->add_child($log_view);
+    // Log view table
+    $log_view->add_child(new Component('', '<table class="log-table wp-list-table widefat striped" style="display:none;"><tbody>', '</tbody></table>'));
+    // The loading spinner
+    $log_view->add_child(Template::spinner('log-view-spinner', 'seravo-spinner log-view-spinner', false));
+    // Bottom info bar
+    $log_view_wrapper->add_child(new Component('', '<div class="info-bar-wrapper">', '</div>'));
+
+    $base->add_child($log_viewer);
+  }
+
+  /**
+   * AJAX function for fetching lines from logfile.
+   * @return \Seravo\Ajax\AjaxResponse Response data.
+   */
+  public static function fetch_logs() {
+    $response = new Ajax\AjaxResponse();
+    $response->is_success(true);
+
+    $logs = \Seravo\Logs::read_log_lines_backwards('/data/log/' . $_GET['file'], $_GET['offset'], 30);
+    if ( isset($logs['error']) && ! empty($logs['error']) ) {
+      // Something went wrong
+      $response->is_success(false);
+    } else {
+      $keyword = isset($_GET['log-keyword']) && ! empty($_GET['log-keyword']) ? $_GET['log-keyword'] : null;
+      if ( $keyword !== null ) {
+        $output = preg_replace('/' . $keyword . '/i', '<span class="highlight">$0</span>', $logs['output']);
+        if ( $output !== null ) {
+          $logs['output'] = $output;
+        }
+      }
+    }
+
+    $response->set_data($logs);
+    return $response;
   }
 
 }

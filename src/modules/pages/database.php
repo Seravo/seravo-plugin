@@ -1,9 +1,14 @@
 <?php
 
-namespace Seravo;
+namespace Seravo\Page;
+
+use \Seravo\Shell;
+use \Seravo\Helpers;
 
 use \Seravo\Ajax;
 use \Seravo\Ajax\AjaxResponse;
+use \Seravo\Ajax\SimpleCommand;
+
 use \Seravo\Postbox;
 use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
@@ -19,14 +24,14 @@ use \Seravo\Postbox\Requirements;
 class Database extends Toolpage {
 
   /**
-   * @var \Seravo\Database Instance of this page.
+   * @var \Seravo\Page\Database Instance of this page.
    */
   private static $instance;
 
   /**
    * Function for creating an instance of the page. This should be
    * used instead of 'new' as there can only be one instance at a time.
-   * @return \Seravo\Database Instance of this page.
+   * @return \Seravo\Page\Database Instance of this page.
    */
   public static function load() {
     if ( self::$instance === null ) {

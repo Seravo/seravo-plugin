@@ -111,7 +111,7 @@
 }
 
 #dashboard-widgets .postbox-container.one-column-layout {
-  width: 2100px;
+  width: 100%;
 }
 
 @media only screen and (max-width: 2300px) {

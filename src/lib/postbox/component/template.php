@@ -219,12 +219,14 @@ class Template {
 
   /**
    * Display spinner image. In default it's hidden.
-   * @param string $id Id for this spinner.
-   * @param string $class Class for the div spinner component, default 'seravo-spinner-wrapper seravo-spinner'.
+   * @param string $id     Id for this spinner.
+   * @param string $class  Class for the div spinner component, default 'seravo-spinner-wrapper seravo-spinner'.
+   * @param bool   $hidden Whether to hide the spinner by default.
    * @return \Seravo\Postbox\Component Spinner component.
    */
-  public static function spinner( $id, $class = 'seravo-spinner' ) {
-    $spinner = new Component('', '<div id="' . $id . '" class="seravo-spinner-wrapper ' . $class . '" style="display:none;">', '</div>');
+  public static function spinner( $id, $class = 'seravo-spinner', $hidden = true ) {
+    $style = $hidden ? 'display:none' : '';
+    $spinner = new Component('', '<div id="' . $id . '" class="seravo-spinner-wrapper ' . $class . '" style="' . $style . '">', '</div>');
     $spinner->set_content('<img src="/wp-admin/images/spinner.gif">');
     return $spinner;
   }

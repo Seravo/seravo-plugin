@@ -2,6 +2,8 @@
 
 namespace Seravo;
 
+use \Seravo\Page\Upkeep;  // TODO: Not good, get rid of
+
 // Deny direct access to this file
 if ( ! defined('ABSPATH') ) {
   die('Access denied!');
