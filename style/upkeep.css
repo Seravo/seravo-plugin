@@ -1,20 +1,12 @@
-#dashboard_right_now .seravo-updates-postbox,
-#dashboard_quick_press .seravo-updates-postbox {
-  padding: 30px 60px 60px 60px;
-  text-align: center;
-}
-
-.js .widget .widget-top, .js .postbox .hndle {
-  cursor: pointer;
-}
-
-.allow_updates_checkbox {
-  padding-bottom: 10px;
-}
-
-.technical_contacts_buttons {
+.technical-contacts-buttons {
   padding-bottom: 10px;
   padding-top: 10px;
+}
+
+/* Scale the input fields properly */
+.slack-webhook-input,
+.technical-contacts-input {
+  width: 100%;
 }
 
 .email-button {
@@ -25,11 +17,11 @@
   line-height: 1.4;
 }
 
-form[name="seravo_updates_form"] > .technical_contacts_error {
+form[name="seravo-updates-form"] > .technical-contacts-error {
   display: none;
 }
 
-form[name="seravo_updates_form"].has-errors > .technical_contacts_error {
+form[name="seravo-updates-form"].has-errors > .technical-contacts-error {
   background: #c51244;
   border-radius: 0;
   box-shadow: 1px 1px 1px #aaaaaa;
@@ -42,7 +34,7 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_error {
   position: relative;
 }
 
-form[name="seravo_updates_form"].has-errors > .technical_contacts_error::before {
+form[name="seravo-updates-form"].has-errors > .technical-contacts-error::before {
   border-bottom: 10px solid #c51244;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
@@ -53,12 +45,12 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_error::before 
   width: 0;
 }
 
-form[name="seravo_updates_form"].has-errors > .technical_contacts_error::after {
+form[name="seravo-updates-form"].has-errors > .technical-contacts-error::after {
   background: #fff0f4;
   color: #c51244;
 }
 
-form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
+form[name="seravo-updates-form"].has-errors > .technical-contacts-input {
   background: #fff0f4;
   border: 1px solid #c51244;
   color: #eb819f;
@@ -145,125 +137,4 @@ form[name="seravo_updates_form"].has-errors > .technical_contacts_input {
   position: absolute;
   right: 20px;
   top: 20px;
-}
-
-#seravo-postbox-site-status ul {
-  list-style-type: disc;
-  padding-left: 18px;
-}
-
-.seravo-result-wrapper, .seravo-test-legacy-result-wrapper {
-  -moz-transition: border 1s ease-in;
-  -o-transition: border 1s ease-in;
-  -webkit-transition: border 1s ease-in;
-  background-color: white;
-  border-left: solid 0.5em #e8ba1b;
-  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.12);
-  display: block;
-  margin-top: 2em;
-  min-height: 5em;
-  overflow: hidden;
-  transition: border 1s ease-in;
-}
-
-.seravo-result, .seravo-test-legacy-result {
-  box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
-  display: none;
-  margin: 1em;
-  max-height: 25em;
-  overflow: auto;
-  padding: 1em;
-}
-
-.seravo-status, .seravo-test-legacy-status {
-  font-size: 15px;
-  font-weight: bold;
-  margin-top: 1.6em;
-  margin-left: 0.5em;
-  padding-bottom: 7px;
-  text-align: center;
-}
-
-/* @TODO: Use classes here, not ID selectors, as we can have many similar elements */
-#seravo_test_show_more_wrapper {
-  -ms-transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
-  float: right;
-  height: 1em;
-  margin-right: 0.5em;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* @TODO: Use classes here, not ID selectors, as we can have many similar elements */
-#seravo_test_show_more,
-#seravo_test_show_more:hover,
-#seravo_test_show_more:active,
-#seravo_test_show_more:focus {
-  box-shadow: none;
-  color: inherit;
-  text-decoration: none;
-}
-
-/* @TODO: Use classes here, not ID selectors, as we can have many similar elements */
-#seravo_tests_loading {
-  margin: 0 auto;
-  overflow: hidden;
-}
-
-@media only screen and (max-width:1445px) {
-  #dashboard_right_now .seravo-updates-postbox,
-  #dashboard_quick_press .seravo-updates-postbox{
-    padding: 10px 20px 20px 20px;
-    text-align: center;
-  }
-}
-
-@media only screen and (max-width:1126px) {
-  #slack_webhook_test {
-    margin-top: 10px;
-  }
-}
-
-@media only screen and (max-width:823px) {
-  button.technical_contacts_add.button {
-    margin-top: 10px;
-  }
-}
-
-@media only screen and (max-width:798px) {
-  button.technical_contacts_add.button {
-    margin-top: 0px;
-  }
-
-  #slack_webhook_test {
-    margin-top: 0px;
-  }
-}
-
-@media only screen and (max-width:782px) {
-  button.technical_contacts_add.button {
-    margin-bottom: 0px;
-  }
-
-  #slack_webhook_test {
-    margin-bottom: 0px;
-  }
-
-  input.php-version-radio {
-    margin-top: .25rem;
-  }
-}
-
-@media screen and (max-width: 425px) {
-  .technical_contacts_input {
-    max-width: 200px;
-  }
-}
-
-@media only screen and (max-width:414px) {
-  #slack_webhook_test {
-    margin-top: 10px;
-  }
 }

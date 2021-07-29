@@ -7,7 +7,6 @@ use \Seravo\DashboardWidgets;   // TODO: Not good, get rid of
 use \Seravo\SiteHealth;         // TODO: Not good, get rid of (??)
 use \Seravo\API;
 use \Seravo\Compatibility;
-use \Seravo\Page\Upkeep;        // TODO: Not good, get rid of
 
 use \Seravo\Ajax;
 use \Seravo\Ajax\AjaxResponse;
@@ -764,7 +763,7 @@ class SiteStatus extends Toolpage {
    * @return array<string, string>
    */
   public static function get_site_info() {
-    $info = \Seravo\Page\Upkeep::seravo_admin_get_site_info();
+    $info = API::get_site_data();
     $data = array();
 
     if ( \is_wp_error($info) ) {
