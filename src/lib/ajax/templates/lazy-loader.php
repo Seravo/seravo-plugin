@@ -39,7 +39,7 @@ class LazyLoader extends AjaxHandler {
    * Component needed for the AJAX handler.
    * Can be gotten with get_component().
    * @param \Seravo\Postbox\Component $base Base component.
-   * @param string $section Unique section inside the postbox.
+   * @param string                    $section Unique section inside the postbox.
    * @return void
    */
   public function build_component( Component $base, $section ) {
