@@ -107,7 +107,7 @@ class SiteHealth {
   }
 
   /**
-   * Check potential bad and deprecated plugins specified by @bad_plugins array.
+   * Check potential bad and deprecated plugins specified by bad_plugins array.
    * @return void
    */
   private static function check_plugins() {
@@ -150,7 +150,7 @@ class SiteHealth {
   }
 
   /**
-   * Fetch the PHP error count by using the error count of Login_Notifications module.
+   * Fetch the PHP error count by using the error count of login notifications module.
    * @return void
    */
   private static function check_php_errors() {
@@ -237,7 +237,7 @@ class SiteHealth {
   /**
    * Run the test set and return results.
    * @param bool $formatted Return formatted output.
-   * @return array<int, array<string, int>>
+   * @return array<int, array<string, int>> Site status results.
    */
   public static function check_site_status( $formatted = false ) {
     self::$potential_issues = array();

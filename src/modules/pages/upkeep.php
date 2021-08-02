@@ -734,7 +734,7 @@ class Upkeep extends Toolpage {
    * Build function for screenshots postbox.
    * @param \Seravo\Postbox\Component $base    The base component of the postbox.
    * @param \Seravo\Postbox\Postbox   $postbox The postbox to add components / elements.
-   * @param mixed[] $data Data returned by data function.
+   * @param mixed[]                   $data    Data returned by data function.
    * @return void
    */
   public static function build_screenshots_postbox( Component $base, Postbox\Postbox $postbox, $data ) {

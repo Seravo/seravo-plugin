@@ -34,17 +34,18 @@ class Template {
   /**
    * Display basic Seravo Plugin widget text.
    * @param string $content The content to display.
-   * @param string $class Optional class for the div element.
+   * @param string $class   Optional class for the div element.
+   * @param string $id      Optional id for the div element.
    * @return \Seravo\Postbox\Component Div component using postbox-text class.
    */
-  public static function text( $content, $class = 'postbox-text' ) {
-    return Component::from_raw('<div class="' . $class . '">' . $content . '</div>');
+  public static function text( $content, $class = 'postbox-text', $id = '' ) {
+    return new Component($content, '<div ' . ($id !== '' ? 'id="' . $id . '" ' : '') . 'class="' . $class . '">', '</div>');
   }
 
   /**
    * Display section title on widget.
    * @param string $content The given title to display.
-   * @param string $class Optional class for the title element.
+   * @param string $class   Optional class for the title element.
    * @return \Seravo\Postbox\Component Title component.
    */
   public static function section_title( $content, $class = 'title' ) {
@@ -155,9 +156,9 @@ class Template {
   /**
    * Display textfield with label next to it. The component is a row (<tr>)
    * as labels and textfields often need to be aligned with others like them.
-   * @param string $label The label text.
-   * @param string $name  Name if the input.
-   * @param string $value Default value for input.
+   * @param string $label       The label text.
+   * @param string $name        Name if the input.
+   * @param string $value       Default value for input.
    * @param string $placeholder Optional placeholder text for the input.
    * @return \Seravo\Postbox\Component Component with label and input field.
    */
@@ -233,8 +234,8 @@ class Template {
 
   /**
    * Display spinner image with loading text next to it. By default it's hidden.
-   * @param string $id Id for this spinner.
-   * @param string $text Text next to spinner.
+   * @param string $id            Id for this spinner.
+   * @param string $text          Text next to spinner.
    * @param string $spinner_class Class for the div spinner component, default 'spinner'.
    * @return \Seravo\Postbox\Component Spinner component.
    */
@@ -283,9 +284,9 @@ class Template {
 
   /**
    * Get wrapper component to show two components side by side.
-   * @param \Seravo\Postbox\Component $left  Left component.
-   * @param \Seravo\Postbox\Component $right Right component.
-   * @param string $additional_class Additional CSS class for the container.
+   * @param \Seravo\Postbox\Component $left             Left component.
+   * @param \Seravo\Postbox\Component $right            Right component.
+   * @param string                    $additional_class Additional CSS class for the container.
    * @return \Seravo\Postbox\Component Side-by-side component.
    */
   public static function side_by_side( Component $left, Component $right, $additional_class = '' ) {
