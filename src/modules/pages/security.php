@@ -420,7 +420,7 @@ class Security extends Toolpage {
 
   /**
    * Build func for cruft files postbox.
-   * @param Component $base The base of the postbox to add elements.
+   * @param Component       $base    The base of the postbox to add elements.
    * @param Postbox\Postbox $postbox The postbox to build.
    */
   public static function build_cruft_files( Component $base, Postbox\Postbox $postbox ) {

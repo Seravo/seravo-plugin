@@ -18,7 +18,7 @@ class DashboardWidgets {
    */
   const EOL_MAJOR = 7;
   /**
-   * @var int Major end of life version.
+   * @var int Minor end of life version.
    */
   const EOL_MINOR = 2;
 
@@ -85,7 +85,7 @@ class DashboardWidgets {
   }
 
   /**
-   * Remove the WordPress old PHP nag on admin dashboard
+   * Remove the WordPress old PHP nag on admin dashboard.
    * @return void
    */
   public static function remove_wp_php_nag() {
@@ -93,7 +93,7 @@ class DashboardWidgets {
   }
 
   /**
-   * Fetch the full disk space usage, backups and logs excluded. The main logic from sitestatus-ajax.php
+   * Fetch the full disk space usage, backups and logs excluded. The main logic from sitestatus-ajax.php.
    * @return array<string, mixed>
    */
   private static function disk_space_usage() {
@@ -149,6 +149,7 @@ class DashboardWidgets {
   }
 
   /**
+   * Display a warning if disk space is low.
    * @return void
    */
   public static function display_disk_space_low_warning() {
@@ -199,9 +200,9 @@ class DashboardWidgets {
 
       $php_msg = wp_sprintf(
         /* translators:
-               * %1$s current php version
-               * %2$s link for changing PHP version
-               */
+         * %1$s current php version
+         * %2$s link for changing PHP version
+         */
         __(
           'You are using end of life PHP version %1$s which will no longer be supported. You can see more details about changing PHP version and 
           checking PHP upgrade combatability on %2$s.',
@@ -326,5 +327,5 @@ class DashboardWidgets {
         _e('The site has no HTTP requests statistics yet.', 'seravo');
         echo '</div><br>';
       }
-    }
   }
+}

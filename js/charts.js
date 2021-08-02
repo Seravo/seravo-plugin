@@ -5,7 +5,6 @@
 /**
  * Load the charts
  */
-
 jQuery(document).ready(
   function () {
     jQuery('[data-section="chart-test"]').on('seravoAjaxSuccess', generate_test_chart);
@@ -17,8 +16,10 @@ jQuery(document).ready(
   }
 );
 
-/*
+/**
  * Test chart for demonstration
+ * @param {Event}  event    Trigger event for the function.
+ * @param {Object} response Response of the AJAX call containing chart data.
  */
 function generate_test_chart(event, response) {
   series = [];
@@ -81,7 +82,9 @@ function generate_test_chart(event, response) {
 };
 
 /**
- * ApexChart: Bars and disc donut
+ * Generate database diskbars.
+ * @param {Event}  event    Trigger event for the function.
+ * @param {Object} response Response of the AJAX call containing chart data.
  */
 function generate_database_bars(event, response) {
   var data = [];
@@ -192,6 +195,11 @@ function generate_database_bars(event, response) {
   chart.render();
 }
 
+/**
+ * Generate disk donut for disk space usage.
+ * @param {Event}  event    Trigger event for the function.
+ * @param {Object} response Response of the AJAX call containing chart data.
+ */
 function generate_disk_donut(event, response) {
   var disk_use;
   var max_disk;
@@ -246,6 +254,11 @@ function generate_disk_donut(event, response) {
   new ApexCharts(document.querySelector("#disk-usage-donut"), options).render();
 }
 
+/**
+ * Generate the basic disk bars.
+ * @param {Event}  event    Trigger event for the function.
+ * @param {Object} response Response of the AJAX call containing chart data.
+ */
 function generate_disk_bars(event, response) {
   var data = [];
   var labels = [];
@@ -335,7 +348,9 @@ function generate_disk_bars(event, response) {
 }
 
 /**
- * Cache status charts
+ * Generate Redis hitchart.
+ * @param {Event}  event    Trigger event for the function.
+ * @param {Object} response Response of the AJAX call containing chart data.
  */
 function generate_redis_hitchart(event, response) {
   var hits = response.redis_data['hits'];
@@ -395,6 +410,11 @@ function generate_redis_hitchart(event, response) {
   redis_hit_chart.render();
 };
 
+/**
+ * Generate HTTP hitchart.
+ * @param {Event}  event    Trigger event for the function.
+ * @param {Object} response Response of the AJAX call containing chart data.
+ */
 function generate_http_hitchart(event, response) {
   var hits = response.http_data.hit;
   var misses = response.http_data.miss;
@@ -458,7 +478,9 @@ function generate_http_hitchart(event, response) {
 };
 
 /**
- * Speed test chart. The chart is generated in speedtest.js file.
+ * Generate speed test chart.
+ * @param {Event}  event    Trigger event for the function.
+ * @param {Object} response Response of the AJAX call containing chart data.
  */
 function generate_speed_test_chart(speedChart, speedData, speedDataCached) {
   // If an instance of the chart already exists, wipe it out

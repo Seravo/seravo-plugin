@@ -198,7 +198,7 @@ class LoginNotifications {
 
     if ( ! isset(self::$login['domain']) || self::$login['domain'] === '' ) {
       $msg = wp_sprintf(
-      /* translators:
+       /* translators:
         * %1$s username of the current user
         * %2$s date of last login
         * %3$s time of last login
@@ -212,7 +212,7 @@ class LoginNotifications {
       );
     } else {
       $msg = wp_sprintf(
-      /* translators:
+       /* translators:
         * %1$s username of the current user
         * %2$s date of last login
         * %3$s time of last login

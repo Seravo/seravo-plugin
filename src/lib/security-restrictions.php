@@ -121,7 +121,7 @@ class SecurityRestrictions {
    * @return bool|void
    */
   public static function maybe_block_xml_rpc() {
-     $whitelist = self::get_jetpack_whitelist();
+    $whitelist = self::get_jetpack_whitelist();
     $whitelist = apply_filters('seravo_xml_rpc_whitelist', $whitelist);
 
     $ip = ip2long($_SERVER['REMOTE_ADDR']);
@@ -145,7 +145,7 @@ class SecurityRestrictions {
    * @return array<int, mixed[]>|mixed[]|mixed
    */
   public static function get_jetpack_whitelist() {
-     $url = 'https://jetpack.com/ips-v4.json';
+    $url = 'https://jetpack.com/ips-v4.json';
     $key = 'jetpack_xml_rpc_whitelist_' . md5($url);
 
     // Try to fetch data from cache

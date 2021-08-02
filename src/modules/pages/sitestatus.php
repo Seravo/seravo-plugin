@@ -541,7 +541,7 @@ class SiteStatus extends Toolpage {
 
   /**
    * Build function for the disk usage postbox.
-   * @param Component $base Postbox base component to add elements.
+   * @param Component       $base    Postbox base component to add elements.
    * @param Postbox\Postbox $postbox The postbox the func is building.
    * @return void
    */
@@ -735,9 +735,9 @@ class SiteStatus extends Toolpage {
 
   /**
    * Build the site-info postbox.
-   * @param Component $base Postbox's base element to add children to.
+   * @param Component       $base    Postbox's base element to add children to.
    * @param Postbox\Postbox $postbox Postbox The box.
-   * @param mixed $data Data returned by data func.
+   * @param mixed           $data    Data returned by data func.
    * @return void
    */
   public static function build_site_info( Component $base, Postbox\Postbox $postbox, $data ) {

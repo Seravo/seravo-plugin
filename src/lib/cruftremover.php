@@ -58,7 +58,7 @@ class CruftRemover {
 
   /**
    * Check whether the given directory has only whitelisted content.
-   * @param string $dir Path to the directory / directory as a string.
+   * @param string        $dir Path to the directory / directory as a string.
    * @param array<string> $wl_files Whitelisted files.
    * @param array<string> $wl_dirs Whitelisted directories.
    * @return bool True when only whitelisted content.
@@ -108,8 +108,8 @@ class CruftRemover {
 
   /**
    * Remove directory.
-   * @param string $dir Path to the directory / directory as a string
-   * @param int $recursive Condition variable for the recursion, 0 for no recursion.
+   * @param string $dir       Path to the directory / directory as a string
+   * @param int    $recursive Condition variable for the recursion, 0 for no recursion.
    * @return bool|void True when not called recursively, void otherwise.
    */
   public static function rmdir_recursive( $dir, $recursive ) {
