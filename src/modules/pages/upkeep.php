@@ -5,6 +5,7 @@ namespace Seravo\Page;
 use \Seravo\Helpers;
 use \Seravo\Shell;
 use \Seravo\API;
+use \Seravo\Compatibility;
 
 use \Seravo\Ajax;
 use \Seravo\Ajax\AjaxResponse;
@@ -110,9 +111,10 @@ class Upkeep extends Toolpage {
     $seravo_plugin_update->set_title(\__('Seravo Plugin Updater', 'seravo'));
     $seravo_plugin_update->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
 
-    $update_button = new Ajax\SimpleCommand('seravo-plugin-update', 'wp-seravo-plugin-update');
+    $update_button = new Ajax\SimpleForm('seravo-plugin-update');
     $update_button->set_button_text(\__('Update plugin now', 'seravo'));
     $update_button->set_spinner_text(\__('Updating Seravo Plugin...', 'seravo'));
+    $update_button->set_ajax_func(array( __CLASS__, 'update_seravo_plugin' ));
     $seravo_plugin_update->add_ajax_handler($update_button);
 
     $seravo_plugin_update->set_data_func(array( __CLASS__, 'get_seravo_plugin_update' ), 0);
@@ -421,13 +423,13 @@ class Upkeep extends Toolpage {
     }
 
     $base->add_child(Template::paragraph(\__('Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here.', 'seravo')));
-    $base->add_child(Template::paragraph(\__('Current version: ', 'seravo') . $data['current_version']));
-    $base->add_child(Template::paragraph(\__('Upstream version: ', 'seravo') . $data['upstream_version']));
+    $base->add_child(Template::paragraph(\__('Current version: ', 'seravo') . '<b>' . $data['current_version'] . '</b>'));
+    $base->add_child(Template::paragraph(\__('Upstream version: ', 'seravo') . '<b>' . $data['upstream_version'] . '</b>'));
 
     if ( $data['current_version'] == $data['upstream_version'] ) {
-      $base->add_child(Template::paragraph(\__('The currently installed version is the same as the latest available version.', 'seravo'), 'success'));
+      $base->add_child(Template::paragraph(\__('Seravo Plugin installation is up to date.', 'seravo'), 'success bold'));
     } else {
-      $base->add_child(Template::paragraph(\__('There is a new version available', 'seravo'), 'warning'));
+      $base->add_child(Template::paragraph(\__('There is a new version available', 'seravo'), 'warning bold'));
       $base->add_child($postbox->get_ajax_handler('seravo-plugin-update')->get_component());
     }
   }
@@ -443,7 +445,7 @@ class Upkeep extends Toolpage {
 
     $upstream_version = \get_transient('seravo_plugin_upstream_version');
     if ( $upstream_version === false || $upstream_version === '' ) {
-      $upstream_version = \exec('curl -s https://api.github.com/repos/seravo/seravo-plugin/tags | grep "name" -m 1 | awk \'{gsub("\"","")}; {gsub(",","")}; {print $2}\'');
+      $upstream_version = Compatibility::exec('curl -s https://api.github.com/repos/seravo/seravo-plugin/tags | grep "name" -m 1 | awk \'{gsub("\"","")}; {gsub(",","")}; {print $2}\'');
       \set_transient('seravo_plugin_upstream_version', $upstream_version, 10800);
     }
 
@@ -453,10 +455,40 @@ class Upkeep extends Toolpage {
   }
 
   /**
-   * Build func for Seravo Updates postbox
-   * @param Component $base          The base of the postbox to add elements.
-   * @param Postbox\Postbox $postbox The postbox that is built.
-   * @param array<mixed> $data       Data returned by data func.
+   * AJAX function for updating Seravo Plugin installation.
+   * @return Ajax\AjaxResponse
+   */
+  public static function update_seravo_plugin() {
+    $response = new AjaxResponse();
+    $cmd = Compatibility::exec('wp-seravo-plugin-update', $output, $result_code);
+
+    if ( $cmd === false || $result_code !== 0 ) {
+      \error_log('### Seravo Plugin installation experienced an error!');
+      \error_log('### Please report this on GitHub (https://github.com/Seravo/seravo-plugin) with following:');
+      foreach ( $output as $line ) {
+        \error_log($line);
+      }
+
+      $response->is_success(false);
+      $response->set_error(\__('Seravo Plugin installation failed. Command <code>wp-seravo-plugin-update</code> returned with status ', 'seravo') . $result_code);
+
+      return $response;
+    }
+
+    $response->is_success(true);
+    $response->set_data(
+      array(
+        'refresh' => true,
+      )
+    );
+    return $response;
+  }
+
+  /**
+   * Fetch the site data from API
+   * @param Component       $base    Base of the postbox that is built.
+   * @param Postbox\Postbox $postbox Postbox that is built.
+   * @param array<mixed>    $data    Data for building.
    * @return void
    */
   public static function build_seravo_updates( Component $base, Postbox\Postbox $postbox, $data ) {
