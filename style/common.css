@@ -62,8 +62,8 @@
   float: right;
 }
 
-div#seravo-error-widget.postbox,
-div#seravo-low-disk-space-widget.postbox {
+div#low-disk-space.postbox,
+div#php-warning-widget.postbox {
   border-left: 0.2em solid #e8ba1b;
 }
 
