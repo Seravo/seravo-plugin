@@ -52,6 +52,39 @@ class Helpers {
   }
 
   /**
+   * Get PHP version in a safe way with multiple fallbacks. If version can't be detected,
+   * return '7.0' as it's the lowest version currently supported (shouldn't happen).
+   * @return string PHP version string.
+   */
+  public static function get_php_version() {
+    if ( \defined('PHP_MAJOR_VERSION') ) {
+      $version = PHP_MAJOR_VERSION;
+      if ( \defined('PHP_MINOR_VERSION') ) {
+        $version .= '.' . PHP_MINOR_VERSION;
+        if ( \defined('PHP_RELEASE_VERSION') ) {
+          $version .= '.' . PHP_RELEASE_VERSION;
+        } else {
+          $version .= '.0';
+        }
+      } else {
+        $version .= '.0';
+      }
+      return $version;
+    }
+
+    $version = \phpversion();
+    if ( $version !== false ) {
+      return $version;
+    }
+
+    if ( \defined('PHP_VERSION') ) {
+      return PHP_VERSION;
+    }
+
+    return '7.0.0';
+  }
+
+  /**
    * @param int $size      The size in bytes.
    * @param int $precision The amount of decimal places.
    * @return string The size in human readable format.
