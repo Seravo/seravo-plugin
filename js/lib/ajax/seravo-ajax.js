@@ -34,6 +34,9 @@ function seravo_ajax_request(method, postbox_id, section, on_success, on_error, 
             return;
           } else {
             // Success
+            if ( 'refresh' in response ) {
+              location.reload();
+            }
             on_success(response);
           }
           return;
