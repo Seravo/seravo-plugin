@@ -27,7 +27,7 @@ class Compatibility {
       $substr = \substr($string, $offset, $length);
     }
 
-    if ( strnatcmp(self::get_php_version(), '8.0.0') >= 0 ) {
+    if ( strnatcmp(Helpers::get_php_version(), '8.0.0') >= 0 ) {
       // PHP >8.0 returns empty string instead of false on failure
       if ( $substr === '' ) {
         return false;
@@ -49,46 +49,13 @@ class Compatibility {
    */
   public static function exec( $command, &$output = null, &$result_code = null ) {
     $exec = \exec($command, $output, $result_code);
-    if ( strnatcmp(self::get_php_version(), '8.0.0') < 0 ) {
+    if ( strnatcmp(Helpers::get_php_version(), '8.0.0') < 0 ) {
       // PHP <8.0 never returns false
       if ( $output === null && $result_code === null ) {
         return false;
       }
     }
     return $exec;
-  }
-
-  /**
-   * Get PHP version in a safe way with multiple fallbacks. If version can't be detected,
-   * return '7.0' as it's the lowest version currently supported (shouldn't happen).
-   * @return string PHP version string.
-   */
-  private static function get_php_version() {
-    $version = phpversion();
-    if ( $version !== false ) {
-      return $version;
-    }
-
-    if ( defined('PHP_VERSION') ) {
-      return PHP_VERSION;
-    }
-
-    if ( defined('PHP_MAJOR_VERSION') ) {
-      $version = PHP_MAJOR_VERSION;
-      if ( defined('PHP_MINOR_VERSION') ) {
-        $version .= '.' . PHP_MINOR_VERSION;
-        if ( defined('PHP_RELEASE_VERSION') ) {
-          $version .= '.' . PHP_RELEASE_VERSION;
-        } else {
-          $version .= '.0';
-        }
-      } else {
-        $version .= '.0';
-      }
-      return $version;
-    }
-
-    return '7.0.0';
   }
 
 }

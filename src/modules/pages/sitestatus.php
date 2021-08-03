@@ -177,7 +177,6 @@ class SiteStatus extends Toolpage {
     $disk_usage->set_requirements(
       array(
         Requirements::CAN_BE_PRODUCTION => true,
-        Requirements::CAN_BE_STAGING => true,
       )
     );
     $page->register_postbox($disk_usage);
