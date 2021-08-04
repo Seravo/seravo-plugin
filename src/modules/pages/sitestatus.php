@@ -3,9 +3,10 @@
 namespace Seravo\Page;
 
 use \Seravo\Helpers;
-use \Seravo\Dashboard_Widgets;  // TODO: Not good, get rid of
-use \Seravo\Site_Health;        // TODO: Not good, get rid of (??)
+use \Seravo\DashboardWidgets;   // TODO: Not good, get rid of
+use \Seravo\SiteHealth;         // TODO: Not good, get rid of (??)
 use \Seravo\API;
+use \Seravo\Compatibility;
 use \Seravo\Page\Upkeep;        // TODO: Not good, get rid of
 
 use \Seravo\Ajax;
@@ -695,7 +696,7 @@ class SiteStatus extends Toolpage {
       $months = array();
 
       foreach ( array_reverse($reports) as $report ) {
-        $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' {$report}");
+        $total_requests_string = Compatibility::exec("grep -oE 'total_requests\": ([0-9]+),' {$report}");
         if ( $total_requests_string === false ) {
           continue;
         }
