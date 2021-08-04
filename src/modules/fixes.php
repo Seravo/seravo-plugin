@@ -1,19 +1,22 @@
 <?php
 
-namespace Seravo;
+namespace Seravo\Module;
+
+use \Seravo\Helpers;
 
 /**
  * Class Fixes
  *
- * Contains small custom fixes
+ * Contains small custom fixes for WordPress.
  */
-class Fixes {
+final class Fixes {
+  use Module;
 
   /**
-   * Loads Seravo features
+   * Initialize the module. Filters and hooks should be added here.
    * @return void
    */
-  public static function load() {
+  protected function init() {
     /**
      * Hide update nofications if this is not development
      */
@@ -43,7 +46,6 @@ class Fixes {
      * WP core has implemented a similar fix in 5.3.1,
      * this has been depreacted since that.
      */
-
     if ( \version_compare(\get_bloginfo('version'), '5.3.1', '<') ) {
       \add_action('added_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
       \add_action('updated_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
@@ -51,31 +53,32 @@ class Fixes {
     }
   }
 
-
   /**
-   * Fix a race condition in options caching
+   * Fix a race condition in options caching.
    *
-   * See https://core.trac.wordpress.org/ticket/31245
-   * and https://github.com/tillkruss/redis-cache/issues/58
-   *
+   * @see https://core.trac.wordpress.org/ticket/31245
+   * @see https://github.com/tillkruss/redis-cache/issues/58
+   * @todo Remove after WordPress 5.3.1 is not supported.
    * @param string $option Option that changed.
    * @return void
    */
   public static function maybe_clear_alloptions_cache( $option ) {
+    if ( \wp_installing() ) {
+      return;
+    }
 
-    if ( ! \wp_installing() ) {
-      $alloptions = \wp_load_alloptions(); // alloptions should be cached at this point
+    // Alloptions should be cached at this point
+    $alloptions = \wp_load_alloptions();
 
-      // If alloptions collection has $option key, clear the collection from cache
-      // because it can't be trusted to be correct after modifications in options.
-      if ( \array_key_exists($option, $alloptions) ) {
-        \wp_cache_delete('alloptions', 'options');
-      }
+    // If alloptions collection has $option key, clear the collection from cache
+    // because it can't be trusted to be correct after modifications in options.
+    if ( \array_key_exists($option, $alloptions) ) {
+      \wp_cache_delete('alloptions', 'options');
     }
   }
 
   /**
-   * Removes core update notifications
+   * Removes core update notifications.
    * @return void
    */
   public static function hide_update_notifications() {
@@ -83,8 +86,8 @@ class Fixes {
   }
 
   /**
-   * Removes red update bubbles from admin menus
-   * @return array<string, string>|array<string, array<string, int>>
+   * Removes red update bubbles from admin menus.
+   * @return array<string,mixed>
    */
   public static function hide_update_data() {
      return array(
@@ -100,19 +103,19 @@ class Fixes {
   }
 
   /**
-   * Removes Site Health update check
-   * @param mixed[] $tests
-   * @return mixed[]
+   * Removes Site Health update check.
+   * @param mixed[] $test_type Test details.
+   * @return mixed[] Modified test details.
    */
-  public static function remove_update_check( $tests ) {
-    unset($tests['async']['background_updates']);
-    return $tests;
+  public static function remove_update_check( $test_type ) {
+    unset($test_type['async']['background_updates']);
+    return $test_type;
   }
 
   /**
    * Return better http status code (401 unauthorized) after failed login.
    * Then failed login attempts (brute forcing) can be noticed in access.log
-   * WP core ticket: https://core.trac.wordpress.org/ticket/25446
+   * WP core ticket: https://core.trac.wordpress.org/ticket/25446 (won't-fix)
    *
    * Doesn't force http 401 for AJAX calls as some AJAX actions don't
    * need authorization.
@@ -126,10 +129,11 @@ class Fixes {
   }
 
   /**
+   * Send no-cache headers. Just a wrapper for
+   * WordPress nocache_headers().
    * @return void
    */
   public static function send_no_cache_headers() {
-    // Use WP function for this
     \nocache_headers();
   }
 }
