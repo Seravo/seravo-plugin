@@ -1,34 +1,47 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
+
+use \Seravo\Helpers;
 
 /**
  * Class SpeedTest
  *
- * Adds Speed Test button to the WP admin bar
+ * Adds Speed Test button to the WP admin bar.
  */
-class SpeedTest {
+final class SpeedTest {
+  use Module;
 
   /**
+   * Check whether the module should be loaded or not.
+   * @return bool Whether to load.
+   */
+  protected function should_load() {
+    // Require production env and 'edit_posts' capability by default
+    $capability = \apply_filters('seravo_' . self::get_name() . '_capability', 'edit_posts');
+    return \current_user_can($capability) && Helpers::is_production();
+  }
+
+  /**
+   * Initialize the module. Filters and hooks should be added here.
    * @return void
    */
-  public static function load() {
-    // Check permissions before registering actions
-    if ( \current_user_can(self::custom_capability()) ) {
-      \add_action('wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
-      \add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
-      \add_action('admin_bar_menu', array( __CLASS__, 'speed_test_button' ), 1001);
-    }
+  protected function init() {
+    \add_action('wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+    \add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+    \add_action('admin_bar_menu', array( __CLASS__, 'speed_test_button' ), 1001);
   }
 
   /**
-   * @return string
+   * Load required scripts and styles for this module.
+   * @return void
    */
-  public static function custom_capability() {
-    return \apply_filters('seravo_speed_test_capability', 'edit_posts');
+  public static function enqueue_scripts() {
+    \wp_enqueue_style('seravo-admin-bar-css');
   }
 
   /**
-   * Add speed test button to WP Admin Bar
+   * Add speed test button to WP Admin Bar.
    * @param \WP_Admin_Bar $admin_bar Instance of the admin bar.
    * @return void
    */
@@ -66,11 +79,4 @@ class SpeedTest {
     }
   }
 
-  /**
-   * Load required scripts and styles for this module
-   * @return void
-   */
-  public static function enqueue_scripts() {
-    \wp_enqueue_style('seravo_speed_test', SERAVO_PLUGIN_URL . 'style/speed-test.css', array(), Helpers::seravo_plugin_version(), 'all');
-  }
 }

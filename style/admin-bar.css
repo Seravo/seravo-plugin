@@ -1,3 +1,5 @@
+/** TODO: Make icons look aligned */
+
 #wpadminbar #wp-admin-bar-nginx-helper-purge-all .ab-item .seravo-purge-cache-icon {
   transform-origin: center center;
 }
@@ -55,4 +57,32 @@
     top: -3px;
     width: 52px;
   }
+}
+
+#wpadminbar #wp-admin-bar-speed-test .ab-item .seravo-speed-test-icon {
+  transform-origin: center center;
+}
+
+#wp-admin-bar-speed-test .ab-item:hover {
+  cursor: pointer;
+}
+
+#wpadminbar #wp-admin-bar-speed-test .ab-item .seravo-speed-test-icon:before {
+  content: "\f226";
+}
+
+#wpadminbar #wp-admin-bar-speed-test-blocked .ab-item .seravo-speed-test-icon:before {
+  content: "\f226";
+}
+
+#wpadminbar #wp-admin-bar-speed-test-blocked .ab-item .seravo-speed-test-icon {
+  transform-origin: center center;
+}
+
+#wp-admin-bar-speed-test-blocked .ab-item:hover {
+  cursor: default;
+}
+
+#wp-admin-bar-speed-test-menu .ab-item:hover {
+  cursor: default;
 }
