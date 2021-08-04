@@ -46,7 +46,7 @@
   max-height: 30vh;
 }
 
-.seravo-nag {
+.seravo-postbox .seravo-nag {
   margin: -5px 0 10px 0;
   padding: 2px 30px 2px 12px;
   padding-right: 15px !important;

@@ -62,8 +62,8 @@ final class PurgeCache {
    * @return void
    */
   public static function enqueue_scripts() {
-    \wp_enqueue_style('seravo-purge-cache-css', SERAVO_PLUGIN_URL . 'style/purge-cache.css', array(), Helpers::seravo_plugin_version());
-    \wp_enqueue_script('seravo-admin-bar-js', SERAVO_PLUGIN_URL . 'js/admin-bar.js', array( 'jquery', 'seravo-common-js' ), Helpers::seravo_plugin_version(), false);
+    \wp_enqueue_style('seravo-admin-bar-css');
+    \wp_enqueue_script('seravo-admin-bar-js');
 
     $inline_js = 'seravo_purge_cache_ajax_url="' . \admin_url('admin-ajax.php') . '"; ';
     $inline_js .= 'seravo_purge_cache_nonce="' . \wp_create_nonce('seravo_purge_cache_nonce') . '"; ';

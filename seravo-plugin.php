@@ -206,6 +206,7 @@ class Loader {
     // Register scripts, enqueue only if needed by another script
     \wp_register_script('seravo-common-js', SERAVO_PLUGIN_URL . 'js/common.js', array( 'jquery' ), Helpers::seravo_plugin_version());
     \wp_register_script('seravo-admin-bar-js', SERAVO_PLUGIN_URL . 'js/admin-bar.js', array( 'jquery', 'seravo-common-js' ), Helpers::seravo_plugin_version());
+    \wp_register_style('seravo-admin-bar-css', SERAVO_PLUGIN_URL . 'style/admin-bar.css', array(), Helpers::seravo_plugin_version());
   }
 
   /**
@@ -224,13 +225,10 @@ class Loader {
      * Add a cache purge button to the WP adminbar
      */
     Module\PurgeCache::load();
-
     /*
      * Add a speed test button to the WP adminbar
      */
-    if ( \getenv('WP_ENV') === 'production' ) {
-      SpeedTest::load();
-    }
+    Module\SpeedTest::load();
 
     /*
      * Hide the domain alias from search engines
