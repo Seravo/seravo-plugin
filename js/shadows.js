@@ -18,7 +18,7 @@ var SeravoShadows = {
     // Init reset buttons
     section.find('.reset').click(
       function() {
-        seravo_confirm(this, shadow_loc.confirm, 'remove-shadow-modal', SeravoShadows.reset_shadow);
+        seravo.confirm_modal(this, shadow_loc.confirm, 'remove-shadow-modal', SeravoShadows.reset_shadow);
       }
     );
 

@@ -235,7 +235,6 @@ return static function ( ContainerConfigurator $container_configurator ) {
 
   // Type Declaration
   $services->set(\Rector\TypeDeclaration\Rector\ClassMethod\AddArrayParamDocTypeRector::class);
-  $services->set(\Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector::class);
   $services->set(\Rector\TypeDeclaration\Rector\ClassMethod\AddMethodCallBasedStrictParamTypeRector::class);
   $services->set(\Rector\TypeDeclaration\Rector\ClassMethod\AddParamTypeDeclarationRector::class);
   $services->set(\Rector\TypeDeclaration\Rector\ClassMethod\AddReturnTypeDeclarationRector::class);
@@ -270,6 +269,7 @@ return static function ( ContainerConfigurator $container_configurator ) {
   //$services->set(\Rector\DeadCode\Rector\Assign\RemoveUnusedAssignVariableRector::class);
   //$services->set(\Rector\Privatization\Rector\Class_\ChangeReadOnlyVariableWithDefaultValueToConstantRector::class);
   //$services->set(\Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector::class);
+  //$services->set(\Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector::class);
 
   // TODO: TEST AND MAYBE UNCOMMENT WHEN PHP 7.0 IS THE LOWEST SUPPORTED VERSION
   //$services->set(\Rector\CodeQuality\Rector\If_\ConsecutiveNullCompareReturnsToNullCoalesceQueueRector::class);

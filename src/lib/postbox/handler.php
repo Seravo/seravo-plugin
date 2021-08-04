@@ -132,20 +132,19 @@ if ( ! \class_exists('Seravo_Postbox_Factory') ) {
     public function enqueue_postboxes_scripts() {
       if ( $this->postboxes !== array() ) {
         // seravo-postbox.js
-        \wp_enqueue_script('seravo_postbox', SERAVO_PLUGIN_URL . 'js/lib/seravo-postbox.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
+        \wp_enqueue_script('seravo-postbox-js', SERAVO_PLUGIN_URL . 'js/lib/seravo-postbox.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
+        // components.js
+        \wp_enqueue_script('seravo-components-js', SERAVO_PLUGIN_URL . 'js/components.js', array( 'seravo-common-js', 'jquery' ), Helpers::seravo_plugin_version());
+        // seravo-postbox.css
+        \wp_enqueue_style('seravo-postbox-css', SERAVO_PLUGIN_URL . 'style/seravo-postbox.css', array(), Helpers::seravo_plugin_version());
+        // common.css
+        \wp_enqueue_style('seravo-common-css', SERAVO_PLUGIN_URL . 'style/common.css', array(), Helpers::seravo_plugin_version());
+
         $postbox_l10n = array(
           'postBoxEmptyString' => \__('Drag boxes here', 'seravo'),
         );
-        \wp_localize_script('seravo_postbox', 'seravoPostboxl10n', $postbox_l10n);
 
-        // common.js
-        \wp_enqueue_script('seravo_common_js', SERAVO_PLUGIN_URL . 'js/common.js', array( 'jquery' ), Helpers::seravo_plugin_version());
-
-        // seravo-postbox.css
-        \wp_enqueue_style('seravo_postbox', SERAVO_PLUGIN_URL . 'style/seravo-postbox.css', array(), Helpers::seravo_plugin_version());
-
-        // common.css
-        \wp_enqueue_style('seravo_common_css', SERAVO_PLUGIN_URL . 'style/common.css', array(), Helpers::seravo_plugin_version());
+        \wp_localize_script('seravo-postbox-js', 'seravoPostboxl10n', $postbox_l10n);
       }
     }
 

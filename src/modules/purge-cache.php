@@ -1,29 +1,46 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
+
+use \Seravo\Helpers;
+use \Seravo\Compatibility;
+
+use \Seravo\Ajax;
+
+use \Seravo\Postbox\Template;
 
 /**
  * Class PurgeCache
  *
- * Purges the Seravo cache
+ * Adds button for purging the Seravo cache.
  */
-class PurgeCache {
+final class PurgeCache {
+  use Module;
 
   /**
-   * @return void
+   * Check whether the module should be loaded or not.
+   * @return bool Whether to load.
    */
-  public static function load() {
-    // Check permissions before registering actions
-    if ( \current_user_can(self::custom_capability()) ) {
-      \add_action('admin_bar_menu', array( __CLASS__, 'purge_button' ), 999);
-      \add_action('wp_ajax_seravo_purge_cache', array( __CLASS__, 'purge_cache' ));
-      \add_action('wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
-      \add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
-      \add_action('admin_notices', array( __CLASS__, 'seravo_purge_notification' ));
-    }
+  protected function should_load() {
+    // Require production env and 'edit_posts' capability by default
+    $capability = \apply_filters('seravo_' . self::get_name() . '_capability', 'edit_posts');
+    return \current_user_can($capability) && Helpers::is_production();
   }
 
   /**
-   * Add a purge button in the WP Admin Bar
+   * Initialize the module. Filters and hooks should be added here.
+   * @return void
+   */
+  protected function init() {
+    \add_action('admin_bar_menu', array( __CLASS__, 'purge_button' ), 999);
+    \add_action('wp_ajax_seravo_purge_cache', array( __CLASS__, 'purge_cache' ));
+    \add_action('wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+    \add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+    \add_action('admin_notices', array( __CLASS__, 'seravo_purge_notification' ));
+  }
+
+  /**
+   * Add a purge button in the WP Admin Bar.
    * @param \WP_Admin_Bar $admin_bar Instance of the admin bar.
    * @return void
    */
@@ -34,79 +51,71 @@ class PurgeCache {
         'id'    => 'nginx-helper-purge-all',
         'title' => '<span class="ab-icon seravo-purge-cache-icon"></span><span title="' .
           // translators: %s cache refresh interval
-          \sprintf(\__('Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every %s. This button is used for clearing all cached pages from the front-end proxy immediately.', 'seravo'), '15 min') .
+          \__('Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every 15 minutes. This button is used for clearing all cached pages from the front-end proxy immediately.', 'seravo') .
           '" class="ab-label seravo-purge-cache-text">' . \__('Purge Cache', 'seravo') . '</span>',
       )
     );
   }
 
   /**
-   * Load required scripts and styles for this module
+   * Load required scripts and styles for this module.
    * @return void
    */
   public static function enqueue_scripts() {
-    \wp_enqueue_style('seravo_purge_cache', SERAVO_PLUGIN_URL . 'style/purge-cache.css', array(), Helpers::seravo_plugin_version());
-    \wp_enqueue_script('seravo_purge_cache', SERAVO_PLUGIN_URL . 'js/purge-cache.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-    $loc_array = array(
-      'seravo_purge_cache_nonce' => \wp_create_nonce('seravo_purge_cache_nonce'),
-      'ajax_url'                 => \admin_url('admin-ajax.php'),
-    );
-    \wp_localize_script('seravo_purge_cache', 'seravo_purge_cache_loc', $loc_array);
+    \wp_enqueue_style('seravo-purge-cache-css', SERAVO_PLUGIN_URL . 'style/purge-cache.css', array(), Helpers::seravo_plugin_version());
+    \wp_enqueue_script('seravo-admin-bar-js', SERAVO_PLUGIN_URL . 'js/admin-bar.js', array( 'jquery', 'seravo-common-js' ), Helpers::seravo_plugin_version(), false);
+
+    $inline_js = 'seravo_purge_cache_ajax_url="' . \admin_url('admin-ajax.php') . '"; ';
+    $inline_js .= 'seravo_purge_cache_nonce="' . \wp_create_nonce('seravo_purge_cache_nonce') . '"; ';
+    \wp_add_inline_script('seravo-admin-bar-js', $inline_js, 'before');
   }
 
   /**
-   * Make capability filterable
-   * @return string
-   */
-  public static function custom_capability() {
-    return \apply_filters('seravo_purge_cache_capability', 'edit_posts');
-  }
-
-  /**
+   * Validate purge-cache result and show a notification for the user.
    * @return void
    */
   public static function seravo_purge_notification() {
     // Don't show anything if there is no need to.
-    if ( ! isset($_REQUEST['seravo_purge_success']) ) {
+    if ( ! isset($_REQUEST['seravo-purge-success']) ) {
       return;
     }
-    $success = \filter_var($_REQUEST['seravo_purge_success'], FILTER_VALIDATE_BOOLEAN);
 
-    if ( $success ) : ?>
-      <div class="notice updated is-dismissible">
-        <p><strong><?php \_e('Success:', 'seravo'); ?></strong> <?php \_e('The cache was flushed.', 'seravo'); ?>
-      </div>
-    <?php else : ?>
-      <div class="notice notice-error is-dismissible">
-        <p><strong><?php \_e('Error:', 'seravo'); ?></strong> <?php \_e('The cache was not flushed, please check your PHP error log for details.', 'seravo'); ?>
-      </div>
-      <?php
-    endif;
+    // Show success/failure notification.
+    $success = \filter_var($_REQUEST['seravo-purge-success'], FILTER_VALIDATE_BOOLEAN);
+
+    $class = 'notice-success';
+    $msg = '<b>' . \__('Success', 'seravo') . ':</b> ' . \__('The cache was flushed.', 'seravo');
+    if ( ! $success ) {
+      $class = 'notice-error';
+      $msg = '<b>' . \__('Error', 'seravo') . ':</b> ' . \__('The cache was not flushed, please check your PHP error log for details.', 'seravo');
+    }
+
+    Template::nag_notice(Template::paragraph($msg), $class)->print_html();
   }
 
   /**
-   * Purge the cache via AJAX
+   * AJAX function for purging the cache.
    * @return void
    */
   public static function purge_cache() {
-    $response = array();
+    $response = new Ajax\AjaxResponse();
+    $response->is_success(true);
 
     // Check nonce
     if ( ! isset($_REQUEST['nonce']) || \wp_verify_nonce($_REQUEST['nonce'], 'seravo_purge_cache_nonce') === false ) {
-      $response['success'] = false;
-      $response['output'] = \__('Error: the nonce did not verify.', 'seravo');
+      $response->is_success(false);
+      self::error_log("Couldn't purge cache: the nonce did not verify");
     } else {
-      // Run wp-purge-cache, return command code and output
-      \exec('wp-purge-cache 2>&1', $output, $return_code);
-      $response['success'] = $return_code === 0;
-      $response['output'] = \implode("\n", $output);
+      // Run wp-purge-cache and check the result
+      $exec = Compatibility::exec('wp-purge-cache 2>&1', $output, $return_code);
+      if ( $exec === false || $return_code !== 0 ) {
+        // Cache purge failed
+        $response->is_success(false);
+        self::error_log("Couldn't purge cache: " . \implode("\n", $output));
+      }
     }
 
-    // Log any errors
-    if ( ! $response['success'] ) {
-      \error_log('Seravo Purge Cache error: ' . $response['output']);
-    }
-
-    \wp_send_json($response);
+    $response->send();
   }
+
 }

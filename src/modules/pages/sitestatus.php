@@ -107,7 +107,7 @@ class SiteStatus extends Toolpage {
       return;
     }
 
-    \wp_enqueue_script('seravo-shadows-js', SERAVO_PLUGIN_URL . 'js/shadows.js', array( 'jquery' ), Helpers::seravo_plugin_version());
+    \wp_enqueue_script('seravo-shadows-js', SERAVO_PLUGIN_URL . 'js/shadows.js', array( 'jquery', 'seravo-common-js' ), Helpers::seravo_plugin_version());
     \wp_enqueue_script('seravo-speedtest-js', SERAVO_PLUGIN_URL . 'js/speedtest.js', array( 'jquery' ), Helpers::seravo_plugin_version());
     \wp_enqueue_style('seravo-site-status-css', SERAVO_PLUGIN_URL . 'style/sitestatus.css', array(), Helpers::seravo_plugin_version());
 

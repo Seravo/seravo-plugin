@@ -128,7 +128,7 @@ function init_simple_form(section) {
   // On regular button click
   button.click(
     function () {
-      execute(get_form_data(section));
+      execute(seravo.get_form_data(section));
     }
   );
 
@@ -139,7 +139,7 @@ function init_simple_form(section) {
         execute(
           {
             'dryrun': true,
-            ...get_form_data(section)
+            ...seravo.get_form_data(section)
           }
         );
       }
@@ -219,7 +219,7 @@ function init_fancy_form(section) {
   // On regular button click
   button.click(
     function () {
-      execute(get_form_data(section));
+      execute(seravo.get_form_data(section));
     }
   );
 
@@ -230,7 +230,7 @@ function init_fancy_form(section) {
         execute(
           {
             'dryrun': true,
-            ...get_form_data(section)
+            ...seravo.get_form_data(section)
           }
         );
       }

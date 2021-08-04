@@ -51,7 +51,7 @@ jQuery(document).ready(
     function insert_email() {
       var form = jQuery('[name="seravo-updates-form"]');
 
-      if (is_email_valid(email_input.val())) {
+      if (seravo.is_email_valid(email_input.val())) {
         emails.push(email_input.val())
         buttons_div.html(generate_buttons(emails));
         email_input.val('');
