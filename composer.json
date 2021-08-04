@@ -35,6 +35,7 @@
   },
   "autoload": {
     "classmap": [
+      "src/lib/module",
       "src/lib/postbox",
       "src/lib/ajax",
       "src/lib/api.php",
