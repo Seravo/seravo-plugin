@@ -97,6 +97,13 @@ class Loader {
     \add_action('plugins_loaded', array( __CLASS__, 'protected_downloads' ));
 
     /*
+     * Register common scripts to be used by modules and pages.
+     * No scripts should be enqueued here. Use higher priority
+     * so the scripts are registered before any module tries to use them.
+     */
+    \add_action('init', array( __CLASS__, 'register_scripts' ), 5);
+
+    /*
      * It is important to load plugins in init hook so that themes and plugins can override the functionality
      * Use smaller priority so that all plugins and themes are run first.
      */
@@ -191,6 +198,17 @@ class Loader {
   }
 
   /**
+   * Register common scripts later maybe needed by other scripts.
+   * No scripts should be enqueued here.
+   * @return void
+   */
+  public static function register_scripts() {
+    // Register scripts, enqueue only if needed by another script
+    \wp_register_script('seravo-common-js', SERAVO_PLUGIN_URL . 'js/common.js', array( 'jquery' ), Helpers::seravo_plugin_version());
+    \wp_register_script('seravo-admin-bar-js', SERAVO_PLUGIN_URL . 'js/admin-bar.js', array( 'jquery', 'seravo-common-js' ), Helpers::seravo_plugin_version());
+  }
+
+  /**
    * @return void
    */
   public static function load_all_modules() {
@@ -202,13 +220,10 @@ class Loader {
      * Helpers for fixing issues with third-party code (plugins etc.)
      */
     Module\ThirdPartyFixes::load();
-
     /*
      * Add a cache purge button to the WP adminbar
      */
-    if ( \getenv('WP_ENV') === 'production' ) {
-      PurgeCache::load();
-    }
+    Module\PurgeCache::load();
 
     /*
      * Add a speed test button to the WP adminbar
