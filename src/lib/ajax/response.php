@@ -114,17 +114,35 @@ class AjaxResponse {
 
   /**
    * Get exception response that's supposed to be send on command execution errors.
-   * @param string $command The command that errored.
+   * @param string   $command The command that errored.
+   * @param int|null $ret_val Optional return value for the errored command.
    * @return \Seravo\Ajax\AjaxResponse Exception response
    */
-  public static function command_error_response( $command ) {
-    // translators: the command that failed to execute
-    $message = \__('Error: Command %s failed to execute. Try running it manually.', 'seravo');
-    $error = \sprintf($message, "<code>{$command}</code>");
+  public static function command_error_response( $command, $ret_val = null ) {
+    if ( $ret_val !== null ) {
+      // translators: the command that failed to execute with specified return code.
+      $message = \__('Error: Command %1$1s failed to execute and returned with status %2$2s. Try running it manually.', 'seravo');
+      $error = \sprintf($message, "<code>{$command}</code>", "<code>{$ret_val}</code>");
+    } else {
+      // translators: the command that failed to execute.
+      $message = \__('Error: Command %s failed to execute. Try running it manually.', 'seravo');
+      $error = \sprintf($message, "<code>{$command}</code>");
+    }
 
     $response = new AjaxResponse();
     $response->is_success(false);
     $response->set_error($error);
+    return $response;
+  }
+
+  /**
+   * Get exception response that's supposed to be send on common API errors.
+   * @return \Seravo\Ajax\AjaxResponse Exception response
+   */
+  public static function api_error_response() {
+    $response = new AjaxResponse();
+    $response->is_success(false);
+    $response->set_error(\__('An API error occured. Please try again later.', 'seravo'));
     return $response;
   }
 

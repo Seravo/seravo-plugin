@@ -70,7 +70,7 @@ class LazyCommand extends LazyLoader {
     \exec($exec_command, $output, $retval);
 
     if ( $retval !== 0 && ! $this->allow_failure ) {
-      return AjaxResponse::command_error_response($exec_command);
+      return AjaxResponse::command_error_response($exec_command, $retval);
     }
 
     if ( $output === array() ) {

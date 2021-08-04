@@ -82,7 +82,7 @@ class SimpleCommand extends SimpleForm {
     \exec($exec_command, $output, $retval);
 
     if ( $retval !== 0 && ! $this->allow_failure ) {
-      return AjaxResponse::command_error_response($this->command);
+      return AjaxResponse::command_error_response($this->command, $retval);
     }
 
     if ( $output === array() ) {

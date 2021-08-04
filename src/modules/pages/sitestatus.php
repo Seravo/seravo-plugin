@@ -639,9 +639,7 @@ class SiteStatus extends Toolpage {
 
     if ( \is_wp_error($api_response) ) {
       \error_log($api_response->get_error_message());
-      $response->is_success(false);
-      $response->set_error(\__('An API error occured, please try again later.', 'seravo'));
-      return $response;
+      return AjaxResponse::api_error_response();
     }
 
     $disk_usage = self::report_disk_usage();
