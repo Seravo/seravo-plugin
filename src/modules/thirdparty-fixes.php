@@ -1,100 +1,34 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
 
 /**
  * Class ThirdPartyFixes
  *
- * Seravo-specific modifications/fixes to various plugins
+ * Seravo-specific modifications/fixes to various plugins.
  */
-class ThirdPartyFixes {
+final class ThirdPartyFixes {
+  use Module;
 
   /**
-   * @var \Seravo\ThirdPartyFixes|null
+   * Initialize the module. Filters and hooks should be added here.
+   * @return void
    */
-  public static $instance;
-
-  /**
-   * @return \Seravo\ThirdPartyFixes|null
-   */
-  public static function init() {
-    if ( \is_null(self::$instance) ) {
-      self::$instance = new ThirdPartyFixes();
-    }
-    return self::$instance;
-  }
-
-  public function __construct() {
+  protected function init() {
     // Jetpack whitelisting
-    \add_filter(
-      'jpp_allow_login',
-      function ( $ip ) {
-        return $this->jetpack_whitelist_seravo();
-      },
-      10,
-      1
-    );
+    \add_filter('jpp_allow_login', array( __CLASS__, 'jetpack_whitelist_seravo' ));
 
-    // Set options for Redirection plugin
-    // defined twice because Redirection code and documentation has conflicts,
-    // ie. just to be sure...
-    \add_filter(
-      'red_default_options',
-      function ( array $options ) {
-        return $this->redirection_options_filter($options);
-      },
-      10,
-      1
-    );
-    \add_filter(
-      'red_save_options',
-      function ( array $options ) {
-        return $this->redirection_options_filter($options);
-      },
-      10,
-      1
-    );
-    \add_filter(
-      'redirection_default_options',
-      function ( array $options ) {
-        return $this->redirection_options_filter($options);
-      },
-      10,
-      1
-    );
-    \add_filter(
-      'redirection_save_options',
-      function ( array $options ) {
-        return $this->redirection_options_filter($options);
-      },
-      10,
-      1
-    );
+    // Redirection plugin documentation is incorrect about the filter names.
+    // Prefix 'red_' is correct one, not the 'redirection_'.
+    \add_filter('red_default_options', array( __CLASS__, 'redirection_options_filter' ));
+    \add_filter('red_save_options', array( __CLASS__, 'redirection_options_filter' ));
 
-    // Maybe log SQL queries
-    \add_action(
-      'shutdown',
-      function () {
-        $this->log_queries();
-      }
-    );
+    // SQL query log
+    \add_action('shutdown', array( __CLASS__, 'log_queries' ));
 
     // Maybe cache HTTP requests
-    \add_filter(
-      'pre_http_request',
-      function ( $preempt, $parsed_args, $url ) {
-        return $this->http_maybe_use_cached($preempt, $parsed_args, $url);
-      },
-      10,
-      3
-    );
-    \add_filter(
-      'http_response',
-      function ( $response, $parsed_args, $url ) {
-        return $this->http_maybe_cache($response, $parsed_args, $url);
-      },
-      10,
-      3
-    );
+    \add_filter('pre_http_request', array( __CLASS__, 'http_maybe_use_cached' ), 10, 3);
+    \add_filter('http_response', array( __CLASS__, 'http_maybe_cache' ), 10, 3);
   }
 
   /**
@@ -107,8 +41,8 @@ class ThirdPartyFixes {
    * @param mixed[]                 $parsed_args HTTP request arguments.
    * @param string                  $url         The request URL.
    * @return false|\WP_Error|mixed[] The $preempt passed.
-   **/
-  public function http_maybe_use_cached( $preempt, $parsed_args, $url ) {
+   */
+  public static function http_maybe_use_cached( $preempt, $parsed_args, $url ) {
     $cache_key = 'http_cache_' . \md5($url . \serialize($parsed_args));
     $cached = \get_transient($cache_key);
     if ( $cached !== false ) {
@@ -133,7 +67,7 @@ class ThirdPartyFixes {
    * @param string  $url         The request URL.
    * @return mixed[] The $response passed.
    */
-  public function http_maybe_cache( $response, $parsed_args, $url ) {
+  public static function http_maybe_cache( $response, $parsed_args, $url ) {
     // Parse hostname from the URL
     $host = \parse_url($url, PHP_URL_HOST);
     if ( $host === null || $host == false ) {
@@ -165,16 +99,15 @@ class ThirdPartyFixes {
    * of database resources. This helper function makes it easier to toggle
    * SQL logging for a site temporarily.
    *
-   *
-   *
    * Based on <https://stackoverflow.com/a/4660903>
    * @see <https://developer.wordpress.org/reference/classes/wpdb/>
    * @return void
    */
-  public function log_queries() {
+  public static function log_queries() {
     if ( ! \defined('SAVEQUERIES') || SAVEQUERIES !== true ) {
       return;
     }
+
     $logfile = '/data/log/sql.log';
     // If logfile is already over 512MB, just stop logging to prevent
     // filling the disk with probably duplicated queries
@@ -211,10 +144,9 @@ class ThirdPartyFixes {
    *
    * @param mixed[] $options User-provided (or default) options
    * @return mixed[] Updated options with our customizations
-   * @since 1.9.15
    * @see <https://redirection.me/developer/wordpress-hooks/>
-   **/
-  public function redirection_options_filter( $options ) {
+   */
+  public static function redirection_options_filter( $options ) {
     $updated = array(
       'redirect_cache' => -1,
     );
@@ -227,11 +159,9 @@ class ThirdPartyFixes {
    * JSON contains just a list of IP addresses (both IPv4, IPv6),
    *     ['123.45.67.89', '2a00:....', ...]
    *
-   * @since 1.9.4
-   * @version 1.0
    * @return string[] List of Seravo monitoring IPs.
-   **/
-  public function retrieve_whitelist() {
+   */
+  public static function retrieve_whitelist() {
     $url = 'https://api.seravo.com/v0/infrastructure/monitoring-hosts.json';
     $key = 'seravo_jetpack_whitelist_' . \md5($url);
 
@@ -256,6 +186,7 @@ class ThirdPartyFixes {
       // Cache for 24 hours (DAY_IN_SECONDS)
       \set_transient($key, $data, DAY_IN_SECONDS);
     }
+
     return $data;
   }
 
@@ -269,18 +200,14 @@ class ThirdPartyFixes {
    * So, let's fetch list of IP addresses that should be whitelisted
    * and always allowed.
    *
-   * @since 1.9.4
-   * @version 1.1
    * @see <https://developer.jetpack.com/hooks/jpp_allow_login/>
    * @see <https://developer.jetpack.com/tag/jpp_allow_login/>
-   * @return bool
-   **/
-  public function jetpack_whitelist_seravo() {
-    if ( ! \function_exists('jetpack_protect_get_ip') ) {
-      return false;
-    }
-    $ip = \jetpack_protect_get_ip();
-    $whitelist = $this->retrieve_whitelist();
-    return \in_array($ip, $whitelist, true);
+   * @param bool   $allow_login Whether to allow login for $ip.
+   * @param string $ip          The IP to check.
+   * @return bool Whether login is allowed or not.
+   */
+  public static function jetpack_whitelist_seravo( $allow_login, $ip ) {
+    return \in_array($ip, self::retrieve_whitelist(), true) ? true : $allow_login;
   }
+
 }
