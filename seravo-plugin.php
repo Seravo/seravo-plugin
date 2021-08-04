@@ -201,7 +201,7 @@ class Loader {
     /*
      * Helpers for fixing issues with third-party code (plugins etc.)
      */
-    ThirdPartyFixes::init();
+    Module\ThirdPartyFixes::load();
 
     /*
      * Add a cache purge button to the WP adminbar
