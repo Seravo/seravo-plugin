@@ -4,6 +4,7 @@ namespace Seravo\Page;
 
 use \Seravo\Shell;
 use \Seravo\Helpers;
+use \Seravo\Compatibility;
 
 use \Seravo\Ajax;
 use \Seravo\Ajax\AjaxResponse;
@@ -349,7 +350,7 @@ class Database extends Toolpage {
   public static function fetch_db_info() {
     $response = new AjaxResponse();
     $db_columns = array();
-    $cmd = exec('wp db size', $output, $return_code);
+    $cmd = Compatibility::exec('wp db size', $output, $return_code);
 
     if ( $cmd === false || $return_code !== 0 ) {
       $response->is_success(false);
@@ -384,8 +385,8 @@ class Database extends Toolpage {
    */
   public static function fetch_db_table_sizes() {
     $response = new AjaxResponse();
-    $size_in_format = exec('wp db size --size_format=b', $total, $result_code_normal);
-    $size_in_json = exec('wp db size --tables --format=json', $json, $result_code_json);
+    $size_in_format = Compatibility::exec('wp db size --size_format=b', $total, $result_code_normal);
+    $size_in_json = Compatibility::exec('wp db size --tables --format=json', $json, $result_code_json);
     $execution_fail = __('Executing command <code>wp db size</code> failed. Command returned with exit status ', 'seravo');
 
     if ( $size_in_format === false || $result_code_normal !== 0 ) {

@@ -1,6 +1,8 @@
 <?php
 namespace Seravo;
 
+use \Seravo\Compatibility;
+
 /** Class DashboardWidgets
  *
  * Generate WP admin dashboard widgets
@@ -282,7 +284,7 @@ class DashboardWidgets {
           }
           ++$report_month_counter;
 
-          $total_requests_string = exec("grep -oE 'total_requests\": ([0-9]+),' {$report}");
+          $total_requests_string = Compatibility::exec("grep -oE 'total_requests\": ([0-9]+),' {$report}");
           if ( $total_requests_string === false ) {
             continue;
           }
