@@ -285,7 +285,7 @@ class Database extends Toolpage {
       \exec('wp-backup 2>&1', $output, $return_code);
 
       if ( $return_code !== 0 ) {
-        return Ajax\AjaxResponse::command_error_response('wp-backup 2>&1');
+        return Ajax\AjaxResponse::command_error_response('wp-backup 2>&1', $return_code);
       }
     }
 
@@ -353,9 +353,7 @@ class Database extends Toolpage {
     $cmd = Compatibility::exec('wp db size', $output, $return_code);
 
     if ( $cmd === false || $return_code !== 0 ) {
-      $response->is_success(false);
-      $response->set_error(\__('Error in fetching database details. Command <code>wp db size</code> returned with ', 'seravo') . $return_code);
-      return $response;
+      return AjaxResponse::command_error_response('wp db size', $return_code);
     }
 
     foreach ( $output as $value ) {
@@ -387,17 +385,12 @@ class Database extends Toolpage {
     $response = new AjaxResponse();
     $size_in_format = Compatibility::exec('wp db size --size_format=b', $total, $result_code_normal);
     $size_in_json = Compatibility::exec('wp db size --tables --format=json', $json, $result_code_json);
-    $execution_fail = \__('Executing command <code>wp db size</code> failed. Command returned with exit status ', 'seravo');
 
     if ( $size_in_format === false || $result_code_normal !== 0 ) {
-      $response->is_success(false);
-      $response->set_error($execution_fail . $result_code_normal);
-      return $response;
+      return AjaxResponse::command_error_response('wp db size', $result_code_normal);
     }
     if ( $size_in_json === false || $result_code_json !== 0 ) {
-      $response->is_success(false);
-      $response->set_error($execution_fail . $result_code_json);
-      return $response;
+      return AjaxResponse::command_error_response('wp db size', $result_code_json);
     }
 
     $tables = \json_decode($json[0], true);
