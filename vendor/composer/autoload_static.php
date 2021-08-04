@@ -147,6 +147,7 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Seravo\\LoginLog' => __DIR__ . '/../..' . '/src/modules/wp-login-log.php',
         'Seravo\\LoginNotifications' => __DIR__ . '/../..' . '/src/modules/login-notification.php',
         'Seravo\\Logs' => __DIR__ . '/../..' . '/src/lib/logs.php',
+        'Seravo\\Module\\Module' => __DIR__ . '/../..' . '/src/lib/module/module.php',
         'Seravo\\Noindex' => __DIR__ . '/../..' . '/src/modules/noindex-domain-alias.php',
         'Seravo\\OptimizeImagesOnUpload' => __DIR__ . '/../..' . '/src/modules/optimize-on-upload.php',
         'Seravo\\Page\\Backups' => __DIR__ . '/../..' . '/src/modules/pages/backups.php',

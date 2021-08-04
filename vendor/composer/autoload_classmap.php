@@ -124,6 +124,7 @@ return array(
     'Seravo\\LoginLog' => $baseDir . '/src/modules/wp-login-log.php',
     'Seravo\\LoginNotifications' => $baseDir . '/src/modules/login-notification.php',
     'Seravo\\Logs' => $baseDir . '/src/lib/logs.php',
+    'Seravo\\Module\\Module' => $baseDir . '/src/lib/module/module.php',
     'Seravo\\Noindex' => $baseDir . '/src/modules/noindex-domain-alias.php',
     'Seravo\\OptimizeImagesOnUpload' => $baseDir . '/src/modules/optimize-on-upload.php',
     'Seravo\\Page\\Backups' => $baseDir . '/src/modules/pages/backups.php',
