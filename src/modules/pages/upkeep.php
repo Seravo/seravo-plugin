@@ -471,10 +471,7 @@ class Upkeep extends Toolpage {
         \error_log($line);
       }
 
-      $response->is_success(false);
-      $response->set_error(\__('Seravo Plugin installation failed. Command <code>wp-seravo-plugin-update</code> returned with status ', 'seravo') . $result_code);
-
-      return $response;
+      return Ajax\AjaxResponse::command_error_response('wp-seravo-plugin-update', $result_code);
     }
 
     $response->is_success(true);
@@ -953,7 +950,7 @@ class Upkeep extends Toolpage {
     \exec('wp-test', $output, $retval);
 
     if ( $output === array() ) {
-      return Ajax\AjaxResponse::command_error_response('wp-test');
+      return Ajax\AjaxResponse::command_error_response('wp-test', $retval);
     }
 
     $message = \__('At least one of the tests failed.', 'seravo');

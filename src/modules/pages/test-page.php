@@ -225,7 +225,7 @@ class TestPage extends Toolpage {
     \exec('wp-test', $output, $retval);
 
     if ( \count($output) === 0 ) {
-      return Ajax\AjaxResponse::command_error_response('wp-test');
+      return Ajax\AjaxResponse::command_error_response('wp-test', $retval);
     }
 
     $message = 'This is bad mmkay?';
