@@ -197,8 +197,7 @@ class Loader {
     /*
      * Helpers for hiding useless notifications and small fixes in logging
      */
-    Fixes::load();
-
+    Module\Fixes::load();
     /*
      * Helpers for fixing issues with third-party code (plugins etc.)
      */
