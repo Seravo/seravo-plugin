@@ -229,11 +229,10 @@ class Loader {
      * Add a speed test button to the WP adminbar
      */
     Module\SpeedTest::load();
-
     /*
      * Hide the domain alias from search engines
      */
-    Noindex::load();
+    Module\Noindex::load();
 
     /*
      * Allow automated login for user 'seravotest' if necessary

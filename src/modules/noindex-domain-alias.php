@@ -1,17 +1,20 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
 
 /**
  * Class NoIndex
  *
- * Hides the domain alias from search-engines, (a safety mechanism)
+ * Hides the domain alias from search-engines, (a safety mechanism).
  */
-class Noindex {
+final class Noindex {
+  use Module;
 
   /**
+   * Initialize the module. Filters and hooks should be added here.
    * @return void
    */
-  public static function load() {
+  public function init() {
     \add_filter('robots_txt', array( __CLASS__, 'maybe_hide_domain_alias' ), 10, 2);
   }
 
@@ -21,21 +24,30 @@ class Noindex {
    * @return string The robots.txt content.
    */
   public static function maybe_hide_domain_alias( $output, $public ) {
-    if ( ! $public ) {
-      // bail early if blog is not public
+    if ( ! $public || ! isset($_SERVER['HTTP_HOST']) ) {
+      // Bail early if blog is not public or unknown HTTP_HOST.
       return $output;
     }
 
-    // if $_SERVER['HTTP_HOST'] is in form of *.wp-palvelu.fi, don't index
-    if ( isset($_SERVER['HTTP_HOST']) && (\preg_match('/^.*\.wp-palvelu\.fi$/', $_SERVER['HTTP_HOST']) === 1 ||
-    \preg_match('/^.*\.seravo\.fi$/', $_SERVER['HTTP_HOST']) === 1 ||
-    \preg_match('/^.*\.seravo\.com$/', $_SERVER['HTTP_HOST']) === 1 ||
-    \preg_match('/^.*\.wp\..*$/', $_SERVER['HTTP_HOST']) === 1 ||
-    \preg_match('/^.*\.dev\..*$/', $_SERVER['HTTP_HOST']) === 1) ) {
+    $seravo_domains = array(
+      '/^.*\.wp-palvelu\.fi$/',
+      '/^.*\.seravo\.fi$/',
+      '/^.*\.seravo\.com$/',
+      '/^.*\.wp\..*$/',
+      '/^.*\.dev\..*$/',
+    );
+
+    foreach ( $seravo_domains as $seravo_domain ) {
+      // If $_SERVER['HTTP_HOST'] is in Seravo temporary URL form, don't index.
+      // TODO: Remove wp-palvelu.fi and seravo.fi once no sites use them.
+      if ( \preg_match($seravo_domain, $_SERVER['HTTP_HOST']) === 1 ) {
         $output = "User-agent: *\n";
         $output .= "Disallow: /\n";
+        break;
+      }
     }
 
     return $output;
   }
+
 }
