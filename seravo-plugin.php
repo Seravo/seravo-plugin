@@ -233,11 +233,10 @@ class Loader {
      * Hide the domain alias from search engines
      */
     Module\Noindex::load();
-
     /*
      * Allow automated login for user 'seravotest' if necessary
      */
-    SeravoTestAuthBypass::load();
+    Module\SeravoTestAuthBypass::load();
 
     /*
      * Log all login attempts, failed or successful. Use no filters, as this should be mandatory
