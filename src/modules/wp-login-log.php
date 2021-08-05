@@ -1,17 +1,20 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
 
 /**
  * Class LoginLog
  *
- * Logs all login attempts at wp-login.php for security reasons
+ * Logs all login attempts at wp-login.php for security reasons.
  */
-class LoginLog {
+final class LoginLog {
+  use Module;
 
   /**
+   * Initialize the module. Filters and hooks should be added here.
    * @return void
    */
-  public static function load() {
+  protected function init() {
     // At least the username must be correct for 'wp_authenticate_user' to run,
     // so it isn't good enough for our log, which also should log brute force
     // attacks. Instead use 'login_redirect' which is fired right after
@@ -22,6 +25,7 @@ class LoginLog {
   }
 
   /**
+   * Called on all login attempts.
    * @param string             $redirect_to           The redirect destination URL.
    * @param string             $requested_redirect_to The requested redirect destination URL passed as a parameter.
    * @param \WP_User|\WP_Error $user                  WP_User object if login was successful, WP_Error object otherwise.
@@ -29,12 +33,7 @@ class LoginLog {
    */
   public static function wp_login_redirect_log( $redirect_to, $requested_redirect_to, $user ) {
     // Bail out quickly if username and password were not sent on this load
-    if (
-      ! isset($_POST['log']) ||
-      $_POST['log'] === '' ||
-      ! isset($_POST['pwd']) ||
-      $_POST['pwd'] === ''
-    ) {
+    if ( ! isset($_POST['log']) || $_POST['log'] === '' || ! isset($_POST['pwd']) || $_POST['pwd'] === '' ) {
       return $redirect_to;
     }
 
@@ -69,6 +68,7 @@ class LoginLog {
     $log_fp = \fopen('/data/log/wp-login.log', 'a');
     if ( $log_fp === false ) {
       // Couldn't open the file
+      self::error_log("Critical security error: wp-login.log can't be written to!");
       return $redirect_to;
     }
 
@@ -77,4 +77,5 @@ class LoginLog {
 
     return $redirect_to;
   }
+
 }
