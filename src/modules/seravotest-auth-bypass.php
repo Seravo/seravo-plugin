@@ -1,5 +1,6 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
 
 /**
  * Class SeravoTestAuthByPass
@@ -8,41 +9,54 @@ namespace Seravo;
  * Description: If normal login is prevented (e.g. captcha, external LDAP API etc)
  * then this module can be used by the 'seravotest' user to log in to a site anyway.
  */
-class SeravoTestAuthBypass {
+final class SeravoTestAuthBypass {
+  use Module;
 
   /**
-   * @return void
+   * Check whether the module should be loaded or not.
+   * @return bool Whether to load.
    */
-  public static function load() {
-    // Check for permission to enter only if flag is set
-    if ( isset($_GET['seravotest-auth-bypass']) ) {
-      \add_action('login_init', array( __CLASS__, 'attempt_login' ), 10, 2);
-    }
+  protected function should_load() {
+    // Only load the module when it's needed
+    return isset($_GET['seravotest-auth-bypass']);
   }
 
   /**
+   * Initialize the module. Filters and hooks should be added here.
+   * @return void
+   */
+  protected function init() {
+    // Check for permission to enter only if flag is set
+    \add_action('login_init', array( __CLASS__, 'attempt_login' ), 10, 2);
+  }
+
+  /**
+   * Check if the authentication bypass key is valid and
+   * set the authentication cookies.
    * @return void
    */
   public static function attempt_login() {
     // If special authentication bypass key is found, check if a matching
-    // key is found, and if soautomatically login user and redirect to wp-admin.
+    // key is found, and if so, automatically login user and redirect to wp-admin.
     $key = \get_transient('seravotest-auth-bypass-key');
 
-    if ( $key === $_GET['seravotest-auth-bypass'] ) {
-      // Remove bypass key so it cannot be used again
-      \delete_transient('seravotest-auth-bypass-key');
+    if ( $key !== $_GET['seravotest-auth-bypass'] ) {
+      self::error_log('Failed "seravotest" user authentication bypass attempt from IP "' . $_SERVER['REMOTE_ADDR'] . '"');
+      return;
+    }
 
-      $user = \get_user_by('login', 'seravotest');
+    // Remove bypass key so it cannot be used again
+    \delete_transient('seravotest-auth-bypass-key');
 
-      if ( $user !== false ) {
-        \wp_clear_auth_cookie();
-        \wp_set_current_user($user->ID);
-        \wp_set_auth_cookie($user->ID);
-        $redirect_to = \user_admin_url();
-        \wp_safe_redirect($redirect_to);
-      }
-    } else {
-      \error_log('Failed "seravotest" user authentication bypass attempt from IP ' . $_SERVER['REMOTE_ADDR']);
+    $user = \get_user_by('login', 'seravotest');
+
+    if ( $user !== false ) {
+      \wp_clear_auth_cookie();
+      \wp_set_current_user($user->ID);
+      \wp_set_auth_cookie($user->ID);
+      $redirect_to = \user_admin_url();
+      \wp_safe_redirect($redirect_to);
     }
   }
+
 }
