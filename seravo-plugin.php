@@ -237,11 +237,10 @@ class Loader {
      * Allow automated login for user 'seravotest' if necessary
      */
     Module\SeravoTestAuthBypass::load();
-
     /*
      * Log all login attempts, failed or successful. Use no filters, as this should be mandatory
      */
-    LoginLog::load();
+    Module\LoginLog::load();
 
     /*
      * Log plugin and theme activations, deactivations, installations and deletions
