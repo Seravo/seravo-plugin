@@ -30,7 +30,7 @@ class API {
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     // Check for errors
-    if ( curl_error($ch) || ! in_array($httpcode, $handled_http_codes) || is_bool($response) ) {
+    if ( curl_error($ch) !== '' || ! in_array($httpcode, $handled_http_codes, true) || is_bool($response) ) {
       error_log('SWD API (' . $api_query . ') error ' . $httpcode . ': ' . curl_error($ch));
       curl_close($ch);
       return new \WP_Error('seravo-api-get-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
@@ -82,7 +82,7 @@ class API {
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     // Check for errors
-    if ( curl_error($ch) || ! in_array($httpcode, $handled_http_codes) || is_bool($response) ) {
+    if ( curl_error($ch) !== '' || ! in_array($httpcode, $handled_http_codes, true) || is_bool($response) ) {
       error_log('SWD API (' . $api_query . ') error ' . $httpcode . ': ' . curl_error($ch));
       curl_close($ch);
       return new \WP_Error('seravo-api-put-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));

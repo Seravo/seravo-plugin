@@ -281,6 +281,6 @@ class ThirdPartyFixes {
     }
     $ip = jetpack_protect_get_ip();
     $whitelist = $this->retrieve_whitelist();
-    return in_array($ip, $whitelist);
+    return in_array($ip, $whitelist, true);
   }
 }

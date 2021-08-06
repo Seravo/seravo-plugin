@@ -52,7 +52,7 @@ class DashboardWidgets {
         }
       );
 
-      if ( apply_filters('seravo_dashboard_errors', true) ) {
+      if ( (bool) apply_filters('seravo_dashboard_errors', true) ) {
         self::$errors = LoginNotifications::retrieve_error_count();
       }
       if ( self::$errors > 0 || (PHP_MINOR_VERSION <= self::EOL_MINOR && PHP_MAJOR_VERSION <= self::EOL_MAJOR) ) {
@@ -110,10 +110,10 @@ class DashboardWidgets {
     $return_code = 0;
 
     // Get total disk usage
-    if ( ! $cached_usage ) {
-      $return_code = exec('du -sb /data ' . implode(' ', $exclude_dirs), $data_folder);
+    if ( $cached_usage === false ) {
+      $return_code = Compatibility::exec('du -sb /data ' . implode(' ', $exclude_dirs), $data_folder);
 
-      if ( $return_code !== false && ! empty($data_folder) ) {
+      if ( $return_code !== false && $data_folder !== array() ) {
         // cache only if successful & there's data in it
         set_transient('disk_space_usage', $data_folder, self::DISK_SPACE_CACHE_TIME);
       }
@@ -121,12 +121,12 @@ class DashboardWidgets {
       $data_folder = $cached_usage;
     }
 
-    if ( ! empty($data_folder) ) {
+    if ( $data_folder !== array() ) {
       $data_size = preg_split('/\s+/', $data_folder[0]);
       $data_size = $data_size !== false ? $data_size[0] : 0;
     }
-    $plan_details = API::get_site_data();
 
+    $plan_details = API::get_site_data();
     if ( is_wp_error($plan_details) ) {
       $plan_disk_limit = 0;
     } else {
@@ -216,11 +216,11 @@ class DashboardWidgets {
 
   /**
    * Display the site status widget which contains HTTPS statistics and some plan details
-   * @return mixed|void
+   * @return void
    */
   public static function display_site_status() {
     if ( ! Helpers::is_production() ) {
-      return _e('This feature is available only on live production sites.', 'seravo');
+      _e('This feature is available only on live production sites.', 'seravo');
     }
     $site_info = API::get_site_data();
     $http_requests_limit = 0;
@@ -249,7 +249,7 @@ class DashboardWidgets {
       <?php
       $reports = glob('/data/slog/html/goaccess-*.html');
 
-      if ( $reports !== false && ! empty($reports) ) {
+      if ( $reports !== false && $reports !== array() ) {
         $contact_email_url = '<a href="mailto:help@seravo.com">help@seravo.com</a>';
         $msg = wp_sprintf(
           // translators: %1$s contact email link

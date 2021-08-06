@@ -88,35 +88,19 @@ class Loader {
     /*
      * Load translations
      */
-    add_action(
-      'plugins_loaded',
-      function () {
-        $this->load_textdomain();
-      }
-    );
+    add_action('plugins_loaded', array( __CLASS__, 'load_textdomain' ));
 
     /*
      * Register early on the direct download add_action as it must trigger
      * before anything is sent to the output buffer.
      */
-    add_action(
-      'plugins_loaded',
-      function () {
-        $this->protected_downloads();
-      }
-    );
+    add_action('plugins_loaded', array( __CLASS__, 'protected_downloads' ));
 
     /*
      * It is important to load plugins in init hook so that themes and plugins can override the functionality
      * Use smaller priority so that all plugins and themes are run first.
      */
-    add_action(
-      'init',
-      function () {
-        $this->load_all_modules();
-      },
-      20
-    );
+    add_action('init', array( __CLASS__, 'load_all_modules' ), 20);
   }
 
   /**
@@ -176,10 +160,10 @@ class Loader {
 
       // Filename must be of correct form, e.g. 2016-09.html or home.png
       // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-      if ( isset($_GET['report']) && preg_match('/^\d{4}-\d{2}\.html$/', $_GET['report'], $matches) ) {
+      if ( isset($_GET['report']) && preg_match('/^\d{4}-\d{2}\.html$/', $_GET['report'], $matches) === 1 ) {
         self::x_accel_redirect('/data/slog/html/goaccess-' . $matches[0]);
       // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-      } elseif ( isset($_GET['screenshot']) && preg_match('/^[a-z-.]+\.png$/', $_GET['screenshot'], $matches) ) {
+      } elseif ( isset($_GET['screenshot']) && preg_match('/^[a-z-.]+\.png$/', $_GET['screenshot'], $matches) === 1 ) {
         self::x_accel_redirect('/data/reports/tests/debug/' . $matches[0]);
       } else {
         // Yield an error if a file was requested, but with wrong filename.
@@ -267,7 +251,7 @@ class Loader {
     /*
      * Instance switcher
      */
-    if ( apply_filters('seravo_show_instance_switcher', true) && getenv('WP_ENV') !== 'development' ) {
+    if ( apply_filters('seravo_show_instance_switcher', true) === true && getenv('WP_ENV') !== 'development' ) {
       InstanceSwitcher::load();
     }
 

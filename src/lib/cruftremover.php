@@ -67,7 +67,7 @@ class CruftRemover {
     exec('find ' . $dir, $content);
     foreach ( $content as $path ) {
       if ( $path !== $dir ) {
-        if ( (! in_array($path, $wl_files)) && (! in_array($path, $wl_dirs)) ) {
+        if ( (! in_array($path, $wl_files, true)) && (! in_array($path, $wl_dirs, true)) ) {
           // The file was not whitelisted
           return false;
         }
@@ -218,14 +218,14 @@ class CruftRemover {
 
     foreach ( $list_files as $filename ) {
       $cruft_found = self::find_cruft_file($filename);
-      if ( ! empty($cruft_found) ) {
+      if ( $cruft_found !== array() ) {
         $crufts = array_merge($crufts, $cruft_found);
       }
     }
 
     foreach ( $list_dirs as $dirname ) {
       $cruft_found = self::find_cruft_dir($dirname);
-      if ( ! empty($cruft_found) ) {
+      if ( $cruft_found !== array() ) {
         $crufts = array_merge($crufts, $cruft_found);
       }
     }
@@ -256,20 +256,20 @@ class CruftRemover {
     foreach ( $list_known_files as $file ) {
       exec('ls ' . $file, $cruft_found);
 
-      if ( ! empty($cruft_found) ) {
+      if ( $cruft_found !== array() ) {
         $crufts = array_merge($crufts, $cruft_found);
       }
     }
 
     foreach ( $list_known_dirs as $dirname ) {
       exec('ls -d ' . $dirname, $cruft_found);
-        if ( ! empty($cruft_found) ) {
-          foreach ( $cruft_found as $key => $cruft_dir ) {
-            if ( self::only_has_whitelisted_content($cruft_dir, $white_list_files, $white_list_dirs) ) {
-              unset($cruft_found[$key]);
+        if ( $cruft_found !== array() ) {
+        foreach ( $cruft_found as $key => $cruft_dir ) {
+          if ( self::only_has_whitelisted_content($cruft_dir, $white_list_files, $white_list_dirs) ) {
+            unset($cruft_found[$key]);
             }
           }
-          $crufts = array_merge($crufts, $cruft_found);
+        $crufts = array_merge($crufts, $cruft_found);
         }
     }
 

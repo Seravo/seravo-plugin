@@ -61,7 +61,7 @@ class Passwords {
    * @return void
    */
   public static function clear_seravo_pwned_check_timestamp( $user_id ) {
-    if ( isset($_POST['pass1']) && ! empty($_POST['pass1']) ) {
+    if ( isset($_POST['pass1']) && $_POST['pass1'] !== '' ) {
       delete_user_meta($user_id, 'seravo_pwned_check');
     }
   }
@@ -95,7 +95,7 @@ class Passwords {
     // Make the check every 3 months
     $time_now = time();
     $pwned_meta = get_user_meta($user->ID, 'seravo_pwned_check', true);
-    if ( empty($pwned_meta) || $time_now - (int) $pwned_meta > 90 * DAY_IN_SECONDS ) {
+    if ( $pwned_meta === '' || $time_now - (int) $pwned_meta > 90 * DAY_IN_SECONDS ) {
       // Check if the password has been pwned
       exec('wp-check-haveibeenpwned --json ' . self::$password_hash . ' 2>&1', $pwned_check);
       $result = \json_decode(isset($pwned_check[0]) ? $pwned_check[0] : '', true);

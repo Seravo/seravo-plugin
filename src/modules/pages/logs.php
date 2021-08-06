@@ -225,11 +225,11 @@ class Logs extends Toolpage {
     $response->is_success(true);
 
     $logs = \Seravo\Logs::read_log_lines_backwards('/data/log/' . $_GET['file'], $_GET['offset'], 30);
-    if ( isset($logs['error']) && ! empty($logs['error']) ) {
+    if ( isset($logs['error']) && $logs['error'] !== '' ) {
       // Something went wrong
       $response->is_success(false);
     } else {
-      $keyword = isset($_GET['log-keyword']) && ! empty($_GET['log-keyword']) ? $_GET['log-keyword'] : null;
+      $keyword = isset($_GET['log-keyword']) && $_GET['log-keyword'] !== '' ? $_GET['log-keyword'] : null;
       if ( $keyword !== null ) {
         $output = preg_replace('/' . $keyword . '/i', '<span class="highlight">$0</span>', $logs['output']);
         if ( $output !== null ) {

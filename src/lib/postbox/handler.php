@@ -121,7 +121,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
       $user_id = get_current_user_id();
 
-      if ( $user_id !== 0 && $order && $page ) {
+      if ( $user_id !== 0 && $order !== false && $page !== '' ) {
         update_user_option($user_id, 'seravo-postbox-order_' . $page, $order, true);
       }
       wp_die();
@@ -132,7 +132,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      * @return void
      */
     public function enqueue_postboxes_scripts() {
-      if ( ! empty($this->postboxes) ) {
+      if ( $this->postboxes !== array() ) {
         // seravo-postbox.js
         wp_enqueue_script('seravo_postbox', SERAVO_PLUGIN_URL . 'js/lib/seravo-postbox.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
         $postbox_l10n = array(
@@ -198,7 +198,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
       // do anything in that case. If only a single postbox is closed, WP returns a single string so
       // it should be converted into an array.
       $closed_postboxes = get_user_meta(get_current_user_id(), 'seravo-closed-postboxes_' . $screen, true);
-      if ( ! empty($closed_postboxes) ) {
+      if ( $closed_postboxes !== '' ) {
         if ( ! is_array($closed_postboxes) ) {
           $closed_postboxes = array( $closed_postboxes );
         }
@@ -207,7 +207,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
       // Use user-specified postbox order if set
       $custom_postbox_order = get_user_meta(get_current_user_id(), 'seravo-postbox-order_' . $screen, true);
-      if ( $custom_postbox_order ) {
+      if ( $custom_postbox_order !== '' ) {
         foreach ( $custom_postbox_order as $custom_context => $postbox_order_str ) {
 
           $postbox_order = explode(',', $postbox_order_str);
@@ -249,7 +249,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      */
     private function do_postboxes( $screen, $context ) {
       // Loop through the postboxes for this context
-      if ( isset($this->postboxes[ $screen ][ $context ]) && ! empty($this->postboxes[ $screen ][ $context ]) ) {
+      if ( isset($this->postboxes[ $screen ][ $context ]) && $this->postboxes[ $screen ][ $context ] !== array() ) {
         foreach ( $this->postboxes[ $screen ][ $context ] as $postbox_id => &$postbox_content ) {
           $this->display_single_postbox($postbox_id, $postbox_content);
         }
@@ -323,7 +323,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      * @return void
      */
     private function display_single_postbox( $postbox_id, $postbox_content ) {
-      $closed = in_array($postbox_id, $this->closed_postboxes);
+      $closed = in_array($postbox_id, $this->closed_postboxes, true);
       ?>
 
       <div id="seravo-postbox-<?php echo $postbox_id; ?>" data-postbox-id="<?php echo $postbox_id; ?>"

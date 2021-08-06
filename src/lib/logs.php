@@ -47,10 +47,10 @@ class Logs {
     }
 
     $logs_with_time = array();
-    foreach ( $grouped_log_files as $group => $log_files ) {
+    foreach ( $grouped_log_files as $group => $files_in_group ) {
       // Sort files (oldest first)
       usort(
-        $log_files,
+        $files_in_group,
         function( $log1, $log2 ) {
           if ( strpos($log1, '.log-') === false ) {
             return 1;
@@ -65,7 +65,7 @@ class Logs {
 
       // Get log times
       $logs_with_time[$group] = array();
-      foreach ( $log_files as $i => $log_file ) {
+      foreach ( $files_in_group as $i => $log_file ) {
         $since = null;
         if ( $i > 0 ) {
           $since = $logs_with_time[$group][$i - 1]['until'];
@@ -103,7 +103,7 @@ class Logs {
 
     // Check that $filepath is valid log path
     $files = glob('/data/log/*');
-    $valid_log_path = $files !== false && in_array($filepath, $files);
+    $valid_log_path = $files !== false && in_array($filepath, $files, true);
 
     $f = $valid_log_path ? @fopen($filepath, 'rb') : false;
 
@@ -216,7 +216,7 @@ class Logs {
         --$limit;
       }
 
-      if ( $complete_lines !== false ) {
+      if ( $complete_lines !== array() ) {
         // Decrement lines needed
         $lines -= count($complete_lines);
         // Prepend complete lines to our output
@@ -250,7 +250,7 @@ class Logs {
   public static function read_gz_log_lines_backwards( $filepath, $offset = 0, $lines = 1 ) {
     // Check that $filepath is valid log path
     $files = glob('/data/log/*');
-    $valid_log_path = $files !== false && in_array($filepath, $files);
+    $valid_log_path = $files !== false && in_array($filepath, $files, true);
 
     $f = $valid_log_path ? @gzfile($filepath) : false;
 

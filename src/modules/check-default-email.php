@@ -31,7 +31,7 @@ class CheckDefaultEmail {
     $email_local = strtok($email, '@');
 
     // Check if the email should should be changed. If so, show warning
-    if ( in_array($email_local, self::$bad_email_locals) ) {
+    if ( in_array($email_local, self::$bad_email_locals, true) ) {
       self::_seravo_show_email_warning();
     }
   }

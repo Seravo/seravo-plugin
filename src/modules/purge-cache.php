@@ -92,7 +92,7 @@ class PurgeCache {
     $response = array();
 
     // Check nonce
-    if ( ! isset($_REQUEST['nonce']) || ! wp_verify_nonce($_REQUEST['nonce'], 'seravo_purge_cache_nonce') ) {
+    if ( ! isset($_REQUEST['nonce']) || wp_verify_nonce($_REQUEST['nonce'], 'seravo_purge_cache_nonce') === false ) {
       $response['success'] = false;
       $response['output'] = __('Error: the nonce did not verify.', 'seravo');
     } else {

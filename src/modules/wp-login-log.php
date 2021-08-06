@@ -31,9 +31,9 @@ class LoginLog {
     // Bail out quickly if username and password were not sent on this load
     if (
       ! isset($_POST['log']) ||
-      empty($_POST['log']) ||
+      $_POST['log'] === '' ||
       ! isset($_POST['pwd']) ||
-      empty($_POST['pwd'])
+      $_POST['pwd'] === ''
     ) {
       return $redirect_to;
     }

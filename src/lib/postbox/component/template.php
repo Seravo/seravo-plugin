@@ -202,7 +202,7 @@ class Template {
    * @return \Seravo\Postbox\Component Component with label and datetime picker.
    */
   public static function datetime_picker( $label, $id, $min = '', $max = '' ) {
-    return Component::from_raw($label . ' <input type="date" id="' . $id . '" name="' . $id . '" ' . (empty($min) ? '' : 'min="' . $min . '"') . (empty($max) ? '' : 'max="' . $max . '"') . '>');
+    return Component::from_raw($label . ' <input type="date" id="' . $id . '" name="' . $id . '" ' . ($min === '' ? '' : 'min="' . $min . '"') . ($max === '' ? '' : 'max="' . $max . '"') . '>');
   }
 
   /**

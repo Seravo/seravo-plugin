@@ -177,7 +177,6 @@ class TestPage extends Toolpage {
     $demo_settings->add_field('seravo-test-setting-string', 'Give a string', 'write something', '', Settings::FIELD_TYPE_STRING);
     $demo_settings->add_field('seravo-test-setting-integer', 'Give an integer', '', '<p>Integer fields only accept whole numbers</p>', Settings::FIELD_TYPE_INTEGER, 12345);
     $demo_settings->add_field('seravo-test-setting-number', 'Give a number', '', '<p>But number fields accept any numeric value</p>', Settings::FIELD_TYPE_NUMBER, 3.14159);
-    $demo_settings->add_field('seravo-test-setting-emails', 'Give an email list', 'name@example.com', '', Settings::FIELD_TYPE_EMAIL_LIST);
     return $demo_settings;
   }
 
@@ -277,18 +276,15 @@ class TestPage extends Toolpage {
    * @return void
    */
   public static function build_nag_test( Component $base, Postbox\Postbox $postbox ) {
-    // Always true
-    if ( random_int(0, 0) === 0 ) {
-      $notice = new Component('', '<table><tr>', '</tr></table>');
-      $notice->add_child(new Component('You have cache! Please purge it now!', '<td><b>', '</b></td>'));
-      $notice->add_child($postbox->get_ajax_handler('nag-test')->get_component()->set_wrapper('<td>', '</td>'));
-      $base->add_child(Template::nag_notice($notice, 'notice-error', true));
-
-      $notice = new Component('', '<table><tr>', '</tr></table>');
-      $notice->add_child(new Component('You have cache! Please purge it now! (2)', '<td><b>', '</b></td>'));
-      $notice->add_child($postbox->get_ajax_handler('nag-test-2')->get_component()->set_wrapper('<td>', '</td>'));
-      $base->add_child(Template::nag_notice($notice, 'notice-error', true));
-    }
+    // Normally render this block conditionally
+    $notice = new Component('', '<table><tr>', '</tr></table>');
+    $notice->add_child(new Component('You have cache! Please purge it now!', '<td><b>', '</b></td>'));
+    $notice->add_child($postbox->get_ajax_handler('nag-test')->get_component()->set_wrapper('<td>', '</td>'));
+    $base->add_child(Template::nag_notice($notice, 'notice-error', true));
+    $notice = new Component('', '<table><tr>', '</tr></table>');
+    $notice->add_child(new Component('You have cache! Please purge it now! (2)', '<td><b>', '</b></td>'));
+    $notice->add_child($postbox->get_ajax_handler('nag-test-2')->get_component()->set_wrapper('<td>', '</td>'));
+    $base->add_child(Template::nag_notice($notice, 'notice-error', true));
 
     $base->add_child(Template::paragraph('You should see two nags above. The second nag will return output.'));
   }

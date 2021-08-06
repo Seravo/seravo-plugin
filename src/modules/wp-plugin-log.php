@@ -27,8 +27,8 @@ class PluginLog {
    * @param mixed[]      $arr_data Details about the upgrade.
    * @return void
    */
-  public static function on_upgrader_process_complete( $upgrader = null, $arr_data = null ) {
-    if ( empty($upgrader) || empty($arr_data) ) {
+  public static function on_upgrader_process_complete( $upgrader, $arr_data ) {
+    if ( $arr_data === array() ) {
       return;
     }
     if ( $arr_data['type'] !== null && $arr_data['action'] !== null ) {

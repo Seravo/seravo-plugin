@@ -15,7 +15,7 @@ class InstanceSwitcher {
     # Show the red banner only in staging/testing instances
     # Don't show the banner in Vagrant or other local development environments
     # or in update shadows where the red banner would just be annoying.
-    if ( getenv('WP_ENV') && getenv('WP_ENV') === 'staging' ) {
+    if ( getenv('WP_ENV') === 'staging' ) {
       add_action('admin_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ));
       add_action('wp_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ));
       add_action('login_footer', array( 'Seravo\InstanceSwitcher', 'render_shadow_indicator' ));
@@ -128,7 +128,7 @@ class InstanceSwitcher {
         'id'    => $id,
         'title' => '<span class="ab-icon seravo-instance-switcher-icon"></span>' .
           '<span class="ab-label seravo-instance-switcher-text">' . __('Now in', 'seravo') . ': ' . $current_title . '</span>',
-        'href'  => empty($_COOKIE['seravo_shadow']) ? '#' : $current_url . 'seravo_shadow=' . $_COOKIE['seravo_shadow'],
+        'href'  => ! isset($_COOKIE['seravo_shadow']) ? '#' : $current_url . 'seravo_shadow=' . $_COOKIE['seravo_shadow'],
         'meta'  => array(
           'class' => $menuclass,
         ),
@@ -137,7 +137,7 @@ class InstanceSwitcher {
 
     $instances = self::load_shadow_list();
 
-    if ( $instances ) {
+    if ( $instances !== false ) {
       // add menu entries for each shadow
       foreach ( $instances as $instance ) {
         $title = strtoupper($instance['env']);
@@ -159,7 +159,7 @@ class InstanceSwitcher {
         }
 
         if ( $primary_domain !== null ) {
-          $href = empty($primary_domain) ? '#' . substr($instance['name'], -6) : 'https://' . $primary_domain;
+          $href = $primary_domain === '' ? '#' . substr($instance['name'], -6) : 'https://' . $primary_domain;
 
           $wp_admin_bar->add_menu(
             array(
@@ -179,7 +179,7 @@ class InstanceSwitcher {
     // If in a shadow, always show exit link
     if ( $wp_env !== 'production' ) {
       $domain = self::get_production_domain();
-      $exit_href = empty($domain) ? '#exit' : 'https://' . $domain;
+      $exit_href = $domain === '' ? '#exit' : 'https://' . $domain;
 
       $wp_admin_bar->add_menu(
         array(
@@ -219,7 +219,7 @@ class InstanceSwitcher {
 
     // In case WP_ENV_COMMENT is empty
     $shadow_title = strtoupper($wp_env);
-    if ( getenv('WP_ENV_COMMENT') && ! empty(getenv('WP_ENV_COMMENT')) ) {
+    if ( getenv('WP_ENV_COMMENT') !== false && getenv('WP_ENV_COMMENT') !== '' ) {
       $shadow_title = getenv('WP_ENV_COMMENT');
     }
     ?>
@@ -248,7 +248,7 @@ class InstanceSwitcher {
     <div id="shadow-indicator">
       <?php
       $domain = self::get_production_domain();
-      $exit_href = empty($domain) ? '#exit' : 'https://' . $domain;
+      $exit_href = $domain === '' ? '#exit' : 'https://' . $domain;
       // translators: $s Identifier for the shadow instance in use
       printf(__('Your current shadow instance is "%s".', 'seravo'), $shadow_title);
       printf(' <a class="clearlink shadow-exit" href="%s">%s</a> ', $exit_href, __('Exit', 'seravo'));
@@ -264,7 +264,7 @@ class InstanceSwitcher {
   public static function render_shadow_admin_notice() {
     $current_screen = get_current_screen();
     $admin_notice_content = apply_filters('seravo_instance_switcher_admin_notice', '', $current_screen);
-    if ( ! empty($admin_notice_content) ) {
+    if ( $admin_notice_content !== '' ) {
       echo $admin_notice_content;
     }
   }
@@ -273,20 +273,21 @@ class InstanceSwitcher {
    * @return string|mixed
    */
   public static function get_production_domain() {
-    if ( ! empty($_COOKIE['seravo_shadow']) ) {
+    if ( isset($_COOKIE['seravo_shadow']) && $_COOKIE['seravo_shadow'] !== '' ) {
       // Seravo_shadow cookie indicates cookie based access, no separate domain
       return '';
     }
-    if ( ! empty($_GET['seravo_production']) && $_GET['seravo_production'] !== 'clear' ) {
+    if ( isset($_GET['seravo_production']) && $_GET['seravo_production'] !== '' && $_GET['seravo_production'] !== 'clear' ) {
       // With seravo_production param, shadow uses domain based access
       // Tested before cookie as it may contain newer data
       return $_GET['seravo_production'];
     }
-    if ( ! empty($_COOKIE['seravo_production']) ) {
+    if ( isset($_COOKIE['seravo_production']) && $_COOKIE['seravo_production'] !== '' ) {
       // With seravo_production cookie, shadow uses domain based access
       return $_COOKIE['seravo_production'];
     }
     if ( $_SERVER['SERVER_NAME'] !== getenv('DEFAULT_DOMAIN') && substr_count($_SERVER['SERVER_NAME'], '.') >= 2 ) {
+      // TODO: This is bad solution, fix this
       // If domain consists of 3 or more parts, remove the downmost
       // Notice that this DOES NOT necessarily work for multilevel TLD (eg. co.uk)
       // Slash at end means that only hostname should be used (no path/query etc)

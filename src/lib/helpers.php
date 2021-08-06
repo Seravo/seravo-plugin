@@ -14,7 +14,7 @@ class Helpers {
    * @return bool
    */
   public static function is_development() {
-     return (getenv('WP_ENV') && getenv('WP_ENV') === 'development');
+     return getenv('WP_ENV') === 'development';
   }
 
   /**
@@ -23,7 +23,7 @@ class Helpers {
    * @return bool
    */
   public static function is_production() {
-     return (getenv('WP_ENV') && getenv('WP_ENV') === 'production');
+     return getenv('WP_ENV') === 'production';
   }
 
   /**
@@ -34,7 +34,7 @@ class Helpers {
    * @return bool
    */
   public static function is_staging() {
-     return (getenv('WP_ENV') && getenv('WP_ENV') === 'staging');
+     return getenv('WP_ENV') === 'staging';
   }
 
   /**
@@ -57,6 +57,7 @@ class Helpers {
    * @return string The size in human readable format.
    */
   public static function human_file_size( $size, $precision = 2 ) {
+    $i = 0;
     for ( $i = 0; ($size / 1024) > 0.9; ) {
       ++$i;
       $size /= 1024;

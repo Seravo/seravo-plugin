@@ -213,8 +213,13 @@ class AjaxHandler {
    *                                        polling is done, false if not polling yet.
    */
   public static function check_polling() {
-    if ( isset($_REQUEST['poller_id']) && ! empty($_REQUEST['poller_id']) ) {
-      $pid = base64_decode($_REQUEST['poller_id']);
+    if ( isset($_REQUEST['poller_id']) && $_REQUEST['poller_id'] !== '' ) {
+      $pid = base64_decode($_REQUEST['poller_id'], true);
+
+      if ( $pid === false ) {
+        // Poller ID wasn't valid base64 string
+        return false;
+      }
 
       if ( \Seravo\Shell::is_pid_running($pid) ) {
         return AjaxResponse::require_polling_response($pid);

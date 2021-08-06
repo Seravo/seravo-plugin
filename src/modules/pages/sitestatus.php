@@ -463,7 +463,7 @@ class SiteStatus extends Toolpage {
 
     foreach ( $access_logs as $access_log ) {
       $file = fopen($access_log, 'r');
-      if ( $file ) {
+      if ( $file !== false ) {
         while ( ! feof($file) ) {
           $line = fgets($file);
           if ( $line === false ) {
@@ -471,13 +471,13 @@ class SiteStatus extends Toolpage {
           }
 
           // " is needed to match the log file
-          if ( strpos($line, '" HIT') ) {
+          if ( strpos($line, '" HIT') !== false ) {
             ++$hit;
-          } elseif ( strpos($line, '" MISS') ) {
+          } elseif ( strpos($line, '" MISS') !== false ) {
             ++$miss;
-          } elseif ( strpos($line, '" STALE') ) {
+          } elseif ( strpos($line, '" STALE') !== false ) {
             ++$stale;
-          } elseif ( strpos($line, '" BYPASS') ) {
+          } elseif ( strpos($line, '" BYPASS') !== false ) {
             ++$bypass;
           }
         }
@@ -581,7 +581,7 @@ class SiteStatus extends Toolpage {
     // Get total disk usage
     $cached_usage = get_transient('disk_space_usage');
 
-    if ( ! $cached_usage ) {
+    if ( $cached_usage === false ) {
       exec('du -sb /data ' . implode(' ', $exclude_dirs), $data_folder);
       set_transient('disk_space_usage', $data_folder, DashboardWidgets::DISK_SPACE_CACHE_TIME);
     } else {
@@ -765,6 +765,7 @@ class SiteStatus extends Toolpage {
    */
   public static function get_site_info() {
     $info = \Seravo\Page\Upkeep::seravo_admin_get_site_info();
+    $data = array();
 
     if ( is_wp_error($info) ) {
       $data['error'] = __('An API error occured. Please try again later', 'seravo');
@@ -801,13 +802,13 @@ class SiteStatus extends Toolpage {
       $data['account_manager'] = __('No Account Manager found. Account Manager is only included in Seravo Enterprise plans.', 'seravo');
     }
     // Check for termination date (hide 1970-01-01)
-    if ( ! empty($info['termination']) ) {
+    if ( isset($info['termination']) && $info['termination'] !== '' ) {
       if ( date('Y-m-d', strtotime($info['termination'])) !== '1970-01-01' ) {
         $data['termination'] = __('Plan Termination', 'seravo') . ': ' . date('Y-m-d', strtotime($info['termination']));
       }
     }
     // Check for location
-    if ( ! empty($info['country']) ) {
+    if ( isset($info['country']) && $info['country'] !== '' ) {
       $data['country'] = __('Site Location', 'seravo') . ': ' . $countries[$info['country']];
     }
     // Check for contacts
@@ -858,7 +859,7 @@ class SiteStatus extends Toolpage {
         <div class="alert" id="alert-timeout"><button class="closebtn">&times;</button><p><?php _e('The shadow reset is still running on the background. You should check the status of the shadow after a few minutes. If there are problems with the shadow, see the documentation from the link above.', 'seravo'); ?></p></div>
         <div class="alert" id="alert-error"><button class="closebtn">&times;</button><p><?php _e('Error!', 'seravo'); ?></p></div>
         <?php
-        if ( ! empty($shadow_list) ) {
+        if ( $shadow_list !== array() ) {
           ?>
           <table id="shadow-table">
             <?php
@@ -883,7 +884,7 @@ class SiteStatus extends Toolpage {
                     <p><?php _e('Port: ', 'seravo'); ?> <?php echo $shadow_data['ssh']; ?></p>
                     <p><?php _e('Creation Date: ', 'seravo'); ?> <?php echo $shadow_data['created']; ?></p>
                     <p><?php _e('Information: ', 'seravo'); ?> <?php echo $shadow_data['info']; ?></p>
-                    <p><?php _e('Domain: ', 'seravo'); ?> <?php echo (empty($primary_domain) ? '-' : $primary_domain); ?></p>
+                    <p><?php _e('Domain: ', 'seravo'); ?> <?php echo ($primary_domain === '' ? '-' : $primary_domain); ?></p>
                     <!-- Search-replace info -->
                     <form>
                       <div class="shadow-reset-sr-alert shadow-hidden">
@@ -988,7 +989,7 @@ class SiteStatus extends Toolpage {
     $url = rtrim($url, '/') . '/';
 
     // use filter_var to make sure the resulting url is a valid url
-    if ( ! filter_var($url, FILTER_VALIDATE_URL) ) {
+    if ( filter_var($url, FILTER_VALIDATE_URL) === false ) {
       $response->is_success(false);
       $response->set_error(__('Error! Invalid url', 'seravo'));
       return $response;
@@ -1014,9 +1015,9 @@ class SiteStatus extends Toolpage {
     curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    if ( curl_error($ch) || $httpcode !== 200 ) {
+    if ( curl_error($ch) !== '' || $httpcode !== 200 ) {
       $response->is_success(false);
-      $response->set_error(__('Error! HTTP response code: ', 'seravo') . $httpcode);
+      $response->set_error(__('Error! HTTP response code:', 'seravo') . ' ' . $httpcode);
       return $response;
     }
     $curl_info_arr = curl_getinfo($ch);

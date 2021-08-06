@@ -47,7 +47,7 @@ class SVGSupport {
       }
 
       $clean = $sanitizer->sanitize($dirty);
-      if ( empty($clean) ) {
+      if ( $clean === '' ) {
         $file['error'] = __(
           "This file couldn't be sanitized so for security reasons it wasn't uploaded",
           'seravo'
