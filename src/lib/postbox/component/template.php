@@ -17,7 +17,7 @@ class Template {
    * @return \Seravo\Postbox\Component Error component.
    */
   public static function error_paragraph( $message ) {
-    $html = sprintf('<p><b>%s</b></p>', $message);
+    $html = \sprintf('<p><b>%s</b></p>', $message);
     return Component::from_raw($html);
   }
 
@@ -60,7 +60,7 @@ class Template {
   public static function list_view( $element ) {
     $component = new Component('', '<ul class="postbox-ul">', '</ul>');
 
-    if ( is_array($element) ) {
+    if ( \is_array($element) ) {
       foreach ( $element as $list_object ) {
         $component->add_child(Component::from_raw('<li>' . $list_object . '</li>'));
       }
@@ -256,7 +256,7 @@ class Template {
   public static function show_more_link( $class = 'hidden' ) {
     $icon = new Component('', '<div class="dashicons dashicons-arrow-down-alt2">', '</div>');
 
-    $link = new Component(__('Show more', 'seravo') . ' ', '<a href="" class="seravo-show-more">', '</a>');
+    $link = new Component(\__('Show more', 'seravo') . ' ', '<a href="" class="seravo-show-more">', '</a>');
     $link->add_child($icon);
 
     $wrapper = new Component('', '<div class="seravo-show-more-wrapper ' . $class . '">', '</div>');
@@ -273,10 +273,10 @@ class Template {
   public static function success_failure( $status ) {
     if ( $status ) {
       $class = 'success';
-      $msg = sprintf('<b>%s</b>', __('Success!', 'seravo'));
+      $msg = \sprintf('<b>%s</b>', \__('Success!', 'seravo'));
     } else {
       $class = 'failure';
-      $msg = sprintf('<b>%s</b>', __('Failure!', 'seravo'));
+      $msg = \sprintf('<b>%s</b>', \__('Failure!', 'seravo'));
     }
 
     return Component::from_raw('<p class="' . $class . '">' . $msg . '</p>');

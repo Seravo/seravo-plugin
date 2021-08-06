@@ -18,7 +18,7 @@ use \Seravo\Postbox\Requirements;
 class Logs extends Toolpage {
 
   /**
-   * @var \Seravo\Page\Logs Instance of this page.
+   * @var \Seravo\Page\Logs|null Instance of this page.
    */
   private static $instance;
 
@@ -41,7 +41,7 @@ class Logs extends Toolpage {
    */
   public function __construct() {
     parent::__construct(
-      __('Logs', 'seravo'),
+      \__('Logs', 'seravo'),
       'tools_page_logs_page',
       'logs_page',
       'Seravo\Postbox\seravo_wide_column_postboxes_page'
@@ -55,7 +55,7 @@ class Logs extends Toolpage {
   public function init_page() {
     self::init_postboxes($this);
 
-    add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+    \add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
 
     $this->enable_ajax();
   }
@@ -83,8 +83,8 @@ class Logs extends Toolpage {
     }
 
     //wp_enqueue_script('seravo-site-status-js', SERAVO_PLUGIN_URL . 'js/sitestatus.js', array(), Helpers::seravo_plugin_version());
-    wp_enqueue_script('seravo-log-viewer-js', SERAVO_PLUGIN_URL . 'js/log-viewer.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version());
-    wp_enqueue_style('seravo-log-viewer-css', SERAVO_PLUGIN_URL . 'style/log-viewer.css', array(), \Seravo\Helpers::seravo_plugin_version());
+    \wp_enqueue_script('seravo-log-viewer-js', SERAVO_PLUGIN_URL . 'js/log-viewer.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version());
+    \wp_enqueue_style('seravo-log-viewer-css', SERAVO_PLUGIN_URL . 'style/log-viewer.css', array(), \Seravo\Helpers::seravo_plugin_version());
   }
 
   /**
@@ -97,7 +97,7 @@ class Logs extends Toolpage {
      * Logs postbox
      */
     $logs = new Postbox\Postbox('seravologs');
-    $logs->set_title(__('Logs', 'seravo'));
+    $logs->set_title(\__('Logs', 'seravo'));
     $logs->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $logs->set_data_func(array( __CLASS__, 'get_log_entries' ));
     $logs->set_build_func(array( __CLASS__, 'build_logs' ));
@@ -130,7 +130,7 @@ class Logs extends Toolpage {
             break;
           }
         }
-        if ( 0 === strpos($logs[0]['file'], $_GET['logfile']) ) {
+        if ( 0 === \strpos($logs[0]['file'], $_GET['logfile']) ) {
           // Didn't find the file but found the group
           $group = $log_group;
         }
@@ -138,14 +138,14 @@ class Logs extends Toolpage {
     }
 
     if ( $group === null ) {
-      $group = $log_files !== array() ? array_keys($log_files)[0] : '';
+      $group = $log_files !== array() ? \array_keys($log_files)[0] : '';
     }
 
     return array(
       'logs' => $log_files,
       'group' => $group,
       'variation' => $variation,
-      'keyword' => isset($_GET['log-keyword']) ? esc_attr($_GET['log-keyword']) : '',
+      'keyword' => isset($_GET['log-keyword']) ? \esc_attr($_GET['log-keyword']) : '',
     );
   }
 
@@ -157,12 +157,12 @@ class Logs extends Toolpage {
    * @return void
    */
   public static function build_logs( Component $base, Postbox\Postbox $postbox, $data ) {
-    $php_error_log = '<a href="' . site_url('/wp-admin/tools.php?page=logs_page&logfile=php-error.log') . '">php-error.log</a>';
+    $php_error_log = '<a href="' . \site_url('/wp-admin/tools.php?page=logs_page&logfile=php-error.log') . '">php-error.log</a>';
     $base->add_child(
       Template::paragraph(
-        __('Here you can browse and view the logs for your sites. The same log files can be found on server under <code>/data/log/*</code>.', 'seravo') . ' ' .
+        \__('Here you can browse and view the logs for your sites. The same log files can be found on server under <code>/data/log/*</code>.', 'seravo') . ' ' .
         // translators: Link to php-error.log
-        sprintf(__("Be sure to check %s, it's a good metric of the site's health.", 'seravo'), $php_error_log)
+        \sprintf(\__("Be sure to check %s, it's a good metric of the site's health.", 'seravo'), $php_error_log)
       )
     );
 
@@ -176,11 +176,11 @@ class Logs extends Toolpage {
     // Log menu entries
     foreach ( $data['logs'] as $log_group => $logs ) {
       $sel = $data['group'] === $log_group ? ' selected' : '';
-      $json = json_encode($logs);
+      $json = \json_encode($logs);
       if ( $json === false ) {
         continue;
       }
-      $vars = htmlspecialchars($json, ENT_QUOTES, 'UTF-8');
+      $vars = \htmlspecialchars($json, ENT_QUOTES, 'UTF-8');
 
       $menu_entry = new Component('', '<li title="' . $log_group . '">', '</li>');
       $menu_entry->add_child(new Component($log_group, '<div class="log-menu-entry button' . $sel . '" data-variations="' . $vars . '">', '</div>'));
@@ -200,8 +200,8 @@ class Logs extends Toolpage {
     $filter_bar->add_child($log_date);
     // Search bar
     $log_search = new Component('', '<div class="log-view-search">', '</div>');
-    $log_search->add_child(new Component('', '<input type="text" name="log-view-keyword" value="' . $data['keyword'] . '" placeholder="' . __('Keyword', 'seravo') . '"/>'));
-    $log_search->add_child(Template::button(__('Search', 'seravo'), 'log-view-search', 'button'));
+    $log_search->add_child(new Component('', '<input type="text" name="log-view-keyword" value="' . $data['keyword'] . '" placeholder="' . \__('Keyword', 'seravo') . '"/>'));
+    $log_search->add_child(Template::button(\__('Search', 'seravo'), 'log-view-search', 'button'));
     $filter_bar->add_child($log_search);
     // Log view
     $log_view = new Component('', '<div class="log-view">', '</div>');
@@ -231,7 +231,7 @@ class Logs extends Toolpage {
     } else {
       $keyword = isset($_GET['log-keyword']) && $_GET['log-keyword'] !== '' ? $_GET['log-keyword'] : null;
       if ( $keyword !== null ) {
-        $output = preg_replace('/' . $keyword . '/i', '<span class="highlight">$0</span>', $logs['output']);
+        $output = \preg_replace('/' . $keyword . '/i', '<span class="highlight">$0</span>', $logs['output']);
         if ( $output !== null ) {
           $logs['output'] = $output;
         }

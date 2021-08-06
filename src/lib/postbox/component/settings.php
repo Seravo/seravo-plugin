@@ -36,11 +36,11 @@ class Settings {
    */
   private $title;
   /**
-   * @var string      Postbox ID for the section. This replaces pages in WordPress setting API.
+   * @var string|null Postbox ID for the section. This replaces pages in WordPress setting API.
    */
   private $postbox;
   /**
-   * @var mixed[]     Fields to be added on register().
+   * @var array<mixed, array<string, mixed>> Fields to be added on register().
    */
   private $fields = array();
 
@@ -61,7 +61,11 @@ class Settings {
    * @return void
    */
   public function register() {
-    add_settings_section(
+    if ( $this->postbox === null ) {
+      return;
+    }
+
+    \add_settings_section(
       $this->section,
       $this->title !== null ? $this->title : '',
       function() {
@@ -97,7 +101,7 @@ class Settings {
   public function add_field( $name, $title, $placeholder, $description, $type, $default = null, $sanitizer = null, $build_func = null ) {
     $this->determine_type($name, $type, $default, $sanitizer, $build_func);
 
-    register_setting(
+    \register_setting(
       $this->section,
       $name,
       array(
@@ -154,7 +158,6 @@ class Settings {
           } : $sanitizer;
           break;
         default:
-          return;
       }
     }
   }
@@ -181,12 +184,12 @@ class Settings {
     $form = new Component('', '<form method="post" action="options.php" class="seravo-general-form">', '</form>');
 
     // Hidden fields
-    $form->add_child(Component::from_raw('<input type="hidden" name="option_page" value="' . esc_attr($this->section) . '"/>'));
+    $form->add_child(Component::from_raw('<input type="hidden" name="option_page" value="' . \esc_attr($this->section) . '"/>'));
     $form->add_child(Component::from_raw('<input type="hidden" name="action" value="update"/>'));
 
     // Add nonce and referer
-    $referer = esc_attr(wp_unslash($_SERVER['REQUEST_URI'])) . '&section=' . $this->section;
-    $form->add_child(Component::from_raw(wp_nonce_field("{$this->section}-options", '_wpnonce', false, false)));
+    $referer = \esc_attr(\wp_unslash($_SERVER['REQUEST_URI'])) . '&section=' . $this->section;
+    $form->add_child(Component::from_raw(\wp_nonce_field("{$this->section}-options", '_wpnonce', false, false)));
     $form->add_child(Component::from_raw('<input type="hidden" name="_wp_http_referer" value="' . $referer . '" />'));
 
     // Maybe add title
@@ -200,7 +203,7 @@ class Settings {
     $form->add_child($fields);
 
     // Submit button
-    $form->add_child(Component::from_raw(get_submit_button(__('Save', 'seravo'), 'primary', "{$this->section}-submit")));
+    $form->add_child(Component::from_raw(\get_submit_button(\__('Save', 'seravo'), 'primary', "{$this->section}-submit")));
 
     $base->add_child($form);
 
@@ -220,7 +223,7 @@ class Settings {
       $class = '';
 
       if ( isset($field['args']['class']) ) {
-        $class = ' class="' . esc_attr($field['args']['class']) . '"';
+        $class = ' class="' . \esc_attr($field['args']['class']) . '"';
       }
 
       if ( isset($field['args']['description']) ) {
@@ -231,7 +234,7 @@ class Settings {
 
       // Add field title
       if ( isset($field['args']['label_for']) ) {
-        $row->add_child(new Component($field['title'], '<th scope="row"><label for="' . esc_attr($field['args']['label_for']) . '">', '</label></th>'));
+        $row->add_child(new Component($field['title'], '<th scope="row"><label for="' . \esc_attr($field['args']['label_for']) . '">', '</label></th>'));
       } else {
         $row->add_child(new Component($field['title'], '<th scope="row">', '</th>'));
       }
@@ -239,11 +242,11 @@ class Settings {
       // Add input element
       $input = new Component('', '<td>', '</td>');
 
-      if ( $field['callback'] === null || ! is_callable($field['callback']) ) {
+      if ( $field['callback'] === null || ! \is_callable($field['callback']) ) {
         continue;
       }
 
-      $input->add_child(call_user_func($field['callback'], $field));
+      $input->add_child(\call_user_func($field['callback'], $field));
       $row->add_child($input);
       $base->add_child($row);
     }
@@ -260,7 +263,7 @@ class Settings {
    * @return void
    */
   public function add_notification( $code, $message, $type = 'error' ) {
-    add_settings_error($this->section, $code, $message, $type);
+    \add_settings_error($this->section, $code, $message, $type);
   }
 
   /**
@@ -270,25 +273,23 @@ class Settings {
    * @return \Seravo\Postbox\Component Component with the notifications.
    */
   public function get_notifications() {
-    $notifications = get_settings_errors($this->section);
+    $notifications = \get_settings_errors($this->section);
 
-    if ( $notifications === array() && isset($_REQUEST['settings-updated']) && $_REQUEST['settings-updated'] === 'true' ) {
-      if ( isset($_REQUEST['section']) && $_REQUEST['section'] === $this->section ) {
-        $notifications = array(
-          array(
-            'type' => 'updated',
-            'code' => 'ok',
-            'message' => __('Settings saved', 'seravo'),
-          ),
-        );
-      }
+    if ( $notifications === array() && isset($_REQUEST['settings-updated']) && $_REQUEST['settings-updated'] === 'true' && (isset($_REQUEST['section']) && $_REQUEST['section'] === $this->section) ) {
+      $notifications = array(
+        array(
+          'type' => 'updated',
+          'code' => 'ok',
+          'message' => \__('Settings saved', 'seravo'),
+        ),
+      );
     }
 
     // Generate components
     $base = new Component();
     $codes = array();
     foreach ( $notifications as $notification ) {
-      if ( in_array($notification['code'], $codes, true) ) {
+      if ( \in_array($notification['code'], $codes, true) ) {
         continue;
       }
 
@@ -298,12 +299,12 @@ class Settings {
         $notification['type'] = 'success';
       }
 
-      if ( in_array($notification['type'], array( 'error', 'success', 'warning', 'info' ), true) ) {
+      if ( \in_array($notification['type'], array( 'error', 'success', 'warning', 'info' ), true) ) {
         $notification['type'] = 'notice-' . $notification['type'];
       }
 
-      $id = sprintf('setting-error-%s', esc_attr($notification['code']));
-      $class = sprintf('notice %s settings-error is-dismissible', esc_attr($notification['type']));
+      $id = \sprintf('setting-error-%s', \esc_attr($notification['code']));
+      $class = \sprintf('notice %s settings-error is-dismissible', \esc_attr($notification['type']));
 
       $base->add_child(new Component($notification['message'], '<div id="' . $id . '" class="' . $class . '"><p><strong>', '</strong></p></div>'));
     }
@@ -317,8 +318,8 @@ class Settings {
    * @return \Seravo\Postbox\Component Textfield component.
    */
   public static function build_string_field( $field ) {
-    $value = get_option($field['id']) === false ? '' : get_option($field['id']);
-    $placeholder = ! isset($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
+    $value = \get_option($field['id']) === false ? '' : \get_option($field['id']);
+    $placeholder = isset($field['args']['placeholder']) ? $field['args']['placeholder'] : '';
     return Component::from_raw('<input type="text" placeholder="' . $placeholder . '" name="' . $field['id'] . '" value="' . $value . '"/>');
   }
 
@@ -328,7 +329,7 @@ class Settings {
    * @return \Seravo\Postbox\Component Checkbox component.
    */
   public static function build_boolean_field( $field ) {
-    $value = checked('on', get_option($field['id']), false);
+    $value = \checked('on', \get_option($field['id']), false);
     return Component::from_raw('<input type="checkbox" name="' . $field['id'] . '" ' . $value . '/>');
   }
 
@@ -338,8 +339,8 @@ class Settings {
    * @return \Seravo\Postbox\Component Integer component.
    */
   public static function build_integer_field( $field ) {
-    $value = is_numeric(get_option($field['id'])) ? get_option($field['id']) : '';
-    $placeholder = ! isset($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
+    $value = \is_numeric(\get_option($field['id'])) ? \get_option($field['id']) : '';
+    $placeholder = isset($field['args']['placeholder']) ? $field['args']['placeholder'] : '';
     return Component::from_raw('<input type="number" step="1" pattern="\d+" placeholder="' . $placeholder . '" name="' . $field['id'] . '" value="' . $value . '"/>');
   }
 
@@ -349,8 +350,8 @@ class Settings {
    * @return \Seravo\Postbox\Component Number component.
    */
   public static function build_number_field( $field ) {
-    $value = is_numeric(get_option($field['id'])) ? get_option($field['id']) : '';
-    $placeholder = ! isset($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
+    $value = \is_numeric(\get_option($field['id'])) ? \get_option($field['id']) : '';
+    $placeholder = isset($field['args']['placeholder']) ? $field['args']['placeholder'] : '';
     return Component::from_raw('<input type="number" placeholder="' . $placeholder . '" name="' . $field['id'] . '" value="' . $value . '"/>');
   }
 
@@ -374,8 +375,8 @@ class Settings {
    */
   public function sanitize_integer_field( $value, $default ) {
     // Only accept whole numbers
-    if ( ! is_numeric($value) || floor((float) $value) !== (float) $value ) {
-      $this->add_notification('invalid-integer', __('Invalid integer', 'seravo'));
+    if ( ! \is_numeric($value) || \floor((float) $value) !== (float) $value ) {
+      $this->add_notification('invalid-integer', \__('Invalid integer', 'seravo'));
       return $default;
     }
     return (int) $value;
@@ -388,8 +389,8 @@ class Settings {
    * @return float The sanitized integer.
    */
   public function sanitize_number_field( $value, $default ) {
-    if ( ! is_numeric($value) ) {
-      $this->add_notification('invalid-number', __('Invalid number', 'seravo'));
+    if ( ! \is_numeric($value) ) {
+      $this->add_notification('invalid-number', \__('Invalid number', 'seravo'));
       return $default;
     }
     return (float) $value;

@@ -21,7 +21,7 @@ class Shell {
   public static function safe_exec( $command, $args = array(), $env = array(), &$output = null, &$result_code = null ) {
     $safe_command = self::sanitize_command($command, $args, $env);
 
-    exec($safe_command, $output, $result_code);
+    \exec($safe_command, $output, $result_code);
   }
   /**
    * Function for sanitizing commands to be more safe.
@@ -47,10 +47,10 @@ class Shell {
       if ( $arg === null ) {
         continue;
       }
-      $safe_command .= ' ' . escapeshellarg($arg);
+      $safe_command .= ' ' . \escapeshellarg($arg);
     }
 
-    return escapeshellcmd($safe_command);
+    return \escapeshellcmd($safe_command);
   }
 
   /**
@@ -60,9 +60,9 @@ class Shell {
    */
   public static function backround_command( $command ) {
     $output = array();
-    exec('(' . $command . ') > /dev/null & echo $!', $output);
+    \exec('(' . $command . ') > /dev/null & echo $!', $output);
 
-    if ( count($output) >= 1 ) {
+    if ( \count($output) >= 1 ) {
       return $output[0];
     }
 
@@ -75,7 +75,7 @@ class Shell {
    * @return bool Whether the command is running.
    */
   public static function is_pid_running( $pid ) {
-    return file_exists("/proc/{$pid}");
+    return \file_exists("/proc/{$pid}");
   }
 
 }

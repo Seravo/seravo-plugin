@@ -5,7 +5,7 @@ namespace Seravo;
 use \Seravo\Page\Upkeep;  // TODO: Not good, get rid of
 
 // Deny direct access to this file
-if ( ! defined('ABSPATH') ) {
+if ( ! \defined('ABSPATH') ) {
   die('Access denied!');
 }
 
@@ -31,7 +31,7 @@ class Seravo_WP_CLI extends \WP_CLI_Command {
    */
   public function updates( $args, $assoc_args ) {
     $site_info = Upkeep::seravo_admin_get_site_info();
-    if ( is_wp_error($site_info) ) {
+    if ( \is_wp_error($site_info) ) {
       \WP_CLI::error('Seravo API failed to return information about updates.');
       return;
     }

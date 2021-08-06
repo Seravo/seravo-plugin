@@ -33,7 +33,7 @@ class FancyForm extends AjaxHandler {
   private $build_form_func;
 
   /**
-   * @var string|null   Text to be shown on the main button.
+   * @var mixed|string|null Text to be shown on the main button.
    */
   private $button_text;
   /**
@@ -78,7 +78,7 @@ class FancyForm extends AjaxHandler {
     }
 
     if ( $this->button_text === null ) {
-      $this->button_text = __('Run', 'seravo');
+      $this->button_text = \__('Run', 'seravo');
     }
 
     if ( $this->dryrun_button_text !== null ) {
@@ -90,8 +90,8 @@ class FancyForm extends AjaxHandler {
       $buttons = Template::button($this->button_text, $section . '-button', 'button-primary');
     }
 
-    $default_title = $this->title_text !== null ? $this->title_text : __('WIP', 'seravo');
-    $spinner_text = $this->spinner_text !== null ? $this->spinner_text : __('Loading...', 'seravo');
+    $default_title = $this->title_text !== null ? $this->title_text : \__('WIP', 'seravo');
+    $spinner_text = $this->spinner_text !== null ? $this->spinner_text : \__('Loading...', 'seravo');
 
     $title = new Component('', '<div class="seravo-result-wrapper-title">', '</div>');
     $title->add_child(Template::spinner_with_text($section . '-spinner', $spinner_text));

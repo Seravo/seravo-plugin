@@ -20,13 +20,13 @@ class OptimizeImagesOnUpload {
      * untouched at upload time, and optimize it only after backups have run
      * and the batch optimization run executes.
      */
-    add_filter('image_make_intermediate_size', array( __CLASS__, 'optimize_images_on_upload' ), 10, 1);
+    \add_filter('image_make_intermediate_size', array( __CLASS__, 'optimize_images_on_upload' ), 10, 1);
 
     /*
      * Modify the default jpeg_quality
      * https://developer.wordpress.org/reference/hooks/jpeg_quality/
      */
-    add_filter('jpeg_quality', array( __CLASS__, 'jpeg_thumbnail_quality' ), 10, 1);
+    \add_filter('jpeg_quality', array( __CLASS__, 'jpeg_thumbnail_quality' ), 10, 1);
   }
 
   /**
@@ -43,14 +43,14 @@ class OptimizeImagesOnUpload {
    * @return string The filename that was passed in.
    */
   public static function optimize_images_on_upload( $filename ) {
-    $max_width = get_option('seravo-image-max-resolution-width');
-    $max_height = get_option('seravo-image-max-resolution-height');
+    $max_width = \get_option('seravo-image-max-resolution-width');
+    $max_height = \get_option('seravo-image-max-resolution-height');
 
     // Include --enable and max dimensions so that wp-optimize-images does not
     // need to invoke 'wp get option' itself and thus save ~1500 ms per image
-    exec(
+    \exec(
       'wp-optimize-images --enable ' .
-      ((get_option('seravo-enable-strip-image-metadata') === 'on') ? '--strip-metadata' : '') . ' ' .
+      ((\get_option('seravo-enable-strip-image-metadata') === 'on') ? '--strip-metadata' : '') . ' ' .
       '--set-max-resolution-width=' . (int) $max_width . ' ' .
       '--set-max-resolution-height=' . (int) $max_height . ' ' .
       '"' . $filename . '"  > /dev/null &'

@@ -3,12 +3,12 @@
 namespace Seravo;
 
 // Deny direct access to this file
-if ( ! defined('ABSPATH') ) {
+if ( ! \defined('ABSPATH') ) {
   die('Access denied!');
 }
 
 function seravo_respond_error_json( $reason = '' ) {
-  return json_encode(
+  return \json_encode(
     array(
       'status' => 400,
       'reason' => $reason,
@@ -24,7 +24,7 @@ function seravo_get_domains_table() {
 
   Domains::$domains_table->prepare_items();
   Domains::$domains_table->display();
-  wp_die();
+  \wp_die();
 }
 
 function seravo_get_forwards_table() {
@@ -35,7 +35,7 @@ function seravo_get_forwards_table() {
 
   Domains::$mails_table->prepare_items();
   Domains::$mails_table->display();
-  wp_die();
+  \wp_die();
 }
 
 function seravo_get_forwards() {
@@ -44,11 +44,11 @@ function seravo_get_forwards() {
   }
 
   $response = API::get_site_data('/domain/' . $_REQUEST['domain'] . '/mailforwards');
-  if ( is_wp_error($response) ) {
+  if ( \is_wp_error($response) ) {
     return seravo_respond_error_json($response->get_error_message());
   }
 
-  return json_encode($response);
+  return \json_encode($response);
 }
 
 function seravo_get_dns_table() {
@@ -59,7 +59,7 @@ function seravo_get_dns_table() {
   $action = $_REQUEST['section'] === 'get_dns_table' ? 'zone' : 'sniff';
 
   Seravo_DNS_Table::display_zone_table($action, $_REQUEST['domain']);
-  wp_die();
+  \wp_die();
 }
 
 function seravo_edit_dns_table() {
@@ -68,7 +68,7 @@ function seravo_edit_dns_table() {
   }
 
   Seravo_DNS_Table::display_zone_edit($_REQUEST['domain']);
-  wp_die();
+  \wp_die();
 }
 
 function seravo_admin_change_zone_file() {
@@ -81,29 +81,29 @@ function seravo_admin_change_zone_file() {
 
     // Remove the escapes that are not needed.
     // This makes \" into "
-    $data_str = str_replace('\"', '"', $zone);
+    $data_str = \str_replace('\"', '"', $zone);
     // This makes \\\\" into \"
-    $data_str = str_replace('\\\\"', '\"', $data_str);
-    $data = explode("\r\n", $data_str);
+    $data_str = \str_replace('\\\\"', '\"', $data_str);
+    $data = \explode("\r\n", $data_str);
 
     $response = API::update_site_data($data, '/domain/' . $_REQUEST['domain'] . '/zone', array( 200, 400 ));
-    if ( is_wp_error($response) ) {
+    if ( \is_wp_error($response) ) {
       return seravo_respond_error_json($response->get_error_message());
     }
 
     // Create 'diff' field by combining modified lines with the
     // the untouched records and remove the duplicate lines
-    $response_decoded = json_decode($response, true);
-    if ( isset($response_decoded['diff']) && strlen($response_decoded['diff']) > 0 ) {
+    $response_decoded = \json_decode($response, true);
+    if ( isset($response_decoded['diff']) && \strlen($response_decoded['diff']) > 0 ) {
       $records = Seravo_DNS_Table::fetch_dns_records('zone', $_REQUEST['domain']);
       if ( ! isset($records['error']) ) {
         $zone_diff = array();
-        $diff = explode("\n", $response_decoded['diff']);
+        $diff = \explode("\n", $response_decoded['diff']);
         // Go through the diff lines
         foreach ( $diff as $line ) {
           // Only lines prefixed with + or - are accepted,
           // not lines with +++ or ---
-          if ( substr($line, 0, 1) === '+' && substr($line, 1, 1) !== '+' ) {
+          if ( \substr($line, 0, 1) === '+' && \substr($line, 1, 1) !== '+' ) {
             // Find the line matching the modified one and prefix it with '+'
             foreach ( $records['editable']['records'] as $index => $record ) {
               if ( $line === '+' . $record ) {
@@ -111,15 +111,15 @@ function seravo_admin_change_zone_file() {
                 break;
               }
             }
-          } elseif ( substr($line, 0, 1) === '-' && substr($line, 1, 1) !== '-' ) {
+          } elseif ( \substr($line, 0, 1) === '-' && \substr($line, 1, 1) !== '-' ) {
             // Removed lines (-) can be added as they are
             $zone_diff[] = $line;
           }
         }
-        $zone_diff = array_merge($records['editable']['records'], $zone_diff);
+        $zone_diff = \array_merge($records['editable']['records'], $zone_diff);
 
-        $response_decoded['diff'] = implode("\n", $zone_diff);
-        return json_encode($response_decoded);
+        $response_decoded['diff'] = \implode("\n", $zone_diff);
+        return \json_encode($response_decoded);
       }
     }
   } else {
@@ -135,10 +135,10 @@ function seravo_fetch_dns() {
 
   if ( isset($_REQUEST['domain']) ) {
     $records = Seravo_Domains_DNS_Table::fetch_dns_records($_REQUEST['domain']);
-    if ( is_wp_error($records) ) {
+    if ( \is_wp_error($records) ) {
       return seravo_respond_error_json($records->get_error_message());
     }
-    return json_encode($records);
+    return \json_encode($records);
   }
 
 }
@@ -146,7 +146,7 @@ function seravo_fetch_dns() {
 function seravo_set_primary_domain() {
   if ( isset($_REQUEST['domain']) ) {
     $response = API::update_site_data(array( 'domain' => $_REQUEST['domain'] ), '/primary_domain', array( 200 ), 'POST');
-    if ( is_wp_error($response) ) {
+    if ( \is_wp_error($response) ) {
       return seravo_respond_error_json($response->get_error_message());
     }
     return $response;
@@ -161,18 +161,18 @@ function seravo_edit_forwards() {
     $domain = $_REQUEST['domain'];
     $old_source = isset($_REQUEST['old_source']) ? $_REQUEST['old_source'] : '';
     $new_source = isset($_REQUEST['new_source']) ? $_REQUEST['new_source'] : '';
-    $destinations = isset($_REQUEST['destinations']) ? explode("\n", $_REQUEST['destinations']) : '';
+    $destinations = isset($_REQUEST['destinations']) ? \explode("\n", $_REQUEST['destinations']) : '';
 
     function create_forward( $domain, $source, $destinations ) {
       if ( empty($source) || empty($destinations) ) {
-        return seravo_respond_error_json(__('All fields are required!', 'seravo'));
+        return seravo_respond_error_json(\__('All fields are required!', 'seravo'));
       }
 
       // Parse invalid destinations
       $destinations_parsed = array();
       foreach ( $destinations as $key => $destination ) {
-        if ( strpos($destination, '@') > 0 && strpos($destination, '.') > 0 ) {
-          $destinations_parsed[] = trim($destination);
+        if ( \strpos($destination, '@') > 0 && \strpos($destination, '.') > 0 ) {
+          $destinations_parsed[] = \trim($destination);
         } elseif ( empty($destination) ) {
           unset($destinations[$key]);
         }
@@ -185,20 +185,20 @@ function seravo_edit_forwards() {
       );
 
       $response = API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
-      if ( is_wp_error($response) ) {
+      if ( \is_wp_error($response) ) {
         return seravo_respond_error_json($response->get_error_message());
       }
 
       // Make sure it actually was added
-      $response_json = json_decode($response, true);
+      $response_json = \json_decode($response, true);
       foreach ( $response_json['forwards'] as $forward ) {
         if ( $forward['source'] === $source ) {
-          if ( empty(array_diff($destinations, $forward['destinations'])) ) {
-            return json_encode(
+          if ( empty(\array_diff($destinations, $forward['destinations'])) ) {
+            return \json_encode(
               array(
                 'status' => 200,
                 // translators: %s is an email address
-                'message' => sprintf(__('Forwards for %s have been set', 'seravo'), $source . '@' . $domain),
+                'message' => \sprintf(\__('Forwards for %s have been set', 'seravo'), $source . '@' . $domain),
               )
             );
           }
@@ -206,10 +206,10 @@ function seravo_edit_forwards() {
         }
       }
 
-      return json_encode(
+      return \json_encode(
         array(
           'status' => 200,
-          'message' => sprintf(__("Some of the changes weren't made", 'seravo'), $source . '@' . $domain),
+          'message' => \sprintf(\__("Some of the changes weren't made", 'seravo'), $source . '@' . $domain),
         )
       );
     }
@@ -222,14 +222,14 @@ function seravo_edit_forwards() {
       );
 
       $response = API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
-      if ( is_wp_error($response) ) {
+      if ( \is_wp_error($response) ) {
         return seravo_respond_error_json($response->get_error_message());
       }
 
-      return json_encode(
+      return \json_encode(
         array(
           'status' => 200,
-          'message' => __('The forwards were deleted', 'seravo'),
+          'message' => \__('The forwards were deleted', 'seravo'),
         )
       );
     }
@@ -249,27 +249,27 @@ function seravo_edit_forwards() {
         return create_forward($domain, $old_source, $destinations);
         }
         // Modify the source by creating a new one and deleting the old one
-        $new = json_decode(create_forward($domain, $new_source, $destinations), true);
+        $new = \json_decode(create_forward($domain, $new_source, $destinations), true);
         if ( isset($new['status']) && $new['status'] === 200 ) {
-        $old = json_decode(delete_forward($domain, $old_source), true);
+        $old = \json_decode(delete_forward($domain, $old_source), true);
         if ( isset($old['status']) && $old['status'] === 200 ) {
-          return json_encode(
+          return \json_encode(
             array(
               'status' => 200,
-              'message' => __('The forwards were modified', 'seravo'),
+              'message' => \__('The forwards were modified', 'seravo'),
             )
           );
         }
-        return seravo_respond_error_json(__("Something went wrong, the old source couldn't be removed.", 'seravo'));
+        return seravo_respond_error_json(\__("Something went wrong, the old source couldn't be removed.", 'seravo'));
         }
-        return seravo_respond_error_json(__("Something went wrong, the forwards couln't be modified.", 'seravo'));
+        return seravo_respond_error_json(\__("Something went wrong, the forwards couln't be modified.", 'seravo'));
     }
   }
 }
 
 function seravo_ajax_domains() {
 
-  check_ajax_referer('seravo_domains', 'nonce');
+  \check_ajax_referer('seravo_domains', 'nonce');
 
   switch ( $_REQUEST['section'] ) {
     case 'update_zone':
@@ -310,10 +310,10 @@ function seravo_ajax_domains() {
       break;
 
     default:
-      error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
+      \error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
       break;
   }
 
-  wp_die();
+  \wp_die();
 
 }

@@ -67,7 +67,7 @@ class AjaxHandler {
     $this->id = $id;
     $this->ajax_nonce = $nonce;
 
-    add_action(
+    \add_action(
       'wp_ajax_seravo_ajax_' . $this->id,
       function() {
         $this->_ajax_handler();
@@ -136,7 +136,7 @@ class AjaxHandler {
       return;
     }
 
-    check_ajax_referer($this->ajax_nonce, 'nonce');
+    \check_ajax_referer($this->ajax_nonce, 'nonce');
 
     if ( ! isset($_REQUEST['section']) ) {
       // There must always be a section
@@ -149,7 +149,7 @@ class AjaxHandler {
       return;
     }
 
-    if ( ! is_callable($this->ajax_func) ) {
+    if ( ! \is_callable($this->ajax_func) ) {
       // No ajax function
       AjaxResponse::unknown_error_response()->send();
       return;
@@ -176,9 +176,9 @@ class AjaxHandler {
         $response = \call_user_func($this->ajax_func, $this->section);
       }
     } catch ( \Exception $exception ) {
-      error_log('### Seravo Plugin experienced an error!');
-      error_log('### Please report this on GitHub (https://github.com/Seravo/seravo-plugin) with following:');
-      error_log($exception);
+      \error_log('### Seravo Plugin experienced an error!');
+      \error_log('### Please report this on GitHub (https://github.com/Seravo/seravo-plugin) with following:');
+      \error_log($exception);
 
       $response = AjaxResponse::exception_response();
     }
@@ -214,7 +214,7 @@ class AjaxHandler {
    */
   public static function check_polling() {
     if ( isset($_REQUEST['poller_id']) && $_REQUEST['poller_id'] !== '' ) {
-      $pid = base64_decode($_REQUEST['poller_id'], true);
+      $pid = \base64_decode($_REQUEST['poller_id'], true);
 
       if ( $pid === false ) {
         // Poller ID wasn't valid base64 string

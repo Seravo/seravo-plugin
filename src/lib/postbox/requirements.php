@@ -131,19 +131,19 @@ final class Requirements {
    * @return bool Whether requirements match or not.
    */
   public function is_allowed() {
-    if ( $this->is_admin && ! current_user_can('administrator') ) {
+    if ( $this->is_admin && ! \current_user_can('administrator') ) {
       return false;
     }
-    if ( $this->is_admin && is_multisite() && ! current_user_can('manage_network') ) {
+    if ( $this->is_admin && \is_multisite() && ! \current_user_can('manage_network') ) {
       return false;
     }
-    if ( $this->is_wp_cli && ! (defined('WP_CLI') && WP_CLI) ) {
+    if ( $this->is_wp_cli && ! (\defined('WP_CLI') && WP_CLI) ) {
       return false;
     }
-    if ( $this->is_multisite && ! is_multisite() ) {
+    if ( $this->is_multisite && ! \is_multisite() ) {
       return false;
     }
-    if ( $this->is_not_multisite && is_multisite() ) {
+    if ( $this->is_not_multisite && \is_multisite() ) {
       return false;
     }
     if ( ! $this->can_be_production && Helpers::is_production() ) {
@@ -159,7 +159,7 @@ final class Requirements {
     foreach ( $this->capabilities as $capability ) {
       $args = null;
 
-      if ( is_array($capability) ) {
+      if ( \is_array($capability) ) {
         $args = isset($capability[1]) ? $capability[1] : null;
         $capability = $capability[0];
       }

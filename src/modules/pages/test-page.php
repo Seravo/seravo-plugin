@@ -25,7 +25,7 @@ use \Seravo\Postbox\Requirements;
 class TestPage extends Toolpage {
 
   /**
-   * @var \Seravo\Page\TestPage Instance of this page.
+   * @var \Seravo\Page\TestPage|null Instance of this page.
    */
   private static $instance;
 
@@ -133,7 +133,7 @@ class TestPage extends Toolpage {
     $purge_cache_btn->set_ajax_func(
       function() {
         // Use a proper function in real situation
-        exec('wp-purge-cache');
+        \exec('wp-purge-cache');
         $response = new Ajax\AjaxResponse();
         $response->is_success(true);
         return $response;
@@ -145,7 +145,7 @@ class TestPage extends Toolpage {
     $purge_cache_btn2->set_ajax_func(
       function() {
         // Use a proper function in real situation
-        exec('wp-purge-cache');
+        \exec('wp-purge-cache');
         $response = new Ajax\AjaxResponse();
         $response->is_success(true);
         $response->set_data(array( 'output' => Template::paragraph('This bar returned output :)')->to_html() ));
@@ -194,7 +194,7 @@ class TestPage extends Toolpage {
       $response->is_success(true);
       $response->set_data(
         array(
-          'output' => '<hr><pre>' . file_get_contents('/data/log/nginx-restart-test.log') . '</pre><hr>',
+          'output' => '<hr><pre>' . \file_get_contents('/data/log/nginx-restart-test.log') . '</pre><hr>',
         )
       );
       return $response;
@@ -222,16 +222,16 @@ class TestPage extends Toolpage {
   public static function fancy_form_test() {
     $retval = null;
     $output = array();
-    exec('wp-test', $output, $retval);
+    \exec('wp-test', $output, $retval);
 
-    if ( count($output) === 0 ) {
+    if ( \count($output) === 0 ) {
       return Ajax\AjaxResponse::command_error_response('wp-test');
     }
 
     $message = 'This is bad mmkay?';
     $status_color = Ajax\FancyForm::STATUS_RED;
-    $ok = preg_grep('/OK \(/i', $output);
-    if ( $ok !== false && count($ok) >= 1 && $retval === 0 ) {
+    $ok = \preg_grep('/OK \(/i', $output);
+    if ( $ok !== false && \count($ok) >= 1 && $retval === 0 ) {
       // Success
       $message = "It's all good!";
       $status_color = Ajax\FancyForm::STATUS_GREEN;
@@ -241,7 +241,7 @@ class TestPage extends Toolpage {
     $response->is_success(true);
     $response->set_data(
       array(
-        'output' => '<pre>' . implode("\n", $output) . '</pre>',
+        'output' => '<pre>' . \implode("\n", $output) . '</pre>',
         'title' => $message,
         'color' => $status_color,
       )

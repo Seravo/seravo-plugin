@@ -12,8 +12,8 @@ class SVGSupport {
    * @return void;
    */
   public static function load() {
-    add_filter('upload_mimes', array( __CLASS__, 'add_to_mime_types' ));
-    add_filter('wp_handle_upload_prefilter', array( __CLASS__, 'sanitize_svg' ));
+    \add_filter('upload_mimes', array( __CLASS__, 'add_to_mime_types' ));
+    \add_filter('wp_handle_upload_prefilter', array( __CLASS__, 'sanitize_svg' ));
   }
 
   /**
@@ -36,10 +36,10 @@ class SVGSupport {
     $sanitizer = new \enshrined\svgSanitize\Sanitizer();
     $sanitizer->minify(true);
     if ( $file['type'] === 'image/svg+xml' ) {
-      $dirty = file_get_contents($file['tmp_name']);
+      $dirty = \file_get_contents($file['tmp_name']);
       if ( $dirty === false ) {
         // Couldn't read the file
-        $file['error'] = __(
+        $file['error'] = \__(
           "This file couldn't be sanitized so for security reasons it wasn't uploaded",
           'seravo'
         );
@@ -48,13 +48,13 @@ class SVGSupport {
 
       $clean = $sanitizer->sanitize($dirty);
       if ( $clean === '' ) {
-        $file['error'] = __(
+        $file['error'] = \__(
           "This file couldn't be sanitized so for security reasons it wasn't uploaded",
           'seravo'
         );
       } else {
         // Replace unsanitized file content with sanitized
-        file_put_contents($file['tmp_name'], $clean);
+        \file_put_contents($file['tmp_name'], $clean);
       }
     }
     return $file;

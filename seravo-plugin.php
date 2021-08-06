@@ -14,29 +14,29 @@
 namespace Seravo;
 
 // Deny direct access to this file
-if ( ! defined('ABSPATH') ) {
+if ( ! \defined('ABSPATH') ) {
   die('Access denied!');
 }
 
 // Use debug mode only in development
-define('SERAVO_PLUGIN_DEBUG', false);
+\define('SERAVO_PLUGIN_DEBUG', false);
 
-if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
-  nocache_headers();
+if ( \defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
+  \nocache_headers();
 }
 
-if ( ! defined('SERAVO_PLUGIN_URL') ) {
-  define('SERAVO_PLUGIN_URL', \plugin_dir_url(__FILE__));
+if ( ! \defined('SERAVO_PLUGIN_URL') ) {
+  \define('SERAVO_PLUGIN_URL', \plugin_dir_url(__FILE__));
 }
-if ( ! defined('SERAVO_PLUGIN_DIR') ) {
-  define('SERAVO_PLUGIN_DIR', plugin_dir_path(__FILE__));
+if ( ! \defined('SERAVO_PLUGIN_DIR') ) {
+  \define('SERAVO_PLUGIN_DIR', \plugin_dir_path(__FILE__));
 }
-if ( ! defined('SERAVO_PLUGIN_SRC') ) {
-  define('SERAVO_PLUGIN_SRC', SERAVO_PLUGIN_DIR . 'src/');
+if ( ! \defined('SERAVO_PLUGIN_SRC') ) {
+  \define('SERAVO_PLUGIN_SRC', SERAVO_PLUGIN_DIR . 'src/');
 }
 
 // Use Postbox::class for now to see if autoload needs to be required
-if ( ! class_exists(\Seravo\Postbox\Postbox::class) && is_file(SERAVO_PLUGIN_DIR . 'vendor/autoload.php') ) {
+if ( ! \class_exists(\Seravo\Postbox\Postbox::class) && \is_file(SERAVO_PLUGIN_DIR . 'vendor/autoload.php') ) {
   require_once SERAVO_PLUGIN_DIR . 'vendor/autoload.php';
 }
 
@@ -59,7 +59,7 @@ require_once SERAVO_PLUGIN_SRC . 'modules/postbox-init.php';
  * Load Canonical Domain and HTTPS. Check first that WP CLI is not defined so the module will not
  * perform any redirections locally.
  */
-if ( ! defined('WP_CLI') ) {
+if ( ! \defined('WP_CLI') ) {
   require_once SERAVO_PLUGIN_SRC . 'lib/canonical-domain-and-https.php';
 }
 
@@ -88,32 +88,32 @@ class Loader {
     /*
      * Load translations
      */
-    add_action('plugins_loaded', array( __CLASS__, 'load_textdomain' ));
+    \add_action('plugins_loaded', array( __CLASS__, 'load_textdomain' ));
 
     /*
      * Register early on the direct download add_action as it must trigger
      * before anything is sent to the output buffer.
      */
-    add_action('plugins_loaded', array( __CLASS__, 'protected_downloads' ));
+    \add_action('plugins_loaded', array( __CLASS__, 'protected_downloads' ));
 
     /*
      * It is important to load plugins in init hook so that themes and plugins can override the functionality
      * Use smaller priority so that all plugins and themes are run first.
      */
-    add_action('init', array( __CLASS__, 'load_all_modules' ), 20);
+    \add_action('init', array( __CLASS__, 'load_all_modules' ), 20);
   }
 
   /**
    * Pass file download to Nginx with X-Accel-Redirect headers
    * @param string $file Path to file on filesystem, or URL with .seravo prefix
-   * @return void
+   * @return never
    */
   public static function x_accel_redirect( $file ) {
     // If a real file path was given, send out MIME type and file size headers
-    if ( file_exists($file) ) {
-      header('Content-Type: ' . mime_content_type($file));
+    if ( \file_exists($file) ) {
+      \header('Content-Type: ' . \mime_content_type($file));
       // phpcs:ignore Security.BadFunctions.FilesystemFunctions.WarnFilesystem
-      header('Content-Length: ' . filesize($file));
+      \header('Content-Length: ' . \filesize($file));
     }
 
     // If the filename contains a path component that looks like a filesystem
@@ -127,10 +127,10 @@ class Loader {
       '/.seravo/goaccess/',
       '/.seravo/codeception/',
     );
-    $file = str_replace($paths, $urls, $file);
+    $file = \str_replace($paths, $urls, $file);
 
     // Send X-Accel-Redirect header (Nginx version of X-Sendfile)
-    header('X-Accel-Redirect: ' . $file);
+    \header('X-Accel-Redirect: ' . $file);
 
     // Stop executing PHP once a file has been sent and let Nginx handle the rest
     exit();
@@ -148,26 +148,26 @@ class Loader {
     if ( $pagenow === 'tools.php' && isset($_GET['x-accel-redirect']) ) {
 
       // This URL uses authentication, thus don't cache anything from it
-      nocache_headers();
+      \nocache_headers();
 
       // User must be an administrator at access these files or
       // if WP Network, then must be super-admin
-      if ( ! current_user_can('administrator') ||
-           is_multisite() && ! current_user_can('manage_network') ) {
-        status_header(401);
+      if ( ! \current_user_can('administrator') ||
+           \is_multisite() && ! \current_user_can('manage_network') ) {
+        \status_header(401);
         die('Access denied!');
       }
 
       // Filename must be of correct form, e.g. 2016-09.html or home.png
       // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-      if ( isset($_GET['report']) && preg_match('/^\d{4}-\d{2}\.html$/', $_GET['report'], $matches) === 1 ) {
+      if ( isset($_GET['report']) && \preg_match('/^\d{4}-\d{2}\.html$/', $_GET['report'], $matches) === 1 ) {
         self::x_accel_redirect('/data/slog/html/goaccess-' . $matches[0]);
       // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-      } elseif ( isset($_GET['screenshot']) && preg_match('/^[a-z-.]+\.png$/', $_GET['screenshot'], $matches) === 1 ) {
+      } elseif ( isset($_GET['screenshot']) && \preg_match('/^[a-z-.]+\.png$/', $_GET['screenshot'], $matches) === 1 ) {
         self::x_accel_redirect('/data/reports/tests/debug/' . $matches[0]);
       } else {
         // Yield an error if a file was requested, but with wrong filename.
-        status_header(404);
+        \status_header(404);
         die('File could not be found.');
       }
     }
@@ -179,15 +179,15 @@ class Loader {
   public static function load_textdomain() {
 
     // Load translations first from the languages directory
-    $locale = apply_filters('plugin_locale', get_locale(), self::$domain);
+    $locale = \apply_filters('plugin_locale', \get_locale(), self::$domain);
 
-    load_textdomain(
+    \load_textdomain(
       self::$domain,
       WP_LANG_DIR . '/seravo-plugin/' . self::$domain . '-' . $locale . '.mo'
     );
 
     // And then from this plugin folder
-    load_muplugin_textdomain('seravo', SERAVO_PLUGIN_DIR . 'languages');
+    \load_muplugin_textdomain('seravo', SERAVO_PLUGIN_DIR . 'languages');
   }
 
   /**
@@ -207,14 +207,14 @@ class Loader {
     /*
      * Add a cache purge button to the WP adminbar
      */
-    if ( getenv('WP_ENV') === 'production' ) {
+    if ( \getenv('WP_ENV') === 'production' ) {
       PurgeCache::load();
     }
 
     /*
      * Add a speed test button to the WP adminbar
      */
-    if ( getenv('WP_ENV') === 'production' ) {
+    if ( \getenv('WP_ENV') === 'production' ) {
       SpeedTest::load();
     }
 
@@ -251,35 +251,35 @@ class Loader {
     /*
      * Instance switcher
      */
-    if ( apply_filters('seravo_show_instance_switcher', true) === true && getenv('WP_ENV') !== 'development' ) {
+    if ( \apply_filters('seravo_show_instance_switcher', true) === true && \getenv('WP_ENV') !== 'development' ) {
       InstanceSwitcher::load();
     }
 
     /*
      * Check that https is enabled in siteurl
      */
-    if ( current_user_can('administrator') ) {
+    if ( \current_user_can('administrator') ) {
       CheckHttps::load();
     }
 
     /*
      * Notify that a newer PHP version is available
      */
-    if ( current_user_can('administrator') ) {
+    if ( \current_user_can('administrator') ) {
       CheckPHPVersion::load();
     }
 
     /*
      * Check that user has changed admin email to something else from no-reply@seravo
      */
-    if ( current_user_can('administrator') ) {
+    if ( \current_user_can('administrator') ) {
       CheckDefaultEmail::load();
     }
 
     /*
      * Optimize images on upload. Only logged in users make uploads.
      */
-    if ( is_user_logged_in() && get_option('seravo-enable-optimize-images') === 'on' ) {
+    if ( \is_user_logged_in() && \get_option('seravo-enable-optimize-images') === 'on' ) {
       OptimizeImagesOnUpload::load();
     }
 
@@ -287,7 +287,7 @@ class Loader {
      * Sanitize a filename on upload to remove special characters.
      * Only logged in users make uploads.
      */
-    if ( is_user_logged_in() && get_option('seravo-enable-sanitize-uploads') === 'on' ) {
+    if ( \is_user_logged_in() && \get_option('seravo-enable-sanitize-uploads') === 'on' ) {
       SanitizeOnUpload::load();
     }
 
@@ -317,7 +317,7 @@ class Loader {
     // Logs page
     Page\Logs::load();
 
-    if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
+    if ( \defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
       // Test page
       Page\TestPage::load();
     }
@@ -334,7 +334,7 @@ class Loader {
     DashboardWidgets::load();
 
     // Load WP-CLI module 'wp seravo'
-    if ( defined('WP_CLI') && WP_CLI ) {
+    if ( \defined('WP_CLI') && WP_CLI ) {
       require_once SERAVO_PLUGIN_SRC . 'modules/wp-cli.php';
     }
 

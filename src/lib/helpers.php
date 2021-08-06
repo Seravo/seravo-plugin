@@ -14,7 +14,7 @@ class Helpers {
    * @return bool
    */
   public static function is_development() {
-     return getenv('WP_ENV') === 'development';
+     return \getenv('WP_ENV') === 'development';
   }
 
   /**
@@ -23,7 +23,7 @@ class Helpers {
    * @return bool
    */
   public static function is_production() {
-     return getenv('WP_ENV') === 'production';
+     return \getenv('WP_ENV') === 'production';
   }
 
   /**
@@ -34,18 +34,18 @@ class Helpers {
    * @return bool
    */
   public static function is_staging() {
-     return getenv('WP_ENV') === 'staging';
+     return \getenv('WP_ENV') === 'staging';
   }
 
   /**
    * @return string Seravo Plugin version string. If SERAVO_PLUGIN_DEBUG is enabled, random number is appended.
    */
   public static function seravo_plugin_version() {
-     $version = get_file_data(SERAVO_PLUGIN_DIR . 'seravo-plugin.php', array( 'Version' ), 'plugin')[0];
+     $version = \get_file_data(SERAVO_PLUGIN_DIR . 'seravo-plugin.php', array( 'Version' ), 'plugin')[0];
 
      // Development cache bursting
-     if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
-       $version .= '.' . random_int(10000, 99999);
+     if ( \defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
+       $version .= '.' . \random_int(10000, 99999);
      }
 
      return $version;
@@ -62,7 +62,7 @@ class Helpers {
       ++$i;
       $size /= 1024;
     }
-    return round($size, $precision) . array( 'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' )[$i];
+    return \round($size, $precision) . array( 'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' )[$i];
   }
 
   /**
@@ -79,10 +79,10 @@ class Helpers {
    * @see https://gist.github.com/tott/7684443
    */
   public static function cidr_to_range( $cidr ) {
-    $cidr = explode('/', $cidr);
+    $cidr = \explode('/', $cidr);
     $range = array();
-    $range[0] = (ip2long($cidr[0])) & ((-1 << (32 - (int) $cidr[1])));
-    $range[1] = (int) ($range[0] + pow(2, (32 - (int) $cidr[1])) - 1);
+    $range[0] = (\ip2long($cidr[0])) & ((-1 << (32 - (int) $cidr[1])));
+    $range[1] = (int) ($range[0] + 2 ** (32 - (int) $cidr[1]) - 1);
     return $range;
   }
 
@@ -105,11 +105,11 @@ class Helpers {
    * @return string Sanitized path.
    */
   public static function sanitize_full_path( $file ) {
-    $path = explode('/', $file);
+    $path = \explode('/', $file);
     foreach ( $path as $index => $part ) {
-      $path[$index] = sanitize_file_name($part);
+      $path[$index] = \sanitize_file_name($part);
     }
-    return implode('/', $path);
+    return \implode('/', $path);
   }
 
   /**
@@ -117,9 +117,9 @@ class Helpers {
    */
   public static function adminer_link() {
     if ( ! self::is_production() ) {
-      return esc_url(str_replace('//', '//adminer.', get_site_url()));
+      return \esc_url(\str_replace('//', '//adminer.', \get_site_url()));
     }
-    return esc_url(get_site_url(null, '.seravo/adminer'));
+    return \esc_url(\get_site_url(null, '.seravo/adminer'));
   }
 
   }

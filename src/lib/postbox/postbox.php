@@ -38,7 +38,7 @@ class Postbox {
    */
   public $context = 'normal';
   /**
-   * @var mixed|null Admin screen id where the postbox should be displayed in.
+   * @var string|null Admin screen id where the postbox should be displayed in.
    */
   private $screen;
 
@@ -56,7 +56,7 @@ class Postbox {
    */
   private $data_cache_time;
   /**
-   * @var mixed|null    Data returned by $data_func.
+   * @var mixed|null Data returned by $data_func.
    */
   private $data;
   /**
@@ -65,7 +65,7 @@ class Postbox {
   private $error;
 
   /**
-   * @var int|null Time it took to build the postbox components.
+   * @var float|int|null Time it took to build the postbox components.
    */
   private $buildtime;
 
@@ -112,7 +112,7 @@ class Postbox {
       return false;
     }
 
-    return (bool) apply_filters('seravo_show_postbox-' . $this->id, true);
+    return (bool) \apply_filters('seravo_show_postbox-' . $this->id, true);
   }
 
 
@@ -166,9 +166,9 @@ class Postbox {
       $this->data = \call_user_func($this->data_func);
 
     } catch ( \Exception $exception ) {
-      error_log('### Seravo Plugin experienced an error!');
-      error_log('### Please report this on GitHub (https://github.com/Seravo/seravo-plugin) with following:');
-      error_log($exception);
+      \error_log('### Seravo Plugin experienced an error!');
+      \error_log('### Please report this on GitHub (https://github.com/Seravo/seravo-plugin) with following:');
+      \error_log($exception);
 
       $this->error = $exception;
       $this->data = null;
@@ -181,8 +181,8 @@ class Postbox {
    * @return void
    */
   public function _build() {
-    if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
-      $this->buildtime = hrtime(true);
+    if ( \defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
+      $this->buildtime = \hrtime(true);
     }
 
     $this->_get_data();
@@ -190,24 +190,20 @@ class Postbox {
     if ( $this->error !== null ) {
         // Show error instead of the real content
         // translators: link to php-error.log
-        $message = __('Whoops! Something went wrong. Please see %s for instructions.', 'seravo');
-        $url = get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log';
-        $link = sprintf('<a href="%s">php-error.log</a>', $url);
-        $error = sprintf($message, $link);
+        $message = \__('Whoops! Something went wrong. Please see %s for instructions.', 'seravo');
+        $url = \get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log';
+        $link = \sprintf('<a href="%s">php-error.log</a>', $url);
+        $error = \sprintf($message, $link);
         $this->component = Template::error_paragraph($error);
-    } elseif ( is_callable($this->build_func) ) {
+    } elseif ( \is_callable($this->build_func) ) {
         // Call the $build_func
         \call_user_func($this->build_func, $this->component, $this, $this->data);
     }
 
     $this->component->print_html();
 
-    if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
-      if ( $this->buildtime === null ) {
-        $this->buildtime = -1;
-      } else {
-        $this->buildtime = hrtime(true) - $this->buildtime;
-      }
+    if ( \defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
+      $this->buildtime = $this->buildtime === null ? -1 : \hrtime(true) - $this->buildtime;
 
       $this->debug_print();
     }
@@ -233,14 +229,14 @@ class Postbox {
     echo '<tr><td>Can be development</td><td>' . ($this->requirements->can_be_development ? 'true' : 'false') . '</td></tr>';
     echo '<tr><td>Can be staging</td><td>' . ($this->requirements->can_be_staging ? 'true' : 'false') . '</td></tr>';
     echo '<th colspan="2" style="border-bottom:1px solid black;">Postbox Functionality</th>';
-    echo '<tr><td>Postbox build time</td><td>' . ($this->buildtime !== null ? round($this->buildtime / 1000, 2) . ' µs' : '-') . '</td></tr>';
+    echo '<tr><td>Postbox build time</td><td>' . ($this->buildtime !== null ? \round($this->buildtime / 1000, 2) . ' µs' : '-') . '</td></tr>';
     echo '<tr><td>Uses data function</td><td>' . ($this->data_func !== null ? 'true' : 'false') . '</td></tr>';
     echo '<tr><td>Data cache time</td><td>' . ($this->data_func !== null ? $this->data_cache_time : '-') . '</td></tr>';
     echo '<th colspan="2" style="border-bottom:1px solid black;">AJAX Functionality</th>';
     $ajax_handler_count = \count($this->ajax_handlers);
     echo "<tr><td>Amount of AJAX handlers</td><td>{$ajax_handler_count}</td></tr>";
     for ( $i = 1; $i <= $ajax_handler_count; ++$i ) {
-      $handler = $this->ajax_handlers[array_keys($this->ajax_handlers)[$i - 1]];
+      $handler = $this->ajax_handlers[\array_keys($this->ajax_handlers)[$i - 1]];
       echo "<tr><td>{$i}. handler section</td><td>{$handler->get_section()}</td></tr>";
       echo "<tr><td>{$i}. handler cache time</td><td>{$handler->get_cache_time()}</td></tr>";
     }
@@ -320,7 +316,7 @@ class Postbox {
    * @return void
    */
   public function set_requirements( $requirements ) {
-    if ( is_array($requirements) ) {
+    if ( \is_array($requirements) ) {
       $this->requirements->init_from_array($requirements);
     } else {
       $this->requirements = $requirements;

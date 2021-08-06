@@ -3,7 +3,7 @@
 namespace Seravo;
 
 // Deny direct access to this file
-if ( ! defined('ABSPATH') ) {
+if ( ! \defined('ABSPATH') ) {
   die('Access denied!');
 }
 
@@ -11,8 +11,8 @@ if ( ! defined('ABSPATH') ) {
  * @return string[] Output from verify-checksums command.
  */
 function seravo_report_wp_core_verify() {
-  exec('wp core verify-checksums 2>&1', $output);
-  array_unshift($output, '$ wp core verify-checksums');
+  \exec('wp core verify-checksums 2>&1', $output);
+  \array_unshift($output, '$ wp core verify-checksums');
   return $output;
 }
 
@@ -20,7 +20,7 @@ function seravo_report_wp_core_verify() {
  * @return string[] Output from git status or error if git not available.
  */
 function seravo_report_git_status() {
-  exec('git -C /data/wordpress status', $output);
+  \exec('git -C /data/wordpress status', $output);
 
   if ( $output !== array() ) {
     return array(
@@ -30,7 +30,7 @@ function seravo_report_git_status() {
     );
   }
 
-  array_unshift($output, '$ git status');
+  \array_unshift($output, '$ git status');
   return $output;
 }
 
@@ -45,35 +45,35 @@ function seravo_reset_shadow() {
     // Check if the shadow is known
     $shadows = API::get_site_data('/shadows');
 
-    if ( is_wp_error($shadows) ) {
-      wp_die();
+    if ( \is_wp_error($shadows) ) {
+      \wp_die();
     }
 
     foreach ( $shadows as $data ) {
       if ( $data['name'] == $shadow ) {
-        exec('wp-shadow-reset ' . $shadow . ' --force 2>&1', $output);
-        echo json_encode($output);
-        wp_die();
+        \exec('wp-shadow-reset ' . $shadow . ' --force 2>&1', $output);
+        echo \json_encode($output);
+        \wp_die();
       }
     }
   }
-  wp_die();
+  \wp_die();
 }
 
 /**
  * @return void
  */
 function seravo_ajax_site_status() {
-  check_ajax_referer('seravo_site_status', 'nonce');
+  \check_ajax_referer('seravo_site_status', 'nonce');
 
-  switch ( sanitize_text_field($_REQUEST['section']) ) {
+  switch ( \sanitize_text_field($_REQUEST['section']) ) {
 
     case 'wp_core_verify':
-      echo wp_json_encode(seravo_report_wp_core_verify());
+      echo \wp_json_encode(seravo_report_wp_core_verify());
       break;
 
     case 'git_status':
-      echo wp_json_encode(seravo_report_git_status());
+      echo \wp_json_encode(seravo_report_git_status());
       break;
 
     case 'seravo_reset_shadow':
@@ -81,10 +81,10 @@ function seravo_ajax_site_status() {
       break;
 
     default:
-      error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
+      \error_log('ERROR: Section ' . $_REQUEST['section'] . ' not defined');
       break;
   }
 
-  wp_die();
+  \wp_die();
 
 }

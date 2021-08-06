@@ -22,8 +22,8 @@ class CruftRemover {
       );
     }
 
-    exec('du ' . $file . ' -h --time', $output);
-    $size = explode("\t", $output[0]);
+    \exec('du ' . $file . ' -h --time', $output);
+    $size = \explode("\t", $output[0]);
 
     return array(
       'size' => $size[0],
@@ -38,10 +38,10 @@ class CruftRemover {
    * @return mixed[] Array containing cruft files found under /data/wordpress & /home/.
    */
   public static function find_cruft_file( $name ) {
-    $user = getenv('WP_USER');
-    exec('find /data/wordpress -name ' . $name, $data_files);
-    exec('find /home/' . $user . ' -maxdepth 1 -name ' . $name, $home_files);
-    return array_merge($data_files, $home_files);
+    $user = \getenv('WP_USER');
+    \exec('find /data/wordpress -name ' . $name, $data_files);
+    \exec('find /home/' . $user . ' -maxdepth 1 -name ' . $name, $home_files);
+    return \array_merge($data_files, $home_files);
   }
 
   /**
@@ -50,10 +50,10 @@ class CruftRemover {
    * @return mixed[] Array containing cruft directories found under /data/wordpress & /home/.
    */
   public static function find_cruft_dir( $name ) {
-    $user = getenv('WP_USER');
-    exec('find /data/wordpress -type d -name ' . $name, $data_dirs);
-    exec('find /home/' . $user . ' -maxdepth 1 -type d -name ' . $name, $home_dirs);
-    return array_merge($data_dirs, $home_dirs);
+    $user = \getenv('WP_USER');
+    \exec('find /data/wordpress -type d -name ' . $name, $data_dirs);
+    \exec('find /home/' . $user . ' -maxdepth 1 -type d -name ' . $name, $home_dirs);
+    return \array_merge($data_dirs, $home_dirs);
   }
 
   /**
@@ -64,13 +64,11 @@ class CruftRemover {
    * @return bool True when only whitelisted content.
    */
   public static function only_has_whitelisted_content( $dir, $wl_files, $wl_dirs ) {
-    exec('find ' . $dir, $content);
+    \exec('find ' . $dir, $content);
     foreach ( $content as $path ) {
-      if ( $path !== $dir ) {
-        if ( (! in_array($path, $wl_files, true)) && (! in_array($path, $wl_dirs, true)) ) {
-          // The file was not whitelisted
-          return false;
-        }
+      if ( $path !== $dir && ((! \in_array($path, $wl_files, true)) && (! \in_array($path, $wl_dirs, true))) ) {
+        // The file was not whitelisted
+        return false;
       }
     }
     return true;
@@ -82,24 +80,24 @@ class CruftRemover {
    */
   public static function find_cruft_core() {
     $output = array();
-    $handle = popen('wp core verify-checksums 2>&1', 'r');
+    $handle = \popen('wp core verify-checksums 2>&1', 'r');
 
     if ( $handle === false ) {
       return;
     }
 
-    $temp = stream_get_contents($handle);
-    pclose($handle);
+    $temp = \stream_get_contents($handle);
+    \pclose($handle);
 
     if ( $temp === false ) {
       return;
     }
 
     // Lines beginning with: "Warning: File should not exist: "
-    $temp = explode("\n", $temp);
+    $temp = \explode("\n", $temp);
     foreach ( $temp as $line ) {
-      if ( strpos($line, 'Warning: File should not exist: ') !== false ) {
-        $line = '/data/wordpress/htdocs/wordpress/' . substr($line, 32);
+      if ( \strpos($line, 'Warning: File should not exist: ') !== false ) {
+        $line = '/data/wordpress/htdocs/wordpress/' . \substr($line, 32);
         $output[] = $line;
       }
     }
@@ -113,7 +111,7 @@ class CruftRemover {
    * @return bool|void True when not called recursively, void otherwise.
    */
   public static function rmdir_recursive( $dir, $recursive ) {
-    $scan_dir = scandir($dir);
+    $scan_dir = \scandir($dir);
     if ( $scan_dir === false ) {
       return;
     }
@@ -122,13 +120,13 @@ class CruftRemover {
       if ( '.' === $file || '..' === $file ) {
         continue; // Skip current and upper level directories
       }
-      if ( is_dir("{$dir}/{$file}") ) {
+      if ( \is_dir("{$dir}/{$file}") ) {
         self::rmdir_recursive("{$dir}/{$file}", 1);
       } else {
-        unlink("{$dir}/{$file}");
+        \unlink("{$dir}/{$file}");
       }
     }
-    rmdir($dir);
+    \rmdir($dir);
     if ( $recursive === 0 ) {
       return true;
     }
@@ -171,7 +169,7 @@ class CruftRemover {
       '-backup',
       '*.backup',
       '*deleteme*',
-      getenv('WP_USER') . '_20*',
+      \getenv('WP_USER') . '_20*',
     );
     $list_known_files = array(
       '/data/wordpress/htdocs/wp-content/.htaccess',
@@ -212,21 +210,21 @@ class CruftRemover {
     $crufts = array();
     $cruft_core = self::find_cruft_core();
 
-    if ( is_array($cruft_core) ) {
-      $crufts = array_merge($crufts, $cruft_core);
+    if ( \is_array($cruft_core) ) {
+      $crufts = \array_merge($crufts, $cruft_core);
     }
 
     foreach ( $list_files as $filename ) {
       $cruft_found = self::find_cruft_file($filename);
       if ( $cruft_found !== array() ) {
-        $crufts = array_merge($crufts, $cruft_found);
+        $crufts = \array_merge($crufts, $cruft_found);
       }
     }
 
     foreach ( $list_dirs as $dirname ) {
       $cruft_found = self::find_cruft_dir($dirname);
       if ( $cruft_found !== array() ) {
-        $crufts = array_merge($crufts, $cruft_found);
+        $crufts = \array_merge($crufts, $cruft_found);
       }
     }
 
@@ -235,59 +233,59 @@ class CruftRemover {
       // Some directories are whitelisted and their files should not be deleted
       $keep = array();
       foreach ( $crufts as $filename ) {
-        if ( strpos($filename, $dirname) !== false ) {
+        if ( \strpos($filename, $dirname) !== false ) {
           $keep[] = $filename;
         }
       }
-      $crufts = array_diff($crufts, $keep);
+      $crufts = \array_diff($crufts, $keep);
     }
 
     foreach ( $white_list_files as $filename ) {
       // Some files are whitelisted as it is not necessary to delete them
       $keep = array();
       foreach ( $crufts as $cruftname ) {
-        if ( strpos($cruftname, $filename) !== false ) {
+        if ( \strpos($cruftname, $filename) !== false ) {
             $keep[] = $cruftname;
           }
         }
-      $crufts = array_diff($crufts, $keep);
+      $crufts = \array_diff($crufts, $keep);
     }
 
     foreach ( $list_known_files as $file ) {
-      exec('ls ' . $file, $cruft_found);
+      \exec('ls ' . $file, $cruft_found);
 
       if ( $cruft_found !== array() ) {
-        $crufts = array_merge($crufts, $cruft_found);
+        $crufts = \array_merge($crufts, $cruft_found);
       }
     }
 
     foreach ( $list_known_dirs as $dirname ) {
-      exec('ls -d ' . $dirname, $cruft_found);
+      \exec('ls -d ' . $dirname, $cruft_found);
         if ( $cruft_found !== array() ) {
         foreach ( $cruft_found as $key => $cruft_dir ) {
           if ( self::only_has_whitelisted_content($cruft_dir, $white_list_files, $white_list_dirs) ) {
             unset($cruft_found[$key]);
             }
           }
-        $crufts = array_merge($crufts, $cruft_found);
+        $crufts = \array_merge($crufts, $cruft_found);
         }
     }
 
-    $crufts = array_filter(
+    $crufts = \array_filter(
       $crufts,
       function( $item ) use ( $crufts ) {
         foreach ( $crufts as $substring ) {
-          if ( strpos($item, $substring) === 0 && $item !== $substring ) {
+          if ( \strpos($item, $substring) === 0 && $item !== $substring ) {
             return false;
           }
         }
         return true;
       }
     );
-    $crufts = array_unique($crufts);
-    set_transient('cruft_files_found', $crufts, 600);
+    $crufts = \array_unique($crufts);
+    \set_transient('cruft_files_found', $crufts, 600);
 
-    return array_map(array( __CLASS__, 'add_file_information' ), $crufts);
+    return \array_map(array( __CLASS__, 'add_file_information' ), $crufts);
   }
 }
 
