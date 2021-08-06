@@ -63,7 +63,7 @@ class Component {
    * @return void
    */
   public function add_children( $children ) {
-    if ( $children === null || empty($children) ) {
+    if ( $children === null || $children === array() ) {
       return;
     }
 

@@ -28,7 +28,7 @@ class SeravoTestAuthBypass {
     // key is found, and if soautomatically login user and redirect to wp-admin.
     $key = get_transient('seravotest-auth-bypass-key');
 
-    if ( ! empty($key) && $key === $_GET['seravotest-auth-bypass'] ) {
+    if ( $key === $_GET['seravotest-auth-bypass'] ) {
       // Remove bypass key so it cannot be used again
       delete_transient('seravotest-auth-bypass-key');
 

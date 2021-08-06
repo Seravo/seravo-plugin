@@ -30,11 +30,11 @@ class Noindex {
     if ( isset($_SERVER['HTTP_HOST']) ) {
 
       if (
-        preg_match('/^.*\.wp-palvelu\.fi$/', $_SERVER['HTTP_HOST']) ||
-        preg_match('/^.*\.seravo\.fi$/', $_SERVER['HTTP_HOST']) ||
-        preg_match('/^.*\.seravo\.com$/', $_SERVER['HTTP_HOST']) ||
-        preg_match('/^.*\.wp\..*$/', $_SERVER['HTTP_HOST']) ||
-        preg_match('/^.*\.dev\..*$/', $_SERVER['HTTP_HOST'])
+        preg_match('/^.*\.wp-palvelu\.fi$/', $_SERVER['HTTP_HOST']) === 1 ||
+        preg_match('/^.*\.seravo\.fi$/', $_SERVER['HTTP_HOST']) === 1 ||
+        preg_match('/^.*\.seravo\.com$/', $_SERVER['HTTP_HOST']) === 1 ||
+        preg_match('/^.*\.wp\..*$/', $_SERVER['HTTP_HOST']) === 1 ||
+        preg_match('/^.*\.dev\..*$/', $_SERVER['HTTP_HOST']) === 1
       ) {
 
         $output = "User-agent: *\n";

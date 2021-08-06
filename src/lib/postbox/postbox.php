@@ -203,7 +203,12 @@ class Postbox {
     $this->component->print_html();
 
     if ( defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
-      $this->buildtime = hrtime(true) - $this->buildtime;
+      if ( $this->buildtime === null ) {
+        $this->buildtime = -1;
+      } else {
+        $this->buildtime = hrtime(true) - $this->buildtime;
+      }
+
       $this->debug_print();
     }
   }

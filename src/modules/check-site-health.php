@@ -68,7 +68,7 @@ class SiteHealth {
 
     foreach ( $output as $plugin ) {
       // check that captcha is found and it's not inactive
-      if ( strpos($plugin, 'captcha') && strpos($plugin, 'inactive') === false ) {
+      if ( strpos($plugin, 'captcha') !== false && strpos($plugin, 'inactive') === false ) {
         self::$no_issues[__('Recaptcha is enabled', 'seravo')] = $captcha_tooltip;
         $captcha_found = true;
         break;
@@ -90,7 +90,7 @@ class SiteHealth {
     $theme_tooltip = __('It is recommended to remove inactive themes.', 'seravo');
 
     foreach ( $output as $line ) {
-      if ( strpos($line, 'inactive') ) {
+      if ( strpos($line, 'inactive') !== false ) {
         ++$inactive_themes;
       }
     }
@@ -120,7 +120,7 @@ class SiteHealth {
 
     foreach ( $output as $line ) {
 
-      if ( strpos($line, 'inactive') ) {
+      if ( strpos($line, 'inactive') !== false ) {
         ++$inactive_plugins;
       }
 
@@ -191,7 +191,7 @@ class SiteHealth {
   private static function result_to_html() {
     $output = '';
 
-    if ( empty(self::$potential_issues) ) {
+    if ( self::$potential_issues === null || self::$potential_issues === array() ) {
       $title = __('No issues were found', 'seravo');
       $status_color = Ajax\FancyForm::STATUS_GREEN;
     } else {

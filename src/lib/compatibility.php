@@ -29,7 +29,7 @@ class Compatibility {
 
     if ( strnatcmp(self::get_php_version(), '8.0.0') >= 0 ) {
       // PHP >8.0 returns empty string instead of false on failure
-      if ( empty($substr) ) {
+      if ( $substr === '' ) {
         return false;
       }
     }
@@ -51,7 +51,7 @@ class Compatibility {
     $exec = \exec($command, $output, $result_code);
     if ( strnatcmp(self::get_php_version(), '8.0.0') < 0 ) {
       // PHP <8.0 never returns false
-      if ( empty($exec) && $output === null && $result_code === null ) {
+      if ( $output === null && $result_code === null ) {
         return false;
       }
     }

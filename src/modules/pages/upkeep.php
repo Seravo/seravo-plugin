@@ -437,10 +437,12 @@ class Upkeep extends Toolpage {
    * @return array<string, mixed>
    */
   public static function get_seravo_plugin_update() {
+    $data = array();
+
     $data['current_version'] = Helpers::seravo_plugin_version();
 
     $upstream_version = get_transient('seravo_plugin_upstream_version');
-    if ( $upstream_version === false || empty($upstream_version) ) {
+    if ( $upstream_version === false || $upstream_version === '' ) {
       $upstream_version = exec('curl -s https://api.github.com/repos/seravo/seravo-plugin/tags | grep "name" -m 1 | awk \'{gsub("\"","")}; {gsub(",","")}; {print $2}\'');
       set_transient('seravo_plugin_upstream_version', $upstream_version, 10800);
     }
@@ -535,6 +537,7 @@ class Upkeep extends Toolpage {
    */
   public static function get_update_status() {
     $site_info = self::seravo_admin_get_site_info();
+    $data = array();
 
     if ( is_wp_error($site_info) ) {
       error_log($site_info->get_error_message());
@@ -544,13 +547,18 @@ class Upkeep extends Toolpage {
 
     // Calculate the approx. amount of days since last succesful FULL update
     // 86400 is used to get days out of seconds (60*60*24)
-    $interval = round((strtotime(date('Y-m-d')) - strtotime($site_info['update_success'])) / 86400);
+    $interval = 0;
+    $now = strtotime(date('Y-m-d'));
+    $last = strtotime($site_info['update_success']);
+    if ( $now !== false && $last !== false ) {
+      $interval = round(($now - $last) / 86400);
+    }
 
     // Check if update.log exists and if not fetch the name of the rotated log instead
     // for linking to correct log on the logs page as well as fetching the failed lines
     // from the log if needed in the update notification
     $update_logs_arr = glob('/data/log/update.log');
-    if ( $update_logs_arr === false || empty($update_logs_arr) ) {
+    if ( $update_logs_arr === false || $update_logs_arr === array() ) {
       $update_logs = glob('/data/log/update.log-*');
       if ( $update_logs === false ) {
         $update_logs_arr = array();
@@ -566,7 +574,7 @@ class Upkeep extends Toolpage {
     $data['created'] = date('Y-m-d', strtotime($site_info['created']));
 
     if ( $site_info['seravo_updates'] === true && $interval >= 30 ) {
-      if ( empty($update_logs_arr) ) {
+      if ( $update_logs_arr === array() ) {
         $data['no_latest_log'] = __('Unable to fetch the latest update log.', 'seravo');
       } else {
         // Get last item from logs array
@@ -595,7 +603,7 @@ class Upkeep extends Toolpage {
 
         $data['over_month_warning'] = __('Last succesful full site update was over a month ago. A developer should take a look at the update log and fix the issue preventing the site from updating.', 'seravo');
 
-        if ( ! empty($update_log_contents) ) {
+        if ( $update_log_contents !== array() ) {
           $data['latest_update_log'] = $update_log_output;
         }
         $data['see_logs_page_for_more'] = '<a href="tools.php?page=logs_page&logfile=update.log&max_num_of_rows=50">' . __('See the logs page for more info.', 'seravo') . '</a>';
@@ -604,13 +612,14 @@ class Upkeep extends Toolpage {
 
     $data['latest_successful_update'] = date('Y-m-d', strtotime($site_info['update_success']));
 
-    if ( ! empty($site_info['update_attempt']) ) {
+    if ( isset($site_info['update_attempt']) && $site_info['update_attempt'] !== '' ) {
       $data['latest_update_attempt'] = date('Y-m-d', strtotime($site_info['update_attempt']));
     }
 
     exec('zgrep -h -e "Started updates for" -e "Installing urgent security" /data/log/update.log* | sort -r', $output);
     // Only match the date, hours and minutes are irrelevant
-    if ( preg_match_all('/\d{4}-\d{2}-\d{2}/', implode(' ', $output), $matches) ) {
+    $attempts = preg_match_all('/\d{4}-\d{2}-\d{2}/', implode(' ', $output), $matches);
+    if ( $attempts !== false && $attempts > 0 ) {
       $updates = array_slice($matches[0], 0, 5);
       $data['update_attempts'] = $updates;
     } else {
@@ -685,10 +694,10 @@ class Upkeep extends Toolpage {
    */
   public static function fetch_backup_list_changes() {
     $response = new AjaxResponse();
-    $date = $_REQUEST['datepicker'];
+    $date = isset($_REQUEST['datepicker']) ? $_REQUEST['datepicker'] : '';
     $message = '';
 
-    if ( empty($date) ) {
+    if ( $date === '' ) {
       $offset_date = self::get_offset_date();
       $date = $offset_date[0];
       $message = $offset_date[1];
@@ -754,7 +763,7 @@ class Upkeep extends Toolpage {
 
       foreach ( $screenshots as $screenshot ) {
         // Skip *.shadow.png files from this loop
-        if ( strpos($screenshot, '.shadow.png') || strpos($screenshot, '.diff.png') ) {
+        if ( strpos($screenshot, '.shadow.png') !== false || strpos($screenshot, '.diff.png') !== false ) {
           continue;
         }
 
@@ -776,7 +785,7 @@ class Upkeep extends Toolpage {
 
         $diff = 0.0;
         $diff_txt = file_get_contents(substr($screenshot, 0, -4) . '.diff.txt');
-        if ( $diff_txt !== false && preg_match('/Total: ([0-9.]+)/', $diff_txt, $matches) ) {
+        if ( $diff_txt !== false && preg_match('/Total: ([0-9.]+)/', $diff_txt, $matches) === 1 ) {
           $diff = (float) $matches[1];
         }
 
@@ -845,7 +854,7 @@ class Upkeep extends Toolpage {
       $validated_addresses = array();
 
       // There must be at least one contact email
-      if ( ! empty($_POST['technical_contacts']) ) {
+      if ( isset($_POST['technical_contacts']) && $_POST['technical_contacts'] !== '' ) {
 
         // Only unique emails are valid
         $contact_addresses = array_unique(explode(',', $_POST['technical_contacts']));
@@ -854,14 +863,14 @@ class Upkeep extends Toolpage {
         foreach ( $contact_addresses as $contact_address ) {
           $address = trim($contact_address);
 
-          if ( ! empty($address) && filter_var($address, FILTER_VALIDATE_EMAIL) ) {
+          if ( $address !== '' && filter_var($address, FILTER_VALIDATE_EMAIL) !== false ) {
             $validated_addresses[] = $address;
           }
         }
       }
 
       // Only update addresses if any valid ones were found
-      if ( ! empty($validated_addresses) ) {
+      if ( $validated_addresses !== array() ) {
         $data['contact_emails'] = $validated_addresses;
       }
     }
@@ -885,7 +894,7 @@ class Upkeep extends Toolpage {
     $output = array();
     exec('wp-test', $output, $retval);
 
-    if ( empty($output) ) {
+    if ( $output === array() ) {
       return Ajax\AjaxResponse::command_error_response('wp-test');
     }
 

@@ -26,10 +26,6 @@ class Settings {
    * @var string Field type for number field with any numbers.
    */
   const FIELD_TYPE_NUMBER = 'number';
-  /**
-   * @var string Field type for multiple email input.
-   */
-  const FIELD_TYPE_EMAIL_LIST = 'email-list';
 
   /**
    * @var string      Unique ID for the section.
@@ -157,14 +153,6 @@ class Settings {
             return $this->sanitize_number_field($value, $default);
           } : $sanitizer;
           break;
-        case self::FIELD_TYPE_EMAIL_LIST:
-          $type = 'array';
-          $build_func = array( __CLASS__, 'build_email_list_field' );
-          $sanitizer = $sanitizer === null ? function( $value ) use ( $name, $default ) {
-            $default = empty(get_option($name)) ? ($default === null ? array() : $default) : get_option($name);
-            return $this->sanitize_email_list_field($value, $default);
-          } : $sanitizer;
-          break;
         default:
           return;
       }
@@ -231,18 +219,18 @@ class Settings {
     foreach ( $wp_settings_fields[ $this->postbox ][ $this->section ] as $field ) {
       $class = '';
 
-      if ( ! empty($field['args']['class']) ) {
+      if ( isset($field['args']['class']) ) {
         $class = ' class="' . esc_attr($field['args']['class']) . '"';
       }
 
-      if ( ! empty($field['args']['description']) ) {
+      if ( isset($field['args']['description']) ) {
         $base->add_child(new Component($field['args']['description'], '<tr class="description ' . $class . '"><td colspan="2">', '</td></tr>'));
       }
 
       $row = new Component('', '<tr class="' . $class . '">', '</tr>');
 
       // Add field title
-      if ( ! empty($field['args']['label_for']) ) {
+      if ( isset($field['args']['label_for']) ) {
         $row->add_child(new Component($field['title'], '<th scope="row"><label for="' . esc_attr($field['args']['label_for']) . '">', '</label></th>'));
       } else {
         $row->add_child(new Component($field['title'], '<th scope="row">', '</th>'));
@@ -284,7 +272,7 @@ class Settings {
   public function get_notifications() {
     $notifications = get_settings_errors($this->section);
 
-    if ( empty($notifications) && isset($_REQUEST['settings-updated']) && $_REQUEST['settings-updated'] === 'true' ) {
+    if ( $notifications === array() && isset($_REQUEST['settings-updated']) && $_REQUEST['settings-updated'] === 'true' ) {
       if ( isset($_REQUEST['section']) && $_REQUEST['section'] === $this->section ) {
         $notifications = array(
           array(
@@ -300,7 +288,7 @@ class Settings {
     $base = new Component();
     $codes = array();
     foreach ( $notifications as $notification ) {
-      if ( in_array($notification['code'], $codes) ) {
+      if ( in_array($notification['code'], $codes, true) ) {
         continue;
       }
 
@@ -329,8 +317,8 @@ class Settings {
    * @return \Seravo\Postbox\Component Textfield component.
    */
   public static function build_string_field( $field ) {
-    $value = empty(get_option($field['id'])) ? '' : get_option($field['id']);
-    $placeholder = empty($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
+    $value = get_option($field['id']) === false ? '' : get_option($field['id']);
+    $placeholder = ! isset($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
     return Component::from_raw('<input type="text" placeholder="' . $placeholder . '" name="' . $field['id'] . '" value="' . $value . '"/>');
   }
 
@@ -351,7 +339,7 @@ class Settings {
    */
   public static function build_integer_field( $field ) {
     $value = is_numeric(get_option($field['id'])) ? get_option($field['id']) : '';
-    $placeholder = empty($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
+    $placeholder = ! isset($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
     return Component::from_raw('<input type="number" step="1" pattern="\d+" placeholder="' . $placeholder . '" name="' . $field['id'] . '" value="' . $value . '"/>');
   }
 
@@ -362,29 +350,8 @@ class Settings {
    */
   public static function build_number_field( $field ) {
     $value = is_numeric(get_option($field['id'])) ? get_option($field['id']) : '';
-    $placeholder = empty($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
+    $placeholder = ! isset($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
     return Component::from_raw('<input type="number" placeholder="' . $placeholder . '" name="' . $field['id'] . '" value="' . $value . '"/>');
-  }
-
-  /**
-   * Function for building a email list component.
-   * @param mixed[] $field Field passed from wp_settings_fields.
-   * @return \Seravo\Postbox\Component Email list component.
-   */
-  public static function build_email_list_field( $field ) {
-    $value = is_array(get_option($field['id'])) ? implode(',', get_option($field['id'])) : '';
-    $placeholder = empty($field['args']['placeholder']) ? '' : $field['args']['placeholder'];
-
-    $hidden_field = Component::from_raw('<tr><td><input type="text" value="' . $value . '" name="' . $field['id'] . '" class="email-data hidden"/></td></tr>');
-    $input = new Component('', '<tr>', '</tr>');
-    $input->add_child(Component::from_raw('<td><input type="email" placeholder="' . $placeholder . '"/></td>'));
-    $input->add_child(Template::button(__('Add', 'seravo'), $field['id'] . '-button', 'button email-list-add-button')->set_wrapper('<td>', '</td>'));
-
-    $table = new Component('', '<table class="email-list-input">', '</table>');
-    $table->add_child($hidden_field);
-    $table->add_child($input);
-
-    return $table;
   }
 
   /**
@@ -426,46 +393,6 @@ class Settings {
       return $default;
     }
     return (float) $value;
-  }
-
-  /**
-   * Function for sanitizing email list field.
-   * @param string|string[] $value   Value from the form.
-   * @param string|string[] $default The default value to use instead of invalid value.
-   * @return string|string[] The sanitized email list.
-   */
-  public function sanitize_email_list_field( $value, $default ) {
-    $emails = is_array($value) ? $value : explode(',', $value);
-
-    $invalid = false;
-    $valid_emails = array();
-    foreach ( $emails as $email ) {
-      if ( $email === '' ) {
-        continue;
-      }
-
-      if ( ! filter_var($email, FILTER_VALIDATE_EMAIL) ) {
-        $invalid = true;
-        continue;
-      }
-
-      if ( in_array($email, $valid_emails) ) {
-        continue;
-      }
-
-      $valid_emails[] = $email;
-    }
-
-    if ( $invalid ) {
-      $this->add_notification('invalid-email', __("Invalid emails weren't saved", 'seravo'));
-    }
-
-    if ( empty($valid_emails) ) {
-      $this->add_notification('no-valid-email', __('At least one valid email required', 'seravo'));
-      return $default;
-    }
-
-    return $valid_emails;
   }
 
   /**

@@ -28,10 +28,6 @@ class UserLog {
    * @return void
    */
   public static function on_edit_user_created_user( $user_id ) {
-    if ( empty($user_id) || ! is_numeric($user_id) ) {
-      return;
-    }
-
     $user = get_userdata($user_id);
     if ( $user === false ) {
       return;
@@ -46,10 +42,6 @@ class UserLog {
    * @return void
    */
   public static function on_register_new_user( $user_id ) {
-    if ( empty($user_id || ! is_numeric($user_id)) ) {
-      return;
-    }
-
     self::write_log('User (ID:' . $user_id . ') registered');
   }
 
@@ -60,10 +52,6 @@ class UserLog {
    * @return void
    */
   public static function on_delete_user( $user_id, $redirect_user_id = null ) {
-    if ( empty($user_id || ! is_numeric($user_id)) ) {
-      return;
-    }
-
     $user = get_userdata($user_id);
     if ( $user === false ) {
       return;
@@ -88,9 +76,6 @@ class UserLog {
    * @return void
    */
   public static function on_deleted_user( $user_id, $redirect_user_id = null ) {
-    if ( empty($user_id || ! is_numeric($user_id)) ) {
-      return;
-    }
     self::write_log_user('deleted user (ID:' . $user_id . ')');
   }
 
@@ -100,9 +85,6 @@ class UserLog {
    * @return void
    */
   public static function on_after_password_reset( $user ) {
-    if ( empty($user) ) {
-      return;
-    }
     self::write_log('User ' . $user->user_login . ' (ID:' . $user->ID . ') resetted password');
   }
 
@@ -113,10 +95,6 @@ class UserLog {
    * @return void
    */
   public static function on_profile_update( $user_id, $old_user_data ) {
-    if ( empty($user_id) ) {
-      return;
-    }
-
     $new_user_data = get_userdata($user_id);
     if ( $new_user_data === false ) {
       return;
@@ -144,10 +122,6 @@ class UserLog {
    * @return void
    */
   public static function on_set_user_role( $user_id, $role, $old_roles ) {
-    if ( empty($user_id) || ! is_numeric($user_id) ) {
-      return;
-    }
-
     // If ID is 0, there is no current user. eg role set on registration or wp-test
     if ( wp_get_current_user()->ID === 0 ) {
       $new_user_data = get_userdata($user_id);

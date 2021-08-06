@@ -15,7 +15,7 @@ class SecurityRestrictions {
   public static function load() {
     add_action('activate_seravo-plugin/seravo-plugin.php', array( __CLASS__, 'maybe_enable_xml_rpc_blocking' ));
 
-    if ( get_option('seravo-disable-xml-rpc-all-methods') ) {
+    if ( get_option('seravo-disable-xml-rpc-all-methods') === 'on' ) {
       // Block XML-RPC completely
       add_filter('xmlrpc_enabled', '__return_false');
       add_filter('xmlrpc_methods', array( __CLASS__, 'remove_xmlrpc_methods' ));
@@ -25,7 +25,7 @@ class SecurityRestrictions {
           wp_die('XML-RPC blocked.');
         }
       }
-    } elseif ( get_option('seravo-disable-xml-rpc') ) {
+    } elseif ( get_option('seravo-disable-xml-rpc') === 'on' ) {
       // Block XML-RPC and X-pingback if IP not whitelisted
       // NOTE! Filter xmlrpc_enabled affects only authenticated XML-RPC requests,
       // and *not* XML-RPC in general.
@@ -33,7 +33,7 @@ class SecurityRestrictions {
       add_filter('xmlrpc_enabled', array( __CLASS__, 'maybe_block_xml_rpc' ));
     }
 
-    if ( get_option('seravo-disable-json-user-enumeration') ) {
+    if ( get_option('seravo-disable-json-user-enumeration') === 'on' ) {
       /*
          * When this is active any request like
          *   curl -iL https://<siteurl>/wp-json/wp/v2/users/ -H Pragma:no-cache
@@ -42,7 +42,7 @@ class SecurityRestrictions {
       add_filter('rest_endpoints', array( __CLASS__, 'disable_user_endpoints' ), 1000);
     }
 
-    if ( get_option('seravo-disable-get-author-enumeration') ) {
+    if ( get_option('seravo-disable-get-author-enumeration') === 'on' ) {
       /*
          * When this is active any request like
          *   curl -iL -H Pragma:no-cache https://<siteurl>/?author=7
@@ -164,7 +164,7 @@ class SecurityRestrictions {
 
       $data = json_decode(wp_remote_retrieve_body($response));
 
-      if ( ! empty($data) ) {
+      if ( $data !== array() ) {
         foreach ( $data as $ip ) {
           $whitelist[] = Helpers::cidr_to_range($ip);
         }

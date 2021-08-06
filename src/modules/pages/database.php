@@ -248,8 +248,8 @@ class Database extends Toolpage {
    */
   public static function execute_search_replace() {
     // Check that both to and from are set
-    if ( ! isset($_REQUEST['sr-from']) || empty($_REQUEST['sr-from']) ||
-          ! isset($_REQUEST['sr-to']) || empty($_REQUEST['sr-to']) ) {
+    if ( ! isset($_REQUEST['sr-from']) || $_REQUEST['sr-from'] === '' ||
+          ! isset($_REQUEST['sr-to']) || $_REQUEST['sr-to'] === '' ) {
       return Ajax\AjaxResponse::form_input_error(__('Error: Both <code>from</code> and <code>to</code> needs to be set', 'seravo'));
     }
 

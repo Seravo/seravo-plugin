@@ -35,13 +35,13 @@ class LoginNotifications {
 
     // Retrieve last login notification only if the user has just logged in
     if ( isset($_SERVER['HTTP_REFERER']) ) {
-      if ( apply_filters('seravo_dashboard_login', true) && strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') !== false ) {
+      if ( (bool) apply_filters('seravo_dashboard_login', true) && strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') !== false ) {
         self::$login = self::retrieve_last_login();
       }
     }
 
     // Display logins and/or errors if retrieved succesfully
-    if ( ! empty(self::$login) ) {
+    if ( self::$login !== null && self::$login !== array() ) {
       add_action('admin_notices', array( __CLASS__, 'display_admin_logins_notification' ));
     }
   }
@@ -109,7 +109,7 @@ class LoginNotifications {
       $date_str = substr($output_array[0], 1, strlen($output_array[0]));
 
       // Just jump over the lines that don't contain dates, add an error though
-      if ( preg_match('/^(0[1-9]|[1-2]\d|3[0-1])-([a-z]|[A-Z]){3}-\d{4}.*$/', $date_str) ) {
+      if ( preg_match('/^(0[1-9]|[1-2]\d|3[0-1])-([a-z]|[A-Z]){3}-\d{4}.*$/', $date_str) === 1 ) {
         // Return the amount of errors if the date is already from the previous week
         $date = strtotime($date_str);
         if ( $date <= $last_day_of_week ) {
@@ -160,13 +160,16 @@ class LoginNotifications {
 
         // Fetch login date and time
         $timezone = get_option('timezone_string');
+        if ( $timezone === false || $timezone === '' ) {
+          $timezone = 'UTC';
+        }
 
         $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $entry['datetime']);
         if ( $datetime === false ) {
           continue;
         }
 
-        $datetime->setTimezone(new \DateTimeZone(empty($timezone) ? 'UTC' : $timezone));
+        $datetime->setTimezone(new \DateTimeZone($timezone));
 
         return array(
           'date'   => $datetime->format(get_option('date_format')),
@@ -193,7 +196,7 @@ class LoginNotifications {
       return;
     }
 
-    if ( empty(self::$login['domain']) ) {
+    if ( ! isset(self::$login['domain']) || self::$login['domain'] === '' ) {
       $msg = wp_sprintf(
       /* translators:
         * %1$s username of the current user

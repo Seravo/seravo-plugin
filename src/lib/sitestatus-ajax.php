@@ -22,7 +22,7 @@ function seravo_report_wp_core_verify() {
 function seravo_report_git_status() {
   exec('git -C /data/wordpress status', $output);
 
-  if ( empty($output) ) {
+  if ( $output !== array() ) {
     return array(
       'Git is not used on this site. To start using it,
       read our documentation for WordPress developers at
@@ -38,7 +38,7 @@ function seravo_report_git_status() {
  * @return void
  */
 function seravo_reset_shadow() {
-  if ( isset($_POST['shadow']) && ! empty($_POST['shadow']) ) {
+  if ( isset($_POST['shadow']) && $_POST['shadow'] !== '' ) {
     $shadow = $_POST['shadow'];
     $output = array();
 
