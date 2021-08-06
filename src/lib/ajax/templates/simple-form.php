@@ -19,7 +19,7 @@ class SimpleForm extends AjaxHandler {
   private $build_form_func;
 
   /**
-   * @var string|null  Text to be shown on the main button.
+   * @var mixed|string|null Text to be shown on the main button.
    */
   private $button_text;
 
@@ -72,7 +72,7 @@ class SimpleForm extends AjaxHandler {
     }
 
     if ( $this->button_text === null ) {
-      $this->button_text = __('Run', 'seravo');
+      $this->button_text = \__('Run', 'seravo');
     }
 
     if ( $this->dryrun_button_text !== null ) {
@@ -86,7 +86,7 @@ class SimpleForm extends AjaxHandler {
       );
 
       if ( $this->flip_spinner ) {
-        $spinner_button_components = array_reverse($spinner_button_components);
+        $spinner_button_components = \array_reverse($spinner_button_components);
       }
 
       $spinner_button = Template::n_by_side($spinner_button_components);

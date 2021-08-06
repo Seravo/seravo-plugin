@@ -70,7 +70,7 @@ abstract class Toolpage {
       return;
     }
 
-    add_action(
+    \add_action(
       'admin_init',
       function() {
         $this->init_page();
@@ -78,7 +78,7 @@ abstract class Toolpage {
       }
     );
 
-    add_action(
+    \add_action(
       'admin_menu',
       function() {
         $this->register_submenu();
@@ -92,34 +92,34 @@ abstract class Toolpage {
    * @return void
    */
   public function enable_ajax() {
-    add_action(
+    \add_action(
       'admin_enqueue_scripts',
       function( $page ) {
         if ( $page !== $this->screen ) {
           return;
         }
 
-        wp_enqueue_script('seravo-ajax', SERAVO_PLUGIN_URL . 'js/lib/ajax/seravo-ajax.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), false);
-        wp_enqueue_script('seravo-ajax-handler', SERAVO_PLUGIN_URL . 'js/lib/ajax/ajax-handler.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), true);
+        \wp_enqueue_script('seravo-ajax', SERAVO_PLUGIN_URL . 'js/lib/ajax/seravo-ajax.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), false);
+        \wp_enqueue_script('seravo-ajax-handler', SERAVO_PLUGIN_URL . 'js/lib/ajax/ajax-handler.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), true);
 
         $ajax_l10n = array(
-          'ajax_url' => admin_url('admin-ajax.php'),
-          'server_invalid_response' => __('Error: Something unexpected happened! Server responded with invalid data.', 'seravo'),
-          'server_timeout' => __("Error: Request timeout! Server didn't respond in time.", 'seravo'),
-          'server_error' => __("Error: Oups, this wasn't supposed to happen! Please see the php-error.log.", 'seravo'),
-          'show_more' => __('Show more', 'seravo'),
-          'show_less' => __('Show less', 'seravo'),
+          'ajax_url' => \admin_url('admin-ajax.php'),
+          'server_invalid_response' => \__('Error: Something unexpected happened! Server responded with invalid data.', 'seravo'),
+          'server_timeout' => \__("Error: Request timeout! Server didn't respond in time.", 'seravo'),
+          'server_error' => \__("Error: Oups, this wasn't supposed to happen! Please see the php-error.log.", 'seravo'),
+          'show_more' => \__('Show more', 'seravo'),
+          'show_less' => \__('Show less', 'seravo'),
         );
-        wp_localize_script('seravo-ajax', 'seravo_ajax_l10n', $ajax_l10n);
+        \wp_localize_script('seravo-ajax', 'seravo_ajax_l10n', $ajax_l10n);
       }
     );
 
     // Generates WordPress nonce for this page
     // and prints it as JavaScipt variable inside <SCRIPT>.
-    add_action(
+    \add_action(
       'before_seravo_postboxes_' . $this->screen,
       function() {
-        $nonce = wp_create_nonce($this->screen);
+        $nonce = \wp_create_nonce($this->screen);
         echo "<script>SERAVO_AJAX_NONCE = \"{$nonce}\";</script>";
       }
     );
@@ -131,33 +131,33 @@ abstract class Toolpage {
    * @return void
    */
   public function enable_charts() {
-    add_action(
+    \add_action(
       'admin_enqueue_scripts',
       function( $page ) {
         if ( $page !== $this->screen ) {
           return;
         }
 
-        wp_enqueue_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', array(), \Seravo\Helpers::seravo_plugin_version(), true);
-        wp_enqueue_script('seravo-charts', SERAVO_PLUGIN_URL . 'js/charts.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), false);
+        \wp_enqueue_script('apexcharts-js', SERAVO_PLUGIN_URL . 'js/lib/apexcharts.js', array(), \Seravo\Helpers::seravo_plugin_version(), true);
+        \wp_enqueue_script('seravo-charts', SERAVO_PLUGIN_URL . 'js/charts.js', array( 'jquery' ), \Seravo\Helpers::seravo_plugin_version(), false);
 
         $charts_l10n = array(
-          'ajax_url' => admin_url('admin-ajax.php'),
-          'show_more' => __('Show more', 'seravo'),
-          'show_less' => __('Show less', 'seravo'),
-          'used' => __('Used', 'seravo'),
-          'available' => __('Available', 'seravo'),
-          'keyspace_hits' => __('Keyspace hits', 'seravo'),
-          'keyspace_misses' => __('Keyspace misses', 'seravo'),
-          'hits' => __('Hits', 'seravo'),
-          'misses' => __('Misses', 'seravo'),
-          'stales' => __('Stales', 'seravo'),
-          'avg_latency' => __('Avg latency: ', 'seravo'),
-          'avg_cached_latency' => __('Avg cached latency: ', 'seravo'),
-          'latency' => __('Latency', 'seravo'),
-          'cached_latency' => __('Cached latency', 'seravo'),
+          'ajax_url' => \admin_url('admin-ajax.php'),
+          'show_more' => \__('Show more', 'seravo'),
+          'show_less' => \__('Show less', 'seravo'),
+          'used' => \__('Used', 'seravo'),
+          'available' => \__('Available', 'seravo'),
+          'keyspace_hits' => \__('Keyspace hits', 'seravo'),
+          'keyspace_misses' => \__('Keyspace misses', 'seravo'),
+          'hits' => \__('Hits', 'seravo'),
+          'misses' => \__('Misses', 'seravo'),
+          'stales' => \__('Stales', 'seravo'),
+          'avg_latency' => \__('Avg latency: ', 'seravo'),
+          'avg_cached_latency' => \__('Avg cached latency: ', 'seravo'),
+          'latency' => \__('Latency', 'seravo'),
+          'cached_latency' => \__('Cached latency', 'seravo'),
         );
-        wp_localize_script('seravo-charts', 'seravo_charts_l10n', $charts_l10n);
+        \wp_localize_script('seravo-charts', 'seravo_charts_l10n', $charts_l10n);
       }
     );
   }
@@ -182,12 +182,12 @@ abstract class Toolpage {
       return false;
     }
 
-    if ( getenv('CONTAINER') === false ) {
+    if ( \getenv('CONTAINER') === false ) {
       // Not Seravo environment
       return false;
     }
 
-    return (bool) apply_filters('seravo_show_' . $this->slug, true);
+    return (bool) \apply_filters('seravo_show_' . $this->slug, true);
   }
 
   /**
@@ -208,7 +208,7 @@ abstract class Toolpage {
    * @return void
    */
   private function register_submenu() {
-    add_submenu_page(
+    \add_submenu_page(
       'tools.php',
       $this->title,
       $this->title,

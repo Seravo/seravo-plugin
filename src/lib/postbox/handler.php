@@ -7,7 +7,7 @@ namespace Seravo\Postbox;
 
 use \Seravo\Helpers;
 
-if ( ! class_exists('Seravo_Postbox_Factory') ) {
+if ( ! \class_exists('Seravo_Postbox_Factory') ) {
 
   /**
    * Singleton class responsible for creating Seravo postboxes.
@@ -67,13 +67,11 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      * @return void
      */
     public function add_postbox( $id, $title, $callback, $screen, $context, $callback_args ) {
-      // Index the postboxes base on the page they are registered to, allowing faster filtering based
-      // on current screen.
       if ( isset($this->postboxes[ $screen ]) ) {
         if ( isset($this->postboxes[ $screen ][ $context ]) ) {
-          // Add postbox only if it does not exist, otherwise throw exception
-          if ( in_array($id, $this->registered_postbox_ids, true) ) {
-            throw new \Exception('Seravo postbox "' . $id . '" already exists');
+          if ( \in_array($id, $this->registered_postbox_ids, true) ) {
+            \error_log('Seravo postbox "' . $id . '" already exists');
+            return;
           }
         } else {
           $this->postboxes[ $screen ][ $context ] = array();
@@ -96,17 +94,17 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      * @return void
      */
     public function ajax_save_closed_postboxes() {
-      check_ajax_referer('seravo-save-closed-postboxes', 'seravo_closed_postboxes_nonce');
+      \check_ajax_referer('seravo-save-closed-postboxes', 'seravo_closed_postboxes_nonce');
 
-      $closed = isset($_POST['closed']) ? explode(',', $_POST['closed']) : array();
-      $closed = array_filter($closed);
-      $page = isset($_POST['page']) ? sanitize_key($_POST['page']) : '';
+      $closed = isset($_POST['closed']) ? \explode(',', $_POST['closed']) : array();
+      $closed = \array_filter($closed);
+      $page = isset($_POST['page']) ? \sanitize_key($_POST['page']) : '';
 
-      $user_id = get_current_user_id();
+      $user_id = \get_current_user_id();
       if ( $user_id !== 0 ) {
-        update_user_option($user_id, 'seravo-closed-postboxes_' . $page, $closed, true);
+        \update_user_option($user_id, 'seravo-closed-postboxes_' . $page, $closed, true);
       }
-      wp_die();
+      \wp_die();
     }
 
     /**
@@ -114,17 +112,17 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      * @return void
      */
     public function ajax_save_postbox_order() {
-      check_ajax_referer('seravo-save-postbox-order', 'seravo_save_postbox_order_nonce');
+      \check_ajax_referer('seravo-save-postbox-order', 'seravo_save_postbox_order_nonce');
 
-      $order = isset($_POST['order']) ? array_filter($_POST['order']) : false;
-      $page = isset($_POST['page']) ? sanitize_key($_POST['page']) : '';
+      $order = isset($_POST['order']) ? \array_filter($_POST['order']) : false;
+      $page = isset($_POST['page']) ? \sanitize_key($_POST['page']) : '';
 
-      $user_id = get_current_user_id();
+      $user_id = \get_current_user_id();
 
       if ( $user_id !== 0 && $order !== false && $page !== '' ) {
-        update_user_option($user_id, 'seravo-postbox-order_' . $page, $order, true);
+        \update_user_option($user_id, 'seravo-postbox-order_' . $page, $order, true);
       }
-      wp_die();
+      \wp_die();
     }
 
     /**
@@ -134,20 +132,20 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
     public function enqueue_postboxes_scripts() {
       if ( $this->postboxes !== array() ) {
         // seravo-postbox.js
-        wp_enqueue_script('seravo_postbox', SERAVO_PLUGIN_URL . 'js/lib/seravo-postbox.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
+        \wp_enqueue_script('seravo_postbox', SERAVO_PLUGIN_URL . 'js/lib/seravo-postbox.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
         $postbox_l10n = array(
-          'postBoxEmptyString' => __('Drag boxes here', 'seravo'),
+          'postBoxEmptyString' => \__('Drag boxes here', 'seravo'),
         );
-        wp_localize_script('seravo_postbox', 'seravoPostboxl10n', $postbox_l10n);
+        \wp_localize_script('seravo_postbox', 'seravoPostboxl10n', $postbox_l10n);
 
         // common.js
-        wp_enqueue_script('seravo_common_js', SERAVO_PLUGIN_URL . 'js/common.js', array( 'jquery' ), Helpers::seravo_plugin_version());
+        \wp_enqueue_script('seravo_common_js', SERAVO_PLUGIN_URL . 'js/common.js', array( 'jquery' ), Helpers::seravo_plugin_version());
 
         // seravo-postbox.css
-        wp_enqueue_style('seravo_postbox', SERAVO_PLUGIN_URL . 'style/seravo-postbox.css', array(), Helpers::seravo_plugin_version());
+        \wp_enqueue_style('seravo_postbox', SERAVO_PLUGIN_URL . 'style/seravo-postbox.css', array(), Helpers::seravo_plugin_version());
 
         // common.css
-        wp_enqueue_style('seravo_common_css', SERAVO_PLUGIN_URL . 'style/common.css', array(), Helpers::seravo_plugin_version());
+        \wp_enqueue_style('seravo_common_css', SERAVO_PLUGIN_URL . 'style/common.css', array(), Helpers::seravo_plugin_version());
       }
     }
 
@@ -156,9 +154,9 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      * @return void
      */
     private function load() {
-      if ( is_admin() ) {
+      if ( \is_admin() ) {
         // Scripts and styles
-        add_action(
+        \add_action(
           'admin_enqueue_scripts',
           function () {
             $this->enqueue_postboxes_scripts();
@@ -166,13 +164,13 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
         );
 
         // AJAX endpoints for saving postbox order and closed/opened state
-        add_action(
+        \add_action(
           'wp_ajax_seravo-postbox-order',
           function () {
             $this->ajax_save_postbox_order();
           }
         );
-        add_action(
+        \add_action(
           'wp_ajax_seravo-closed-postboxes',
           function () {
             $this->ajax_save_closed_postboxes();
@@ -188,7 +186,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      * @return void
      */
     private function apply_user_postbox_settings( $column_count = 'four_column' ) {
-      $screen = get_current_screen();
+      $screen = \get_current_screen();
       if ( $screen === null ) {
         return;
       }
@@ -197,26 +195,26 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
       // Preload closed postboxes. If the setting is not set, WP returns an empty string, so don't
       // do anything in that case. If only a single postbox is closed, WP returns a single string so
       // it should be converted into an array.
-      $closed_postboxes = get_user_meta(get_current_user_id(), 'seravo-closed-postboxes_' . $screen, true);
+      $closed_postboxes = \get_user_meta(\get_current_user_id(), 'seravo-closed-postboxes_' . $screen, true);
       if ( $closed_postboxes !== '' ) {
-        if ( ! is_array($closed_postboxes) ) {
+        if ( ! \is_array($closed_postboxes) ) {
           $closed_postboxes = array( $closed_postboxes );
         }
         $this->closed_postboxes = $closed_postboxes;
       }
 
       // Use user-specified postbox order if set
-      $custom_postbox_order = get_user_meta(get_current_user_id(), 'seravo-postbox-order_' . $screen, true);
+      $custom_postbox_order = \get_user_meta(\get_current_user_id(), 'seravo-postbox-order_' . $screen, true);
       if ( $custom_postbox_order !== '' ) {
         foreach ( $custom_postbox_order as $custom_context => $postbox_order_str ) {
 
-          $postbox_order = explode(',', $postbox_order_str);
+          $postbox_order = \explode(',', $postbox_order_str);
           // Search for the data for that postbox ID
           foreach ( $postbox_order as $postbox_id ) {
             foreach ( $this->postboxes[ $screen ] as &$postboxes_array ) {
 
               // Move the postbox data to the new context
-              if ( array_key_exists($postbox_id, $postboxes_array) ) {
+              if ( \array_key_exists($postbox_id, $postboxes_array) ) {
 
                 if ( $column_count === 'two_column' ) {
                   if ( $custom_context === 'column3' ) {
@@ -272,7 +270,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
       }
 
       $context_index = 1;
-      $current_screen = get_current_screen();
+      $current_screen = \get_current_screen();
       if ( $current_screen === null ) {
         return;
       }
@@ -289,7 +287,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
       }
 
       // Fire pre-postbox action
-      do_action('before_seravo_postboxes_' . $current_screen);
+      \do_action('before_seravo_postboxes_' . $current_screen);
       ?>
 
       <!-- Postbox wrapper -->
@@ -306,15 +304,15 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
 
         <?php
         // AJAX nonces for saving order and open/closed status of Seravo postboxes
-        wp_nonce_field('seravo-save-postbox-order', 'seravo-postbox-order-nonce');
-        wp_nonce_field('seravo-save-closed-postboxes', 'seravo-closed-postboxes-nonce');
+        \wp_nonce_field('seravo-save-postbox-order', 'seravo-postbox-order-nonce');
+        \wp_nonce_field('seravo-save-closed-postboxes', 'seravo-closed-postboxes-nonce');
         ?>
         </div>
       </div>
       <?php
 
       // Fire after postbox action
-      do_action('after_seravo_postboxes_' . $current_screen);
+      \do_action('after_seravo_postboxes_' . $current_screen);
     }
 
     /**
@@ -323,7 +321,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
      * @return void
      */
     private function display_single_postbox( $postbox_id, $postbox_content ) {
-      $closed = in_array($postbox_id, $this->closed_postboxes, true);
+      $closed = \in_array($postbox_id, $this->closed_postboxes, true);
       ?>
 
       <div id="seravo-postbox-<?php echo $postbox_id; ?>" data-postbox-id="<?php echo $postbox_id; ?>"
@@ -334,7 +332,7 @@ if ( ! class_exists('Seravo_Postbox_Factory') ) {
           <span class="screen-reader-text">
             <?php
               /* translators: %s: Togglable postbox title */
-              printf(__('Toggle panel: %s', 'seravo'), $postbox_content['title']);
+              \printf(\__('Toggle panel: %s', 'seravo'), $postbox_content['title']);
             ?>
           </span>
           <span class="toggle-indicator" aria-hidden="true"></span>

@@ -18,9 +18,9 @@ class Fixes {
      * Hide update nofications if this is not development
      */
     if ( ! Helpers::is_development() ) {
-      add_action('admin_menu', array( __CLASS__, 'hide_update_notifications' ));
-      add_filter('wp_get_update_data', array( __CLASS__, 'hide_update_data' ));
-      add_filter('site_status_tests', array( __CLASS__, 'remove_update_check' ));
+      \add_action('admin_menu', array( __CLASS__, 'hide_update_notifications' ));
+      \add_filter('wp_get_update_data', array( __CLASS__, 'hide_update_data' ));
+      \add_filter('site_status_tests', array( __CLASS__, 'remove_update_check' ));
     }
 
     /**
@@ -28,13 +28,13 @@ class Fixes {
      * WP_DEBUG is set (which happens in wp-config.php by default in non-production).
      */
     if ( ! Helpers::is_production() || WP_DEBUG ) {
-      add_action('send_headers', array( __CLASS__, 'send_no_cache_headers' ));
+      \add_action('send_headers', array( __CLASS__, 'send_no_cache_headers' ));
     }
 
     /**
      * Send proper headers after unsuccesful login
      */
-    add_action('wp_login_failed', array( __CLASS__, 'change_http_code_to_unauthorized' ));
+    \add_action('wp_login_failed', array( __CLASS__, 'change_http_code_to_unauthorized' ));
 
     /**
      * Additional hooks to option updates to ensure they get refreshed in the
@@ -44,10 +44,10 @@ class Fixes {
      * this has been depreacted since that.
      */
 
-    if ( version_compare(get_bloginfo('version'), '5.3.1', '<') ) {
-      add_action('added_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
-      add_action('updated_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
-      add_action('deleted_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
+    if ( \version_compare(\get_bloginfo('version'), '5.3.1', '<') ) {
+      \add_action('added_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
+      \add_action('updated_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
+      \add_action('deleted_option', array( __CLASS__, 'maybe_clear_alloptions_cache' ));
     }
   }
 
@@ -63,13 +63,13 @@ class Fixes {
    */
   public static function maybe_clear_alloptions_cache( $option ) {
 
-    if ( ! wp_installing() ) {
-      $alloptions = wp_load_alloptions(); // alloptions should be cached at this point
+    if ( ! \wp_installing() ) {
+      $alloptions = \wp_load_alloptions(); // alloptions should be cached at this point
 
       // If alloptions collection has $option key, clear the collection from cache
       // because it can't be trusted to be correct after modifications in options.
-      if ( array_key_exists($option, $alloptions) ) {
-        wp_cache_delete('alloptions', 'options');
+      if ( \array_key_exists($option, $alloptions) ) {
+        \wp_cache_delete('alloptions', 'options');
       }
     }
   }
@@ -79,7 +79,7 @@ class Fixes {
    * @return void
    */
   public static function hide_update_notifications() {
-     remove_action('admin_notices', 'update_nag', 3);
+     \remove_action('admin_notices', 'update_nag', 3);
   }
 
   /**
@@ -120,8 +120,8 @@ class Fixes {
    * @return void
    */
   public static function change_http_code_to_unauthorized() {
-    if ( ! defined('DOING_AJAX') ) {
-      status_header(401);
+    if ( ! \defined('DOING_AJAX') ) {
+      \status_header(401);
     }
   }
 
@@ -130,6 +130,6 @@ class Fixes {
    */
   public static function send_no_cache_headers() {
     // Use WP function for this
-    nocache_headers();
+    \nocache_headers();
   }
 }

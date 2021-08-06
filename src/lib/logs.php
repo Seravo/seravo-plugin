@@ -14,7 +14,7 @@ class Logs {
    * @return array<string,mixed> Grouped log files with time info.
    */
   public static function get_logs_with_time() {
-    $log_files = glob('/data/log/*.log*');
+    $log_files = \glob('/data/log/*.log*');
     if ( $log_files === false ) {
       // Glob failed
       return array();
@@ -24,14 +24,14 @@ class Logs {
     $grouped_log_files = array();
     foreach ( $log_files as $log_file ) {
       // Skip empty files
-      if ( filesize($log_file) === 0 ) {
+      if ( \filesize($log_file) === 0 ) {
         continue;
       }
 
-      $log_file = basename($log_file);
+      $log_file = \basename($log_file);
       $base_log = $log_file;
 
-      $filetype_pos = strpos($log_file, '.log-');
+      $filetype_pos = \strpos($log_file, '.log-');
       if ( $filetype_pos !== false ) {
         // This is an old rotated log
         $base_log = Compatibility::substr($log_file, 0, $filetype_pos + 4);
@@ -49,13 +49,13 @@ class Logs {
     $logs_with_time = array();
     foreach ( $grouped_log_files as $group => $files_in_group ) {
       // Sort files (oldest first)
-      usort(
+      \usort(
         $files_in_group,
         function( $log1, $log2 ) {
-          if ( strpos($log1, '.log-') === false ) {
+          if ( \strpos($log1, '.log-') === false ) {
             return 1;
           }
-          if ( strpos($log2, '.log-') === false ) {
+          if ( \strpos($log2, '.log-') === false ) {
             return -1;
           }
 
@@ -71,8 +71,8 @@ class Logs {
           $since = $logs_with_time[$group][$i - 1]['until'];
         }
 
-        $filetype_pos = strpos($log_file, '.log-');
-        $until = $filetype_pos === false ? null : substr($log_file, $filetype_pos + 5, 8);
+        $filetype_pos = \strpos($log_file, '.log-');
+        $until = $filetype_pos === false ? null : \substr($log_file, $filetype_pos + 5, 8);
 
         $logs_with_time[$group][] = array(
           'file' => $log_file,
@@ -81,7 +81,7 @@ class Logs {
         );
       }
 
-      $logs_with_time[$group] = array_reverse($logs_with_time[$group]);
+      $logs_with_time[$group] = \array_reverse($logs_with_time[$group]);
     }
 
     return $logs_with_time;
@@ -97,15 +97,15 @@ class Logs {
   public static function read_log_lines_backwards( $filepath, $offset = 0, $lines = 1 ) {
     //$filepath = '/data/log/nginx-access.log-20210705.gz';
     // Check if the file is .gz
-    if ( substr($filepath, -3) === '.gz' ) {
+    if ( \substr($filepath, -3) === '.gz' ) {
       return self::read_gz_log_lines_backwards($filepath, $offset, $lines);
     }
 
     // Check that $filepath is valid log path
-    $files = glob('/data/log/*');
-    $valid_log_path = $files !== false && in_array($filepath, $files, true);
+    $files = \glob('/data/log/*');
+    $valid_log_path = $files !== false && \in_array($filepath, $files, true);
 
-    $f = $valid_log_path ? @fopen($filepath, 'rb') : false;
+    $f = $valid_log_path ? @\fopen($filepath, 'rb') : false;
 
     $result = array(
       'output' => array(),
@@ -115,29 +115,29 @@ class Logs {
     // Check if the file was found and valid
     if ( $f === false ) {
       $result['status'] = 'NO_LOG_FILE';
-      $result['error'] = __('File not found', 'seravo');
+      $result['error'] = \__('File not found', 'seravo');
       return $result;
     }
 
     // Prevent reading huge files (over 256MB)
-    $filesize = filesize($filepath);
+    $filesize = \filesize($filepath);
     if ( $filesize >= 268435456 ) {
       $result['status'] = 'LARGE_LOG_FILE';
-      $result['error'] = __('File too large', 'seravo');
+      $result['error'] = \__('File too large', 'seravo');
       return $result;
     }
 
     // Jump to last character
-    if ( fseek($f, -1, SEEK_END) === -1 ) {
+    if ( \fseek($f, -1, SEEK_END) === -1 ) {
       // fseek failed
       $result['status'] = 'BAD_LOG_FILE';
-      $result['error'] = __('Error reading the file', 'seravo');
+      $result['error'] = \__('Error reading the file', 'seravo');
       return $result;
     }
 
     $linebuffer = '';
     // Start with a newline if the last character of the file isn't one
-    if ( fread($f, 1) !== "\n" ) {
+    if ( \fread($f, 1) !== "\n" ) {
       $linebuffer = "\n";
     }
 
@@ -148,11 +148,11 @@ class Logs {
 
     while ( $lines > 0 ) {
       // Figure out how far back we should jump
-      $seek = min(ftell($f), $buffer);
+      $seek = \min(\ftell($f), $buffer);
 
       // If this is the last buffer we're looking at we need to take the first
       // line without leading newline into account
-      $last_buffer = (ftell($f) <= $buffer);
+      $last_buffer = (\ftell($f) <= $buffer);
 
       // File has ended
       if ( $seek <= 0 ) {
@@ -160,19 +160,19 @@ class Logs {
       }
 
       // Do the jump (backwards, relative to where we are)
-      fseek($f, -$seek, SEEK_CUR);
+      \fseek($f, -$seek, SEEK_CUR);
 
       // Read a chunk
-      $chunk = fread($f, $seek);
+      $chunk = \fread($f, $seek);
       if ( $chunk === false ) {
         // fread failed
         $result['status'] = 'BAD_LOG_FILE';
-        $result['error'] = __('Error reading the file', 'seravo');
+        $result['error'] = \__('Error reading the file', 'seravo');
         return $result;
       }
 
       // Jump back to where we started reading
-      fseek($f, -mb_strlen($chunk, '8bit'), SEEK_CUR);
+      \fseek($f, -\mb_strlen($chunk, '8bit'), SEEK_CUR);
 
       // Prepend chunk to our line buffer
       $linebuffer = $chunk . $linebuffer;
@@ -182,58 +182,58 @@ class Logs {
 
       if ( $last_buffer ) {
         // Last line is whatever is in the line buffer before the second line
-        $eol = strpos($linebuffer, "\n");
+        $eol = \strpos($linebuffer, "\n");
         if ( $eol !== false ) {
-          $complete_lines[] = rtrim(substr($linebuffer, 0, $eol));
+          $complete_lines[] = \rtrim(\substr($linebuffer, 0, $eol));
         }
       }
 
       // TODO: Find out what the regex does and comment it
-      while ( preg_match('/\n(.*?\n)/s', $linebuffer, $matched) ) {
+      while ( \preg_match('/\n(.*?\n)/s', $linebuffer, $matched) ) {
         // Get the $1 match
         $match = $matched[1];
 
-        $match_pos = strpos($linebuffer, $match);
+        $match_pos = \strpos($linebuffer, $match);
         if ( $match_pos === false ) {
           // Shouldn't happen as we matched it
           $result['status'] = 'BAD_LOG_FILE';
-          $result['error'] = __('Error reading the file', 'seravo');
+          $result['error'] = \__('Error reading the file', 'seravo');
           return $result;
         }
 
         // Remove matched line from line buffer
-        $linebuffer = substr_replace($linebuffer, '', $match_pos, strlen($match));
+        $linebuffer = \substr_replace($linebuffer, '', $match_pos, \strlen($match));
 
         // Sanitize and add the line
-        $complete_lines[] = htmlspecialchars(rtrim($match));
+        $complete_lines[] = \htmlspecialchars(\rtrim($match));
       }
 
       // Remove any offset lines off the end
-      $limit = count($complete_lines);
+      $limit = \count($complete_lines);
       while ( $offset > 0 && $limit > 0 ) {
-        array_pop($complete_lines);
+        \array_pop($complete_lines);
         --$offset;
         --$limit;
       }
 
       if ( $complete_lines !== array() ) {
         // Decrement lines needed
-        $lines -= count($complete_lines);
+        $lines -= \count($complete_lines);
         // Prepend complete lines to our output
-        $result['output'] = array_merge($complete_lines, $result['output']);
+        $result['output'] = \array_merge($complete_lines, $result['output']);
       }
     }
 
     // Remove any lines that might have gone over due to the chunk size
     while ( ++$lines < 0 ) {
-      array_shift($result['output']);
+      \array_shift($result['output']);
     }
 
     // Reverse the output
-    $result['output'] = array_reverse($result['output']);
+    $result['output'] = \array_reverse($result['output']);
 
     // Close file
-    fclose($f);
+    \fclose($f);
 
     return $result;
   }
@@ -249,10 +249,10 @@ class Logs {
    */
   public static function read_gz_log_lines_backwards( $filepath, $offset = 0, $lines = 1 ) {
     // Check that $filepath is valid log path
-    $files = glob('/data/log/*');
-    $valid_log_path = $files !== false && in_array($filepath, $files, true);
+    $files = \glob('/data/log/*');
+    $valid_log_path = $files !== false && \in_array($filepath, $files, true);
 
-    $f = $valid_log_path ? @gzfile($filepath) : false;
+    $f = $valid_log_path ? @\gzfile($filepath) : false;
 
     $result = array(
       'output' => array(),
@@ -262,22 +262,22 @@ class Logs {
     // Check if the file was found and valid
     if ( $f === false ) {
       $result['status'] = 'NO_LOG_FILE';
-      $result['error'] = __('File not found', 'seravo');
+      $result['error'] = \__('File not found', 'seravo');
       return $result;
     }
 
     // Prevent reading huge files (over 256MB)
     // Note that the uncompressed size is more than that
-    $filesize = filesize($filepath);
+    $filesize = \filesize($filepath);
     if ( $filesize >= 268435456 ) {
       $result['status'] = 'LARGE_LOG_FILE';
-      $result['error'] = __('File too large', 'seravo');
+      $result['error'] = \__('File too large', 'seravo');
       return $result;
     }
 
     // Skip the $offset amount of lines
     for ( $i = $offset; $i > 0; --$i ) {
-      $line = array_pop($f);
+      $line = \array_pop($f);
       if ( $line === null ) {
         break;
       }
@@ -285,7 +285,7 @@ class Logs {
 
     // Take last $lines amount of lines as result§
     for ( $i = $lines; $i > 0; --$i ) {
-      $line = array_pop($f);
+      $line = \array_pop($f);
       if ( $line === null ) {
         break;
       }

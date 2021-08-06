@@ -67,16 +67,16 @@ class LazyCommand extends LazyLoader {
 
     $output = null;
     $retval = null;
-    exec($exec_command, $output, $retval);
+    \exec($exec_command, $output, $retval);
 
     if ( $retval !== 0 && ! $this->allow_failure ) {
       return AjaxResponse::command_error_response($exec_command);
     }
 
     if ( $output === array() ) {
-      $output = $this->empty_message === null ? __('Command returned no data', 'seravo') : $this->empty_message;
+      $output = $this->empty_message === null ? \__('Command returned no data', 'seravo') : $this->empty_message;
     } else {
-      $output = implode("\n", $output);
+      $output = \implode("\n", $output);
     }
 
     $output = '<pre>' . $output . '</pre>';

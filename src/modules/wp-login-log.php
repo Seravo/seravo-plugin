@@ -18,7 +18,7 @@ class LoginLog {
     // wp_signon has finished. Unfortunately it also fires on every single
     // wp-login.php load, so we shall not process it unless we really detect a
     // login in progress.
-    add_filter('login_redirect', array( __CLASS__, 'wp_login_redirect_log' ), 10, 3);
+    \add_filter('login_redirect', array( __CLASS__, 'wp_login_redirect_log' ), 10, 3);
   }
 
   /**
@@ -39,10 +39,10 @@ class LoginLog {
     }
 
     // Check if login was successful record username
-    if ( is_wp_error($user) ) {
+    if ( \is_wp_error($user) ) {
       $login_status = 'FAIL';
       $status_code = 401;
-      $remote_user = sanitize_user($_POST['log']);
+      $remote_user = \sanitize_user($_POST['log']);
     } else {
       $login_status = 'SUCCESS';
       $status_code = 200;
@@ -59,21 +59,21 @@ class LoginLog {
     //   "Mozilla/5.0 (X11; Linux x86_64) (KHTML, like Gecko) Chrome/49.0.2623.87" - "-"
 
     $remote_addr = $_SERVER['REMOTE_ADDR'];
-    $time_local = date('j/M/Y:H:i:s O');
+    $time_local = \date('j/M/Y:H:i:s O');
     $request = $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'];
     $http_referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
     $http_user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 
     // Finally write the log to disk
 
-    $log_fp = fopen('/data/log/wp-login.log', 'a');
+    $log_fp = \fopen('/data/log/wp-login.log', 'a');
     if ( $log_fp === false ) {
       // Couldn't open the file
       return $redirect_to;
     }
 
-    fwrite($log_fp, "{$remote_addr} - {$remote_user} [{$time_local}] \"{$request}\" {$status_code} 1000 \"{$http_referer}\" \"{$http_user_agent}\" {$login_status} \n");
-    fclose($log_fp);
+    \fwrite($log_fp, "{$remote_addr} - {$remote_user} [{$time_local}] \"{$request}\" {$status_code} 1000 \"{$http_referer}\" \"{$http_user_agent}\" {$login_status} \n");
+    \fclose($log_fp);
 
     return $redirect_to;
   }

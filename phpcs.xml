@@ -15,7 +15,11 @@
   <arg name="encoding" value="utf-8"/>
 
   <!-- check current and all subfolders if no file parameter given. -->
-  <file>.</file>
+  <file>src</file>
+  <file>js</file>
+  <file>style</file>
+  <file>seravo-plugin.php</file>
+  <file>rector.php</file>
 
   <!-- Don't check composer dependencies and extras -->
   <exclude-pattern>/vendor/</exclude-pattern>

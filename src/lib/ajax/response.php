@@ -11,7 +11,7 @@ namespace Seravo\Ajax;
 class AjaxResponse {
 
   /**
-   * @var mixed[] Data to respond with.
+   * @var bool[]|string[]|mixed[] Data to respond with.
    */
   public $data = array();
 
@@ -44,7 +44,7 @@ class AjaxResponse {
    * @return void
    */
   public function set_data( $data ) {
-    $this->data = array_merge($this->data, $data);
+    $this->data = \array_merge($this->data, $data);
   }
 
   /**
@@ -61,7 +61,7 @@ class AjaxResponse {
    * @return string The response data as JSON.
    */
   public function to_json() {
-    $json = json_encode($this->data);
+    $json = \json_encode($this->data);
 
     if ( false === $json ) {
       $json = self::unknown_error_response()->to_json();
@@ -76,7 +76,7 @@ class AjaxResponse {
    */
   public function send() {
     echo $this->to_json();
-    wp_die();
+    \wp_die();
   }
 
   /**
@@ -86,7 +86,7 @@ class AjaxResponse {
   public static function invalid_request_response() {
     $response = new AjaxResponse();
     $response->is_success(false);
-    $response->set_error(__('Error: Your browser made an invalid request!', 'seravo'));
+    $response->set_error(\__('Error: Your browser made an invalid request!', 'seravo'));
     return $response;
   }
 
@@ -97,7 +97,7 @@ class AjaxResponse {
   public static function unknown_error_response() {
     $response = new AjaxResponse();
     $response->is_success(false);
-    $response->set_error(__('Error: Something went wrong! Please see the php-error.log', 'seravo'));
+    $response->set_error(\__('Error: Something went wrong! Please see the php-error.log', 'seravo'));
     return $response;
   }
 
@@ -108,7 +108,7 @@ class AjaxResponse {
   public static function exception_response() {
     $response = new AjaxResponse();
     $response->is_success(false);
-    $response->set_error(__("Error: Oups, this wasn't supposed to happen! Please see the php-error.log", 'seravo'));
+    $response->set_error(\__("Error: Oups, this wasn't supposed to happen! Please see the php-error.log", 'seravo'));
     return $response;
   }
 
@@ -119,8 +119,8 @@ class AjaxResponse {
    */
   public static function command_error_response( $command ) {
     // translators: the command that failed to execute
-    $message = __('Error: Command %s failed to execute. Try running it manually.', 'seravo');
-    $error = sprintf($message, "<code>{$command}</code>");
+    $message = \__('Error: Command %s failed to execute. Try running it manually.', 'seravo');
+    $error = \sprintf($message, "<code>{$command}</code>");
 
     $response = new AjaxResponse();
     $response->is_success(false);
@@ -138,7 +138,7 @@ class AjaxResponse {
     $response->is_success(true);
     $response->set_data(
       array(
-        'poller_id' => base64_encode($pid),
+        'poller_id' => \base64_encode($pid),
       )
     );
     return $response;

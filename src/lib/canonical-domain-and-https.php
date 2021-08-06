@@ -10,11 +10,11 @@
 namespace Seravo;
 
 // Deny direct access to this file
-if ( ! defined('ABSPATH') ) {
+if ( ! \defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! class_exists('Canonical_Domain_And_Https') ) {
+if ( ! \class_exists('Canonical_Domain_And_Https') ) {
 
   class CanonicalDomainAndHttps {
 
@@ -27,20 +27,18 @@ if ( ! class_exists('Canonical_Domain_And_Https') ) {
 
       // Check if siteurl and home both include https addresses. If so, enforce
       // their use by doing a redirect if the request was not already https.
-      $siteurl = get_option('siteurl');
-      $home = get_option('home');
+      $siteurl = \get_option('siteurl');
+      $home = \get_option('home');
 
-      if ( strpos($siteurl, 'https') !== false && strpos($home, 'https') !== false ) {
-        // Site uses https
-        if ( ! headers_sent() && ! is_ssl() && isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']) ) {
+      // Site uses https
+      if ( \strpos($siteurl, 'https') !== false && \strpos($home, 'https') !== false && (! \headers_sent() && ! \is_ssl() && isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI'])) ) {
           // Request did not use https, force redirect
           $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
           // error_log("Redirect to $url");
-
           // wp_redirect() is not available at this stage, cannot be used
-          header("Location: {$url}", true, 301);
-          exit; // Nothing more to see here!
-        }
+          \header("Location: {$url}", true, 301);
+          exit;
+          // Nothing more to see here!
       }
 
     }

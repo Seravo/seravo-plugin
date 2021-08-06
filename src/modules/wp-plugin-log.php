@@ -13,13 +13,13 @@ class PluginLog {
    * @return void
    */
   public static function load() {
-    add_action('activate_plugin', array( __CLASS__, 'on_try_activate_plugin' ), 10, 2);
-    add_action('activated_plugin', array( __CLASS__, 'on_activate_plugin' ), 10, 2);
-    add_action('deactivate_plugin', array( __CLASS__, 'on_try_deactivate_plugin' ), 10, 2);
-    add_action('deactivated_plugin', array( __CLASS__, 'on_deactivate_plugin' ), 10, 2);
-    add_action('switch_theme', array( __CLASS__, 'on_switch_theme' ), 10, 1);
-    add_action('upgrader_process_complete', array( __CLASS__, 'on_upgrader_process_complete' ), 10, 2);
-    add_action('delete_plugin', array( __CLASS__, 'on_delete_plugin' ));
+    \add_action('activate_plugin', array( __CLASS__, 'on_try_activate_plugin' ), 10, 2);
+    \add_action('activated_plugin', array( __CLASS__, 'on_activate_plugin' ), 10, 2);
+    \add_action('deactivate_plugin', array( __CLASS__, 'on_try_deactivate_plugin' ), 10, 2);
+    \add_action('deactivated_plugin', array( __CLASS__, 'on_deactivate_plugin' ), 10, 2);
+    \add_action('switch_theme', array( __CLASS__, 'on_switch_theme' ), 10, 1);
+    \add_action('upgrader_process_complete', array( __CLASS__, 'on_upgrader_process_complete' ), 10, 2);
+    \add_action('delete_plugin', array( __CLASS__, 'on_delete_plugin' ));
   }
 
   /**
@@ -32,7 +32,6 @@ class PluginLog {
       return;
     }
     if ( $arr_data['type'] !== null && $arr_data['action'] !== null ) {
-      $type = $arr_data['type'];
       $action = $arr_data['action'];
     } else {
       return;
@@ -110,23 +109,23 @@ class PluginLog {
    * @return void
    */
   public static function write_log( $message ) {
-    $time_local = gmdate('j/M/Y:H:i:s O');
+    $time_local = \gmdate('j/M/Y:H:i:s O');
 
-    $log_fp = fopen('/data/log/wp-settings.log', 'a');
+    $log_fp = \fopen('/data/log/wp-settings.log', 'a');
     if ( $log_fp === false ) {
       // Couldn't open the file, can't do much
       return;
     }
 
-    $current_user = wp_get_current_user();
+    $current_user = \wp_get_current_user();
     $user_id = $current_user->ID;
     // eg ID is 0 when the change is made using WP CLI
     if ( $user_id === 0 ) {
-      fwrite($log_fp, "{$time_local} WP-CLI {$message}\n");
+      \fwrite($log_fp, "{$time_local} WP-CLI {$message}\n");
     } else {
       $username = $current_user->user_login;
-      fwrite($log_fp, "{$time_local} User {$username} {$message}\n");
+      \fwrite($log_fp, "{$time_local} User {$username} {$message}\n");
     }
-    fclose($log_fp);
+    \fclose($log_fp);
   }
 }

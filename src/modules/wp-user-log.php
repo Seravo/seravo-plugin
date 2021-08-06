@@ -13,13 +13,13 @@ class UserLog {
    * @return void
    */
   public static function load() {
-    add_action('edit_user_created_user', array( __CLASS__, 'on_edit_user_created_user' ), 10, 1);
-    add_action('register_new_user', array( __CLASS__, 'on_register_new_user' ), 10, 1);
-    add_action('delete_user', array( __CLASS__, 'on_delete_user' ), 10, 2);
-    add_action('deleted_user', array( __CLASS__, 'on_deleted_user' ), 10, 2);
-    add_action('after_password_reset', array( __CLASS__, 'on_after_password_reset' ), 10, 2);
-    add_action('profile_update', array( __CLASS__, 'on_profile_update' ), 10, 2);
-    add_action('set_user_role', array( __CLASS__, 'on_set_user_role' ), 10, 3);
+    \add_action('edit_user_created_user', array( __CLASS__, 'on_edit_user_created_user' ), 10, 1);
+    \add_action('register_new_user', array( __CLASS__, 'on_register_new_user' ), 10, 1);
+    \add_action('delete_user', array( __CLASS__, 'on_delete_user' ), 10, 2);
+    \add_action('deleted_user', array( __CLASS__, 'on_deleted_user' ), 10, 2);
+    \add_action('after_password_reset', array( __CLASS__, 'on_after_password_reset' ), 10, 2);
+    \add_action('profile_update', array( __CLASS__, 'on_profile_update' ), 10, 2);
+    \add_action('set_user_role', array( __CLASS__, 'on_set_user_role' ), 10, 3);
   }
 
   /**
@@ -28,7 +28,7 @@ class UserLog {
    * @return void
    */
   public static function on_edit_user_created_user( $user_id ) {
-    $user = get_userdata($user_id);
+    $user = \get_userdata($user_id);
     if ( $user === false ) {
       return;
     }
@@ -52,7 +52,7 @@ class UserLog {
    * @return void
    */
   public static function on_delete_user( $user_id, $redirect_user_id = null ) {
-    $user = get_userdata($user_id);
+    $user = \get_userdata($user_id);
     if ( $user === false ) {
       return;
     }
@@ -61,7 +61,7 @@ class UserLog {
     if ( $redirect_user_id === null ) {
       self::write_log_user('attempts to delete user ' . $user->user_login . ' (ID:' . $user_id . ')');
     } else {
-      $redirect_user = get_userdata($redirect_user_id);
+      $redirect_user = \get_userdata($redirect_user_id);
       if ( $redirect_user === false ) {
         return;
       }
@@ -95,7 +95,7 @@ class UserLog {
    * @return void
    */
   public static function on_profile_update( $user_id, $old_user_data ) {
-    $new_user_data = get_userdata($user_id);
+    $new_user_data = \get_userdata($user_id);
     if ( $new_user_data === false ) {
       return;
     }
@@ -123,8 +123,8 @@ class UserLog {
    */
   public static function on_set_user_role( $user_id, $role, $old_roles ) {
     // If ID is 0, there is no current user. eg role set on registration or wp-test
-    if ( wp_get_current_user()->ID === 0 ) {
-      $new_user_data = get_userdata($user_id);
+    if ( \wp_get_current_user()->ID === 0 ) {
+      $new_user_data = \get_userdata($user_id);
       if ( $new_user_data === false ) {
         return;
       }
@@ -146,7 +146,7 @@ class UserLog {
    * @return void
    */
   public static function write_log_user( $message ) {
-    $current_user = wp_get_current_user();
+    $current_user = \wp_get_current_user();
     $user_id = $current_user->ID;
     // eg ID is 0 when the change is made using WP CLI
     $username = $user_id === 0 ? 'ID_0' : $current_user->user_login;
@@ -159,15 +159,15 @@ class UserLog {
    * @return void
    */
   public static function write_log( $message ) {
-    $time_local = date('j/M/Y:H:i:s O');
+    $time_local = \date('j/M/Y:H:i:s O');
 
-    $log_fp = fopen('/data/log/wp-user.log', 'a');
+    $log_fp = \fopen('/data/log/wp-user.log', 'a');
     if ( $log_fp === false ) {
       // Couldn't open the file, can't do much
       return;
     }
 
-    fwrite($log_fp, "{$time_local} {$message}\n");
-    fclose($log_fp);
+    \fwrite($log_fp, "{$time_local} {$message}\n");
+    \fclose($log_fp);
   }
 }

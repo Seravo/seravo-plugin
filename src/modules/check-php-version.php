@@ -12,8 +12,8 @@ class CheckPHPVersion {
    * @return void
    */
   public static function load() {
-    add_action('admin_notices', array( __CLASS__, '_seravo_check_php_version' ));
-    add_filter('wp_update_php_url', array( __CLASS__, '_seravo_update_php_url' ));
+    \add_action('admin_notices', array( __CLASS__, '_seravo_check_php_version' ));
+    \add_filter('wp_update_php_url', array( __CLASS__, '_seravo_update_php_url' ));
   }
 
   /**
@@ -22,7 +22,7 @@ class CheckPHPVersion {
   public static function _seravo_check_php_version() {
     // Show only on main dashboard once directly after login so it
     // will not clutter too much.
-    if ( ! isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') === false ) {
+    if ( ! isset($_SERVER['HTTP_REFERER']) || \strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') === false ) {
       return false;
     }
 
@@ -30,7 +30,7 @@ class CheckPHPVersion {
 
     $recommended_version = '7.4';
 
-    if ( version_compare(PHP_VERSION, $recommended_version, '<') ) {
+    if ( \version_compare(PHP_VERSION, $recommended_version, '<') ) {
       self::_seravo_show_php_recommendation($recommended_version);
     }
   }
@@ -39,7 +39,7 @@ class CheckPHPVersion {
    * @return string
    */
   public static function _seravo_update_php_url() {
-     return __('https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version', 'seravo');
+     return \__('https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version', 'seravo');
   }
 
   /**
@@ -55,9 +55,9 @@ class CheckPHPVersion {
 
         // The line below is very long, but PHPCS standards requires translation
         // strings to be one one line
-        printf(
+        \printf(
           // translators: %1$s: recommended php version, %2$s: url to the update page
-          __('PHP %1$s is available but not used on this site. Developers might want to <a href="tools.php?page=upkeep_page">upgrade the latest PHP version</a> for faster performance and new features. Read more about <a target="_blank" href="%2$s">PHP version upgrades</a>.', 'seravo'),
+          \__('PHP %1$s is available but not used on this site. Developers might want to <a href="tools.php?page=upkeep_page">upgrade the latest PHP version</a> for faster performance and new features. Read more about <a target="_blank" href="%2$s">PHP version upgrades</a>.', 'seravo'),
           $recommended_version,
           $url
         );
