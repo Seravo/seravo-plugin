@@ -12,7 +12,7 @@ jobs:
     - php: '7.4'
       env: SNIFF=1 PHPSTAN=1
     - php: '8.0'
-      env: SNIFF=1 PHPSTAN=1
+      env: SNIFF=1 PHPSTAN=1 LATEST_WP=1
     - php: '8.0'
       env: SNIFF=1 PHPSTAN=1 PHPCS_VERSION=master WP_SNIFFS_VERSION=master SECURITY_SNIFFS_VERSION=master PHP_COMPAT_SNIFFS_VERSION=master
     - name: Gnitpick
@@ -29,6 +29,9 @@ jobs:
 install:
   # Install Composer packages
   - if [ -n "$PHPSTAN" ]; then composer install; fi
+  # Install latest WordPress stubs and WP-CLI stubs
+  - if [ -n "$LATEST_WP" ]; then composer require --dev "php-stubs/wordpress-stubs"; fi
+  - if [ -n "$LATEST_WP" ]; then composer require --dev "php-stubs/wp-cli-stubs"; fi
   # Install PHP CodeSniffer, WP Coding Standards and PHPCS Security Audit
   - if [ -n "$SNIFF" ]; then scripts/install-phpcs.sh; fi
 
