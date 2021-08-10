@@ -104,8 +104,11 @@ class LoginNotifications {
     foreach ( $output_reversed as $line ) {
       // Split the line from spaces and retrieve the error date from line
       $output_array = \explode(' ', $line);
-      $date_str = \substr($output_array[0], 1, \strlen($output_array[0]));
+      $date_str = Compatibility::substr($output_array[0], 1, \strlen($output_array[0]));
 
+      if ( $date_str === false ) {
+        continue;
+      }
       // Just jump over the lines that don't contain dates, add an error though
       if ( \preg_match('/^(0[1-9]|[1-2]\d|3[0-1])-([a-z]|[A-Z]){3}-\d{4}.*$/', $date_str) === 1 ) {
         // Return the amount of errors if the date is already from the previous week

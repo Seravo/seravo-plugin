@@ -582,7 +582,9 @@ class SiteStatus extends Toolpage {
 
     if ( $cached_usage === false ) {
       \exec('du -sb /data ' . \implode(' ', $exclude_dirs), $data_folder);
-      \set_transient('disk_space_usage', $data_folder, DashboardWidgets::DISK_SPACE_CACHE_TIME);
+      if ( \count($data_folder) !== 0 ) {
+        \set_transient('disk_space_usage', $data_folder, DashboardWidgets::DISK_SPACE_CACHE_TIME);
+      }
     } else {
       $data_folder = $cached_usage;
     }
@@ -706,15 +708,17 @@ class SiteStatus extends Toolpage {
           $max_requests = $total_requests;
         }
 
-        $month = \substr($report, 25, 7);
-        $stats_link = 'tools.php?x-accel-redirect&report=' . $month . '.html';
-        $min_width = ($max_requests > 0 ? $total_requests / $max_requests * 100 : 1);
+        $month = Compatibility::substr($report, 25, 7);
 
-        $months[] = array(
-          'month' => Template::link($month, $stats_link, $month, 'link')->to_html(),
-          'requests' => '<div class="statistics" style="min-width: ' . $min_width . '%;">' . $total_requests . '</div>',
-          'span' => Template::button_link_with_icon($stats_link, \__('View report', 'seravo'))->to_html(),
-        );
+        if ( $month !== false ) {
+          $stats_link = 'tools.php?x-accel-redirect&report=' . $month . '.html';
+          $min_width = ($max_requests > 0 ? $total_requests / $max_requests * 100 : 1);
+          $months[] = array(
+            'month' => Template::link($month, $stats_link, $month, 'link')->to_html(),
+            'requests' => '<div class="statistics" style="min-width: ' . $min_width . '%;">' . $total_requests . '</div>',
+            'span' => Template::button_link_with_icon($stats_link, \__('View report', 'seravo'))->to_html(),
+          );
+        }
       }
 
       $output = Template::table_view('widefat striped', 'th', 'td', $column_titles, $months)->to_html();
