@@ -417,7 +417,7 @@ class Upkeep extends Toolpage {
    * @return void
    */
   public static function build_seravo_plugin_update_postbox( Component $base, Postbox\Postbox $postbox, $data ) {
-    if ( ! isset($data['current_version']) || ! isset($data['upstream_version']) ) {
+    if ( ! isset($data['current_version']) || ! isset($data['upstream_version']) || $data['upstream_version'] === false ) {
       $base->add_child(Template::error_paragraph(\__('No upstream or current Seravo Plugin version available, please try again later', 'seravo')));
       return;
     }
@@ -446,7 +446,9 @@ class Upkeep extends Toolpage {
     $upstream_version = \get_transient('seravo_plugin_upstream_version');
     if ( $upstream_version === false || $upstream_version === '' ) {
       $upstream_version = Compatibility::exec('curl -s https://api.github.com/repos/seravo/seravo-plugin/tags | grep "name" -m 1 | awk \'{gsub("\"","")}; {gsub(",","")}; {print $2}\'');
-      \set_transient('seravo_plugin_upstream_version', $upstream_version, 10800);
+      if ( $upstream_version !== false ) {
+        \set_transient('seravo_plugin_upstream_version', $upstream_version, 10800);
+      }
     }
 
     $data['upstream_version'] = $upstream_version;
@@ -605,7 +607,7 @@ class Upkeep extends Toolpage {
         }
       }
     }
-    $update_log_name = \substr(\end($update_logs_arr), 10);
+    $update_log_name = Compatibility::substr(\end($update_logs_arr), 10);
 
     $data['created'] = \date('Y-m-d', \strtotime($site_info['created']));
 
@@ -627,7 +629,11 @@ class Upkeep extends Toolpage {
 
             // Strip timestamps from log lines
             // Show only lines with 'Updates failed!'
-            $buffer = \substr($line, 28);
+            $buffer = Compatibility::substr($line, 28);
+            if ( $buffer === false ) {
+              continue;
+            }
+
             if ( \substr($buffer, 0, 15) === 'Updates failed!' ) {
               $update_log_contents[ $index ] = $buffer;
               ++$index;
@@ -662,12 +668,14 @@ class Upkeep extends Toolpage {
       $data['update_attempts'] = \__('No update attempts yet', 'seravo');
     }
 
-    $data['for_details'] = \sprintf(
-      // translators: event count and update.log filename and updates.log and security.log paths
-      \__('For details about last %1$s update attempts by Seravo, see %2$s.', 'seravo'),
-      \count($output),
-      '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>update.log*</code></a>'
-    );
+    if ( $update_log_name !== false ) {
+      $data['for_details'] = \sprintf(
+        // translators: event count and update.log filename and updates.log and security.log paths
+        \__('For details about last %1$s update attempts by Seravo, see %2$s.', 'seravo'),
+        \count($output),
+        '<a href="tools.php?page=logs_page&logfile=' . $update_log_name . '&max_num_of_rows=50"><code>update.log*</code></a>'
+      );
+    }
 
     return $data;
   }
@@ -750,7 +758,11 @@ class Upkeep extends Toolpage {
     }
 
     $cmd = 'wp-backup-list-changes-since ' . $date;
-    $message .= \exec($cmd . ' | wc -l') . ' ' . \__('rows affected', 'seravo');
+    $lines_affected = Compatibility::exec($cmd . ' | wc -l');
+
+    if ( $lines_affected !== false ) {
+      $message .= $lines_affected . ' ' . \__('rows affected', 'seravo');
+    }
     $color = Ajax\FancyForm::STATUS_GREEN;
     \exec($cmd, $output);
 
@@ -803,7 +815,11 @@ class Upkeep extends Toolpage {
           continue;
         }
 
-        $name = \substr(\basename($screenshot), 0, -4);
+        $name = Compatibility::substr(\basename($screenshot), 0, -4);
+
+        if ( $name === false ) {
+          continue;
+        }
         // Check whether the *.shadow.png exists in the set
         // Do not show the comparison if both images are not found.
         $exists_shadow = false;
@@ -820,7 +836,12 @@ class Upkeep extends Toolpage {
         }
 
         $diff = 0.0;
-        $diff_txt = \file_get_contents(\substr($screenshot, 0, -4) . '.diff.txt');
+        $screenshot_name = Compatibility::substr($screenshot, 0, -4);
+
+        if ( $screenshot_name === false ) {
+          continue;
+        }
+        $diff_txt = \file_get_contents($screenshot_name . '.diff.txt');
         if ( $diff_txt !== false && \preg_match('/Total: ([0-9.]+)/', $diff_txt, $matches) === 1 ) {
           $diff = (float) $matches[1];
         }

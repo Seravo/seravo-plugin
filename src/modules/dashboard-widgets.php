@@ -292,10 +292,14 @@ class DashboardWidgets {
             $max_requests = $total_requests;
           }
 
-          $months[] = array(
-            'month' => \substr($report, 25, 7),
-            'requests' => $total_requests,
-          );
+          $current_month = Compatibility::substr($report, 25, 7);
+
+          if ( $current_month !== false ) {
+            $months[] = array(
+              'month' => $current_month,
+              'requests' => $total_requests,
+            );
+          }
         }
 
         foreach ( $months as $month ) {
