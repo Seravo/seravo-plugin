@@ -159,19 +159,22 @@ class InstanceSwitcher {
         }
 
         if ( $primary_domain !== null ) {
-          $href = $primary_domain === '' ? '#' . \substr($instance['name'], -6) : 'https://' . $primary_domain;
+          $instance_id = Compatibility::substr($instance['name'], -6);
 
-          $wp_admin_bar->add_menu(
-            array(
-              'parent' => $id,
-              'title'  => $title,
-              'id'     => $instance['name'],
-              'href'   => $href,
-              'meta'   => array(
-                'class' => 'shadow-link',
-              ),
-            )
-          );
+          if ( $instance_id !== false ) {
+            $href = $primary_domain === '' ? '#' . $instance_id : 'https://' . $primary_domain;
+            $wp_admin_bar->add_menu(
+              array(
+                'parent' => $id,
+                'title'  => $title,
+                'id'     => $instance['name'],
+                'href'   => $href,
+                'meta'   => array(
+                  'class' => 'shadow-link',
+                ),
+              )
+            );
+          }
         }
       }
     }

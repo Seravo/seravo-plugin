@@ -72,7 +72,11 @@ class Logs {
         }
 
         $filetype_pos = \strpos($log_file, '.log-');
-        $until = $filetype_pos === false ? null : \substr($log_file, $filetype_pos + 5, 8);
+        $until = $filetype_pos === false ? null : Compatibility::substr($log_file, $filetype_pos + 5, 8);
+
+        if ( $until === false ) {
+          $until = null;
+        }
 
         $logs_with_time[$group][] = array(
           'file' => $log_file,
@@ -184,7 +188,10 @@ class Logs {
         // Last line is whatever is in the line buffer before the second line
         $eol = \strpos($linebuffer, "\n");
         if ( $eol !== false ) {
-          $complete_lines[] = \rtrim(\substr($linebuffer, 0, $eol));
+          $complete_line = Compatibility::substr($linebuffer, 0, $eol);
+          if ( $complete_line !== false ) {
+            $complete_lines[] = \rtrim($complete_line);
+          }
         }
       }
 
