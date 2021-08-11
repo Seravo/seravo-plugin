@@ -382,9 +382,7 @@ class SiteStatus extends Toolpage {
    * @return \Seravo\Ajax\AjaxResponse
    */
   public static function enable_object_cache() {
-    $response = new AjaxResponse();
     $object_cache_url = 'https://raw.githubusercontent.com/Seravo/wordpress/master/htdocs/wp-content/object-cache.php';
-
     // Remove all possible object-cache.php.* files
     $files = \glob(self::OBJECT_CACHE_PATH . '.*');
     if ( $files !== false ) {
@@ -392,22 +390,18 @@ class SiteStatus extends Toolpage {
         \unlink($file);
       }
     }
-
     // Get the newest file and write it
     $object_cache_content = \file_get_contents($object_cache_url);
+
     if ( $object_cache_content === false ) {
       // Downloading failed
-      $response->is_success(false);
-      $response->set_error(\__('Error with downloading the latest object-cache file. Please try again later.', 'seravo'));
-      return $response;
+      return Ajax\AjaxResponse::error_response(\__('Error with downloading the latest object-cache file. Please try again later.', 'seravo'));
     }
 
     $object_cache_file = \fopen(self::OBJECT_CACHE_PATH, 'w');
     if ( $object_cache_file === false ) {
       // Failed to open file handle
-      $response->is_success(false);
-      $response->set_error(\__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
-      return $response;
+      return Ajax\AjaxResponse::error_response(\__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
     }
 
     $write_object_cache = \fwrite($object_cache_file, $object_cache_content);
@@ -415,19 +409,12 @@ class SiteStatus extends Toolpage {
 
     if ( $write_object_cache === false ) {
       // Failed to write
-      $response->is_success(false);
-      $response->set_error(\__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
-      return $response;
+      return Ajax\AjaxResponse::error_response(\__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
     }
 
     // All good!
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'output' => Template::paragraph(\__('Object cache is now enabled!', 'seravo'), 'success bold')->to_html(),
-      )
-    );
-    return $response;
+    $enabled_msg = Template::paragraph(\__('Object cache is now enabled!', 'seravo'), 'success bold')->to_html();
+    return AjaxResponse::response_with_output($enabled_msg);
   }
 
   /**
@@ -508,7 +495,6 @@ class SiteStatus extends Toolpage {
    * @return \Seravo\Ajax\AjaxResponse
    */
   public static function run_cache_tests() {
-    $response = new AjaxResponse();
     \exec('wp-check-http-cache ' . \get_site_url(), $output);
     \array_unshift($output, '$ wp-check-http-cache ' . \get_site_url());
 
@@ -520,16 +506,7 @@ class SiteStatus extends Toolpage {
       $status_color = Ajax\FancyForm::STATUS_GREEN;
     }
 
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'output' => '<pre>' . \implode("\n", $output) . '</pre>',
-        'title' => $message,
-        'color' => $status_color,
-      )
-    );
-
-    return $response;
+    return Ajax\FancyForm::get_response('<pre>' . \implode("\n", $output) . '</pre>', $message, $status_color);
   }
 
   /**
@@ -674,8 +651,6 @@ class SiteStatus extends Toolpage {
    * @return \Seravo\Ajax\AjaxResponse
    */
   public static function get_http_statistics() {
-    $response = new AjaxResponse();
-
     $reports = \glob('/data/slog/html/goaccess-*.html');
     if ( $reports === false ) {
       $reports = array();
@@ -718,14 +693,7 @@ class SiteStatus extends Toolpage {
       $output = Template::error_paragraph(\__('The site has no HTTP requests statistics yet.', 'seravo'))->to_html();
     }
 
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'output' => $output,
-      )
-    );
-
-    return $response;
+    return AjaxResponse::response_with_output($output);
   }
 
   /**
@@ -922,10 +890,7 @@ class SiteStatus extends Toolpage {
         $shadow = $_POST['shadow'];
 
         if ( \is_wp_error($shadows) ) {
-          $response = new AjaxResponse();
-          $response->is_success(false);
-          $response->set_error(\__('An API error occured. Please try again later.', 'seravo'));
-          return $response;
+          return AjaxResponse::api_error_response();
         }
 
         $pid = \Seravo\Shell::backround_command('wp-shadow-reset ' . $shadow . ' --force 2>&1');
@@ -964,8 +929,6 @@ class SiteStatus extends Toolpage {
    * @return \Seravo\Ajax\AjaxResponse
    */
   public static function run_speed_test() {
-    $response = new AjaxResponse();
-
     // Take location for the speed test from the ajax call. If there is not one, use WP home
     $url = isset($_POST['location']) ? \get_home_url() . '/' . \trim($_POST['location']) : \get_home_url();
     // Make sure there is one / at the end of the url
@@ -973,9 +936,7 @@ class SiteStatus extends Toolpage {
 
     // use filter_var to make sure the resulting url is a valid url
     if ( \filter_var($url, FILTER_VALIDATE_URL) === false ) {
-      $response->is_success(false);
-      $response->set_error(\__('Error! Invalid url', 'seravo'));
-      return $response;
+      return Ajax\AjaxResponse::error_response(\__('Error! Invalid url', 'seravo'));
     }
 
     // Check whether to test cached version or not. Default not.
@@ -984,9 +945,7 @@ class SiteStatus extends Toolpage {
     // Prepare curl settings which are same for all requests
     $ch = \curl_init($url);
     if ( $ch === false ) {
-      $response->is_success(false);
-      $response->set_error(\__('Error! Curl not available', 'seravo'));
-      return $response;
+      return Ajax\AjaxResponse::error_response(\__('Error! Curl not available', 'seravo'));
     }
 
     \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -999,23 +958,12 @@ class SiteStatus extends Toolpage {
     $httpcode = \curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ( \curl_error($ch) !== '' || $httpcode !== 200 ) {
-      $response->is_success(false);
-      $response->set_error(\__('Error! HTTP response code:', 'seravo') . ' ' . $httpcode);
-      return $response;
+      return Ajax\AjaxResponse::error_response(\__('Error! HTTP response code:', 'seravo') . ' ' . $httpcode);
     }
     $curl_info_arr = \curl_getinfo($ch);
     \curl_close($ch);
 
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'data' => array(
-          'starttransfer_time' => $curl_info_arr['starttransfer_time'],
-        ),
-      )
-    );
-
-    return $response;
+    return AjaxResponse::response_with_output(array( 'starttransfer_time' => $curl_info_arr['starttransfer_time'] ), 'data');
   }
 
   /**
@@ -1023,21 +971,11 @@ class SiteStatus extends Toolpage {
    * @return \Seravo\Ajax\AjaxResponse
    */
   public static function run_site_checks() {
-    $response = new AjaxResponse();
     $results = SiteHealth::check_site_status(true);
     $output = $results[0];
     $title = $results[1];
     $status_color = $results[2];
 
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'output' => $output,
-        'title' => $title,
-        'color' => $status_color,
-      )
-    );
-
-    return $response;
+    return Ajax\FancyForm::get_response($output, $title, $status_color);
   }
 }
