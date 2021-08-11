@@ -315,16 +315,10 @@ class Upkeep extends Toolpage {
    */
   public static function run_php_compatibility() {
     $polling = Ajax\AjaxHandler::check_polling();
-    $response = new AjaxResponse();
 
     if ( $polling === true ) {
-      $response->is_success(true);
-      $response->set_data(
-        array(
-          'output' => '<hr>' . Template::paragraph(\__('PHP compatibility check has been run. See full details on <a href="tools.php?page=logs_page&logfile=php-compatibility.log" target="_blank">compatibility scan results.</a>', 'seravo'))->to_html() . '<hr>',
-        )
-      );
-      return $response;
+      $compatibility_run = '<hr>' . Template::paragraph(\__('PHP compatibility check has been run. See full details on <a href="tools.php?page=logs_page&logfile=php-compatibility.log" target="_blank">compatibility scan results.</a>', 'seravo'))->to_html() . '<hr>';
+      return AjaxResponse::response_with_output($compatibility_run);
     }
 
     if ( $polling === false ) {
@@ -347,7 +341,6 @@ class Upkeep extends Toolpage {
    */
   public static function set_php_version() {
     $polling = Ajax\AjaxHandler::check_polling();
-    $response = new AjaxResponse();
     $php_version = isset($_REQUEST['php-version']) ? \sanitize_text_field($_REQUEST['php-version']) : '';
     $current_version = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
     $php_version_array = array(
@@ -358,29 +351,17 @@ class Upkeep extends Toolpage {
     );
 
     if ( $polling === true ) {
-      $response->is_success(true);
-      $response->set_data(
-        array(
-          'output' => '<hr>' . Template::success_failure(true)->to_html() .
-          Template::paragraph(\__('PHP version has been changed succesfully! Please check <a href="tools.php?page=logs_page&logfile=php-error.log" target="_blank">php-error.log</a> for regressions.', 'seravo'))->to_html() . '<hr>',
-        )
-      );
-      return $response;
+      $successful_change = Template::success_failure(true)->to_html() .
+      Template::paragraph(\__('PHP version has been changed succesfully! Please check <a href="tools.php?page=logs_page&logfile=php-error.log" target="_blank">php-error.log</a> for regressions.', 'seravo'))->to_html() . '<hr>';
+      return AjaxResponse::response_with_output($successful_change);
     }
 
     if ( $polling === false ) {
       if ( \array_key_exists($php_version, $php_version_array) ) {
 
         if ( $php_version === $current_version ) {
-          $response = new AjaxResponse();
-          $response->is_success(true);
-          $response->set_data(
-            array(
-              'output' => '<hr>' . Template::error_paragraph(\__('The selected PHP version is already in use.', 'seravo'))->to_html() . '<hr>',
-              'error' => \__('Shit happens', 'seravo'),
-            )
-          );
-          return $response;
+          $already_in_use = '<hr>' . Template::error_paragraph(\__('The selected PHP version is already in use.', 'seravo'))->to_html() . '<hr>';
+          return AjaxResponse::response_with_output($already_in_use);
         }
         \file_put_contents('/data/wordpress/nginx/php.conf', 'set $mode php' . $php_version_array[$php_version] . ';' . PHP_EOL);
         // NOTE! The exec below must end with '&' so that subprocess is sent to the
@@ -461,7 +442,6 @@ class Upkeep extends Toolpage {
    * @return Ajax\AjaxResponse
    */
   public static function update_seravo_plugin() {
-    $response = new AjaxResponse();
     $cmd = Compatibility::exec('wp-seravo-plugin-update', $output, $result_code);
 
     if ( $cmd === false || $result_code !== 0 ) {
@@ -474,13 +454,7 @@ class Upkeep extends Toolpage {
       return Ajax\AjaxResponse::command_error_response('wp-seravo-plugin-update', $result_code);
     }
 
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'refresh' => true,
-      )
-    );
-    return $response;
+    return AjaxResponse::response_with_output(true, 'refresh');
   }
 
   /**
@@ -734,7 +708,6 @@ class Upkeep extends Toolpage {
    * @return \Seravo\Ajax\AjaxResponse
    */
   public static function fetch_backup_list_changes() {
-    $response = new AjaxResponse();
     $date = isset($_REQUEST['datepicker']) ? $_REQUEST['datepicker'] : '';
     $message = '';
 
@@ -763,16 +736,7 @@ class Upkeep extends Toolpage {
     $color = Ajax\FancyForm::STATUS_GREEN;
     \exec($cmd, $output);
 
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'output' => '<pre>' . \implode("\n", $output) . '</pre>',
-        'title' => $message,
-        'color' => $color,
-      )
-    );
-
-    return $response;
+    return Ajax\FancyForm::get_response('<pre>' . \implode("\n", $output) . '</pre>', $message, $color);
   }
 
   /**
@@ -944,7 +908,6 @@ class Upkeep extends Toolpage {
    * @return \Seravo\Ajax\AjaxResponse
    */
   public static function run_update_tests() {
-    $response = new AjaxResponse();
     $retval = null;
     $output = array();
     \exec('wp-test', $output, $retval);
@@ -966,14 +929,7 @@ class Upkeep extends Toolpage {
     // Format the output
     $pattern = '/\x1b\[[0-9;]*m/';
     $output = \preg_replace($pattern, '', $output);
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'output' => '<pre>' . \implode("\n", $output) . '</pre>',
-        'title' => $message,
-        'color' => $status_color,
-      )
-    );
-    return $response;
+
+    return Ajax\FancyForm::get_response('<pre>' . \implode("\n", $output) . '</pre>', $message, $status_color);
   }
 }

@@ -394,28 +394,16 @@ class Security extends Toolpage {
     // Re-index the array after unsetting invalid lines
     $login_data = \array_values($login_data);
 
-    $response = new AjaxResponse();
-    $response->is_success(true);
-
     if ( empty($login_data) ) {
-      $response->set_data(
-        array(
-          'output' => Template::error_paragraph(\__('No login data available', 'seravo'))->to_html(),
-        )
-      );
+      $output = Template::error_paragraph(\__('No login data available', 'seravo'))->to_html();
     } else {
       // Adding column titles
       $column_titles = array( \__('Time', 'seravo'), \__('User', 'seravo'), \__('Address', 'seravo') );
       $login_data = \array_reverse($login_data);
       $table_component = Template::table_view('result-table', 'result-table th', 'seravo-tooltip', $column_titles, $login_data, true);
-
-      $response->set_data(
-        array(
-          'output' => $table_component->to_html(),
-        )
-      );
+      $output = $table_component->to_html();
     }
-    return $response;
+    return AjaxResponse::response_with_output($output);
   }
 
   /**
@@ -439,13 +427,8 @@ class Security extends Toolpage {
     $response = new AjaxResponse();
     $response->is_success(true);
     $cruft_files_found = CruftRemover::list_cruft_files();
-    $response->set_data(
-      array(
-        'data' => $cruft_files_found,
-      )
-    );
 
-    return $response;
+    return AjaxResponse::response_with_output($cruft_files_found, 'data');
   }
 
   /**
@@ -453,7 +436,6 @@ class Security extends Toolpage {
    * @return \Seravo\Ajax\AjaxResponse
    */
   public static function remove_cruft_files() {
-    $response = new AjaxResponse();
     $results = array();
     $files = (isset($_POST['deletefile']) && ! empty($_POST['deletefile'])) ? $_POST['deletefile'] : array();
 
@@ -473,14 +455,7 @@ class Security extends Toolpage {
       }
     }
 
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'data' => $results,
-      )
-    );
-
-    return $response;
+    return AjaxResponse::response_with_output($results, 'data');
   }
 
   /**
