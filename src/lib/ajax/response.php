@@ -136,6 +136,18 @@ class AjaxResponse {
   }
 
   /**
+   * Get exception response that's supposed to be send on common error with message cases.
+   * @param string $error_message Error message to display.
+   * @return \Seravo\Ajax\AjaxResponse Exception response
+   */
+  public static function error_response( $error_message ) {
+    $response = new AjaxResponse();
+    $response->is_success(false);
+    $response->set_error($error_message);
+    return $response;
+  }
+
+  /**
    * Get exception response that's supposed to be send on common API errors.
    * @return \Seravo\Ajax\AjaxResponse Exception response
    */
@@ -143,6 +155,23 @@ class AjaxResponse {
     $response = new AjaxResponse();
     $response->is_success(false);
     $response->set_error(\__('An API error occured. Please try again later.', 'seravo'));
+    return $response;
+  }
+
+  /**
+   * Get response that's supposed to be send on common AJAX output cases.
+   * @param mixed  $output       AJAX output to display.
+   * @param string $output_field The field name to associate the output with when returned.
+   * @return \Seravo\Ajax\AjaxResponse Response with output.
+   */
+  public static function response_with_output( $output, $output_field = 'output' ) {
+    $response = new AjaxResponse();
+    $response->is_success(true);
+    $response->set_data(
+      array(
+        $output_field => $output,
+      )
+    );
     return $response;
   }
 

@@ -148,4 +148,24 @@ class FancyForm extends AjaxHandler {
     $this->title_text = $text;
   }
 
+  /**
+   * Get common FancyForm AJAX response and return it.
+   * @param mixed        $output Output to return with AJAX response.
+   * @param mixed|string $title  Title text to display on the wrapper.
+   * @param mixed|string $color  Color to display on the wrapper.
+   * @return \Seravo\Ajax\AjaxResponse
+   */
+  public static function get_response( $output, $title, $color ) {
+    $response = new AjaxResponse();
+    $response->is_success(true);
+    $response->set_data(
+      array(
+        'output' => $output,
+        'title' => $title,
+        'color' => $color,
+      )
+    );
+    return $response;
+  }
+
 }

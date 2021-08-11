@@ -93,14 +93,7 @@ class SimpleCommand extends SimpleForm {
 
     $output = '<pre>' . $output . '</pre>';
 
-    $response = new AjaxResponse();
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'output' => $output,
-      )
-    );
-    return $response;
+    return AjaxResponse::response_with_output($output);
   }
 
   /**

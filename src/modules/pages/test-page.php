@@ -5,7 +5,6 @@ namespace Seravo\Page;
 use \Seravo\Shell;
 
 use \Seravo\Ajax;
-
 use \Seravo\Postbox;
 use \Seravo\Postbox\Settings;
 use \Seravo\Postbox\Component;
@@ -146,10 +145,7 @@ class TestPage extends Toolpage {
       function() {
         // Use a proper function in real situation
         \exec('wp-purge-cache');
-        $response = new Ajax\AjaxResponse();
-        $response->is_success(true);
-        $response->set_data(array( 'output' => Template::paragraph('This bar returned output :)')->to_html() ));
-        return $response;
+        return Ajax\AjaxResponse::response_with_output(Template::paragraph('This bar returned output :)')->to_html());
       }
     );
     $nag_demo->add_ajax_handler($purge_cache_btn);
@@ -189,15 +185,7 @@ class TestPage extends Toolpage {
     $polling = Ajax\AjaxHandler::check_polling();
 
     if ( $polling === true ) {
-      // Done polling
-      $response = new Ajax\AjaxResponse();
-      $response->is_success(true);
-      $response->set_data(
-        array(
-          'output' => '<hr><pre>' . \file_get_contents('/data/log/nginx-restart-test.log') . '</pre><hr>',
-        )
-      );
-      return $response;
+      return Ajax\AjaxResponse::response_with_output('<hr><pre>' . \file_get_contents('/data/log/nginx-restart-test.log') . '</pre><hr>');
     }
 
     if ( $polling === false ) {
@@ -237,16 +225,7 @@ class TestPage extends Toolpage {
       $status_color = Ajax\FancyForm::STATUS_GREEN;
     }
 
-    $response = new Ajax\AjaxResponse();
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'output' => '<pre>' . \implode("\n", $output) . '</pre>',
-        'title' => $message,
-        'color' => $status_color,
-      )
-    );
-    return $response;
+    return Ajax\FancyForm::get_response('<pre>' . \implode("\n", $output) . '</pre>', $message, $status_color);
   }
 
   /**

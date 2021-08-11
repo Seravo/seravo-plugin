@@ -348,7 +348,6 @@ class Database extends Toolpage {
    * @return Ajax\AjaxResponse Response with error or db info in table.
    */
   public static function fetch_db_info() {
-    $response = new AjaxResponse();
     $db_columns = array();
     $cmd = Compatibility::exec('wp db size', $output, $return_code);
 
@@ -367,14 +366,8 @@ class Database extends Toolpage {
       $db_columns[] = $updated_columns;
     }
 
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'output' => Template::table_view('seravo-wb-db-info-table', 'db-info-th', 'db-info-td', array( '', '' ), $db_columns)->to_html(),
-      )
-    );
-
-    return $response;
+    $db_info_table = Template::table_view('seravo-wb-db-info-table', 'db-info-th', 'db-info-td', array( '', '' ), $db_columns)->to_html();
+    return AjaxResponse::response_with_output($db_info_table);
   }
 
   /**
@@ -431,7 +424,6 @@ class Database extends Toolpage {
    * @return Ajax\AjaxResponse Response with table sizes details.
    */
   public static function fetch_db_table_sizes_details() {
-    $response = new AjaxResponse();
     $common_column_titles = array( '', '' );
     global $wpdb;
     // Make the database queries
@@ -479,12 +471,6 @@ class Database extends Toolpage {
     $db_details->add_child(Component::from_raw('<hr><b>' . \__('Longest autoloaded wp_option values', 'seravo') . '</b>'));
     $db_details->add_child(Template::table_view('result-table', 'sizes-th', 'sizes-td', $common_column_titles, $long_autoload));
 
-    $response->is_success(true);
-    $response->set_data(
-      array(
-        'output' => $db_details->to_html(),
-      )
-    );
-    return $response;
+    return AjaxResponse::response_with_output($db_details->to_html());
   }
 }
