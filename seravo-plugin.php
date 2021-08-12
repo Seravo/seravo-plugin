@@ -261,21 +261,10 @@ class Loader {
      * Check that https is enabled in siteurl
      */
     Module\AdminChecks::load();
-
     /*
-     * Optimize images on upload. Only logged in users make uploads.
+     * Add features to image uploading
      */
-    if ( \is_user_logged_in() && \get_option('seravo-enable-optimize-images') === 'on' ) {
-      OptimizeImagesOnUpload::load();
-    }
-
-    /*
-     * Sanitize a filename on upload to remove special characters.
-     * Only logged in users make uploads.
-     */
-    if ( \is_user_logged_in() && \get_option('seravo-enable-sanitize-uploads') === 'on' ) {
-      SanitizeOnUpload::load();
-    }
+    Module\ImageUpload::load();
 
     // OLD AJAX FILES
     require_once SERAVO_PLUGIN_SRC . 'lib/domains-ajax.php';
@@ -328,12 +317,6 @@ class Loader {
      * Hides prespecified and given users from a WordPress page
      */
     HideUsers::load();
-
-    /*
-     * Add support for SVG images
-     * Allow users to upload SVG
-     */
-    SVGSupport::load();
   }
 }
 
