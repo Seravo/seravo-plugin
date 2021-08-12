@@ -4,6 +4,10 @@ jQuery(document).ready(
   function() {
     // Add event listener for clicking the purge cache button
     jQuery('#wp-admin-bar-nginx-helper-purge-all .ab-item').click(seravo_admin_bar.purge_cache);
+    // Add event listener for instance switcher shadow buttons
+    jQuery('#wp-admin-bar-instance-switcher li.shadow-link > a').click(seravo.shadow.switch_instance);
+    // Add event listener for instance switcher exit button
+    jQuery('#wp-admin-bar-instance-switcher li.shadow-exit > a').click(seravo.shadow.exit);
   }
 );
 
@@ -30,18 +34,19 @@ var seravo_admin_bar = {
         // Success
         response = jQuery.parseJSON(response);
 
-      if ( 'success' in response ) {
+        if ( 'success' in response ) {
           seravo.add_url_param('seravo-purge-success', response.success);
-      } else {
+        } else {
           seravo.add_url_param('seravo-purge-success', false);
-      }
+        }
+
         window.location.reload();
       }
     ).fail(
       function(response) {
         // Failure
         purge_cache_icon.removeClass('spin');
-        }
+      }
     );
   },
 

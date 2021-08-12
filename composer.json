@@ -46,6 +46,7 @@
       "src/lib/security-restrictions.php",
       "src/lib/logs.php",
       "src/lib/compatibility.php",
+      "src/lib/shadow.php",
       "src/modules/pages",
       "src/modules/check-site-health.php",
       "src/modules/login-notification.php",
