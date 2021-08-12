@@ -1,12 +1,18 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
+
+use \Seravo\Helpers;
+use \Seravo\Compatibility;
 
 /**
  * Class Passwords
  *
- * Enforce strong passwords
+ * Enforce a strong passwords. Check user passwords with
+ * wp-check-haveibeenpwned every few months.
  */
-class Passwords {
+final class Passwords {
+  use Module;
 
   /**
    * @var string|null
@@ -14,10 +20,10 @@ class Passwords {
   private static $password_hash;
 
   /**
-   * Load passwords features
+   * Initialize the module. Filters and hooks should be added here.
    * @return void
    */
-  public static function load() {
+  protected function init() {
     \add_action('login_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
     \add_action('admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ));
     \add_action('profile_update', array( __CLASS__, 'clear_seravo_pwned_check_timestamp' ));
@@ -28,23 +34,21 @@ class Passwords {
   }
 
   /**
-   * Register scripts
-   *
-   * @param string $page hook name
+   * Load required scripts and styles for this module.
+   * @param string $page The page user is on.
    * @return void
    */
   public static function register_scripts( $page ) {
-
-    \wp_register_style('seravo_passwords', SERAVO_PLUGIN_URL . 'style/passwords.css', array(), Helpers::seravo_plugin_version());
-    \wp_register_script('seravo_passwords', SERAVO_PLUGIN_URL . 'js/passwords.js', array( 'jquery' ), Helpers::seravo_plugin_version(), true);
+    \wp_register_style('seravo-passwords-css', SERAVO_PLUGIN_URL . 'style/passwords.css', array(), Helpers::seravo_plugin_version());
+    \wp_register_script('seravo-passwords-js', SERAVO_PLUGIN_URL . 'js/passwords.js', array( 'jquery' ), Helpers::seravo_plugin_version(), true);
 
     if ( $page === 'profile.php' || $page === 'user-new.php' ) {
-      \wp_enqueue_style('seravo_passwords');
+      \wp_enqueue_style('seravo-passwords-css');
     } elseif ( $GLOBALS['pagenow'] === 'wp-login.php' ) {
-      \wp_enqueue_script('seravo_passwords');
+      \wp_enqueue_script('seravo-passwords-js');
       // Password changing form
       if ( isset($_GET['action']) && $_GET['action'] === 'rp' ) {
-        \wp_enqueue_style('seravo_passwords');
+        \wp_enqueue_style('seravo-passwords-css');
       }
     }
   }
@@ -67,6 +71,7 @@ class Passwords {
   }
 
   /**
+   * Calculate sha1 hash of the user password.
    * @param \WP_User|\WP_Error $user     WP_User or WP_Error object if a previous callback failed authentication.
    * @param string             $password Password used to login.
    * @return \WP_Error|\WP_User The object given as $user.
@@ -77,6 +82,8 @@ class Passwords {
   }
 
   /**
+   * Check haveibeenpwned database for the user password hash.
+   * Only ran every 3 months on login.
    * @param string             $redirect_to           The redirect destination URL.
    * @param string             $requested_redirect_to The requested redirect destination URL passed as a parameter.
    * @param \WP_User|\WP_Error $user                  WP_User object if login was successful, WP_Error object otherwise.
@@ -95,11 +102,11 @@ class Passwords {
     // Make the check every 3 months
     $time_now = \time();
     $pwned_meta = \get_user_meta($user->ID, 'seravo_pwned_check', true);
-    if ( $pwned_meta === '' || $time_now - (int) $pwned_meta > 90 * DAY_IN_SECONDS ) {
+    if ( $pwned_meta === '' || $time_now - ((int) $pwned_meta) > 90 * DAY_IN_SECONDS ) {
       // Check if the password has been pwned
-      \exec('wp-check-haveibeenpwned --json ' . self::$password_hash . ' 2>&1', $pwned_check);
+      $exec = Compatibility::exec('wp-check-haveibeenpwned --json ' . self::$password_hash . ' 2>&1', $pwned_check, $return_code);
       $result = \json_decode(isset($pwned_check[0]) ? $pwned_check[0] : '', true);
-      if ( \count($pwned_check) === 0 || isset($result['error']) || ! isset($result['found']) ) {
+      if ( $exec === false || $return_code !== 0 || isset($result['error']) || ! isset($result['found']) ) {
         // Something went wrong
         \error_log("Failed to run 'wp-check-haveibeenpwned'!");
         return $redirect_to;
@@ -110,14 +117,17 @@ class Passwords {
         \update_user_meta($user->ID, 'seravo_pwned_check', $time_now);
         return $redirect_to;
       }
+
       // Password has been pwned!
       self::show_pwned_alert($redirect_to, self::$password_hash);
       exit();
     }
+
     return $redirect_to;
   }
 
   /**
+   * Show a alert page for pwned password.
    * @param string $redirect_to The URL user was really about to be redirected.
    * @param string $hash        The user password hash.
    * @return void
@@ -153,4 +163,5 @@ class Passwords {
     </html>
     <?php
   }
+
 }

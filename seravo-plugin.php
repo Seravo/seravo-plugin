@@ -249,11 +249,10 @@ class Loader {
      * Log important user changes in user such as roles, passwords and emails
      */
     Module\UserLog::load();
-
     /*
      * Enforce strong passwords
      */
-    Passwords::load();
+    Module\Passwords::load();
 
     /*
      * Instance switcher
