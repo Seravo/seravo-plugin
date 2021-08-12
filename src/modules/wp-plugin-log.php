@@ -1,5 +1,6 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
 
 /**
  * Class PluginLog
@@ -7,12 +8,14 @@ namespace Seravo;
  * Logs plugin and theme activations, deactivations, updates, installations
  * and deletions. Theme deletion is not logged as there is no hook for it.
  */
-class PluginLog {
+final class PluginLog {
+  use Module;
 
   /**
+   * Initialize the module. Filters and hooks should be added here.
    * @return void
    */
-  public static function load() {
+  protected function init() {
     \add_action('activate_plugin', array( __CLASS__, 'on_try_activate_plugin' ), 10, 2);
     \add_action('activated_plugin', array( __CLASS__, 'on_activate_plugin' ), 10, 2);
     \add_action('deactivate_plugin', array( __CLASS__, 'on_try_deactivate_plugin' ), 10, 2);
@@ -23,6 +26,7 @@ class PluginLog {
   }
 
   /**
+   * Fires when the WordPress upgrader process is complete.
    * @param \WP_Upgrader $upgrader A WP_Upgrader instance.
    * @param mixed[]      $arr_data Details about the upgrade.
    * @return void
@@ -53,14 +57,16 @@ class PluginLog {
   }
 
   /**
+   * Fires immediately before a plugin deletion attempt.
    * @param string $plugin Path to the plugin file relative to the plugins directory.
    * @return void
    */
-  public static function on_delete_plugin( $plugin = '' ) {
+  public static function on_delete_plugin( $plugin ) {
     self::write_log('deleted plugin ' . $plugin);
   }
 
   /**
+   * Fires immediately on plugin activation attempt.
    * @param string $plugin             Path to the plugin file relative to the plugins directory.
    * @param bool   $network_activation Whether this was for all sites in the network or just the current site.
    * @return void
@@ -70,6 +76,7 @@ class PluginLog {
   }
 
   /**
+   * Fires after a plugin has been activated.
    * @param string $plugin             Path to the plugin file relative to the plugins directory.
    * @param bool   $network_activation Whether this was for all sites in the network or just the current site.
    * @return void
@@ -79,6 +86,7 @@ class PluginLog {
   }
 
   /**
+   * Fires immediately on plugin deactivation attempt.
    * @param string $plugin             Path to the plugin file relative to the plugins directory.
    * @param bool   $network_activation Whether this was for all sites in the network or just the current site.
    * @return void
@@ -88,6 +96,7 @@ class PluginLog {
   }
 
   /**
+   * Fires after a plugin has been deactivated.
    * @param string $plugin             Path to the plugin file relative to the plugins directory.
    * @param bool   $network_activation Whether this was for all sites in the network or just the current site.
    * @return void
@@ -97,6 +106,7 @@ class PluginLog {
   }
 
   /**
+   * Fires after the theme is switched.
    * @param string $theme Name of the new theme.
    * @return void
    */
@@ -105,6 +115,7 @@ class PluginLog {
   }
 
   /**
+   * Write messages to wp-settings.log.
    * @param string $message Message to be written in to log.
    * @return void
    */
@@ -113,7 +124,8 @@ class PluginLog {
 
     $log_fp = \fopen('/data/log/wp-settings.log', 'a');
     if ( $log_fp === false ) {
-      // Couldn't open the file, can't do much
+      // Couldn't open the file
+      self::error_log("Critical security error: wp-settings.log can't be written to!");
       return;
     }
 
@@ -128,4 +140,5 @@ class PluginLog {
     }
     \fclose($log_fp);
   }
+
 }

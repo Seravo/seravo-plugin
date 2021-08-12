@@ -241,11 +241,10 @@ class Loader {
      * Log all login attempts, failed or successful. Use no filters, as this should be mandatory
      */
     Module\LoginLog::load();
-
     /*
      * Log plugin and theme activations, deactivations, installations and deletions
      */
-    PluginLog::load();
+    Module\PluginLog::load();
 
     /*
      * Log important user changes in user such as roles, passwords and emails
