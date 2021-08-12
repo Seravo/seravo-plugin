@@ -1,5 +1,6 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
 
 /**
  * Class UserLog
@@ -7,12 +8,14 @@ namespace Seravo;
  * Logs plugin and theme activations, deactivations, updates, installations
  * and deletions. Theme deletion is not logged as there is no hook for it.
  */
-class UserLog {
+final class UserLog {
+  use Module;
 
   /**
+   * Initialize the module. Filters and hooks should be added here.
    * @return void
    */
-  public static function load() {
+  protected function init() {
     \add_action('edit_user_created_user', array( __CLASS__, 'on_edit_user_created_user' ), 10, 1);
     \add_action('register_new_user', array( __CLASS__, 'on_register_new_user' ), 10, 1);
     \add_action('delete_user', array( __CLASS__, 'on_delete_user' ), 10, 2);
@@ -155,6 +158,7 @@ class UserLog {
   }
 
   /**
+   * Write messages to wp-user.log.
    * @param string $message Message to be written in to log.
    * @return void
    */
@@ -164,10 +168,12 @@ class UserLog {
     $log_fp = \fopen('/data/log/wp-user.log', 'a');
     if ( $log_fp === false ) {
       // Couldn't open the file, can't do much
+      self::error_log("Critical security error: wp-user.log can't be written to!");
       return;
     }
 
     \fwrite($log_fp, "{$time_local} {$message}\n");
     \fclose($log_fp);
   }
+
 }
