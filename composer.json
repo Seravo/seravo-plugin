@@ -55,18 +55,16 @@
       "src/modules/hide-users.php",
       "src/modules/instance-switcher.php",
       "src/modules/noindex-domain-alias.php",
-      "src/modules/optimize-on-upload.php",
       "src/modules/passwords.php",
       "src/modules/purge-cache.php",
-      "src/modules/sanitize-on-upload.php",
       "src/modules/seravotest-auth-bypass.php",
       "src/modules/speed-test.php",
-      "src/modules/svg-support.php",
       "src/modules/thirdparty-fixes.php",
       "src/modules/wp-login-log.php",
       "src/modules/wp-plugin-log.php",
       "src/modules/wp-user-log.php",
-      "src/modules/admin-checks.php"
+      "src/modules/admin-checks.php",
+      "src/modules/image-upload.php"
     ]
   },
   "scripts": {
