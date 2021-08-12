@@ -1,26 +1,43 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
+
+use \Seravo\API;
+use \Seravo\Shadow;
+use \Seravo\Helpers;
+use \Seravo\Compatibility;
 
 /**
  * Class InstanceSwitcher
  *
- * Enable users to switch to any shadow they have available
+ * Enable users to switch to any shadow they have available.
  */
-class InstanceSwitcher {
+final class InstanceSwitcher {
+  use Module;
 
   /**
+   * Check whether the module should be loaded or not.
+   * @return bool Whether to load.
+   */
+  protected function should_load() {
+    return ! Helpers::is_development();
+  }
+
+  /**
+   * Initialize the module. Filters and hooks should be added here.
    * @return void
    */
-  public static function load() {
+  protected function init() {
     # Show the red banner only in staging/testing instances
     # Don't show the banner in Vagrant or other local development environments
     # or in update shadows where the red banner would just be annoying.
     if ( \getenv('WP_ENV') === 'staging' ) {
-      \add_action('admin_footer', array( self::class, 'render_shadow_indicator' ));
-      \add_action('wp_footer', array( self::class, 'render_shadow_indicator' ));
-      \add_action('login_footer', array( self::class, 'render_shadow_indicator' ));
-      \add_action('admin_notices', array( self::class, 'render_shadow_admin_notice' ));
+      \add_action('admin_footer', array( __CLASS__, 'render_shadow_indicator' ));
+      \add_action('wp_footer', array( __CLASS__, 'render_shadow_indicator' ));
+      \add_action('login_footer', array( __CLASS__, 'render_shadow_indicator' ));
+      \add_action('admin_notices', array( __CLASS__, 'render_shadow_admin_notice' ));
 
+      // If production domain was given, store it as cookie.
       if ( isset($_GET['seravo_production']) ) {
         $production_domain = $_GET['seravo_production'];
         if ( $production_domain !== 'clear' ) {
@@ -31,66 +48,36 @@ class InstanceSwitcher {
       }
     }
 
-    // styles and scripts for the switcher and the banner
-    \add_action('admin_enqueue_scripts', array( self::class, 'assets' ), 999);
-    \add_action('wp_enqueue_scripts', array( self::class, 'assets' ), 999);
-    \add_action('login_enqueue_scripts', array( self::class, 'assets' ), 999);
+    \add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ), 999);
+    \add_action('wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ), 999);
+    \add_action('login_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ), 999);
 
-    // Check permission
-    if ( ! \current_user_can(self::custom_capability()) ) {
-      return;
+    // Check user permission and show instance switcher
+    $capability = \apply_filters('seravo_' . self::get_name() . '_capability', 'edit_posts');
+    if ( \current_user_can($capability) ) {
+      \add_action('admin_bar_menu', array( __CLASS__, 'add_switcher' ), 999);
     }
-
-    // add the instance switcher menu
-    \add_action('admin_bar_menu', array( self::class, 'add_switcher' ), 999);
   }
 
   /**
-   * Make capability filterable
-   * @return string
-   */
-  public static function custom_capability() {
-    return \apply_filters('seravo_instance_switcher_capability', 'edit_posts');
-  }
-
-  /**
-   * Load JavaScript and stylesheets for the switcher and the banner
+   * Load JavaScript and stylesheets for the switcher and the banner.
    * @return void
    */
-  public static function assets() {
-    if ( \is_user_logged_in() || Helpers::is_staging() ) {
-      \wp_enqueue_script('seravo_instance_switcher', SERAVO_PLUGIN_URL . 'js/instance-switcher.js', array( 'jquery' ), Helpers::seravo_plugin_version(), false);
-      \wp_enqueue_style('seravo_instance_switcher', SERAVO_PLUGIN_URL . 'style/instance-switcher.css', array(), Helpers::seravo_plugin_version(), 'all');
+  public static function enqueue_scripts() {
+    if ( \is_user_logged_in() ) {
+      // JS and CSS for the switcher
+      \wp_enqueue_style('seravo-admin-bar-css');
+      \wp_enqueue_script('seravo-admin-bar-js');
+    }
+
+    if ( Helpers::is_staging() ) {
+      // JS for the banner
+      \wp_enqueue_script('seravo-common-js');
     }
   }
 
   /**
-   * Automatically load list of shadow instances from Seravo API (if available)
-   * @return bool|mixed
-   */
-  public static function load_shadow_list() {
-    // If not in production, the Seravo API is not accessible and it is not
-    // even possible know what shadows exists, so just return an empty list.
-    if ( \getenv('WP_ENV') !== 'production' ) {
-      return false;
-    }
-
-    $shadow_list = \get_transient('shadow_list');
-    if ( ($shadow_list) === false ) {
-      $api_query = '/shadows';
-      $shadow_list = API::get_site_data($api_query);
-      if ( \is_wp_error($shadow_list) ) {
-        return false; // Exit with empty result and let later flow handle it
-        // Don't break page load here or everything would be broken.
-      }
-      \set_transient('shadow_list', $shadow_list, 10 * MINUTE_IN_SECONDS);
-    }
-
-    return $shadow_list;
-  }
-
-  /**
-   * Create the menu itself
+   * Add a instance switcher menu in the WP Admin Bar.
    * @param \WP_Admin_Bar $wp_admin_bar Instance of the admin bar.
    * @return void
    */
@@ -109,7 +96,7 @@ class InstanceSwitcher {
       return;
     }
 
-    # Color the instance switcher red if not in production
+    // Color the instance switcher red if not in production
     if ( $wp_env !== 'production' ) {
       $menuclass = 'instance-switcher-warning';
     }
@@ -122,7 +109,7 @@ class InstanceSwitcher {
       $current_url .= '?';
     }
 
-    // create the parent menu here
+    // Create the parent menu here
     $wp_admin_bar->add_menu(
       array(
         'id'    => $id,
@@ -135,7 +122,7 @@ class InstanceSwitcher {
       )
     );
 
-    $instances = self::load_shadow_list();
+    $instances = Shadow::load_shadow_list();
 
     if ( $instances !== false ) {
       // add menu entries for each shadow
@@ -181,7 +168,7 @@ class InstanceSwitcher {
 
     // If in a shadow, always show exit link
     if ( $wp_env !== 'production' ) {
-      $domain = self::get_production_domain();
+      $domain = Shadow::get_production_domain();
       $exit_href = $domain === '' ? '#exit' : 'https://' . $domain;
 
       $wp_admin_bar->add_menu(
@@ -210,7 +197,8 @@ class InstanceSwitcher {
   }
 
   /**
-   * Front facing big fat red banner
+   * Render front facing big fat red banner. This should
+   * always be shown in shadow so the user doesn't forget.
    * @return void
    */
   public static function render_shadow_indicator() {
@@ -225,6 +213,7 @@ class InstanceSwitcher {
     if ( \getenv('WP_ENV_COMMENT') !== false && \getenv('WP_ENV_COMMENT') !== '' ) {
       $shadow_title = \getenv('WP_ENV_COMMENT');
     }
+
     ?>
     <style>
       #shadow-indicator {
@@ -248,9 +237,10 @@ class InstanceSwitcher {
         color: #fff;
       }
     </style>
+
     <div id="shadow-indicator">
       <?php
-      $domain = self::get_production_domain();
+      $domain = Shadow::get_production_domain();
       $exit_href = $domain === '' ? '#exit' : 'https://' . $domain;
       // translators: $s Identifier for the shadow instance in use
       \printf(\__('Your current shadow instance is "%s".', 'seravo'), $shadow_title);
@@ -261,43 +251,15 @@ class InstanceSwitcher {
   }
 
   /**
-   * Let plugins or themes display admin notice when inside a shadow
+   * Let plugins or themes display admin notice when inside a shadow.
    * @return void
    */
   public static function render_shadow_admin_notice() {
     $current_screen = \get_current_screen();
-    $admin_notice_content = \apply_filters('seravo_instance_switcher_admin_notice', '', $current_screen);
+    $admin_notice_content = \apply_filters('seravo_staging_admin_notice', '', $current_screen);
     if ( $admin_notice_content !== '' ) {
       echo $admin_notice_content;
     }
   }
 
-  /**
-   * @return string|mixed
-   */
-  public static function get_production_domain() {
-    if ( isset($_COOKIE['seravo_shadow']) && $_COOKIE['seravo_shadow'] !== '' ) {
-      // Seravo_shadow cookie indicates cookie based access, no separate domain
-      return '';
-    }
-    if ( isset($_GET['seravo_production']) && $_GET['seravo_production'] !== '' && $_GET['seravo_production'] !== 'clear' ) {
-      // With seravo_production param, shadow uses domain based access
-      // Tested before cookie as it may contain newer data
-      return $_GET['seravo_production'];
-    }
-    if ( isset($_COOKIE['seravo_production']) && $_COOKIE['seravo_production'] !== '' ) {
-      // With seravo_production cookie, shadow uses domain based access
-      return $_COOKIE['seravo_production'];
-    }
-    if ( $_SERVER['SERVER_NAME'] !== \getenv('DEFAULT_DOMAIN') && \substr_count($_SERVER['SERVER_NAME'], '.') >= 2 ) {
-      // TODO: This is bad solution, fix this
-      // If domain consists of 3 or more parts, remove the downmost
-      // Notice that this DOES NOT necessarily work for multilevel TLD (eg. co.uk)
-      // Slash at end means that only hostname should be used (no path/query etc)
-      // It should be used when redirecting might be needed
-      return \explode('.', $_SERVER['SERVER_NAME'], 2)[1] . '/';
-    }
-    // If none of the others work, trust in redirecting
-    return \getenv('DEFAULT_DOMAIN') . '/';
-  }
 }

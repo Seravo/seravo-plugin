@@ -253,13 +253,10 @@ class Loader {
      * Enforce strong passwords
      */
     Module\Passwords::load();
-
     /*
      * Instance switcher
      */
-    if ( \apply_filters('seravo_show_instance_switcher', true) === true && \getenv('WP_ENV') !== 'development' ) {
-      InstanceSwitcher::load();
-    }
+    Module\InstanceSwitcher::load();
 
     /*
      * Check that https is enabled in siteurl
