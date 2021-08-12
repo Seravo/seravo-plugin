@@ -29,6 +29,7 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Composer\\Installers\\AglInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AglInstaller.php',
         'Composer\\Installers\\AimeosInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
         'Composer\\Installers\\AnnotateCmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -149,6 +150,7 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Seravo\\Module\\LoginLog' => __DIR__ . '/../..' . '/src/modules/wp-login-log.php',
         'Seravo\\Module\\Module' => __DIR__ . '/../..' . '/src/lib/module/module.php',
         'Seravo\\Module\\Noindex' => __DIR__ . '/../..' . '/src/modules/noindex-domain-alias.php',
+        'Seravo\\Module\\PluginLog' => __DIR__ . '/../..' . '/src/modules/wp-plugin-log.php',
         'Seravo\\Module\\PurgeCache' => __DIR__ . '/../..' . '/src/modules/purge-cache.php',
         'Seravo\\Module\\SeravoTestAuthBypass' => __DIR__ . '/../..' . '/src/modules/seravotest-auth-bypass.php',
         'Seravo\\Module\\SpeedTest' => __DIR__ . '/../..' . '/src/modules/speed-test.php',
@@ -162,7 +164,6 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Seravo\\Page\\TestPage' => __DIR__ . '/../..' . '/src/modules/pages/test-page.php',
         'Seravo\\Page\\Upkeep' => __DIR__ . '/../..' . '/src/modules/pages/upkeep.php',
         'Seravo\\Passwords' => __DIR__ . '/../..' . '/src/modules/passwords.php',
-        'Seravo\\PluginLog' => __DIR__ . '/../..' . '/src/modules/wp-plugin-log.php',
         'Seravo\\Postbox\\Component' => __DIR__ . '/../..' . '/src/lib/postbox/component/component.php',
         'Seravo\\Postbox\\FancyForm' => __DIR__ . '/../..' . '/src/lib/postbox/templates/fancy-form.php',
         'Seravo\\Postbox\\InfoBox' => __DIR__ . '/../..' . '/src/lib/postbox/templates/info-box.php',

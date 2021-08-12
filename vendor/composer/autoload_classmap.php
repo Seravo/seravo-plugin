@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Composer\\Installers\\AglInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AglInstaller.php',
     'Composer\\Installers\\AimeosInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
     'Composer\\Installers\\AnnotateCmsInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -126,6 +127,7 @@ return array(
     'Seravo\\Module\\LoginLog' => $baseDir . '/src/modules/wp-login-log.php',
     'Seravo\\Module\\Module' => $baseDir . '/src/lib/module/module.php',
     'Seravo\\Module\\Noindex' => $baseDir . '/src/modules/noindex-domain-alias.php',
+    'Seravo\\Module\\PluginLog' => $baseDir . '/src/modules/wp-plugin-log.php',
     'Seravo\\Module\\PurgeCache' => $baseDir . '/src/modules/purge-cache.php',
     'Seravo\\Module\\SeravoTestAuthBypass' => $baseDir . '/src/modules/seravotest-auth-bypass.php',
     'Seravo\\Module\\SpeedTest' => $baseDir . '/src/modules/speed-test.php',
@@ -139,7 +141,6 @@ return array(
     'Seravo\\Page\\TestPage' => $baseDir . '/src/modules/pages/test-page.php',
     'Seravo\\Page\\Upkeep' => $baseDir . '/src/modules/pages/upkeep.php',
     'Seravo\\Passwords' => $baseDir . '/src/modules/passwords.php',
-    'Seravo\\PluginLog' => $baseDir . '/src/modules/wp-plugin-log.php',
     'Seravo\\Postbox\\Component' => $baseDir . '/src/lib/postbox/component/component.php',
     'Seravo\\Postbox\\FancyForm' => $baseDir . '/src/lib/postbox/templates/fancy-form.php',
     'Seravo\\Postbox\\InfoBox' => $baseDir . '/src/lib/postbox/templates/info-box.php',
