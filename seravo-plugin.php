@@ -245,11 +245,10 @@ class Loader {
      * Log plugin and theme activations, deactivations, installations and deletions
      */
     Module\PluginLog::load();
-
     /*
      * Log important user changes in user such as roles, passwords and emails
      */
-    UserLog::load();
+    Module\UserLog::load();
 
     /*
      * Enforce strong passwords
