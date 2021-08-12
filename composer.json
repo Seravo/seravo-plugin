@@ -51,8 +51,6 @@
       "src/modules/check-site-health.php",
       "src/modules/login-notification.php",
       "src/modules/dashboard-widgets.php",
-      "src/modules/check-default-email.php",
-      "src/modules/check-https.php",
       "src/modules/fixes.php",
       "src/modules/hide-users.php",
       "src/modules/instance-switcher.php",
@@ -68,7 +66,7 @@
       "src/modules/wp-login-log.php",
       "src/modules/wp-plugin-log.php",
       "src/modules/wp-user-log.php",
-      "src/modules/check-php-version.php"
+      "src/modules/admin-checks.php"
     ]
   },
   "scripts": {

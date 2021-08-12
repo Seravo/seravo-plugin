@@ -257,27 +257,10 @@ class Loader {
      * Instance switcher
      */
     Module\InstanceSwitcher::load();
-
     /*
      * Check that https is enabled in siteurl
      */
-    if ( \current_user_can('administrator') ) {
-      CheckHttps::load();
-    }
-
-    /*
-     * Notify that a newer PHP version is available
-     */
-    if ( \current_user_can('administrator') ) {
-      CheckPHPVersion::load();
-    }
-
-    /*
-     * Check that user has changed admin email to something else from no-reply@seravo
-     */
-    if ( \current_user_can('administrator') ) {
-      CheckDefaultEmail::load();
-    }
+    Module\AdminChecks::load();
 
     /*
      * Optimize images on upload. Only logged in users make uploads.
