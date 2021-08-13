@@ -265,6 +265,10 @@ class Loader {
      * Add features to image uploading
      */
     Module\ImageUpload::load();
+    /*
+     * Hide prespecified and given users from a WordPress page
+     */
+    Module\HideUsers::load();
 
     // OLD AJAX FILES
     require_once SERAVO_PLUGIN_SRC . 'lib/domains-ajax.php';
@@ -305,12 +309,6 @@ class Loader {
     if ( \defined('WP_CLI') && WP_CLI ) {
       require_once SERAVO_PLUGIN_SRC . 'modules/wp-cli.php';
     }
-
-    /*
-     * Hide Users
-     * Hides prespecified and given users from a WordPress page
-     */
-    HideUsers::load();
   }
 }
 

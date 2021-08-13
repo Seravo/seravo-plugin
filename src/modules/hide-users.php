@@ -1,22 +1,31 @@
 <?php
-namespace Seravo;
+
+namespace Seravo\Module;
 
 /**
  * Class HideUsers
  *
- * Hides prespecified and given users from a WordPress page
+ * Hides prespecified and given users from a WordPress page.
  */
-class HideUsers {
+final class HideUsers {
+  use Module;
 
   /**
+   * @var string[] Array of users that will be hidden from WP user front-end, wp-cli output and WP Admin panel.
+   */
+  private static $hidden_user_array = array( 'seravotest', 'seravo' );
+
+  /**
+   * Initialize the module. Filters and hooks should be added here.
    * @return void
    */
-  public static function load() {
-     \add_action('pre_user_query', array( __CLASS__, 'hide_user_from_page' ), 10, 3);
+  protected function init() {
+    \add_action('pre_user_query', array( __CLASS__, 'hide_user_from_page' ), 10, 3);
   }
 
   /**
-   * @param \WP_User_Query $user_query
+   * Fires after the WP_User_Query has been parsed, and before the query is executed.
+   * @param \WP_User_Query $user_query The user query object.
    * @return void
    */
   public static function hide_user_from_page( $user_query ) {
@@ -46,8 +55,4 @@ class HideUsers {
     );
   }
 
-  /**
-   * @var string[] Array of users that will be hidden from WP user front-end, wp-cli output and WP Admin panel.
-   */
-  private static $hidden_user_array = array( 'seravotest', 'seravo' );
 }
