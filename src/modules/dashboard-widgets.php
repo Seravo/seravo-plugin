@@ -1,6 +1,7 @@
 <?php
 namespace Seravo;
 
+use \Seravo\Logs;
 use \Seravo\Compatibility;
 use Seravo\Postbox\Template;
 use Seravo\Postbox\Component;
@@ -14,9 +15,9 @@ use Seravo\Postbox\Requirements;
 class DashboardWidgets {
 
   /**
-   * @var int|null The amount of PHP errors.
+   * @var int The amount of PHP errors.
    */
-  private static $errors;
+  private static $errors = 0;
 
   /**
    * @var string End of Life PHP version.
@@ -55,7 +56,8 @@ class DashboardWidgets {
       \add_action('wp_dashboard_setup', array( __CLASS__, 'init_dashboard_widgets' ));
 
       if ( (bool) \apply_filters('seravo_dashboard_errors', true) ) {
-        self::$errors = LoginNotifications::retrieve_error_count();
+        $errors = Logs::get_week_error_count();
+        self::$errors = $errors === false ? 0 : $errors;
       }
     }
   }
@@ -354,4 +356,5 @@ class DashboardWidgets {
 
     return $data;
   }
+
 }

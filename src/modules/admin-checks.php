@@ -2,13 +2,14 @@
 
 namespace Seravo\Module;
 
+use \Seravo\Logs;
 use \Seravo\Postbox\Template;
 
 /**
  * Class AdminChecks
  *
- * Check that site has contact email, HTTPS enabled and
- * recommended PHP version or show an warning notice.
+ * Check that site has contact email, HTTPS enabled, where the last
+ * login was from and recommended PHP version or show an warning notice.
  */
 final class AdminChecks {
   use Module;
@@ -37,9 +38,14 @@ final class AdminChecks {
     self::check_https();
     self::check_default_email();
 
-    // Show PHP warning only once at login
+    // Check PHP version and last login only once after login
     if ( isset($_SERVER['HTTP_REFERER']) && \strpos($_SERVER['HTTP_REFERER'], 'wp-login.php') !== false ) {
       self::check_php_version();
+
+      // Apply filter for showing last login
+      if ( \apply_filters('seravo_dashboard_last_login', true) === true ) {
+        self::check_last_login();
+      }
     }
   }
 
@@ -101,6 +107,33 @@ final class AdminChecks {
       \esc_url(\get_option('siteurl'))
     );
     Template::nag_notice(Template::paragraph($message), 'notice-error')->print_html();
+  }
+
+  /**
+   * Check if previous login is found and show a notification with
+   * previous login info. This should only be called once after login.
+   * @return void
+   */
+  public static function check_last_login() {
+    $last_login = Logs::retrieve_last_login();
+    if ( $last_login === false ) {
+      return;
+    }
+
+    $message = \wp_sprintf(
+      /* translators:
+       * %1$s username of the current user
+       * %2$s date of last login
+       * %3$s time of last login
+       * %4$s IP address or reverse domain of the last login
+       */
+      \__('Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s.', 'seravo'),
+      $last_login['user'],
+      $last_login['date'],
+      $last_login['time'],
+      $last_login['domain']
+    );
+    Template::nag_notice(Template::paragraph($message), 'notice notice-info is-dismissible')->print_html();
   }
 
 }

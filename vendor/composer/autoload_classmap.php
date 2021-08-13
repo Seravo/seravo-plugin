@@ -117,7 +117,6 @@ return array(
     'Seravo\\Domains' => $baseDir . '/src/modules/pages/domains.php',
     'Seravo\\Helpers' => $baseDir . '/src/lib/helpers.php',
     'Seravo\\HideUsers' => $baseDir . '/src/modules/hide-users.php',
-    'Seravo\\LoginNotifications' => $baseDir . '/src/modules/login-notification.php',
     'Seravo\\Logs' => $baseDir . '/src/lib/logs.php',
     'Seravo\\Module\\AdminChecks' => $baseDir . '/src/modules/admin-checks.php',
     'Seravo\\Module\\Fixes' => $baseDir . '/src/modules/fixes.php',

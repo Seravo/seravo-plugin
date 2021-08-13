@@ -140,7 +140,6 @@ class ComposerStaticInit7f722af553c36d468cd317a3e32759ad
         'Seravo\\Domains' => __DIR__ . '/../..' . '/src/modules/pages/domains.php',
         'Seravo\\Helpers' => __DIR__ . '/../..' . '/src/lib/helpers.php',
         'Seravo\\HideUsers' => __DIR__ . '/../..' . '/src/modules/hide-users.php',
-        'Seravo\\LoginNotifications' => __DIR__ . '/../..' . '/src/modules/login-notification.php',
         'Seravo\\Logs' => __DIR__ . '/../..' . '/src/lib/logs.php',
         'Seravo\\Module\\AdminChecks' => __DIR__ . '/../..' . '/src/modules/admin-checks.php',
         'Seravo\\Module\\Fixes' => __DIR__ . '/../..' . '/src/modules/fixes.php',

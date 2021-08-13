@@ -5,7 +5,7 @@ namespace Seravo;
 /**
  * Class Logs
  *
- * TODO COMMENT
+ * Logs class has static methods for all log reading and parsing.
  */
 class Logs {
 
@@ -301,6 +301,133 @@ class Logs {
     }
 
     return $result;
+  }
+
+  /**
+   * Get the amount of php-error.log lines that have been added this week. The
+   * first day of the week is retreived from WordPress settings.
+   * @param int $max_rows Maximum amount of log lines to read. Not that this may cause incorrect result.
+   * @return int|false The amount of php-error.log lines appended this week or false on failure.
+   */
+  public static function get_week_error_count( $max_rows = 200 ) {
+    // Check the first day of week from wp options, and transform to last day of week
+    $wp_first_day = \get_option('start_of_week');
+    $last_day_int = $wp_first_day === 0 ? 6 : $wp_first_day - 1;
+    $days = array(
+      0 => 'Sunday',
+      1 => 'Monday',
+      2 => 'Tuesday',
+      3 => 'Wednesday',
+      4 => 'Thursday',
+      5 => 'Friday',
+      6 => 'Saturday',
+    );
+    $last_day_of_week = \strtotime('last ' . $days[$last_day_int]);
+
+    // TODO: Loop trough older files if needed
+    $log_read = self::read_log_lines_backwards('/data/log/php-error.log', 0, $max_rows);
+
+    if ( $log_read['status'] !== 'OK_LOG_FILE' ) {
+      // Log file is too large, in invalid format or not found
+      return false;
+    }
+
+    $php_errors = 0;
+
+    // Loop through all the log lines
+    foreach ( $log_read['output'] as $line ) {
+      // Split the line from spaces and retrieve the error date from line
+      $output_array = \explode(' ', $line);
+      $date_str = Compatibility::substr($output_array[0], 1, \strlen($output_array[0]));
+
+      if ( $date_str === false ) {
+        continue;
+      }
+
+      // Just jump over the lines that don't contain dates
+      if ( \preg_match('/^(0[1-9]|[1-2]\d|3[0-1])-([a-z]|[A-Z]){3}-\d{4}.*$/', $date_str) === 1 ) {
+        // Only count logs from this week
+        if ( \strtotime($date_str) <= $last_day_of_week ) {
+          break;
+        }
+      } else {
+        // Invalid date or error on preg_match, lets skip this error
+        continue;
+      }
+
+      ++$php_errors;
+    }
+
+    return $php_errors;
+  }
+
+  /**
+   * Get the last login details from the current user logged into WordPress.
+   * Note that this is supposed to be called right after user login and the
+   * last login refers to the one login before that.
+   * @return array<string,mixed>|false Previous login data or false on failure.
+   */
+  public static function retrieve_last_login() {
+    $log_read = self::read_log_lines_backwards('/data/log/wp-login.log', 0, 200);
+
+    if ( ! isset($log_read['status']) || $log_read['status'] !== 'OK_LOG_FILE' ) {
+      // Reading log failed
+      return false;
+    }
+
+    if ( ! isset($log_read['output']) || $log_read['output'] === array() ) {
+      // Log file empty
+      return false;
+    }
+
+    $user_data = \get_userdata(\wp_get_current_user()->ID);
+    if ( $user_data === false ) {
+      // Can't get user data for current user
+      return false;
+    }
+
+    $skipped_latest_login = false;
+    foreach ( $log_read['output'] as $line ) {
+      $matched = \preg_match('/^(?<ip>[.:0-9a-f]+) - (?<name>[\w\-_.*@ ]+) \[(?<datetime>[\d\/\w: +]+)\] .* (?<status>[A-Z]+$)/', $line, $entry);
+
+      if ( $matched === 1 && $user_data->user_login === $entry['name'] && $entry['status'] == 'SUCCESS' ) {
+        // Current entry is a succesful login for current user
+        if ( ! $skipped_latest_login ) {
+          // Skip the first found entry as it's probably the
+          // last login and we want the one login before that.
+          $skipped_latest_login = true;
+          continue;
+        }
+
+        // Fetch login IP and the reverse domain name
+        $ip = $entry['ip'];
+        $domain = \gethostbyaddr($ip);
+
+        // Fetch login date and time
+        $timezone = \get_option('timezone_string');
+        if ( $timezone === false || $timezone === '' ) {
+          $timezone = 'UTC';
+        }
+
+        // Parse the date in to DateTime
+        $datetime = \DateTime::createFromFormat('d/M/Y:H:i:s T', $entry['datetime']);
+        if ( $datetime === false ) {
+          continue;
+        }
+        $datetime->setTimezone(new \DateTimeZone($timezone));
+
+        return array(
+          'date'   => $datetime->format(\get_option('date_format')),
+          'time'   => $datetime->format(\get_option('time_format')),
+          'ip'     => $ip,
+          'domain' => $domain !== false ? $domain : $ip,
+          'user'   => $user_data->user_firstname === '' ? $user_data->user_login : $user_data->user_firstname,
+        );
+      }
+    }
+
+    // No match
+    return false;
   }
 
 }

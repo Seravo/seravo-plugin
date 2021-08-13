@@ -297,12 +297,6 @@ class Loader {
     }
 
     /*
-     * Notification with last WordPress login date and error count. This module handles its own
-     * capability checks.
-     */
-    LoginNotifications::load();
-
-    /*
      * Show notification stylish wp-admin dashboard widgets
      */
     DashboardWidgets::load();
