@@ -1,17 +1,13 @@
-includes:
-    - vendor/szepeviktor/phpstan-wordpress/extension.neon
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
-
 parameters:
-    level: 8
+    level: max
     scanFiles:
-        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
         - src/lib/domain-tables.php
         - src/lib/domains-ajax.php
     paths:
         - seravo-plugin.php
         - src/
     bootstrapFiles:
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
         - seravo-plugin.php
     excludes_analyse:
         # TODO: remove excludes
@@ -37,3 +33,6 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     # TODO: Remove after 5.6/7.0 not supported at all
     checkMissingClosureNativeReturnTypehintRule : false
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon

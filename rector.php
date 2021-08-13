@@ -31,6 +31,17 @@ return static function ( ContainerConfigurator $container_configurator ) {
     )
   );
 
+  // Set scan files
+  $parameters->set(
+    Option::AUTOLOAD_PATHS,
+    array(
+      __DIR__ . '/vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
+      __DIR__ . '/vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
+      __DIR__ . '/vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php',
+      __DIR__ . '/vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php',
+    )
+  );
+
   // Run Rector on changed files only
   $parameters->set(Option::ENABLE_CACHE, false);
   $parameters->set(Option::CACHE_DIR, __DIR__ . '/.rector');
@@ -43,6 +54,7 @@ return static function ( ContainerConfigurator $container_configurator ) {
 
   // Skip root namespace classes
   $parameters->set(Option::IMPORT_SHORT_CLASSES, false);
+  $parameters->set(Option::AUTO_IMPORT_NAMES, false);
 
   // ------------------------------------------------------------------------------------- //
   // RULES TO BE APPLIED                                                                   //

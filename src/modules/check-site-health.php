@@ -13,11 +13,11 @@ use \Seravo\Postbox\Template;
 class SiteHealth {
 
   /**
-   * @var mixed[]|null
+   * @var string[]|mixed[]|null
    */
   private static $potential_issues;
   /**
-   * @var mixed[]|null
+   * @var string[]|mixed[]|null
    */
   private static $no_issues;
   /**
