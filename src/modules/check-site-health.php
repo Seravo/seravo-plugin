@@ -1,6 +1,7 @@
 <?php
 namespace Seravo;
 
+use \Seravo\Logs;
 use \Seravo\Postbox\Template;
 
 /**
@@ -155,17 +156,23 @@ class SiteHealth {
    */
   private static function check_php_errors() {
     $php_info = '<a href="' . \get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log" target="_blank">php-error.log</a>';
-    $php_errors = LoginNotifications::retrieve_error_count();
     $error_tooltip = \__('PHP related errors are usually a sign of something being broken on the code.', 'seravo');
 
-    if ( $php_errors > 0 ) {
+    $php_error_count = Logs::get_week_error_count();
+    if ( $php_error_count === false ) {
+      if ( \file_exists('/data/log/php-error.log') ) {
+        self::$potential_issues[\__('Too many PHP errors to count', 'seravo')] = $error_tooltip;
+      } else {
+        self::$no_issues[\__('No php errors on log', 'seravo')] = $error_tooltip;
+      }
+    } elseif ( $php_error_count === 0 ) {
+      self::$no_issues[\__('No php errors on log', 'seravo')] = $error_tooltip;
+    } else {
       /* translators:
        * %1$s number of errors in the log
        * %2$s url to php-error.log */
-      $php_errors_msg = \wp_sprintf(\_n('%1$s error on %2$s', '%1$s errors on %2$s', $php_errors, 'seravo'), \number_format_i18n($php_errors), $php_info);
+      $php_errors_msg = \wp_sprintf(\_n('%1$s error on %2$s', 'At least %1$s errors on %2$s', $php_error_count, 'seravo'), \number_format_i18n($php_error_count), $php_info);
       self::$potential_issues[$php_errors_msg] = $error_tooltip;
-    } else {
-      self::$no_issues[\__('No php errors on log', 'seravo')] = $error_tooltip;
     }
   }
 

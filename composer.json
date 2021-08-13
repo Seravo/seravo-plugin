@@ -49,7 +49,6 @@
       "src/lib/shadow.php",
       "src/modules/pages",
       "src/modules/check-site-health.php",
-      "src/modules/login-notification.php",
       "src/modules/dashboard-widgets.php",
       "src/modules/fixes.php",
       "src/modules/hide-users.php",
