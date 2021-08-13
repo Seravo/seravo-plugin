@@ -269,16 +269,20 @@ class Loader {
      * Hide prespecified and given users from a WordPress page
      */
     Module\HideUsers::load();
+    /*
+     * Add Seravo.com specific WP-CLI actions. Can't be autoloaded because the
+     * extended class 'WP_CLI_Command' only exists if 'WP_CLI' is defined.
+     */
+    if ( \defined('WP_CLI') && WP_CLI ) {
+      require_once SERAVO_PLUGIN_SRC . 'modules/seravo-cli.php';
+      Module\SeravoCLI::load();
+    }
 
     // OLD AJAX FILES
     require_once SERAVO_PLUGIN_SRC . 'lib/domains-ajax.php';
     require_once SERAVO_PLUGIN_SRC . 'lib/domain-tables.php';
     require_once SERAVO_PLUGIN_SRC . 'lib/cruftplugins-ajax.php';
     require_once SERAVO_PLUGIN_SRC . 'lib/cruftthemes-ajax.php';
-
-    /**
-     * Seravo tool pages
-     */
 
     // Site Status page
     Page\SiteStatus::load();
@@ -304,11 +308,6 @@ class Loader {
      * Show notification stylish wp-admin dashboard widgets
      */
     DashboardWidgets::load();
-
-    // Load WP-CLI module 'wp seravo'
-    if ( \defined('WP_CLI') && WP_CLI ) {
-      require_once SERAVO_PLUGIN_SRC . 'modules/wp-cli.php';
-    }
   }
 }
 

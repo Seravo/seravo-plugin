@@ -186,7 +186,7 @@ if ( ! \class_exists('Seravo_Postbox_Factory') ) {
      */
     private function apply_user_postbox_settings( $column_count = 'four_column' ) {
       $screen = \get_current_screen();
-      if ( $screen === null ) {
+      if ( ! $screen instanceof \WP_Screen ) {
         return;
       }
       $screen = $screen->id;
@@ -270,7 +270,7 @@ if ( ! \class_exists('Seravo_Postbox_Factory') ) {
 
       $context_index = 1;
       $current_screen = \get_current_screen();
-      if ( $current_screen === null ) {
+      if ( ! $current_screen instanceof \WP_Screen ) {
         return;
       }
       $current_screen = $current_screen->id;

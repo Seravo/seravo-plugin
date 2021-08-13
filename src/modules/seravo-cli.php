@@ -1,16 +1,24 @@
 <?php
 
-namespace Seravo;
+namespace Seravo\Module;
 
-// Deny direct access to this file
-if ( ! \defined('ABSPATH') ) {
-  die('Access denied!');
-}
+use \Seravo\API;
 
 /**
- * Implements Seravo.com specific actions
+ * Class SeravoCLI
+ *
+ * A class for Seravo.com specific WP-CLI actions.
  */
-class Seravo_WP_CLI extends \WP_CLI_Command {
+final class SeravoCLI extends \WP_CLI_Command {
+  use Module;
+
+  /**
+   * Initialize the module. Filters and hooks should be added here.
+   * @return void
+   */
+  protected function init() {
+    \WP_CLI::add_command('seravo updates', array( __CLASS__, 'updates' ));
+  }
 
   /**
    * Seravo wp-cli functions.
@@ -44,5 +52,3 @@ class Seravo_WP_CLI extends \WP_CLI_Command {
   }
 
 }
-
-\WP_CLI::add_command('seravo updates', array( Seravo_WP_CLI::class, 'updates' ));

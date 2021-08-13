@@ -19,7 +19,7 @@ class SimpleForm extends AjaxHandler {
   private $build_form_func;
 
   /**
-   * @var mixed|string|null Text to be shown on the main button.
+   * @var string|null Text to be shown on the main button.
    */
   private $button_text;
 
