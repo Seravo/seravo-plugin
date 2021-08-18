@@ -194,7 +194,7 @@ class Loader {
     );
 
     // And then from this plugin folder
-    \load_muplugin_textdomain('seravo', SERAVO_PLUGIN_DIR . 'languages');
+    \load_muplugin_textdomain('seravo', '/seravo-plugin/languages');
   }
 
   /**

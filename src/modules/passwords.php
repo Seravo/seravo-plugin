@@ -141,7 +141,7 @@ final class Passwords {
       <meta name="viewport" content="width=device-width" />
       <meta http-equiv="Content-Type" content="<?php \bloginfo('html_type'); ?>; charset=<?php echo \get_option('blog_charset'); ?>" />
       <meta name="robots" content="noindex,nofollow" />
-      <title><?php \_e('Password change required', 'seravo'); ?></title>
+      <title><?php _e('Password change required', 'seravo'); ?></title>
       <?php
       \wp_admin_css('install', true);
       \wp_admin_css('ie', true);
@@ -149,14 +149,14 @@ final class Passwords {
     </head>
 
     <body class="wp-core-ui">
-      <p id="logo"><a href="#"><?php \_e('WordPress'); ?></a></p>
-      <h1><?php \_e('Password change required', 'seravo'); ?></h1>
-      <p><?php \_e('The hash of your password matches a password in the <a href="https://haveibeenpwned.com" target="_blank">haveibeenpwned.com</a> database. This means your password was used on a website or service that suffered a breach and the password was leaked. Thus your WordPress account and the accounts on other services using the same password are highly vulnerable for misuse.', 'seravo'); ?></p>
-      <p><?php \_e('Please <strong>change your password immediately</strong> on the WordPress user profile page.', 'seravo'); ?></p>
-      <p><?php \_e('Remember to always follow good <strong>password hygiene</strong> and have a unique password for each website and service you use to prevent this in the future.', 'seravo'); ?></p>
+      <p id="logo"><a href="#"><?php _e('WordPress'); ?></a></p>
+      <h1><?php _e('Password change required', 'seravo'); ?></h1>
+      <p><?php _e('The hash of your password matches a password in the <a href="https://haveibeenpwned.com" target="_blank">haveibeenpwned.com</a> database. This means your password was used on a website or service that suffered a breach and the password was leaked. Thus your WordPress account and the accounts on other services using the same password are highly vulnerable for misuse.', 'seravo'); ?></p>
+      <p><?php _e('Please <strong>change your password immediately</strong> on the WordPress user profile page.', 'seravo'); ?></p>
+      <p><?php _e('Remember to always follow good <strong>password hygiene</strong> and have a unique password for each website and service you use to prevent this in the future.', 'seravo'); ?></p>
       <p class="step">
-        <a class="button button-large button-primary" href="<?php echo \get_edit_profile_url(); ?>"><?php \_e('Go to your profile page to change the password', 'seravo'); ?></a>
-        <a class="button button-large" href="<?php echo $redirect_to; ?>"><?php \_e('Continue normal login', 'seravo'); ?></a>
+        <a class="button button-large button-primary" href="<?php echo \get_edit_profile_url(); ?>"><?php _e('Go to your profile page to change the password', 'seravo'); ?></a>
+        <a class="button button-large" href="<?php echo $redirect_to; ?>"><?php _e('Continue normal login', 'seravo'); ?></a>
       </p>
     </body>
 

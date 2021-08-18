@@ -133,7 +133,7 @@ final class ImageUpload {
     $dirty = \file_get_contents($file['tmp_name']);
     if ( $dirty === false ) {
       // Couldn't read the file
-      $file['error'] = \__(
+      $file['error'] = __(
         "This file couldn't be sanitized so for security reasons it wasn't uploaded",
         'seravo'
       );
@@ -142,7 +142,7 @@ final class ImageUpload {
 
     $clean = $sanitizer->sanitize($dirty);
     if ( $clean === '' ) {
-      $file['error'] = \__(
+      $file['error'] = __(
         "This file couldn't be sanitized so for security reasons it wasn't uploaded",
         'seravo'
       );

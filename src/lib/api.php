@@ -20,7 +20,7 @@ class API {
     $ch = \curl_init('http://localhost:8888/v1/site/' . $site . $api_query);
     if ( $ch === false ) {
       // CurlHandle couldn't be created
-      return new \WP_Error('seravo-api-get-fail', \__('API call failed. Aborting. The error has been logged.', 'seravo'));
+      return new \WP_Error('seravo-api-get-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
     }
 
     \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -33,14 +33,14 @@ class API {
     if ( \curl_error($ch) !== '' || ! \in_array($httpcode, $handled_http_codes, true) || \is_bool($response) ) {
       \error_log('SWD API (' . $api_query . ') error ' . $httpcode . ': ' . \curl_error($ch));
       \curl_close($ch);
-      return new \WP_Error('seravo-api-get-fail', \__('API call failed. Aborting. The error has been logged.', 'seravo'));
+      return new \WP_Error('seravo-api-get-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
     }
 
     \curl_close($ch);
 
     $decoded = \json_decode($response, true);
     if ( $decoded === false ) {
-      return new \WP_Error('seravo-api-json-fail', \__('API call failed. Aborting. The error has been logged.', 'seravo'));
+      return new \WP_Error('seravo-api-json-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
     }
     return $decoded;
   }
@@ -55,14 +55,14 @@ class API {
   public static function update_site_data( $data, $api_query = '', $handled_http_codes = array( 200 ), $method = 'PUT' ) {
     $data_json = \json_encode($data);
     if ( $data_json === false ) {
-      return new \WP_Error('seravo-api-json-fail', \__('API call failed. Aborting. The error has been logged.', 'seravo'));
+      return new \WP_Error('seravo-api-json-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
     }
 
     $site = \getenv('USER');
 
     $ch = \curl_init('http://localhost:8888/v1/site/' . $site . $api_query);
     if ( $ch === false ) {
-      return new \WP_Error('seravo-api-put-fail', \__('API call failed. Aborting. The error has been logged.', 'seravo'));
+      return new \WP_Error('seravo-api-put-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
     }
 
     \curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
@@ -85,7 +85,7 @@ class API {
     if ( \curl_error($ch) !== '' || ! \in_array($httpcode, $handled_http_codes, true) || \is_bool($response) ) {
       \error_log('SWD API (' . $api_query . ') error ' . $httpcode . ': ' . \curl_error($ch));
       \curl_close($ch);
-      return new \WP_Error('seravo-api-put-fail', \__('API call failed. Aborting. The error has been logged.', 'seravo'));
+      return new \WP_Error('seravo-api-put-fail', __('API call failed. Aborting. The error has been logged.', 'seravo'));
     }
 
     return $response;

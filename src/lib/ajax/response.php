@@ -86,7 +86,7 @@ class AjaxResponse {
   public static function invalid_request_response() {
     $response = new AjaxResponse();
     $response->is_success(false);
-    $response->set_error(\__('Error: Your browser made an invalid request!', 'seravo'));
+    $response->set_error(__('Error: Your browser made an invalid request!', 'seravo'));
     return $response;
   }
 
@@ -97,7 +97,7 @@ class AjaxResponse {
   public static function unknown_error_response() {
     $response = new AjaxResponse();
     $response->is_success(false);
-    $response->set_error(\__('Error: Something went wrong! Please see the php-error.log', 'seravo'));
+    $response->set_error(__('Error: Something went wrong! Please see the php-error.log', 'seravo'));
     return $response;
   }
 
@@ -108,7 +108,7 @@ class AjaxResponse {
   public static function exception_response() {
     $response = new AjaxResponse();
     $response->is_success(false);
-    $response->set_error(\__("Error: Oups, this wasn't supposed to happen! Please see the php-error.log", 'seravo'));
+    $response->set_error(__("Error: Oups, this wasn't supposed to happen! Please see the php-error.log", 'seravo'));
     return $response;
   }
 
@@ -121,11 +121,11 @@ class AjaxResponse {
   public static function command_error_response( $command, $ret_val = null ) {
     if ( $ret_val !== null ) {
       // translators: the command that failed to execute with specified return code.
-      $message = \__('Error: Command %1$1s failed to execute and returned with status %2$2s. Try running it manually.', 'seravo');
+      $message = __('Error: Command %1$1s failed to execute and returned with status %2$2s. Try running it manually.', 'seravo');
       $error = \sprintf($message, "<code>{$command}</code>", "<code>{$ret_val}</code>");
     } else {
       // translators: the command that failed to execute.
-      $message = \__('Error: Command %s failed to execute. Try running it manually.', 'seravo');
+      $message = __('Error: Command %s failed to execute. Try running it manually.', 'seravo');
       $error = \sprintf($message, "<code>{$command}</code>");
     }
 
@@ -154,7 +154,7 @@ class AjaxResponse {
   public static function api_error_response() {
     $response = new AjaxResponse();
     $response->is_success(false);
-    $response->set_error(\__('An API error occured. Please try again later.', 'seravo'));
+    $response->set_error(__('An API error occured. Please try again later.', 'seravo'));
     return $response;
   }
 

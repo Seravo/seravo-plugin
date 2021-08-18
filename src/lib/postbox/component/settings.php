@@ -203,7 +203,7 @@ class Settings {
     $form->add_child($fields);
 
     // Submit button
-    $form->add_child(Component::from_raw(\get_submit_button(\__('Save', 'seravo'), 'primary', "{$this->section}-submit")));
+    $form->add_child(Component::from_raw(\get_submit_button(__('Save', 'seravo'), 'primary', "{$this->section}-submit")));
 
     $base->add_child($form);
 
@@ -280,7 +280,7 @@ class Settings {
         array(
           'type' => 'updated',
           'code' => 'ok',
-          'message' => \__('Settings saved', 'seravo'),
+          'message' => __('Settings saved', 'seravo'),
         ),
       );
     }
@@ -376,7 +376,7 @@ class Settings {
   public function sanitize_integer_field( $value, $default ) {
     // Only accept whole numbers
     if ( ! \is_numeric($value) || \floor((float) $value) !== (float) $value ) {
-      $this->add_notification('invalid-integer', \__('Invalid integer', 'seravo'));
+      $this->add_notification('invalid-integer', __('Invalid integer', 'seravo'));
       return $default;
     }
     return (int) $value;
@@ -390,7 +390,7 @@ class Settings {
    */
   public function sanitize_number_field( $value, $default ) {
     if ( ! \is_numeric($value) ) {
-      $this->add_notification('invalid-number', \__('Invalid number', 'seravo'));
+      $this->add_notification('invalid-number', __('Invalid number', 'seravo'));
       return $default;
     }
     return (float) $value;

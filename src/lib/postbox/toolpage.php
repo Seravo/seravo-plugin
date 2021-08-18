@@ -104,11 +104,11 @@ abstract class Toolpage {
 
         $ajax_l10n = array(
           'ajax_url' => \admin_url('admin-ajax.php'),
-          'server_invalid_response' => \__('Error: Something unexpected happened! Server responded with invalid data.', 'seravo'),
-          'server_timeout' => \__("Error: Request timeout! Server didn't respond in time.", 'seravo'),
-          'server_error' => \__("Error: Oups, this wasn't supposed to happen! Please see the php-error.log.", 'seravo'),
-          'show_more' => \__('Show more', 'seravo'),
-          'show_less' => \__('Show less', 'seravo'),
+          'server_invalid_response' => __('Error: Something unexpected happened! Server responded with invalid data.', 'seravo'),
+          'server_timeout' => __("Error: Request timeout! Server didn't respond in time.", 'seravo'),
+          'server_error' => __("Error: Oups, this wasn't supposed to happen! Please see the php-error.log.", 'seravo'),
+          'show_more' => __('Show more', 'seravo'),
+          'show_less' => __('Show less', 'seravo'),
         );
         \wp_localize_script('seravo-ajax', 'seravo_ajax_l10n', $ajax_l10n);
       }
@@ -143,19 +143,19 @@ abstract class Toolpage {
 
         $charts_l10n = array(
           'ajax_url' => \admin_url('admin-ajax.php'),
-          'show_more' => \__('Show more', 'seravo'),
-          'show_less' => \__('Show less', 'seravo'),
-          'used' => \__('Used', 'seravo'),
-          'available' => \__('Available', 'seravo'),
-          'keyspace_hits' => \__('Keyspace hits', 'seravo'),
-          'keyspace_misses' => \__('Keyspace misses', 'seravo'),
-          'hits' => \__('Hits', 'seravo'),
-          'misses' => \__('Misses', 'seravo'),
-          'stales' => \__('Stales', 'seravo'),
-          'avg_latency' => \__('Avg latency: ', 'seravo'),
-          'avg_cached_latency' => \__('Avg cached latency: ', 'seravo'),
-          'latency' => \__('Latency', 'seravo'),
-          'cached_latency' => \__('Cached latency', 'seravo'),
+          'show_more' => __('Show more', 'seravo'),
+          'show_less' => __('Show less', 'seravo'),
+          'used' => __('Used', 'seravo'),
+          'available' => __('Available', 'seravo'),
+          'keyspace_hits' => __('Keyspace hits', 'seravo'),
+          'keyspace_misses' => __('Keyspace misses', 'seravo'),
+          'hits' => __('Hits', 'seravo'),
+          'misses' => __('Misses', 'seravo'),
+          'stales' => __('Stales', 'seravo'),
+          'avg_latency' => __('Avg latency: ', 'seravo'),
+          'avg_cached_latency' => __('Avg cached latency: ', 'seravo'),
+          'latency' => __('Latency', 'seravo'),
+          'cached_latency' => __('Cached latency', 'seravo'),
         );
         \wp_localize_script('seravo-charts', 'seravo_charts_l10n', $charts_l10n);
       }

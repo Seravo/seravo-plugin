@@ -72,7 +72,7 @@ class DashboardWidgets {
      */
     $site_status = new Postbox\Postbox('sitestatus-widget');
     $site_status->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
-    $site_status->set_title(\__('Site Status', 'seravo'));
+    $site_status->set_title(__('Site Status', 'seravo'));
     $site_status->set_build_func(array( __CLASS__, 'build_site_status' ));
     $site_status->set_data_func(array( __CLASS__, 'get_site_status' ), 600);
     self::$widgets[] = $site_status;
@@ -89,7 +89,7 @@ class DashboardWidgets {
           Requirements::CAN_BE_DEVELOPMENT => true,
         )
       );
-      $php_widget->set_title(\__('PHP warnings and errors', 'seravo'));
+      $php_widget->set_title(__('PHP warnings and errors', 'seravo'));
       $php_widget->set_build_func(array( __CLASS__, 'build_php_widget' ));
       self::$widgets[] = $php_widget;
     }
@@ -104,7 +104,7 @@ class DashboardWidgets {
             Requirements::CAN_BE_PRODUCTION => true,
           )
         );
-        $disk_space->set_title(\__('Low disk space', 'seravo'));
+        $disk_space->set_title(__('Low disk space', 'seravo'));
         $disk_space->set_build_func(array( __CLASS__, 'build_disk_space_low' ));
         $disk_space->set_data_func(array( __CLASS__, 'get_disk_space_usage' ), self::DISK_SPACE_CACHE_TIME);
         self::$widgets[] = $disk_space;
@@ -148,17 +148,17 @@ class DashboardWidgets {
    */
   public static function build_disk_space_low( Component $base, Postbox\Postbox $postbox, $data ) {
     $disk_usage_url = '<a href="' . \get_option('siteurl') . '/wp-admin/tools.php?page=site_status_page#seravo-postbox-disk-usage" target="_blank">' .
-      \__('disk space tool', 'seravo') . '</a>';
+      __('disk space tool', 'seravo') . '</a>';
     $cruft_tool_url = '<a href="' . \get_option('siteurl') . '/wp-admin/tools.php?page=security_page#seravo-postbox-cruftfiles" target="_blank">' .
-      \__('cruft remover tool', 'seravo') . '</a>';
+      __('cruft remover tool', 'seravo') . '</a>';
     /* translators:
      * %1$s url to the disk space tool
      * %2$s url to the cruft file remover tool
      */
-    $msg = \sprintf(\__('Disk space is running low. You can see more details about the usage on %1$s. You can also check %2$s for excessive files and folders.', 'seravo'), $disk_usage_url, $cruft_tool_url);
+    $msg = \sprintf(__('Disk space is running low. You can see more details about the usage on %1$s. You can also check %2$s for excessive files and folders.', 'seravo'), $disk_usage_url, $cruft_tool_url);
     $base->add_child(Template::text($msg));
-    $base->add_child(Template::text('<br>' . \__('Disk space in your plan:', 'seravo') . ' <b>' . $data['plan_limit'] . 'GB </b><br>'));
-    $base->add_child(Template::text(\__('Space in use:', 'seravo') . ' <b>' . Helpers::human_file_size($data['disk_usage']) . '</b>'));
+    $base->add_child(Template::text('<br>' . __('Disk space in your plan:', 'seravo') . ' <b>' . $data['plan_limit'] . 'GB </b><br>'));
+    $base->add_child(Template::text(__('Space in use:', 'seravo') . ' <b>' . Helpers::human_file_size($data['disk_usage']) . '</b>'));
   }
 
   /**
@@ -229,21 +229,21 @@ class DashboardWidgets {
        * %1$s number of errors in the log
        * %2$s url for additional information
        */
-      $msg = \sprintf(\__('The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified.', 'seravo'), self::$errors, $url);
-      $base->add_child(Template::section_title(\__('Site Error Count', 'seravo')));
+      $msg = \sprintf(__('The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified.', 'seravo'), self::$errors, $url);
+      $base->add_child(Template::section_title(__('Site Error Count', 'seravo')));
       $base->add_child(Template::paragraph($msg));
     }
 
     if ( \version_compare(Helpers::get_php_version(), self::PHP_EOL_VERSION, '<=') ) {
-      $base->add_child(Template::section_title(\__('Old PHP Version', 'seravo')));
+      $base->add_child(Template::section_title(__('Old PHP Version', 'seravo')));
       $php_version = '<b>' . PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '</b>';
       $php_version_change_url = '<a href="' . \get_option('siteurl') . '/wp-admin/tools.php?page=upkeep_page#seravo-postbox-change-php-version" target="_blank">' .
-        \__('change php version tool', 'seravo') . '</a>';
+        __('change php version tool', 'seravo') . '</a>';
       /* translators:
        * %1$s current php version
        * %2$s link for changing PHP version
        */
-      $php_msg = \sprintf(\__('You are using end of life PHP version %1$s which will no longer be supported. You can see more details about changing PHP version and checking PHP upgrade combatability on %2$s.', 'seravo'), $php_version, $php_version_change_url);
+      $php_msg = \sprintf(__('You are using end of life PHP version %1$s which will no longer be supported. You can see more details about changing PHP version and checking PHP upgrade combatability on %2$s.', 'seravo'), $php_version, $php_version_change_url);
       $base->add_child(Template::paragraph($php_msg));
     }
   }
@@ -263,13 +263,13 @@ class DashboardWidgets {
 
     $base->add_children(
       array(
-        Template::section_title(\__('Plan details', 'seravo')),
-        Template::text(\__('Plan type:') . ' <b>' . $data['plan_type'] . '</b>'),
-        Template::text(\__('HTTP requests / month:') . ' <b>' . $data['plan_limit'] . '</b>'),
-        Template::text(\__('Disk space in your plan:') . ' <b>' . $data['disk_space'] . '</b>'),
+        Template::section_title(__('Plan details', 'seravo')),
+        Template::text(__('Plan type:', 'seravo') . ' <b>' . $data['plan_type'] . '</b>'),
+        Template::text(__('HTTP requests / month:', 'seravo') . ' <b>' . $data['plan_limit'] . '</b>'),
+        Template::text(__('Disk space in your plan:', 'seravo') . ' <b>' . $data['disk_space'] . '</b>'),
         Component::from_raw('<br>'),
-        Template::section_title(\__('Monthly HTTP requests', 'seravo')),
-        Template::paragraph(\__('These monthly reports are generated from the HTTP access logs of your site. If you have more HTTP requests than your plan allows, please contact <a href="mailto:help@seravo.com">help@seravo.com</a> to upgrade your <a href="https://seravo.com/plans" target="_blank">plan</a>.', 'seravo')),
+        Template::section_title(__('Monthly HTTP requests', 'seravo')),
+        Template::paragraph(__('These monthly reports are generated from the HTTP access logs of your site. If you have more HTTP requests than your plan allows, please contact <a href="mailto:help@seravo.com">help@seravo.com</a> to upgrade your <a href="https://seravo.com/plans" target="_blank">plan</a>.', 'seravo')),
         $data['http_stats'],
       )
     );
@@ -287,7 +287,7 @@ class DashboardWidgets {
       \error_log($site_info->get_error_message());
       $url = '<a href="' . \get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log" target="_blank">php-error.log</a>';
       // translators: %1$s url for additional information
-      $error_msg = \sprintf(\__('Error on fetching plan details. See more from %1$s.', 'seravo'), $url);
+      $error_msg = \sprintf(__('Error on fetching plan details. See more from %1$s.', 'seravo'), $url);
       $data['error'] = $error_msg;
 
       return $data;
@@ -305,7 +305,7 @@ class DashboardWidgets {
     }
 
     if ( $reports !== array() ) {
-      $column_titles = array( \__('Month', 'seravo'), \__('HTTP Requests', 'seravo'), \__('Report', 'seravo') );
+      $column_titles = array( __('Month', 'seravo'), __('HTTP Requests', 'seravo'), __('Report', 'seravo') );
 
       // Track max request value to calculate relative bar widths
       $max_requests = 0;
@@ -345,12 +345,12 @@ class DashboardWidgets {
         $months[] = array(
           'month' => Template::link($month, $stats_link, $month, 'link')->to_html(),
           'requests' => '<div class="statistics" style="min-width: ' . $min_width . '%;' . $border . '">' . $total_requests . '</div>',
-          'span' => Template::button_link_with_icon($stats_link, \__('View report', 'seravo'))->to_html(),
+          'span' => Template::button_link_with_icon($stats_link, __('View report', 'seravo'))->to_html(),
         );
       }
       $statistics = Template::table_view('widefat striped', 'th', 'td', $column_titles, $months);
     } else {
-      $statistics = Template::error_paragraph(\__('The site has no HTTP requests statistics yet.', 'seravo'));
+      $statistics = Template::error_paragraph(__('The site has no HTTP requests statistics yet.', 'seravo'));
     }
     $data['http_stats'] = $statistics;
 

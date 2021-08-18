@@ -119,7 +119,7 @@ class Logs {
     // Check if the file was found and valid
     if ( $f === false ) {
       $result['status'] = 'NO_LOG_FILE';
-      $result['error'] = \__('File not found', 'seravo');
+      $result['error'] = __('File not found', 'seravo');
       return $result;
     }
 
@@ -127,7 +127,7 @@ class Logs {
     $filesize = \filesize($filepath);
     if ( $filesize >= 268435456 ) {
       $result['status'] = 'LARGE_LOG_FILE';
-      $result['error'] = \__('File too large', 'seravo');
+      $result['error'] = __('File too large', 'seravo');
       return $result;
     }
 
@@ -135,7 +135,7 @@ class Logs {
     if ( \fseek($f, -1, SEEK_END) === -1 ) {
       // fseek failed
       $result['status'] = 'BAD_LOG_FILE';
-      $result['error'] = \__('Error reading the file', 'seravo');
+      $result['error'] = __('Error reading the file', 'seravo');
       return $result;
     }
 
@@ -171,7 +171,7 @@ class Logs {
       if ( $chunk === false ) {
         // fread failed
         $result['status'] = 'BAD_LOG_FILE';
-        $result['error'] = \__('Error reading the file', 'seravo');
+        $result['error'] = __('Error reading the file', 'seravo');
         return $result;
       }
 
@@ -204,7 +204,7 @@ class Logs {
         if ( $match_pos === false ) {
           // Shouldn't happen as we matched it
           $result['status'] = 'BAD_LOG_FILE';
-          $result['error'] = \__('Error reading the file', 'seravo');
+          $result['error'] = __('Error reading the file', 'seravo');
           return $result;
         }
 
@@ -269,7 +269,7 @@ class Logs {
     // Check if the file was found and valid
     if ( $f === false ) {
       $result['status'] = 'NO_LOG_FILE';
-      $result['error'] = \__('File not found', 'seravo');
+      $result['error'] = __('File not found', 'seravo');
       return $result;
     }
 
@@ -278,7 +278,7 @@ class Logs {
     $filesize = \filesize($filepath);
     if ( $filesize >= 268435456 ) {
       $result['status'] = 'LARGE_LOG_FILE';
-      $result['error'] = \__('File too large', 'seravo');
+      $result['error'] = __('File too large', 'seravo');
       return $result;
     }
 

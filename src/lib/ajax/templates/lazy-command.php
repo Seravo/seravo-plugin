@@ -74,7 +74,7 @@ class LazyCommand extends LazyLoader {
     }
 
     if ( $output === array() ) {
-      $output = $this->empty_message === null ? \__('Command returned no data', 'seravo') : $this->empty_message;
+      $output = $this->empty_message === null ? __('Command returned no data', 'seravo') : $this->empty_message;
     } else {
       $output = \implode("\n", $output);
     }

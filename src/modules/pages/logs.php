@@ -41,7 +41,7 @@ class Logs extends Toolpage {
    */
   public function __construct() {
     parent::__construct(
-      \__('Logs', 'seravo'),
+      __('Logs', 'seravo'),
       'tools_page_logs_page',
       'logs_page',
       'Seravo\Postbox\seravo_wide_column_postboxes_page'
@@ -97,7 +97,7 @@ class Logs extends Toolpage {
      * Logs postbox
      */
     $logs = new Postbox\Postbox('seravologs');
-    $logs->set_title(\__('Logs', 'seravo'));
+    $logs->set_title(__('Logs', 'seravo'));
     $logs->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $logs->set_data_func(array( __CLASS__, 'get_log_entries' ));
     $logs->set_build_func(array( __CLASS__, 'build_logs' ));
@@ -160,9 +160,9 @@ class Logs extends Toolpage {
     $php_error_log = '<a href="' . \site_url('/wp-admin/tools.php?page=logs_page&logfile=php-error.log') . '">php-error.log</a>';
     $base->add_child(
       Template::paragraph(
-        \__('Here you can browse and view the logs for your sites. The same log files can be found on server under <code>/data/log/*</code>.', 'seravo') . ' ' .
+        __('Here you can browse and view the logs for your sites. The same log files can be found on server under <code>/data/log/*</code>.', 'seravo') . ' ' .
         // translators: Link to php-error.log
-        \sprintf(\__("Be sure to check %s, it's a good metric of the site's health.", 'seravo'), $php_error_log)
+        \sprintf(__("Be sure to check %s, it's a good metric of the site's health.", 'seravo'), $php_error_log)
       )
     );
 
@@ -200,8 +200,8 @@ class Logs extends Toolpage {
     $filter_bar->add_child($log_date);
     // Search bar
     $log_search = new Component('', '<div class="log-view-search">', '</div>');
-    $log_search->add_child(new Component('', '<input type="text" name="log-view-keyword" value="' . $data['keyword'] . '" placeholder="' . \__('Keyword', 'seravo') . '"/>'));
-    $log_search->add_child(Template::button(\__('Search', 'seravo'), 'log-view-search', 'button'));
+    $log_search->add_child(new Component('', '<input type="text" name="log-view-keyword" value="' . $data['keyword'] . '" placeholder="' . __('Keyword', 'seravo') . '"/>'));
+    $log_search->add_child(Template::button(__('Search', 'seravo'), 'log-view-search', 'button'));
     $filter_bar->add_child($log_search);
     // Log view
     $log_view = new Component('', '<div class="log-view">', '</div>');

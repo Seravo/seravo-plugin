@@ -114,7 +114,7 @@ final class InstanceSwitcher {
       array(
         'id'    => $id,
         'title' => '<span class="ab-icon seravo-instance-switcher-icon"></span>' .
-          '<span class="ab-label seravo-instance-switcher-text">' . \__('Now in', 'seravo') . ': ' . $current_title . '</span>',
+          '<span class="ab-label seravo-instance-switcher-text">' . __('Now in', 'seravo') . ': ' . $current_title . '</span>',
         'href'  => isset($_COOKIE['seravo_shadow']) ? $current_url . 'seravo_shadow=' . $_COOKIE['seravo_shadow'] : '#',
         'meta'  => array(
           'class' => $menuclass,
@@ -174,7 +174,7 @@ final class InstanceSwitcher {
       $wp_admin_bar->add_menu(
         array(
           'parent' => $id,
-          'title'  => \__('Exit Shadow', 'seravo'),
+          'title'  => __('Exit Shadow', 'seravo'),
           'id'     => 'exit-shadow',
           'href'   => $exit_href,
           'meta'   => array(
@@ -188,7 +188,7 @@ final class InstanceSwitcher {
     $wp_admin_bar->add_menu(
       array(
         'parent' => $id,
-        'title'  => \__('Shadows explained at Seravo.com/docs', 'seravo'),
+        'title'  => __('Shadows explained at Seravo.com/docs', 'seravo'),
         'id'     => 'shadow-info',
         'href'   => 'https://seravo.com/docs/deployment/shadows/',
         'meta'   => array( 'target' => '_blank' ),
@@ -243,8 +243,8 @@ final class InstanceSwitcher {
       $domain = Shadow::get_production_domain();
       $exit_href = $domain === '' ? '#exit' : 'https://' . $domain;
       // translators: $s Identifier for the shadow instance in use
-      \printf(\__('Your current shadow instance is "%s".', 'seravo'), $shadow_title);
-      \printf(' <a class="clearlink shadow-exit" href="%s">%s</a> ', $exit_href, \__('Exit', 'seravo'));
+      \printf(__('Your current shadow instance is "%s".', 'seravo'), $shadow_title);
+      \printf(' <a class="clearlink shadow-exit" href="%s">%s</a> ', $exit_href, __('Exit', 'seravo'));
       ?>
     </div>
     <?php
