@@ -55,35 +55,35 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     $primary_str = '';
     if ( ! empty($item['primary']) ) {
       if ( $item['primary'] === \getenv('CONTAINER') ) {
-        $primary_str = \__('Primary', 'seravo');
+        $primary_str = __('Primary', 'seravo');
       } else {
-        $primary_str = \__('Primary', 'seravo') . '&nbsp(Staging&nbsp' . \explode('_', $item['primary'])[1] . ')';
+        $primary_str = __('Primary', 'seravo') . '&nbsp(Staging&nbsp' . \explode('_', $item['primary'])[1] . ')';
       }
     }
 
     if ( $item['subdomain'] ) {
-        $actions['view'] = \sprintf($action_disabled, \__("Subdomains don't have their own zone.", 'seravo'), \__('View', 'seravo'));
-        $actions['edit'] = \sprintf($action_disabled, \__("Subdomains don't have their own zone.", 'seravo'), \__('Edit', 'seravo'));
+        $actions['view'] = \sprintf($action_disabled, __("Subdomains don't have their own zone.", 'seravo'), __('View', 'seravo'));
+        $actions['edit'] = \sprintf($action_disabled, __("Subdomains don't have their own zone.", 'seravo'), __('Edit', 'seravo'));
     } elseif ( $item['management'] === 'Seravo' ) {
-        $actions['view'] = \sprintf($action_request, 'view', \__('View', 'seravo'));
+        $actions['view'] = \sprintf($action_request, 'view', __('View', 'seravo'));
         if ( \get_option('seravo-domain-edit') === 'disabled' ) {
-        $actions['edit'] = \sprintf($action_disabled, \__('DNS editing is disabled for this site.', 'seravo'), \__('Edit', 'seravo'));
+        $actions['edit'] = \sprintf($action_disabled, __('DNS editing is disabled for this site.', 'seravo'), __('Edit', 'seravo'));
         } else {
-        $actions['edit'] = \sprintf($action_request, 'edit', \__('Edit', 'seravo'));
+        $actions['edit'] = \sprintf($action_request, 'edit', __('Edit', 'seravo'));
         }
     } elseif ( $item['management'] === 'Customer' ) {
-      $actions['view'] = \sprintf($action_request, 'sniff', \__('View', 'seravo'));
-      $actions['edit'] = \sprintf($action_disabled, \__('DNS not managed by Seravo.', 'seravo'), \__('Edit', 'seravo'));
+      $actions['view'] = \sprintf($action_request, 'sniff', __('View', 'seravo'));
+      $actions['edit'] = \sprintf($action_disabled, __('DNS not managed by Seravo.', 'seravo'), __('Edit', 'seravo'));
     } else {
-      $actions['view'] = \sprintf($action_disabled, \__("This domain doesn't have a zone.", 'seravo'), \__('View', 'seravo'));
-      $actions['edit'] = \sprintf($action_disabled, \__("This domain doesn't have a zone.", 'seravo'), \__('Edit', 'seravo'));
+      $actions['view'] = \sprintf($action_disabled, __("This domain doesn't have a zone.", 'seravo'), __('View', 'seravo'));
+      $actions['edit'] = \sprintf($action_disabled, __("This domain doesn't have a zone.", 'seravo'), __('Edit', 'seravo'));
     }
 
     if ( empty($item['primary']) ) {
-      $actions['primary'] = \sprintf($action_request, 'primary', \__('Make Primary (experimental)', 'seravo'));
+      $actions['primary'] = \sprintf($action_request, 'primary', __('Make Primary (experimental)', 'seravo'));
 
     } else {
-      $actions['primary'] = \sprintf($action_disabled, \__('This domain is already a primary domain.', 'seravo'), \__('Make Primary', 'seravo'));
+      $actions['primary'] = \sprintf($action_disabled, __('This domain is already a primary domain.', 'seravo'), __('Make Primary', 'seravo'));
     }
 
     return \sprintf(
@@ -125,10 +125,10 @@ class Seravo_Domains_List_Table extends WP_List_Table {
    */
   public function get_columns() {
     return array(
-      'domain'     => \__('Domain', 'seravo'),
-      'expires'    => \__('Expires', 'seravo'),
-      'dns'        => \__('DNS', 'seravo'),
-      'management' => \__('Managed by', 'seravo'),
+      'domain'     => __('Domain', 'seravo'),
+      'expires'    => __('Expires', 'seravo'),
+      'dns'        => __('DNS', 'seravo'),
+      'management' => __('Managed by', 'seravo'),
     );
   }
 
@@ -229,7 +229,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
       }
 
       // Translate management
-      $rawdata[$index]['management'] = \str_replace('Customer', \__('Customer', 'seravo'), $rawdata[$index]['management']);
+      $rawdata[$index]['management'] = \str_replace('Customer', __('Customer', 'seravo'), $rawdata[$index]['management']);
 
       $data[] = $rawdata[$index];
     }
@@ -341,8 +341,8 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
    */
   public function get_columns() {
     return array(
-      'domain'       => \__('Domain', 'seravo'),
-      'source'       => \__('Forwards', 'seravo'),
+      'domain'       => __('Domain', 'seravo'),
+      'source'       => __('Forwards', 'seravo'),
     );
   }
 
@@ -358,8 +358,8 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
    */
   public function column_domain( $item ) {
     $page = empty($_REQUEST['page']) ? 'domains_page' : $_REQUEST['page'];
-    $view = '<a href="?page=' . $page . '&domain=' . $item['domain'] . '&action=fetch_forwards">' . \__('Fetch', 'seravo') . '</a>';
-    $edit = '<a href="?page=' . $page . '&domain=' . $item['domain'] . '&action=create_forward">' . \__('Create', 'seravo') . '</a>';
+    $view = '<a href="?page=' . $page . '&domain=' . $item['domain'] . '&action=fetch_forwards">' . __('Fetch', 'seravo') . '</a>';
+    $edit = '<a href="?page=' . $page . '&domain=' . $item['domain'] . '&action=create_forward">' . __('Create', 'seravo') . '</a>';
 
     return \sprintf(
       '<p>%s</p>%s',
@@ -458,16 +458,16 @@ class Seravo_DNS_Table {
     $timestamp = \date_create_from_format('Y-m-d H:i:s T', $records['timestamp']);
 
     echo '<hr>';
-    echo '<p class="update-time"><b>' . \__('Update time:', 'seravo') . '</b> ' . \date_format($timestamp, \get_option('date_format') . ' ' . \get_option('time_format')) . '</p>';
+    echo '<p class="update-time"><b>' . __('Update time:', 'seravo') . '</b> ' . \date_format($timestamp, \get_option('date_format') . ' ' . \get_option('time_format')) . '</p>';
     echo '<div class="dns-wrapper">';
     echo '<table class="wp-list-table widefat fixed striped" id="zone-table">';
     echo '<thead>
       <tr class="zone-titles">
-        <th width="20%">' . \__('Name', 'seravo') . '</th>
-        <th width="15%">' . \__('TTL', 'seravo') . '</th>
+        <th width="20%">' . __('Name', 'seravo') . '</th>
+        <th width="15%">' . __('TTL', 'seravo') . '</th>
         <th width="15%"> </th>
-        <th width="20%">' . \__('Type', 'seravo') . '</th>
-        <th width="30%">' . \__('Value', 'seravo') . '</th>
+        <th width="20%">' . __('Type', 'seravo') . '</th>
+        <th width="30%">' . __('Value', 'seravo') . '</th>
       </tr>
     </thead>';
     foreach ( $records['records'] as $record ) {
@@ -503,12 +503,12 @@ class Seravo_DNS_Table {
       echo '<table id="zone-edit-table">';
       echo '<tr><td style="padding-bottom: 0px;">';
       // translators: %s domain of the site
-      echo '<p style="max-width:50%;">' . \wp_sprintf(\__('Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:', 'seravo'), $records['name']) . '</p>';
+      echo '<p style="max-width:50%;">' . \wp_sprintf(__('Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:', 'seravo'), $records['name']) . '</p>';
       echo '</td></tr>';
       echo '<tr><td>';
       echo '<textarea type="hidden" name="zonefile" style="display: none; font-family: monospace;">' . (\implode("\n", $records['compulsory']['records']) . "\n" . \implode("\n", $records['editable']['records'])) . '</textarea>';
       echo '<div id="zone-edit-response"></div/>';
-      echo '<button id="publish-zone-btn" class="button"' . ($error ? ' disabled' : '') . '>' . \__('Publish', 'seravo') . '</button>';
+      echo '<button id="publish-zone-btn" class="button"' . ($error ? ' disabled' : '') . '>' . __('Publish', 'seravo') . '</button>';
       echo '<div id="zone-update-spinner" style="margin: 4px 10px 0 0"></div>';
       echo '</td></tr>';
       echo '</table>';
@@ -518,18 +518,18 @@ class Seravo_DNS_Table {
       echo '<input type="hidden" name="domain" value="' . ($error ? '' : $records['name']) . '">';
       echo '<table id="zone-edit-table">';
       echo '<tr><td style="padding-bottom: 0px;">';
-      echo '<h3 style="margin: 0px 0px 5px 0px;">' . \__('Compulsory Records', 'seravo') . '</h3>';
-      echo '<p>' . \__('It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them.', 'seravo') . '</p>';
+      echo '<h3 style="margin: 0px 0px 5px 0px;">' . __('Compulsory Records', 'seravo') . '</h3>';
+      echo '<p>' . __('It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them.', 'seravo') . '</p>';
       echo '</td><td style="padding-bottom: 0px;">';
-      echo '<h3 style="margin: 0px 0px 5px 0px;">' . \__('Editable records', 'seravo') . '</h3>';
-      echo '<p>' . \__('Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated.', 'seravo') . '</p>';
+      echo '<h3 style="margin: 0px 0px 5px 0px;">' . __('Editable records', 'seravo') . '</h3>';
+      echo '<p>' . __('Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated.', 'seravo') . '</p>';
       echo '</td></tr>';
 
       echo '<tr><td style="padding:0 0 0 10px;"><div id="zone-fetch-response"><p style="margin:0;"><b>' . ($error ? $records['error'] : '') . '</p></b></div></td></tr>';
       echo '<tr><td style="width:50%;padding-bottom:0;"><textarea name="compulsory" readonly style="width: 100%; font-family: monospace;" rows="15">' . ($error ? '' : \implode("\n", $records['compulsory']['records'])) . '</textarea></td>';
       echo '<td style="width:50%;padding-bottom:0;"><textarea name="zonefile" style="width: 100%; font-family: monospace;" rows="15"' . ($error ? ' readonly>' : '>' . \implode("\n", $records['editable']['records'])) . '</textarea></td></tr>';
       echo '<tr><td></td><td><div id="zone-edit-response"></div></td></tr><tr><td></td><td>';
-      echo '<button id="update-zone-btn" class="button alignright"' . ($error ? ' disabled' : '') . '>' . \__('Update Zone', 'seravo') . '</button>';
+      echo '<button id="update-zone-btn" class="button alignright"' . ($error ? ' disabled' : '') . '>' . __('Update Zone', 'seravo') . '</button>';
       echo '<div id="zone-update-spinner" class="alignright" style="margin: 4px 10px 0 0"></div></td></tr>';
       echo '</table>';
     }

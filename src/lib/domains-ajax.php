@@ -165,7 +165,7 @@ function seravo_edit_forwards() {
 
     function create_forward( $domain, $source, $destinations ) {
       if ( empty($source) || empty($destinations) ) {
-        return seravo_respond_error_json(\__('All fields are required!', 'seravo'));
+        return seravo_respond_error_json(__('All fields are required!', 'seravo'));
       }
 
       // Parse invalid destinations
@@ -198,7 +198,7 @@ function seravo_edit_forwards() {
               array(
                 'status' => 200,
                 // translators: %s is an email address
-                'message' => \sprintf(\__('Forwards for %s have been set', 'seravo'), $source . '@' . $domain),
+                'message' => \sprintf(__('Forwards for %s have been set', 'seravo'), $source . '@' . $domain),
               )
             );
           }
@@ -209,7 +209,7 @@ function seravo_edit_forwards() {
       return \json_encode(
         array(
           'status' => 200,
-          'message' => \sprintf(\__("Some of the changes weren't made", 'seravo'), $source . '@' . $domain),
+          'message' => \sprintf(__("Some of the changes weren't made", 'seravo'), $source . '@' . $domain),
         )
       );
     }
@@ -229,7 +229,7 @@ function seravo_edit_forwards() {
       return \json_encode(
         array(
           'status' => 200,
-          'message' => \__('The forwards were deleted', 'seravo'),
+          'message' => __('The forwards were deleted', 'seravo'),
         )
       );
     }
@@ -256,13 +256,13 @@ function seravo_edit_forwards() {
           return \json_encode(
             array(
               'status' => 200,
-              'message' => \__('The forwards were modified', 'seravo'),
+              'message' => __('The forwards were modified', 'seravo'),
             )
           );
         }
-        return seravo_respond_error_json(\__("Something went wrong, the old source couldn't be removed.", 'seravo'));
+        return seravo_respond_error_json(__("Something went wrong, the old source couldn't be removed.", 'seravo'));
         }
-        return seravo_respond_error_json(\__("Something went wrong, the forwards couln't be modified.", 'seravo'));
+        return seravo_respond_error_json(__("Something went wrong, the forwards couln't be modified.", 'seravo'));
     }
   }
 }

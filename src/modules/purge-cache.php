@@ -51,8 +51,8 @@ final class PurgeCache {
         'id'    => 'nginx-helper-purge-all',
         'title' => '<span class="ab-icon seravo-purge-cache-icon"></span><span title="' .
           // translators: %s cache refresh interval
-          \__('Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every 15 minutes. This button is used for clearing all cached pages from the front-end proxy immediately.', 'seravo') .
-          '" class="ab-label seravo-purge-cache-text">' . \__('Purge Cache', 'seravo') . '</span>',
+          __('Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every 15 minutes. This button is used for clearing all cached pages from the front-end proxy immediately.', 'seravo') .
+          '" class="ab-label seravo-purge-cache-text">' . __('Purge Cache', 'seravo') . '</span>',
       )
     );
   }
@@ -84,10 +84,10 @@ final class PurgeCache {
     $success = \filter_var($_REQUEST['seravo-purge-success'], FILTER_VALIDATE_BOOLEAN);
 
     $class = 'notice-success';
-    $msg = '<b>' . \__('Success', 'seravo') . ':</b> ' . \__('The cache was flushed.', 'seravo');
+    $msg = '<b>' . __('Success', 'seravo') . ':</b> ' . __('The cache was flushed.', 'seravo');
     if ( ! $success ) {
       $class = 'notice-error';
-      $msg = '<b>' . \__('Error', 'seravo') . ':</b> ' . \__('The cache was not flushed, please check your PHP error log for details.', 'seravo');
+      $msg = '<b>' . __('Error', 'seravo') . ':</b> ' . __('The cache was not flushed, please check your PHP error log for details.', 'seravo');
     }
 
     Template::nag_notice(Template::paragraph($msg), $class)->print_html();

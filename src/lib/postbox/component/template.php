@@ -46,10 +46,11 @@ class Template {
    * Display section title on widget.
    * @param string $content The given title to display.
    * @param string $class   Optional class for the title element.
+   * @param string $id      Optional id for the title element.
    * @return \Seravo\Postbox\Component Title component.
    */
-  public static function section_title( $content, $class = 'title' ) {
-    return Component::from_raw('<h3 class="' . $class . '">' . $content . '</h3>');
+  public static function section_title( $content, $class = 'title', $id = '' ) {
+    return Component::from_raw('<h3 ' . ($id !== '' ? 'id="' . $id . '" ' : '') . 'class="' . $class . '">' . $content . '</h3>');
   }
 
   /**
@@ -267,7 +268,7 @@ class Template {
   public static function show_more_link( $class = 'hidden' ) {
     $icon = new Component('', '<div class="dashicons dashicons-arrow-down-alt2">', '</div>');
 
-    $link = new Component(\__('Show more', 'seravo') . ' ', '<a href="" class="seravo-show-more">', '</a>');
+    $link = new Component(__('Show more', 'seravo') . ' ', '<a href="" class="seravo-show-more">', '</a>');
     $link->add_child($icon);
 
     $wrapper = new Component('', '<div class="seravo-show-more-wrapper ' . $class . '">', '</div>');
@@ -284,10 +285,10 @@ class Template {
   public static function success_failure( $status ) {
     if ( $status ) {
       $class = 'success';
-      $msg = \sprintf('<b>%s</b>', \__('Success!', 'seravo'));
+      $msg = \sprintf('<b>%s</b>', __('Success!', 'seravo'));
     } else {
       $class = 'failure';
-      $msg = \sprintf('<b>%s</b>', \__('Failure!', 'seravo'));
+      $msg = \sprintf('<b>%s</b>', __('Failure!', 'seravo'));
     }
 
     return Component::from_raw('<p class="' . $class . '">' . $msg . '</p>');

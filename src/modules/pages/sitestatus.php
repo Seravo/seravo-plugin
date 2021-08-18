@@ -64,7 +64,7 @@ class SiteStatus extends Toolpage {
    */
   public function __construct() {
     parent::__construct(
-      \__('Site Status', 'seravo'),
+      __('Site Status', 'seravo'),
       'tools_page_site_status_page',
       'site_status_page',
       'Seravo\Postbox\seravo_postboxes_page'
@@ -112,7 +112,7 @@ class SiteStatus extends Toolpage {
     \wp_enqueue_style('seravo-site-status-css', SERAVO_PLUGIN_URL . 'style/sitestatus.css', array(), Helpers::seravo_plugin_version());
 
     $loc_translation = array(
-      'confirm' => \__('Confirm shadow reset', 'seravo'),
+      'confirm' => __('Confirm shadow reset', 'seravo'),
     );
 
     \wp_localize_script('seravo-shadows-js', 'shadow_loc', $loc_translation);
@@ -128,7 +128,7 @@ class SiteStatus extends Toolpage {
      * Site info postbox
      */
     $site_info = new Postbox\Postbox('site-info');
-    $site_info->set_title(\__('Site Information', 'seravo'));
+    $site_info->set_title(__('Site Information', 'seravo'));
     $site_info->set_data_func(array( __CLASS__, 'get_site_info' ), 300);
     $site_info->set_build_func(array( __CLASS__, 'build_site_info' ));
     $site_info->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
@@ -138,7 +138,7 @@ class SiteStatus extends Toolpage {
      * HTTP Request Statistics  postbox
      */
     $http_stats = new Postbox\LazyLoader('http-request-statistics');
-    $http_stats->set_title(\__('HTTP Request Statistics', 'seravo'));
+    $http_stats->set_title(__('HTTP Request Statistics', 'seravo'));
     $http_stats->set_build_func(array( __CLASS__, 'build_http_statistics' ));
     $http_stats->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
     $http_stats->set_ajax_func(array( __CLASS__, 'get_http_statistics' ));
@@ -148,20 +148,20 @@ class SiteStatus extends Toolpage {
      * Site checks postbox
      */
     $site_checks = new Postbox\FancyForm('site-checks');
-    $site_checks->set_title(\__('Site checks', 'seravo'));
+    $site_checks->set_title(__('Site checks', 'seravo'));
     $site_checks->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $site_checks->set_ajax_func(array( __CLASS__, 'run_site_checks' ));
-    $site_checks->set_button_text(\__('Run site checks', 'seravo'));
-    $site_checks->set_spinner_text(\__(' Running site checks', 'seravo'));
-    $site_checks->set_title_text(\__(' Click "Run site checks" to run the tests', 'seravo'));
-    $site_checks->add_paragraph(\__('Site checks provide a report about your site health and show potential issues. Checks include for example php related errors, inactive themes and plugins.', 'seravo'));
+    $site_checks->set_button_text(__('Run site checks', 'seravo'));
+    $site_checks->set_spinner_text(__(' Running site checks', 'seravo'));
+    $site_checks->set_title_text(__(' Click "Run site checks" to run the tests', 'seravo'));
+    $site_checks->add_paragraph(__('Site checks provide a report about your site health and show potential issues. Checks include for example php related errors, inactive themes and plugins.', 'seravo'));
     $page->register_postbox($site_checks);
 
     /**
      * Sanitize uploads postbox
      */
     $sanitize_uploads = new Postbox\SettingsForm('sanitize-uploads', 'side');
-    $sanitize_uploads->set_title(\__('Sanitize Uploads', 'seravo'));
+    $sanitize_uploads->set_title(__('Sanitize Uploads', 'seravo'));
     $sanitize_uploads->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $sanitize_uploads->add_setting_section(self::get_sanitize_uploads_settings());
     $page->register_postbox($sanitize_uploads);
@@ -172,7 +172,7 @@ class SiteStatus extends Toolpage {
     $disk_usage = new Postbox\LazyLoader('disk-usage');
     $disk_usage->set_build_func(array( __CLASS__, 'build_disk_usage' ));
     $disk_usage->use_hr(false);
-    $disk_usage->set_title(\__('Disk Usage', 'seravo'));
+    $disk_usage->set_title(__('Disk Usage', 'seravo'));
     $disk_usage->set_ajax_func(array( __CLASS__, 'get_disk_usage' ));
     $disk_usage->set_requirements(
       array(
@@ -185,7 +185,7 @@ class SiteStatus extends Toolpage {
      * Cache status postbox
      */
     $http_cache = new Postbox\Postbox('cache-status');
-    $http_cache->set_title(\__('Cache Status', 'seravo'));
+    $http_cache->set_title(__('Cache Status', 'seravo'));
     $http_cache->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $http_cache->set_build_func(array( __CLASS__, 'build_cache_status' ));
     self::init_cache_status($http_cache);
@@ -195,22 +195,22 @@ class SiteStatus extends Toolpage {
      * Speed test postbox
      */
     $speed_test = new Postbox\SimpleForm('speed-test');
-    $speed_test->set_title(\__('Speed test', 'seravo'));
+    $speed_test->set_title(__('Speed test', 'seravo'));
     $speed_test->set_build_form_func(array( __CLASS__, 'build_speed_test' ));
     $speed_test->set_ajax_func(array( __CLASS__, 'run_speed_test' ));
     $speed_test->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
-    $speed_test->set_button_text(\__('Run Test', 'seravo'));
+    $speed_test->set_button_text(__('Run Test', 'seravo'));
     $page->register_postbox($speed_test);
 
     /**
      * Optimize images postbox
      */
     $optimize_images = new Postbox\SettingsForm('optimize-images', 'side');
-    $optimize_images->set_title(\__('Optimize Images', 'seravo'));
-    $optimize_images->add_paragraph(\__('Optimization reduces image file size. This improves the performance and browsing experience of your site.', 'seravo'));
-    $optimize_images->add_paragraph(\__('By setting the maximum image resolution, you can determine the maximum allowed dimensions for images.', 'seravo'));
-    $optimize_images->add_paragraph(\__('By enabling metadata stripping, you can further reduce image sizes by removing metadata. Please note that occasionally metadata can be useful.', 'seravo'));
-    $optimize_images->add_paragraph(\__('For further information, refer to our <a href="https://help.seravo.com/article/28-seravo-plugin-optimize-images" target="_BLANK">knowledgebase article</a>.', 'seravo'));
+    $optimize_images->set_title(__('Optimize Images', 'seravo'));
+    $optimize_images->add_paragraph(__('Optimization reduces image file size. This improves the performance and browsing experience of your site.', 'seravo'));
+    $optimize_images->add_paragraph(__('By setting the maximum image resolution, you can determine the maximum allowed dimensions for images.', 'seravo'));
+    $optimize_images->add_paragraph(__('By enabling metadata stripping, you can further reduce image sizes by removing metadata. Please note that occasionally metadata can be useful.', 'seravo'));
+    $optimize_images->add_paragraph(__('For further information, refer to our <a href="https://help.seravo.com/article/28-seravo-plugin-optimize-images" target="_BLANK">knowledgebase article</a>.', 'seravo'));
     $optimize_images->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $optimize_images->add_setting_section(self::get_optimize_images_settings());
     $page->register_postbox($optimize_images);
@@ -219,7 +219,7 @@ class SiteStatus extends Toolpage {
      * Shadows postox
      */
     $shadows = new Postbox\Postbox('shadows');
-    $shadows->set_title(\__('Shadows', 'seravo'));
+    $shadows->set_title(__('Shadows', 'seravo'));
     $shadows->set_build_func(array( __CLASS__, 'build_shadows' ));
     $shadows->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
     $shadows->set_data_func(array( __CLASS__, 'get_shadows_data' ));
@@ -242,14 +242,14 @@ class SiteStatus extends Toolpage {
     $cache_status->set_ajax_func(array( __CLASS__, 'get_cache_hit_rate' ), 600);
     // HTTP cache tests
     $http_cache_wrapper = new Ajax\FancyForm('http-cache-wrapper');
-    $http_cache_wrapper->set_button_text(\__('Run cache tests', 'seravo'));
-    $http_cache_wrapper->set_spinner_text(\__('Running cache tests...', 'seravo'));
-    $http_cache_wrapper->set_title_text(\__('Click "Run cache tests" to run the cache tests', 'seravo'));
+    $http_cache_wrapper->set_button_text(__('Run cache tests', 'seravo'));
+    $http_cache_wrapper->set_spinner_text(__('Running cache tests...', 'seravo'));
+    $http_cache_wrapper->set_title_text(__('Click "Run cache tests" to run the cache tests', 'seravo'));
     $http_cache_wrapper->set_ajax_func(array( __CLASS__, 'run_cache_tests' ));
     // Object cache missing handler
     $object_cache = new Ajax\SimpleForm('object-cache-status');
     $object_cache->set_ajax_func(array( __CLASS__, 'enable_object_cache' ));
-    $object_cache->set_button_text(\__('Enable', 'seravo'));
+    $object_cache->set_button_text(__('Enable', 'seravo'));
     $object_cache->set_spinner_flip(true);
 
     $postbox->add_ajax_handler($object_cache);
@@ -285,10 +285,10 @@ class SiteStatus extends Toolpage {
     $sanitize_settings = new Settings('seravo-sanitize-uploads-settings');
     $sanitize_settings->add_field(
       'seravo-enable-sanitize-uploads',
-      \__('Sanitize uploads', 'seravo'),
+      __('Sanitize uploads', 'seravo'),
       '',
-      '<p>' . \__('Special characters in filenames, such as ä, ö or æ, may cause problems with the site.', 'seravo') . '</p>' .
-      '<p>' . \__('Toggling this on replaces such characters with other standard letters, like ä -> a, ö -> o or æ -> a when a file is uploaded.', 'seravo') . '</p>',
+      '<p>' . __('Special characters in filenames, such as ä, ö or æ, may cause problems with the site.', 'seravo') . '</p>' .
+      '<p>' . __('Toggling this on replaces such characters with other standard letters, like ä -> a, ö -> o or æ -> a when a file is uploaded.', 'seravo') . '</p>',
       Settings::FIELD_TYPE_BOOLEAN,
       'off'
     );
@@ -301,12 +301,12 @@ class SiteStatus extends Toolpage {
    */
   public static function get_optimize_images_settings() {
     $optimize_settings = new Settings('seravo-optimize-images-settings');
-    $optimize_settings->add_field('seravo-enable-optimize-images', \__('Optimize Images', 'seravo'), '', '', Settings::FIELD_TYPE_BOOLEAN, 'off');
-    $optimize_settings->add_field('seravo-enable-strip-image-metadata', \__('Strip Image Metadata', 'seravo'), '', '', Settings::FIELD_TYPE_BOOLEAN, 'off');
+    $optimize_settings->add_field('seravo-enable-optimize-images', __('Optimize Images', 'seravo'), '', '', Settings::FIELD_TYPE_BOOLEAN, 'off');
+    $optimize_settings->add_field('seravo-enable-strip-image-metadata', __('Strip Image Metadata', 'seravo'), '', '', Settings::FIELD_TYPE_BOOLEAN, 'off');
     // Image max width field
     $optimize_settings->add_field(
       'seravo-image-max-resolution-width',
-      \__('Maximum Image Width (px)', 'seravo'),
+      __('Maximum Image Width (px)', 'seravo'),
       '',
       '',
       Settings::FIELD_TYPE_INTEGER,
@@ -318,7 +318,7 @@ class SiteStatus extends Toolpage {
     // Image max height field
     $optimize_settings->add_field(
       'seravo-image-max-resolution-height',
-      \__('Maximum Image Height (px)', 'seravo'),
+      __('Maximum Image Height (px)', 'seravo'),
       '',
       '',
       Settings::FIELD_TYPE_INTEGER,
@@ -342,7 +342,7 @@ class SiteStatus extends Toolpage {
       $optimize_settings->add_notification(
         'size-under-limit',
         // translators: %1$s is minimum size in pixels and %2$s is the recommended maximum.
-        \sprintf(\__('The minimum size for image optimisation is %1$s px. Setting suggested size of %2$s px.', 'seravo'), self::IMAGE_MIN_SIZE, self::IMAGE_MAX_SIZE_DEFAULT)
+        \sprintf(__('The minimum size for image optimisation is %1$s px. Setting suggested size of %2$s px.', 'seravo'), self::IMAGE_MIN_SIZE, self::IMAGE_MAX_SIZE_DEFAULT)
       );
       return self::IMAGE_MAX_SIZE_DEFAULT;
     }
@@ -358,22 +358,22 @@ class SiteStatus extends Toolpage {
   public static function build_cache_status( Component $base, Postbox\Postbox $postbox ) {
     if ( ! \file_exists(self::OBJECT_CACHE_PATH) ) {
       $notice = new Component('', '<table><tr>', '</tr></table>');
-      $notice->add_child(new Component(\__('Object cache is currently disabled!', 'seravo'), '<td><b>', '</b></td>'));
+      $notice->add_child(new Component(__('Object cache is currently disabled!', 'seravo'), '<td><b>', '</b></td>'));
       $notice->add_child($postbox->get_ajax_handler('object-cache-status')->get_component()->set_wrapper('<td>', '</td>'));
       $base->add_child(Template::nag_notice($notice, 'notice-error', true));
     }
 
-    $base->add_child(Template::paragraph(\__('Caching decreases the load time of the website. The cache hit rate represents the efficiency of cache usage. Read about caching from the <a href="https://help.seravo.com/article/36-how-does-caching-work/" target="_BLANK">documentation</a> or <a href="https://seravo.com/tag/cache/" target="_BLANK">blog</a>.', 'seravo')));
-    $base->add_child(Template::section_title(\__('Object Cache in Redis', 'seravo')));
-    $base->add_child(Template::paragraph(\__('Persistent object cache implemented with <a href="https://seravo.com/blog/faster-wordpress-with-transients/" target="_BLANK">transients</a> can be stored in Redis. Instructions on how to activate the object cache can be found from the <a href="https://help.seravo.com/article/38-active-object-cache/" target="_BLANK">documentation</a>.', 'seravo')));
+    $base->add_child(Template::paragraph(__('Caching decreases the load time of the website. The cache hit rate represents the efficiency of cache usage. Read about caching from the <a href="https://help.seravo.com/article/36-how-does-caching-work/" target="_BLANK">documentation</a> or <a href="https://seravo.com/tag/cache/" target="_BLANK">blog</a>.', 'seravo')));
+    $base->add_child(Template::section_title(__('Object Cache in Redis', 'seravo')));
+    $base->add_child(Template::paragraph(__('Persistent object cache implemented with <a href="https://seravo.com/blog/faster-wordpress-with-transients/" target="_BLANK">transients</a> can be stored in Redis. Instructions on how to activate the object cache can be found from the <a href="https://help.seravo.com/article/38-active-object-cache/" target="_BLANK">documentation</a>.', 'seravo')));
 
     // Redis & Nginx cache status
-    $base->add_child(Component::from_raw('<h4>' . \__('Cache hit rate', 'seravo') . '</h4><div id="redis-hit-rate-chart"></div>'));
+    $base->add_child(Component::from_raw('<h4>' . __('Cache hit rate', 'seravo') . '</h4><div id="redis-hit-rate-chart"></div>'));
     $base->add_child($postbox->get_ajax_handler('cache-status-ajax')->get_component());
 
     // HTTP cache status wrapper
-    $base->add_child(Template::section_title(\__('Nginx HTTP Cache', 'seravo')));
-    $base->add_child(Template::paragraph(\__("Test the functionality of your site's front cache. This can also be done via command line with command <code>wp-check-http-cache</code>.", 'seravo')));
+    $base->add_child(Template::section_title(__('Nginx HTTP Cache', 'seravo')));
+    $base->add_child(Template::paragraph(__("Test the functionality of your site's front cache. This can also be done via command line with command <code>wp-check-http-cache</code>.", 'seravo')));
     $base->add_child($postbox->get_ajax_handler('http-cache-wrapper')->get_component());
   }
 
@@ -395,13 +395,13 @@ class SiteStatus extends Toolpage {
 
     if ( $object_cache_content === false ) {
       // Downloading failed
-      return Ajax\AjaxResponse::error_response(\__('Error with downloading the latest object-cache file. Please try again later.', 'seravo'));
+      return Ajax\AjaxResponse::error_response(__('Error with downloading the latest object-cache file. Please try again later.', 'seravo'));
     }
 
     $object_cache_file = \fopen(self::OBJECT_CACHE_PATH, 'w');
     if ( $object_cache_file === false ) {
       // Failed to open file handle
-      return Ajax\AjaxResponse::error_response(\__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
+      return Ajax\AjaxResponse::error_response(__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
     }
 
     $write_object_cache = \fwrite($object_cache_file, $object_cache_content);
@@ -409,11 +409,11 @@ class SiteStatus extends Toolpage {
 
     if ( $write_object_cache === false ) {
       // Failed to write
-      return Ajax\AjaxResponse::error_response(\__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
+      return Ajax\AjaxResponse::error_response(__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
     }
 
     // All good!
-    $enabled_msg = Template::paragraph(\__('Object cache is now enabled!', 'seravo'), 'success bold')->to_html();
+    $enabled_msg = Template::paragraph(__('Object cache is now enabled!', 'seravo'), 'success bold')->to_html();
     return AjaxResponse::response_with_output($enabled_msg);
   }
 
@@ -464,12 +464,12 @@ class SiteStatus extends Toolpage {
       }
     }
 
-    $expired_keys = '<p>' . \__('Expired keys: ', 'seravo') . $stats['expired_keys'] . Template::tooltip(\__('The number of keys deleted.', 'seravo'))->to_html();
-    $evicted_keys = '<br>' . \__('Evicted keys: ', 'seravo') . $stats['evicted_keys'] . Template::tooltip(\__("The number of keys being deleted because the memory usage has hit it's limit.", 'seravo'))->to_html() . '</p>';
-    $http_hit_rate_title = Template::section_title(\__('HTTP Cache', 'seravo'))->to_html();
-    $http_cache_text = Template::paragraph(\__("The HTTP cache hit rate is calculated from all Nginx's access logs. It describes the long-term cache usage situation.", 'seravo'))->to_html();
-    $http_hit_rate = $http_hit_rate_title . $http_cache_text . '<h4>' . \__('Cache hit rate', 'seravo') . '</h4><div id="http-hit-rate-chart"></div>';
-    $bypasses = '<p>' . \__('Bypasses: ', 'seravo') . $bypass . Template::tooltip(\__('The amount of cache bypasses which occur when requesting a non-cached version of the site.', 'seravo'))->to_html() . '</p>';
+    $expired_keys = '<p>' . __('Expired keys: ', 'seravo') . $stats['expired_keys'] . Template::tooltip(__('The number of keys deleted.', 'seravo'))->to_html();
+    $evicted_keys = '<br>' . __('Evicted keys: ', 'seravo') . $stats['evicted_keys'] . Template::tooltip(__("The number of keys being deleted because the memory usage has hit it's limit.", 'seravo'))->to_html() . '</p>';
+    $http_hit_rate_title = Template::section_title(__('HTTP Cache', 'seravo'))->to_html();
+    $http_cache_text = Template::paragraph(__("The HTTP cache hit rate is calculated from all Nginx's access logs. It describes the long-term cache usage situation.", 'seravo'))->to_html();
+    $http_hit_rate = $http_hit_rate_title . $http_cache_text . '<h4>' . __('Cache hit rate', 'seravo') . '</h4><div id="http-hit-rate-chart"></div>';
+    $bypasses = '<p>' . __('Bypasses: ', 'seravo') . $bypass . Template::tooltip(__('The amount of cache bypasses which occur when requesting a non-cached version of the site.', 'seravo'))->to_html() . '</p>';
 
     $response->is_success(true);
     $response->set_data(
@@ -498,11 +498,11 @@ class SiteStatus extends Toolpage {
     \exec('wp-check-http-cache ' . \get_site_url(), $output);
     \array_unshift($output, '$ wp-check-http-cache ' . \get_site_url());
 
-    $message = \__('HTTP cache not working', 'seravo');
+    $message = __('HTTP cache not working', 'seravo');
     $status_color = Ajax\FancyForm::STATUS_RED;
 
     if ( \strpos(\implode("\n", $output), "\nSUCCESS: ") == true ) {
-      $message = \__('HTTP cache working', 'seravo');
+      $message = __('HTTP cache working', 'seravo');
       $status_color = Ajax\FancyForm::STATUS_GREEN;
     }
 
@@ -517,10 +517,10 @@ class SiteStatus extends Toolpage {
    */
   public static function build_disk_usage( Component $base, Postbox\Postbox $postbox ) {
     $base->add_child(Template::side_by_side(Component::from_raw('<div id="disk-usage-donut" style="width: 100px;"></div>'), $postbox->get_ajax_handler('disk-usage')->get_component(), 'evenly'));
-    $base->add_child(Component::from_raw('<span id="disk-use-notification" style="display: none;">' . \__('Disk space low! ', 'seravo') . '<a href="https://help.seravo.com/article/280-seravo-plugin-site-status#diskusage" target="_BLANK">' . \__('Read more.', 'seravo') . '</a></span>'));
-    $base->add_child(Component::from_raw('<hr><b>' . \__('Disk usage by directory', 'seravo') . '</b>'));
+    $base->add_child(Component::from_raw('<span id="disk-use-notification" style="display: none;">' . __('Disk space low! ', 'seravo') . '<a href="https://help.seravo.com/article/280-seravo-plugin-site-status#diskusage" target="_BLANK">' . __('Read more.', 'seravo') . '</a></span>'));
+    $base->add_child(Component::from_raw('<hr><b>' . __('Disk usage by directory', 'seravo') . '</b>'));
     $base->add_child(Component::from_raw('<div id="disk-bars-single" style="width: 100%"></div><hr>'));
-    $base->add_child(Template::paragraph(\__("Logs and automatic backups don't count against your quota.", 'seravo') . '<br>' . \__('Use <a href="tools.php?page=security_page#cruftfiles_tool">cruft remover</a> to remove unnecessary files.', 'seravo')));
+    $base->add_child(Template::paragraph(__("Logs and automatic backups don't count against your quota.", 'seravo') . '<br>' . __('Use <a href="tools.php?page=security_page#seravo-postbox-cruftfiles" target="_blank">cruft remover</a> to remove unnecessary files.', 'seravo')));
   }
 
   /**
@@ -621,7 +621,7 @@ class SiteStatus extends Toolpage {
 
     $disk_usage = self::report_disk_usage();
     $disk_usage['data']['disk_limit'] = $api_response['plan']['disklimit'];
-    $output = Template::text(\__('Disk space in your plan: ', 'seravo') . $disk_usage['data']['disk_limit'] . 'GB <br>' . \__('Space in use: ', 'seravo') . $disk_usage['data']['human'], 'space-info')->to_html();
+    $output = Template::text(__('Disk space in your plan: ', 'seravo') . $disk_usage['data']['disk_limit'] . 'GB <br>' . __('Space in use: ', 'seravo') . $disk_usage['data']['human'], 'space-info')->to_html();
 
     $response->is_success(true);
     $response->set_data(
@@ -642,7 +642,7 @@ class SiteStatus extends Toolpage {
    * @return void
    */
   public static function build_http_statistics( Component $base, Postbox\Postbox $postbox ) {
-    $base->add_child(Template::paragraph(\__('These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo')));
+    $base->add_child(Template::paragraph(__('These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>.', 'seravo')));
     $base->add_child($postbox->get_ajax_handler('http-request-statistics')->get_component());
   }
 
@@ -657,7 +657,7 @@ class SiteStatus extends Toolpage {
     }
 
     if ( $reports !== array() ) {
-      $column_titles = array( \__('Month', 'seravo'), \__('HTTP Requests', 'seravo'), \__('Report', 'seravo') );
+      $column_titles = array( __('Month', 'seravo'), __('HTTP Requests', 'seravo'), __('Report', 'seravo') );
 
       // Track max request value to calculate relative bar widths
       $max_requests = 0;
@@ -683,14 +683,14 @@ class SiteStatus extends Toolpage {
           $months[] = array(
             'month' => Template::link($month, $stats_link, $month, 'link')->to_html(),
             'requests' => '<div class="statistics" style="min-width: ' . $min_width . '%;">' . $total_requests . '</div>',
-            'span' => Template::button_link_with_icon($stats_link, \__('View report', 'seravo'))->to_html(),
+            'span' => Template::button_link_with_icon($stats_link, __('View report', 'seravo'))->to_html(),
           );
         }
       }
 
       $output = Template::table_view('widefat striped', 'th', 'td', $column_titles, $months)->to_html();
     } else {
-      $output = Template::error_paragraph(\__('The site has no HTTP requests statistics yet.', 'seravo'))->to_html();
+      $output = Template::error_paragraph(__('The site has no HTTP requests statistics yet.', 'seravo'))->to_html();
     }
 
     return AjaxResponse::response_with_output($output);
@@ -731,50 +731,50 @@ class SiteStatus extends Toolpage {
     $data = array();
 
     if ( \is_wp_error($info) ) {
-      $data['error'] = \__('An API error occured. Please try again later', 'seravo');
+      $data['error'] = __('An API error occured. Please try again later', 'seravo');
       \error_log($info->get_error_message());
       return $data;
     }
 
     $plans = array(
-      'demo'       => \__('Demo', 'seravo'),
-      'mini'       => \__('WP Mini', 'seravo'),
-      'pro'        => \__('WP Pro', 'seravo'),
-      'business'   => \__('WP Business', 'seravo'),
-      'enterprise' => \__('WP Enterprise', 'seravo'),
+      'demo'       => __('Demo', 'seravo'),
+      'mini'       => __('WP Mini', 'seravo'),
+      'pro'        => __('WP Pro', 'seravo'),
+      'business'   => __('WP Business', 'seravo'),
+      'enterprise' => __('WP Enterprise', 'seravo'),
     );
     $countries = array(
-      'fi'       => \__('Finland', 'seravo'),
-      'se'       => \__('Sweden', 'seravo'),
-      'de'       => \__('Germany', 'seravo'),
-      'us'       => \__('USA', 'seravo'),
-      'anywhere' => \__('No preference', 'seravo'),
+      'fi'       => __('Finland', 'seravo'),
+      'se'       => __('Sweden', 'seravo'),
+      'de'       => __('Germany', 'seravo'),
+      'us'       => __('USA', 'seravo'),
+      'anywhere' => __('No preference', 'seravo'),
     );
 
     // These values always exists
     $data = array(
-      'site_name' => \__('Site Name') . ': ' . $info['name'],
-      'site_created' => \__('Site Created') . ': ' . \date('Y-m-d', \strtotime($info['created'])),
-      'plan_type' => \__('Plan Type') . ': ' . $plans[$info['plan']['type']],
+      'site_name' => __('Site Name', 'seravo') . ': ' . $info['name'],
+      'site_created' => __('Site Created', 'seravo') . ': ' . \date('Y-m-d', \strtotime($info['created'])),
+      'plan_type' => __('Plan Type', 'seravo') . ': ' . $plans[$info['plan']['type']],
     );
 
     // Check for account manger
     if ( isset($info['account_manager']) ) {
-      $data['account_manager'] = \__('Account Manager', 'seravo') . ': ' . $info['account_manager'];
+      $data['account_manager'] = __('Account Manager', 'seravo') . ': ' . $info['account_manager'];
     } else {
-      $data['account_manager'] = \__('No Account Manager found. Account Manager is only included in Seravo Enterprise plans.', 'seravo');
+      $data['account_manager'] = __('No Account Manager found. Account Manager is only included in Seravo Enterprise plans.', 'seravo');
     }
     // Check for termination date (hide 1970-01-01)
     if ( isset($info['termination']) && $info['termination'] !== '' && \date('Y-m-d', \strtotime($info['termination'])) !== '1970-01-01' ) {
-      $data['termination'] = \__('Plan Termination', 'seravo') . ': ' . \date('Y-m-d', \strtotime($info['termination']));
+      $data['termination'] = __('Plan Termination', 'seravo') . ': ' . \date('Y-m-d', \strtotime($info['termination']));
     }
     // Check for location
     if ( isset($info['country']) && $info['country'] !== '' ) {
-      $data['country'] = \__('Site Location', 'seravo') . ': ' . $countries[$info['country']];
+      $data['country'] = __('Site Location', 'seravo') . ': ' . $countries[$info['country']];
     }
     // Check for contacts
-    $contacts = isset($info['contact_emails']) ? \implode(', ', $info['contact_emails']) : \__('No contacts found', 'seravo');
-    $data['contacts'] = '<a href="tools.php?page=upkeep_page#contacts">' . \__('Technical Contacts', 'seravo') . '</a>: ' . $contacts;
+    $contacts = isset($info['contact_emails']) ? \implode(', ', $info['contact_emails']) : __('No contacts found', 'seravo');
+    $data['contacts'] = '<a href="tools.php?page=upkeep_page#contacts" target="_blank">' . __('Technical Contacts', 'seravo') . '</a>: ' . $contacts;
 
     return $data;
   }
@@ -792,25 +792,25 @@ class SiteStatus extends Toolpage {
       return;
     }
     $shadows_component = new Component('', '<div class="shadow-section">', '</div>');
-    $shadows_component->add_child(Template::confirmation_modal('remove-shadow-modal', \__('Are you sure? This replaces all information in the selected environment.', 'seravo'), \__('OK', 'seravo'), \__('Cancel', 'seravo')));
-    $shadows_component->add_child(Template::paragraph(\__('Manage the site shadows.', 'seravo')));
-    $shadows_component->add_child(Template::paragraph(\__('<strong>Warning: </strong>Resetting a shadow copies the state of the production site to the shadow. All files under <code>/data/wordpress/</code> will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo')));
+    $shadows_component->add_child(Template::confirmation_modal('remove-shadow-modal', __('Are you sure? This replaces all information in the selected environment.', 'seravo'), __('OK', 'seravo'), __('Cancel', 'seravo')));
+    $shadows_component->add_child(Template::paragraph(__('Manage the site shadows.', 'seravo')));
+    $shadows_component->add_child(Template::paragraph(__('<strong>Warning: </strong>Resetting a shadow copies the state of the production site to the shadow. All files under <code>/data/wordpress/</code> will be replaced and the production database imported. For more information, visit our  <a href="https://seravo.com/docs/deployment/shadows/" target="_BLANK">Developer documentation</a>.', 'seravo')));
 
     if ( isset($data['shadows']) && $data['shadows'] !== array() ) {
       $alert_success = new Component('', '<div class="alert" id="alert-success">', '</div>');
       $alert_success->add_child(Template::button('&times', 'shadow-closebtn', 'shadow-closebtn'));
-      $alert_success->add_child(Template::paragraph('<b>' . \__('Shadow reset successfully!', 'seravo') . '</b>'));
+      $alert_success->add_child(Template::paragraph('<b>' . __('Shadow reset successfully!', 'seravo') . '</b>'));
       $shadow_reset_alert = new Component('', '<div class="shadow-reset-sr-alert alert">', '</div>');
-      $shadow_reset_alert->add_child(Template::paragraph(\__('Because this shadow uses a custom domain, <strong>please go to the shadow and run search-replace there with the values below</strong> for the shadow to be accessible after reset: ', 'seravo')));
-      $shadow_reset_alert->add_child(Template::paragraph(\__('<strong>From:</strong> ', 'seravo') . \str_replace(array( 'https://', 'http://' ), '://', \get_home_url()) . \__('<br><strong>To:</strong> ', 'seravo') . '://<span id="shadow-primary-domain"></span>'));
-      $shadow_reset_alert->add_child(Template::paragraph(\__('When you\'re in the shadow, run search-replace with WP-CLI. Instructions can be found from <a href="https://help.seravo.com/en/docs/151" target="_BLANK">documentation</a>.', 'seravo')));
+      $shadow_reset_alert->add_child(Template::paragraph(__('Because this shadow uses a custom domain, <strong>please go to the shadow and run search-replace there with the values below</strong> for the shadow to be accessible after reset: ', 'seravo')));
+      $shadow_reset_alert->add_child(Template::paragraph(__('<strong>From:</strong> ', 'seravo') . \str_replace(array( 'https://', 'http://' ), '://', \get_home_url()) . __('<br><strong>To:</strong> ', 'seravo') . '://<span id="shadow-primary-domain"></span>'));
+      $shadow_reset_alert->add_child(Template::paragraph(__('When you\'re in the shadow, run search-replace with WP-CLI. Instructions can be found from <a href="https://help.seravo.com/en/docs/151" target="_BLANK">documentation</a>.', 'seravo')));
       $alert_success->add_child($shadow_reset_alert);
 
       $shadows_component->add_child($alert_success);
-      $shadows_component->add_child(Component::from_raw('<div class="alert" id="alert-error"><button class="shadow-closebtn">&times;</button><p><b>' . \__('Shadow reset failed!', 'seravo') . '</b></p></div>'));
+      $shadows_component->add_child(Component::from_raw('<div class="alert" id="alert-error"><button class="shadow-closebtn">&times;</button><p><b>' . __('Shadow reset failed!', 'seravo') . '</b></p></div>'));
       $shadows_component->add_child(self::build_shadows_table($data['shadows']));
     } else {
-      $shadows_component->add_child(Template::paragraph(\__('No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href="mailto:help@seravo.com">help@seravo.com</a>.', 'seravo')));
+      $shadows_component->add_child(Template::paragraph(__('No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href="mailto:help@seravo.com">help@seravo.com</a>.', 'seravo')));
     }
     $base->add_child($shadows_component);
   }
@@ -836,14 +836,14 @@ class SiteStatus extends Toolpage {
       $tr_view = new Component('', '<tr class="view"' . ($shadow_counter === \count($shadow_list) ? 'style="border-bottom: 1.5px solid #ccd0d4;"' : '') . '>', '</tr>');
       $tr_view->add_child(Component::from_raw('<td class="open-folded"><b>' . $shadow_data['name'] . '</b></td>'));
       $tr_view->add_child(Component::from_raw('<td class="open-folded reset-status"></td>'));
-      $tr_view->add_child(Component::from_raw('<td><button class="button reset">' . \__('Reset', 'seravo') . '</button></td>'));
+      $tr_view->add_child(Component::from_raw('<td><button class="button reset">' . __('Reset', 'seravo') . '</button></td>'));
       $tr_view->add_child(Component::from_raw('<td class="open-folded closed-icon"><span></span></td>'));
       // fold
       $tr_fold = new Component('', '<tr class="fold"><td colspan="4"><ul class="postbox-ul">', '</ul></td></tr>');
-      $tr_fold->add_child(Template::paragraph('<li><b>' . \__('Port: ', 'seravo') . '</b>' . $shadow_data['ssh']));
-      $tr_fold->add_child(Template::paragraph('<li><b>' . \__('Creation Date: ', 'seravo') . '</b>' . $shadow_data['created']));
-      $tr_fold->add_child(Template::paragraph('<li><b>' . \__('Information: ', 'seravo') . '</b>' . $shadow_data['info']));
-      $tr_fold->add_child(Template::paragraph('<li><b>' . \__('Domain: ', 'seravo') . '</b>' . ($primary_domain !== '' ? $primary_domain : '-')));
+      $tr_fold->add_child(Template::paragraph('<li><b>' . __('Port: ', 'seravo') . '</b>' . $shadow_data['ssh']));
+      $tr_fold->add_child(Template::paragraph('<li><b>' . __('Creation Date: ', 'seravo') . '</b>' . $shadow_data['created']));
+      $tr_fold->add_child(Template::paragraph('<li><b>' . __('Information: ', 'seravo') . '</b>' . $shadow_data['info']));
+      $tr_fold->add_child(Template::paragraph('<li><b>' . __('Domain: ', 'seravo') . '</b>' . ($primary_domain !== '' ? $primary_domain : '-')));
       // add the elements to the table
       $tbody->add_children(array( $tr_view, $tr_fold, Component::from_raw('<input type="hidden" name="shadow-domain" value="' . $primary_domain . '">') ));
       $shadow_table->add_child($tbody);
@@ -861,7 +861,7 @@ class SiteStatus extends Toolpage {
 
     if ( \is_wp_error($shadow_data) ) {
       \error_log($shadow_data->get_error_message());
-      $data['error'] = \__('An API error occured. Please try again later.', 'seravo');
+      $data['error'] = __('An API error occured. Please try again later.', 'seravo');
       return $data;
     }
 
@@ -915,10 +915,10 @@ class SiteStatus extends Toolpage {
   public static function build_speed_test( Component $base ) {
     $target_location = isset($_GET['speed_test_target']) ? $_GET['speed_test_target'] : '';
     $label = Component::from_raw('<label for="speed-test-url" class="wrap-anywhere"> ' . \get_home_url() . '/</label>');
-    $field = Component::from_raw('<input type="text" style="width: 100%;" placeholder="' . \__('Front Page by Default', 'seravo') . '" id="speed-test-url" name="speed-test-url" value="' . $target_location . '">');
+    $field = Component::from_raw('<input type="text" style="width: 100%;" placeholder="' . __('Front Page by Default', 'seravo') . '" id="speed-test-url" name="speed-test-url" value="' . $target_location . '">');
     $clear = Template::button('', 'clear-url', 'notice-dismiss');
 
-    $base->add_child(Template::paragraph(\__('Speed test measures the time how long it takes for PHP to produce the HTML output for the WordPress page.', 'seravo')));
+    $base->add_child(Template::paragraph(__('Speed test measures the time how long it takes for PHP to produce the HTML output for the WordPress page.', 'seravo')));
     $base->add_child(Template::n_by_side(array( $label, Template::side_by_side($field, $clear) )));
     $base->add_child(Component::from_raw('<div id="speed-test-results"></div>'));
     $base->add_child(Component::from_raw('<div id="speed-test-error"></div>'));
@@ -936,7 +936,7 @@ class SiteStatus extends Toolpage {
 
     // use filter_var to make sure the resulting url is a valid url
     if ( \filter_var($url, FILTER_VALIDATE_URL) === false ) {
-      return Ajax\AjaxResponse::error_response(\__('Error! Invalid url', 'seravo'));
+      return Ajax\AjaxResponse::error_response(__('Error! Invalid url', 'seravo'));
     }
 
     // Check whether to test cached version or not. Default not.
@@ -945,7 +945,7 @@ class SiteStatus extends Toolpage {
     // Prepare curl settings which are same for all requests
     $ch = \curl_init($url);
     if ( $ch === false ) {
-      return Ajax\AjaxResponse::error_response(\__('Error! Curl not available', 'seravo'));
+      return Ajax\AjaxResponse::error_response(__('Error! Curl not available', 'seravo'));
     }
 
     \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -958,7 +958,7 @@ class SiteStatus extends Toolpage {
     $httpcode = \curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ( \curl_error($ch) !== '' || $httpcode !== 200 ) {
-      return Ajax\AjaxResponse::error_response(\__('Error! HTTP response code:', 'seravo') . ' ' . $httpcode);
+      return Ajax\AjaxResponse::error_response(__('Error! HTTP response code:', 'seravo') . ' ' . $httpcode);
     }
     $curl_info_arr = \curl_getinfo($ch);
     \curl_close($ch);

@@ -54,7 +54,7 @@ final class SpeedTest {
         array(
           'id'    => 'speed-test-blocked',
           'title' => '<span class="ab-icon seravo-speed-test-icon blocked"></span><span class="ab-label seravo-speed-test-text blocked">' .
-            \__('Speed Test', 'seravo') . '</span>',
+            __('Speed Test', 'seravo') . '</span>',
         )
       );
 
@@ -62,7 +62,7 @@ final class SpeedTest {
         array(
           'parent'  => 'speed-test-blocked',
           'id'      => 'speed-test-menu',
-          'title'   => \__('Speedtest cannot be run for wp-admin pages', 'seravo'),
+          'title'   => __('Speedtest cannot be run for wp-admin pages', 'seravo'),
         )
       );
     } else {
@@ -71,8 +71,8 @@ final class SpeedTest {
         array(
           'id'    => 'speed-test',
           'title' => '<span class="ab-icon seravo-speed-test-icon title="derp"></span><span class="ab-label seravo-speed-test-text" title="' .
-            \__('Test the speed of the current page', 'seravo') . '">' .
-            \__('Speed Test', 'seravo') . '</span>',
+            __('Test the speed of the current page', 'seravo') . '">' .
+            __('Speed Test', 'seravo') . '</span>',
           'href'  => $url,
         )
       );

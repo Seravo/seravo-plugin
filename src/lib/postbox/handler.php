@@ -141,7 +141,7 @@ if ( ! \class_exists('Seravo_Postbox_Factory') ) {
         \wp_enqueue_style('seravo-common-css', SERAVO_PLUGIN_URL . 'style/common.css', array(), Helpers::seravo_plugin_version());
 
         $postbox_l10n = array(
-          'postBoxEmptyString' => \__('Drag boxes here', 'seravo'),
+          'postBoxEmptyString' => __('Drag boxes here', 'seravo'),
         );
 
         \wp_localize_script('seravo-postbox-js', 'seravoPostboxl10n', $postbox_l10n);
@@ -331,7 +331,7 @@ if ( ! \class_exists('Seravo_Postbox_Factory') ) {
           <span class="screen-reader-text">
             <?php
               /* translators: %s: Togglable postbox title */
-              \printf(\__('Toggle panel: %s', 'seravo'), $postbox_content['title']);
+              \printf(__('Toggle panel: %s', 'seravo'), $postbox_content['title']);
             ?>
           </span>
           <span class="toggle-indicator" aria-hidden="true"></span>

@@ -49,12 +49,12 @@ class SiteHealth {
   private static function check_https() {
     $siteurl = \get_option('siteurl');
     $home = \get_option('home');
-    $https_tooltip = \__('Read more about HTTPS on our <a href="https://seravo.com/blog/https-is-not-optional/" target="_blank">blog</a>', 'seravo');
+    $https_tooltip = __('Read more about HTTPS on our <a href="https://seravo.com/blog/https-is-not-optional/" target="_blank">blog</a>', 'seravo');
 
     if ( \strpos($siteurl, 'https') !== 0 || \strpos($home, 'https') !== 0 ) {
-      self::$potential_issues[\__('HTTPS is disabled', 'seravo')] = $https_tooltip;
+      self::$potential_issues[__('HTTPS is disabled', 'seravo')] = $https_tooltip;
     } else {
-      self::$no_issues[\__('HTTPS is enabled', 'seravo')] = $https_tooltip;
+      self::$no_issues[__('HTTPS is enabled', 'seravo')] = $https_tooltip;
     }
   }
 
@@ -65,19 +65,19 @@ class SiteHealth {
   private static function check_recaptcha() {
     $output = self::exec_command('wp plugin list');
     $captcha_found = false;
-    $captcha_tooltip = \__('Recaptcha is recommended as it can help protect your site from spam and abuse.', 'seravo');
+    $captcha_tooltip = __('Recaptcha is recommended as it can help protect your site from spam and abuse.', 'seravo');
 
     foreach ( $output as $plugin ) {
       // check that captcha is found and it's not inactive
       if ( \strpos($plugin, 'captcha') !== false && \strpos($plugin, 'inactive') === false ) {
-        self::$no_issues[\__('Recaptcha is enabled', 'seravo')] = $captcha_tooltip;
+        self::$no_issues[__('Recaptcha is enabled', 'seravo')] = $captcha_tooltip;
         $captcha_found = true;
         break;
       }
     }
 
     if ( ! $captcha_found ) {
-      self::$potential_issues[\__('Recaptcha is disabled', 'seravo')] = $captcha_tooltip;
+      self::$potential_issues[__('Recaptcha is disabled', 'seravo')] = $captcha_tooltip;
     }
   }
 
@@ -88,7 +88,7 @@ class SiteHealth {
   private static function check_inactive_themes() {
     $output = self::exec_command('wp theme list');
     $inactive_themes = 0;
-    $theme_tooltip = \__('It is recommended to remove inactive themes.', 'seravo');
+    $theme_tooltip = __('It is recommended to remove inactive themes.', 'seravo');
 
     foreach ( $output as $line ) {
       if ( \strpos($line, 'inactive') !== false ) {
@@ -100,10 +100,10 @@ class SiteHealth {
       /* translators:
         * %1$s number of inactive themes
         */
-      $themes_msg = \wp_sprintf(\_n('Found %1$s inactive theme', 'Found %1$s inactive themes', $inactive_themes, 'seravo'), \number_format_i18n($inactive_themes));
+      $themes_msg = \wp_sprintf(_n('Found %1$s inactive theme', 'Found %1$s inactive themes', $inactive_themes, 'seravo'), \number_format_i18n($inactive_themes));
       self::$potential_issues[$themes_msg] = $theme_tooltip;
     } else {
-      self::$no_issues[\__('No inactive themes', 'seravo')] = $theme_tooltip;
+      self::$no_issues[__('No inactive themes', 'seravo')] = $theme_tooltip;
     }
   }
 
@@ -116,8 +116,8 @@ class SiteHealth {
     $output = self::exec_command('wp plugin list');
     $inactive_plugins = 0;
     $bad_plugins_found = 0;
-    $plugin_tooltip = \__('It is recommended to remove inactive plugins and features.', 'seravo');
-    $deprecated_tooltip = \__('Deprecated plugins and features are obsolete and should no longer be used.', 'seravo');
+    $plugin_tooltip = __('It is recommended to remove inactive plugins and features.', 'seravo');
+    $deprecated_tooltip = __('Deprecated plugins and features are obsolete and should no longer be used.', 'seravo');
 
     foreach ( $output as $line ) {
 
@@ -128,7 +128,7 @@ class SiteHealth {
       foreach ( self::$bad_plugins as $plugin ) {
 
         if ( \strpos($line, $plugin) !== false ) {
-          $error_msg = '<b>' . $plugin . '</b> ' . \__('is deprecated');
+          $error_msg = '<b>' . $plugin . '</b> ' . __('is deprecated', 'seravo');
           self::$potential_issues[$error_msg] = $deprecated_tooltip;
           ++$bad_plugins_found;
         }
@@ -136,17 +136,17 @@ class SiteHealth {
     }
 
     if ( $bad_plugins_found === 0 ) {
-      self::$no_issues[\__('No deprecated features or plugins', 'seravo')] = $deprecated_tooltip;
+      self::$no_issues[__('No deprecated features or plugins', 'seravo')] = $deprecated_tooltip;
     }
 
     if ( $inactive_plugins > 0 ) {
       /* translators:
        * %1$s number of inactive plugins
        */
-      $plugins_msg = \wp_sprintf(\_n('Found %1$s inactive plugin', 'Found %1$s inactive plugins', $inactive_plugins, 'seravo'), \number_format_i18n($inactive_plugins));
+      $plugins_msg = \wp_sprintf(_n('Found %1$s inactive plugin', 'Found %1$s inactive plugins', $inactive_plugins, 'seravo'), \number_format_i18n($inactive_plugins));
       self::$potential_issues[$plugins_msg] = $plugin_tooltip;
     } else {
-      self::$no_issues[\__('No inactive plugins', 'seravo')] = $plugin_tooltip;
+      self::$no_issues[__('No inactive plugins', 'seravo')] = $plugin_tooltip;
     }
   }
 
@@ -156,22 +156,22 @@ class SiteHealth {
    */
   private static function check_php_errors() {
     $php_info = '<a href="' . \get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log" target="_blank">php-error.log</a>';
-    $error_tooltip = \__('PHP related errors are usually a sign of something being broken on the code.', 'seravo');
+    $error_tooltip = __('PHP related errors are usually a sign of something being broken on the code.', 'seravo');
 
     $php_error_count = Logs::get_week_error_count();
     if ( $php_error_count === false ) {
       if ( \file_exists('/data/log/php-error.log') ) {
-        self::$potential_issues[\__('Too many PHP errors to count', 'seravo')] = $error_tooltip;
+        self::$potential_issues[__('Too many PHP errors to count', 'seravo')] = $error_tooltip;
       } else {
-        self::$no_issues[\__('No php errors on log', 'seravo')] = $error_tooltip;
+        self::$no_issues[__('No php errors on log', 'seravo')] = $error_tooltip;
       }
     } elseif ( $php_error_count === 0 ) {
-      self::$no_issues[\__('No php errors on log', 'seravo')] = $error_tooltip;
+      self::$no_issues[__('No php errors on log', 'seravo')] = $error_tooltip;
     } else {
       /* translators:
        * %1$s number of errors in the log
        * %2$s url to php-error.log */
-      $php_errors_msg = \wp_sprintf(\_n('%1$s error on %2$s', 'At least %1$s errors on %2$s', $php_error_count, 'seravo'), \number_format_i18n($php_error_count), $php_info);
+      $php_errors_msg = \wp_sprintf(_n('%1$s error on %2$s', 'At least %1$s errors on %2$s', $php_error_count, 'seravo'), \number_format_i18n($php_error_count), $php_info);
       self::$potential_issues[$php_errors_msg] = $error_tooltip;
     }
   }
@@ -182,12 +182,12 @@ class SiteHealth {
    */
   private static function check_wp_test() {
     \exec('wp-test', $output, $return_variable);
-    $wp_test_tooltip = \__('<code>wp-test</code> checks if the site works normally. It also checks whether automatic updates can continue.', 'seravo');
+    $wp_test_tooltip = __('<code>wp-test</code> checks if the site works normally. It also checks whether automatic updates can continue.', 'seravo');
 
     if ( $return_variable === 0 ) {
-      self::$no_issues[\__('Command <code>wp-test</code> runs successfully', 'seravo')] = $wp_test_tooltip;
+      self::$no_issues[__('Command <code>wp-test</code> runs successfully', 'seravo')] = $wp_test_tooltip;
     } else {
-      self::$potential_issues[\__('Command <code>wp-test</code> fails', 'seravo')] = $wp_test_tooltip;
+      self::$potential_issues[__('Command <code>wp-test</code> fails', 'seravo')] = $wp_test_tooltip;
     }
   }
 
@@ -199,12 +199,12 @@ class SiteHealth {
     $output = '';
 
     if ( self::$potential_issues === null || self::$potential_issues === array() ) {
-      $title = \__('No issues were found', 'seravo');
+      $title = __('No issues were found', 'seravo');
       $status_color = Ajax\FancyForm::STATUS_GREEN;
     } else {
-      $title = \__('Potential issues were found', 'seravo');
+      $title = __('Potential issues were found', 'seravo');
       $status_color = Ajax\FancyForm::STATUS_YELLOW;
-      $output .= Template::section_title(\__('Potential issues', 'seravo'), 'failure')->to_html();
+      $output .= Template::section_title(__('Potential issues', 'seravo'), 'failure')->to_html();
       $counter = 0;
 
       foreach ( self::$potential_issues as $element => $tooltip ) {
@@ -221,7 +221,7 @@ class SiteHealth {
       $output .= '<br>';
     }
 
-    $output .= Template::section_title(\__('Passed tests', 'seravo'), 'success')->to_html();
+    $output .= Template::section_title(__('Passed tests', 'seravo'), 'success')->to_html();
     $counter = 0;
 
     if ( self::$no_issues !== null ) {

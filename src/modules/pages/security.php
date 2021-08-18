@@ -47,7 +47,7 @@ class Security extends Toolpage {
    */
   public function __construct() {
     parent::__construct(
-      \__('Security', 'seravo'),
+      __('Security', 'seravo'),
       'tools_page_security_page',
       'security_page',
       'Seravo\Postbox\seravo_postboxes_page'
@@ -89,9 +89,9 @@ class Security extends Toolpage {
      * Security settings postbox
      */
     $security = new Postbox\SettingsForm('security');
-    $security->set_title(\__('Security', 'seravo'));
+    $security->set_title(__('Security', 'seravo'));
     $security->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
-    $security->add_paragraph('Seravo has security built-in. There are however a few extra measures that the site owner can choose to do if their site will not miss any functionality because of it.');
+    $security->add_paragraph(__('Seravo has security built-in. There are however a few extra measures that the site owner can choose to do if their site will not miss any functionality because of it.', 'seravo'));
     $security->add_setting_section(self::get_security_settings());
     $page->register_postbox($security);
 
@@ -99,19 +99,19 @@ class Security extends Toolpage {
      * Check passwords postbox (Beta)
      */
     $passwords = new Postbox\SimpleCommand('check-passwords');
-    $passwords->set_title(\__('Check passwords (Beta)', 'seravo'));
+    $passwords->set_title(__('Check passwords (Beta)', 'seravo'));
     $passwords->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
-    $passwords->set_button_text(\__('Run', 'seravo'));
-    $passwords->set_spinner_text(\__('Running the password check', 'seravo'));
+    $passwords->set_button_text(__('Run', 'seravo'));
+    $passwords->set_spinner_text(__('Running the password check', 'seravo'));
     $passwords->set_command('wp-check-passwords');
-    $passwords->add_paragraph(\__('This tool can be used to run command <code>wp-check-passwords</code> which finds weak passwords from the users of the site. Note: This may fail, if there are many users.', 'seravo'));
+    $passwords->add_paragraph(__('This tool can be used to run command <code>wp-check-passwords</code> which finds weak passwords from the users of the site. Note: This may fail, if there are many users.', 'seravo'));
     $page->register_postbox($passwords);
 
     /**
      * Last successful logins postbox
      */
     $logins = new Postbox\LazyLoader('logins-info');
-    $logins->set_title(\__('Last successful logins', 'seravo'));
+    $logins->set_title(__('Last successful logins', 'seravo'));
     $logins->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $logins->set_ajax_func(array( __CLASS__, 'get_last_successful_logins' ));
     $logins->set_build_func(array( __CLASS__, 'build_last_logins' ));
@@ -121,24 +121,24 @@ class Security extends Toolpage {
      * Cruft files postbox
      */
     $cruft_files = self::create_cruft_box('cruftfiles', 'files');
-    $cruft_files->set_title(\__('Cruft Files', 'seravo'));
-    $cruft_files->add_paragraph(\__('Find and delete any extraneous and potentially harmful files taking up space in the file system. Note that not everything is necessarily safe to delete.', 'seravo'));
+    $cruft_files->set_title(__('Cruft Files', 'seravo'));
+    $cruft_files->add_paragraph(__('Find and delete any extraneous and potentially harmful files taking up space in the file system. Note that not everything is necessarily safe to delete.', 'seravo'));
     $page->register_postbox($cruft_files);
 
     /**
      * Cruft plugins postbox
      */
     $cruft_plugins = self::create_cruft_box('cruftplugins', 'plugins');
-    $cruft_plugins->set_title(\__('Unnecessary plugins', 'seravo'));
-    $cruft_plugins->add_paragraph(\__('Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href="https://help.seravo.com/article/165-recommended-plugins" target="_BLANK">recommendations for plugins in our environment</a>.', 'seravo'));
+    $cruft_plugins->set_title(__('Unnecessary plugins', 'seravo'));
+    $cruft_plugins->add_paragraph(__('Find and remove any plugins that are currently inactive or otherwise potentially harmful. For more information, please read our <a href="https://help.seravo.com/article/165-recommended-plugins" target="_BLANK">recommendations for plugins in our environment</a>.', 'seravo'));
     $page->register_postbox($cruft_plugins);
 
     /**
      * Cruft themes postbox
      */
     $cruft_themes = self::create_cruft_box('cruftthemes', 'themes');
-    $cruft_themes->set_title(\__('Unnecessary themes', 'seravo'));
-    $cruft_themes->add_paragraph(\__('Find and remove themes that are inactive. For more information, please read our <a href="https://help.seravo.com/article/70-can-i-install-my-own-plugins-and-themes-on-the-website" target="_BLANK">documentation concerning themes and plugins</a>.', 'seravo'));
+    $cruft_themes->set_title(__('Unnecessary themes', 'seravo'));
+    $cruft_themes->add_paragraph(__('Find and remove themes that are inactive. For more information, please read our <a href="https://help.seravo.com/article/70-can-i-install-my-own-plugins-and-themes-on-the-website" target="_BLANK">documentation concerning themes and plugins</a>.', 'seravo'));
     $page->register_postbox($cruft_themes);
   }
 
@@ -192,11 +192,11 @@ class Security extends Toolpage {
     \wp_enqueue_style('cruftremover-css', SERAVO_PLUGIN_URL . 'style/cruftremover.css', array(), Helpers::seravo_plugin_version());
 
     $cruftremover_l10n = array(
-      'confirm'    => \__('Cruft remove confirmation', 'seravo'),
-      'no_cruft'   => \__("Congratulations! There's nothing to remove.", 'seravo'),
-      'delete'     => \__('Delete', 'seravo'),
-      'select_all' => \__('Select all', 'seravo'),
-      'failure'    => \__('Failed to remove some files!', 'seravo'),
+      'confirm'    => __('Cruft remove confirmation', 'seravo'),
+      'no_cruft'   => __("Congratulations! There's nothing to remove.", 'seravo'),
+      'delete'     => __('Delete', 'seravo'),
+      'select_all' => __('Select all', 'seravo'),
+      'failure'    => __('Failed to remove some files!', 'seravo'),
     );
 
     \wp_localize_script('cruftremover-js', 'cruftremover_l10n', $cruftremover_l10n);
@@ -223,7 +223,7 @@ class Security extends Toolpage {
             <?php
             \printf(
               // translators: URL to security page
-              \__('Please enable all possible <a href="%s">security features</a>. Save settings even if no changes were made to get rid of this notice.', 'seravo'),
+              __('Please enable all possible <a href="%s">security features</a>. Save settings even if no changes were made to get rid of this notice.', 'seravo'),
               \esc_url(\get_option('siteurl')) . '/wp-admin/tools.php?page=security_page'
             );
             ?>
@@ -244,11 +244,11 @@ class Security extends Toolpage {
 
     // Fake checkboxes
     $fake_fields = array(
-      'seravo-automatic-backups'         => \__('Automatic backups', 'seravo'),
-      'seravo-security-updates'          => \__('Quick security updates', 'seravo'),
-      'seravo-malicious-code-monitoring' => \__('Monitoring of malicius code and database contents', 'seravo'),
-      'seravo-dos-protection'            => \__('Denial-of-service protection', 'seravo'),
-      'seravo-brute-force-protection'    => \__('Brute-force login protection', 'seravo'),
+      'seravo-automatic-backups'         => __('Automatic backups', 'seravo'),
+      'seravo-security-updates'          => __('Quick security updates', 'seravo'),
+      'seravo-malicious-code-monitoring' => __('Monitoring of malicius code and database contents', 'seravo'),
+      'seravo-dos-protection'            => __('Denial-of-service protection', 'seravo'),
+      'seravo-brute-force-protection'    => __('Brute-force login protection', 'seravo'),
     );
     foreach ( $fake_fields as $name => $label ) {
       $security_settings->add_field($name, $label, '', '', Settings::FIELD_TYPE_BOOLEAN, '', null, array( Template::class, 'fake_checkbox' ));
@@ -257,15 +257,15 @@ class Security extends Toolpage {
     // Real fields
     $real_fields = array(
       'seravo-disable-xml-rpc' => array(
-        \__('Disable authenticated XML-RPC', 'seravo'),
-        \__("Disabling authenticated XML-RPC prevents brute-force attempts via XML-RPC. Disables e.g. using the WordPress mobile app. Doesn't affect the Jetpack plugin as its IPs are whitelisted.", 'seravo'),
+        __('Disable authenticated XML-RPC', 'seravo'),
+        __("Disabling authenticated XML-RPC prevents brute-force attempts via XML-RPC. Disables e.g. using the WordPress mobile app. Doesn't affect the Jetpack plugin as its IPs are whitelisted.", 'seravo'),
       ),
       'seravo-disable-xml-rpc-all-methods' => array(
-        \__('Completely disable XML-RPC', 'seravo'),
-        \__('Completely disabling XML-RPC prevents XML-RPC from responding to any methods at all. Disables e.g. pingbacks.', 'seravo'),
+        __('Completely disable XML-RPC', 'seravo'),
+        __('Completely disabling XML-RPC prevents XML-RPC from responding to any methods at all. Disables e.g. pingbacks.', 'seravo'),
       ),
-      'seravo-disable-json-user-enumeration'  => \__('Disable WP-JSON user enumeration', 'seravo'),
-      'seravo-disable-get-author-enumeration' => \__('Disable GET author enumeration', 'seravo'),
+      'seravo-disable-json-user-enumeration'  => __('Disable WP-JSON user enumeration', 'seravo'),
+      'seravo-disable-get-author-enumeration' => __('Disable GET author enumeration', 'seravo'),
     );
     foreach ( $real_fields as $name => $details ) {
       $description = '';
@@ -289,7 +289,7 @@ class Security extends Toolpage {
    * @return void
    */
   public static function build_last_logins( Component $base, Postbox\Postbox $postbox ) {
-    $base->add_child(Template::paragraph(\__('This tool can be used to retrieve last 10 successful logins. For more details and full login log see <a href="tools.php?page=logs_page&logfile=wp-login.log" target="_blank">wp-login.log</a>.', 'seravo')));
+    $base->add_child(Template::paragraph(__('This tool can be used to retrieve last 10 successful logins. For more details and full login log see <a href="tools.php?page=logs_page&logfile=wp-login.log" target="_blank">wp-login.log</a>.', 'seravo')));
     $base->add_child($postbox->get_ajax_handler('logins-info')->get_component());
   }
 
@@ -382,7 +382,8 @@ class Security extends Toolpage {
         }
 
         $datetime->setTimezone(new \DateTimeZone(($timezone === false || $timezone === '') ? 'UTC' : $timezone));
-        $date = $datetime->format(\get_option('date_format'));
+        $date_format = \get_option('date_format', 'Y-m-d');
+        $date = \date_i18n($date_format, \strtotime($matches['datetime'][0]));
         $time = $datetime->format(\get_option('time_format'));
 
         // Fetch login IP and the reverse domain name
@@ -399,10 +400,10 @@ class Security extends Toolpage {
     $login_data = \array_values($login_data);
 
     if ( $login_data === array() ) {
-      $output = Template::error_paragraph(\__('No login data available', 'seravo'))->to_html();
+      $output = Template::error_paragraph(__('No login data available', 'seravo'))->to_html();
     } else {
       // Adding column titles
-      $column_titles = array( \__('Time', 'seravo'), \__('User', 'seravo'), \__('Address', 'seravo') );
+      $column_titles = array( __('Time', 'seravo'), __('User', 'seravo'), __('Address', 'seravo') );
       $login_data = \array_reverse($login_data);
       $table_component = Template::table_view('result-table', 'result-table th', 'seravo-tooltip', $column_titles, $login_data, true);
       $output = $table_component->to_html();
@@ -429,8 +430,8 @@ class Security extends Toolpage {
     $cruft_section->add_child(Component::from_raw('<div class="cruft-area"></div>'));
     $base->add_child($cruft_section);
 
-    $warning = \sprintf(\__('Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo'), $type);
-    $base->add_child(Template::confirmation_modal('remove-cruft-' . $type, $warning, \__('Proceed', 'seravo'), \__('Cancel', 'seravo')));
+    $warning = \sprintf(__('Are you sure you want to proceed? Deleted files can not be recovered.', 'seravo'), $type);
+    $base->add_child(Template::confirmation_modal('remove-cruft-' . $type, $warning, __('Proceed', 'seravo'), __('Cancel', 'seravo')));
   }
 
   /**

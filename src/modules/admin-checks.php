@@ -61,7 +61,7 @@ final class AdminChecks {
 
     $message = \sprintf(
       // translators: user's website url
-      \__('The HTTPS protocol is not currently active in the <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://help.seravo.com/article/24-how-do-i-enable-the-https-on-our-website" target="_BLANK">use HTTPS</a>.', 'seravo'),
+      __('The HTTPS protocol is not currently active in the <a href="%s/wp-admin/options-general.php">site settings</a>. Please <a href="https://help.seravo.com/article/24-how-do-i-enable-the-https-on-our-website" target="_BLANK">use HTTPS</a>.', 'seravo'),
       \esc_url(\get_option('siteurl'))
     );
     Template::nag_notice(Template::paragraph($message), 'notice-error')->print_html();
@@ -83,7 +83,7 @@ final class AdminChecks {
 
     $message = \sprintf(
       // translators: user's website url
-      \__('Warning: A generic admin email was detected in the <a href="%s/wp-admin/options-general.php" target="_BLANK">site settings</a>. Please update it.', 'seravo'),
+      __('Warning: A generic admin email was detected in the <a href="%s/wp-admin/options-general.php" target="_BLANK">site settings</a>. Please update it.', 'seravo'),
       \esc_url(\get_option('siteurl'))
     );
     Template::nag_notice(Template::paragraph($message), 'notice-error')->print_html();
@@ -102,7 +102,7 @@ final class AdminChecks {
 
     $message = \sprintf(
       // translators: %1$s: recommended php version, %2$s: user's website url
-      \__('PHP %1$s is available but not used on this site. Developers might want to <a href="%2$s/wp-admin/tools.php?page=upkeep_page">upgrade the latest PHP version</a> for faster performance and new features. Read more about <a target="_blank" href="https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version">PHP version upgrades</a>.', 'seravo'),
+      __('PHP %1$s is available but not used on this site. Developers might want to <a href="%2$s/wp-admin/tools.php?page=upkeep_page">upgrade the latest PHP version</a> for faster performance and new features. Read more about <a target="_blank" href="https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version">PHP version upgrades</a>.', 'seravo'),
       $recommended_version,
       \esc_url(\get_option('siteurl'))
     );
@@ -127,7 +127,7 @@ final class AdminChecks {
        * %3$s time of last login
        * %4$s IP address or reverse domain of the last login
        */
-      \__('Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s.', 'seravo'),
+      __('Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s.', 'seravo'),
       $last_login['user'],
       $last_login['date'],
       $last_login['time'],

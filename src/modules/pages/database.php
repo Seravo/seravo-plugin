@@ -48,7 +48,7 @@ class Database extends Toolpage {
    */
   public function __construct() {
     parent::__construct(
-      \__('Database', 'seravo'),
+      __('Database', 'seravo'),
       'tools_page_database_page',
       'database_page',
       'Seravo\Postbox\seravo_postboxes_page'
@@ -86,17 +86,17 @@ class Database extends Toolpage {
      * Database access info postbox
      */
     $database_access = new Postbox\InfoBox('database-access');
-    $database_access->set_title(\__('Database Access', 'seravo'));
+    $database_access->set_title(__('Database Access', 'seravo'));
     $database_access->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
-    $database_access->add_paragraph(\__('You can find the database credentials by connecting to your site with SSH and running the command <code>wp-list-env</code>. These credentials can be used to connect to the server with an SSH tunnel. You can also use the web-based Adminer available on this page.', 'seravo'));
-    $database_access->add_paragraph(\__('When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href="https://developer.wordpress.org/cli/commands/db/" target="_BLANK">Read the documentation for wp db</a>.', 'seravo'));
+    $database_access->add_paragraph(__('You can find the database credentials by connecting to your site with SSH and running the command <code>wp-list-env</code>. These credentials can be used to connect to the server with an SSH tunnel. You can also use the web-based Adminer available on this page.', 'seravo'));
+    $database_access->add_paragraph(__('When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href="https://developer.wordpress.org/cli/commands/db/" target="_BLANK">Read the documentation for wp db</a>.', 'seravo'));
     $page->register_postbox($database_access);
 
     /**
      * Database adminer info postbox
      */
     $adminer = new Postbox\Postbox('database-adminer');
-    $adminer->set_title(\__('Manage the Database with Adminer', 'seravo'));
+    $adminer->set_title(__('Manage the Database with Adminer', 'seravo'));
     $adminer->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
     $adminer->set_build_func(array( __CLASS__, 'build_adminer_postbox' ));
     $page->register_postbox($adminer);
@@ -105,8 +105,8 @@ class Database extends Toolpage {
      * Search & Replace tool postbox
      */
     $search_replace = new Postbox\SimpleForm('database-search-replace');
-    $search_replace->set_title(\__('Search-Replace Tool', 'seravo'));
-    $search_replace->set_button_text(\__('Run wp search-replace', 'seravo'), \__('Do a dry run', 'seravo'));
+    $search_replace->set_title(__('Search-Replace Tool', 'seravo'));
+    $search_replace->set_button_text(__('Run wp search-replace', 'seravo'), __('Do a dry run', 'seravo'));
     $search_replace->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $search_replace->set_ajax_func(array( __CLASS__, 'execute_search_replace' ));
     $search_replace->set_build_form_func(array( __CLASS__, 'build_search_replace_postbox' ));
@@ -116,7 +116,7 @@ class Database extends Toolpage {
      * Database cleanup tool postbox
      */
     $cleanup = new Postbox\Postbox('database-cleanup');
-    $cleanup->set_title(\__('Database Cleanup Tool', 'seravo'));
+    $cleanup->set_title(__('Database Cleanup Tool', 'seravo'));
     $cleanup->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
     $cleanup->set_build_func(array( __CLASS__, 'build_database_cleanup' ));
     self::init_cleanup_ajax_scripts($cleanup);
@@ -126,7 +126,7 @@ class Database extends Toolpage {
      * Database size postbox
      */
     $db_size = new Postbox\Postbox('database-size');
-    $db_size->set_title(\__('Database Size', 'seravo'));
+    $db_size->set_title(__('Database Size', 'seravo'));
     $db_size->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
     $db_size->set_build_func(array( __CLASS__, 'build_database_size' ));
     self::init_database_size_scripts($db_size);
@@ -150,14 +150,14 @@ class Database extends Toolpage {
     $db_optimize_command = $db_info . 'wp-db-optimize 2>&1';
 
     $optimize->set_command($db_optimize_command, null, true);
-    $optimize->set_button_text(\__('Optimize', 'seravo'));
-    $optimize->set_spinner_text(\__('Optimizing database...', 'seravo'));
+    $optimize->set_button_text(__('Optimize', 'seravo'));
+    $optimize->set_spinner_text(__('Optimizing database...', 'seravo'));
 
     // Initialize cleanup section
     $cleanup_command = new Ajax\SimpleCommand('cleanup-db');
     $cleanup_command->set_command('wp-backup && wp-db-cleanup 2>&1', 'wp-db-cleanup --dry-run', false);
-    $cleanup_command->set_button_text(\__('Run wp-db-cleanup', 'seravo'), \__('Do a dry run', 'seravo'));
-    $cleanup_command->set_empty_message(\__('Nothing to be cleaned up', 'seravo'));
+    $cleanup_command->set_button_text(__('Run wp-db-cleanup', 'seravo'), __('Do a dry run', 'seravo'));
+    $cleanup_command->set_empty_message(__('Nothing to be cleaned up', 'seravo'));
 
     $cleanup->add_ajax_handler($optimize);
     $cleanup->add_ajax_handler($cleanup_command);
@@ -170,12 +170,12 @@ class Database extends Toolpage {
    * @return void
    */
   public static function build_database_cleanup( Component $base, Postbox\Postbox $postbox ) {
-    $base->add_child(Template::section_title(\__('Optimization', 'seravo')));
-    $base->add_child(Template::paragraph(\__('You can use this tool to run <code>wp-db-optimize</code>. The command optimizes WordPress database and thus reduces database disk usage.', 'seravo')));
+    $base->add_child(Template::section_title(__('Optimization', 'seravo')));
+    $base->add_child(Template::paragraph(__('You can use this tool to run <code>wp-db-optimize</code>. The command optimizes WordPress database and thus reduces database disk usage.', 'seravo')));
     $base->add_child($postbox->get_ajax_handler('optimize-db')->get_component());
 
-    $base->add_child(Template::section_title(\__('Cleanup', 'seravo')));
-    $base->add_child(Template::paragraph(\__('You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a dry run is compulsory before the actual cleanup can be done.', 'seravo')));
+    $base->add_child(Template::section_title(__('Cleanup', 'seravo')));
+    $base->add_child(Template::paragraph(__('You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a dry run is compulsory before the actual cleanup can be done.', 'seravo')));
     $base->add_child($postbox->get_ajax_handler('cleanup-db')->get_component());
   }
 
@@ -209,10 +209,10 @@ class Database extends Toolpage {
    * @return void
    */
   public static function build_adminer_postbox( Component $base ) {
-    $base->add_child(Template::paragraph(\__('<a href="https://www.adminer.org" target="_BLANK">Adminer</a> is a visual database management tool, which is simpler and safer than its competitor phpMyAdmin.', 'seravo')));
-    $base->add_child(Template::paragraph(\__('At Seravo it can always be accessed at <code>example.com/.seravo/adminer</code>', 'seravo')));
+    $base->add_child(Template::paragraph(__('<a href="https://www.adminer.org" target="_BLANK">Adminer</a> is a visual database management tool, which is simpler and safer than its competitor phpMyAdmin.', 'seravo')));
+    $base->add_child(Template::paragraph(__('At Seravo it can always be accessed at <code>example.com/.seravo/adminer</code>', 'seravo')));
 
-    $button = Template::button_link_with_icon(Helpers::adminer_link(), \__('Open Adminer', 'seravo'));
+    $button = Template::button_link_with_icon(Helpers::adminer_link(), __('Open Adminer', 'seravo'));
     $button->set_wrapper('<p class="adminer-button">', '</p>');
     $base->add_child($button);
   }
@@ -223,19 +223,19 @@ class Database extends Toolpage {
    * @return void
    */
   public static function build_search_replace_postbox( Component $base ) {
-    $base->add_child(Template::paragraph(\__('You can use this tool to run <code>wp search-replace</code>. For safety reason a dry run is compulsory before the actual search-replace can be done.', 'seravo')));
+    $base->add_child(Template::paragraph(__('You can use this tool to run <code>wp search-replace</code>. For safety reason a dry run is compulsory before the actual search-replace can be done.', 'seravo')));
 
     $from_to = new Component('', '<table>', '</table>');
-    $from_to->add_child(Template::textfield_with_label('<b>' . \__('FROM:', 'seravo') . '</b>', 'sr-from'));
-    $from_to->add_child(Template::textfield_with_label('<b>' . \__('TO:', 'seravo') . '</b>', 'sr-to'));
+    $from_to->add_child(Template::textfield_with_label('<b>' . __('FROM:', 'seravo') . '</b>', 'sr-from'));
+    $from_to->add_child(Template::textfield_with_label('<b>' . __('TO:', 'seravo') . '</b>', 'sr-to'));
     $base->add_child($from_to);
 
     $base->add_child(
       Template::n_by_side(
         array(
-          Template::checkbox_with_label(\__('Skip backups', 'seravo'), 'skip-backup'),
-          (! \is_multisite() || \current_user_can('manage_network')) ? Template::checkbox_with_label(\__('All tables', 'seravo'), 'all-tables') : null,
-          (\is_multisite() && \current_user_can('manage_network')) ? Template::checkbox_with_label(\__('Network', 'seravo'), 'network') : null,
+          Template::checkbox_with_label(__('Skip backups', 'seravo'), 'skip-backup'),
+          (! \is_multisite() || \current_user_can('manage_network')) ? Template::checkbox_with_label(__('All tables', 'seravo'), 'all-tables') : null,
+          (\is_multisite() && \current_user_can('manage_network')) ? Template::checkbox_with_label(__('Network', 'seravo'), 'network') : null,
         )
       )
     );
@@ -250,7 +250,7 @@ class Database extends Toolpage {
     // Check that both to and from are set
     if ( ! isset($_REQUEST['sr-from']) || $_REQUEST['sr-from'] === '' ||
           ! isset($_REQUEST['sr-to']) || $_REQUEST['sr-to'] === '' ) {
-      return Ajax\AjaxResponse::form_input_error(\__('Error: Both <code>from</code> and <code>to</code> needs to be set', 'seravo'));
+      return Ajax\AjaxResponse::form_input_error(__('Error: Both <code>from</code> and <code>to</code> needs to be set', 'seravo'));
     }
 
     $from = $_REQUEST['sr-from'];
@@ -259,7 +259,7 @@ class Database extends Toolpage {
     // Make sure the are not the same
     if ( $from === $to ) {
       // translators: Search replace 'from' value and 'to' value
-      $message = \__('Error: Value %1$s is identical to %2$s', 'seravo');
+      $message = __('Error: Value %1$s is identical to %2$s', 'seravo');
       return Ajax\AjaxResponse::form_input_error(\sprintf($message, '<code>' . $to . '</code>', '<code>' . $from . '</code>'));
     }
 
@@ -334,12 +334,12 @@ class Database extends Toolpage {
    */
   public static function build_database_size( Component $base, Postbox\Postbox $postbox ) {
     $base->add_child($postbox->get_ajax_handler('db-info')->get_component());
-    $base->add_child(Component::from_raw('<hr><b>' . \__('Table sizes', 'seravo') . '</b>'));
+    $base->add_child(Component::from_raw('<hr><b>' . __('Table sizes', 'seravo') . '</b>'));
     $table_sizes_container = new Component('', '<div class="seravo-container">', '</div><br>');
     $table_sizes_container->add_child(Component::from_raw('<div id="database-bars-single"></div>'));
     $base->add_child($table_sizes_container);
     $base->add_child($postbox->get_ajax_handler('table-sizes')->get_component());
-    $base->add_child(Template::section_title(\__('Details about database table sizes', 'seravo')));
+    $base->add_child(Template::section_title(__('Details about database table sizes', 'seravo')));
     $base->add_child($postbox->get_ajax_handler('table-details')->get_component());
   }
 
@@ -456,19 +456,19 @@ class Database extends Toolpage {
     }
     // Add components for return output
     $db_details = new Component('', '<div class="seravo-container">', '</div>');
-    $db_details->add_child(Component::from_raw('<b>' . \__('Longest wp_postmeta values', 'seravo') . '</b>'));
+    $db_details->add_child(Component::from_raw('<b>' . __('Longest wp_postmeta values', 'seravo') . '</b>'));
     $db_details->add_child(Template::table_view('result-table', 'sizes-th', 'sizes-td', $common_column_titles, $cumulative_postmeta));
 
-    $db_details->add_child(Component::from_raw('<hr><b>' . \__('Cumulative size of meta_value per meta_key', 'seravo') . '</b>'));
+    $db_details->add_child(Component::from_raw('<hr><b>' . __('Cumulative size of meta_value per meta_key', 'seravo') . '</b>'));
     $db_details->add_child(Template::table_view('result-table', 'sizes-th', 'sizes-td', $common_column_titles, $common_postmeta));
 
-    $db_details->add_child(Component::from_raw('<hr><b>' . \__('Autoload options count (read to memory on each WP page load)', 'seravo') . '</b>'));
+    $db_details->add_child(Component::from_raw('<hr><b>' . __('Autoload options count (read to memory on each WP page load)', 'seravo') . '</b>'));
     $db_details->add_child(Template::paragraph((string) $autoload_option));
 
-    $db_details->add_child(Component::from_raw('<hr><b>' . \__('Autoload options total size of values', 'seravo') . '</b>'));
+    $db_details->add_child(Component::from_raw('<hr><b>' . __('Autoload options total size of values', 'seravo') . '</b>'));
     $db_details->add_child(Template::paragraph($total_autoload));
 
-    $db_details->add_child(Component::from_raw('<hr><b>' . \__('Longest autoloaded wp_option values', 'seravo') . '</b>'));
+    $db_details->add_child(Component::from_raw('<hr><b>' . __('Longest autoloaded wp_option values', 'seravo') . '</b>'));
     $db_details->add_child(Template::table_view('result-table', 'sizes-th', 'sizes-td', $common_column_titles, $long_autoload));
 
     return AjaxResponse::response_with_output($db_details->to_html());

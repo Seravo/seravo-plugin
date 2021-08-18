@@ -72,7 +72,7 @@ class SimpleForm extends AjaxHandler {
     }
 
     if ( $this->button_text === null ) {
-      $this->button_text = \__('Run', 'seravo');
+      $this->button_text = __('Run', 'seravo');
     }
 
     if ( $this->dryrun_button_text !== null ) {

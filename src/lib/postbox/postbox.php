@@ -190,7 +190,7 @@ class Postbox {
     if ( $this->error !== null ) {
         // Show error instead of the real content
         // translators: link to php-error.log
-        $message = \__('Whoops! Something went wrong. Please see %s for instructions.', 'seravo');
+        $message = __('Whoops! Something went wrong. Please see %s for instructions.', 'seravo');
         $url = \get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log';
         $link = \sprintf('<a href="%s">php-error.log</a>', $url);
         $error = \sprintf($message, $link);
