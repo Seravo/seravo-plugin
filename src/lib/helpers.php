@@ -85,6 +85,22 @@ class Helpers {
   }
 
   /**
+   * Get the recommended PHP version.
+   * @return string Recommended PHP version.
+   */
+  public static function get_recommended_php_version() {
+    return '7.4';
+  }
+
+  /**
+   * Get the current end of life PHP version.
+   * @return string Current end of life PHP version.
+   */
+  public static function get_eol_php_version() {
+    return '7.2.34';
+  }
+
+  /**
    * @param int $size      The size in bytes.
    * @param int $precision The amount of decimal places.
    * @return string The size in human readable format.
