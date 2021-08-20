@@ -104,9 +104,9 @@ final class Passwords {
     $pwned_meta = \get_user_meta($user->ID, 'seravo_pwned_check', true);
     if ( $pwned_meta === '' || $time_now - ((int) $pwned_meta) > 90 * DAY_IN_SECONDS ) {
       // Check if the password has been pwned
-      $exec = Compatibility::exec('wp-check-haveibeenpwned --json ' . self::$password_hash . ' 2>&1', $pwned_check, $return_code);
+      $exec = Compatibility::exec('wp-check-haveibeenpwned --json ' . self::$password_hash . ' 2>&1', $pwned_check);
       $result = \json_decode(isset($pwned_check[0]) ? $pwned_check[0] : '', true);
-      if ( $exec === false || $return_code !== 0 || isset($result['error']) || ! isset($result['found']) ) {
+      if ( $exec === false || isset($result['error']) || ! isset($result['found']) ) {
         // Something went wrong
         \error_log("Failed to run 'wp-check-haveibeenpwned'!");
         return $redirect_to;
