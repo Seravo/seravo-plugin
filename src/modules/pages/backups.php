@@ -5,6 +5,11 @@ namespace Seravo\Page;
 use \Seravo\Postbox;
 use \Seravo\Postbox\Toolpage;
 use \Seravo\Postbox\Requirements;
+use \Seravo\Postbox\Component;
+use \Seravo\Postbox\Template;
+use \Seravo\Ajax;
+use Seravo\Ajax\AjaxResponse;
+use Seravo\Compatibility;
 
 /**
  * Class Backups
@@ -107,12 +112,38 @@ class Backups extends Toolpage {
     /**
      * Current Backups postbox
      */
-    $backups_list = new Postbox\LazyCommand('backups-list', 'side');
+    $backups_list = new Postbox\Postbox('backups-list', 'side');
     $backups_list->set_title(__('Current Backups', 'seravo'));
-    $backups_list->set_command('wp-backup-status 2>&1', 300, false);
-    $backups_list->add_paragraph(__('This list is produced by the command <code>wp-backup-status</code>.', 'seravo'));
     $backups_list->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    // AJAX handler for fetching backups list
+    $backup_status = new Ajax\LazyCommand('backups-status');
+    $backup_status->set_ajax_func(array( __CLASS__, 'get_backups_status' ));
+    $backups_list->add_ajax_handler($backup_status);
+    $backups_list->set_build_func(
+      function ( Component $base, Postbox\Postbox $postbox ) {
+        $base->add_child(Template::paragraph(__('This list is produced by the command <code>wp-backup-status</code>.', 'seravo')));
+        $base->add_child($postbox->get_ajax_handler('backups-status')->get_component());
+      }
+    );
     $page->register_postbox($backups_list);
+  }
+
+  /**
+   * AJAX function for fetching backups status.
+   * @return Ajax\AjaxResponse
+   */
+  public static function get_backups_status() {
+    if ( ! \file_exists('/data/backups') || ! \file_exists('/data/backups/data') ) {
+      return Ajax\AjaxResponse::error_response(__('No backups data found under <code>/data/backups/</code>', 'seravo'));
+    }
+    $fetch_backups_list = Compatibility::exec('wp-backup-status 2>&1', $output, $ret_val);
+
+    if ( $fetch_backups_list === false ) {
+      return Ajax\AjaxResponse::command_error_response('wp-backup-status', $ret_val);
+    }
+    $output = \implode("\n", $output);
+    $output = '<pre>' . $output . '</pre>';
+    return Ajax\AjaxResponse::response_with_output($output);
   }
 
 }
