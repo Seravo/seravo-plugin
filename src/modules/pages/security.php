@@ -5,9 +5,10 @@ namespace Seravo\Page;
 use \Seravo\Helpers;
 use \Seravo\CruftRemover;
 
+use \Seravo\Ajax;
 use \Seravo\Ajax\AjaxHandler;
 use \Seravo\Ajax\AjaxResponse;
-
+use \Seravo\Compatibility;
 use \Seravo\Postbox;
 use \Seravo\Postbox\Settings;
 use \Seravo\Postbox\Component;
@@ -98,13 +99,21 @@ class Security extends Toolpage {
     /**
      * Check passwords postbox (Beta)
      */
-    $passwords = new Postbox\SimpleCommand('check-passwords');
+    $passwords = new Postbox\Postbox('check-passwords');
     $passwords->set_title(__('Check passwords (Beta)', 'seravo'));
     $passwords->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
-    $passwords->set_button_text(__('Run', 'seravo'));
-    $passwords->set_spinner_text(__('Running the password check', 'seravo'));
-    $passwords->set_command('wp-check-passwords');
-    $passwords->add_paragraph(__('This tool can be used to run command <code>wp-check-passwords</code> which finds weak passwords from the users of the site. Note: This may fail, if there are many users.', 'seravo'));
+    // Add AJAX handler for checking passwords
+    $check_passwords = new Ajax\SimpleCommand('ajax-check-passwords');
+    $check_passwords->set_button_text(__('Run', 'seravo'));
+    $check_passwords->set_spinner_text(__('Running the password check', 'seravo'));
+    $check_passwords->set_ajax_func(array( __CLASS__, 'check_passwords' ));
+    $passwords->add_ajax_handler($check_passwords);
+    $passwords->set_build_func(
+      function( Component $base, Postbox\Postbox $postbox ) {
+        $base->add_child(Template::paragraph(__('This tool can be used to run command <code>wp-check-passwords</code> which finds weak passwords from the users of the site. Note: This may fail, if there are many users.', 'seravo')));
+        $base->add_child($postbox->get_ajax_handler('ajax-check-passwords')->get_component());
+      }
+    );
     $page->register_postbox($passwords);
 
     /**
@@ -140,6 +149,28 @@ class Security extends Toolpage {
     $cruft_themes->set_title(__('Unnecessary themes', 'seravo'));
     $cruft_themes->add_paragraph(__('Find and remove themes that are inactive. For more information, please read our <a href="https://help.seravo.com/article/70-can-i-install-my-own-plugins-and-themes-on-the-website" target="_BLANK">documentation concerning themes and plugins</a>.', 'seravo'));
     $page->register_postbox($cruft_themes);
+  }
+
+  /**
+   * AJAX function for running wp-check-passwords
+   * @return Ajax\AjaxResponse
+   */
+  public static function check_passwords() {
+    $check_passwords = Compatibility::exec('wp-check-passwords', $output, $ret_val);
+
+    if ( $check_passwords === false ) {
+      return Ajax\AjaxResponse::command_error_response('wp-check-passwords', $ret_val);
+    }
+    // Filter and format the color chars from output.
+    $pattern = '/\x1b\[[0-9;]*m/';
+    $filter_output = \preg_replace($pattern, '', $output);
+
+    if ( $filter_output !== null ) {
+      $output = $filter_output;
+    }
+    $output = '<pre>' . \implode("\n", $output) . '</pre>';
+    return Ajax\AjaxResponse::response_with_output($output);
+
   }
 
   /**
