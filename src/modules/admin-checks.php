@@ -4,6 +4,7 @@ namespace Seravo\Module;
 
 use \Seravo\Logs;
 use \Seravo\Postbox\Template;
+use \Seravo\Helpers;
 
 /**
  * Class AdminChecks
@@ -95,7 +96,7 @@ final class AdminChecks {
    * @return void
    */
   public static function check_php_version() {
-    $recommended_version = '7.4';
+    $recommended_version = Helpers::get_recommended_php_version();
     if ( \version_compare(PHP_VERSION, $recommended_version, '>=') ) {
       return;
     }

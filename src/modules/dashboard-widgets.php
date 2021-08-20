@@ -20,11 +20,6 @@ class DashboardWidgets {
   private static $errors = 0;
 
   /**
-   * @var string End of Life PHP version.
-   */
-  const PHP_EOL_VERSION = '7.2.34';
-
-  /**
    * @var float The relative disk usage.
    */
   const LOW_DISK_SPACE_USAGE = 0.9;
@@ -80,7 +75,7 @@ class DashboardWidgets {
     /**
      * PHP warnings & errors widget
      */
-    if ( self::$errors > 0 || \version_compare(Helpers::get_php_version(), self::PHP_EOL_VERSION, '<=') ) {
+    if ( self::$errors > 0 || \version_compare(Helpers::get_php_version(), Helpers::get_eol_php_version(), '<=') ) {
       $php_widget = new Postbox\Postbox('php-warning-widget');
       $php_widget->set_requirements(
         array(
@@ -234,7 +229,7 @@ class DashboardWidgets {
       $base->add_child(Template::paragraph($msg));
     }
 
-    if ( \version_compare(Helpers::get_php_version(), self::PHP_EOL_VERSION, '<=') ) {
+    if ( \version_compare(Helpers::get_php_version(), Helpers::get_eol_php_version(), '<=') ) {
       $base->add_child(Template::section_title(__('Old PHP Version', 'seravo')));
       $php_version = '<b>' . PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '</b>';
       $php_version_change_url = '<a href="' . \get_option('siteurl') . '/wp-admin/tools.php?page=upkeep_page#seravo-postbox-change-php-version" target="_blank">' .
