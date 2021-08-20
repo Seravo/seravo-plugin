@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2021-08-19T11:04:36+03:00\n"
-"PO-Revision-Date: 2021-08-19 11:26+0300\n"
+"POT-Creation-Date: 2021-08-20T11:53:48+03:00\n"
+"PO-Revision-Date: 2021-08-20 11:54+0300\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -368,16 +368,16 @@ msgstr "Ei-kelvollinen kokonaisluku"
 msgid "Invalid number"
 msgstr "Virheellinen luku tai numero"
 
-#: src/lib/postbox/component/template.php:270 src/lib/postbox/toolpage.php:110
+#: src/lib/postbox/component/template.php:271 src/lib/postbox/toolpage.php:110
 #: src/lib/postbox/toolpage.php:146
 msgid "Show more"
 msgstr "Näytä lisää"
 
-#: src/lib/postbox/component/template.php:287
+#: src/lib/postbox/component/template.php:288
 msgid "Success!"
 msgstr "Onnistui!"
 
-#: src/lib/postbox/component/template.php:290
+#: src/lib/postbox/component/template.php:291
 msgid "Failure!"
 msgstr "Epäonnistui!"
 
@@ -781,15 +781,16 @@ msgstr "Varjot selitettynä ohjeissa Seravo.com/docs"
 msgid "Your current shadow instance is \"%s\"."
 msgstr "Olet nyt varjossa \"%s\"."
 
+#. translators: $s Identifier for the shadow instance in use
 #: src/modules/instance-switcher.php:247
 msgid "Exit"
 msgstr "Poistu"
 
-#: src/modules/pages/backups.php:41 src/modules/pages/backups.php:79
+#: src/modules/pages/backups.php:46 src/modules/pages/backups.php:84
 msgid "Backups"
 msgstr "Varmuuskopiot"
 
-#: src/modules/pages/backups.php:80
+#: src/modules/pages/backups.php:85
 msgid ""
 "Backups are automatically created every night and preserved for 30 days. The "
 "data can be accessed on the server in under <code>/data/backups</code>."
@@ -797,19 +798,19 @@ msgstr ""
 "Varmuuskopiot tehdään automaattisesti joka yö ja säilytetään 30 päivän ajan. "
 "Varmuuskopioita voi selata palvelimella kansiossa <code>/data/backups</code>."
 
-#: src/modules/pages/backups.php:88
+#: src/modules/pages/backups.php:93
 msgid "Create a New Backup"
 msgstr "Luo uusi varmuuskopio"
 
-#: src/modules/pages/backups.php:90
+#: src/modules/pages/backups.php:95
 msgid "Create a backup"
 msgstr "Ota uusi varmuuskopio"
 
-#: src/modules/pages/backups.php:91
+#: src/modules/pages/backups.php:96
 msgid "Creating a backup..."
 msgstr "Varmuuskopioidaan..."
 
-#: src/modules/pages/backups.php:92
+#: src/modules/pages/backups.php:97
 msgid ""
 "You can also create backups manually by running <code>wp-backup</code> on "
 "the command line. We recommend that you get familiar with the command line "
@@ -820,25 +821,29 @@ msgstr ""
 "Suosittelemme tutustumaan komentorivin käyttöön SSH-yhteyden yli, jotta "
 "varmuuskopion palauttaminen ei olisi riippuvainen WP-adminin toimivuudesta."
 
-#: src/modules/pages/backups.php:100
+#: src/modules/pages/backups.php:105
 msgid "Files Excluded from the Backups"
 msgstr "Varmuuskopioista pois jätettävät tiedostot"
 
-#: src/modules/pages/backups.php:102
+#: src/modules/pages/backups.php:107
 msgid "Below are the contents of <code>/data/backups/exclude.filelist</code>."
 msgstr "Alla on tiedoston <code>/data/backups/exclude.filelist</code> sisältö."
 
-#: src/modules/pages/backups.php:103
+#: src/modules/pages/backups.php:108
 msgid "No files are excluded"
 msgstr "Ei pois jätettäviä tiedostoja"
 
-#: src/modules/pages/backups.php:111
+#: src/modules/pages/backups.php:116
 msgid "Current Backups"
 msgstr "Nykyiset varmuuskopiot"
 
-#: src/modules/pages/backups.php:113
+#: src/modules/pages/backups.php:124
 msgid "This list is produced by the command <code>wp-backup-status</code>."
 msgstr "Luettelo on tuotettu komennolla <code>wp-backup-status</code>."
+
+#: src/modules/pages/backups.php:137
+msgid "No backups data found under <code>/data/backups/</code>"
+msgstr "Varmuuskopioita ei löytynyt hakemistosta <code>/data/backups/</code>."
 
 #: src/modules/pages/database.php:51
 msgid "Database"
@@ -2349,6 +2354,7 @@ msgstr ""
 "minuutin välein. Voit käyttää tätä näppäintä, jos haluat tyhjentää "
 "välimuistin heti."
 
+#. translators: %s cache refresh interval
 #: src/modules/purge-cache.php:55
 msgid "Purge Cache"
 msgstr "Tyhjennä välimuisti"
@@ -2492,9 +2498,6 @@ msgstr "Testaa nykyisen sivun nopeus"
 #~ "PHP-virhelokin lukeminen ei onnistunut. Tämä on merkki siitä, että jokin "
 #~ "on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 #~ "sivuston kehittäjälle."
-
-#~ msgid "No logs found in <code>/data/log/</code>."
-#~ msgstr "Lokeja ei löytynyt hakemistosta <code>/data/log/</code>."
 
 #~ msgid "Filter"
 #~ msgstr "Hae"

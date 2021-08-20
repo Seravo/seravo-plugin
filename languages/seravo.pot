@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-08-19T11:04:36+03:00\n"
+"POT-Creation-Date: 2021-08-20T11:53:48+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: seravo\n"
@@ -340,17 +340,17 @@ msgstr ""
 msgid "Invalid number"
 msgstr ""
 
-#: src/lib/postbox/component/template.php:270
+#: src/lib/postbox/component/template.php:271
 #: src/lib/postbox/toolpage.php:110
 #: src/lib/postbox/toolpage.php:146
 msgid "Show more"
 msgstr ""
 
-#: src/lib/postbox/component/template.php:287
+#: src/lib/postbox/component/template.php:288
 msgid "Success!"
 msgstr ""
 
-#: src/lib/postbox/component/template.php:290
+#: src/lib/postbox/component/template.php:291
 msgid "Failure!"
 msgstr ""
 
@@ -692,53 +692,58 @@ msgstr ""
 msgid "Your current shadow instance is \"%s\"."
 msgstr ""
 
+#. translators: $s Identifier for the shadow instance in use
 #: src/modules/instance-switcher.php:247
 msgid "Exit"
 msgstr ""
 
-#: src/modules/pages/backups.php:41
-#: src/modules/pages/backups.php:79
+#: src/modules/pages/backups.php:46
+#: src/modules/pages/backups.php:84
 msgid "Backups"
 msgstr ""
 
-#: src/modules/pages/backups.php:80
+#: src/modules/pages/backups.php:85
 msgid "Backups are automatically created every night and preserved for 30 days. The data can be accessed on the server in under <code>/data/backups</code>."
 msgstr ""
 
-#: src/modules/pages/backups.php:88
+#: src/modules/pages/backups.php:93
 msgid "Create a New Backup"
 msgstr ""
 
-#: src/modules/pages/backups.php:90
+#: src/modules/pages/backups.php:95
 msgid "Create a backup"
 msgstr ""
 
-#: src/modules/pages/backups.php:91
+#: src/modules/pages/backups.php:96
 msgid "Creating a backup..."
 msgstr ""
 
-#: src/modules/pages/backups.php:92
+#: src/modules/pages/backups.php:97
 msgid "You can also create backups manually by running <code>wp-backup</code> on the command line. We recommend that you get familiar with the command line option that is accessible to you via SSH. That way recovering a backup will be possible whether the WP Admin is accessible or not."
 msgstr ""
 
-#: src/modules/pages/backups.php:100
+#: src/modules/pages/backups.php:105
 msgid "Files Excluded from the Backups"
 msgstr ""
 
-#: src/modules/pages/backups.php:102
+#: src/modules/pages/backups.php:107
 msgid "Below are the contents of <code>/data/backups/exclude.filelist</code>."
 msgstr ""
 
-#: src/modules/pages/backups.php:103
+#: src/modules/pages/backups.php:108
 msgid "No files are excluded"
 msgstr ""
 
-#: src/modules/pages/backups.php:111
+#: src/modules/pages/backups.php:116
 msgid "Current Backups"
 msgstr ""
 
-#: src/modules/pages/backups.php:113
+#: src/modules/pages/backups.php:124
 msgid "This list is produced by the command <code>wp-backup-status</code>."
+msgstr ""
+
+#: src/modules/pages/backups.php:137
+msgid "No backups data found under <code>/data/backups/</code>"
 msgstr ""
 
 #: src/modules/pages/database.php:51
@@ -1876,6 +1881,7 @@ msgstr ""
 msgid "Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every 15 minutes. This button is used for clearing all cached pages from the front-end proxy immediately."
 msgstr ""
 
+#. translators: %s cache refresh interval
 #: src/modules/purge-cache.php:55
 msgid "Purge Cache"
 msgstr ""
