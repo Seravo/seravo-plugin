@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2021-08-20T11:53:48+03:00\n"
-"PO-Revision-Date: 2021-08-20 11:54+0300\n"
+"POT-Creation-Date: 2021-08-23T11:28:38+03:00\n"
+"PO-Revision-Date: 2021-08-23 11:30+0300\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -71,7 +71,7 @@ msgid "An API error occured. Please try again later."
 msgstr "Virhe rajapintayhteydessä. Ole hyvä ja yritä uudelleen myöhemmin."
 
 #: src/lib/ajax/templates/fancy-form.php:81
-#: src/lib/ajax/templates/simple-form.php:75 src/modules/pages/security.php:104
+#: src/lib/ajax/templates/simple-form.php:75 src/modules/pages/security.php:107
 #: src/modules/pages/upkeep.php:175
 msgid "Run"
 msgstr "Suorita"
@@ -459,7 +459,7 @@ msgid "Cached latency"
 msgstr "Viive (välimuisti)"
 
 #. translators: user's website url
-#: src/modules/admin-checks.php:64
+#: src/modules/admin-checks.php:65
 msgid ""
 "The HTTPS protocol is not currently active in the <a href=\"%s/wp-admin/"
 "options-general.php\">site settings</a>. Please <a href=\"https://help."
@@ -472,7 +472,7 @@ msgstr ""
 "\" target=\"_BLANK\">HTTPS:n käyttöönotosta</a>."
 
 #. translators: user's website url
-#: src/modules/admin-checks.php:86
+#: src/modules/admin-checks.php:87
 msgid ""
 "Warning: A generic admin email was detected in the <a href=\"%s/wp-admin/"
 "options-general.php\" target=\"_BLANK\">site settings</a>. Please update it."
@@ -481,7 +481,7 @@ msgstr ""
 "a> on käytössä oletussähköpostiosoite. Ole hyvä ja vaihda se."
 
 #. translators: %1$s: recommended php version, %2$s: user's website url
-#: src/modules/admin-checks.php:105
+#: src/modules/admin-checks.php:106
 msgid ""
 "PHP %1$s is available but not used on this site. Developers might want to <a "
 "href=\"%2$s/wp-admin/tools.php?page=upkeep_page\">upgrade the latest PHP "
@@ -497,7 +497,7 @@ msgstr ""
 "versiopäivityksistä</a>."
 
 #. translators: %1$s username of the current user %2$s date of last login %3$s time of last login %4$s IP address or reverse domain of the last login
-#: src/modules/admin-checks.php:130
+#: src/modules/admin-checks.php:131
 msgid "Welcome, %1$s! Your previous login was on %2$s at %3$s from %4$s."
 msgstr ""
 "Tervetuloa, %1$s! Edellinen kirjautumisesi oli %2$s kello %3$s osoitteesta "
@@ -632,28 +632,28 @@ msgstr "Mahdolliset ongelmat"
 msgid "Passed tests"
 msgstr "Onnistuneet testit"
 
-#: src/modules/dashboard-widgets.php:75 src/modules/pages/sitestatus.php:67
+#: src/modules/dashboard-widgets.php:70 src/modules/pages/sitestatus.php:67
 msgid "Site Status"
 msgstr "Sivuston tila"
 
-#: src/modules/dashboard-widgets.php:92
+#: src/modules/dashboard-widgets.php:87
 msgid "PHP warnings and errors"
 msgstr "PHP-virheet ja varoitukset"
 
-#: src/modules/dashboard-widgets.php:107
+#: src/modules/dashboard-widgets.php:102
 msgid "Low disk space"
 msgstr "Levytila vähissä"
 
-#: src/modules/dashboard-widgets.php:151
+#: src/modules/dashboard-widgets.php:146
 msgid "disk space tool"
 msgstr "levynkäyttö työkalusta"
 
-#: src/modules/dashboard-widgets.php:153
+#: src/modules/dashboard-widgets.php:148
 msgid "cruft remover tool"
 msgstr "roskatiedostojen poistotyökalun"
 
 #. translators: %1$s url to the disk space tool %2$s url to the cruft file remover tool
-#: src/modules/dashboard-widgets.php:158
+#: src/modules/dashboard-widgets.php:153
 msgid ""
 "Disk space is running low. You can see more details about the usage on %1$s. "
 "You can also check %2$s for excessive files and folders."
@@ -661,16 +661,16 @@ msgstr ""
 "Levytila on vähissä. Voit katsoa tarkemmat tiedot %1$s. Voit myös tarkistaa "
 "%2$s mahdollisten ylimääräisten tiedostojen tai kansioiden varalta."
 
-#: src/modules/dashboard-widgets.php:160 src/modules/dashboard-widgets.php:269
+#: src/modules/dashboard-widgets.php:155 src/modules/dashboard-widgets.php:264
 msgid "Disk space in your plan:"
 msgstr "Levytilaa palvelupaketissasi:"
 
-#: src/modules/dashboard-widgets.php:161
+#: src/modules/dashboard-widgets.php:156
 msgid "Space in use:"
 msgstr "Tilaa käytössä:"
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: src/modules/dashboard-widgets.php:232
+#: src/modules/dashboard-widgets.php:227
 msgid ""
 "The PHP error log has more than %1$s entries this week. Please see %2$s for "
 "details. This is usually a sign that something is broken in the code. The "
@@ -681,20 +681,20 @@ msgstr ""
 "että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 "sivuston kehittäjälle."
 
-#: src/modules/dashboard-widgets.php:233
+#: src/modules/dashboard-widgets.php:228
 msgid "Site Error Count"
 msgstr "Sivuston virhemäärä"
 
-#: src/modules/dashboard-widgets.php:238
+#: src/modules/dashboard-widgets.php:233
 msgid "Old PHP Version"
 msgstr "Vanhentunut PHP-versio"
 
-#: src/modules/dashboard-widgets.php:241
+#: src/modules/dashboard-widgets.php:236
 msgid "change php version tool"
 msgstr "vaihda PHP-versiota -työkalulla"
 
 #. translators: %1$s current php version %2$s link for changing PHP version
-#: src/modules/dashboard-widgets.php:246
+#: src/modules/dashboard-widgets.php:241
 msgid ""
 "You are using end of life PHP version %1$s which will no longer be "
 "supported. You can see more details about changing PHP version and checking "
@@ -704,23 +704,23 @@ msgstr ""
 "Voit katsoa lisätietoa PHP-version vaihtamisesta ja version "
 "yhteensopivuudesta sivustollasi %2$s."
 
-#: src/modules/dashboard-widgets.php:266
+#: src/modules/dashboard-widgets.php:261
 msgid "Plan details"
 msgstr "Palvelupaketin tiedot"
 
-#: src/modules/dashboard-widgets.php:267
+#: src/modules/dashboard-widgets.php:262
 msgid "Plan type:"
 msgstr "Palvelupaketti:"
 
-#: src/modules/dashboard-widgets.php:268
+#: src/modules/dashboard-widgets.php:263
 msgid "HTTP requests / month:"
 msgstr "HTTP-pyynnöt / kk:"
 
-#: src/modules/dashboard-widgets.php:271
+#: src/modules/dashboard-widgets.php:266
 msgid "Monthly HTTP requests"
 msgstr "HTTP-liikennetilastot"
 
-#: src/modules/dashboard-widgets.php:272
+#: src/modules/dashboard-widgets.php:267
 msgid ""
 "These monthly reports are generated from the HTTP access logs of your site. "
 "If you have more HTTP requests than your plan allows, please contact <a href="
@@ -733,28 +733,28 @@ msgstr ""
 "\"https://wp-palvelu.fi/hinnasto\" target=\"_blank\">palvelupakettisi</a>."
 
 #. translators: %1$s url for additional information
-#: src/modules/dashboard-widgets.php:290
+#: src/modules/dashboard-widgets.php:285
 msgid "Error on fetching plan details. See more from %1$s."
 msgstr ""
 "Virhe ladattaessa palvelupaketin tietoja. Katso lisätietoa tiedostosta %1$s."
 
-#: src/modules/dashboard-widgets.php:308 src/modules/pages/sitestatus.php:660
+#: src/modules/dashboard-widgets.php:303 src/modules/pages/sitestatus.php:660
 msgid "Month"
 msgstr "Kuukausi"
 
-#: src/modules/dashboard-widgets.php:308 src/modules/pages/sitestatus.php:660
+#: src/modules/dashboard-widgets.php:303 src/modules/pages/sitestatus.php:660
 msgid "HTTP Requests"
 msgstr "HTTP-pyynnöt"
 
-#: src/modules/dashboard-widgets.php:308 src/modules/pages/sitestatus.php:660
+#: src/modules/dashboard-widgets.php:303 src/modules/pages/sitestatus.php:660
 msgid "Report"
 msgstr "Raportti"
 
-#: src/modules/dashboard-widgets.php:348 src/modules/pages/sitestatus.php:686
+#: src/modules/dashboard-widgets.php:343 src/modules/pages/sitestatus.php:686
 msgid "View report"
 msgstr "Näytä raportti"
 
-#: src/modules/dashboard-widgets.php:353 src/modules/pages/sitestatus.php:693
+#: src/modules/dashboard-widgets.php:348 src/modules/pages/sitestatus.php:693
 msgid "The site has no HTTP requests statistics yet."
 msgstr "Sivustolla ei ole vielä HTTP-liikennetilastoja."
 
@@ -1122,11 +1122,11 @@ msgstr "Ladataan verkkotunnuksia..."
 msgid "Are you sure you want to change the primary domain?"
 msgstr "Oletko varma, että haluat vaihtaa ensisijaisen verkkotunnuksen?"
 
-#: src/modules/pages/domains.php:154 src/modules/pages/security.php:434
+#: src/modules/pages/domains.php:154 src/modules/pages/security.php:465
 msgid "Proceed"
 msgstr "Jatka"
 
-#: src/modules/pages/domains.php:155 src/modules/pages/security.php:434
+#: src/modules/pages/domains.php:155 src/modules/pages/security.php:465
 #: src/modules/pages/sitestatus.php:795
 msgid "Cancel"
 msgstr "Peruuta"
@@ -1167,19 +1167,23 @@ msgid "Be sure to check %s, it's a good metric of the site's health."
 msgstr ""
 "Tarkista myös %s lokitiedosto, se on hyvä mittari sivuston eheyden tilaan."
 
-#: src/modules/pages/logs.php:203
+#: src/modules/pages/logs.php:171
+msgid "No logfiles found under <code>/data/log/</code>"
+msgstr "Lokitiedostoja ei löytynyt hakemistosta <code>/data/log/</code>"
+
+#: src/modules/pages/logs.php:209
 msgid "Keyword"
 msgstr "Hakusana"
 
-#: src/modules/pages/logs.php:204
+#: src/modules/pages/logs.php:210
 msgid "Search"
 msgstr "Hae"
 
-#: src/modules/pages/security.php:50 src/modules/pages/security.php:92
+#: src/modules/pages/security.php:51 src/modules/pages/security.php:93
 msgid "Security"
 msgstr "Tietoturva"
 
-#: src/modules/pages/security.php:94
+#: src/modules/pages/security.php:95
 msgid ""
 "Seravo has security built-in. There are however a few extra measures that "
 "the site owner can choose to do if their site will not miss any "
@@ -1189,15 +1193,15 @@ msgstr ""
 "jonka sivuston omistaja voi halutessaan tehdä mikäli tietää\n"
 "että ei tarvitse tiettyjä toimintoja koskaan."
 
-#: src/modules/pages/security.php:102
+#: src/modules/pages/security.php:103
 msgid "Check passwords (Beta)"
 msgstr "Tarkasta salasanat (Beta)"
 
-#: src/modules/pages/security.php:105
+#: src/modules/pages/security.php:108
 msgid "Running the password check"
 msgstr "Tarkastetaan salasanoja"
 
-#: src/modules/pages/security.php:107
+#: src/modules/pages/security.php:113
 msgid ""
 "This tool can be used to run command <code>wp-check-passwords</code> which "
 "finds weak passwords from the users of the site. Note: This may fail, if "
@@ -1207,15 +1211,15 @@ msgstr ""
 "löytää sivuston käyttäjien heikkoja salasanoja. Huom: Tämä voi epäonnistua, "
 "jos  käyttäjiä on useita."
 
-#: src/modules/pages/security.php:114
+#: src/modules/pages/security.php:123
 msgid "Last successful logins"
 msgstr "Edelliset onnistuneet sisäänkirjautumiset"
 
-#: src/modules/pages/security.php:124
+#: src/modules/pages/security.php:133
 msgid "Cruft Files"
 msgstr "Roskatiedostot"
 
-#: src/modules/pages/security.php:125
+#: src/modules/pages/security.php:134
 msgid ""
 "Find and delete any extraneous and potentially harmful files taking up space "
 "in the file system. Note that not everything is necessarily safe to delete."
@@ -1224,11 +1228,11 @@ msgstr ""
 "palvelimelta levytilan säästämiseksi. Otathan huomioon, että kaikkia "
 "ehdotuksia ei ole välttämättä turvallista tehdä."
 
-#: src/modules/pages/security.php:132
+#: src/modules/pages/security.php:141
 msgid "Unnecessary plugins"
 msgstr "Tarpeettomat lisäosat"
 
-#: src/modules/pages/security.php:133
+#: src/modules/pages/security.php:142
 msgid ""
 "Find and remove any plugins that are currently inactive or otherwise "
 "potentially harmful. For more information, please read our <a href=\"https://"
@@ -1240,11 +1244,11 @@ msgstr ""
 "fi/article/313-suositellut-lisaosat\" target=\"_BLANK\">suositelluista "
 "lisäosista palvelinympäristössämme</a>."
 
-#: src/modules/pages/security.php:140
+#: src/modules/pages/security.php:149
 msgid "Unnecessary themes"
 msgstr "Tarpeettomat teemat"
 
-#: src/modules/pages/security.php:141
+#: src/modules/pages/security.php:150
 msgid ""
 "Find and remove themes that are inactive. For more information, please read "
 "our <a href=\"https://help.seravo.com/article/70-can-i-install-my-own-"
@@ -1256,28 +1260,28 @@ msgstr ""
 "omia-lisaosia-ja-teemoja\" target=\"_BLANK\">ulkoasuteemoja ja lisäosia "
 "koskevista ohjeistamme</a>."
 
-#: src/modules/pages/security.php:195
+#: src/modules/pages/security.php:226
 msgid "Cruft remove confirmation"
 msgstr "Vahvista roskien poisto"
 
-#: src/modules/pages/security.php:196
+#: src/modules/pages/security.php:227
 msgid "Congratulations! There's nothing to remove."
 msgstr "Onnittelut! Poistettavaa ei löytynyt."
 
-#: src/modules/pages/security.php:197
+#: src/modules/pages/security.php:228
 msgid "Delete"
 msgstr "Poista"
 
-#: src/modules/pages/security.php:198
+#: src/modules/pages/security.php:229
 msgid "Select all"
 msgstr "Valitse kaikki"
 
-#: src/modules/pages/security.php:199
+#: src/modules/pages/security.php:230
 msgid "Failed to remove some files!"
 msgstr "Joidenkin tiedostojen poistaminen epäonnistui!"
 
 #. translators: URL to security page
-#: src/modules/pages/security.php:226
+#: src/modules/pages/security.php:257
 msgid ""
 "Please enable all possible <a href=\"%s\">security features</a>. Save "
 "settings even if no changes were made to get rid of this notice."
@@ -1286,31 +1290,31 @@ msgstr ""
 "Tallenna asetukset, vaikka et olisi tehnyt muutoksia, piilottaksesi tämä "
 "ilmoitus."
 
-#: src/modules/pages/security.php:247
+#: src/modules/pages/security.php:278
 msgid "Automatic backups"
 msgstr "Automaattiset varmuuskopiot"
 
-#: src/modules/pages/security.php:248
+#: src/modules/pages/security.php:279
 msgid "Quick security updates"
 msgstr "Nopeat tietoturvapäivitykset"
 
-#: src/modules/pages/security.php:249
+#: src/modules/pages/security.php:280
 msgid "Monitoring of malicius code and database contents"
 msgstr "Haitallisen koodin ja tietokantasisällön monitorointi"
 
-#: src/modules/pages/security.php:250
+#: src/modules/pages/security.php:281
 msgid "Denial-of-service protection"
 msgstr "Palvelunestohyökkäysten suojaus"
 
-#: src/modules/pages/security.php:251
+#: src/modules/pages/security.php:282
 msgid "Brute-force login protection"
 msgstr "Kirjautumispommitusten esto"
 
-#: src/modules/pages/security.php:260
+#: src/modules/pages/security.php:291
 msgid "Disable authenticated XML-RPC"
 msgstr "Estä autentikoitu XML-RPC"
 
-#: src/modules/pages/security.php:261
+#: src/modules/pages/security.php:292
 msgid ""
 "Disabling authenticated XML-RPC prevents brute-force attempts via XML-RPC. "
 "Disables e.g. using the WordPress mobile app. Doesn't affect the Jetpack "
@@ -1320,11 +1324,11 @@ msgstr ""
 "mobiiliapplikaatio lakkaa toimimasta. Ei vaikuta Jetpack-lisäosan "
 "toimintaan, koska sen IP-osoitteet ovat erikseen sallittu."
 
-#: src/modules/pages/security.php:264
+#: src/modules/pages/security.php:295
 msgid "Completely disable XML-RPC"
 msgstr "Estä XML-RPC toiminta kokonaan"
 
-#: src/modules/pages/security.php:265
+#: src/modules/pages/security.php:296
 msgid ""
 "Completely disabling XML-RPC prevents XML-RPC from responding to any methods "
 "at all. Disables e.g. pingbacks."
@@ -1332,15 +1336,15 @@ msgstr ""
 "Estä XML-RPC:tä vastaamasta mihinkään metodikutsuun. Esim. päivityspalvelu "
 "(pingback) lakkaa toimimasta."
 
-#: src/modules/pages/security.php:267
+#: src/modules/pages/security.php:298
 msgid "Disable WP-JSON user enumeration"
 msgstr "Estä WP-JSON kautta käyttäjätunnusten luettelointi"
 
-#: src/modules/pages/security.php:268
+#: src/modules/pages/security.php:299
 msgid "Disable GET author enumeration"
 msgstr "Estä GET author kautta käyttäjätunnusten luettelointi"
 
-#: src/modules/pages/security.php:292
+#: src/modules/pages/security.php:323
 msgid ""
 "This tool can be used to retrieve last 10 successful logins. For more "
 "details and full login log see <a href=\"tools.php?page=logs_page&logfile=wp-"
@@ -1351,23 +1355,23 @@ msgstr ""
 "page=logs_page&logfile=wp-login.log\" target=\"_blank\">wp-login.log</a> "
 "tiedostosta."
 
-#: src/modules/pages/security.php:403
+#: src/modules/pages/security.php:434
 msgid "No login data available"
 msgstr "Ei kirjautumistietoja"
 
-#: src/modules/pages/security.php:406
+#: src/modules/pages/security.php:437
 msgid "Time"
 msgstr "Aika"
 
-#: src/modules/pages/security.php:406
+#: src/modules/pages/security.php:437
 msgid "User"
 msgstr "Käyttäjä"
 
-#: src/modules/pages/security.php:406
+#: src/modules/pages/security.php:437
 msgid "Address"
 msgstr "Osoite"
 
-#: src/modules/pages/security.php:433
+#: src/modules/pages/security.php:464
 msgid "Are you sure you want to proceed? Deleted files can not be recovered."
 msgstr "Oletko varma, että haluat jatkaa? Tiedostot poistetaan pysyvästi."
 
