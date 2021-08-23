@@ -166,6 +166,12 @@ class Logs extends Toolpage {
       )
     );
 
+    // Site has no log files or /data/log/ at all
+    if ( $data['logs'] === array() ) {
+      $base->add_child(Template::error_paragraph(__('No logfiles found under <code>/data/log/</code>', 'seravo')));
+      return;
+    }
+
     $log_viewer = new Component('', '<div class="log-viewer-wrapper">', '</div>');
     // Log menu wrapper
     $log_menu_wrapper = new Component('', '<div class="log-menu-wrapper">', '</div>');
