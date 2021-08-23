@@ -174,11 +174,7 @@ class SiteStatus extends Toolpage {
     $disk_usage->use_hr(false);
     $disk_usage->set_title(__('Disk Usage', 'seravo'));
     $disk_usage->set_ajax_func(array( __CLASS__, 'get_disk_usage' ));
-    $disk_usage->set_requirements(
-      array(
-        Requirements::CAN_BE_PRODUCTION => true,
-      )
-    );
+    $disk_usage->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
     $page->register_postbox($disk_usage);
 
     /**

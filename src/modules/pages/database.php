@@ -8,7 +8,6 @@ use \Seravo\Compatibility;
 
 use \Seravo\Ajax;
 use \Seravo\Ajax\AjaxResponse;
-use \Seravo\Ajax\SimpleCommand;
 
 use \Seravo\Postbox;
 use \Seravo\Postbox\Component;
@@ -87,7 +86,7 @@ class Database extends Toolpage {
      */
     $database_access = new Postbox\InfoBox('database-access');
     $database_access->set_title(__('Database Access', 'seravo'));
-    $database_access->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+    $database_access->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $database_access->add_paragraph(__('You can find the database credentials by connecting to your site with SSH and running the command <code>wp-list-env</code>. These credentials can be used to connect to the server with an SSH tunnel. You can also use the web-based Adminer available on this page.', 'seravo'));
     $database_access->add_paragraph(__('When you have established an SSH connection you can use WP-CLI that features powerful database tools for example exports and imports. <a href="https://developer.wordpress.org/cli/commands/db/" target="_BLANK">Read the documentation for wp db</a>.', 'seravo'));
     $page->register_postbox($database_access);
@@ -97,7 +96,7 @@ class Database extends Toolpage {
      */
     $adminer = new Postbox\Postbox('database-adminer');
     $adminer->set_title(__('Manage the Database with Adminer', 'seravo'));
-    $adminer->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+    $adminer->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $adminer->set_build_func(array( __CLASS__, 'build_adminer_postbox' ));
     $page->register_postbox($adminer);
 
@@ -117,7 +116,7 @@ class Database extends Toolpage {
      */
     $cleanup = new Postbox\Postbox('database-cleanup');
     $cleanup->set_title(__('Database Cleanup Tool', 'seravo'));
-    $cleanup->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+    $cleanup->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $cleanup->set_build_func(array( __CLASS__, 'build_database_cleanup' ));
     self::init_cleanup_ajax_scripts($cleanup);
     $page->register_postbox($cleanup);
@@ -127,7 +126,7 @@ class Database extends Toolpage {
      */
     $db_size = new Postbox\Postbox('database-size');
     $db_size->set_title(__('Database Size', 'seravo'));
-    $db_size->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+    $db_size->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $db_size->set_build_func(array( __CLASS__, 'build_database_size' ));
     self::init_database_size_scripts($db_size);
     $page->register_postbox($db_size);

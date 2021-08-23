@@ -8,8 +8,7 @@ use \Seravo\Postbox\Requirements;
 use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
 use \Seravo\Ajax;
-use Seravo\Ajax\AjaxResponse;
-use Seravo\Compatibility;
+use \Seravo\Compatibility;
 
 /**
  * Class Backups
@@ -83,7 +82,12 @@ class Backups extends Toolpage {
     $backups_info = new Postbox\InfoBox('backups-info');
     $backups_info->set_title(__('Backups', 'seravo'));
     $backups_info->add_paragraph(__('Backups are automatically created every night and preserved for 30 days. The data can be accessed on the server in under <code>/data/backups</code>.', 'seravo'));
-    $backups_info->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $backups_info->set_requirements(
+      array(
+        Requirements::CAN_BE_PRODUCTION => true,
+        Requirements::CAN_BE_STAGING => true,
+      )
+    );
     $page->register_postbox($backups_info);
 
     /**
