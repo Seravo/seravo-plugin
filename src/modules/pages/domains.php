@@ -74,6 +74,7 @@ class Domains extends Toolpage {
    * @return void
    */
   public function set_requirements( Requirements $requirements ) {
+    $requirements->is_super_admin = \true;
     $requirements->can_be_production = \true;
   }
 

@@ -17,6 +17,10 @@ final class Requirements {
    */
   const IS_ADMIN = 'is_admin';
   /**
+   * @var string Key for 'init_from_array' initilization of is_super_admin.
+   */
+  const IS_SUPER_ADMIN = 'is_super_admin';
+  /**
    * @var string Key for 'init_from_array' initilization of is_wp_cli.
    */
   const IS_WP_CLI = 'is_wp_cli';
@@ -51,9 +55,13 @@ final class Requirements {
 
 
   /**
-   * @var bool Whether user must be admin and able to manager network.
+   * @var bool Whether user must be admin.
    */
   public $is_admin = \true;
+  /**
+   * @var bool Whether user must be a super-admin capable of managing network install.
+   */
+  public $is_super_admin = \false;
   /**
    * @var bool Whether plugin must be loaded by WP CLI.
    */
@@ -97,6 +105,9 @@ final class Requirements {
     if ( isset($requirements[self::IS_ADMIN]) ) {
       $this->is_admin = $requirements[self::IS_ADMIN];
     }
+    if ( isset($requirements[self::IS_SUPER_ADMIN]) ) {
+      $this->is_super_admin = $requirements[self::IS_SUPER_ADMIN];
+    }
     if ( isset($requirements[self::IS_WP_CLI]) ) {
       $this->is_wp_cli = $requirements[self::IS_WP_CLI];
     }
@@ -134,7 +145,7 @@ final class Requirements {
     if ( $this->is_admin && ! \current_user_can('administrator') ) {
       return false;
     }
-    if ( $this->is_admin && \is_multisite() && ! \current_user_can('manage_network') ) {
+    if ( $this->is_super_admin && \is_multisite() && ! \current_user_can('manage_network') ) {
       return false;
     }
     if ( $this->is_wp_cli && ! (\defined('WP_CLI') && WP_CLI) ) {

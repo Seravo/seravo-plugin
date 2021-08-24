@@ -109,7 +109,12 @@ class Upkeep extends Toolpage {
      */
     $seravo_plugin_update = new Postbox\Postbox('seravo-plugin-updater');
     $seravo_plugin_update->set_title(__('Seravo Plugin Updater', 'seravo'));
-    $seravo_plugin_update->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $seravo_plugin_update->set_requirements(
+      array(
+        Requirements::IS_SUPER_ADMIN => true,
+        Requirements::CAN_BE_ANY_ENV => true,
+      )
+    );
 
     $update_button = new Ajax\SimpleForm('seravo-plugin-update');
     $update_button->set_button_text(__('Update plugin now', 'seravo'));
@@ -138,7 +143,12 @@ class Upkeep extends Toolpage {
     $php_version_tool->set_spinner_text(__('Activating... Please wait up to 30 seconds', 'seravo'));
     $php_version_tool->set_button_text(__('Change version', 'seravo'));
     $php_version_tool->set_ajax_func(array( __CLASS__, 'set_php_version' ));
-    $php_version_tool->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $php_version_tool->set_requirements(
+      array(
+        Requirements::IS_SUPER_ADMIN => true,
+        Requirements::CAN_BE_ANY_ENV => true,
+      )
+    );
     $php_version_tool->set_build_func(array( __CLASS__, 'build_change_php_version_postbox' ));
     $page->register_postbox($php_version_tool);
 
@@ -205,7 +215,12 @@ class Upkeep extends Toolpage {
      */
     $seravo_updates = new Postbox\Postbox('updates');
     $seravo_updates->set_title(__('Seravo Updates', 'seravo'));
-    $seravo_updates->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+    $seravo_updates->set_requirements(
+      array(
+        Requirements::IS_SUPER_ADMIN => true,
+        Requirements::CAN_BE_PRODUCTION => true,
+      )
+    );
     $seravo_updates->set_data_func(array( __CLASS__, 'get_seravo_updates_data' ));
     $seravo_updates->set_build_func(array( __CLASS__, 'build_seravo_updates' ));
     $page->register_postbox($seravo_updates);

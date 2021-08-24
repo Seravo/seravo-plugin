@@ -162,7 +162,12 @@ class SiteStatus extends Toolpage {
      */
     $sanitize_uploads = new Postbox\SettingsForm('sanitize-uploads', 'side');
     $sanitize_uploads->set_title(__('Sanitize Uploads', 'seravo'));
-    $sanitize_uploads->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $sanitize_uploads->set_requirements(
+      array(
+        Requirements::IS_SUPER_ADMIN => true,
+        Requirements::CAN_BE_ANY_ENV => true,
+      )
+    );
     $sanitize_uploads->add_setting_section(self::get_sanitize_uploads_settings());
     $page->register_postbox($sanitize_uploads);
 
@@ -182,7 +187,13 @@ class SiteStatus extends Toolpage {
      */
     $http_cache = new Postbox\Postbox('cache-status');
     $http_cache->set_title(__('Cache Status', 'seravo'));
-    $http_cache->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $http_cache->set_requirements(
+      array(
+        // Require super-admin because of the 'enable object-cache' feature.
+        Requirements::IS_SUPER_ADMIN => true,
+        Requirements::CAN_BE_ANY_ENV => true,
+      )
+    );
     $http_cache->set_build_func(array( __CLASS__, 'build_cache_status' ));
     self::init_cache_status($http_cache);
     $page->register_postbox($http_cache);
@@ -207,7 +218,12 @@ class SiteStatus extends Toolpage {
     $optimize_images->add_paragraph(__('By setting the maximum image resolution, you can determine the maximum allowed dimensions for images.', 'seravo'));
     $optimize_images->add_paragraph(__('By enabling metadata stripping, you can further reduce image sizes by removing metadata. Please note that occasionally metadata can be useful.', 'seravo'));
     $optimize_images->add_paragraph(__('For further information, refer to our <a href="https://help.seravo.com/article/28-seravo-plugin-optimize-images" target="_BLANK">knowledgebase article</a>.', 'seravo'));
-    $optimize_images->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $optimize_images->set_requirements(
+      array(
+        Requirements::IS_SUPER_ADMIN => true,
+        Requirements::CAN_BE_ANY_ENV => true,
+      )
+    );
     $optimize_images->add_setting_section(self::get_optimize_images_settings());
     $page->register_postbox($optimize_images);
 
@@ -217,7 +233,12 @@ class SiteStatus extends Toolpage {
     $shadows = new Postbox\Postbox('shadows');
     $shadows->set_title(__('Shadows', 'seravo'));
     $shadows->set_build_func(array( __CLASS__, 'build_shadows' ));
-    $shadows->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
+    $shadows->set_requirements(
+      array(
+        Requirements::IS_SUPER_ADMIN => true,
+        Requirements::CAN_BE_PRODUCTION => true,
+      )
+    );
     $shadows->set_data_func(array( __CLASS__, 'get_shadows_data' ));
     // Init AJAX handler for resetting shadows
     $reset_shadow = new Ajax\AjaxHandler('reset-shadows');

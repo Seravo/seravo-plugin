@@ -17,9 +17,8 @@ final class SpeedTest {
    * @return bool Whether to load.
    */
   protected function should_load() {
-    // Require production env and 'edit_posts' capability by default
-    $capability = \apply_filters('seravo_' . self::get_name() . '_capability', 'edit_posts');
-    return \current_user_can($capability) && Helpers::is_production();
+    // Require production env and 'administrator' capability
+    return \current_user_can('administrator') && Helpers::is_production();
   }
 
   /**

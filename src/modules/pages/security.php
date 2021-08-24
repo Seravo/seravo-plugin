@@ -75,6 +75,7 @@ class Security extends Toolpage {
    * @param \Seravo\Postbox\Requirements $requirements Instance to set requirements to.
    */
   public function set_requirements( Requirements $requirements ) {
+    $requirements->is_super_admin = \true;
     $requirements->can_be_production = \true;
     $requirements->can_be_staging = \true;
     $requirements->can_be_development = \true;
@@ -181,7 +182,12 @@ class Security extends Toolpage {
    */
   public static function create_cruft_box( $id, $type ) {
     $cruftbox = new Postbox\LazyLoader($id, 'side');
-    $cruftbox->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
+    $cruftbox->set_requirements(
+      array(
+        Requirements::IS_SUPER_ADMIN => true,
+        Requirements::CAN_BE_ANY_ENV => true,
+      )
+    );
 
     // Postbox build function
     $cruftbox->set_build_func(

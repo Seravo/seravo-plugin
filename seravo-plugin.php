@@ -159,8 +159,7 @@ class Loader {
 
       // User must be an administrator at access these files or
       // if WP Network, then must be super-admin
-      if ( ! \current_user_can('administrator') ||
-           \is_multisite() && ! \current_user_can('manage_network') ) {
+      if ( ! \current_user_can('administrator') ) {
         \status_header(401);
         die('Access denied!');
       }
