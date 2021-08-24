@@ -31,7 +31,7 @@ jQuery(document).ready(
 
     buttons_div.html(generate_buttons(emails));
 
-    jQuery('#slack-webhook-test').click(
+    jQuery('.slack-webhook-test').click(
       function() {
         jQuery.ajax(
           {

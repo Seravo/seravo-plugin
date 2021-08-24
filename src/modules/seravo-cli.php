@@ -3,6 +3,7 @@
 namespace Seravo\Module;
 
 use \Seravo\API;
+use \Seravo\Helpers;
 
 /**
  * Class SeravoCLI
@@ -11,6 +12,14 @@ use \Seravo\API;
  */
 final class SeravoCLI extends \WP_CLI_Command {
   use Module;
+
+  /**
+   * Check whether the module should be loaded or not.
+   * @return bool Whether to load.
+   */
+  protected function should_load() {
+    return Helpers::is_production();
+  }
 
   /**
    * Initialize the module. Filters and hooks should be added here.

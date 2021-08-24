@@ -142,7 +142,7 @@ class Backups extends Toolpage {
    * @return Ajax\AjaxResponse
    */
   public static function get_backups_status() {
-    if ( ! \file_exists('/data/backups') || ! \file_exists('/data/backups/data') ) {
+    if ( ! \file_exists('/data/backups') || ! \file_exists('/data/backups/data') || ! \file_exists('/data/backups/exclude.filelist') ) {
       return Ajax\AjaxResponse::error_response(__('No backups data found under <code>/data/backups/</code>', 'seravo'));
     }
     $fetch_backups_list = Compatibility::exec('wp-backup-status 2>&1', $output, $ret_val);

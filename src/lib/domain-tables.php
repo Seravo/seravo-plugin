@@ -71,7 +71,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
         } else {
         $actions['edit'] = \sprintf($action_request, 'edit', __('Edit', 'seravo'));
         }
-    } elseif ( $item['management'] === 'Customer' ) {
+    } elseif ( $item['management'] === __('Customer', 'seravo') ) {   // Nasty check but domains is waiting rewrite
       $actions['view'] = \sprintf($action_request, 'sniff', __('View', 'seravo'));
       $actions['edit'] = \sprintf($action_disabled, __('DNS not managed by Seravo.', 'seravo'), __('Edit', 'seravo'));
     } else {
