@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2021-08-23T11:28:38+03:00\n"
-"PO-Revision-Date: 2021-08-23 11:30+0300\n"
+"POT-Creation-Date: 2021-08-24T13:11:41+03:00\n"
+"PO-Revision-Date: 2021-08-24 13:16+0300\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -600,7 +600,19 @@ msgid_plural "At least %1$s errors on %2$s"
 msgstr[0] "%1$s virhe lokitiedostossa %2$s"
 msgstr[1] "%1$s virhettä lokitiedostossa %2$s"
 
-#: src/modules/check-site-health.php:185
+#: src/modules/check-site-health.php:180
+msgid "End of life PHP version"
+msgstr "Vanhentunut PHP-versio"
+
+#: src/modules/check-site-health.php:180
+msgid ""
+"This PHP version is no longer maintained and might be exposed to unpatched "
+"security vulnerabilities. Recommended version is"
+msgstr ""
+"Tätä PHP-versiota ei enää ylläpidetä ja se saattaa altistaa sivustosi "
+"haavoittuvuuksille. Suositeltu versio on"
+
+#: src/modules/check-site-health.php:190
 msgid ""
 "<code>wp-test</code> checks if the site works normally. It also checks "
 "whether automatic updates can continue."
@@ -608,27 +620,27 @@ msgstr ""
 "<code>wp-test</code> tarkistaa toimiiko sivusto ja voidaanko Seravon "
 "automaattiset päivitykset ajaa normaalisti."
 
-#: src/modules/check-site-health.php:188
+#: src/modules/check-site-health.php:193
 msgid "Command <code>wp-test</code> runs successfully"
 msgstr "Komento <code>wp-test</code> ajettiin onnistuneesti"
 
-#: src/modules/check-site-health.php:190
+#: src/modules/check-site-health.php:195
 msgid "Command <code>wp-test</code> fails"
 msgstr "Komennon <code>wp-test</code> ajaminen epäonnistui"
 
-#: src/modules/check-site-health.php:202
+#: src/modules/check-site-health.php:207
 msgid "No issues were found"
 msgstr "Ongelmia ei löytynyt"
 
-#: src/modules/check-site-health.php:205
+#: src/modules/check-site-health.php:210
 msgid "Potential issues were found"
 msgstr "Mahdollisia ongelmia löytyi"
 
-#: src/modules/check-site-health.php:207
+#: src/modules/check-site-health.php:212
 msgid "Potential issues"
 msgstr "Mahdolliset ongelmat"
 
-#: src/modules/check-site-health.php:224
+#: src/modules/check-site-health.php:229
 msgid "Passed tests"
 msgstr "Onnistuneet testit"
 

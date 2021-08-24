@@ -100,7 +100,7 @@ class SiteHealth {
       /* translators:
         * %1$s number of inactive themes
         */
-      $themes_msg = \wp_sprintf(_n('Found %1$s inactive theme', 'Found %1$s inactive themes', $inactive_themes, 'seravo'), \number_format_i18n($inactive_themes));
+      $themes_msg = \sprintf(_n('Found %1$s inactive theme', 'Found %1$s inactive themes', $inactive_themes, 'seravo'), \number_format_i18n($inactive_themes));
       self::$potential_issues[$themes_msg] = $theme_tooltip;
     } else {
       self::$no_issues[__('No inactive themes', 'seravo')] = $theme_tooltip;
@@ -143,7 +143,7 @@ class SiteHealth {
       /* translators:
        * %1$s number of inactive plugins
        */
-      $plugins_msg = \wp_sprintf(_n('Found %1$s inactive plugin', 'Found %1$s inactive plugins', $inactive_plugins, 'seravo'), \number_format_i18n($inactive_plugins));
+      $plugins_msg = \sprintf(_n('Found %1$s inactive plugin', 'Found %1$s inactive plugins', $inactive_plugins, 'seravo'), \number_format_i18n($inactive_plugins));
       self::$potential_issues[$plugins_msg] = $plugin_tooltip;
     } else {
       self::$no_issues[__('No inactive plugins', 'seravo')] = $plugin_tooltip;
@@ -151,16 +151,16 @@ class SiteHealth {
   }
 
   /**
-   * Fetch the PHP error count by using the error count of login notifications module.
+   * Fetch PHP related errors and warn about possible end of life version.
    * @return void
    */
-  private static function check_php_errors() {
+  private static function check_php_status() {
     $php_info = '<a href="' . \get_option('siteurl') . '/wp-admin/tools.php?page=logs_page&logfile=php-error.log" target="_blank">php-error.log</a>';
     $error_tooltip = __('PHP related errors are usually a sign of something being broken on the code.', 'seravo');
 
     $php_error_count = Logs::get_week_error_count();
     if ( $php_error_count === false ) {
-      if ( \file_exists('/data/log/php-error.log') ) {
+      if ( \file_exists('/data/log/php-error.log') && \filesize('/data/log/php-error.log') !== 0 ) {
         self::$potential_issues[__('Too many PHP errors to count', 'seravo')] = $error_tooltip;
       } else {
         self::$no_issues[__('No php errors on log', 'seravo')] = $error_tooltip;
@@ -171,8 +171,13 @@ class SiteHealth {
       /* translators:
        * %1$s number of errors in the log
        * %2$s url to php-error.log */
-      $php_errors_msg = \wp_sprintf(_n('%1$s error on %2$s', 'At least %1$s errors on %2$s', $php_error_count, 'seravo'), \number_format_i18n($php_error_count), $php_info);
+      $php_errors_msg = \sprintf(_n('%1$s error on %2$s', 'At least %1$s errors on %2$s', $php_error_count, 'seravo'), \number_format_i18n($php_error_count), $php_info);
       self::$potential_issues[$php_errors_msg] = $error_tooltip;
+    }
+
+    // Check EOL PHP version
+    if ( \version_compare(Helpers::get_php_version(), Helpers::get_eol_php_version(), '<=') ) {
+      self::$potential_issues[__('End of life PHP version', 'seravo') . ' <b>' . Helpers::get_php_version() . '</b>'] = __('This PHP version is no longer maintained and might be exposed to unpatched security vulnerabilities. Recommended version is', 'seravo') . ' <b>' . Helpers::get_recommended_php_version() . '</b>';
     }
   }
 
@@ -256,7 +261,7 @@ class SiteHealth {
     self::check_inactive_themes();
     self::check_plugins();
 
-    self::check_php_errors();
+    self::check_php_status();
     self::check_wp_test();
 
     if ( $formatted ) {
