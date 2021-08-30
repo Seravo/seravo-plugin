@@ -203,7 +203,8 @@ class Loader {
    */
   public static function register_scripts() {
     // Register scripts, enqueue only if needed by another script
-    \wp_register_script('seravo-common-js', SERAVO_PLUGIN_URL . 'js/common.js', array( 'jquery' ), Helpers::seravo_plugin_version());
+    \wp_register_script('seravo-common-js', SERAVO_PLUGIN_URL . 'js/common.js', array( 'jquery', 'thickbox' ), Helpers::seravo_plugin_version());
+    \wp_register_style('seravo-common-css', SERAVO_PLUGIN_URL . 'style/common.css', array( 'thickbox' ), Helpers::seravo_plugin_version());
     \wp_register_script('seravo-admin-bar-js', SERAVO_PLUGIN_URL . 'js/admin-bar.js', array( 'jquery', 'seravo-common-js' ), Helpers::seravo_plugin_version());
     \wp_register_style('seravo-admin-bar-css', SERAVO_PLUGIN_URL . 'style/admin-bar.css', array(), Helpers::seravo_plugin_version());
   }

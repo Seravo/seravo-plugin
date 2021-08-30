@@ -1,10 +1,14 @@
 <?php
+
 namespace Seravo;
+
+use \Seravo\Compatibility;
 
 /**
  * Class CruftRemover
  *
  * Helper methods for fetching cruft files, unnecessary themes and plugins.
+ * TODO: Rewrite to use get_plugins etc instead of exec.
  */
 class CruftRemover {
 
@@ -14,16 +18,25 @@ class CruftRemover {
    * @return array<string, mixed> Array containing the file information.
    */
   public static function add_file_information( $file ) {
+    $result = array(
+      'size' => '0B',
+      'mod_date' => null,
+      'filename' => $file,
+    );
+
     if ( $file !== Helpers::sanitize_full_path($file) ) {
-      return array(
-        'size' => '0B',
-        'mod_date' => null,
-        'filename' => $file,
-      );
+      return $result;
     }
 
-    \exec('du ' . $file . ' -h --time', $output);
+    $exec = Compatibility::exec('du ' . $file . ' -h --time', $output, $exit_code);
+    if ( $exec === false || $exit_code !== 0 ) {
+      return $result;
+    }
+
     $size = \explode("\t", $output[0]);
+    if ( count($size) < 2 ) {
+      return $result;
+    }
 
     return array(
       'size' => $size[0] . 'B',
@@ -134,7 +147,7 @@ class CruftRemover {
 
   /**
    * List the cruft files
-   * @return array<string, mixed> Found cruft files.
+   * @return array<int, array<string, mixed>> Found cruft files.
    */
   public static function list_cruft_files() {
     // List of known tybes of cruft files
@@ -282,7 +295,7 @@ class CruftRemover {
         return true;
       }
     );
-    $crufts = \array_unique($crufts);
+    $crufts = \array_values(\array_unique($crufts));
     \set_transient('cruft_files_found', $crufts, 600);
 
     return \array_map(array( __CLASS__, 'add_file_information' ), $crufts);
@@ -383,8 +396,15 @@ class CruftRemover {
     $found_cruft_plugins_categorized = array();
     $found_cruft_plugins = array();
 
-    \exec('wp plugin list --fields=name,title,status --format=json --skip-plugins --skip-themes', $output);
+    $result = Compatibility::exec('wp plugin list --fields=name,title,status --format=json --skip-plugins --skip-themes', $output);
+    if ( $result === false || ! isset($output[0]) ) {
+      return array();
+    }
+
     $output = \json_decode($output[0]);
+    if ( $output === null ) {
+      return array();
+    }
 
     foreach ( $output as $plugin ) {
       foreach ( $plugins_list as $category => $category_details ) {
@@ -486,25 +506,29 @@ class CruftRemover {
    * @return array<string> Possible failed deletions.
    */
   public static function remove_cruft_files( $cruft_entries ) {
-    $results = array();
+    $remove_failed = array();
     $files = $cruft_entries;
 
     if ( \is_string($files) ) {
       $files = array( $files );
     }
 
+    $legit_cruft_files = \get_transient('cruft_files_found');
+    if ( $legit_cruft_files === false || ! is_array($legit_cruft_files) ) {
+      // None of the $files were deleted
+      return $files;
+    }
+
     foreach ( $files as $file ) {
-      $legit_cruft_files = \get_transient('cruft_files_found'); // Check first that given file or directory is legitimate
       if ( \in_array($file, $legit_cruft_files, true) ) {
         $unlink_result = \is_dir($file) ? self::rmdir_recursive($file, 0) : \unlink($file);
-        // Log files if removing fails
         if ( $unlink_result === false ) {
-          $results[] = $file;
+          $remove_failed[] = $file;
         }
       }
     }
 
-    return $results;
+    return $remove_failed;
   }
 
   /**
@@ -513,22 +537,24 @@ class CruftRemover {
    * @return array<string> Possible failed deletions.
    */
   public static function remove_cruft_plugins( $cruft_entries ) {
-    $plugins = $cruft_entries;
     $remove_failed = array();
+    $plugins = $cruft_entries;
 
     if ( \is_string($plugins) ) {
       $plugins = array( $plugins );
     }
 
-    foreach ( $plugins as $plugin ) {
-      $legit_removeable_plugins = \get_transient('cruft_plugins_found');
+    $legit_cruft_plugins = \get_transient('cruft_plugins_found');
+    if ( $legit_cruft_plugins === false || ! is_array($legit_cruft_plugins) ) {
+      // None of the $files were deleted
+      return $plugins;
+    }
 
-      foreach ( $legit_removeable_plugins as $legit_plugin ) {
-        if ( $legit_plugin == $plugin ) {
-          $result = Compatibility::exec('wp plugin deactivate ' . $plugin . ' --skip-plugins --skip-themes && wp plugin delete ' . $plugin . ' --skip-plugins --skip-themes', $output);
-          if ( $result === false || strpos($result, 'Success') === false ) {
-            $remove_failed[] = $plugin;
-          }
+    foreach ( $plugins as $plugin ) {
+      if ( \in_array($plugin, $legit_cruft_plugins, true) ) {
+        $result = Compatibility::exec('wp plugin deactivate ' . $plugin . ' --skip-plugins --skip-themes && wp plugin delete ' . $plugin . ' --skip-plugins --skip-themes', $output);
+        if ( $result === false || strpos($result, 'Success') === false ) {
+          $remove_failed[] = $plugin;
         }
       }
     }
@@ -538,27 +564,29 @@ class CruftRemover {
 
   /**
    * Remove found cruft themes.
-   * @param array<string>|string $themes The cruft themes to remove.
+   * @param array<string>|string $cruft_entries The cruft themes to remove.
    * @return array<string> Possible failed deletions.
    */
-  public static function remove_cruft_themes( $themes ) {
-    $legit_removeable_themes = \get_transient('cruft_themes_found');
+  public static function remove_cruft_themes( $cruft_entries ) {
     $remove_failed = array();
+    $themes = $cruft_entries;
 
     if ( \is_string($themes) ) {
       $themes = array( $themes );
     }
 
-    if ( $themes !== array() && $legit_removeable_themes !== false ) {
-      foreach ( $themes as $theme ) {
-          if ( ! \in_array($theme, $legit_removeable_themes, true) ) {
-          continue;
-          }
-          if ( \delete_theme($theme) === true ) {
-          continue;
-          }
+    $legit_cruft_themes = \get_transient('cruft_themes_found');
+    if ( $legit_cruft_themes === false || ! is_array($legit_cruft_themes) ) {
+      // None of the $themes were deleted
+      return $themes;
+    }
+
+    foreach ( $themes as $theme ) {
+      if ( \in_array($theme, $legit_cruft_themes, true) ) {
+        if ( \delete_theme($theme) !== true ) {
           // Removal failed
           $remove_failed[] = $theme;
+        }
       }
     }
 
