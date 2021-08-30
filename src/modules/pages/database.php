@@ -103,7 +103,7 @@ class Database extends Toolpage {
     /**
      * Search & Replace tool postbox
      */
-    $search_replace = new Postbox\SimpleForm('database-search-replace');
+    $search_replace = new Postbox\SimpleForm('database-search-replace', 'side');
     $search_replace->set_title(__('Search-Replace Tool', 'seravo'));
     $search_replace->set_button_text(__('Run wp search-replace', 'seravo'), __('Do a dry run', 'seravo'));
     $search_replace->set_requirements(
@@ -119,7 +119,7 @@ class Database extends Toolpage {
     /**
      * Database cleanup tool postbox
      */
-    $cleanup = new Postbox\Postbox('database-cleanup');
+    $cleanup = new Postbox\Postbox('database-cleanup', 'column3');
     $cleanup->set_title(__('Database Cleanup Tool', 'seravo'));
     $cleanup->set_requirements(
       array(
@@ -134,7 +134,7 @@ class Database extends Toolpage {
     /**
      * Database size postbox
      */
-    $db_size = new Postbox\Postbox('database-size');
+    $db_size = new Postbox\Postbox('database-size', 'column4');
     $db_size->set_title(__('Database Size', 'seravo'));
     $db_size->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $db_size->set_build_func(array( __CLASS__, 'build_database_size' ));

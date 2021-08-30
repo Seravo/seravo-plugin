@@ -175,7 +175,7 @@ class Upkeep extends Toolpage {
     /**
      * Changes Status postbox
      */
-    $changes_status = new Postbox\FancyForm('backup-list-changes');
+    $changes_status = new Postbox\FancyForm('backup-list-changes', 'side');
     $changes_status->set_title(__('Changes Status', 'seravo'));
     $changes_status->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $changes_status->set_ajax_func(array( __CLASS__, 'fetch_backup_list_changes' ));
@@ -190,7 +190,7 @@ class Upkeep extends Toolpage {
     /**
      * Update Tests postbox
      */
-    $update_tests = new Postbox\FancyForm('update-tests');
+    $update_tests = new Postbox\FancyForm('update-tests', 'side');
     $update_tests->set_title(__('Update tests', 'seravo'));
     $update_tests->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $update_tests->set_ajax_func(array( __CLASS__, 'run_update_tests' ));
@@ -203,7 +203,7 @@ class Upkeep extends Toolpage {
     /**
      * Screenshots postbox
      */
-    $screenshots = new Postbox\Postbox('screenshots');
+    $screenshots = new Postbox\Postbox('screenshots', 'side');
     $screenshots->set_title(__('Screenshots', 'seravo'));
     $screenshots->set_requirements(array( Requirements::CAN_BE_PRODUCTION => true ));
     $screenshots->set_build_func(array( __CLASS__, 'build_screenshots_postbox' ));
