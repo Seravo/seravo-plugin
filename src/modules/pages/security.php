@@ -100,7 +100,7 @@ class Security extends Toolpage {
     /**
      * Check passwords postbox (Beta)
      */
-    $passwords = new Postbox\Postbox('check-passwords');
+    $passwords = new Postbox\Postbox('check-passwords', 'column4');
     $passwords->set_title(__('Check passwords (Beta)', 'seravo'));
     $passwords->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     // Add AJAX handler for checking passwords
@@ -120,7 +120,7 @@ class Security extends Toolpage {
     /**
      * Last successful logins postbox
      */
-    $logins = new Postbox\LazyLoader('logins-info');
+    $logins = new Postbox\LazyLoader('logins-info', 'column3');
     $logins->set_title(__('Last successful logins', 'seravo'));
     $logins->set_requirements(array( Requirements::CAN_BE_ANY_ENV => true ));
     $logins->set_ajax_func(array( __CLASS__, 'get_last_successful_logins' ));

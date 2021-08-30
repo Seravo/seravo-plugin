@@ -160,7 +160,7 @@ class SiteStatus extends Toolpage {
     /**
      * Sanitize uploads postbox
      */
-    $sanitize_uploads = new Postbox\SettingsForm('sanitize-uploads', 'side');
+    $sanitize_uploads = new Postbox\SettingsForm('sanitize-uploads', 'column4');
     $sanitize_uploads->set_title(__('Sanitize Uploads', 'seravo'));
     $sanitize_uploads->set_requirements(
       array(
@@ -174,7 +174,7 @@ class SiteStatus extends Toolpage {
     /**
      * Disk Usage postbox
      */
-    $disk_usage = new Postbox\LazyLoader('disk-usage');
+    $disk_usage = new Postbox\LazyLoader('disk-usage', 'side');
     $disk_usage->set_build_func(array( __CLASS__, 'build_disk_usage' ));
     $disk_usage->use_hr(false);
     $disk_usage->set_title(__('Disk Usage', 'seravo'));
@@ -185,7 +185,7 @@ class SiteStatus extends Toolpage {
     /**
      * Cache status postbox
      */
-    $http_cache = new Postbox\Postbox('cache-status');
+    $http_cache = new Postbox\Postbox('cache-status', 'column3');
     $http_cache->set_title(__('Cache Status', 'seravo'));
     $http_cache->set_requirements(
       array(
@@ -201,7 +201,7 @@ class SiteStatus extends Toolpage {
     /**
      * Speed test postbox
      */
-    $speed_test = new Postbox\SimpleForm('speed-test');
+    $speed_test = new Postbox\SimpleForm('speed-test', 'side');
     $speed_test->set_title(__('Speed test', 'seravo'));
     $speed_test->set_build_form_func(array( __CLASS__, 'build_speed_test' ));
     $speed_test->set_ajax_func(array( __CLASS__, 'run_speed_test' ));
@@ -212,7 +212,7 @@ class SiteStatus extends Toolpage {
     /**
      * Optimize images postbox
      */
-    $optimize_images = new Postbox\SettingsForm('optimize-images', 'side');
+    $optimize_images = new Postbox\SettingsForm('optimize-images', 'column4');
     $optimize_images->set_title(__('Optimize Images', 'seravo'));
     $optimize_images->add_paragraph(__('Optimization reduces image file size. This improves the performance and browsing experience of your site.', 'seravo'));
     $optimize_images->add_paragraph(__('By setting the maximum image resolution, you can determine the maximum allowed dimensions for images.', 'seravo'));
