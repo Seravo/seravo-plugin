@@ -6,14 +6,14 @@
 }
 
 #shadow-table tr.view {
-  border: 1.5px solid #ccd0d4;
+  border: 1px solid #ccd0d4;
   border-bottom: none;
 }
 
 #shadow-table tr.fold {
-  border-left: 1.5px solid #ccd0d4;
-  border-right: 1.5px solid #ccd0d4;
-  border-bottom: 1.5px solid #ccd0d4;
+  border-left: 1px solid #ccd0d4;
+  border-right: 1px solid #ccd0d4;
+  border-bottom: 1px solid #ccd0d4;
 }
 
 /* Keep 2nd, 3rd and 4th columns (Reset button, load icon and arrow icon) of shadows table
@@ -99,8 +99,7 @@ tr.view:hover {
   color: #FFFFFF;
   border-radius: 3px;
   margin-bottom: 10px;
-  padding: 3px;
-  padding-left: 10px;
+  padding: 3px 3px 3px 10px;
 }
 
 .alert > p > a {
@@ -112,7 +111,7 @@ tr.view:hover {
 }
 
 .shadow-reset-sr-alert.alert {
-  padding: 0px;
+  padding: 0;
 }
 
 #alert-success {

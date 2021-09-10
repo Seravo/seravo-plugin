@@ -332,7 +332,7 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
 
   protected function display_tablenav( $which ) {
     if ( $which === 'top' ) {
-      echo '<hr style="margin: 15px 0px;">';
+      echo '<hr style="margin: 15px 0;">';
     }
   }
 
@@ -501,7 +501,7 @@ class Seravo_DNS_Table {
       echo '<input type="hidden" name="action" value="change_zone_file">';
       echo '<input type="hidden" name="domain" value="' . $records['name'] . '">';
       echo '<table id="zone-edit-table">';
-      echo '<tr><td style="padding-bottom: 0px;">';
+      echo '<tr><td style="padding-bottom: 0;">';
       // translators: %s domain of the site
       echo '<p style="max-width:50%;">' . \wp_sprintf(__('Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:', 'seravo'), $records['name']) . '</p>';
       echo '</td></tr>';
@@ -517,11 +517,11 @@ class Seravo_DNS_Table {
       // If $error is true, show empty / disabled fields
       echo '<input type="hidden" name="domain" value="' . ($error ? '' : $records['name']) . '">';
       echo '<table id="zone-edit-table">';
-      echo '<tr><td style="padding-bottom: 0px;">';
-      echo '<h3 style="margin: 0px 0px 5px 0px;">' . __('Compulsory Records', 'seravo') . '</h3>';
+      echo '<tr><td style="padding-bottom: 0;">';
+      echo '<h3 style="margin: 0 0 5px 0;">' . __('Compulsory Records', 'seravo') . '</h3>';
       echo '<p>' . __('It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them.', 'seravo') . '</p>';
-      echo '</td><td style="padding-bottom: 0px;">';
-      echo '<h3 style="margin: 0px 0px 5px 0px;">' . __('Editable records', 'seravo') . '</h3>';
+      echo '</td><td style="padding-bottom: 0;">';
+      echo '<h3 style="margin: 0 0 5px 0;">' . __('Editable records', 'seravo') . '</h3>';
       echo '<p>' . __('Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated.', 'seravo') . '</p>';
       echo '</td></tr>';
 

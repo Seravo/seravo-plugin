@@ -17,7 +17,7 @@
   animation-timing-function: linear;
 }
 
-@moz-keyframes purge-cache-spin {
+@-moz-keyframes purge-cache-spin {
   0% {
     transform: rotate( 0deg );
   }
@@ -26,7 +26,7 @@
   }
 }
 
-@webkit-keyframes purge-cache-spin {
+@-webkit-keyframes purge-cache-spin {
   0% {
     transform: rotate( 0deg );
   }
@@ -49,7 +49,7 @@
     display: block !important;
   }
   #wpadminbar #wp-admin-bar-nginx-helper-purge-all .ab-item .seravo-purge-cache-icon {
-    margin-top: 0px;
+    margin-top: 0;
   }
   #wpadminbar #wp-admin-bar-nginx-helper-purge-all .ab-item .seravo-purge-cache-icon:before {
     height: 45px;
@@ -105,7 +105,7 @@
     display: none;
   }
   #wp-admin-bar-instance-switcher-instance {
-    margin: 0px 6px;
+    margin: 0 6px;
   }
   #wp-admin-bar-instance-switcher .ab-item .ab-icon.seravo-instance-switcher-icon:before {
     height: 45px !important;

@@ -158,7 +158,7 @@ tr.zone-titles > th {
   min-width: 500px;
   flex-grow: 1;
   flex-basis: 0;
-  margin: 10px 10px 20px 0px;
+  margin: 10px 10px 20px 0;
 }
 
 .mail-forwards .forward td {

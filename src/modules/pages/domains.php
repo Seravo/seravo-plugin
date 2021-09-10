@@ -175,7 +175,7 @@ class Domains extends Toolpage {
       </div>
       <div class="mail-table-col">
         <p><?php _e('Mailboxes assigned to this WordPress site are listed below.', 'seravo'); ?></p>
-        <hr style="margin: 15px 0px;">
+        <hr style="margin: 15px 0;">
         <b>Coming soon...</b>
       </div>
     </div>
