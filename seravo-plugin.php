@@ -113,7 +113,7 @@ class Loader {
   /**
    * Pass file download to Nginx with X-Accel-Redirect headers
    * @param string $file Path to file on filesystem, or URL with .seravo prefix
-   * @return never
+   * @return no-return
    */
   public static function x_accel_redirect( $file ) {
     // If a real file path was given, send out MIME type and file size headers

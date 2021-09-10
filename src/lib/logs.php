@@ -388,7 +388,7 @@ class Logs {
 
     $skipped_latest_login = false;
     foreach ( $log_read['output'] as $line ) {
-      $matched = \preg_match('/^(?<ip>[.:0-9a-f]+) - (?<name>[\w\-_.*@ ]+) \[(?<datetime>[\d\/\w: +]+)\] .* (?<status>[A-Z]+$)/', $line, $entry);
+      $matched = \preg_match('/^(?<ip>[.:0-9a-f]+) - (?<name>[\w\-_.*@ ]+) \[(?<datetime>[\d\/\w: +]+)] .* (?<status>[A-Z]+$)/', $line, $entry);
 
       if ( $matched === 1 && $user_data->user_login === $entry['name'] && $entry['status'] == 'SUCCESS' ) {
         // Current entry is a succesful login for current user

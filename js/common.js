@@ -28,7 +28,7 @@ var seravo = {
    * @returns Whether the address is valid or not.
    */
   is_email_valid: function(email) {
-    var regex = /^([ÆØÅæøåõäöüa-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})$/;
+    var regex = /^([ÆØÅæøåõäöüa-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})$/;
     return regex.test(email);
   },
 

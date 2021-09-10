@@ -408,7 +408,7 @@ class Security extends Toolpage {
     // Clean up login lines, remove unnecessary characters
     $total_row_count = \count($login_data);
     for ( $i = 0; $i < $total_row_count; ++$i ) {
-      \preg_match_all('/^(?<ip>[.:0-9a-f]+) - (?<name>[\w\-_.*@ ]+) \[(?<datetime>[\d\/\w: +]+)\]/', $login_data[$i], $matches);
+      \preg_match_all('/^(?<ip>[.:0-9a-f]+) - (?<name>[\w\-_.*@ ]+) \[(?<datetime>[\d\/\w: +]+)]/', $login_data[$i], $matches);
 
       if ( isset($matches['ip'][0]) && isset($matches['name'][0]) && isset($matches['datetime'][0]) ) {
         // If valid line

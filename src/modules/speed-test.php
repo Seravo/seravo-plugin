@@ -69,7 +69,7 @@ final class SpeedTest {
       $admin_bar->add_menu(
         array(
           'id'    => 'speed-test',
-          'title' => '<span class="ab-icon seravo-speed-test-icon title="derp"></span><span class="ab-label seravo-speed-test-text" title="' .
+          'title' => '<span class="ab-icon seravo-speed-test-icon" title="derp"></span><span class="ab-label seravo-speed-test-text" title="' .
             __('Test the speed of the current page', 'seravo') . '">' .
             __('Speed Test', 'seravo') . '</span>',
           'href'  => $url,

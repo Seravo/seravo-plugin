@@ -860,7 +860,7 @@ class Upkeep extends Toolpage {
 
   /**
    * Toggle Seravo Updates postbox settings
-   * @return never
+   * @return no-return
    */
   public static function seravo_admin_toggle_seravo_updates() {
     \check_admin_referer('seravo-updates-nonce');
