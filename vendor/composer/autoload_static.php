@@ -6,10 +6,18 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit816aadb5ea01182af5842468019f4c6c
 {
+    public static $files = array (
+        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'e' => 
         array (
             'enshrined\\svgSanitize\\' => 22,
+        ),
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Php73\\' => 23,
         ),
         'C' => 
         array (
@@ -21,6 +29,10 @@ class ComposerStaticInit816aadb5ea01182af5842468019f4c6c
         'enshrined\\svgSanitize\\' => 
         array (
             0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
+        ),
+        'Symfony\\Polyfill\\Php73\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
         ),
         'Composer\\Installers\\' => 
         array (
@@ -131,6 +143,7 @@ class ComposerStaticInit816aadb5ea01182af5842468019f4c6c
         'Composer\\Installers\\YawikInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/YawikInstaller.php',
         'Composer\\Installers\\ZendInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ZendInstaller.php',
         'Composer\\Installers\\ZikulaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ZikulaInstaller.php',
+        'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'Seravo\\API' => __DIR__ . '/../..' . '/src/lib/api.php',
         'Seravo\\Ajax\\AjaxHandler' => __DIR__ . '/../..' . '/src/lib/ajax/handler.php',
         'Seravo\\Ajax\\AjaxResponse' => __DIR__ . '/../..' . '/src/lib/ajax/response.php',
@@ -186,6 +199,7 @@ class ComposerStaticInit816aadb5ea01182af5842468019f4c6c
         'Seravo\\Shell' => __DIR__ . '/../..' . '/src/lib/shell.php',
         'Seravo\\SiteHealth' => __DIR__ . '/../..' . '/src/modules/check-site-health.php',
         'Seravo\\WP_List_Table' => __DIR__ . '/../..' . '/src/lib/list-table.php',
+        'Symfony\\Polyfill\\Php73\\Php73' => __DIR__ . '/..' . '/symfony/polyfill-php73/Php73.php',
         'enshrined\\svgSanitize\\ElementReference\\Resolver' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
         'enshrined\\svgSanitize\\ElementReference\\Subject' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',
         'enshrined\\svgSanitize\\ElementReference\\Usage' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Usage.php',

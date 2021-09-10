@@ -5,7 +5,7 @@
         'type' => 'wordpress-muplugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '02cdabafa7248bad23fc05007712948c2da263c0',
+        'reference' => '6f3aa820a072d1e946aed3f19664728a8661770e',
         'name' => 'seravo/seravo-plugin',
         'dev' => false,
     ),
@@ -40,7 +40,7 @@
             'type' => 'wordpress-muplugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '02cdabafa7248bad23fc05007712948c2da263c0',
+            'reference' => '6f3aa820a072d1e946aed3f19664728a8661770e',
             'dev_requirement' => false,
         ),
         'shama/baton' => array(
@@ -48,6 +48,15 @@
             'replaced' => array(
                 0 => '*',
             ),
+        ),
+        'symfony/polyfill-php73' => array(
+            'pretty_version' => 'v1.23.0',
+            'version' => '1.23.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-php73',
+            'aliases' => array(),
+            'reference' => 'fba8933c384d6476ab14fb7b8526e5287ca7e010',
+            'dev_requirement' => false,
         ),
     ),
 );
