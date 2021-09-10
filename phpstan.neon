@@ -7,7 +7,7 @@ parameters:
         - seravo-plugin.php
         - src/
     bootstrapFiles:
-        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+        - vendor-dev/php-stubs/wp-cli-stubs/wp-cli-stubs.php
         - seravo-plugin.php
     excludes_analyse:
         # TODO: remove excludes
@@ -32,5 +32,5 @@ parameters:
     # TODO: Remove after 5.6/7.0 not supported at all
     checkMissingClosureNativeReturnTypehintRule : false
 includes:
-    - vendor/szepeviktor/phpstan-wordpress/extension.neon
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor-dev/szepeviktor/phpstan-wordpress/extension.neon
+    - vendor-dev/phpstan/phpstan-strict-rules/rules.neon

@@ -35,10 +35,10 @@ return static function ( ContainerConfigurator $container_configurator ) {
   $parameters->set(
     Option::AUTOLOAD_PATHS,
     array(
-      __DIR__ . '/vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
-      __DIR__ . '/vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
-      __DIR__ . '/vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php',
-      __DIR__ . '/vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php',
+      __DIR__ . '/vendor-dev/php-stubs/wordpress-stubs/wordpress-stubs.php',
+      __DIR__ . '/vendor-dev/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
+      __DIR__ . '/vendor-dev/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php',
+      __DIR__ . '/vendor-dev/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php',
     )
   );
 

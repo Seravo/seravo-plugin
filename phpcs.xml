@@ -5,8 +5,8 @@
     easier on developers.
   </description>
 
-  <config name="installed_paths" 
-          value="/usr/share/php/PHP/CodeSniffer/src/Standards/,vendor/wp-coding-standards/wpcs/,vendor/pheromone/phpcs-security-audit,vendor/phpcompatibility/php-compatibility/" />
+  <config name="installed_paths"
+          value="/usr/share/php/PHP/CodeSniffer/src/Standards/,vendor-dev/wp-coding-standards/wpcs/,vendor-dev/pheromone/phpcs-security-audit,vendor-dev/phpcompatibility/php-compatibility/" />
 
   <!-- Show sniff progress -->
   <arg value="p"/>
@@ -23,6 +23,7 @@
 
   <!-- Don't check composer dependencies and extras -->
   <exclude-pattern>/vendor/</exclude-pattern>
+  <exclude-pattern>/vendor-dev/</exclude-pattern>
   <!-- PHPCS glitches here, TODO: fix -->
   <exclude-pattern>js/cruftremover.js</exclude-pattern>
 

@@ -3,7 +3,7 @@
   "type": "wordpress-muplugin",
   "license": "GPL-2.0-or-later",
   "description": "Enhances WordPress with Seravo.com specific features and integrations",
-  "homepage": "http://seravo.com",
+  "homepage": "https://seravo.com",
   "authors": [
     {
       "name": "Seravo",
@@ -21,6 +21,14 @@
     "php": "^5.6 || ^7.0 || ^8.0",
     "composer/installers": "^1.0",
     "enshrined/svg-sanitize": ">=0.13.3"
+  },
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "vendor-dir": "vendor-dev",
+    "sort-packages": true,
+    "platform-check": false
   },
   "require-dev": {
     "pheromone/phpcs-security-audit": "^2.0",
@@ -67,17 +75,18 @@
     ]
   },
   "scripts": {
-    "test": [
-      "vendor/bin/phpstan --memory-limit=512M analyse",
-      "vendor/bin/rector --dry-run",
-      "vendor/bin/phpcs -n"
-    ],
-    "fix": [
-      "vendor/bin/rector",
-      "vendor/bin/phpcbf -n || true"
-    ],
-    "debug": [
-      "vendor/bin/rector --dry-run --debug"
+    "phpcs:check": "@php ./vendor-dev/bin/phpcs -n",
+    "phpcs:fix": "@php ./vendor-dev/bin/phpcbf -n || true",
+
+    "rector:check": "@php ./vendor-dev/bin/rector --dry-run",
+    "rector:fix": "@php ./vendor-dev/bin/rector",
+
+    "phpstan:analyze": "@php ./vendor-dev/bin/phpstan --memory-limit=512M analyse",
+
+    "check": [
+      "composer phpstan:analyze",
+      "composer rector:check",
+      "composer phpcs:check"
     ]
   }
 }

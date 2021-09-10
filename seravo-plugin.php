@@ -36,7 +36,7 @@ if ( ! \defined('SERAVO_PLUGIN_SRC') ) {
 }
 
 // Use Postbox::class for now to see if autoload needs to be required
-if ( ! \class_exists(\Seravo\Postbox\Postbox::class) && \is_file(SERAVO_PLUGIN_DIR . 'vendor/autoload.php') ) {
+if ( ! \class_exists(\Seravo\Postbox\Postbox::class) ) {
   require_once SERAVO_PLUGIN_DIR . 'vendor/autoload.php';
 }
 

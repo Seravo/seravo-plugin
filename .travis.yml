@@ -40,7 +40,7 @@ script:
   - '! find src/ -type f -name "*.php" -exec php -d error_reporting=32767 -l {} \; 2>&1 >&- | grep "^"'
   - '! find . -type f -name "seravo-plugin.php" -exec php -d error_reporting=32767 -l {} \; 2>&1 >&- | grep "^"'
   # Static analysis to check the code for errors
-  - if [ -n "$PHPSTAN" ]; then vendor/bin/phpstan --memory-limit=512M analyse; fi
+  - if [ -n "$PHPSTAN" ]; then vendor-dev/bin/phpstan --memory-limit=512M analyse; fi
   # Style and security check using PHP CheckSniffer
   - if [ -n "$SNIFF" ]; then $HOME/.local/bin/phpcs -i; $HOME/.local/bin/phpcs -ns; fi
   # Run code and test functionality
