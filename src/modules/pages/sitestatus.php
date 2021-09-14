@@ -686,6 +686,11 @@ class SiteStatus extends Toolpage {
           continue;
         }
 
+        if ( \count($months) === 5 ) {
+          // Limit the reports shown
+          break;
+        }
+
         \preg_match('/(\d+)/', $total_requests_string, $total_requests_match);
         $total_requests = (int) $total_requests_match[1];
         if ( $total_requests > $max_requests ) {
