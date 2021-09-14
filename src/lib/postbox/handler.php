@@ -130,22 +130,31 @@ if ( ! \class_exists('Seravo_Postbox_Factory') ) {
      * @return void
      */
     public function enqueue_postboxes_scripts() {
-      if ( $this->postboxes !== array() ) {
-        // seravo-postbox.js
-        \wp_enqueue_script('seravo-postbox-js', SERAVO_PLUGIN_URL . 'js/lib/seravo-postbox.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
-        // components.js
-        \wp_enqueue_script('seravo-components-js', SERAVO_PLUGIN_URL . 'js/components.js', array( 'seravo-common-js', 'jquery' ), Helpers::seravo_plugin_version());
-        // seravo-postbox.css
-        \wp_enqueue_style('seravo-postbox-css', SERAVO_PLUGIN_URL . 'style/seravo-postbox.css', array(), Helpers::seravo_plugin_version());
-        // common.css
-        \wp_enqueue_style('seravo-common-css');
-
-        $postbox_l10n = array(
-          'postBoxEmptyString' => __('Drag boxes here', 'seravo'),
-        );
-
-        \wp_localize_script('seravo-postbox-js', 'seravoPostboxl10n', $postbox_l10n);
+      if ( $this->postboxes === array() ) {
+        // Skip if no Seravo postboxes have been registered.
+        return;
       }
+
+      $screen = get_current_screen();
+      if ( ! $screen instanceof \WP_Screen || ! isset($this->postboxes[$screen->id]) ) {
+        // Return if no Seravo postboxes shown on this page.
+        return;
+      }
+
+      // seravo-postbox.js
+      \wp_enqueue_script('seravo-postbox-js', SERAVO_PLUGIN_URL . 'js/lib/seravo-postbox.js', array( 'jquery', 'jquery-ui-sortable' ), Helpers::seravo_plugin_version());
+      // components.js
+      \wp_enqueue_script('seravo-components-js', SERAVO_PLUGIN_URL . 'js/components.js', array( 'seravo-common-js', 'jquery' ), Helpers::seravo_plugin_version());
+      // seravo-postbox.css
+      \wp_enqueue_style('seravo-postbox-css', SERAVO_PLUGIN_URL . 'style/seravo-postbox.css', array(), Helpers::seravo_plugin_version());
+      // common.css
+      \wp_enqueue_style('seravo-common-css');
+
+      $postbox_l10n = array(
+        'postBoxEmptyString' => __('Drag boxes here', 'seravo'),
+      );
+
+      \wp_localize_script('seravo-postbox-js', 'seravoPostboxl10n', $postbox_l10n);
     }
 
     /**

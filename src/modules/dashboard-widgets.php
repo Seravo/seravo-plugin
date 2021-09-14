@@ -46,6 +46,8 @@ class DashboardWidgets {
     // Remove the specified WordPress default dashboard widgets.
     \add_action('wp_dashboard_setup', array( __CLASS__, 'remove_wp_dashboard_widgets' ));
 
+    \add_action('admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ));
+
     if ( \current_user_can('administrator') ) {
       // display admin widgets here
       \add_action('wp_dashboard_setup', array( __CLASS__, 'init_dashboard_widgets' ));
@@ -55,6 +57,20 @@ class DashboardWidgets {
         self::$errors = $errors === false ? 0 : $errors;
       }
     }
+  }
+
+  /**
+   * Register scripts.
+   * @param string $screen The current screen.
+   * @return void
+   */
+  public static function enqueue_scripts( $screen ) {
+    if ( $screen !== 'index.php' ) {
+      return;
+    }
+
+    // common.css
+    \wp_enqueue_style('seravo-common-css');
   }
 
   /**
