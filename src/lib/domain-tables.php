@@ -195,7 +195,8 @@ class Seravo_Domains_List_Table extends WP_List_Table {
             while ( \substr_count($domain, '.') >= 1 ) {
               $nameservers = \dns_get_record($domain, DNS_NS);
               if ( empty($nameservers) ) {
-                $domain = \end(\explode('.', $domain, 2));
+                $domain_split = \explode('.', $domain, 2);
+                $domain = \end($domain_split);
               } else {
                 break;
               }
