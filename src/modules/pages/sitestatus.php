@@ -915,7 +915,7 @@ class SiteStatus extends Toolpage {
           return AjaxResponse::api_error_response();
         }
 
-        $pid = \Seravo\Shell::backround_command('wp-shadow-reset ' . $shadow . ' --force 2>&1');
+        $pid = \Seravo\Shell::background_command('wp-shadow-reset ' . $shadow . ' --force 2>&1');
 
         if ( $pid === false ) {
           return Ajax\AjaxResponse::exception_response();

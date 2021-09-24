@@ -464,7 +464,7 @@ class Upkeep extends Toolpage {
 
     if ( $polling === false ) {
       $command = 'wp-php-compatibility-check';
-      $pid = Shell::backround_command($command);
+      $pid = Shell::background_command($command);
 
       if ( $pid === false ) {
         return Ajax\AjaxResponse::exception_response();
@@ -513,7 +513,7 @@ class Upkeep extends Toolpage {
         \exec('echo "--> Setting to mode ' . $php_version_array[$php_version] . '" >> /data/log/php-version-change.log');
         //exec('wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &');
         $restart_nginx = 'wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &';
-        $pid = Shell::backround_command($restart_nginx);
+        $pid = Shell::background_command($restart_nginx);
 
         if ( $pid === false ) {
           return Ajax\AjaxResponse::exception_response();

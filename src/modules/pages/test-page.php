@@ -191,7 +191,7 @@ class TestPage extends Toolpage {
     if ( $polling === false ) {
       // Not polling yet
       $command = 'sleep 65 && wp-restart-nginx > /data/log/nginx-restart-test.log';
-      $pid = Shell::backround_command($command);
+      $pid = Shell::background_command($command);
       if ( $pid === false ) {
         return Ajax\AjaxResponse::exception_response();
       }

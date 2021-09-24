@@ -117,7 +117,7 @@ class DashboardWidgets {
         );
         $disk_space->set_title(__('Low disk space', 'seravo'));
         $disk_space->set_build_func(array( __CLASS__, 'build_disk_space_low' ));
-        $disk_space->set_data_func(array( __CLASS__, 'get_disk_space_usage' ), self::DISK_SPACE_CACHE_TIME);
+        $disk_space->set_data_func(array( __CLASS__, 'get_disk_space_usage' ), 0);
         self::$widgets[] = $disk_space;
     }
 
@@ -174,33 +174,47 @@ class DashboardWidgets {
 
   /**
    * Fetch the full disk space usage, backups and logs excluded.
+   * @param bool $no_cache Whether to force cache refresh.
    * @return array<string, mixed> Data for disk usage and plan limit.
    */
-  public static function get_disk_space_usage() {
-    // Directories not counted against plan's quota but can be visible
-    // in the front end
+  public static function get_disk_space_usage( $no_cache = false ) {
+    // Directories not counted against plan's quota but can be visible in the front end
     $exclude_dirs = array(
       '--exclude=/data/backups',
       '--exclude=/data/log',
       '--exclude=/data/slog',
     );
 
-    $cached_usage = \get_transient('disk_space_usage');
-    $data_size = 0;
-    $return_code = 0;
+    $data_folder = \get_transient('disk_space_usage');
+    if ( $data_folder === false || $no_cache ) {
+      // Disk space usage transient has expired
+      $data_folder = \get_transient('disk_space_usage_last');
+      if ( $data_folder === false || $no_cache ) {
+        // Last known disk space usage transient doesn't exist either. This shouldn't happen unless object-cache
+        // was emptied (if using one) or the site is new. We are forced to fetch the data disk usage now.
+        $data_folder = array();
+        $exec = Compatibility::exec('du -sb /data ' . \implode(' ', $exclude_dirs), $data_folder);
+        if ( $exec === false || $data_folder === array() ) {
+          // Couldn't get the disk usage
+          return array(
+            'relative_usage' => 0.0,
+            'disk_usage' => 0,
+            'plan_limit' => 0,
+          );
+        }
 
-    // Get total disk usage
-    if ( $cached_usage === false ) {
-      $return_code = Compatibility::exec('du -sb /data ' . \implode(' ', $exclude_dirs), $data_folder);
-
-      if ( $return_code !== false && $data_folder !== array() ) {
-        // cache only if successful & there's data in it
-        \set_transient('disk_space_usage', $data_folder, self::DISK_SPACE_CACHE_TIME);
+        // Store the latest disk usage in a never-expiring transient
+        set_transient('disk_space_usage_last', $data_folder, 0);
+      } else {
+        // Call this function in background with $no_cache = true to get the latest disk usage
+        \Seravo\Shell::background_command("wp eval '\Seravo\DashboardWidgets::get_disk_space_usage(true);'");
       }
-    } else {
-      $data_folder = $cached_usage;
+
+      // Use the last know disk space usage
+      \set_transient('disk_space_usage', $data_folder, self::DISK_SPACE_CACHE_TIME);
     }
 
+    $data_size = 0;
     if ( $data_folder !== array() ) {
       $data_size = \preg_split('/\s+/', $data_folder[0]);
       $data_size = $data_size !== false ? $data_size[0] : 0;

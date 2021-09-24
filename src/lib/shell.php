@@ -58,7 +58,7 @@ class Shell {
    * @param string $command Command to run.
    * @return mixed|bool Pid of the program.
    */
-  public static function backround_command( $command ) {
+  public static function background_command( $command ) {
     $output = array();
     \exec('(' . $command . ') > /dev/null & echo $!', $output);
 
