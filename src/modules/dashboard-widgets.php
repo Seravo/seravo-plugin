@@ -24,9 +24,9 @@ class DashboardWidgets {
    */
   const LOW_DISK_SPACE_USAGE = 0.9;
   /**
-   * @var int Set a transient for 15 minutes.
+   * @var int Set a transient for 60 minutes.
    */
-  const DISK_SPACE_CACHE_TIME = 900;
+  const DISK_SPACE_CACHE_TIME = 3600;
 
   /**
    * @var int Show limit for the HTTP requests statistics.
