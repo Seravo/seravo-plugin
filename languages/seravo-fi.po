@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Seravo Must-use Plugin\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
-"POT-Creation-Date: 2021-08-24T13:11:41+03:00\n"
-"PO-Revision-Date: 2021-08-24 13:16+0300\n"
+"POT-Creation-Date: 2021-09-27T12:59:12+03:00\n"
+"PO-Revision-Date: 2021-09-27 13:11+0300\n"
 "Last-Translator: Otto Kekäläinen <otto@seravo.com>\n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.0\n"
 
 #. Plugin Name of the plugin
 msgid "Seravo Plugin"
@@ -66,13 +66,13 @@ msgstr ""
 "Virhe: Komennon %s suorittaminen epäonnistui. Yritä ajaa komento "
 "manuaalisesti."
 
-#: src/lib/ajax/response.php:157 src/modules/pages/sitestatus.php:864
+#: src/lib/ajax/response.php:157 src/modules/pages/sitestatus.php:886
 msgid "An API error occured. Please try again later."
 msgstr "Virhe rajapintayhteydessä. Ole hyvä ja yritä uudelleen myöhemmin."
 
 #: src/lib/ajax/templates/fancy-form.php:81
-#: src/lib/ajax/templates/simple-form.php:75 src/modules/pages/security.php:107
-#: src/modules/pages/upkeep.php:175
+#: src/lib/ajax/templates/simple-form.php:75 src/modules/pages/security.php:108
+#: src/modules/pages/upkeep.php:185
 msgid "Run"
 msgstr "Suorita"
 
@@ -94,11 +94,11 @@ msgstr "Komento ei palauttanut mitään"
 msgid "API call failed. Aborting. The error has been logged."
 msgstr "Rajapintayhteys epäonnistui. Virhe on lisätty lokiin."
 
-#: src/lib/cruftremover.php:300
+#: src/lib/cruftremover.php:313
 msgid "Unnecessary Cache Plugins:"
 msgstr "Tarpeettomat välimuistilisäosat:"
 
-#: src/lib/cruftremover.php:301
+#: src/lib/cruftremover.php:314
 msgid ""
 "Your website is running on a server that does takes care of caching "
 "automatically. Any additional plugins that do caching will not improve the "
@@ -108,11 +108,11 @@ msgstr ""
 "hallinta automaattisesti. Lisäosat, jotka tarjoavat välimuistipalvelua eivät "
 "paranna sivuston suorituskykyä."
 
-#: src/lib/cruftremover.php:313
+#: src/lib/cruftremover.php:326
 msgid "Unnecessary Security Plugins:"
 msgstr "Tarpeettomat tietoturvalisäosat:"
 
-#: src/lib/cruftremover.php:314
+#: src/lib/cruftremover.php:327
 msgid ""
 "Your website runs on a server that is designed to provide a high level of "
 "security. Any plugins providing additional security measures will likely "
@@ -122,19 +122,19 @@ msgstr ""
 "jo panostettu runsaasti työtä. Seuraavat tietoturvalisäosat lähinnä "
 "hidastavat sivustosi toimintaa."
 
-#: src/lib/cruftremover.php:325
+#: src/lib/cruftremover.php:338
 msgid "Unnecessary Database Manipulation Plugins:"
 msgstr "Tarpeettomat tietokantaa muokkaavat lisäosat:"
 
-#: src/lib/cruftremover.php:326
+#: src/lib/cruftremover.php:339
 msgid "These plugins may cause issues with your database."
 msgstr "Seuraavat lisäosat voivat aiheuttaa ongelmia sivuston tietokannassa."
 
-#: src/lib/cruftremover.php:334
+#: src/lib/cruftremover.php:347
 msgid "Unnecessary Backup Plugins:"
 msgstr "Tarpeettomat varmuuskopiointi-lisäosat:"
 
-#: src/lib/cruftremover.php:335
+#: src/lib/cruftremover.php:348
 msgid ""
 "Backups of your website are automatically run on the server on a daily "
 "basis. Any plugins creating additional backups are redundant and will "
@@ -144,28 +144,28 @@ msgstr ""
 "jotka luovat varmuuskopioita tekevät ylimääräisiä varmuuskopioita, jotka "
 "täyttävät turhaan kiintolevytilaa."
 
-#: src/lib/cruftremover.php:351
+#: src/lib/cruftremover.php:364
 msgid "Unsecure Plugins:"
 msgstr "Vaaralliset lisäosat:"
 
-#: src/lib/cruftremover.php:352
+#: src/lib/cruftremover.php:365
 msgid "These plugins have known issues with security."
 msgstr "Seuraavissa lisäosissa on havaittu ongelmia tietoturvan suhteen."
 
-#: src/lib/cruftremover.php:364
+#: src/lib/cruftremover.php:377
 msgid "Bad Code:"
 msgstr "Huonoa koodia:"
 
-#: src/lib/cruftremover.php:365
+#: src/lib/cruftremover.php:378
 msgid ""
 "These plugins code are hard to differentiate from actual malicious codes."
 msgstr "Seuraavien lisäosien koodi on hankalaa erottaa haitallisesta koodista."
 
-#: src/lib/cruftremover.php:374
+#: src/lib/cruftremover.php:387
 msgid "Foolish Plugins:"
 msgstr "Typerät lisäosat:"
 
-#: src/lib/cruftremover.php:375
+#: src/lib/cruftremover.php:388
 msgid "These plugins are known to do foolish things."
 msgstr "Seuraavissa lisäosissa on havaittu typerää toimintaa."
 
@@ -192,6 +192,10 @@ msgstr "Muokkaa"
 msgid "DNS editing is disabled for this site."
 msgstr "DNS-tietojen muokkaaminen on estetty tällä sivustolla."
 
+#: src/lib/domain-tables.php:74 src/lib/domain-tables.php:233
+msgid "Customer"
+msgstr "Asiakas"
+
 #: src/lib/domain-tables.php:76
 msgid "DNS not managed by Seravo."
 msgstr "Seravo ei hallinnoi nimipalveluita."
@@ -212,7 +216,7 @@ msgstr "Tämä verkkotunnus on valmiiksi ensisijainen."
 msgid "Make Primary"
 msgstr "Aseta ensisijaiseksi"
 
-#: src/lib/domain-tables.php:128 src/lib/domain-tables.php:344
+#: src/lib/domain-tables.php:128 src/lib/domain-tables.php:345
 msgid "Domain"
 msgstr "Verkkotunnus"
 
@@ -228,44 +232,40 @@ msgstr "Nimipalvelut"
 msgid "Managed by"
 msgstr "Hallinnoija"
 
-#: src/lib/domain-tables.php:232
-msgid "Customer"
-msgstr "Asiakas"
-
-#: src/lib/domain-tables.php:345 src/modules/pages/domains.php:113
+#: src/lib/domain-tables.php:346 src/modules/pages/domains.php:114
 msgid "Forwards"
 msgstr "Edelleenohjaukset"
 
-#: src/lib/domain-tables.php:361
+#: src/lib/domain-tables.php:362
 msgid "Fetch"
 msgstr "Hae"
 
-#: src/lib/domain-tables.php:362
+#: src/lib/domain-tables.php:363
 msgid "Create"
 msgstr "Luo edelleenohjaus"
 
-#: src/lib/domain-tables.php:461
+#: src/lib/domain-tables.php:462
 msgid "Update time:"
 msgstr "Päivitysaika:"
 
-#: src/lib/domain-tables.php:466
+#: src/lib/domain-tables.php:467
 msgid "Name"
 msgstr "Nimi"
 
-#: src/lib/domain-tables.php:467
+#: src/lib/domain-tables.php:468
 msgid "TTL"
 msgstr "TTL"
 
-#: src/lib/domain-tables.php:469
+#: src/lib/domain-tables.php:470
 msgid "Type"
 msgstr "Tyyppi"
 
-#: src/lib/domain-tables.php:470
+#: src/lib/domain-tables.php:471
 msgid "Value"
 msgstr "Arvo"
 
 #. translators: %s domain of the site
-#: src/lib/domain-tables.php:506
+#: src/lib/domain-tables.php:507
 msgid ""
 "Our systems have detected that <strong>%s</strong> does not point to the "
 "Seravo servers. For your protection, manual editing is disabled. Please "
@@ -278,15 +278,15 @@ msgstr ""
 "asiakaspalveluun mikäli haluat muokata kyseisiä tietueita. Voit julkaista "
 "sivustosi silloin kuin haluat oheisen painikkeen avulla:"
 
-#: src/lib/domain-tables.php:511
+#: src/lib/domain-tables.php:512
 msgid "Publish"
 msgstr "Julkaise"
 
-#: src/lib/domain-tables.php:521
+#: src/lib/domain-tables.php:522
 msgid "Compulsory Records"
 msgstr "Pakolliset tietueet"
 
-#: src/lib/domain-tables.php:522
+#: src/lib/domain-tables.php:523
 msgid ""
 "It is not recommended to edit these records. Please contact the Seravo "
 "customer service if you want changes to be done to them."
@@ -294,11 +294,11 @@ msgstr ""
 "Näiden tietueiden muokkaaminen ei ole suositeltavaa. Ota yhteyttä Seravon "
 "asiakaspalveluun mikäli tahdot niitä muutettavan."
 
-#: src/lib/domain-tables.php:524
+#: src/lib/domain-tables.php:525
 msgid "Editable records"
 msgstr "Muokattavat tietueet"
 
-#: src/lib/domain-tables.php:525
+#: src/lib/domain-tables.php:526
 msgid ""
 "Here you can add, edit and delete records. Please do not try to add records "
 "conflicting with the compulsory records. They will not be activated."
@@ -307,7 +307,7 @@ msgstr ""
 "tietueita jotka ovat ristiriidassa pakollisten tietueiden kanssa. Niitä ei "
 "oteta huomioon."
 
-#: src/lib/domain-tables.php:532
+#: src/lib/domain-tables.php:533
 msgid "Update Zone"
 msgstr "Päivitä verkkotunnustiedot"
 
@@ -381,12 +381,12 @@ msgstr "Onnistui!"
 msgid "Failure!"
 msgstr "Epäonnistui!"
 
-#: src/lib/postbox/handler.php:144
+#: src/lib/postbox/handler.php:154
 msgid "Drag boxes here"
 msgstr "Raahaa laatikot tähän"
 
 #. translators: %s: Togglable postbox title
-#: src/lib/postbox/handler.php:334
+#: src/lib/postbox/handler.php:343
 msgid "Toggle panel: %s"
 msgstr "Näytä lisää: %s"
 
@@ -644,28 +644,28 @@ msgstr "Mahdolliset ongelmat"
 msgid "Passed tests"
 msgstr "Onnistuneet testit"
 
-#: src/modules/dashboard-widgets.php:70 src/modules/pages/sitestatus.php:67
+#: src/modules/dashboard-widgets.php:86 src/modules/pages/sitestatus.php:67
 msgid "Site Status"
 msgstr "Sivuston tila"
 
-#: src/modules/dashboard-widgets.php:87
+#: src/modules/dashboard-widgets.php:103
 msgid "PHP warnings and errors"
 msgstr "PHP-virheet ja varoitukset"
 
-#: src/modules/dashboard-widgets.php:102
+#: src/modules/dashboard-widgets.php:118
 msgid "Low disk space"
 msgstr "Levytila vähissä"
 
-#: src/modules/dashboard-widgets.php:146
+#: src/modules/dashboard-widgets.php:162
 msgid "disk space tool"
 msgstr "levynkäyttö työkalusta"
 
-#: src/modules/dashboard-widgets.php:148
+#: src/modules/dashboard-widgets.php:164
 msgid "cruft remover tool"
 msgstr "roskatiedostojen poistotyökalun"
 
 #. translators: %1$s url to the disk space tool %2$s url to the cruft file remover tool
-#: src/modules/dashboard-widgets.php:153
+#: src/modules/dashboard-widgets.php:169
 msgid ""
 "Disk space is running low. You can see more details about the usage on %1$s. "
 "You can also check %2$s for excessive files and folders."
@@ -673,16 +673,16 @@ msgstr ""
 "Levytila on vähissä. Voit katsoa tarkemmat tiedot %1$s. Voit myös tarkistaa "
 "%2$s mahdollisten ylimääräisten tiedostojen tai kansioiden varalta."
 
-#: src/modules/dashboard-widgets.php:155 src/modules/dashboard-widgets.php:264
+#: src/modules/dashboard-widgets.php:171 src/modules/dashboard-widgets.php:294
 msgid "Disk space in your plan:"
 msgstr "Levytilaa palvelupaketissasi:"
 
-#: src/modules/dashboard-widgets.php:156
+#: src/modules/dashboard-widgets.php:172
 msgid "Space in use:"
 msgstr "Tilaa käytössä:"
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: src/modules/dashboard-widgets.php:227
+#: src/modules/dashboard-widgets.php:257
 msgid ""
 "The PHP error log has more than %1$s entries this week. Please see %2$s for "
 "details. This is usually a sign that something is broken in the code. The "
@@ -693,20 +693,20 @@ msgstr ""
 "että jokin on rikki sivuston koodissa. Suosittelemme, että tästä ilmoitetaan "
 "sivuston kehittäjälle."
 
-#: src/modules/dashboard-widgets.php:228
+#: src/modules/dashboard-widgets.php:258
 msgid "Site Error Count"
 msgstr "Sivuston virhemäärä"
 
-#: src/modules/dashboard-widgets.php:233
+#: src/modules/dashboard-widgets.php:263
 msgid "Old PHP Version"
 msgstr "Vanhentunut PHP-versio"
 
-#: src/modules/dashboard-widgets.php:236
+#: src/modules/dashboard-widgets.php:266
 msgid "change php version tool"
 msgstr "vaihda PHP-versiota -työkalulla"
 
 #. translators: %1$s current php version %2$s link for changing PHP version
-#: src/modules/dashboard-widgets.php:241
+#: src/modules/dashboard-widgets.php:271
 msgid ""
 "You are using end of life PHP version %1$s which will no longer be "
 "supported. You can see more details about changing PHP version and checking "
@@ -716,23 +716,23 @@ msgstr ""
 "Voit katsoa lisätietoa PHP-version vaihtamisesta ja version "
 "yhteensopivuudesta sivustollasi %2$s."
 
-#: src/modules/dashboard-widgets.php:261
+#: src/modules/dashboard-widgets.php:291
 msgid "Plan details"
 msgstr "Palvelupaketin tiedot"
 
-#: src/modules/dashboard-widgets.php:262
+#: src/modules/dashboard-widgets.php:292
 msgid "Plan type:"
 msgstr "Palvelupaketti:"
 
-#: src/modules/dashboard-widgets.php:263
+#: src/modules/dashboard-widgets.php:293
 msgid "HTTP requests / month:"
 msgstr "HTTP-pyynnöt / kk:"
 
-#: src/modules/dashboard-widgets.php:266
+#: src/modules/dashboard-widgets.php:296
 msgid "Monthly HTTP requests"
 msgstr "HTTP-liikennetilastot"
 
-#: src/modules/dashboard-widgets.php:267
+#: src/modules/dashboard-widgets.php:297
 msgid ""
 "These monthly reports are generated from the HTTP access logs of your site. "
 "If you have more HTTP requests than your plan allows, please contact <a href="
@@ -745,28 +745,28 @@ msgstr ""
 "\"https://wp-palvelu.fi/hinnasto\" target=\"_blank\">palvelupakettisi</a>."
 
 #. translators: %1$s url for additional information
-#: src/modules/dashboard-widgets.php:285
+#: src/modules/dashboard-widgets.php:315
 msgid "Error on fetching plan details. See more from %1$s."
 msgstr ""
 "Virhe ladattaessa palvelupaketin tietoja. Katso lisätietoa tiedostosta %1$s."
 
-#: src/modules/dashboard-widgets.php:303 src/modules/pages/sitestatus.php:660
+#: src/modules/dashboard-widgets.php:333 src/modules/pages/sitestatus.php:677
 msgid "Month"
 msgstr "Kuukausi"
 
-#: src/modules/dashboard-widgets.php:303 src/modules/pages/sitestatus.php:660
+#: src/modules/dashboard-widgets.php:333 src/modules/pages/sitestatus.php:677
 msgid "HTTP Requests"
 msgstr "HTTP-pyynnöt"
 
-#: src/modules/dashboard-widgets.php:303 src/modules/pages/sitestatus.php:660
+#: src/modules/dashboard-widgets.php:333 src/modules/pages/sitestatus.php:677
 msgid "Report"
 msgstr "Raportti"
 
-#: src/modules/dashboard-widgets.php:343 src/modules/pages/sitestatus.php:686
+#: src/modules/dashboard-widgets.php:373 src/modules/pages/sitestatus.php:708
 msgid "View report"
 msgstr "Näytä raportti"
 
-#: src/modules/dashboard-widgets.php:348 src/modules/pages/sitestatus.php:693
+#: src/modules/dashboard-widgets.php:378 src/modules/pages/sitestatus.php:715
 msgid "The site has no HTTP requests statistics yet."
 msgstr "Sivustolla ei ole vielä HTTP-liikennetilastoja."
 
@@ -798,11 +798,11 @@ msgstr "Olet nyt varjossa \"%s\"."
 msgid "Exit"
 msgstr "Poistu"
 
-#: src/modules/pages/backups.php:46 src/modules/pages/backups.php:84
+#: src/modules/pages/backups.php:45 src/modules/pages/backups.php:83
 msgid "Backups"
 msgstr "Varmuuskopiot"
 
-#: src/modules/pages/backups.php:85
+#: src/modules/pages/backups.php:84
 msgid ""
 "Backups are automatically created every night and preserved for 30 days. The "
 "data can be accessed on the server in under <code>/data/backups</code>."
@@ -810,19 +810,19 @@ msgstr ""
 "Varmuuskopiot tehdään automaattisesti joka yö ja säilytetään 30 päivän ajan. "
 "Varmuuskopioita voi selata palvelimella kansiossa <code>/data/backups</code>."
 
-#: src/modules/pages/backups.php:93
+#: src/modules/pages/backups.php:97
 msgid "Create a New Backup"
 msgstr "Luo uusi varmuuskopio"
 
-#: src/modules/pages/backups.php:95
+#: src/modules/pages/backups.php:99
 msgid "Create a backup"
 msgstr "Ota uusi varmuuskopio"
 
-#: src/modules/pages/backups.php:96
+#: src/modules/pages/backups.php:100
 msgid "Creating a backup..."
 msgstr "Varmuuskopioidaan..."
 
-#: src/modules/pages/backups.php:97
+#: src/modules/pages/backups.php:101
 msgid ""
 "You can also create backups manually by running <code>wp-backup</code> on "
 "the command line. We recommend that you get familiar with the command line "
@@ -833,39 +833,39 @@ msgstr ""
 "Suosittelemme tutustumaan komentorivin käyttöön SSH-yhteyden yli, jotta "
 "varmuuskopion palauttaminen ei olisi riippuvainen WP-adminin toimivuudesta."
 
-#: src/modules/pages/backups.php:105
+#: src/modules/pages/backups.php:114
 msgid "Files Excluded from the Backups"
 msgstr "Varmuuskopioista pois jätettävät tiedostot"
 
-#: src/modules/pages/backups.php:107
+#: src/modules/pages/backups.php:116
 msgid "Below are the contents of <code>/data/backups/exclude.filelist</code>."
 msgstr "Alla on tiedoston <code>/data/backups/exclude.filelist</code> sisältö."
 
-#: src/modules/pages/backups.php:108
+#: src/modules/pages/backups.php:117
 msgid "No files are excluded"
 msgstr "Ei pois jätettäviä tiedostoja"
 
-#: src/modules/pages/backups.php:116
+#: src/modules/pages/backups.php:125
 msgid "Current Backups"
 msgstr "Nykyiset varmuuskopiot"
 
-#: src/modules/pages/backups.php:124
+#: src/modules/pages/backups.php:133
 msgid "This list is produced by the command <code>wp-backup-status</code>."
 msgstr "Luettelo on tuotettu komennolla <code>wp-backup-status</code>."
 
-#: src/modules/pages/backups.php:137
+#: src/modules/pages/backups.php:146
 msgid "No backups data found under <code>/data/backups/</code>"
-msgstr "Varmuuskopioita ei löytynyt hakemistosta <code>/data/backups/</code>."
+msgstr "Varmuuskopioita ei löytynyt hakemistosta <code>/data/backups/</code>"
 
-#: src/modules/pages/database.php:51
+#: src/modules/pages/database.php:50
 msgid "Database"
 msgstr "Tietokanta"
 
-#: src/modules/pages/database.php:89
+#: src/modules/pages/database.php:88
 msgid "Database Access"
 msgstr "Yhteys tietokantaan"
 
-#: src/modules/pages/database.php:91
+#: src/modules/pages/database.php:90
 msgid ""
 "You can find the database credentials by connecting to your site with SSH "
 "and running the command <code>wp-list-env</code>. These credentials can be "
@@ -878,7 +878,7 @@ msgstr ""
 "sovelluksella SSH-tunnelin kautta. Voit hallita tietokantaa myös Adminerin "
 "selainkäyttöliittymän avulla alempana."
 
-#: src/modules/pages/database.php:92
+#: src/modules/pages/database.php:91
 msgid ""
 "When you have established an SSH connection you can use WP-CLI that features "
 "powerful database tools for example exports and imports. <a href=\"https://"
@@ -890,51 +890,51 @@ msgstr ""
 "tuontiin. <a href=\"https://developer.wordpress.org/cli/commands/db/\" "
 "target=\"_BLANK\">Lue dokumentaatio wp db -komennoille</a>."
 
-#: src/modules/pages/database.php:99
+#: src/modules/pages/database.php:98
 msgid "Manage the Database with Adminer"
 msgstr "Hallinnoi tietokantaa Adminerilla"
 
-#: src/modules/pages/database.php:108
+#: src/modules/pages/database.php:107
 msgid "Search-Replace Tool"
 msgstr "Etsi ja korvaa -työkalu"
 
-#: src/modules/pages/database.php:109
+#: src/modules/pages/database.php:108
 msgid "Run wp search-replace"
 msgstr "Aja wp search-replace"
 
-#: src/modules/pages/database.php:109 src/modules/pages/database.php:159
+#: src/modules/pages/database.php:108 src/modules/pages/database.php:168
 msgid "Do a dry run"
 msgstr "Aja kuiva-ajo"
 
-#: src/modules/pages/database.php:119
+#: src/modules/pages/database.php:123
 msgid "Database Cleanup Tool"
 msgstr "Tietokannan puhdistus -työkalu"
 
-#: src/modules/pages/database.php:129
+#: src/modules/pages/database.php:138
 msgid "Database Size"
 msgstr "Tietokannan koko"
 
-#: src/modules/pages/database.php:153
+#: src/modules/pages/database.php:162
 msgid "Optimize"
 msgstr "Optimoi"
 
-#: src/modules/pages/database.php:154
+#: src/modules/pages/database.php:163
 msgid "Optimizing database..."
 msgstr "Optimoidaan tietokantaa..."
 
-#: src/modules/pages/database.php:159
+#: src/modules/pages/database.php:168
 msgid "Run wp-db-cleanup"
 msgstr "Aja wp-db-cleanup"
 
-#: src/modules/pages/database.php:160
+#: src/modules/pages/database.php:169
 msgid "Nothing to be cleaned up"
 msgstr "Ei siivottavaa"
 
-#: src/modules/pages/database.php:173
+#: src/modules/pages/database.php:182
 msgid "Optimization"
 msgstr "Optimointi"
 
-#: src/modules/pages/database.php:174
+#: src/modules/pages/database.php:183
 msgid ""
 "You can use this tool to run <code>wp-db-optimize</code>. The command "
 "optimizes WordPress database and thus reduces database disk usage."
@@ -943,11 +943,11 @@ msgstr ""
 "Komento optimoi WordPressin tietokannan ja vähentää siten tietokannan "
 "levynkäyttöä."
 
-#: src/modules/pages/database.php:177
+#: src/modules/pages/database.php:186
 msgid "Cleanup"
 msgstr "Puhdistus"
 
-#: src/modules/pages/database.php:178
+#: src/modules/pages/database.php:187
 msgid ""
 "You can use this tool to run <code>wp-db-cleanup</code>. For safety reason a "
 "dry run is compulsory before the actual cleanup can be done."
@@ -956,7 +956,7 @@ msgstr ""
 "Turvallisuussyistä on ajettava kuiva-ajo (dry-run) ennen kuin on mahdollista "
 "tehdä muutoksia."
 
-#: src/modules/pages/database.php:212
+#: src/modules/pages/database.php:221
 msgid ""
 "<a href=\"https://www.adminer.org\" target=\"_BLANK\">Adminer</a> is a "
 "visual database management tool, which is simpler and safer than its "
@@ -966,18 +966,18 @@ msgstr ""
 "tietokannan hallintatyökalu, joka on yksinkertaisempi ja turvallisempi kuin "
 "kilpaileva vaihtoehto phpMyAdmin."
 
-#: src/modules/pages/database.php:213
+#: src/modules/pages/database.php:222
 msgid ""
 "At Seravo it can always be accessed at <code>example.com/.seravo/adminer</"
 "code>"
 msgstr ""
 "Se löytyy Seravolla aina osoitteesta <code>example.com/.seravo/adminer</code>"
 
-#: src/modules/pages/database.php:215
+#: src/modules/pages/database.php:224
 msgid "Open Adminer"
 msgstr "Siirry Admineriin"
 
-#: src/modules/pages/database.php:226
+#: src/modules/pages/database.php:235
 msgid ""
 "You can use this tool to run <code>wp search-replace</code>. For safety "
 "reason a dry run is compulsory before the actual search-replace can be done."
@@ -986,164 +986,164 @@ msgstr ""
 "Turvallisuussyistä on ajettava kuiva-ajo (dry-run) ennen kuin on mahdollista "
 "tehdä muutoksia."
 
-#: src/modules/pages/database.php:229
+#: src/modules/pages/database.php:238
 msgid "FROM:"
 msgstr "MISTÄ:"
 
-#: src/modules/pages/database.php:230
+#: src/modules/pages/database.php:239
 msgid "TO:"
 msgstr "MIHIN:"
 
-#: src/modules/pages/database.php:236
+#: src/modules/pages/database.php:245
 msgid "Skip backups"
 msgstr "Ohita varmuuskopiointi"
 
-#: src/modules/pages/database.php:237
+#: src/modules/pages/database.php:246
 msgid "All tables"
 msgstr "Kaikki taulut"
 
-#: src/modules/pages/database.php:238
+#: src/modules/pages/database.php:247
 msgid "Network"
 msgstr "Network"
 
-#: src/modules/pages/database.php:253
+#: src/modules/pages/database.php:262
 msgid "Error: Both <code>from</code> and <code>to</code> needs to be set"
 msgstr ""
 "Virhe: Sekä <code>mistä</code> että <code>mihin</code>  kentät täytyvät olla "
 "asetettuina"
 
 #. translators: Search replace 'from' value and 'to' value
-#: src/modules/pages/database.php:262
+#: src/modules/pages/database.php:271
 msgid "Error: Value %1$s is identical to %2$s"
 msgstr "Virhe: Syöte %1$s on identtinen %2$s kanssa"
 
-#: src/modules/pages/database.php:337
+#: src/modules/pages/database.php:346
 msgid "Table sizes"
 msgstr "Taulujen koot"
 
-#: src/modules/pages/database.php:342
+#: src/modules/pages/database.php:351
 msgid "Details about database table sizes"
 msgstr "Yksityiskohtia tietokantojen taulujen koosta"
 
-#: src/modules/pages/database.php:459
+#: src/modules/pages/database.php:468
 msgid "Longest wp_postmeta values"
 msgstr "Pisimmät wp_postmeta arvot"
 
-#: src/modules/pages/database.php:462
+#: src/modules/pages/database.php:471
 msgid "Cumulative size of meta_value per meta_key"
 msgstr "Meta_valueiden yhteenlaskettu koko meta_keyn mukaan"
 
-#: src/modules/pages/database.php:465
+#: src/modules/pages/database.php:474
 msgid "Autoload options count (read to memory on each WP page load)"
 msgstr ""
 "Autoload-asetuksien määrä (luetaan muistiin jokaisella sivulatauksella)"
 
-#: src/modules/pages/database.php:468
+#: src/modules/pages/database.php:477
 msgid "Autoload options total size of values"
 msgstr "Autoload-asetusten arvojen yhteenlaskettu koko"
 
-#: src/modules/pages/database.php:471
+#: src/modules/pages/database.php:480
 msgid "Longest autoloaded wp_option values"
 msgstr "Pisimmät automaattisesti ladatut wp_option arvot"
 
-#: src/modules/pages/domains.php:49 src/modules/pages/domains.php:124
+#: src/modules/pages/domains.php:49 src/modules/pages/domains.php:125
 msgid "Domains"
 msgstr "Verkkotunnukset"
 
-#: src/modules/pages/domains.php:96
+#: src/modules/pages/domains.php:97
 msgid "Domains couldn't be loaded."
 msgstr "Verkkotunnuksia ei voitu ladata."
 
-#: src/modules/pages/domains.php:97
+#: src/modules/pages/domains.php:98
 msgid "Couldn't fetch the section"
 msgstr "Osiota ei voitu ladata"
 
-#: src/modules/pages/domains.php:98
+#: src/modules/pages/domains.php:99
 msgid "No data returned for the update request."
 msgstr "Päivityspyyntö ei palauttanut dataa."
 
-#: src/modules/pages/domains.php:99
+#: src/modules/pages/domains.php:100
 msgid "The zone update failed!"
 msgstr "Zonen päivitys epäonnistui!"
 
-#: src/modules/pages/domains.php:100
+#: src/modules/pages/domains.php:101
 msgid "The zone was updated succesfully!"
 msgstr "Zonen päivitys onnistui!"
 
-#: src/modules/pages/domains.php:101
+#: src/modules/pages/domains.php:102
 msgid "No data returned for the dns fetch."
 msgstr "DNS-tietojen lataus ei palauttanut dataa."
 
-#: src/modules/pages/domains.php:102
+#: src/modules/pages/domains.php:103
 msgid "DNS fetch failed! Please refresh the page."
 msgstr "DNS-tietojen haku epäonnistui! Kokeile päivittää sivu."
 
-#: src/modules/pages/domains.php:103
+#: src/modules/pages/domains.php:104
 msgid "The zone was updated without changes."
 msgstr "Verkkotunnustiedot päivitettiin ilman muutoksia."
 
-#: src/modules/pages/domains.php:104
+#: src/modules/pages/domains.php:105
 msgid "Changing the primary domain..."
 msgstr "Vaihdetaan ensisijaista verkkotunnusta..."
 
-#: src/modules/pages/domains.php:105
+#: src/modules/pages/domains.php:106
 msgid "Error! Primary domain might not have been changed."
 msgstr "Virhe! Pääverkkotunnus ei välttämättä muuttunut."
 
-#: src/modules/pages/domains.php:106
+#: src/modules/pages/domains.php:107
 msgid "Primary domain was changed but was not taken in use yet."
 msgstr "Pääverkkotunnus vaihdettiin, mutta se ei ole vielä käytössä."
 
-#: src/modules/pages/domains.php:107
+#: src/modules/pages/domains.php:108
 msgid "This domain has no mail forwards"
 msgstr "Tällä verkkotunnuksella ei ole sähköpostin uudelleenohjauksia"
 
-#: src/modules/pages/domains.php:108
+#: src/modules/pages/domains.php:109
 msgid "Couldn't fetch mail forwards for this domain."
 msgstr "Verkkotunnuksen sähköpostin uudelleenohjauksia ei voitu hakea."
 
-#: src/modules/pages/domains.php:109
+#: src/modules/pages/domains.php:110
 msgid "No forwards were found for this domain."
 msgstr "Tälle verkkotunnukselle ei löytynyt uudelleenohjauksia."
 
-#: src/modules/pages/domains.php:110
+#: src/modules/pages/domains.php:111
 msgid "Error! The action might have failed."
 msgstr "Virhe! Toiminto saattoi epäonnistua."
 
-#: src/modules/pages/domains.php:111
+#: src/modules/pages/domains.php:112
 msgid "Source field can't be empty."
 msgstr "Lähde-kenttä ei voi olla tyhjä."
 
-#: src/modules/pages/domains.php:112
+#: src/modules/pages/domains.php:113
 msgid "Continue"
 msgstr "Jatka"
 
-#: src/modules/pages/domains.php:132
+#: src/modules/pages/domains.php:133
 msgid "Mails"
 msgstr "Sähköpostit"
 
-#: src/modules/pages/domains.php:144
+#: src/modules/pages/domains.php:145
 msgid "Domains routed to this WordPress site are listed below."
 msgstr "Tähän WordPress-sivustoon kytketyt verkkotunnukset on lueteltu alla."
 
-#: src/modules/pages/domains.php:148
+#: src/modules/pages/domains.php:149
 msgid "Loading domains..."
 msgstr "Ladataan verkkotunnuksia..."
 
-#: src/modules/pages/domains.php:152
+#: src/modules/pages/domains.php:153
 msgid "Are you sure you want to change the primary domain?"
 msgstr "Oletko varma, että haluat vaihtaa ensisijaisen verkkotunnuksen?"
 
-#: src/modules/pages/domains.php:154 src/modules/pages/security.php:465
+#: src/modules/pages/domains.php:155 src/modules/pages/security.php:471
 msgid "Proceed"
 msgstr "Jatka"
 
-#: src/modules/pages/domains.php:155 src/modules/pages/security.php:465
-#: src/modules/pages/sitestatus.php:795
+#: src/modules/pages/domains.php:156 src/modules/pages/security.php:471
+#: src/modules/pages/sitestatus.php:817
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: src/modules/pages/domains.php:167
+#: src/modules/pages/domains.php:168
 msgid ""
 "Mail forwards of the domains routed to this WordPress site are listed below. "
 "Fetch the forwards for a domain with the link below the domain name."
@@ -1152,11 +1152,11 @@ msgstr ""
 "uudelleenohjaukset on listattu alla. Nouda ohjaukset verkkotunnukselle "
 "verkkotunnuksen alla olevan linkin avulla."
 
-#: src/modules/pages/domains.php:171
+#: src/modules/pages/domains.php:172
 msgid "Loading mail forwards..."
 msgstr "Ladataan sähköpostiohjauksia..."
 
-#: src/modules/pages/domains.php:176
+#: src/modules/pages/domains.php:177
 msgid "Mailboxes assigned to this WordPress site are listed below."
 msgstr ""
 "Tähän WordPress-sivustoon kytketyt sähköpostilaatikot on lueteltu alla."
@@ -1191,11 +1191,11 @@ msgstr "Hakusana"
 msgid "Search"
 msgstr "Hae"
 
-#: src/modules/pages/security.php:51 src/modules/pages/security.php:93
+#: src/modules/pages/security.php:51 src/modules/pages/security.php:94
 msgid "Security"
 msgstr "Tietoturva"
 
-#: src/modules/pages/security.php:95
+#: src/modules/pages/security.php:96
 msgid ""
 "Seravo has security built-in. There are however a few extra measures that "
 "the site owner can choose to do if their site will not miss any "
@@ -1205,15 +1205,15 @@ msgstr ""
 "jonka sivuston omistaja voi halutessaan tehdä mikäli tietää\n"
 "että ei tarvitse tiettyjä toimintoja koskaan."
 
-#: src/modules/pages/security.php:103
+#: src/modules/pages/security.php:104
 msgid "Check passwords (Beta)"
 msgstr "Tarkasta salasanat (Beta)"
 
-#: src/modules/pages/security.php:108
+#: src/modules/pages/security.php:109
 msgid "Running the password check"
 msgstr "Tarkastetaan salasanoja"
 
-#: src/modules/pages/security.php:113
+#: src/modules/pages/security.php:114
 msgid ""
 "This tool can be used to run command <code>wp-check-passwords</code> which "
 "finds weak passwords from the users of the site. Note: This may fail, if "
@@ -1223,15 +1223,15 @@ msgstr ""
 "löytää sivuston käyttäjien heikkoja salasanoja. Huom: Tämä voi epäonnistua, "
 "jos  käyttäjiä on useita."
 
-#: src/modules/pages/security.php:123
+#: src/modules/pages/security.php:124
 msgid "Last successful logins"
 msgstr "Edelliset onnistuneet sisäänkirjautumiset"
 
-#: src/modules/pages/security.php:133
+#: src/modules/pages/security.php:134
 msgid "Cruft Files"
 msgstr "Roskatiedostot"
 
-#: src/modules/pages/security.php:134
+#: src/modules/pages/security.php:135
 msgid ""
 "Find and delete any extraneous and potentially harmful files taking up space "
 "in the file system. Note that not everything is necessarily safe to delete."
@@ -1240,11 +1240,11 @@ msgstr ""
 "palvelimelta levytilan säästämiseksi. Otathan huomioon, että kaikkia "
 "ehdotuksia ei ole välttämättä turvallista tehdä."
 
-#: src/modules/pages/security.php:141
+#: src/modules/pages/security.php:142
 msgid "Unnecessary plugins"
 msgstr "Tarpeettomat lisäosat"
 
-#: src/modules/pages/security.php:142
+#: src/modules/pages/security.php:143
 msgid ""
 "Find and remove any plugins that are currently inactive or otherwise "
 "potentially harmful. For more information, please read our <a href=\"https://"
@@ -1256,11 +1256,11 @@ msgstr ""
 "fi/article/313-suositellut-lisaosat\" target=\"_BLANK\">suositelluista "
 "lisäosista palvelinympäristössämme</a>."
 
-#: src/modules/pages/security.php:149
+#: src/modules/pages/security.php:150
 msgid "Unnecessary themes"
 msgstr "Tarpeettomat teemat"
 
-#: src/modules/pages/security.php:150
+#: src/modules/pages/security.php:151
 msgid ""
 "Find and remove themes that are inactive. For more information, please read "
 "our <a href=\"https://help.seravo.com/article/70-can-i-install-my-own-"
@@ -1272,28 +1272,28 @@ msgstr ""
 "omia-lisaosia-ja-teemoja\" target=\"_BLANK\">ulkoasuteemoja ja lisäosia "
 "koskevista ohjeistamme</a>."
 
-#: src/modules/pages/security.php:226
+#: src/modules/pages/security.php:232
 msgid "Cruft remove confirmation"
 msgstr "Vahvista roskien poisto"
 
-#: src/modules/pages/security.php:227
+#: src/modules/pages/security.php:233
 msgid "Congratulations! There's nothing to remove."
 msgstr "Onnittelut! Poistettavaa ei löytynyt."
 
-#: src/modules/pages/security.php:228
+#: src/modules/pages/security.php:234
 msgid "Delete"
 msgstr "Poista"
 
-#: src/modules/pages/security.php:229
+#: src/modules/pages/security.php:235
 msgid "Select all"
 msgstr "Valitse kaikki"
 
-#: src/modules/pages/security.php:230
+#: src/modules/pages/security.php:236
 msgid "Failed to remove some files!"
 msgstr "Joidenkin tiedostojen poistaminen epäonnistui!"
 
 #. translators: URL to security page
-#: src/modules/pages/security.php:257
+#: src/modules/pages/security.php:263
 msgid ""
 "Please enable all possible <a href=\"%s\">security features</a>. Save "
 "settings even if no changes were made to get rid of this notice."
@@ -1302,31 +1302,31 @@ msgstr ""
 "Tallenna asetukset, vaikka et olisi tehnyt muutoksia, piilottaksesi tämä "
 "ilmoitus."
 
-#: src/modules/pages/security.php:278
+#: src/modules/pages/security.php:284
 msgid "Automatic backups"
 msgstr "Automaattiset varmuuskopiot"
 
-#: src/modules/pages/security.php:279
+#: src/modules/pages/security.php:285
 msgid "Quick security updates"
 msgstr "Nopeat tietoturvapäivitykset"
 
-#: src/modules/pages/security.php:280
+#: src/modules/pages/security.php:286
 msgid "Monitoring of malicius code and database contents"
 msgstr "Haitallisen koodin ja tietokantasisällön monitorointi"
 
-#: src/modules/pages/security.php:281
+#: src/modules/pages/security.php:287
 msgid "Denial-of-service protection"
 msgstr "Palvelunestohyökkäysten suojaus"
 
-#: src/modules/pages/security.php:282
+#: src/modules/pages/security.php:288
 msgid "Brute-force login protection"
 msgstr "Kirjautumispommitusten esto"
 
-#: src/modules/pages/security.php:291
+#: src/modules/pages/security.php:297
 msgid "Disable authenticated XML-RPC"
 msgstr "Estä autentikoitu XML-RPC"
 
-#: src/modules/pages/security.php:292
+#: src/modules/pages/security.php:298
 msgid ""
 "Disabling authenticated XML-RPC prevents brute-force attempts via XML-RPC. "
 "Disables e.g. using the WordPress mobile app. Doesn't affect the Jetpack "
@@ -1336,11 +1336,11 @@ msgstr ""
 "mobiiliapplikaatio lakkaa toimimasta. Ei vaikuta Jetpack-lisäosan "
 "toimintaan, koska sen IP-osoitteet ovat erikseen sallittu."
 
-#: src/modules/pages/security.php:295
+#: src/modules/pages/security.php:301
 msgid "Completely disable XML-RPC"
 msgstr "Estä XML-RPC toiminta kokonaan"
 
-#: src/modules/pages/security.php:296
+#: src/modules/pages/security.php:302
 msgid ""
 "Completely disabling XML-RPC prevents XML-RPC from responding to any methods "
 "at all. Disables e.g. pingbacks."
@@ -1348,15 +1348,15 @@ msgstr ""
 "Estä XML-RPC:tä vastaamasta mihinkään metodikutsuun. Esim. päivityspalvelu "
 "(pingback) lakkaa toimimasta."
 
-#: src/modules/pages/security.php:298
+#: src/modules/pages/security.php:304
 msgid "Disable WP-JSON user enumeration"
 msgstr "Estä WP-JSON kautta käyttäjätunnusten luettelointi"
 
-#: src/modules/pages/security.php:299
+#: src/modules/pages/security.php:305
 msgid "Disable GET author enumeration"
 msgstr "Estä GET author kautta käyttäjätunnusten luettelointi"
 
-#: src/modules/pages/security.php:323
+#: src/modules/pages/security.php:329
 msgid ""
 "This tool can be used to retrieve last 10 successful logins. For more "
 "details and full login log see <a href=\"tools.php?page=logs_page&logfile=wp-"
@@ -1367,23 +1367,23 @@ msgstr ""
 "page=logs_page&logfile=wp-login.log\" target=\"_blank\">wp-login.log</a> "
 "tiedostosta."
 
-#: src/modules/pages/security.php:434
+#: src/modules/pages/security.php:440
 msgid "No login data available"
 msgstr "Ei kirjautumistietoja"
 
-#: src/modules/pages/security.php:437
+#: src/modules/pages/security.php:443
 msgid "Time"
 msgstr "Aika"
 
-#: src/modules/pages/security.php:437
+#: src/modules/pages/security.php:443
 msgid "User"
 msgstr "Käyttäjä"
 
-#: src/modules/pages/security.php:437
+#: src/modules/pages/security.php:443
 msgid "Address"
 msgstr "Osoite"
 
-#: src/modules/pages/security.php:464
+#: src/modules/pages/security.php:470
 msgid "Are you sure you want to proceed? Deleted files can not be recovered."
 msgstr "Oletko varma, että haluat jatkaa? Tiedostot poistetaan pysyvästi."
 
@@ -1429,27 +1429,27 @@ msgstr ""
 msgid "Sanitize Uploads"
 msgstr "Siisti lataukset"
 
-#: src/modules/pages/sitestatus.php:175
+#: src/modules/pages/sitestatus.php:180
 msgid "Disk Usage"
 msgstr "Levytilan käyttö"
 
-#: src/modules/pages/sitestatus.php:188
+#: src/modules/pages/sitestatus.php:189
 msgid "Cache Status"
 msgstr "Välimuistin tila"
 
-#: src/modules/pages/sitestatus.php:198
+#: src/modules/pages/sitestatus.php:205
 msgid "Speed test"
 msgstr "Nopeustesti"
 
-#: src/modules/pages/sitestatus.php:202
+#: src/modules/pages/sitestatus.php:209
 msgid "Run Test"
 msgstr "Suorita testi"
 
-#: src/modules/pages/sitestatus.php:209 src/modules/pages/sitestatus.php:304
+#: src/modules/pages/sitestatus.php:216 src/modules/pages/sitestatus.php:321
 msgid "Optimize Images"
 msgstr "Optimoi kuvia"
 
-#: src/modules/pages/sitestatus.php:210
+#: src/modules/pages/sitestatus.php:217
 msgid ""
 "Optimization reduces image file size. This improves the performance and "
 "browsing experience of your site."
@@ -1457,13 +1457,13 @@ msgstr ""
 "Kuvien optimointi pienentää kuvan tiedostokokoa. Tämä parantaa sivuston "
 "suorituskykyä ja sivuston selauskokemusta."
 
-#: src/modules/pages/sitestatus.php:211
+#: src/modules/pages/sitestatus.php:218
 msgid ""
 "By setting the maximum image resolution, you can determine the maximum "
 "allowed dimensions for images."
 msgstr "Voit asettaa haluamasi rajat sivuston kuvien maksimiresoluutiolle."
 
-#: src/modules/pages/sitestatus.php:212
+#: src/modules/pages/sitestatus.php:219
 msgid ""
 "By enabling metadata stripping, you can further reduce image sizes by "
 "removing metadata. Please note that occasionally metadata can be useful."
@@ -1472,7 +1472,7 @@ msgstr ""
 "metadata voi olla tarkoituksenmukaista, esim. kuvan ottamispaikan GPS-"
 "koordinaatit."
 
-#: src/modules/pages/sitestatus.php:213
+#: src/modules/pages/sitestatus.php:220
 msgid ""
 "For further information, refer to our <a href=\"https://help.seravo.com/"
 "article/28-seravo-plugin-optimize-images\" target=\"_BLANK\">knowledgebase "
@@ -1481,31 +1481,31 @@ msgstr ""
 "Lisäohjeita aiheesta on Seravon <a href=\"https://help.seravo.fi/article/206-"
 "seravo-plugin-optimoi-kuvia\" target=\"_BLANK\">tietopankissa</a>."
 
-#: src/modules/pages/sitestatus.php:222
+#: src/modules/pages/sitestatus.php:234
 msgid "Shadows"
 msgstr "Varjot"
 
-#: src/modules/pages/sitestatus.php:245
+#: src/modules/pages/sitestatus.php:262
 msgid "Run cache tests"
 msgstr "Suorita testit"
 
-#: src/modules/pages/sitestatus.php:246
+#: src/modules/pages/sitestatus.php:263
 msgid "Running cache tests..."
 msgstr "Testataan välimuistia..."
 
-#: src/modules/pages/sitestatus.php:247
+#: src/modules/pages/sitestatus.php:264
 msgid "Click \"Run cache tests\" to run the cache tests"
 msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi testit"
 
-#: src/modules/pages/sitestatus.php:252
+#: src/modules/pages/sitestatus.php:269
 msgid "Enable"
 msgstr "Ota käyttöön"
 
-#: src/modules/pages/sitestatus.php:288
+#: src/modules/pages/sitestatus.php:305
 msgid "Sanitize uploads"
 msgstr "Siisti lataukset"
 
-#: src/modules/pages/sitestatus.php:290
+#: src/modules/pages/sitestatus.php:307
 msgid ""
 "Special characters in filenames, such as ä, ö or æ, may cause problems with "
 "the site."
@@ -1513,7 +1513,7 @@ msgstr ""
 "Erikoismerkit tiedostonimissä, kuten ä tai ö, voivat aiheuttaa ongelmia "
 "sivustolla."
 
-#: src/modules/pages/sitestatus.php:291
+#: src/modules/pages/sitestatus.php:308
 msgid ""
 "Toggling this on replaces such characters with other standard letters, like "
 "ä -> a, ö -> o or æ -> a when a file is uploaded."
@@ -1521,20 +1521,20 @@ msgstr ""
 "Tällä asetuksella ne merkit korvaantuvat muilla merkeillä, kuten ä -> a tai "
 "ö -> o, kun tiedosto ladataan sivustolle."
 
-#: src/modules/pages/sitestatus.php:305
+#: src/modules/pages/sitestatus.php:322
 msgid "Strip Image Metadata"
 msgstr "Poista metadata kuvista"
 
-#: src/modules/pages/sitestatus.php:309
+#: src/modules/pages/sitestatus.php:326
 msgid "Maximum Image Width (px)"
 msgstr "Suurin sallittu kuvan leveys (px)"
 
-#: src/modules/pages/sitestatus.php:321
+#: src/modules/pages/sitestatus.php:338
 msgid "Maximum Image Height (px)"
 msgstr "Suurin sallittu kuvan korkeus (px)"
 
 #. translators: %1$s is minimum size in pixels and %2$s is the recommended maximum.
-#: src/modules/pages/sitestatus.php:345
+#: src/modules/pages/sitestatus.php:362
 msgid ""
 "The minimum size for image optimisation is %1$s px. Setting suggested size "
 "of %2$s px."
@@ -1542,11 +1542,11 @@ msgstr ""
 "Suurimman sallitun kuvan leveyden tulee olla vähintään %1$s pikseliä. "
 "Asetetaan suositeltu %2$s px leveys."
 
-#: src/modules/pages/sitestatus.php:361
+#: src/modules/pages/sitestatus.php:378
 msgid "Object cache is currently disabled!"
 msgstr "Redis-objektivälimuisti on poissa käytöstä!"
 
-#: src/modules/pages/sitestatus.php:366
+#: src/modules/pages/sitestatus.php:383
 msgid ""
 "Caching decreases the load time of the website. The cache hit rate "
 "represents the efficiency of cache usage. Read about caching from the <a "
@@ -1560,11 +1560,11 @@ msgstr ""
 "\"_BLANK\">dokumentaatiosta</a> tai <a href=\"https://wp-palvelu.fi/"
 "avainsana/valimuisti/\" target=\"_BLANK\">blogista</a>."
 
-#: src/modules/pages/sitestatus.php:367
+#: src/modules/pages/sitestatus.php:384
 msgid "Object Cache in Redis"
 msgstr "Redis-objektivälimuisti"
 
-#: src/modules/pages/sitestatus.php:368
+#: src/modules/pages/sitestatus.php:385
 msgid ""
 "Persistent object cache implemented with <a href=\"https://seravo.com/blog/"
 "faster-wordpress-with-transients/\" target=\"_BLANK\">transients</a> can be "
@@ -1579,15 +1579,15 @@ msgstr ""
 "article/231-object-cache-valimuistin-aktivointi\" target=\"_BLANK"
 "\">dokumentaatiosta</a>."
 
-#: src/modules/pages/sitestatus.php:371 src/modules/pages/sitestatus.php:471
+#: src/modules/pages/sitestatus.php:388 src/modules/pages/sitestatus.php:488
 msgid "Cache hit rate"
 msgstr "Välimuistin osumatarkkuus"
 
-#: src/modules/pages/sitestatus.php:375
+#: src/modules/pages/sitestatus.php:392
 msgid "Nginx HTTP Cache"
 msgstr "Nginx HTTP -välimuisti"
 
-#: src/modules/pages/sitestatus.php:376
+#: src/modules/pages/sitestatus.php:393
 msgid ""
 "Test the functionality of your site's front cache. This can also be done via "
 "command line with command <code>wp-check-http-cache</code>."
@@ -1596,46 +1596,46 @@ msgstr ""
 "testin voi suorittaa myös komentoriviltä komennolla <code>wp-check-http-"
 "cache</code>."
 
-#: src/modules/pages/sitestatus.php:398
+#: src/modules/pages/sitestatus.php:415
 msgid ""
 "Error with downloading the latest object-cache file. Please try again later."
 msgstr ""
 "Virhe ladattaessa viimeisintä object-cache tiedostoa. Ole hyvä ja yritä "
 "uudelleen myöhemmin."
 
-#: src/modules/pages/sitestatus.php:404 src/modules/pages/sitestatus.php:412
+#: src/modules/pages/sitestatus.php:421 src/modules/pages/sitestatus.php:429
 msgid ""
 "Error with writing the latest object-cache file. Please try again later."
 msgstr ""
 "Virhe kirjoittaessa viimeisintä object-cache tiedostoa. Ole hyvä ja yritä "
 "uudelleen myöhemmin."
 
-#: src/modules/pages/sitestatus.php:416
+#: src/modules/pages/sitestatus.php:433
 msgid "Object cache is now enabled!"
 msgstr "Redis-objektivälimuisti on nyt käytössä!"
 
-#: src/modules/pages/sitestatus.php:467
+#: src/modules/pages/sitestatus.php:484
 msgid "Expired keys: "
 msgstr "Erääntyneet avaimet: "
 
-#: src/modules/pages/sitestatus.php:467
+#: src/modules/pages/sitestatus.php:484
 msgid "The number of keys deleted."
 msgstr "Poistettujen avaimien määrä."
 
-#: src/modules/pages/sitestatus.php:468
+#: src/modules/pages/sitestatus.php:485
 msgid "Evicted keys: "
 msgstr "Häädetyt avaimet: "
 
-#: src/modules/pages/sitestatus.php:468
+#: src/modules/pages/sitestatus.php:485
 msgid ""
 "The number of keys being deleted because the memory usage has hit it's limit."
 msgstr "Niiden avainten määrä, jotka on poistettu muistin täyttymisen takia."
 
-#: src/modules/pages/sitestatus.php:469
+#: src/modules/pages/sitestatus.php:486
 msgid "HTTP Cache"
 msgstr "HTTP -välimuisti"
 
-#: src/modules/pages/sitestatus.php:470
+#: src/modules/pages/sitestatus.php:487
 msgid ""
 "The HTTP cache hit rate is calculated from all Nginx's access logs. It "
 "describes the long-term cache usage situation."
@@ -1643,11 +1643,11 @@ msgstr ""
 "HTTP välimuistin osumatarkkuus on laskettu kaikista Nginx:n pääsylokeista. "
 "Se kuvaa pitkän aikavälin välimuistin käyttöastetta."
 
-#: src/modules/pages/sitestatus.php:472
+#: src/modules/pages/sitestatus.php:489
 msgid "Bypasses: "
 msgstr "Ohitukset: "
 
-#: src/modules/pages/sitestatus.php:472
+#: src/modules/pages/sitestatus.php:489
 msgid ""
 "The amount of cache bypasses which occur when requesting a non-cached "
 "version of the site."
@@ -1655,31 +1655,31 @@ msgstr ""
 "Välimuistin ohitusten määrä. Ohituksia tapahtuu, kun selain pyytää sivun ei-"
 "välimuistitettuna."
 
-#: src/modules/pages/sitestatus.php:501
+#: src/modules/pages/sitestatus.php:518
 msgid "HTTP cache not working"
 msgstr "HTTP -välimuisti ei toimi"
 
-#: src/modules/pages/sitestatus.php:505
+#: src/modules/pages/sitestatus.php:522
 msgid "HTTP cache working"
 msgstr "HTTP -välimuisti toimii"
 
-#: src/modules/pages/sitestatus.php:520
+#: src/modules/pages/sitestatus.php:537
 msgid "Disk space low! "
 msgstr "Levytila vähissä! "
 
-#: src/modules/pages/sitestatus.php:520
+#: src/modules/pages/sitestatus.php:537
 msgid "Read more."
 msgstr "Lue lisää."
 
-#: src/modules/pages/sitestatus.php:521
+#: src/modules/pages/sitestatus.php:538
 msgid "Disk usage by directory"
 msgstr "Levytilan käyttö"
 
-#: src/modules/pages/sitestatus.php:523
+#: src/modules/pages/sitestatus.php:540
 msgid "Logs and automatic backups don't count against your quota."
 msgstr "Lokeja ja automaattisia varmuuskopioita ei lasketa mukaan kiintiöön."
 
-#: src/modules/pages/sitestatus.php:523
+#: src/modules/pages/sitestatus.php:540
 msgid ""
 "Use <a href=\"tools.php?page=security_page#seravo-postbox-cruftfiles\" "
 "target=\"_blank\">cruft remover</a> to remove unnecessary files."
@@ -1687,15 +1687,15 @@ msgstr ""
 "Käytä <a href=\"tools.php?page=security_page#seravo-postbox-cruftfiles\" "
 "target=\"_blank\">roskanpoistajaa</a> poistamaan tarpeettomat tiedostot."
 
-#: src/modules/pages/sitestatus.php:624
+#: src/modules/pages/sitestatus.php:641
 msgid "Disk space in your plan: "
 msgstr "Levytilaa palvelupaketissasi: "
 
-#: src/modules/pages/sitestatus.php:624
+#: src/modules/pages/sitestatus.php:641
 msgid "Space in use: "
 msgstr "Tilaa käytössä: "
 
-#: src/modules/pages/sitestatus.php:645
+#: src/modules/pages/sitestatus.php:662
 msgid ""
 "These monthly reports are generated from the HTTP access logs of your site. "
 "All HTTP requests for the site are included, with traffic from both humans "
@@ -1709,68 +1709,68 @@ msgstr ""
 "hyökkäyksen aikana) eivät tule lokiin. Lokitiedostoja voi selata suoraan "
 "myös palvelimella polussa <code>/data/slog/html/goaccess-*.html</code>."
 
-#: src/modules/pages/sitestatus.php:734 src/modules/pages/upkeep.php:258
-#: src/modules/pages/upkeep.php:641
+#: src/modules/pages/sitestatus.php:756 src/modules/pages/upkeep.php:273
+#: src/modules/pages/upkeep.php:656
 msgid "An API error occured. Please try again later"
 msgstr "Virhe rajapintayhteydessä. Ole hyvä ja yritä uudelleen myöhemmin"
 
-#: src/modules/pages/sitestatus.php:740
+#: src/modules/pages/sitestatus.php:762
 msgid "Demo"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:741
+#: src/modules/pages/sitestatus.php:763
 msgid "WP Mini"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:742
+#: src/modules/pages/sitestatus.php:764
 msgid "WP Pro"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:743
+#: src/modules/pages/sitestatus.php:765
 msgid "WP Business"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:744
+#: src/modules/pages/sitestatus.php:766
 msgid "WP Enterprise"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:747
+#: src/modules/pages/sitestatus.php:769
 msgid "Finland"
 msgstr "Suomi"
 
-#: src/modules/pages/sitestatus.php:748
+#: src/modules/pages/sitestatus.php:770
 msgid "Sweden"
 msgstr "Ruotsi"
 
-#: src/modules/pages/sitestatus.php:749
+#: src/modules/pages/sitestatus.php:771
 msgid "Germany"
 msgstr "Saksa"
 
-#: src/modules/pages/sitestatus.php:750
+#: src/modules/pages/sitestatus.php:772
 msgid "USA"
 msgstr "Yhdysvallat"
 
-#: src/modules/pages/sitestatus.php:751
+#: src/modules/pages/sitestatus.php:773
 msgid "No preference"
 msgstr "Seravon valitsema"
 
-#: src/modules/pages/sitestatus.php:756
+#: src/modules/pages/sitestatus.php:778
 msgid "Site Name"
 msgstr "Sivuston nimi"
 
-#: src/modules/pages/sitestatus.php:757
+#: src/modules/pages/sitestatus.php:779
 msgid "Site Created"
 msgstr "Sivusto luotu"
 
-#: src/modules/pages/sitestatus.php:758
+#: src/modules/pages/sitestatus.php:780
 msgid "Plan Type"
 msgstr "Palvelupaketti"
 
-#: src/modules/pages/sitestatus.php:763
+#: src/modules/pages/sitestatus.php:785
 msgid "Account Manager"
 msgstr "Account Manager"
 
-#: src/modules/pages/sitestatus.php:765
+#: src/modules/pages/sitestatus.php:787
 msgid ""
 "No Account Manager found. Account Manager is only included in Seravo "
 "Enterprise plans."
@@ -1778,36 +1778,36 @@ msgstr ""
 "Account manageria ei löytynyt. Account manager kuuluu vain WP Enterprise -"
 "palvelupaketteihin."
 
-#: src/modules/pages/sitestatus.php:769
+#: src/modules/pages/sitestatus.php:791
 msgid "Plan Termination"
 msgstr "Palvelupaketin päättyminen"
 
-#: src/modules/pages/sitestatus.php:773
+#: src/modules/pages/sitestatus.php:795
 msgid "Site Location"
 msgstr "Sivuston sijainti"
 
-#: src/modules/pages/sitestatus.php:776
+#: src/modules/pages/sitestatus.php:798
 msgid "No contacts found"
 msgstr "Yhteyshenkilöitä ei löytynyt"
 
-#: src/modules/pages/sitestatus.php:777
+#: src/modules/pages/sitestatus.php:799
 msgid "Technical Contacts"
 msgstr "Yhteystiedot teknisissä asioissa"
 
-#: src/modules/pages/sitestatus.php:795
+#: src/modules/pages/sitestatus.php:817
 msgid ""
 "Are you sure? This replaces all information in the selected environment."
 msgstr "Oletko varma? Tämä toiminto korvaa kaiken valitussa ympäristössä."
 
-#: src/modules/pages/sitestatus.php:795
+#: src/modules/pages/sitestatus.php:817
 msgid "OK"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:796
+#: src/modules/pages/sitestatus.php:818
 msgid "Manage the site shadows."
 msgstr "Hallitse varjoja."
 
-#: src/modules/pages/sitestatus.php:797
+#: src/modules/pages/sitestatus.php:819
 msgid ""
 "<strong>Warning: </strong>Resetting a shadow copies the state of the "
 "production site to the shadow. All files under <code>/data/wordpress/</code> "
@@ -1821,11 +1821,11 @@ msgstr ""
 "tuotannon vastaavilla. Lue lisää varjoista <a href=\"https://seravo.com/docs/"
 "deployment/shadows/\" target=\"_BLANK\">kehittäjäohjeistamme</a>."
 
-#: src/modules/pages/sitestatus.php:802
+#: src/modules/pages/sitestatus.php:824
 msgid "Shadow reset successfully!"
 msgstr "Varjo resetoitiin onnistuneesti!"
 
-#: src/modules/pages/sitestatus.php:804
+#: src/modules/pages/sitestatus.php:826
 msgid ""
 "Because this shadow uses a custom domain, <strong>please go to the shadow "
 "and run search-replace there with the values below</strong> for the shadow "
@@ -1835,15 +1835,15 @@ msgstr ""
 "search-replace alla olevilla arvoilla</strong>, jotta varjo olisi saatavilla "
 "resetoinnin jälkeen. "
 
-#: src/modules/pages/sitestatus.php:805
+#: src/modules/pages/sitestatus.php:827
 msgid "<strong>From:</strong> "
 msgstr "<strong>Lähtöarvo:</strong> "
 
-#: src/modules/pages/sitestatus.php:805
+#: src/modules/pages/sitestatus.php:827
 msgid "<br><strong>To:</strong> "
 msgstr "<br><strong>Kohdearvo:</strong> "
 
-#: src/modules/pages/sitestatus.php:806
+#: src/modules/pages/sitestatus.php:828
 msgid ""
 "When you're in the shadow, run search-replace with WP-CLI. Instructions can "
 "be found from <a href=\"https://help.seravo.com/en/docs/151\" target=\"_BLANK"
@@ -1855,11 +1855,11 @@ msgstr ""
 "varjoon ei pääse. Ohjeet löydät <a href='https://help.seravo.com/fi/"
 "docs/151' target=\"_BLANK\">dokumentaatiosta</a>."
 
-#: src/modules/pages/sitestatus.php:810
+#: src/modules/pages/sitestatus.php:832
 msgid "Shadow reset failed!"
 msgstr "Varjon resetointi epäonnistui!"
 
-#: src/modules/pages/sitestatus.php:813
+#: src/modules/pages/sitestatus.php:835
 msgid ""
 "No shadows found. If your plan is WP Pro or higher, you can request a shadow "
 "instance from Seravo admins at <a href=\"mailto:help@seravo.com"
@@ -1870,31 +1870,31 @@ msgstr ""
 "help@seravo.com\" target=\"_BLANK\">asiakaspalvelusta osoitteessta "
 "help@seravo.com</a>."
 
-#: src/modules/pages/sitestatus.php:839
+#: src/modules/pages/sitestatus.php:861
 msgid "Reset"
 msgstr "Resetoi"
 
-#: src/modules/pages/sitestatus.php:843
+#: src/modules/pages/sitestatus.php:865
 msgid "Port: "
 msgstr "Portti: "
 
-#: src/modules/pages/sitestatus.php:844
+#: src/modules/pages/sitestatus.php:866
 msgid "Creation Date: "
 msgstr "Luontipäivämäärä: "
 
-#: src/modules/pages/sitestatus.php:845
+#: src/modules/pages/sitestatus.php:867
 msgid "Information: "
 msgstr "Sivuston tiedot: "
 
-#: src/modules/pages/sitestatus.php:846
+#: src/modules/pages/sitestatus.php:868
 msgid "Domain: "
 msgstr "Verkkotunnus: "
 
-#: src/modules/pages/sitestatus.php:918
+#: src/modules/pages/sitestatus.php:940
 msgid "Front Page by Default"
 msgstr "Oletuksena etusivu"
 
-#: src/modules/pages/sitestatus.php:921
+#: src/modules/pages/sitestatus.php:943
 msgid ""
 "Speed test measures the time how long it takes for PHP to produce the HTML "
 "output for the WordPress page."
@@ -1902,15 +1902,15 @@ msgstr ""
 "Nopeustesti mittaa, kuinka kauan PHP:n luoman WordPress-sivun toimittamiseen "
 "kuluu aikaa."
 
-#: src/modules/pages/sitestatus.php:939
+#: src/modules/pages/sitestatus.php:961
 msgid "Error! Invalid url"
 msgstr "Virhe! Virheellinen url"
 
-#: src/modules/pages/sitestatus.php:948
+#: src/modules/pages/sitestatus.php:970
 msgid "Error! Curl not available"
 msgstr "Virhe! Curl-moduuli ei ole saatavilla"
 
-#: src/modules/pages/sitestatus.php:961
+#: src/modules/pages/sitestatus.php:983
 msgid "Error! HTTP response code:"
 msgstr "Virhe! HTTP-tilakoodi:"
 
@@ -1926,49 +1926,49 @@ msgstr "Vähintään yhden yhteysosoitteen tulee olla asetettuna"
 msgid "Seravo Plugin Updater"
 msgstr "Seravo Plugin päivittäjä"
 
-#: src/modules/pages/upkeep.php:115
+#: src/modules/pages/upkeep.php:120
 msgid "Update plugin now"
 msgstr "Päivitä lisäosa"
 
-#: src/modules/pages/upkeep.php:116
+#: src/modules/pages/upkeep.php:121
 msgid "Updating Seravo Plugin..."
 msgstr "Päivitetään Seravo Pluginia..."
 
-#: src/modules/pages/upkeep.php:131 src/modules/pages/upkeep.php:393
+#: src/modules/pages/upkeep.php:136 src/modules/pages/upkeep.php:408
 msgid "Check PHP compatibility"
 msgstr "Tarkista PHP yhteensopivuus"
 
-#: src/modules/pages/upkeep.php:132
+#: src/modules/pages/upkeep.php:137
 msgid "Running PHP compatibility check. This may take up to tens of minutes."
 msgstr ""
 "Ajetaan PHP yhteensopivuustarkistusta. Tässä voi kestää jopa kymmeniä "
 "minuutteja."
 
-#: src/modules/pages/upkeep.php:136
+#: src/modules/pages/upkeep.php:141
 msgid "Change PHP Version"
 msgstr "Vaihda PHP-versiota"
 
-#: src/modules/pages/upkeep.php:138
+#: src/modules/pages/upkeep.php:143
 msgid "Activating... Please wait up to 30 seconds"
 msgstr "Aktivoidaan... Tässä voi kestää jopa 30 sekuntia"
 
-#: src/modules/pages/upkeep.php:139
+#: src/modules/pages/upkeep.php:144
 msgid "Change version"
 msgstr "Vaihda versiota"
 
-#: src/modules/pages/upkeep.php:149
+#: src/modules/pages/upkeep.php:159
 msgid "Tests Status"
 msgstr "Testien tila"
 
-#: src/modules/pages/upkeep.php:159
+#: src/modules/pages/upkeep.php:169
 msgid "Update Status"
 msgstr "Päivitysten tila"
 
-#: src/modules/pages/upkeep.php:169
+#: src/modules/pages/upkeep.php:179
 msgid "Changes Status"
 msgstr "Muutokset"
 
-#: src/modules/pages/upkeep.php:172
+#: src/modules/pages/upkeep.php:182
 msgid ""
 "This tool can be used to run command <code>wp-backup-list-changes-since</"
 "code> which finds folder and file changes in backup data since the given "
@@ -1980,37 +1980,37 @@ msgstr ""
 "perusteella. Jos esimerkiksi sivustollasi on ongelmia, voit tutkia, mitkä "
 "hakemistot ja tiedostot ovat muuttuneet."
 
-#: src/modules/pages/upkeep.php:173
+#: src/modules/pages/upkeep.php:183
 msgid "Backups are stored for 30 days which is also the maximum since offset."
 msgstr ""
 "Varmuuskopioita säilytetään 30 päivää, joten voit hakea niitä vain tältä "
 "ajalta."
 
-#: src/modules/pages/upkeep.php:176
+#: src/modules/pages/upkeep.php:186
 msgid "Click \"Run\" to see changes"
 msgstr "Klikkaa “Suorita” -nappia nähdäksesi muutokset"
 
-#: src/modules/pages/upkeep.php:177
+#: src/modules/pages/upkeep.php:187
 msgid "Fetching changes..."
 msgstr "Haetaan muutoksia..."
 
-#: src/modules/pages/upkeep.php:184
+#: src/modules/pages/upkeep.php:194
 msgid "Update tests"
 msgstr "Päivitystestit"
 
-#: src/modules/pages/upkeep.php:187
+#: src/modules/pages/upkeep.php:197
 msgid "Run Tests"
 msgstr "Suorita testit"
 
-#: src/modules/pages/upkeep.php:188
+#: src/modules/pages/upkeep.php:198
 msgid "Running rspec tests..."
 msgstr "Testataan sivustoa..."
 
-#: src/modules/pages/upkeep.php:189
+#: src/modules/pages/upkeep.php:199
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr "Klikkaa “Suorita testit” -nappia suorittaaksesi Codeception-testit"
 
-#: src/modules/pages/upkeep.php:190
+#: src/modules/pages/upkeep.php:200
 msgid ""
 "Here you can test the core functionality of your WordPress installation. "
 "Same results can be achieved via command line by running <code>wp-test</"
@@ -2023,19 +2023,19 @@ msgstr ""
 "lisätietoja <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\" "
 "target=\"_BLANK\">Seravon kehittäjäohjeista</a>."
 
-#: src/modules/pages/upkeep.php:197
+#: src/modules/pages/upkeep.php:207
 msgid "Screenshots"
 msgstr "Kuvakaappaukset"
 
-#: src/modules/pages/upkeep.php:207
+#: src/modules/pages/upkeep.php:217
 msgid "Seravo Updates"
 msgstr "Seravon päivitykset"
 
-#: src/modules/pages/upkeep.php:230
+#: src/modules/pages/upkeep.php:245
 msgid "Latest update.log details:"
 msgstr "Viimeisin update.log:"
 
-#: src/modules/pages/upkeep.php:237
+#: src/modules/pages/upkeep.php:252
 msgid ""
 "Here you can see information about the Seravo updates on your site. For full "
 "details about updates see <a href=\"tools.php?page=logs_page&logfile=update."
@@ -2046,19 +2046,19 @@ msgstr ""
 "page=logs_page&logfile=update.log\" target=\"_blank\">update.log</a> "
 "tiedostosta."
 
-#: src/modules/pages/upkeep.php:240
+#: src/modules/pages/upkeep.php:255
 msgid "Latest successful full update:"
 msgstr "Viimeisin onnistunut kaikenkattava päivitys:"
 
-#: src/modules/pages/upkeep.php:241
+#: src/modules/pages/upkeep.php:256
 msgid "Last 5 partial or attempted updates"
 msgstr "Edelliset 5 osittaista tai yritettyä päivitystä"
 
-#: src/modules/pages/upkeep.php:289
+#: src/modules/pages/upkeep.php:304
 msgid "Unable to fetch the latest update log."
 msgstr "Uusinta päivityslokia ei voitu hakea."
 
-#: src/modules/pages/upkeep.php:319
+#: src/modules/pages/upkeep.php:334
 msgid ""
 "<b>Updates notice:</b> Last successful full site update was over a month "
 "ago. A developer should take a look at the <a href=\"tools.php?"
@@ -2069,15 +2069,15 @@ msgstr ""
 "Sivuston kehittäjän tulisi katsoa päivityslokia ja korjata virhe, joka estää "
 "päivittämisen."
 
-#: src/modules/pages/upkeep.php:341
+#: src/modules/pages/upkeep.php:356
 msgid "There are no update attempts yet"
 msgstr "Ei päivitysyrityksiä vielä"
 
-#: src/modules/pages/upkeep.php:373
+#: src/modules/pages/upkeep.php:388
 msgid "Unknown!"
 msgstr "Tuntematon!"
 
-#: src/modules/pages/upkeep.php:374
+#: src/modules/pages/upkeep.php:389
 msgid ""
 "No tests have been ran yet. They will be ran during upcoming updates. You "
 "can try beforehand if the tests will be succesful or not with the 'Update "
@@ -2087,13 +2087,13 @@ msgstr ""
 "yhteydessä. Voit kokeilla etukäteen tulevatko testit onnistumaan "
 "päivitystestit-ominaisuudella alapuolella."
 
-#: src/modules/pages/upkeep.php:377
+#: src/modules/pages/upkeep.php:392
 msgid "Site baseline tests have passed and updates can run normally."
 msgstr ""
 "Sivuston lähtötilanteessa testit toimivat ja päivitykset voi tapahtua "
 "normaalisti."
 
-#: src/modules/pages/upkeep.php:380
+#: src/modules/pages/upkeep.php:395
 msgid ""
 "Site baseline tests are failing and needs to be fixed before further updates "
 "are run."
@@ -2101,7 +2101,7 @@ msgstr ""
 "Sivuston lähtötilanteessa testit epäonnistuvat ja ne tulee korjata ennen "
 "kuin päivitykset voivat jatkua normaalisti."
 
-#: src/modules/pages/upkeep.php:394
+#: src/modules/pages/upkeep.php:409
 msgid ""
 "With this tool you can run command <code>wp-php-compatibility-check</code>. "
 "Check <a href=\"tools.php?page=logs_page&logfile=php-compatibility.log\" "
@@ -2112,11 +2112,11 @@ msgstr ""
 "page=logs_page&logfile=php-compatibility.log\" target=\"_blank\">php-"
 "compatibility.log</a> tiedostosta"
 
-#: src/modules/pages/upkeep.php:396
+#: src/modules/pages/upkeep.php:411
 msgid "Change PHP version"
 msgstr "Vaihda PHP-versiota"
 
-#: src/modules/pages/upkeep.php:397
+#: src/modules/pages/upkeep.php:412
 msgid ""
 "Latest version is recommended if all plugins and theme support it. See also "
 "<a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-your-site-"
@@ -2126,7 +2126,7 @@ msgstr ""
 "Katso myös <a target=\"_blank\" href=\"https://help.seravo.fi/article/234-"
 "uusimpaan-php-versioon-siirtyminen\">ohje PHP-versiopäivityksistä</a>."
 
-#: src/modules/pages/upkeep.php:446
+#: src/modules/pages/upkeep.php:461
 msgid ""
 "PHP compatibility check has been run. See full details on <a href=\"tools."
 "php?page=logs_page&logfile=php-compatibility.log\" target=\"_blank"
@@ -2136,7 +2136,7 @@ msgstr ""
 "\"tools.php?page=logs_page&logfile=php-compatibility.log\" target=\"_blank"
 "\">php-compatibility.log</a> tiedostosta"
 
-#: src/modules/pages/upkeep.php:481
+#: src/modules/pages/upkeep.php:496
 msgid ""
 "PHP version has been changed succesfully! Please check <a href=\"tools.php?"
 "page=logs_page&logfile=php-error.log\" target=\"_blank\">php-error.log</a> "
@@ -2146,11 +2146,11 @@ msgstr ""
 "page=logs_page&logfile=php-error.log\" target=\"_blank\">php-error.log</a> "
 "mahdollisten yhteensopivuusongelmien varalta."
 
-#: src/modules/pages/upkeep.php:489
+#: src/modules/pages/upkeep.php:504
 msgid "The selected PHP version is already in use."
 msgstr "Valittu PHP-versio on jo käytössä."
 
-#: src/modules/pages/upkeep.php:528
+#: src/modules/pages/upkeep.php:543
 msgid ""
 "No upstream or current Seravo Plugin version available, please try again "
 "later"
@@ -2158,7 +2158,7 @@ msgstr ""
 "Virhe haettaessa uusimman tai nykyisen Seravo Plugin version tietoja, ole "
 "hyvä ja yritä uudelleen myöhemmin"
 
-#: src/modules/pages/upkeep.php:532
+#: src/modules/pages/upkeep.php:547
 msgid ""
 "Seravo automatically updates your site and the Seravo Plugin as well. If you "
 "want to immediately update to the latest Seravo Plugin version, you can do "
@@ -2168,27 +2168,27 @@ msgstr ""
 "haluat välittömästi päivittää viimeisimpään Seravo Plugin versioon, voit "
 "tehdä sen täältä."
 
-#: src/modules/pages/upkeep.php:533
+#: src/modules/pages/upkeep.php:548
 msgid "Current version: "
 msgstr "Nykyinen versio: "
 
-#: src/modules/pages/upkeep.php:534
+#: src/modules/pages/upkeep.php:549
 msgid "Upstream version: "
 msgstr "Viimeisin versio: "
 
-#: src/modules/pages/upkeep.php:537
+#: src/modules/pages/upkeep.php:552
 msgid "Seravo Plugin installation is up to date."
 msgstr "Seravo Plugin on ajan tasalla."
 
-#: src/modules/pages/upkeep.php:539
+#: src/modules/pages/upkeep.php:554
 msgid "There is a new version available"
 msgstr "Uusi versio saatavilla"
 
-#: src/modules/pages/upkeep.php:598
+#: src/modules/pages/upkeep.php:613
 msgid "Opt-out from updates by Seravo"
 msgstr "Kiellä Seravoa päivittämästä sivustoa ja vastaa päivityksistä itse"
 
-#: src/modules/pages/upkeep.php:599
+#: src/modules/pages/upkeep.php:614
 msgid ""
 "The Seravo upkeep service includes core and plugin updates to your WordPress "
 "site, keeping your site current with security patches and frequent tested "
@@ -2204,15 +2204,15 @@ msgstr ""
 "ruudusta. HUOM! Tietoturvapäivityksiä saatamme tehdä päivityskiellosta "
 "huolimatta, tilanteen niin vaatiessa."
 
-#: src/modules/pages/upkeep.php:604
+#: src/modules/pages/upkeep.php:619
 msgid "Seravo updates enabled"
 msgstr "Seravon päivitykset sallittu"
 
-#: src/modules/pages/upkeep.php:607
+#: src/modules/pages/upkeep.php:622
 msgid "Update Notifications with a Slack Webhook"
 msgstr "Päivitysilmoitukset Slackin webhookin avulla"
 
-#: src/modules/pages/upkeep.php:608
+#: src/modules/pages/upkeep.php:623
 msgid ""
 "By defining a Slack webhook address below, Seravo can send you notifications "
 "about every update attempt, whether successful or not, to the Slack channel "
@@ -2225,15 +2225,15 @@ msgstr ""
 "\"https://api.slack.com/incoming-webhooks\" target=\"_BLANK\">Lue lisää "
 "Slackin ohjeistuksesta</a>."
 
-#: src/modules/pages/upkeep.php:612
+#: src/modules/pages/upkeep.php:627
 msgid "Send a Test Notification"
 msgstr "Lähetä testi-ilmoitus"
 
-#: src/modules/pages/upkeep.php:617
+#: src/modules/pages/upkeep.php:632
 msgid "Contacts"
 msgstr "Yhteyshenkilöt"
 
-#: src/modules/pages/upkeep.php:618
+#: src/modules/pages/upkeep.php:633
 msgid ""
 "Seravo may use the email addresses defined here to send automatic "
 "notifications about technical problems with you site. Remember to use a "
@@ -2243,23 +2243,23 @@ msgstr ""
 "sivustoilla havaituista virhetilanteista. Ole hyvä ja lisää ainoastaan "
 "täydellisiä sähköpostiosoitteita."
 
-#: src/modules/pages/upkeep.php:621
+#: src/modules/pages/upkeep.php:636
 msgid "example@example.com"
 msgstr "esimerkki@esimerkki.fi"
 
-#: src/modules/pages/upkeep.php:622
+#: src/modules/pages/upkeep.php:637
 msgid "Add"
 msgstr "Lisää"
 
-#: src/modules/pages/upkeep.php:625
+#: src/modules/pages/upkeep.php:640
 msgid "Email must be formatted as name@domain.com"
 msgstr "Sähköpostiosoite täytyy olla muodossa nimi@domain.com"
 
-#: src/modules/pages/upkeep.php:627
+#: src/modules/pages/upkeep.php:642
 msgid "Save settings"
 msgstr "Tallenna asetukset"
 
-#: src/modules/pages/upkeep.php:628
+#: src/modules/pages/upkeep.php:643
 msgid ""
 "P.S. Subscribe to our <a href=\"https://seravo.com/newsletter-for-wordpress-"
 "developers/\" target=\"_blank\">Newsletter for WordPress Developers</a> to "
@@ -2269,23 +2269,23 @@ msgstr ""
 "developers/\" target=\"_blank\">englanninkielinen uutiskirje WordPress-"
 "kehittäjille</a> pysyäksesi ajan tasalla uusimmista ominaisuuksistamme."
 
-#: src/modules/pages/upkeep.php:673
+#: src/modules/pages/upkeep.php:688
 msgid "Choose a since date"
 msgstr "Valitse päivämäärä"
 
-#: src/modules/pages/upkeep.php:688
+#: src/modules/pages/upkeep.php:703
 msgid "Invalid date, using 2 days offset <br><br>"
 msgstr "Virheellinen päivämäärä, haettu tiedot 2 päivän ajalta <br><br>"
 
-#: src/modules/pages/upkeep.php:692
+#: src/modules/pages/upkeep.php:707
 msgid "Invalid date, showing since month beginning <br><br>"
 msgstr "Virheellinen päivämäärä, näytetään tiedot kuukauden alusta <br><br>"
 
-#: src/modules/pages/upkeep.php:727
+#: src/modules/pages/upkeep.php:742
 msgid "rows affected"
 msgstr "muutosta löydetty"
 
-#: src/modules/pages/upkeep.php:744
+#: src/modules/pages/upkeep.php:759
 msgid ""
 "No screenshots found. They will become available during the next attempted "
 "update."
@@ -2293,23 +2293,23 @@ msgstr ""
 "Kuvakaappauksia ei löytynyt. Ne luodaan sivuston seuraavan päivityksen "
 "yhteydessä."
 
-#: src/modules/pages/upkeep.php:818
+#: src/modules/pages/upkeep.php:833
 msgid "The Difference"
 msgstr "Eroavaisuudet"
 
-#: src/modules/pages/upkeep.php:835
+#: src/modules/pages/upkeep.php:850
 msgid "Update Attempt"
 msgstr "Edellinen päivitysyritys"
 
-#: src/modules/pages/upkeep.php:839
+#: src/modules/pages/upkeep.php:854
 msgid "Current State"
 msgstr "Sivuston nykytila"
 
-#: src/modules/pages/upkeep.php:912
+#: src/modules/pages/upkeep.php:927
 msgid "At least one of the tests failed."
 msgstr "Ainakin yksi testeistä epäonnistui."
 
-#: src/modules/pages/upkeep.php:918
+#: src/modules/pages/upkeep.php:933
 msgid "Tests were run without any errors!"
 msgstr "Testit suoritettu onnistuneesti ilman virheitä!"
 
@@ -2392,15 +2392,15 @@ msgid "The cache was not flushed, please check your PHP error log for details."
 msgstr ""
 "Välimuistia ei tyhjennetty, lisätietoja virheestä löytyy PHP-virhelokista."
 
-#: src/modules/speed-test.php:57 src/modules/speed-test.php:75
+#: src/modules/speed-test.php:56 src/modules/speed-test.php:74
 msgid "Speed Test"
 msgstr "Nopeustesti"
 
-#: src/modules/speed-test.php:65
+#: src/modules/speed-test.php:64
 msgid "Speedtest cannot be run for wp-admin pages"
 msgstr "Nopeustestiä ei voi ajaa wp-admin -sivuille"
 
-#: src/modules/speed-test.php:74
+#: src/modules/speed-test.php:73
 msgid "Test the speed of the current page"
 msgstr "Testaa nykyisen sivun nopeus"
 
