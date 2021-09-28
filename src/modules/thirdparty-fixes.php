@@ -16,7 +16,7 @@ final class ThirdPartyFixes {
    */
   protected function init() {
     // Jetpack whitelisting
-    \add_filter('jpp_allow_login', array( __CLASS__, 'jetpack_whitelist_seravo' ));
+    \add_filter('jpp_allow_login', array( __CLASS__, 'jetpack_whitelist_seravo' ), 10, 2);
 
     // Redirection plugin documentation is incorrect about the filter names.
     // Prefix 'red_' is correct one, not the 'redirection_'.
