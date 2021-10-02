@@ -76,18 +76,18 @@
     ]
   },
   "scripts": {
-    "phpcs:check": "@php ./vendor-dev/bin/phpcs -n",
+    "phpcs:check": "phpcs -n",
     "phpcs:fix": "@php ./vendor-dev/bin/phpcbf -n || true",
 
-    "rector:check": "@php ./vendor-dev/bin/rector --dry-run",
-    "rector:fix": "@php ./vendor-dev/bin/rector",
+    "rector:check": "rector --dry-run",
+    "rector:fix": "rector",
 
-    "phpstan:analyze": "@php ./vendor-dev/bin/phpstan --memory-limit=512M analyse",
+    "phpstan:analyze": "phpstan --memory-limit=512M analyse",
 
     "check": [
-      "composer phpstan:analyze",
-      "composer rector:check",
-      "composer phpcs:check"
+      "@phpstan:analyze",
+      "@rector:check",
+      "@phpcs:check"
     ]
   }
 }
