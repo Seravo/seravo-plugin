@@ -118,10 +118,15 @@ final class ThirdPartyFixes {
     global $wpdb;
     $handle = \fopen($logfile, 'a');
 
+    if ( $wpdb->queries === null ) {
+      // Some other plugin might have blocked 'SAVEQUERIES' from working
+      return;
+    }
+
     if ( $wpdb->num_queries > 0 && $handle !== false ) {
       $sid = isset($_SERVER['HTTP_X_SERAVO_REQUEST_ID']) ? $_SERVER['HTTP_X_SERAVO_REQUEST_ID'] : 'none';
       \fwrite($handle, '### ' . \date(\DateTime::ISO8601) . ' sid:' . $sid . ' total:' . $wpdb->num_queries . \chr(10));
-    foreach ( $wpdb->queries as $q ) {
+      foreach ( $wpdb->queries as $q ) {
         $sql = \trim(\preg_replace('/[\t\n\r\s]+/', ' ', $q[0]));
         $data = \str_replace("\n", '', \print_r($q[4], true));
         \fwrite($handle, "SQL: {$sql}" . \chr(10));
