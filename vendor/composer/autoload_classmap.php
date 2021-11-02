@@ -121,6 +121,7 @@ return array(
     'Seravo\\CruftRemover' => $baseDir . '/src/lib/cruftremover.php',
     'Seravo\\DashboardWidgets' => $baseDir . '/src/modules/dashboard-widgets.php',
     'Seravo\\Domains' => $baseDir . '/src/modules/pages/domains.php',
+    'Seravo\\GeoIP' => $baseDir . '/src/lib/geoip.php',
     'Seravo\\Helpers' => $baseDir . '/src/lib/helpers.php',
     'Seravo\\Logs' => $baseDir . '/src/lib/logs.php',
     'Seravo\\Module\\AdminChecks' => $baseDir . '/src/modules/admin-checks.php',

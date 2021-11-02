@@ -156,6 +156,7 @@ class ComposerStaticInit816aadb5ea01182af5842468019f4c6c
         'Seravo\\CruftRemover' => __DIR__ . '/../..' . '/src/lib/cruftremover.php',
         'Seravo\\DashboardWidgets' => __DIR__ . '/../..' . '/src/modules/dashboard-widgets.php',
         'Seravo\\Domains' => __DIR__ . '/../..' . '/src/modules/pages/domains.php',
+        'Seravo\\GeoIP' => __DIR__ . '/../..' . '/src/lib/geoip.php',
         'Seravo\\Helpers' => __DIR__ . '/../..' . '/src/lib/helpers.php',
         'Seravo\\Logs' => __DIR__ . '/../..' . '/src/lib/logs.php',
         'Seravo\\Module\\AdminChecks' => __DIR__ . '/../..' . '/src/modules/admin-checks.php',
