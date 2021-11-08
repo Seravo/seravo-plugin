@@ -161,6 +161,7 @@ class ComposerStaticInit816aadb5ea01182af5842468019f4c6c
         'Seravo\\Logs' => __DIR__ . '/../..' . '/src/lib/logs.php',
         'Seravo\\Module\\AdminChecks' => __DIR__ . '/../..' . '/src/modules/admin-checks.php',
         'Seravo\\Module\\Fixes' => __DIR__ . '/../..' . '/src/modules/fixes.php',
+        'Seravo\\Module\\GeoLogin' => __DIR__ . '/../..' . '/src/modules/geologin.php',
         'Seravo\\Module\\HideUsers' => __DIR__ . '/../..' . '/src/modules/hide-users.php',
         'Seravo\\Module\\ImageUpload' => __DIR__ . '/../..' . '/src/modules/image-upload.php',
         'Seravo\\Module\\InstanceSwitcher' => __DIR__ . '/../..' . '/src/modules/instance-switcher.php',

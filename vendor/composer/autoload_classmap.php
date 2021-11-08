@@ -126,6 +126,7 @@ return array(
     'Seravo\\Logs' => $baseDir . '/src/lib/logs.php',
     'Seravo\\Module\\AdminChecks' => $baseDir . '/src/modules/admin-checks.php',
     'Seravo\\Module\\Fixes' => $baseDir . '/src/modules/fixes.php',
+    'Seravo\\Module\\GeoLogin' => $baseDir . '/src/modules/geologin.php',
     'Seravo\\Module\\HideUsers' => $baseDir . '/src/modules/hide-users.php',
     'Seravo\\Module\\ImageUpload' => $baseDir . '/src/modules/image-upload.php',
     'Seravo\\Module\\InstanceSwitcher' => $baseDir . '/src/modules/instance-switcher.php',
