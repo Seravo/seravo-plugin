@@ -89,7 +89,15 @@ class Helpers {
    * @return string Recommended PHP version.
    */
   public static function get_recommended_php_version() {
-    return '7.4';
+    $php_config = self::parse_php_config();
+
+    if ( $php_config === array() || ! isset($php_config['PHP_DEFAULT_VERSION']) ) {
+      // Couldn't parse the config. Return '0.0' which should hide any
+      // "upgrade php" -notices as we don't know the actually recommended version.
+      return '0.0';
+    }
+
+    return $php_config['PHP_DEFAULT_VERSION'];
   }
 
   /**
@@ -97,7 +105,74 @@ class Helpers {
    * @return string Current end of life PHP version.
    */
   public static function get_eol_php_version() {
-    return '7.2.34';
+    $php_config = self::parse_php_config();
+
+    if ( $php_config === array() || ! isset($php_config['PHP_DEFAULT_VERSION']) ) {
+      // Couldn't parse the config. Return '0.0' which should hide any
+      // "upgrade php" -notices as we don't know the actually recommended version.
+      return '0.0';
+    }
+
+    $timestamp = \time();
+
+    // Find the latest version with a passed EOL date
+    $versions = array_keys($php_config['PHP_EOL']);
+    for ( $i = count($versions) - 1; $i >= 0; $i-- ) {
+      $timestamp_eol = (int) $php_config['PHP_EOL'][$versions[$i]];
+      if ( $timestamp_eol < $timestamp ) {
+        // Found the latest EOL version. Append '.999' as we don't want
+        // to deal with RELEASE versions when comparing versions.
+        return $versions[$i] . '.999';
+      }
+    }
+
+    // No EOL versions found
+    return '0.0';
+  }
+
+  /**
+   * Parse /etc/php/versions for information about the
+   * containers PHP versions.
+   *
+   * Array keys are equal to the ones in the file.
+   *
+   * @return mixed[] Container PHP info.
+   */
+  public static function parse_php_config() {
+    $php_config = get_transient('seravo_php_config');
+
+    if ( $php_config !== false && $php_config !== array() ) {
+      // Valid transient
+      return $php_config;
+    }
+
+    // The PHP versions file isn't actually a proper INI file
+    // but parse_ini_file is capable of parsing it pretty good.
+    $php_config = \parse_ini_file('/etc/php/versions');
+    if ( $php_config === false ) {
+      return array();
+    }
+
+    // Fix supported versions -array
+    $count = preg_match_all('/\d+.\d+/', $php_config['PHP_SUPPORTED_VERSIONS'], $versions);
+    if ( $count === 0 || $versions === false ) {
+      $php_config['PHP_SUPPORTED_VERSIONS'] = array();
+    } else {
+      $php_config['PHP_SUPPORTED_VERSIONS'] = $versions[0];
+    }
+
+    // Fix EOL versions -array
+    $count = preg_match_all('/(\d+.\d+)=(\d+)/', $php_config['PHP_EOL'], $eol);
+    if ( $count === 0 || $versions === false ) {
+      $php_config['PHP_EOL'] = array();
+    } else {
+      $php_config['PHP_EOL'] = array_combine($eol[1], $eol[2]);
+    }
+
+    // Cache for 24 hours
+    set_transient('seravo_php_config', $php_config, 24 * HOUR_IN_SECONDS);
+
+    return $php_config;
   }
 
   /**
