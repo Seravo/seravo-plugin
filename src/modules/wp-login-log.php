@@ -62,6 +62,7 @@ final class LoginLog {
     $request = $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'];
     $http_referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
     $http_user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    $country_code = $_SERVER['HTTP_X_SERAVO_GEO_COUNTRY_CODE'];
 
     // Finally write the log to disk
 
@@ -72,7 +73,7 @@ final class LoginLog {
       return $redirect_to;
     }
 
-    \fwrite($log_fp, "{$remote_addr} - {$remote_user} [{$time_local}] \"{$request}\" {$status_code} 1000 \"{$http_referer}\" \"{$http_user_agent}\" {$login_status} \n");
+    \fwrite($log_fp, "{$remote_addr} - {$remote_user} [{$time_local}] \"{$request}\" {$status_code} 1000 \"{$http_referer}\" \"{$http_user_agent}\" \"cc:{$country_code};\" {$login_status} \n");
     \fclose($log_fp);
 
     return $redirect_to;
