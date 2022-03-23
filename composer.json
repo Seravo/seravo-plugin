@@ -18,62 +18,18 @@
     "seravo.com"
   ],
   "require": {
-    "php": "^5.6 || ^7.0 || ^8.0",
-    "composer/installers": "^1.0",
-    "enshrined/svg-sanitize": ">=0.13.3",
-    "symfony/polyfill-php73": "^1.23"
+    "php": "^5.6 || ^7.0 || ^8.0"
   },
   "config": {
     "preferred-install": {
       "*": "dist"
     },
-    "vendor-dir": "vendor-dev",
+    "vendor-dir": "vendor",
     "sort-packages": true,
-    "platform-check": false
-  },
-  "require-dev": {
-    "pheromone/phpcs-security-audit": "^2.0",
-    "phpcompatibility/php-compatibility": "^9.3",
-    "php-stubs/wordpress-stubs": "4.7.14",
-    "php-stubs/wp-cli-stubs": "2.4.0",
-    "rector/rector": "^0.11.16",
-    "squizlabs/php_codesniffer": "3.6",
-    "wp-coding-standards/wpcs": "^2.3",
-    "szepeviktor/phpstan-wordpress": "^0.7.5",
-    "phpstan/phpstan-strict-rules": "^0.12.10"
-  },
-  "autoload": {
-    "classmap": [
-      "src/lib/module",
-      "src/lib/postbox",
-      "src/lib/ajax",
-      "src/lib/api.php",
-      "src/lib/helpers.php",
-      "src/lib/cruftremover.php",
-      "src/lib/list-table.php",
-      "src/lib/shell.php",
-      "src/lib/security-restrictions.php",
-      "src/lib/logs.php",
-      "src/lib/compatibility.php",
-      "src/lib/shadow.php",
-      "src/modules/pages",
-      "src/modules/check-site-health.php",
-      "src/modules/dashboard-widgets.php",
-      "src/modules/fixes.php",
-      "src/modules/hide-users.php",
-      "src/modules/instance-switcher.php",
-      "src/modules/noindex-domain-alias.php",
-      "src/modules/passwords.php",
-      "src/modules/purge-cache.php",
-      "src/modules/seravotest-auth-bypass.php",
-      "src/modules/speed-test.php",
-      "src/modules/thirdparty-fixes.php",
-      "src/modules/wp-login-log.php",
-      "src/modules/wp-plugin-log.php",
-      "src/modules/wp-user-log.php",
-      "src/modules/admin-checks.php",
-      "src/modules/image-upload.php"
-    ]
+    "platform-check": false,
+    "allow-plugins": {
+      "composer/installers": true
+    }
   },
   "scripts": {
     "phpcs:check": "@php ./vendor-dev/bin/phpcs -n",
