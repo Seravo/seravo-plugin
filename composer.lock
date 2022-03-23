@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "67cf8322478eb2968c7499b15ca7cb78",
+    "content-hash": "b1c138255a06bdd423d525fdb10e872b",
     "packages": [
         {
             "name": "composer/installers",
@@ -158,26 +158,25 @@
         },
         {
             "name": "enshrined/svg-sanitize",
-            "version": "0.15.0",
+            "version": "0.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/darylldoyle/svg-sanitizer.git",
-                "reference": "17e12ba9c2881caa6b167d0fbea555c11207fbb0"
+                "reference": "beff89576a72540ee99476aeb9cfe98222e76fb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/17e12ba9c2881caa6b167d0fbea555c11207fbb0",
-                "reference": "17e12ba9c2881caa6b167d0fbea555c11207fbb0",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/beff89576a72540ee99476aeb9cfe98222e76fb8",
+                "reference": "beff89576a72540ee99476aeb9cfe98222e76fb8",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
-                "ext-libxml": "*",
-                "php": "^7.0 || ^8.0"
+                "ext-libxml": "*"
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "^0.1.2",
-                "phpunit/phpunit": "^6.5 || ^8.5"
+                "phpunit/phpunit": "^6"
             },
             "type": "library",
             "autoload": {
@@ -198,9 +197,9 @@
             "description": "An SVG sanitizer for PHP",
             "support": {
                 "issues": "https://github.com/darylldoyle/svg-sanitizer/issues",
-                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.15.0"
+                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.14.0"
             },
-            "time": "2022-02-13T00:42:56+00:00"
+            "time": "2021-01-21T10:13:20+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
@@ -823,8 +822,12 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^5.6 || ^7.0 || ^8.0"
+        "php": "^5.6 || ^7.0 || ^8.0",
+        "ext-curl": "*",
+        "ext-fileinfo": "*",
+        "ext-json": "*",
+        "ext-zlib": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }

@@ -36,7 +36,7 @@ if ( ! \defined('SERAVO_PLUGIN_SRC') ) {
 }
 
 // Use Postbox::class for now to see if autoload needs to be required
-if ( ! \class_exists(\Seravo\Postbox\Postbox::class, false) ) {
+if ( ! \class_exists(\Seravo\Postbox\Postbox::class) ) {
   require_once SERAVO_PLUGIN_DIR . 'vendor/autoload.php';
 }
 
@@ -221,10 +221,6 @@ class Loader {
      * Helpers for fixing issues with third-party code (plugins etc.)
      */
     Module\ThirdPartyFixes::load();
-    /*
-     * Add country restrictions to admin login
-     */
-    Module\GeoLogin::load();
     /*
      * Add a cache purge button to the WP adminbar
      */
