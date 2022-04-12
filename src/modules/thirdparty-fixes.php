@@ -29,6 +29,25 @@ final class ThirdPartyFixes {
     // Maybe cache HTTP requests
     \add_filter('pre_http_request', array( __CLASS__, 'http_maybe_use_cached' ), 10, 3);
     \add_filter('http_response', array( __CLASS__, 'http_maybe_cache' ), 10, 3);
+
+    // Prevent MainWP from deleting README.html by default
+    \add_filter('option_mainwp_security', array( __CLASS__, 'mainwp_readme' ), 10, 3);
+  }
+
+  /**
+   * Prevent MainWP from removing README.html from WP core
+   *
+   * If this file is absent, WordPress core checksum verification will fail,
+   * which is much worse than the data leak caused by the existence of this
+   * file. If third party wants to identify WordPress core version, (s)he can
+   * always look at eg. static assets to identify exact version.
+   *
+   * This sets mainwp_security['readme'] always to false, which should make
+   * MainWP by default keep README.html
+   */
+  public static function mainwp_readme( $value, $option ) {
+    $value['readme'] = false;
+    return $value;
   }
 
   /**
