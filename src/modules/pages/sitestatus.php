@@ -763,6 +763,7 @@ class SiteStatus extends Toolpage {
       'mini'       => __('WP Mini', 'seravo'),
       'pro'        => __('WP Pro', 'seravo'),
       'business'   => __('WP Business', 'seravo'),
+      'corporate'  => __('WP Corporate', 'seravo'),
       'enterprise' => __('WP Enterprise', 'seravo'),
     );
     $countries = array(
