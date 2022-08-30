@@ -193,14 +193,10 @@ class DashboardWidgets {
         // Last known disk space usage transient doesn't exist either. This shouldn't happen unless object-cache
         // was emptied (if using one) or the site is new. We are forced to fetch the data disk usage now.
         $data_folder = array();
-        $exec = Compatibility::exec('du -sb /data ' . \implode(' ', $exclude_dirs), $data_folder);
+        $exec = Compatibility::exec('timeout 3 du -sb /data ' . \implode(' ', $exclude_dirs), $data_folder);
         if ( $exec === false || $data_folder === array() ) {
           // Couldn't get the disk usage
-          return array(
-            'relative_usage' => 0.0,
-            'disk_usage' => 0,
-            'plan_limit' => 0,
-          );
+          $data_folder = array( '1 /data' );
         }
 
         // Store the latest disk usage in a never-expiring transient
