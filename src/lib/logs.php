@@ -125,7 +125,7 @@ class Logs {
 
     // Prevent reading huge files (over 32MB)
     $filesize = \filesize($filepath);
-    if ( $filesize >= 1024 * 1024 ^ 32 ) {
+    if ( $filesize >= 1024 * 1024 * 32 ) {
       $result['status'] = 'LARGE_LOG_FILE';
       $result['error'] = __('File too large', 'seravo');
       return $result;
