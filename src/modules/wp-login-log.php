@@ -22,6 +22,19 @@ final class LoginLog {
     // wp-login.php load, so we shall not process it unless we really detect a
     // login in progress.
     \add_filter('login_redirect', array( __CLASS__, 'wp_login_redirect_log' ), 10, 3);
+
+    // Two-factor plugin modifies the authentication flow, and prevents auth
+    // logging using our `login_redirect` filter. So, let's hook on the
+    // successful login action that two-factor triggers
+    \add_action('two_factor_user_authenticated', array( __CLASS__, 'twofactor_login_log' ), 10, 1);
+  }
+
+  /**
+   * Called on successful Two-factor plugin authentication event
+   */
+  public static function twofactor_login_log( $user ) {
+    // FIXME: validate that $user is really valid user object
+    self::wp_login_redirect_log( null, null, $user);
   }
 
   /**
@@ -33,7 +46,7 @@ final class LoginLog {
    */
   public static function wp_login_redirect_log( $redirect_to, $requested_redirect_to, $user ) {
     // Bail out quickly if username and password were not sent on this load
-    if ( ! isset($_POST['log']) || $_POST['log'] === '' || ! isset($_POST['pwd']) || $_POST['pwd'] === '' ) {
+    if ( \is_wp_error($user) && (! isset($_POST['log']) || $_POST['log'] === '' || ! isset($_POST['pwd']) || $_POST['pwd'] === '' )) {
       return $redirect_to;
     }
 
