@@ -85,22 +85,6 @@ class Helpers {
   }
 
   /**
-   * Get the recommended PHP version.
-   * @return string Recommended PHP version.
-   */
-  public static function get_recommended_php_version() {
-    return '7.4';
-  }
-
-  /**
-   * Get the current end of life PHP version.
-   * @return string Current end of life PHP version.
-   */
-  public static function get_eol_php_version() {
-    return '7.2.34';
-  }
-
-  /**
    * @param int $size      The size in bytes.
    * @param int $precision The amount of decimal places.
    * @return string The size in human readable format.
@@ -171,4 +155,83 @@ class Helpers {
     return \esc_url(\get_site_url(null, '.seravo/adminer'));
   }
 
+  /**
+   * Get the recommended PHP version.
+   * @return string Recommended PHP version.
+   */
+  public static function get_recommended_php_version() {
+    $php_config = self::parse_php_versions();
+
+    if ( $php_config === array() || ! isset($php_config['PHP_DEFAULT_VERSION']) ) {
+      // Couldn't parse the config. Return '0.0' which should hide any
+      // "upgrade php" -notices as we don't know the actually recommended version.
+      return '0.0';
+    }
+
+    return $php_config['PHP_DEFAULT_VERSION'];
   }
+
+  /**
+   * Get the current end of life PHP version.
+   * @return string Current end of life PHP version.
+   */
+  public static function get_eol_php_version() {
+    $php_config = self::parse_php_versions();
+
+    if ( $php_config === array() || ! isset($php_config['PHP_EOL']) ) {
+      // Couldn't parse the config. Return '0.0' which should hide any
+      // "upgrade php" -notices as we don't know the actually recommended version.
+      return '0.0';
+    }
+
+    $time = \time();
+    $eol_version = '0.0';
+
+    foreach ( $php_config['PHP_EOL'] as $version => $eol_time ) {
+      if ( $time > intval($eol_time) ) {
+        $eol_version = $version;
+      }
+    }
+
+    return $eol_version;
+  }
+
+  /**
+   * Parse available, recommended and EOL versions from /etc/php/versions.
+   * @return array.
+   */
+  public static function parse_php_versions() {
+    $php_config = get_transient('seravo_php_config');
+
+    if ( $php_config !== false && $php_config !== array() ) {
+      return $php_config;
+    }
+
+    $php_config = \parse_ini_file('/etc/php/versions');
+    if ( $php_config === false ) {
+      return array();
+    }
+
+    // Fix "supported versions" array
+    $count = preg_match_all('/\d+.\d+/', $php_config['PHP_SUPPORTED_VERSIONS'], $versions);
+    if ( $count === 0 || $versions === false ) {
+      $php_config['PHP_SUPPORTED_VERSIONS'] = array();
+    } else {
+      $php_config['PHP_SUPPORTED_VERSIONS'] = $versions[0];
+    }
+
+    // Fix "EOL versions" array
+    $count = preg_match_all('/(\d+.\d+)=(\d+)/', $php_config['PHP_EOL'], $eol);
+    if ( $count === 0 || $versions === false ) {
+      $php_config['PHP_EOL'] = array();
+    } else {
+      $php_config['PHP_EOL'] = array_combine($eol[1], $eol[2]);
+    }
+
+    // Cache for one hour
+    set_transient('seravo_php_config', $php_config, HOUR_IN_SECONDS);
+
+    return $php_config;
+  }
+
+}
