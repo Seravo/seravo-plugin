@@ -1,7 +1,7 @@
 <?php // phpcs:disable WordPress.Files.FileName.InvalidClassFileName
 /**
  * Plugin Name: Seravo Plugin
- * Version: 1.9.37
+ * Version: 1.9.39
  * Plugin URI: https://github.com/Seravo/seravo-plugin
  * Description: Enhances WordPress with Seravo.com specific features and integrations.
  * Author: Seravo Oy
