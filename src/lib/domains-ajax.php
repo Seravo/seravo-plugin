@@ -2,6 +2,8 @@
 
 namespace Seravo;
 
+use \Seravo\API\SWD;
+
 // Deny direct access to this file
 if ( ! \defined('ABSPATH') ) {
   die('Access denied!');
@@ -43,7 +45,8 @@ function seravo_get_forwards() {
     return;
   }
 
-  $response = API::get_site_data('/domain/' . $_REQUEST['domain'] . '/mailforwards');
+  $response = SWD::get_domain_mailforwards($_REQUEST['domain']);
+
   if ( \is_wp_error($response) ) {
     return seravo_respond_error_json($response->get_error_message());
   }
@@ -73,11 +76,9 @@ function seravo_edit_dns_table() {
 
 function seravo_admin_change_zone_file() {
 
-  $response = '';
-
   if ( isset($_REQUEST['zonefile']) && isset($_REQUEST['domain']) ) {
     // Attach the editable records to the compulsory
-    $zone = $_REQUEST['compulsory'] ? $_REQUEST['compulsory'] . "\n" . $_REQUEST['zonefile'] : $_REQUEST['zonefile'];
+    $zone = isset($_REQUEST['compulsory']) ? $_REQUEST['compulsory'] . "\n" . $_REQUEST['zonefile'] : $_REQUEST['zonefile'];
 
     // Remove the escapes that are not needed.
     // This makes \" into "
@@ -86,49 +87,43 @@ function seravo_admin_change_zone_file() {
     $data_str = \str_replace('\\\\"', '\"', $data_str);
     $data = \explode("\r\n", $data_str);
 
-    $response = API::update_site_data($data, '/domain/' . $_REQUEST['domain'] . '/zone', array( 200, 400 ));
-    if ( \is_wp_error($response) ) {
-      return seravo_respond_error_json($response->get_error_message());
+    $current_state = SWD::get_domain_zone($_REQUEST['domain']);
+    if ( \is_wp_error($current_state) ) {
+      return seravo_respond_error_json($current_state->get_error_message());
     }
 
-    // Create 'diff' field by combining modified lines with the
-    // the untouched records and remove the duplicate lines
-    $response_decoded = \json_decode($response, true);
-    if ( isset($response_decoded['diff']) && \strlen($response_decoded['diff']) > 0 ) {
-      $records = Seravo_DNS_Table::fetch_dns_records('zone', $_REQUEST['domain']);
-      if ( ! isset($records['error']) ) {
-        $zone_diff = array();
-        $diff = \explode("\n", $response_decoded['diff']);
-        // Go through the diff lines
-        foreach ( $diff as $line ) {
-          // Only lines prefixed with + or - are accepted,
-          // not lines with +++ or ---
-          if ( \substr($line, 0, 1) === '+' && \substr($line, 1, 1) !== '+' ) {
-            // Find the line matching the modified one and prefix it with '+'
-            foreach ( $records['editable']['records'] as $index => $record ) {
-              if ( $line === '+' . $record ) {
-                $records['editable']['records'][$index] = $line;
-                break;
-              }
-            }
-          } elseif ( \substr($line, 0, 1) === '-' && \substr($line, 1, 1) !== '-' ) {
-            // Removed lines (-) can be added as they are
-            $zone_diff[] = $line;
-          }
-        }
-        $zone_diff = \array_merge($records['editable']['records'], $zone_diff);
+    $updated_state = SWD::update_domain_zone($_REQUEST['domain'], $data);
+    if ( \is_wp_error($updated_state) ) {
+      return seravo_respond_error_json($updated_state->get_error_message());
+    }
 
-        $response_decoded['diff'] = \implode("\n", $zone_diff);
-        return \json_encode($response_decoded);
+    $old_zone = $current_state['editable']['records'];
+    $new_zone = $updated_state['editable']['records'];
+
+    $diff = [];
+
+    foreach ( $new_zone as $line ) {
+      if ( in_array($line, $old_zone) ) {
+        // This line already was in the zonefile
+        $diff[] = $line;
+      } else {
+        // This line is new in the zonefile
+        $diff[] = '+' . $line;
       }
     }
-  } else {
-    // 'No data returned'
-    return;
+
+    $diff_removed = array_diff($old_zone, $new_zone);
+    foreach ( $diff_removed as $line ) {
+      $diff[] = '-' . $line;
+    }
+
+    $new_zone['diff'] = \implode("\n", $diff);
+    return \json_encode($new_zone);
+
   }
 
-  return $response;
-
+  // 'No data returned'
+  return '';
 }
 
 function seravo_fetch_dns() {
@@ -145,13 +140,12 @@ function seravo_fetch_dns() {
 
 function seravo_set_primary_domain() {
   if ( isset($_REQUEST['domain']) ) {
-    $response = API::update_site_data(array( 'domain' => $_REQUEST['domain'] ), '/primary_domain', array( 200 ), 'POST');
+    $response = SWD::set_primary_domain($_REQUEST['domain']);
     if ( \is_wp_error($response) ) {
       return seravo_respond_error_json($response->get_error_message());
     }
-    return $response;
+    return \json_encode($response);
   }
-
 }
 
 function seravo_edit_forwards() {
@@ -178,50 +172,39 @@ function seravo_edit_forwards() {
         }
       }
 
-      $endpoint = '/domain/' . $domain . '/mailforwards';
       $forwards = array(
         'source' => $source,
         'destinations' => $destinations_parsed,
       );
 
-      $response = API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
-      if ( \is_wp_error($response) ) {
-        return seravo_respond_error_json($response->get_error_message());
-      }
+      $response = SWD::update_domain_mailforwards($domain, $forwards);
 
-      // Make sure it actually was added
-      $response_json = \json_decode($response, true);
-      foreach ( $response_json['forwards'] as $forward ) {
-        if ( $forward['source'] === $source ) {
-          if ( empty(\array_diff($destinations, $forward['destinations'])) ) {
-            return \json_encode(
-              array(
-                'status' => 200,
-                // translators: %s is an email address
-                'message' => \sprintf(__('Forwards for %s have been set', 'seravo'), $source . '@' . $domain),
-              )
-            );
-          }
-          break;
-        }
+      if ( \is_wp_error($response) ) {
+        return \json_encode(
+          array(
+            'status' => 200,
+            'message' => \sprintf(__("Some of the changes weren't made", 'seravo'), $source . '@' . $domain),
+          )
+        );
       }
 
       return \json_encode(
         array(
           'status' => 200,
-          'message' => \sprintf(__("Some of the changes weren't made", 'seravo'), $source . '@' . $domain),
+          // translators: %s is an email address
+          'message' => \sprintf(__('Forwards for %s have been set', 'seravo'), $source . '@' . $domain),
         )
       );
     }
 
     function delete_forward( $domain, $source ) {
-      $endpoint = '/domain/' . $domain . '/mailforwards';
       $forwards = array(
         'source' => $source,
         'destinations' => array(),
       );
 
-      $response = API::update_site_data($forwards, $endpoint, array( 200, 404 ), 'POST');
+      $response = SWD::update_domain_mailforwards($domain, $forwards);
+
       if ( \is_wp_error($response) ) {
         return seravo_respond_error_json($response->get_error_message());
       }
@@ -267,6 +250,18 @@ function seravo_edit_forwards() {
   }
 }
 
+function seravo_publish_domain() {
+  if ( isset($_REQUEST['domain']) ) {
+    $response = SWD::publish_domain($_REQUEST['domain']);
+    if ( \is_wp_error($response) ) {
+      return seravo_respond_error_json($response->get_error_message());
+    }
+    error_log('PUBLISH');
+    error_log(print_r($response, true));
+    return \json_encode($response);
+  }
+}
+
 function seravo_ajax_domains() {
 
   \check_ajax_referer('seravo_domains', 'nonce');
@@ -307,6 +302,10 @@ function seravo_ajax_domains() {
 
     case 'edit_forward':
       echo seravo_edit_forwards();
+      break;
+
+    case 'publish':
+      echo seravo_publish_domain();
       break;
 
     default:

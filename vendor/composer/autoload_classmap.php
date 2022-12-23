@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'Seravo\\API' => $baseDir . '/src/lib/api.php',
+    'Seravo\\API\\SWD' => $baseDir . '/src/lib/api/swd.php',
     'Seravo\\Ajax\\AjaxHandler' => $baseDir . '/src/lib/ajax/handler.php',
     'Seravo\\Ajax\\AjaxResponse' => $baseDir . '/src/lib/ajax/response.php',
     'Seravo\\Ajax\\FancyForm' => $baseDir . '/src/lib/ajax/templates/fancy-form.php',

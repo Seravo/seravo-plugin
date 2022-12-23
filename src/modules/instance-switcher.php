@@ -127,7 +127,11 @@ final class InstanceSwitcher {
     if ( $instances !== false ) {
       // add menu entries for each shadow
       foreach ( $instances as $instance ) {
-        $title = \strtoupper($instance['env']);
+
+        $title = '';
+        if ( isset($instance['env']['WP_ENV']) ) {
+          $title = \strtoupper($instance['env']['WP_ENV']);
+        }
 
         if ( \strlen($instance['info']) > 0 ) {
           $title .= ' (' . $instance['info'] . ')';

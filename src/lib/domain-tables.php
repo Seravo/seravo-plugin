@@ -2,6 +2,8 @@
 
 namespace Seravo;
 
+use \Seravo\API\SWD;
+
 // Deny direct access to this file
 if ( ! \defined('ABSPATH') ) {
   die('Access denied!');
@@ -169,16 +171,16 @@ class Seravo_Domains_List_Table extends WP_List_Table {
     $this->process_bulk_action();
 
     // Fetch list of domains
-    $api_query = '/domains';
-    $rawdata = API::get_site_data($api_query);
+    $rawdata = SWD::get_site_domains();
     if ( \is_wp_error($rawdata) ) {
       die($rawdata->get_error_message());
     }
 
     $data = array();
     foreach ( $rawdata as $index => $entry ) {
-      // Check if subdomain
-      $rawdata[$index]['subdomain'] = empty($entry['management']);
+      if ( ! isset($rawdata[$index]['subdomain']) ) {
+        $rawdata[$index]['subdomain'] = false;
+      }
 
       // Try to figure out 'dns' if API couldn't
       if ( empty($entry['dns']) ) {
@@ -214,7 +216,7 @@ class Seravo_Domains_List_Table extends WP_List_Table {
       }
 
       // Try to figure out 'expires' and 'management' if API couldn't
-      if ( $rawdata[$index]['subdomain'] === true && (empty($entry['management']) || empty($entry['expires'])) ) {
+      if ( (bool) $rawdata[$index]['subdomain'] === true && (empty($entry['management']) || empty($entry['expires'])) ) {
           $domain = $entry['domain'];
           while ( \substr_count($domain, '.') >= 1 ) {
           foreach ( $rawdata as $entry_compare ) {
@@ -378,19 +380,24 @@ class Seravo_Mails_Forward_Table extends WP_List_Table {
   public function prepare_items() {
 
     // Fetch list of domains
-    $api_query = '/domains';
-    $rawdata = API::get_site_data($api_query);
+    $rawdata = SWD::get_site_domains();
     if ( \is_wp_error($rawdata) ) {
       die($rawdata->get_error_message());
     }
 
     $data = array();
     foreach ( $rawdata as $domain ) {
-      if ( $domain['management'] === 'Seravo' ) {
-        $data[] = array(
-          'domain' => $domain['domain'],
-        );
+      if ( $domain['management'] !== 'Seravo' ) {
+        continue;
       }
+
+      if ( isset($domain['subdomain']) && $domain['subdomain'] === true ) {
+        continue;
+      }
+
+      $data[] = array(
+        'domain' => $domain['domain'],
+      );
     }
 
     // Define column headers
@@ -456,7 +463,7 @@ class Seravo_DNS_Table {
       return;
     }
 
-    $timestamp = \date_create_from_format('Y-m-d H:i:s T', $records['timestamp']);
+    $timestamp = \date_create_from_format("Y-m-d\\TH:i:s.u", $records['timestamp']);
 
     echo '<hr>';
     echo '<p class="update-time"><b>' . __('Update time:', 'seravo') . '</b> ' . \date_format($timestamp, \get_option('date_format') . ' ' . \get_option('time_format')) . '</p>';
@@ -498,7 +505,7 @@ class Seravo_DNS_Table {
     }
 
     echo '<hr>';
-    if ( ! $error && $records['pending_activation'] ) {
+    if ( $records['pending_activation'] === true ) {
       echo '<input type="hidden" name="action" value="change_zone_file">';
       echo '<input type="hidden" name="domain" value="' . $records['name'] . '">';
       echo '<table id="zone-edit-table">';
@@ -542,9 +549,11 @@ class Seravo_DNS_Table {
    * @return mixed[]|\WP_Error
    */
   public static function fetch_dns_records( $action, $domain ) {
-    $api_query = '/domain/' . $domain . '/' . $action;
-
-    $records = API::get_site_data($api_query);
+    if ( $action === 'zone' ) {
+      $records = SWD::get_domain_zone($domain);
+    } else {
+      $records = SWD::sniff_domain_zone($domain);
+    }
 
     if ( \is_wp_error($records) ) {
       $records = array( 'error' => $records->get_error_message() );

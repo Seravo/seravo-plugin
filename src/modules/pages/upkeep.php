@@ -5,6 +5,7 @@ namespace Seravo\Page;
 use \Seravo\Helpers;
 use \Seravo\Shell;
 use \Seravo\API;
+use \Seravo\API\SWD;
 use \Seravo\Compatibility;
 
 use \Seravo\Ajax;
@@ -265,7 +266,7 @@ class Upkeep extends Toolpage {
    * @return array<string,array|string>
    */
   public static function get_update_status() {
-    $site_info = API::get_site_data();
+    $site_info = SWD::get_site_info();
     $data = array();
 
     if ( \is_wp_error($site_info) ) {
@@ -445,7 +446,7 @@ class Upkeep extends Toolpage {
     $current_version = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
     $data[$current_version]['checked'] = true;
 
-      foreach ( $data as $version ) {
+    foreach ( $data as $version ) {
       $base->add_child(Template::radio_button('php-version', $version['value'], $version['name'], $version['checked']));
     }
   }
@@ -650,7 +651,7 @@ class Upkeep extends Toolpage {
    */
   public static function get_seravo_updates_data() {
     $data = array();
-    $site_info = API::get_site_data();
+    $site_info = SWD::get_site_info();
     if ( \is_wp_error($site_info) ) {
       \error_log($site_info->get_error_message());
       $data['error'] = __('An API error occured. Please try again later', 'seravo');
@@ -660,10 +661,15 @@ class Upkeep extends Toolpage {
     $data['seravo_updates_on'] = $site_info['seravo_updates'] === true;
     $data['slack_webhook'] = '';
 
-    // Check that webhooks really exist
-    if ( isset($site_info['notification_webhooks']) && (isset($site_info['notification_webhooks'][0]['url']) &&
-    $site_info['notification_webhooks'][0]['type'] === 'slack') ) {
-      $data['slack_webhook'] = $site_info['notification_webhooks'][0]['url'];
+    // Check whether a webhook exists.
+    if ( isset($site_info['notification_webhooks_json']) ) {
+      $webhooks = $site_info['notification_webhooks_json'];
+
+      // Only keep the webhook if it was valid JSON and a webhook for Slack.
+      if ( $webhooks !== null && isset($webhooks[0]) ) {
+        $data['slack_webhook'] = $webhooks[0]['url'];
+      }
+
     }
 
     $contact_emails = array();
@@ -902,7 +908,13 @@ class Upkeep extends Toolpage {
       }
     }
 
-    $response = API::update_site_data($data);
+    // TODO: Dont use $data array
+    $response = SWD::update_site_info(
+      $data['seravo_updates'],
+      $data['contact_emails'],
+      $data['notification_webhooks']
+    );
+
     if ( \is_wp_error($response) ) {
       die($response->get_error_message());
     }

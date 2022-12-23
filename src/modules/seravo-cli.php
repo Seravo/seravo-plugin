@@ -2,7 +2,7 @@
 
 namespace Seravo\Module;
 
-use \Seravo\API;
+use \Seravo\API\SWD;
 use \Seravo\Helpers;
 use \Seravo\GeoIP;
 
@@ -49,7 +49,7 @@ final class SeravoCLI extends \WP_CLI_Command {
    * @return void
    */
   public function updates( $args, $assoc_args ) {
-    $site_info = API::get_site_data();
+    $site_info = SWD::get_site_info();
     if ( \is_wp_error($site_info) ) {
       \WP_CLI::error('Seravo API failed to return information about updates.');
       return;

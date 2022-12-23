@@ -6,6 +6,7 @@ use \Seravo\Helpers;
 use \Seravo\DashboardWidgets;   // TODO: Not good, get rid of
 use \Seravo\SiteHealth;         // TODO: Not good, get rid of (??)
 use \Seravo\API;
+use \Seravo\API\SWD;
 use \Seravo\Compatibility;
 
 use \Seravo\Ajax;
@@ -629,7 +630,7 @@ class SiteStatus extends Toolpage {
    */
   public static function get_disk_usage() {
     $response = new AjaxResponse();
-    $api_response = API::get_site_data();
+    $api_response = SWD::get_site_info();
 
     if ( \is_wp_error($api_response) ) {
       \error_log($api_response->get_error_message());
@@ -749,7 +750,7 @@ class SiteStatus extends Toolpage {
    * @return array<string, string>
    */
   public static function get_site_info() {
-    $info = API::get_site_data();
+    $info = SWD::get_site_info();
     $data = array();
 
     if ( \is_wp_error($info) ) {
@@ -852,8 +853,12 @@ class SiteStatus extends Toolpage {
       $primary_domain = '';
       // Find primary domain of the shadow
       foreach ( $shadow_data['domains'] as $domain ) {
-        $primary_domain = $domain['primary'] === $shadow_data['name'] ? $domain['domain'] : '';
+        if ( $domain['primary'] === $shadow_data['name'] ) {
+          $primary_domain = $domain['domain'];
+          break;
+        }
       }
+
       $tbody = new Component('', '<tbody id="' . $shadow_data['name'] . '" class="shadow-instance">', '</tbody>');
       // view
       $tr_view = new Component('', '<tr class="view"' . ($shadow_counter === \count($shadow_list) ? 'style="border-bottom: 1.5px solid #ccd0d4;"' : '') . '>', '</tr>');
@@ -880,7 +885,7 @@ class SiteStatus extends Toolpage {
    */
   public static function get_shadows_data() {
     $data = array();
-    $shadow_data = API::get_site_data('/shadows');
+    $shadow_data = SWD::get_site_shadows();
 
     if ( \is_wp_error($shadow_data) ) {
       \error_log($shadow_data->get_error_message());
@@ -909,7 +914,7 @@ class SiteStatus extends Toolpage {
     if ( $polling === false ) {
       // run the shadow reset here
       if ( isset($_POST['shadow']) && $_POST['shadow'] !== '' ) {
-        $shadows = API::get_site_data('/shadows');
+        $shadows = SWD::get_site_shadows();
         $shadow = $_POST['shadow'];
 
         if ( \is_wp_error($shadows) ) {

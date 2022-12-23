@@ -129,9 +129,14 @@ jQuery(document).ready(function($) {
       var update_zone_button = $(action_row).find('#update-zone-btn');
       var publish_zone_button = $(action_row).find('#publish-zone-btn');
 
-      update_zone_button.add(publish_zone_button).click(function(e) {
+      update_zone_button.click(function(e) {
         e.preventDefault();
         domains_table.zone.edit_zone(domain, action_row);
+      });
+
+      publish_zone_button.click(function(e) {
+        e.preventDefault();
+        domains_table.publish(domain, action_row);
       });
 
     },
@@ -167,6 +172,22 @@ jQuery(document).ready(function($) {
         $('#primary-modal-text').html(seravo_domains_loc.primary_failed);
       });
 
+    },
+
+    publish: function (domain, action_row) {
+      $(action_row).find('#update-zone-btn').attr("disabled", true);
+
+      jQuery.post(seravo_domains_loc.ajaxurl, {
+          'action': 'seravo_ajax_domains',
+          'section': 'publish',
+          'domain': domain,
+          'nonce': seravo_domains_loc.ajax_nonce,
+        }, function (rawData) {
+          // On success, refresh page, otherwise do nothing
+          location.reload();
+        }
+      ).fail(function (error) {
+      });
     },
 
     zone: {
@@ -425,14 +446,13 @@ jQuery(document).ready(function($) {
             var data = JSON.parse(rawData);
 
             // Check for errors
-            if (  data['status'] !== 200 || ! ( 'forwards' in data ) ) {
+            if ( ! ( 'forwards' in data ) ) {
               forwards_table.set_forwards(domain, data['reason']);
             } else {
               if ( data['forwards'].length ) {
                 var html = '<table class="forward">';
 
                 data['forwards'].forEach(function(forward) {
-
                   if (edit_source === forward['source']) {
 
                     var destinations = '';

@@ -18,7 +18,7 @@
     "seravo.com"
   ],
   "require": {
-    "php": "^5.6 || ^7.0 || ^8.0"
+    "php": "^7.0 || ^8.0"
   },
   "config": {
     "preferred-install": {
@@ -51,7 +51,7 @@
       "src/lib/module",
       "src/lib/postbox",
       "src/lib/ajax",
-      "src/lib/api.php",
+      "src/lib/api/swd.php",
       "src/lib/helpers.php",
       "src/lib/cruftremover.php",
       "src/lib/list-table.php",

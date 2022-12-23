@@ -8,7 +8,7 @@ class ComposerStaticInit7fbd458cfab372eb173c9554bbea50d5
 {
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Seravo\\API' => __DIR__ . '/../..' . '/src/lib/api.php',
+        'Seravo\\API\\SWD' => __DIR__ . '/../..' . '/src/lib/api/swd.php',
         'Seravo\\Ajax\\AjaxHandler' => __DIR__ . '/../..' . '/src/lib/ajax/handler.php',
         'Seravo\\Ajax\\AjaxResponse' => __DIR__ . '/../..' . '/src/lib/ajax/response.php',
         'Seravo\\Ajax\\FancyForm' => __DIR__ . '/../..' . '/src/lib/ajax/templates/fancy-form.php',

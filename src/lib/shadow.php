@@ -2,6 +2,8 @@
 
 namespace Seravo;
 
+use Seravo\API\SWD;
+
 /**
  * Class Shadow
  *
@@ -24,7 +26,8 @@ class Shadow {
 
     // Check if shadows were cached
     if ( $shadow_list === false ) {
-      $shadow_list = API::get_site_data('/shadows');
+      $shadow_list = SWD::get_site_shadows();
+      
       if ( \is_wp_error($shadow_list) ) {
         return false;
       }
