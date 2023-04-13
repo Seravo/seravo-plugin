@@ -234,4 +234,23 @@ class Helpers {
     return $php_config;
   }
 
+  /**
+   * Get the current network blog name.
+   * @return false|string Current blog name or false on non-multisite.
+   */
+  public static function get_blog_name() {
+    global $blog_id;
+
+    if ( ! is_multisite() ) {
+      return false;
+    }
+
+    $current_blog_details = get_blog_details(array( 'blog_id' => $blog_id ));
+    if ( $current_blog_details === false ) {
+      return false;
+    }
+
+    return $current_blog_details->blogname;
+  }
+
 }

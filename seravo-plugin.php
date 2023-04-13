@@ -222,6 +222,10 @@ class Loader {
      */
     Module\ThirdPartyFixes::load();
     /*
+     * Add country restrictions to admin login
+     */
+    Module\GeoLogin::load();
+    /*
      * Add a cache purge button to the WP adminbar
      */
     Module\PurgeCache::load();
