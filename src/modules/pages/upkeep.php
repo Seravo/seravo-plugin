@@ -420,33 +420,29 @@ class Upkeep extends Toolpage {
    * @return void
    */
   public static function build_php_version_form( Component $base ) {
-    $data = array(
-      '7.2' => array(
-        'value' => '7.2',
-        'name'  => 'PHP 7.2 (EOL 30 Nov 2020)',
-        'checked' => false,
-      ),
-      '7.3' => array(
-        'value' => '7.3',
-        'name'  => 'PHP 7.3 (EOL 6 Dec 2021)',
-        'checked' => false,
-      ),
-      '7.4' => array(
-        'value' => '7.4',
-        'name'  => 'PHP 7.4',
-        'checked' => false,
-      ),
-      '8.0' => array(
-        'value' => '8.0',
-        'name'  => 'PHP 8.0',
-        'checked' => false,
-      ),
-    );
+    $version_info = Helpers::parse_php_versions();
 
     $current_version = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-    $data[$current_version]['checked'] = true;
+    $current_time = time();
 
-    foreach ( $data as $version ) {
+    $options = [];
+    foreach ( $version_info['PHP_SUPPORTED_VERSIONS'] as $version ) {
+      $in_use = $current_version === $version;
+      $eol_time = $version_info['PHP_EOL'][$version];
+
+      $options[$version] = array(
+        'value' => $version,
+        'name'  => 'PHP ' . $version,
+        'checked' => $in_use,
+      );
+
+      // Show EOL time if EOL is in less than 12 months
+      if ( $eol_time - $current_time < 12 * MONTH_IN_SECONDS ) {
+        $options[$version]['name'] .= ' (EOL ' . \wp_date('M j, Y', $eol_time) . ')';
+      }
+    }
+
+    foreach ( $options as $version ) {
       $base->add_child(Template::radio_button('php-version', $version['value'], $version['name'], $version['checked']));
     }
   }
@@ -484,13 +480,14 @@ class Upkeep extends Toolpage {
   public static function set_php_version() {
     $polling = Ajax\AjaxHandler::check_polling();
     $php_version = isset($_REQUEST['php-version']) ? \sanitize_text_field($_REQUEST['php-version']) : '';
+
+    $version_info = Helpers::parse_php_versions();
     $current_version = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-    $php_version_array = array(
-      '7.2' => '7.2',
-      '7.3' => '7.3',
-      '7.4' => '7.4',
-      '8.0' => '8.0',
-    );
+
+    $php_version_array = [];
+    foreach ( $version_info['PHP_SUPPORTED_VERSIONS'] as $version ) {
+      $php_version_array[$version] = $version;
+    }
 
     if ( $polling === true ) {
       $successful_change = Template::success_failure(true)->to_html() .
