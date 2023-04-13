@@ -45,5 +45,40 @@
       "composer rector:check",
       "composer phpcs:check"
     ]
+  },
+  "autoload": {
+    "classmap": [
+      "src/lib/module",
+      "src/lib/postbox",
+      "src/lib/ajax",
+      "src/lib/api.php",
+      "src/lib/helpers.php",
+      "src/lib/cruftremover.php",
+      "src/lib/list-table.php",
+      "src/lib/shell.php",
+      "src/lib/security-restrictions.php",
+      "src/lib/logs.php",
+      "src/lib/compatibility.php",
+      "src/lib/shadow.php",
+      "src/lib/geoip.php",
+      "src/modules/pages",
+      "src/modules/geologin.php",
+      "src/modules/check-site-health.php",
+      "src/modules/dashboard-widgets.php",
+      "src/modules/fixes.php",
+      "src/modules/hide-users.php",
+      "src/modules/instance-switcher.php",
+      "src/modules/noindex-domain-alias.php",
+      "src/modules/passwords.php",
+      "src/modules/purge-cache.php",
+      "src/modules/seravotest-auth-bypass.php",
+      "src/modules/speed-test.php",
+      "src/modules/thirdparty-fixes.php",
+      "src/modules/wp-login-log.php",
+      "src/modules/wp-plugin-log.php",
+      "src/modules/wp-user-log.php",
+      "src/modules/admin-checks.php",
+      "src/modules/image-upload.php"
+    ]
   }
 }

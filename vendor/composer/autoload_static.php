@@ -6,43 +6,8 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit7fbd458cfab372eb173c9554bbea50d5
 {
-    public static $files = array (
-        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
-    );
-
-    public static $prefixLengthsPsr4 = array (
-        'e' => 
-        array (
-            'enshrined\\svgSanitize\\' => 22,
-        ),
-        'S' => 
-        array (
-            'Symfony\\Polyfill\\Php73\\' => 23,
-        ),
-        'C' => 
-        array (
-            'Composer\\Installers\\' => 20,
-        ),
-    );
-
-    public static $prefixDirsPsr4 = array (
-        'enshrined\\svgSanitize\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
-        ),
-        'Symfony\\Polyfill\\Php73\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
-        ),
-        'Composer\\Installers\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
-        ),
-    );
-
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'Seravo\\API' => __DIR__ . '/../..' . '/src/lib/api.php',
         'Seravo\\Ajax\\AjaxHandler' => __DIR__ . '/../..' . '/src/lib/ajax/handler.php',
         'Seravo\\Ajax\\AjaxResponse' => __DIR__ . '/../..' . '/src/lib/ajax/response.php',
@@ -55,10 +20,12 @@ class ComposerStaticInit7fbd458cfab372eb173c9554bbea50d5
         'Seravo\\CruftRemover' => __DIR__ . '/../..' . '/src/lib/cruftremover.php',
         'Seravo\\DashboardWidgets' => __DIR__ . '/../..' . '/src/modules/dashboard-widgets.php',
         'Seravo\\Domains' => __DIR__ . '/../..' . '/src/modules/pages/domains.php',
+        'Seravo\\GeoIP' => __DIR__ . '/../..' . '/src/lib/geoip.php',
         'Seravo\\Helpers' => __DIR__ . '/../..' . '/src/lib/helpers.php',
         'Seravo\\Logs' => __DIR__ . '/../..' . '/src/lib/logs.php',
         'Seravo\\Module\\AdminChecks' => __DIR__ . '/../..' . '/src/modules/admin-checks.php',
         'Seravo\\Module\\Fixes' => __DIR__ . '/../..' . '/src/modules/fixes.php',
+        'Seravo\\Module\\GeoLogin' => __DIR__ . '/../..' . '/src/modules/geologin.php',
         'Seravo\\Module\\HideUsers' => __DIR__ . '/../..' . '/src/modules/hide-users.php',
         'Seravo\\Module\\ImageUpload' => __DIR__ . '/../..' . '/src/modules/image-upload.php',
         'Seravo\\Module\\InstanceSwitcher' => __DIR__ . '/../..' . '/src/modules/instance-switcher.php',
@@ -103,8 +70,6 @@ class ComposerStaticInit7fbd458cfab372eb173c9554bbea50d5
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7fbd458cfab372eb173c9554bbea50d5::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7fbd458cfab372eb173c9554bbea50d5::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit7fbd458cfab372eb173c9554bbea50d5::$classMap;
 
         }, null, ClassLoader::class);
