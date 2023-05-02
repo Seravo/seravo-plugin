@@ -36,7 +36,8 @@ if ( ! \defined('SERAVO_PLUGIN_SRC') ) {
 }
 
 // Use Postbox::class for now to see if autoload needs to be required
-if ( ! \class_exists(\Seravo\Postbox\Postbox::class) ) {
+// NOTICE: Do not remove the 'false' parameter before no sites autoload the plugin.
+if ( ! \class_exists(\Seravo\Postbox\Postbox::class, false) ) {
   require_once SERAVO_PLUGIN_DIR . 'vendor/autoload.php';
 }
 
