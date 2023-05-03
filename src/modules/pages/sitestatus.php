@@ -911,28 +911,29 @@ class SiteStatus extends Toolpage {
       return $response;
     }
 
-    if ( $polling === false ) {
-      // run the shadow reset here
-      if ( isset($_POST['shadow']) && $_POST['shadow'] !== '' ) {
-        $shadows = SWD::get_site_shadows();
-        $shadow = $_POST['shadow'];
+    if ( $polling !== false ) {
+      return $polling;
+    }
 
-        if ( \is_wp_error($shadows) ) {
-          return AjaxResponse::api_error_response();
-        }
-
-        $pid = \Seravo\Shell::background_command('wp-shadow-reset ' . $shadow . ' --force 2>&1');
-
-        if ( $pid === false ) {
-          return Ajax\AjaxResponse::exception_response();
-        }
-        return Ajax\AjaxResponse::require_polling_response($pid);
-      }
-
+    if ( ! isset($_POST['shadow']) || $_POST['shadow'] === '' ) {
       return Ajax\AjaxResponse::exception_response();
     }
 
-    return $polling;
+    $response = API\Container::reset_shadow($_POST['shadow']);
+
+    if ( \is_wp_error($response) ) {
+      return AjaxResponse::api_error_response();
+    }
+
+    if ( ! isset($response['id']) ) {
+      return Ajax\AjaxResponse::api_error_response();
+    }
+
+    if ( ! isset($response['status']) || $response['status'] !== 'created' ) {
+      return Ajax\AjaxResponse::api_error_response();
+    }
+
+    return Ajax\AjaxResponse::require_polling_response($response['id'], 'task');
   }
 
   /**

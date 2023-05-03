@@ -2,6 +2,7 @@
 
 namespace Seravo\Ajax;
 
+use Seravo\API\Container;
 use \Seravo\Postbox\Component;
 
 /**
@@ -213,22 +214,66 @@ class AjaxHandler {
    *                                        polling is done, false if not polling yet.
    */
   public static function check_polling() {
-    if ( isset($_REQUEST['poller_id']) && $_REQUEST['poller_id'] !== '' ) {
-      $pid = \base64_decode($_REQUEST['poller_id'], true);
+    if ( ! isset($_REQUEST['poller_id']) || ! $_REQUEST['poller_id'] === '' ) {
+      return false;
+    }
 
-      if ( $pid === false ) {
-        // Poller ID wasn't valid base64 string
-        return false;
-      }
+    if ( ! isset($_REQUEST['poller_type']) || ! $_REQUEST['poller_type'] === '' ) {
+      return false;
+    }
 
-      if ( \Seravo\Shell::is_pid_running($pid) ) {
-        return AjaxResponse::require_polling_response($pid);
-      }
+    $id = \base64_decode($_REQUEST['poller_id'], true);
+    $type = $_REQUEST['poller_type'];
 
-      return true;
+    if ( $id === false ) {
+      // Poller ID wasn't valid base64 string
+      return false;
+    }
+
+    if ( $type === 'pid' ) {
+      return self::check_pid_polling($id);
+    } else if ( $type === 'task' ) {
+      return self::check_task_polling($id);
     }
 
     return false;
+  }
+
+  private static function check_pid_polling($pid) {
+    if ( \Seravo\Shell::is_pid_running($pid) ) {
+      return AjaxResponse::require_polling_response($pid, 'pid');
+    }
+    return true;
+  }
+
+  private static function check_task_polling($id) {
+    $response = Container::task_status($id);
+
+    if ( \is_wp_error($response) ) {
+      return AjaxResponse::api_error_response();
+    }
+
+    if ( ! isset($response['status']) ) {
+      return AjaxResponse::api_error_response();
+    }
+
+    // Has the task completed?
+    if ( $response['status'] === 'completed' ) {
+      return true;
+    }
+
+    // Is it not running but hasn't completed (error)?
+    if ( $response['status'] === 'started' ) {
+      return AjaxResponse::require_polling_response($id, 'task');
+    }
+
+    $message = '';
+    if ( isset($response['msg']) ) {
+      $message = " with output:\n" . implode("\n", $response['msg']);
+    }
+
+    error_log("Seravo Plugin task (ID: $id) failed $message");
+    return AjaxResponse::api_error_response();
   }
 
 }
