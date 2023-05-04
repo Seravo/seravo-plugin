@@ -1,17 +1,17 @@
-# Copyright (C) 2021 Seravo Oy
+# Copyright (C) 2023 Seravo Oy
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Seravo Plugin 1.9.30\n"
+"Project-Id-Version: Seravo Plugin 1.9.40\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seravo-plugin\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-09-27T12:59:12+03:00\n"
+"POT-Creation-Date: 2023-05-04T09:40:22+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.5.0\n"
+"X-Generator: WP-CLI 2.8.0-alpha\n"
 "X-Domain: seravo\n"
 
 #. Plugin Name of the plugin
@@ -57,14 +57,14 @@ msgid "Error: Command %s failed to execute. Try running it manually."
 msgstr ""
 
 #: src/lib/ajax/response.php:157
-#: src/modules/pages/sitestatus.php:886
+#: src/modules/pages/sitestatus.php:901
 msgid "An API error occured. Please try again later."
 msgstr ""
 
 #: src/lib/ajax/templates/fancy-form.php:81
 #: src/lib/ajax/templates/simple-form.php:75
 #: src/modules/pages/security.php:108
-#: src/modules/pages/upkeep.php:185
+#: src/modules/pages/upkeep.php:186
 msgid "Run"
 msgstr ""
 
@@ -79,15 +79,6 @@ msgstr ""
 #: src/lib/ajax/templates/lazy-command.php:77
 #: src/lib/ajax/templates/simple-command.php:89
 msgid "Command returned no data"
-msgstr ""
-
-#: src/lib/api.php:23
-#: src/lib/api.php:36
-#: src/lib/api.php:43
-#: src/lib/api.php:58
-#: src/lib/api.php:65
-#: src/lib/api.php:88
-msgid "API call failed. Aborting. The error has been logged."
 msgstr ""
 
 #: src/lib/cruftremover.php:313
@@ -146,166 +137,166 @@ msgstr ""
 msgid "These plugins are known to do foolish things."
 msgstr ""
 
-#: src/lib/domain-tables.php:58
 #: src/lib/domain-tables.php:60
+#: src/lib/domain-tables.php:62
 msgid "Primary"
 msgstr ""
 
-#: src/lib/domain-tables.php:65
-#: src/lib/domain-tables.php:66
+#: src/lib/domain-tables.php:67
+#: src/lib/domain-tables.php:68
 msgid "Subdomains don't have their own zone."
 msgstr ""
 
-#: src/lib/domain-tables.php:65
-#: src/lib/domain-tables.php:68
-#: src/lib/domain-tables.php:75
-#: src/lib/domain-tables.php:78
+#: src/lib/domain-tables.php:67
+#: src/lib/domain-tables.php:70
+#: src/lib/domain-tables.php:77
+#: src/lib/domain-tables.php:80
 msgid "View"
 msgstr ""
 
-#: src/lib/domain-tables.php:66
-#: src/lib/domain-tables.php:70
+#: src/lib/domain-tables.php:68
 #: src/lib/domain-tables.php:72
-#: src/lib/domain-tables.php:76
-#: src/lib/domain-tables.php:79
+#: src/lib/domain-tables.php:74
+#: src/lib/domain-tables.php:78
+#: src/lib/domain-tables.php:81
 msgid "Edit"
 msgstr ""
 
-#: src/lib/domain-tables.php:70
+#: src/lib/domain-tables.php:72
 msgid "DNS editing is disabled for this site."
 msgstr ""
 
-#: src/lib/domain-tables.php:74
-#: src/lib/domain-tables.php:233
+#: src/lib/domain-tables.php:76
+#: src/lib/domain-tables.php:235
 msgid "Customer"
 msgstr ""
 
-#: src/lib/domain-tables.php:76
+#: src/lib/domain-tables.php:78
 msgid "DNS not managed by Seravo."
 msgstr ""
 
-#: src/lib/domain-tables.php:78
-#: src/lib/domain-tables.php:79
+#: src/lib/domain-tables.php:80
+#: src/lib/domain-tables.php:81
 msgid "This domain doesn't have a zone."
 msgstr ""
 
-#: src/lib/domain-tables.php:83
+#: src/lib/domain-tables.php:85
 msgid "Make Primary (experimental)"
 msgstr ""
 
-#: src/lib/domain-tables.php:86
+#: src/lib/domain-tables.php:88
 msgid "This domain is already a primary domain."
 msgstr ""
 
-#: src/lib/domain-tables.php:86
+#: src/lib/domain-tables.php:88
 msgid "Make Primary"
 msgstr ""
 
-#: src/lib/domain-tables.php:128
-#: src/lib/domain-tables.php:345
+#: src/lib/domain-tables.php:130
+#: src/lib/domain-tables.php:347
 msgid "Domain"
 msgstr ""
 
-#: src/lib/domain-tables.php:129
+#: src/lib/domain-tables.php:131
 msgid "Expires"
 msgstr ""
 
-#: src/lib/domain-tables.php:130
+#: src/lib/domain-tables.php:132
 msgid "DNS"
 msgstr ""
 
-#: src/lib/domain-tables.php:131
+#: src/lib/domain-tables.php:133
 msgid "Managed by"
 msgstr ""
 
-#: src/lib/domain-tables.php:346
+#: src/lib/domain-tables.php:348
 #: src/modules/pages/domains.php:114
 msgid "Forwards"
 msgstr ""
 
-#: src/lib/domain-tables.php:362
+#: src/lib/domain-tables.php:364
 msgid "Fetch"
 msgstr ""
 
-#: src/lib/domain-tables.php:363
+#: src/lib/domain-tables.php:365
 msgid "Create"
 msgstr ""
 
-#: src/lib/domain-tables.php:462
+#: src/lib/domain-tables.php:469
 msgid "Update time:"
 msgstr ""
 
-#: src/lib/domain-tables.php:467
+#: src/lib/domain-tables.php:474
 msgid "Name"
 msgstr ""
 
-#: src/lib/domain-tables.php:468
+#: src/lib/domain-tables.php:475
 msgid "TTL"
 msgstr ""
 
-#: src/lib/domain-tables.php:470
+#: src/lib/domain-tables.php:477
 msgid "Type"
 msgstr ""
 
-#: src/lib/domain-tables.php:471
+#: src/lib/domain-tables.php:478
 msgid "Value"
 msgstr ""
 
 #. translators: %s domain of the site
-#: src/lib/domain-tables.php:507
+#: src/lib/domain-tables.php:514
 msgid "Our systems have detected that <strong>%s</strong> does not point to the Seravo servers. For your protection, manual editing is disabled. Please contact the Seravo customer service if you want changes to be done to the zone in question. You can publish the site yourself when you so desire with the following button:"
 msgstr ""
 
-#: src/lib/domain-tables.php:512
+#: src/lib/domain-tables.php:519
 msgid "Publish"
 msgstr ""
 
-#: src/lib/domain-tables.php:522
+#: src/lib/domain-tables.php:529
 msgid "Compulsory Records"
 msgstr ""
 
-#: src/lib/domain-tables.php:523
+#: src/lib/domain-tables.php:530
 msgid "It is not recommended to edit these records. Please contact the Seravo customer service if you want changes to be done to them."
 msgstr ""
 
-#: src/lib/domain-tables.php:525
+#: src/lib/domain-tables.php:532
 msgid "Editable records"
 msgstr ""
 
-#: src/lib/domain-tables.php:526
+#: src/lib/domain-tables.php:533
 msgid "Here you can add, edit and delete records. Please do not try to add records conflicting with the compulsory records. They will not be activated."
 msgstr ""
 
-#: src/lib/domain-tables.php:533
+#: src/lib/domain-tables.php:540
 msgid "Update Zone"
 msgstr ""
 
-#: src/lib/domains-ajax.php:168
+#: src/lib/domains-ajax.php:162
 msgid "All fields are required!"
 msgstr ""
 
-#. translators: %s is an email address
-#: src/lib/domains-ajax.php:201
-msgid "Forwards for %s have been set"
-msgstr ""
-
-#: src/lib/domains-ajax.php:212
+#: src/lib/domains-ajax.php:186
 msgid "Some of the changes weren't made"
 msgstr ""
 
-#: src/lib/domains-ajax.php:232
+#. translators: %s is an email address
+#: src/lib/domains-ajax.php:195
+msgid "Forwards for %s have been set"
+msgstr ""
+
+#: src/lib/domains-ajax.php:215
 msgid "The forwards were deleted"
 msgstr ""
 
-#: src/lib/domains-ajax.php:259
+#: src/lib/domains-ajax.php:242
 msgid "The forwards were modified"
 msgstr ""
 
-#: src/lib/domains-ajax.php:263
+#: src/lib/domains-ajax.php:246
 msgid "Something went wrong, the old source couldn't be removed."
 msgstr ""
 
-#: src/lib/domains-ajax.php:265
+#: src/lib/domains-ajax.php:248
 msgid "Something went wrong, the forwards couln't be modified."
 msgstr ""
 
@@ -572,111 +563,115 @@ msgstr ""
 msgid "Passed tests"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:86
-#: src/modules/pages/sitestatus.php:67
+#: src/modules/dashboard-widgets.php:87
+#: src/modules/pages/sitestatus.php:68
 msgid "Site Status"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:103
+#: src/modules/dashboard-widgets.php:104
 msgid "PHP warnings and errors"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:118
+#: src/modules/dashboard-widgets.php:119
 msgid "Low disk space"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:162
+#: src/modules/dashboard-widgets.php:163
 msgid "disk space tool"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:164
+#: src/modules/dashboard-widgets.php:165
 msgid "cruft remover tool"
 msgstr ""
 
 #. translators: %1$s url to the disk space tool %2$s url to the cruft file remover tool
-#: src/modules/dashboard-widgets.php:169
+#: src/modules/dashboard-widgets.php:170
 msgid "Disk space is running low. You can see more details about the usage on %1$s. You can also check %2$s for excessive files and folders."
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:171
-#: src/modules/dashboard-widgets.php:294
+#: src/modules/dashboard-widgets.php:172
+#: src/modules/dashboard-widgets.php:291
 msgid "Disk space in your plan:"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:172
+#: src/modules/dashboard-widgets.php:173
 msgid "Space in use:"
 msgstr ""
 
 #. translators: %1$s number of errors in the log %2$s url for additional information
-#: src/modules/dashboard-widgets.php:257
+#: src/modules/dashboard-widgets.php:254
 msgid "The PHP error log has more than %1$s entries this week. Please see %2$s for details. This is usually a sign that something is broken in the code. The developer of the site should be notified."
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:258
+#: src/modules/dashboard-widgets.php:255
 msgid "Site Error Count"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:263
+#: src/modules/dashboard-widgets.php:260
 msgid "Old PHP Version"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:266
+#: src/modules/dashboard-widgets.php:263
 msgid "change php version tool"
 msgstr ""
 
 #. translators: %1$s current php version %2$s link for changing PHP version
-#: src/modules/dashboard-widgets.php:271
+#: src/modules/dashboard-widgets.php:268
 msgid "You are using end of life PHP version %1$s which will no longer be supported. You can see more details about changing PHP version and checking PHP upgrade combatability on %2$s."
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:291
+#: src/modules/dashboard-widgets.php:288
 msgid "Plan details"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:292
+#: src/modules/dashboard-widgets.php:289
 msgid "Plan type:"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:293
+#: src/modules/dashboard-widgets.php:290
 msgid "HTTP requests / month:"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:296
+#: src/modules/dashboard-widgets.php:293
 msgid "Monthly HTTP requests"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:297
+#: src/modules/dashboard-widgets.php:294
 msgid "These monthly reports are generated from the HTTP access logs of your site. If you have more HTTP requests than your plan allows, please contact <a href=\"mailto:help@seravo.com\">help@seravo.com</a> to upgrade your <a href=\"https://seravo.com/plans\" target=\"_blank\">plan</a>."
 msgstr ""
 
 #. translators: %1$s url for additional information
-#: src/modules/dashboard-widgets.php:315
+#: src/modules/dashboard-widgets.php:312
 msgid "Error on fetching plan details. See more from %1$s."
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:333
-#: src/modules/pages/sitestatus.php:677
+#: src/modules/dashboard-widgets.php:330
+#: src/modules/pages/sitestatus.php:687
 msgid "Month"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:333
-#: src/modules/pages/sitestatus.php:677
+#: src/modules/dashboard-widgets.php:330
+#: src/modules/pages/sitestatus.php:687
 msgid "HTTP Requests"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:333
-#: src/modules/pages/sitestatus.php:677
+#: src/modules/dashboard-widgets.php:330
+#: src/modules/pages/sitestatus.php:687
 msgid "Report"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:373
-#: src/modules/pages/sitestatus.php:708
+#: src/modules/dashboard-widgets.php:370
+#: src/modules/pages/sitestatus.php:718
 msgid "View report"
 msgstr ""
 
-#: src/modules/dashboard-widgets.php:378
-#: src/modules/pages/sitestatus.php:715
+#: src/modules/dashboard-widgets.php:375
+#: src/modules/pages/sitestatus.php:725
 msgid "The site has no HTTP requests statistics yet."
+msgstr ""
+
+#: src/modules/geologin.php:49
+msgid "<strong>Error</strong>: Your connection is from a country from which login on this site is not allowed."
 msgstr ""
 
 #: src/modules/image-upload.php:136
@@ -688,21 +683,20 @@ msgstr ""
 msgid "Now in"
 msgstr ""
 
-#: src/modules/instance-switcher.php:177
+#: src/modules/instance-switcher.php:181
 msgid "Exit Shadow"
 msgstr ""
 
-#: src/modules/instance-switcher.php:191
+#: src/modules/instance-switcher.php:195
 msgid "Shadows explained at Seravo.com/docs"
 msgstr ""
 
 #. translators: $s Identifier for the shadow instance in use
-#: src/modules/instance-switcher.php:246
+#: src/modules/instance-switcher.php:250
 msgid "Your current shadow instance is \"%s\"."
 msgstr ""
 
-#. translators: $s Identifier for the shadow instance in use
-#: src/modules/instance-switcher.php:247
+#: src/modules/instance-switcher.php:251
 msgid "Exit"
 msgstr ""
 
@@ -997,7 +991,7 @@ msgstr ""
 
 #: src/modules/pages/domains.php:156
 #: src/modules/pages/security.php:471
-#: src/modules/pages/sitestatus.php:817
+#: src/modules/pages/sitestatus.php:828
 msgid "Cancel"
 msgstr ""
 
@@ -1181,686 +1175,690 @@ msgstr ""
 msgid "Are you sure you want to proceed? Deleted files can not be recovered."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:115
+#: src/modules/pages/sitestatus.php:116
 msgid "Confirm shadow reset"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:131
+#: src/modules/pages/sitestatus.php:132
 msgid "Site Information"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:141
+#: src/modules/pages/sitestatus.php:142
 msgid "HTTP Request Statistics"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:151
+#: src/modules/pages/sitestatus.php:152
 msgid "Site checks"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:154
+#: src/modules/pages/sitestatus.php:155
 msgid "Run site checks"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:155
+#: src/modules/pages/sitestatus.php:156
 msgid " Running site checks"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:156
+#: src/modules/pages/sitestatus.php:157
 msgid " Click \"Run site checks\" to run the tests"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:157
+#: src/modules/pages/sitestatus.php:158
 msgid "Site checks provide a report about your site health and show potential issues. Checks include for example php related errors, inactive themes and plugins."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:164
+#: src/modules/pages/sitestatus.php:165
 msgid "Sanitize Uploads"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:180
+#: src/modules/pages/sitestatus.php:181
 msgid "Disk Usage"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:189
+#: src/modules/pages/sitestatus.php:190
 msgid "Cache Status"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:205
+#: src/modules/pages/sitestatus.php:206
 msgid "Speed test"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:209
+#: src/modules/pages/sitestatus.php:210
 msgid "Run Test"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:216
-#: src/modules/pages/sitestatus.php:321
+#: src/modules/pages/sitestatus.php:217
+#: src/modules/pages/sitestatus.php:322
 msgid "Optimize Images"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:217
+#: src/modules/pages/sitestatus.php:218
 msgid "Optimization reduces image file size. This improves the performance and browsing experience of your site."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:218
+#: src/modules/pages/sitestatus.php:219
 msgid "By setting the maximum image resolution, you can determine the maximum allowed dimensions for images."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:219
+#: src/modules/pages/sitestatus.php:220
 msgid "By enabling metadata stripping, you can further reduce image sizes by removing metadata. Please note that occasionally metadata can be useful."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:220
+#: src/modules/pages/sitestatus.php:221
 msgid "For further information, refer to our <a href=\"https://help.seravo.com/article/28-seravo-plugin-optimize-images\" target=\"_BLANK\">knowledgebase article</a>."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:234
+#: src/modules/pages/sitestatus.php:235
 msgid "Shadows"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:262
+#: src/modules/pages/sitestatus.php:263
 msgid "Run cache tests"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:263
+#: src/modules/pages/sitestatus.php:264
 msgid "Running cache tests..."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:264
+#: src/modules/pages/sitestatus.php:265
 msgid "Click \"Run cache tests\" to run the cache tests"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:269
+#: src/modules/pages/sitestatus.php:270
 msgid "Enable"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:305
+#: src/modules/pages/sitestatus.php:306
 msgid "Sanitize uploads"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:307
+#: src/modules/pages/sitestatus.php:308
 msgid "Special characters in filenames, such as ä, ö or æ, may cause problems with the site."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:308
+#: src/modules/pages/sitestatus.php:309
 msgid "Toggling this on replaces such characters with other standard letters, like ä -> a, ö -> o or æ -> a when a file is uploaded."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:322
+#: src/modules/pages/sitestatus.php:323
 msgid "Strip Image Metadata"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:326
+#: src/modules/pages/sitestatus.php:327
 msgid "Maximum Image Width (px)"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:338
+#: src/modules/pages/sitestatus.php:339
 msgid "Maximum Image Height (px)"
 msgstr ""
 
 #. translators: %1$s is minimum size in pixels and %2$s is the recommended maximum.
-#: src/modules/pages/sitestatus.php:362
+#: src/modules/pages/sitestatus.php:363
 msgid "The minimum size for image optimisation is %1$s px. Setting suggested size of %2$s px."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:378
+#: src/modules/pages/sitestatus.php:379
 msgid "Object cache is currently disabled!"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:383
+#: src/modules/pages/sitestatus.php:384
 msgid "Caching decreases the load time of the website. The cache hit rate represents the efficiency of cache usage. Read about caching from the <a href=\"https://help.seravo.com/article/36-how-does-caching-work/\" target=\"_BLANK\">documentation</a> or <a href=\"https://seravo.com/tag/cache/\" target=\"_BLANK\">blog</a>."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:384
+#: src/modules/pages/sitestatus.php:385
 msgid "Object Cache in Redis"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:385
+#: src/modules/pages/sitestatus.php:386
 msgid "Persistent object cache implemented with <a href=\"https://seravo.com/blog/faster-wordpress-with-transients/\" target=\"_BLANK\">transients</a> can be stored in Redis. Instructions on how to activate the object cache can be found from the <a href=\"https://help.seravo.com/article/38-active-object-cache/\" target=\"_BLANK\">documentation</a>."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:388
-#: src/modules/pages/sitestatus.php:488
+#: src/modules/pages/sitestatus.php:389
+#: src/modules/pages/sitestatus.php:489
 msgid "Cache hit rate"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:392
+#: src/modules/pages/sitestatus.php:393
 msgid "Nginx HTTP Cache"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:393
+#: src/modules/pages/sitestatus.php:394
 msgid "Test the functionality of your site's front cache. This can also be done via command line with command <code>wp-check-http-cache</code>."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:415
+#: src/modules/pages/sitestatus.php:416
 msgid "Error with downloading the latest object-cache file. Please try again later."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:421
-#: src/modules/pages/sitestatus.php:429
+#: src/modules/pages/sitestatus.php:422
+#: src/modules/pages/sitestatus.php:430
 msgid "Error with writing the latest object-cache file. Please try again later."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:433
+#: src/modules/pages/sitestatus.php:434
 msgid "Object cache is now enabled!"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:484
+#: src/modules/pages/sitestatus.php:485
 msgid "Expired keys: "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:484
+#: src/modules/pages/sitestatus.php:485
 msgid "The number of keys deleted."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:485
+#: src/modules/pages/sitestatus.php:486
 msgid "Evicted keys: "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:485
+#: src/modules/pages/sitestatus.php:486
 msgid "The number of keys being deleted because the memory usage has hit it's limit."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:486
+#: src/modules/pages/sitestatus.php:487
 msgid "HTTP Cache"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:487
+#: src/modules/pages/sitestatus.php:488
 msgid "The HTTP cache hit rate is calculated from all Nginx's access logs. It describes the long-term cache usage situation."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:489
+#: src/modules/pages/sitestatus.php:490
 msgid "Bypasses: "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:489
+#: src/modules/pages/sitestatus.php:490
 msgid "The amount of cache bypasses which occur when requesting a non-cached version of the site."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:518
+#: src/modules/pages/sitestatus.php:519
 msgid "HTTP cache not working"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:522
+#: src/modules/pages/sitestatus.php:523
 msgid "HTTP cache working"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:537
+#: src/modules/pages/sitestatus.php:538
 msgid "Disk space low! "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:537
+#: src/modules/pages/sitestatus.php:538
 msgid "Read more."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:538
+#: src/modules/pages/sitestatus.php:539
 msgid "Disk usage by directory"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:540
+#: src/modules/pages/sitestatus.php:541
 msgid "Logs and automatic backups don't count against your quota."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:540
+#: src/modules/pages/sitestatus.php:541
 msgid "Use <a href=\"tools.php?page=security_page#seravo-postbox-cruftfiles\" target=\"_blank\">cruft remover</a> to remove unnecessary files."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:641
+#: src/modules/pages/sitestatus.php:647
 msgid "Disk space in your plan: "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:641
-msgid "Space in use: "
+#: src/modules/pages/sitestatus.php:648
+msgid "Disk space used: "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:662
+#: src/modules/pages/sitestatus.php:672
 msgid "These monthly reports are generated from the HTTP access logs of your site. All HTTP requests for the site are included, with traffic from both humans and bots. Requests blocked at the firewall level (for example during a DDOS attack) are not logged. The log files can also be accessed directly on the server at <code>/data/slog/html/goaccess-*.html</code>."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:756
-#: src/modules/pages/upkeep.php:273
-#: src/modules/pages/upkeep.php:656
+#: src/modules/pages/sitestatus.php:766
+#: src/modules/pages/upkeep.php:274
+#: src/modules/pages/upkeep.php:654
 msgid "An API error occured. Please try again later"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:762
+#: src/modules/pages/sitestatus.php:772
 msgid "Demo"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:763
+#: src/modules/pages/sitestatus.php:773
 msgid "WP Mini"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:764
+#: src/modules/pages/sitestatus.php:774
 msgid "WP Pro"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:765
+#: src/modules/pages/sitestatus.php:775
 msgid "WP Business"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:766
+#: src/modules/pages/sitestatus.php:776
+msgid "WP Corporate"
+msgstr ""
+
+#: src/modules/pages/sitestatus.php:777
 msgid "WP Enterprise"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:769
+#: src/modules/pages/sitestatus.php:780
 msgid "Finland"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:770
+#: src/modules/pages/sitestatus.php:781
 msgid "Sweden"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:771
+#: src/modules/pages/sitestatus.php:782
 msgid "Germany"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:772
+#: src/modules/pages/sitestatus.php:783
 msgid "USA"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:773
+#: src/modules/pages/sitestatus.php:784
 msgid "No preference"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:778
+#: src/modules/pages/sitestatus.php:789
 msgid "Site Name"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:779
+#: src/modules/pages/sitestatus.php:790
 msgid "Site Created"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:780
+#: src/modules/pages/sitestatus.php:791
 msgid "Plan Type"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:785
+#: src/modules/pages/sitestatus.php:796
 msgid "Account Manager"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:787
+#: src/modules/pages/sitestatus.php:798
 msgid "No Account Manager found. Account Manager is only included in Seravo Enterprise plans."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:791
+#: src/modules/pages/sitestatus.php:802
 msgid "Plan Termination"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:795
+#: src/modules/pages/sitestatus.php:806
 msgid "Site Location"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:798
+#: src/modules/pages/sitestatus.php:809
 msgid "No contacts found"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:799
+#: src/modules/pages/sitestatus.php:810
 msgid "Technical Contacts"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:817
+#: src/modules/pages/sitestatus.php:828
 msgid "Are you sure? This replaces all information in the selected environment."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:817
+#: src/modules/pages/sitestatus.php:828
 msgid "OK"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:818
+#: src/modules/pages/sitestatus.php:829
 msgid "Manage the site shadows."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:819
+#: src/modules/pages/sitestatus.php:830
 msgid "<strong>Warning: </strong>Resetting a shadow copies the state of the production site to the shadow. All files under <code>/data/wordpress/</code> will be replaced and the production database imported. For more information, visit our  <a href=\"https://seravo.com/docs/deployment/shadows/\" target=\"_BLANK\">Developer documentation</a>."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:824
+#: src/modules/pages/sitestatus.php:835
 msgid "Shadow reset successfully!"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:826
+#: src/modules/pages/sitestatus.php:837
 msgid "Because this shadow uses a custom domain, <strong>please go to the shadow and run search-replace there with the values below</strong> for the shadow to be accessible after reset: "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:827
+#: src/modules/pages/sitestatus.php:838
 msgid "<strong>From:</strong> "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:827
+#: src/modules/pages/sitestatus.php:838
 msgid "<br><strong>To:</strong> "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:828
+#: src/modules/pages/sitestatus.php:839
 msgid "When you're in the shadow, run search-replace with WP-CLI. Instructions can be found from <a href=\"https://help.seravo.com/en/docs/151\" target=\"_BLANK\">documentation</a>."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:832
+#: src/modules/pages/sitestatus.php:843
 msgid "Shadow reset failed!"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:835
+#: src/modules/pages/sitestatus.php:846
 msgid "No shadows found. If your plan is WP Pro or higher, you can request a shadow instance from Seravo admins at <a href=\"mailto:help@seravo.com\">help@seravo.com</a>."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:861
+#: src/modules/pages/sitestatus.php:876
 msgid "Reset"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:865
+#: src/modules/pages/sitestatus.php:880
 msgid "Port: "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:866
+#: src/modules/pages/sitestatus.php:881
 msgid "Creation Date: "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:867
+#: src/modules/pages/sitestatus.php:882
 msgid "Information: "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:868
+#: src/modules/pages/sitestatus.php:883
 msgid "Domain: "
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:940
+#: src/modules/pages/sitestatus.php:955
 msgid "Front Page by Default"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:943
+#: src/modules/pages/sitestatus.php:958
 msgid "Speed test measures the time how long it takes for PHP to produce the HTML output for the WordPress page."
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:961
+#: src/modules/pages/sitestatus.php:976
 msgid "Error! Invalid url"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:970
+#: src/modules/pages/sitestatus.php:985
 msgid "Error! Curl not available"
 msgstr ""
 
-#: src/modules/pages/sitestatus.php:983
+#: src/modules/pages/sitestatus.php:998
 msgid "Error! HTTP response code:"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:50
+#: src/modules/pages/upkeep.php:51
 msgid "Upkeep"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:97
+#: src/modules/pages/upkeep.php:98
 msgid "There must be at least one contact email"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:111
+#: src/modules/pages/upkeep.php:112
 msgid "Seravo Plugin Updater"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:120
+#: src/modules/pages/upkeep.php:121
 msgid "Update plugin now"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:121
+#: src/modules/pages/upkeep.php:122
 msgid "Updating Seravo Plugin..."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:136
-#: src/modules/pages/upkeep.php:408
+#: src/modules/pages/upkeep.php:137
+#: src/modules/pages/upkeep.php:409
 msgid "Check PHP compatibility"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:137
+#: src/modules/pages/upkeep.php:138
 msgid "Running PHP compatibility check. This may take up to tens of minutes."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:141
+#: src/modules/pages/upkeep.php:142
 msgid "Change PHP Version"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:143
+#: src/modules/pages/upkeep.php:144
 msgid "Activating... Please wait up to 30 seconds"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:144
+#: src/modules/pages/upkeep.php:145
 msgid "Change version"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:159
+#: src/modules/pages/upkeep.php:160
 msgid "Tests Status"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:169
+#: src/modules/pages/upkeep.php:170
 msgid "Update Status"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:179
+#: src/modules/pages/upkeep.php:180
 msgid "Changes Status"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:182
+#: src/modules/pages/upkeep.php:183
 msgid "This tool can be used to run command <code>wp-backup-list-changes-since</code> which finds folder and file changes in backup data since the given date. For example if you have started to have issues on your site, you can track down what folders or files have changed."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:183
+#: src/modules/pages/upkeep.php:184
 msgid "Backups are stored for 30 days which is also the maximum since offset."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:186
+#: src/modules/pages/upkeep.php:187
 msgid "Click \"Run\" to see changes"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:187
+#: src/modules/pages/upkeep.php:188
 msgid "Fetching changes..."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:194
+#: src/modules/pages/upkeep.php:195
 msgid "Update tests"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:197
+#: src/modules/pages/upkeep.php:198
 msgid "Run Tests"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:198
+#: src/modules/pages/upkeep.php:199
 msgid "Running rspec tests..."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:199
+#: src/modules/pages/upkeep.php:200
 msgid "Click \"Run Tests\" to run the Codeception tests"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:200
+#: src/modules/pages/upkeep.php:201
 msgid "Here you can test the core functionality of your WordPress installation. Same results can be achieved via command line by running <code>wp-test</code> there. For further information, please refer to <a href=\"https://seravo.com/docs/tests/ng-integration-tests/\" target=\"_BLANK\"> Seravo Developer Documentation</a>."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:207
+#: src/modules/pages/upkeep.php:208
 msgid "Screenshots"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:217
+#: src/modules/pages/upkeep.php:218
 msgid "Seravo Updates"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:245
+#: src/modules/pages/upkeep.php:246
 msgid "Latest update.log details:"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:252
+#: src/modules/pages/upkeep.php:253
 msgid "Here you can see information about the Seravo updates on your site. For full details about updates see <a href=\"tools.php?page=logs_page&logfile=update.log\" target=\"_blank\">update.log</a>."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:255
+#: src/modules/pages/upkeep.php:256
 msgid "Latest successful full update:"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:256
+#: src/modules/pages/upkeep.php:257
 msgid "Last 5 partial or attempted updates"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:304
+#: src/modules/pages/upkeep.php:305
 msgid "Unable to fetch the latest update log."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:334
+#: src/modules/pages/upkeep.php:335
 msgid "<b>Updates notice:</b> Last successful full site update was over a month ago. A developer should take a look at the <a href=\"tools.php?page=logs_page&logfile=update.log\" target=\"_blank\">update.log</a> and fix the issue preventing the site from updating."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:356
+#: src/modules/pages/upkeep.php:357
 msgid "There are no update attempts yet"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:388
+#: src/modules/pages/upkeep.php:389
 msgid "Unknown!"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:389
+#: src/modules/pages/upkeep.php:390
 msgid "No tests have been ran yet. They will be ran during upcoming updates. You can try beforehand if the tests will be succesful or not with the 'Update tests' feature below."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:392
+#: src/modules/pages/upkeep.php:393
 msgid "Site baseline tests have passed and updates can run normally."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:395
+#: src/modules/pages/upkeep.php:396
 msgid "Site baseline tests are failing and needs to be fixed before further updates are run."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:409
+#: src/modules/pages/upkeep.php:410
 msgid "With this tool you can run command <code>wp-php-compatibility-check</code>. Check <a href=\"tools.php?page=logs_page&logfile=php-compatibility.log\" target=\"_blank\">compatibility scan results.</a>"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:411
+#: src/modules/pages/upkeep.php:412
 msgid "Change PHP version"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:412
+#: src/modules/pages/upkeep.php:413
 msgid "Latest version is recommended if all plugins and theme support it. See also <a target=\"_blank\" href=\"https://help.seravo.com/article/41-set-your-site-to-use-newest-php-version\">more information on PHP version upgrades</a>."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:461
+#: src/modules/pages/upkeep.php:458
 msgid "PHP compatibility check has been run. See full details on <a href=\"tools.php?page=logs_page&logfile=php-compatibility.log\" target=\"_blank\">compatibility scan results.</a>"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:496
+#: src/modules/pages/upkeep.php:494
 msgid "PHP version has been changed succesfully! Please check <a href=\"tools.php?page=logs_page&logfile=php-error.log\" target=\"_blank\">php-error.log</a> for regressions."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:504
+#: src/modules/pages/upkeep.php:502
 msgid "The selected PHP version is already in use."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:543
+#: src/modules/pages/upkeep.php:541
 msgid "No upstream or current Seravo Plugin version available, please try again later"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:547
+#: src/modules/pages/upkeep.php:545
 msgid "Seravo automatically updates your site and the Seravo Plugin as well. If you want to immediately update to the latest Seravo Plugin version, you can do it here."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:548
+#: src/modules/pages/upkeep.php:546
 msgid "Current version: "
 msgstr ""
 
-#: src/modules/pages/upkeep.php:549
+#: src/modules/pages/upkeep.php:547
 msgid "Upstream version: "
 msgstr ""
 
-#: src/modules/pages/upkeep.php:552
+#: src/modules/pages/upkeep.php:550
 msgid "Seravo Plugin installation is up to date."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:554
+#: src/modules/pages/upkeep.php:552
 msgid "There is a new version available"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:613
+#: src/modules/pages/upkeep.php:611
 msgid "Opt-out from updates by Seravo"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:614
+#: src/modules/pages/upkeep.php:612
 msgid "The Seravo upkeep service includes core and plugin updates to your WordPress site, keeping your site current with security patches and frequent tested updates to both the WordPress core and plugins. If you want full control of updates to yourself, you should opt out from Seravo's updates by unchecking the checkbox below."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:619
+#: src/modules/pages/upkeep.php:617
 msgid "Seravo updates enabled"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:622
+#: src/modules/pages/upkeep.php:620
 msgid "Update Notifications with a Slack Webhook"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:623
+#: src/modules/pages/upkeep.php:621
 msgid "By defining a Slack webhook address below, Seravo can send you notifications about every update attempt, whether successful or not, to the Slack channel you have defined in your webhook. <a href=\"https://api.slack.com/incoming-webhooks\" target=\"_BLANK\">Read more about webhooks</a>."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:627
+#: src/modules/pages/upkeep.php:625
 msgid "Send a Test Notification"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:632
+#: src/modules/pages/upkeep.php:630
 msgid "Contacts"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:633
+#: src/modules/pages/upkeep.php:631
 msgid "Seravo may use the email addresses defined here to send automatic notifications about technical problems with you site. Remember to use a properly formatted email address."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:636
+#: src/modules/pages/upkeep.php:634
 msgid "example@example.com"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:637
+#: src/modules/pages/upkeep.php:635
 msgid "Add"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:640
+#: src/modules/pages/upkeep.php:638
 msgid "Email must be formatted as name@domain.com"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:642
+#: src/modules/pages/upkeep.php:640
 msgid "Save settings"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:643
+#: src/modules/pages/upkeep.php:641
 msgid "P.S. Subscribe to our <a href=\"https://seravo.com/newsletter-for-wordpress-developers/\" target=\"_blank\">Newsletter for WordPress Developers</a> to get up-to-date information about our new features."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:688
+#: src/modules/pages/upkeep.php:691
 msgid "Choose a since date"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:703
+#: src/modules/pages/upkeep.php:706
 msgid "Invalid date, using 2 days offset <br><br>"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:707
+#: src/modules/pages/upkeep.php:710
 msgid "Invalid date, showing since month beginning <br><br>"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:742
+#: src/modules/pages/upkeep.php:745
 msgid "rows affected"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:759
+#: src/modules/pages/upkeep.php:762
 msgid "No screenshots found. They will become available during the next attempted update."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:833
+#: src/modules/pages/upkeep.php:836
 msgid "The Difference"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:850
+#: src/modules/pages/upkeep.php:853
 msgid "Update Attempt"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:854
+#: src/modules/pages/upkeep.php:857
 msgid "Current State"
 msgstr ""
 
-#: src/modules/pages/upkeep.php:927
+#: src/modules/pages/upkeep.php:936
 msgid "At least one of the tests failed."
 msgstr ""
 
-#: src/modules/pages/upkeep.php:933
+#: src/modules/pages/upkeep.php:942
 msgid "Tests were run without any errors!"
 msgstr ""
 
@@ -1894,7 +1892,6 @@ msgstr ""
 msgid "Seravo.com uses front-end proxies to deliver lightning fast response times for your visitors. Cached pages will be refreshed every 15 minutes. This button is used for clearing all cached pages from the front-end proxy immediately."
 msgstr ""
 
-#. translators: %s cache refresh interval
 #: src/modules/purge-cache.php:55
 msgid "Purge Cache"
 msgstr ""
