@@ -614,14 +614,13 @@ class SiteStatus extends Toolpage {
       }
     }
     // Create output array
-    $output = array(
+    return array(
       'data'        => array(
         'human' => Helpers::human_file_size((int) $data_size),
         'size'  => $data_size,
       ),
       'dataFolders' => $data_folders,
     );
-    return $output;
   }
 
   /**
@@ -639,7 +638,17 @@ class SiteStatus extends Toolpage {
 
     $disk_usage = self::report_disk_usage();
     $disk_usage['data']['disk_limit'] = $api_response['plan']['disklimit'];
-    $output = Template::text(__('Disk space in your plan: ', 'seravo') . $disk_usage['data']['disk_limit'] . 'GB <br>' . __('Space in use: ', 'seravo') . $disk_usage['data']['human'], 'space-info')->to_html();
+
+    $disk_limit = $disk_usage['data']['disk_limit'];
+    $disk_used = $disk_usage['data']['size'];
+    $usage_ratio = (($disk_used / pow(1024, 3)) / $disk_limit) * 100;
+
+    $output = Template::text(
+      __('Disk space in your plan: ', 'seravo') . $disk_usage['data']['disk_limit'] . 'GB <br>' .
+      __('Disk space used: ', 'seravo') . $disk_usage['data']['human'] .
+      ' (' . round($usage_ratio) . '%)',
+      'space-info '
+    )->to_html();
 
     $response->is_success(true);
     $response->set_data(

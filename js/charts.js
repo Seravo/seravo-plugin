@@ -206,7 +206,7 @@ function generate_disk_donut(event, response) {
 
   Object.keys(response.data).forEach(
     function (data) {
-      disk_use = response.data['size'] / 1e9;
+      disk_use = response.data['size'] / (1024 ** 3);
       max_disk = response.data['disk_limit'];
     }
   );
