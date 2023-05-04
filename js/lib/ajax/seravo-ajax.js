@@ -23,13 +23,11 @@ function seravo_ajax_request(method, postbox_id, section, on_success, on_error, 
         response = jQuery.parseJSON(response);
 
         if (response !== null && 'success' in response && response['success'] === true) {
-          if ('poller_id' in response && 'poller_type' in response) {
+          if ('poller_id' in response) {
             // Polling requested
             setTimeout(
               function () {
-                let poller_id = response['poller_id'];
-                let poller_type = response['poller_type'];
-                seravo_poller(method, postbox_id, section, on_success, on_error, poller_id, poller_type);
+                seravo_poller(method, postbox_id, section, on_success, on_error, response['poller_id']);
               },
               5000
             );
@@ -70,7 +68,7 @@ function seravo_ajax_request(method, postbox_id, section, on_success, on_error, 
   );
 }
 
-function seravo_poller(method, postbox_id, section, on_success, on_error, poller_id, poller_type, retry = 0) {
+function seravo_poller(method, postbox_id, section, on_success, on_error, poller_id, retry = 0) {
   if (retry == 10) {
     on_error(seravo_ajax_l10n.server_timeout);
     return;
@@ -85,7 +83,6 @@ function seravo_poller(method, postbox_id, section, on_success, on_error, poller
         'section': section,
         'nonce': SERAVO_AJAX_NONCE,
         'poller_id': poller_id,
-        'poller_type': poller_type,
       },
     },
   ).done(
@@ -97,7 +94,7 @@ function seravo_poller(method, postbox_id, section, on_success, on_error, poller
           // Poll again
           setTimeout(
             function () {
-              seravo_poller(method, postbox_id, section, on_success, on_error, poller_id, poller_type,0)
+              seravo_poller(method, postbox_id, section, on_success, on_error, poller_id, 0)
             },
             2000
           );
@@ -127,7 +124,7 @@ function seravo_poller(method, postbox_id, section, on_success, on_error, poller
       // Poll again
       setTimeout(
         function () {
-          seravo_poller(method, postbox_id, section, on_success, on_error, poller_id, poller_type, retry + 1)
+          seravo_poller(method, postbox_id, section, on_success, on_error, poller_id, retry + 1)
         },
         3000
       );

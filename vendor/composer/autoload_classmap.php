@@ -238,7 +238,6 @@ return array(
     'HTMLPurifier_VarParser_Flexible' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Flexible.php',
     'HTMLPurifier_VarParser_Native' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Native.php',
     'HTMLPurifier_Zipper' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/Zipper.php',
-    'Seravo\\API\\Container' => $baseDir . '/src/lib/api/container.php',
     'Seravo\\API\\SWD' => $baseDir . '/src/lib/api/swd.php',
     'Seravo\\Ajax\\AjaxHandler' => $baseDir . '/src/lib/ajax/handler.php',
     'Seravo\\Ajax\\AjaxResponse' => $baseDir . '/src/lib/ajax/response.php',

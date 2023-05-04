@@ -3,7 +3,7 @@
         'name' => 'seravo/seravo-plugin',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '85dc11329d0ccd15d15de8b7b7bb7279b73e5eac',
+        'reference' => '5086818070e674c03e9b98a59fcd7015dfb6aea1',
         'type' => 'wordpress-muplugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -31,7 +31,7 @@
         'seravo/seravo-plugin' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '85dc11329d0ccd15d15de8b7b7bb7279b73e5eac',
+            'reference' => '5086818070e674c03e9b98a59fcd7015dfb6aea1',
             'type' => 'wordpress-muplugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
