@@ -190,17 +190,16 @@ table.widefat {
 /* Email list */
 
 .email-button {
-  width: 200px;
   height: 20px;
   padding-left: 0 !important;
 }
 
 .email-button-content {
-  width: 85%;
   overflow: hidden;
   display: inline-block;
   text-overflow: ellipsis;
   font-size: 13px !important;
+  padding: 0 5px 0 10px;
 }
 
 .email-button .dashicons  {
