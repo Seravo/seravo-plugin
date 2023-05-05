@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="Seravo Coding Standard" namespace="SeravoPlugin\Dev\PHPCodeSniffer\Standard">
+    <description>A custom coding standard for Seravo Plugin.</description>
+
+    <!-- Increase process memory limit to 64M. -->
+    <ini name="memory_limit" value="64M"/>
+
+    <!-- The list of files to check. -->
+    <file>../../../src/test.php</file>
+
+    <!-- Include PSR-1 and PSR-12 coding standards. -->
+    <rule ref="PSR1"/>
+    <rule ref="PSR12"/>
+</ruleset>
