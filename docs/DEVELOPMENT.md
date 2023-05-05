@@ -1,5 +1,8 @@
 # Seravo-plugin developer documentation
 
+> **Warning**
+> The examples in this document are out of date and shouldn't be relied upon.
+
 This readme is to help in developing, maintaining and updating Seravo-plugin.
 
 ## Modularity
