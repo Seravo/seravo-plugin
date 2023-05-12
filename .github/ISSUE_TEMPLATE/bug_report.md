@@ -8,9 +8,9 @@ assignees: ''
 ---
 
 **NOTE: This is a public repository. DO NOT post any private information
-(personal data, customer information, ...) here. If you're reporting issue that
-includes non-public information, please contact Seravo Customer support with
-e-mail to `help@seravo.com`.**
+(personal data, customer information, ...) here. If you're reporting an issue
+that includes non-public information, please contact the Seravo Customer
+support by sending an e-mail to `help@seravo.com`.**
 
 **Describe the bug**
 A clear and concise description of what the bug is.
