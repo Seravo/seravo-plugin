@@ -10,6 +10,11 @@ class Container {
     return self::post("/wordpress/shadow-reset/$shadow");
   }
 
+  public static function php_compatibility_check( $version = null ) {
+    $data = $version === null ? [] : ['php' => $version];
+    return self::post('/wordpress/php-compatibility-check/', $data);
+  }
+
   public static function task_status( $id ) {
     return self::get("/tasks/$id");
   }

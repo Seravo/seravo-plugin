@@ -4,8 +4,8 @@ namespace Seravo\Page;
 
 use \Seravo\Helpers;
 use \Seravo\Shell;
-use \Seravo\API;
 use \Seravo\API\SWD;
+use \Seravo\API\Container;
 use \Seravo\Compatibility;
 
 use \Seravo\Ajax;
@@ -459,7 +459,30 @@ class Upkeep extends Toolpage {
       return AjaxResponse::response_with_output($compatibility_run);
     }
 
-    if ( $polling === false ) {
+    if ( $polling !== false ) {
+      return $polling;
+    }
+
+    // Check whether to use internal poller or Container API
+    if ( Container::version() >= 2 ) {
+      // Use Container API
+      $response = Container::php_compatibility_check();
+
+      if ( \is_wp_error($response) ) {
+        return Ajax\AjaxResponse::api_error_response();
+      }
+
+      if ( ! isset($response['id']) ) {
+        return Ajax\AjaxResponse::api_error_response();
+      }
+
+      if ( ! isset($response['status']) || $response['status'] !== 'created' ) {
+        return Ajax\AjaxResponse::api_error_response();
+      }
+
+      return Ajax\AjaxResponse::require_polling_response($response['id'], 'task');
+    } else {
+      // Use internal poller
       $command = 'wp-php-compatibility-check';
       $pid = Shell::background_command($command);
 
@@ -469,8 +492,6 @@ class Upkeep extends Toolpage {
 
       return Ajax\AjaxResponse::require_polling_response($pid);
     }
-
-    return $polling;
   }
 
   /**
