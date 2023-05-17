@@ -267,6 +267,7 @@ class ComposerStaticInit7fbd458cfab372eb173c9554bbea50d5
         'HTMLPurifier_VarParser_Flexible' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Flexible.php',
         'HTMLPurifier_VarParser_Native' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Native.php',
         'HTMLPurifier_Zipper' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/Zipper.php',
+        'Seravo\\API\\Container' => __DIR__ . '/../..' . '/src/lib/api/container.php',
         'Seravo\\API\\SWD' => __DIR__ . '/../..' . '/src/lib/api/swd.php',
         'Seravo\\Ajax\\AjaxHandler' => __DIR__ . '/../..' . '/src/lib/ajax/handler.php',
         'Seravo\\Ajax\\AjaxResponse' => __DIR__ . '/../..' . '/src/lib/ajax/response.php',

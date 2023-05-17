@@ -177,15 +177,17 @@ class AjaxResponse {
 
   /**
    * Get response for requesting polling.
-   * @param string $pid Pid of the program to poll.
+   * @param string $id ID of the program to poll.
+   * @param string $type ID type, either 'pid' or 'task'.
    * @return \Seravo\Ajax\AjaxResponse Polling response.
    */
-  public static function require_polling_response( $pid ) {
+  public static function require_polling_response( $id, $type = 'pid' ) {
     $response = new AjaxResponse();
     $response->is_success(true);
     $response->set_data(
       array(
-        'poller_id' => \base64_encode($pid),
+        'poller_id' => \base64_encode($id),
+        'poller_type' => $type,
       )
     );
     return $response;
