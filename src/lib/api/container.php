@@ -6,6 +6,10 @@ class Container {
 
   const API_URL = "http://localhost:8080/v2";
 
+  public static function reset_shadow( $shadow ) {
+    return self::post("/wordpress/shadow-reset/$shadow");
+  }
+
   public static function task_status( $id ) {
     return self::get("/tasks/$id");
   }
