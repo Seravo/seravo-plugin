@@ -81,6 +81,15 @@ class Loader {
   private static $domain = 'seravo';
 
   public function __construct() {
+
+    if ( defined('SERAVO_PLUGIN_DISABLED') && SERAVO_PLUGIN_DISABLED === true ) {
+      return;
+    }
+
+    if ( getenv('SERAVO_PLUGIN_DISABLED') !== false && filter_var(getenv('SERAVO_PLUGIN_DISABLED'), FILTER_VALIDATE_BOOLEAN) === true ) {
+      return;
+    }
+
     if ( isset(self::$_single) ) {
       return;
     }
