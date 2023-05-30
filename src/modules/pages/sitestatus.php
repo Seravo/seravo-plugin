@@ -39,11 +39,6 @@ class SiteStatus extends Toolpage {
   const IMAGE_MIN_SIZE = 500;
 
   /**
-   * @var string Object-cache file location.
-   */
-  const OBJECT_CACHE_PATH = '/data/wordpress/htdocs/wp-content/object-cache.php';
-
-  /**
    * @var \Seravo\Page\SiteStatus|null Instance of this page.
    */
   private static $instance;
@@ -376,7 +371,7 @@ class SiteStatus extends Toolpage {
    * @return void
    */
   public static function build_cache_status( Component $base, Postbox\Postbox $postbox ) {
-    if ( ! \file_exists(self::OBJECT_CACHE_PATH) ) {
+    if ( ! \file_exists(WP_CONTENT_DIR . '/object-cache.php') ) {
       $notice = new Component('', '<table><tr>', '</tr></table>');
       $notice->add_child(new Component(__('Object cache is currently disabled!', 'seravo'), '<td><b>', '</b></td>'));
       $notice->add_child($postbox->get_ajax_handler('object-cache-status')->get_component()->set_wrapper('<td>', '</td>'));
@@ -404,7 +399,7 @@ class SiteStatus extends Toolpage {
   public static function enable_object_cache() {
     $object_cache_url = 'https://raw.githubusercontent.com/Seravo/wordpress/master/htdocs/wp-content/object-cache.php';
     // Remove all possible object-cache.php.* files
-    $files = \glob(self::OBJECT_CACHE_PATH . '.*');
+    $files = \glob(WP_CONTENT_DIR . '/object-cache.php.*');
     if ( $files !== false ) {
       foreach ( $files as $file ) {
         \unlink($file);
@@ -418,7 +413,7 @@ class SiteStatus extends Toolpage {
       return Ajax\AjaxResponse::error_response(__('Error with downloading the latest object-cache file. Please try again later.', 'seravo'));
     }
 
-    $object_cache_file = \fopen(self::OBJECT_CACHE_PATH, 'w');
+    $object_cache_file = \fopen(WP_CONTENT_DIR . '/object-cache.php', 'w');
     if ( $object_cache_file === false ) {
       // Failed to open file handle
       return Ajax\AjaxResponse::error_response(__('Error with writing the latest object-cache file. Please try again later.', 'seravo'));
