@@ -108,21 +108,21 @@ final class SeravoCLI extends \WP_CLI_Command {
     \WP_CLI::log('Restricted login: ' . \WP_CLI::colorize('%GEnabled%n') . "\n");
 
     if ( is_multisite() ) {
-      \WP_CLI::log("Allow login on blog '${blog}' from:\n");
+      \WP_CLI::log("Allow login on blog '{$blog}' from:\n");
       foreach ( get_option('seravo-allow-login-countries', array()) as $country_code ) {
         $country = GeoIP::country_code_to_name($country_code);
-        \WP_CLI::log("    - ${country} (${country_code})");
+        \WP_CLI::log("    - {$country} ({$country_code})");
       }
       \WP_CLI::log("\nAllow login network-wide (all blogs) from:\n");
       foreach ( get_site_option('seravo-allow-login-countries', array()) as $country_code ) {
         $country = GeoIP::country_code_to_name($country_code);
-        \WP_CLI::log("    - ${country} (${country_code})");
+        \WP_CLI::log("    - {$country} ({$country_code})");
       }
     } else {
       \WP_CLI::log("Allow login from:\n");
       foreach ( get_option('seravo-allow-login-countries', array()) as $country_code ) {
         $country = GeoIP::country_code_to_name($country_code);
-        \WP_CLI::log("    - ${country} (${country_code})");
+        \WP_CLI::log("    - {$country} ({$country_code})");
       }
     }
 
@@ -166,7 +166,7 @@ final class SeravoCLI extends \WP_CLI_Command {
     $blog = Helpers::get_blog_name();
 
     if ( $country_name === false ) {
-      \WP_CLI::error("${country_code}' is not a valid two-letter country code.");
+      \WP_CLI::error("{$country_code}' is not a valid two-letter country code.");
     }
 
     // Check if the country should be added network-wide
@@ -175,20 +175,20 @@ final class SeravoCLI extends \WP_CLI_Command {
     if ( GeoIP::allow_geologin($country_code, $network) ) {
       // Added to the list
       if ( $network ) {
-        \WP_CLI::success("Login from '${country_name}' is now allowed on all blogs.");
+        \WP_CLI::success("Login from '{$country_name}' is now allowed on all blogs.");
       } else if ( is_multisite() ) {
-        \WP_CLI::success("Login from '${country_name}' is now allowed on blog '${blog}'.");
+        \WP_CLI::success("Login from '{$country_name}' is now allowed on blog '{$blog}'.");
       } else {
-        \WP_CLI::success("Login from '${country_name}' is now allowed.");
+        \WP_CLI::success("Login from '{$country_name}' is now allowed.");
       }
     } else {
       // Was already on the list
       if ( $network ) {
-        \WP_CLI::success("Login from '${country_name}' was already allowed on all blogs.");
+        \WP_CLI::success("Login from '{$country_name}' was already allowed on all blogs.");
       } else if ( is_multisite() ) {
-        \WP_CLI::success("Login from '${country_name}' was already allowed on blog '${blog}'.");
+        \WP_CLI::success("Login from '{$country_name}' was already allowed on blog '{$blog}'.");
       } else {
-        \WP_CLI::success("Login from '${country_name}' was already allowed.");
+        \WP_CLI::success("Login from '{$country_name}' was already allowed.");
       }
     }
   }
@@ -229,7 +229,7 @@ final class SeravoCLI extends \WP_CLI_Command {
     $blog = Helpers::get_blog_name();
 
     if ( $country_name === false ) {
-      \WP_CLI::error("'${country_code}' is not a valid two-letter country code.");
+      \WP_CLI::error("'{$country_code}' is not a valid two-letter country code.");
     }
 
     // Check if the country should be added network-wide
@@ -241,13 +241,13 @@ final class SeravoCLI extends \WP_CLI_Command {
     if ( ! $removed ) {
       // The country wasn't removed from the list
       if ( $network ) {
-        \WP_CLI::warning("Login from '${country_name}' can't be disallowed network-wide.");
+        \WP_CLI::warning("Login from '{$country_name}' can't be disallowed network-wide.");
         \WP_CLI::log("         It isn't on the network-wide list of countries from which login is allowed.");
       } else if ( is_multisite() ) {
-        \WP_CLI::warning("Login from '${country_name}' can't be disallowed on blog '${blog}'.");
+        \WP_CLI::warning("Login from '{$country_name}' can't be disallowed on blog '{$blog}'.");
         \WP_CLI::log("         It isn't on the blog's list of countries from which login is allowed.");
       } else {
-        \WP_CLI::warning("Login from '${country_name}' can't be disallowed.");
+        \WP_CLI::warning("Login from '{$country_name}' can't be disallowed.");
         \WP_CLI::log("         It isn't on the list of countries from which login is allowed.");
       }
     }
@@ -255,16 +255,16 @@ final class SeravoCLI extends \WP_CLI_Command {
     if ( $removed ) {
       // The country was removed from the list
       if ( $network ) {
-        \WP_CLI::success("'${country_name}' is no longer on the network-wide list of allowed countries.");
+        \WP_CLI::success("'{$country_name}' is no longer on the network-wide list of allowed countries.");
       } else {
         if ( is_multisite() && GeoIP::is_login_allowed($country_code) ) {
-          \WP_CLI::warning("'${country_name}' is no longer on the list of allowed countries for blog '${blog}'");
+          \WP_CLI::warning("'{$country_name}' is no longer on the list of allowed countries for blog '{$blog}'");
           \WP_CLI::log("         but it's still on the network-wide list so login from there is still allowed.");
         } else {
           if ( is_multisite() ) {
-            \WP_CLI::success("'${country_name}' is no longer on the list of allowed countries for blog '${blog}'.");
+            \WP_CLI::success("'{$country_name}' is no longer on the list of allowed countries for blog '{$blog}'.");
           } else {
-            \WP_CLI::success("'${country_name}' is no longer on the list of allowed countries.");
+            \WP_CLI::success("'{$country_name}' is no longer on the list of allowed countries.");
           }
         }
       }
@@ -272,7 +272,7 @@ final class SeravoCLI extends \WP_CLI_Command {
 
     if ( ! GeoIP::is_geologin_enabled() ) {
       if ( is_multisite() ) {
-        \WP_CLI::warning("The list of allowed countries on blog '${blog}' is empty.");
+        \WP_CLI::warning("The list of allowed countries on blog '{$blog}' is empty.");
       } else {
         \WP_CLI::warning('The list of allowed countries is empty.');
       }
