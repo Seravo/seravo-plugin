@@ -15,6 +15,10 @@ class Container {
     return self::post('/wordpress/php-compatibility-check/', $data);
   }
 
+  public static function backup_status() {
+    return self::post('/wordpress/backup-status/', []);
+  }
+
   public static function task_status( $id ) {
     return self::get("/tasks/$id");
   }

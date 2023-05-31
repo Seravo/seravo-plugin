@@ -14,6 +14,8 @@
 namespace Seravo;
 
 // Deny direct access to this file
+use Seravo\API\Container;
+
 if ( ! \defined('ABSPATH') ) {
   die('Access denied!');
 }
