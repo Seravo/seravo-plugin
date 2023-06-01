@@ -516,35 +516,51 @@ class Upkeep extends Toolpage {
       return AjaxResponse::response_with_output($successful_change);
     }
 
-    if ( $polling === false ) {
-      if ( \array_key_exists($php_version, $php_version_array) ) {
+    if ( $polling !== false ) {
+      return $polling;
+    }
 
-        if ( $php_version === $current_version ) {
-          $already_in_use = '<hr>' . Template::error_paragraph(__('The selected PHP version is already in use.', 'seravo'))->to_html() . '<hr>';
-          return AjaxResponse::response_with_output($already_in_use);
-        }
-        \file_put_contents('/data/wordpress/nginx/php.conf', 'set $mode php' . $php_version_array[$php_version] . ';' . PHP_EOL);
-        // NOTE! The exec below must end with '&' so that subprocess is sent to the
-        // background and the rest of the PHP execution continues. Otherwise the Nginx
-        // restart will kill this PHP file, and when this PHP files dies, the Nginx
-        // restart will not complete, leaving the server state broken so it can only
-        // recover if wp-restart-nginx is run manually.
-        \exec('echo "--> Setting to mode ' . $php_version_array[$php_version] . '" >> /data/log/php-version-change.log');
-        //exec('wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &');
-        $restart_nginx = 'wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &';
-        $pid = Shell::background_command($restart_nginx);
-
-        if ( $pid === false ) {
-          return Ajax\AjaxResponse::exception_response();
-        }
-
-        if ( \is_executable('/usr/local/bin/s-git-commit') && \file_exists('/data/wordpress/.git') ) {
-          \exec('cd /data/wordpress/ && git add nginx/*.conf && /usr/local/bin/s-git-commit -m "Set new PHP version" && cd /data/wordpress/htdocs/wordpress/wp-admin');
-        }
-
-        return Ajax\AjaxResponse::require_polling_response($pid);
-      }
+    if ( \array_key_exists($php_version, $php_version_array) === false ) {
       return Ajax\AjaxResponse::invalid_request_response();
+    }
+
+    if ( $php_version === $current_version ) {
+      $already_in_use = '<hr>' . Template::error_paragraph(__('The selected PHP version is already in use.', 'seravo'))->to_html() . '<hr>';
+      return AjaxResponse::response_with_output($already_in_use);
+    }
+
+    if ( Container::version() >= 4 ) {
+      // Use Container API
+      $response = Container::php_version_set($php_version_array[$php_version]);
+
+      if ( \is_wp_error($response) ) {
+        return AjaxResponse::api_error_response();
+      }
+
+      if ( ! isset($response['id']) ) {
+        return Ajax\AjaxResponse::api_error_response();
+      }
+
+      if ( ! isset($response['status']) || $response['status'] !== 'created' ) {
+        return Ajax\AjaxResponse::api_error_response();
+      }
+
+      return Ajax\AjaxResponse::require_polling_response($response['id'], 'task');
+    } else {
+      // Use internal poller
+      \file_put_contents('/data/wordpress/nginx/php.conf', 'set $mode php' . $php_version_array[$php_version] . ';' . PHP_EOL);
+      \exec('echo "--> Setting to mode ' . $php_version_array[$php_version] . '" >> /data/log/php-version-change.log');
+      $pid = Shell::background_command('wp-restart-nginx >> /data/log/php-version-change.log 2>&1 &');
+
+      if ( $pid === false ) {
+        return Ajax\AjaxResponse::exception_response();
+      }
+
+      if ( \is_executable('/usr/local/bin/s-git-commit') && \file_exists('/data/wordpress/.git') ) {
+        \exec('cd /data/wordpress/ && git add nginx/*.conf && /usr/local/bin/s-git-commit -m "Set new PHP version" && cd /data/wordpress/htdocs/wordpress/wp-admin');
+      }
+
+      return Ajax\AjaxResponse::require_polling_response($pid);
     }
 
     return $polling;

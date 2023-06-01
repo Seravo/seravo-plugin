@@ -15,6 +15,10 @@ class Container {
     return self::post('/wordpress/php-compatibility-check/', $data);
   }
 
+  public static function php_version_set( $version ) {
+    return self::post('/wordpress/php-version-set/', ['php' => $version]);
+  }
+
   public static function backup_status() {
     return self::post('/wordpress/backup-status/', []);
   }
