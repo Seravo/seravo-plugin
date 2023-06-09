@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<ruleset name="Seravo Coding Standard" namespace="SeravoPlugin\Dev\PHPCodeSniffer\Standard">
+    <description>A custom coding standard for Seravo Plugin.</description>
+
+    <!-- List of files and directories to check. -->
+    <file>../../../src/test.php</file>
+
+    <!-- Specify the command line arguments. -->
+    <arg name="extensions" value="php"/>
+    <arg name="report" value="full,summary"/>
+    <arg name="tab-width" value="2"/>
+    <arg name="colors"/>
+    <arg value="sp"/>
+
+    <!-- Increase process memory limit to 128MB. -->
+    <ini name="memory_limit" value="128M"/>
+
+    <!-- Minimum PHP version to check compatibility for. -->
+    <config name="testVersion" value="7.0-"/>
+
+    <!-- Specify paths for the external standards. -->
+    <config name="installed_paths" value="../../../vendor/phpcompatibility/php-compatibility/PHPCompatibility"/>
+
+    <!-- Include PHPCompatibility coding standard. -->
+    <rule ref="PHPCompatibility"/>
+
+    <!-- Include PSR-12 coding standard. -->
+    <rule ref="PSR12">
+        <!-- Allow opening brace on function declaration line. -->
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
+    </rule>
+
+    <!-- Opening brace should be on the same line as the function declaration. -->
+    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie">
+        <properties>
+            <property name="checkFunctions" value="true" />
+            <property name="checkClosures" value="true" />
+        </properties>
+    </rule>
+
+</ruleset>

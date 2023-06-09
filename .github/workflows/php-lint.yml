@@ -2,16 +2,13 @@
 name: 'Lint PHP code'
 
 on:
-  # Trigger the workflow on push to master.
   push:
     branches: [ master ]
     paths-ignore:
       - '**.md'
-  # Trigger the workflow on any pull request.
   pull_request:
     paths-ignore:
       - '**.md'
-  # Allow manually triggering the workflow.
   workflow_dispatch:
 
 jobs:
@@ -38,7 +35,7 @@ jobs:
           tools: cs2pr, composer
 
       # Print Composer version
-      - run: vendor/bin/composer --version
+      - run: composer --version
 
       # Validate composer.json syntax
       - name: Validate composer.json syntax
@@ -53,4 +50,11 @@ jobs:
 
       # Lint PHP code syntax
       - name: Run PHP Parallel Lint
-        run: vendor/bin/parallel-lint --show-deprecated --checkstyle wordpress-plugin.php | cs2pr
+        run: vendor/bin/parallel-lint --show-deprecated --checkstyle *.php src | cs2pr
+
+      # Print PHP_CodeSniffer version
+      - run: vendor/bin/phpcs --version
+
+      # Lint PHP code style
+      - name: Run PHP CodeSniffer
+        run: vendor/bin/phpcs -q --standard=tools/PHPCodeSniffer/Standard --report=checkstyle | cs2pr
