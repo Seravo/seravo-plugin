@@ -1,0 +1,56 @@
+---
+name: 'Lint PHP code'
+
+on:
+  # Trigger the workflow on push to master.
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '**.md'
+  # Trigger the workflow on any pull request.
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+jobs:
+  lint-php:
+    name: 'Lint syntax and style'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - '7.0'
+          - '8.2'
+
+    steps:
+      # Checkout the repository
+      - name: Setup repository
+        uses: actions/checkout@v3
+
+      # Install PHP and tools necessary
+      - name: Setup PHP
+        uses: seravo/setup-php@v2
+        with:
+          php-version: "${{ matrix.php-version }}"
+          tools: cs2pr, composer
+
+      # Print Composer version
+      - run: vendor/bin/composer --version
+
+      # Validate composer.json syntax
+      - name: Validate composer.json syntax
+        run: composer validate --strict
+
+      # Install development dependencies
+      - name: Install development dependencies
+        run: composer install --no-interaction --no-progress
+
+      # Print Parallel Lint version
+      - run: vendor/bin/parallel-lint --version
+
+      # Lint PHP code syntax
+      - name: Run PHP Parallel Lint
+        run: vendor/bin/parallel-lint --show-deprecated --checkstyle wordpress-plugin.php | cs2pr
