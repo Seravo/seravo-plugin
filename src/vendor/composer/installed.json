@@ -114,6 +114,6 @@
             "install-path": "../ezyang/htmlpurifier"
         }
     ],
-    "dev": true,
+    "dev": false,
     "dev-package-names": []
 }

@@ -3,11 +3,11 @@
         'name' => 'seravo/seravo-plugin',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '85dc11329d0ccd15d15de8b7b7bb7279b73e5eac',
+        'reference' => '12d03cc48b67182d6aa976ddeee02e7b5159b230',
         'type' => 'wordpress-muplugin',
-        'install_path' => __DIR__ . '/../../',
+        'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
         'enshrined/svg-sanitize' => array(
@@ -31,9 +31,9 @@
         'seravo/seravo-plugin' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '85dc11329d0ccd15d15de8b7b7bb7279b73e5eac',
+            'reference' => '12d03cc48b67182d6aa976ddeee02e7b5159b230',
             'type' => 'wordpress-muplugin',
-            'install_path' => __DIR__ . '/../../',
+            'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
