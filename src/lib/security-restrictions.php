@@ -20,7 +20,9 @@ class SecurityRestrictions {
       \add_filter('xmlrpc_enabled', '__return_false');
       \add_filter('xmlrpc_methods', array( __CLASS__, 'remove_xmlrpc_methods' ));
 
-      if ( isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']) && \strpos($_SERVER['REQUEST_URI'], 'xml-rpc.php') !== false ) {
+      if ( isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']) && \strpos($_SERVER['REQUEST_URI'], 'xmlrpc.php') !== false ) {
+        header('Status: 403 Forbidden');
+        header('HTTP/1.1 403 Forbidden');
         \wp_die('XML-RPC blocked.');
       }
     } elseif ( \get_option('seravo-disable-xml-rpc') === 'on' ) {
