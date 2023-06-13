@@ -43,18 +43,24 @@ jobs:
 
       # Install development dependencies
       - name: Install development dependencies
-        run: composer install --no-interaction --no-progress
+        run: composer install --no-interaction --no-progress --ignore-platform-reqs
 
       # Print Parallel Lint version
       - run: vendor/bin/parallel-lint --version
 
       # Lint PHP code syntax
       - name: Run PHP Parallel Lint
-        run: vendor/bin/parallel-lint --show-deprecated --checkstyle *.php src | cs2pr
+        run: vendor/bin/parallel-lint
+          --show-deprecated
+          --checkstyle
+          --exclude src/vendor
+          seravo-plugin.php src | cs2pr
 
       # Print PHP_CodeSniffer version
       - run: vendor/bin/phpcs --version
 
       # Lint PHP code style
       - name: Run PHP CodeSniffer
-        run: vendor/bin/phpcs -q --standard=tools/PHPCodeSniffer/Standard --report=checkstyle | cs2pr
+        run: vendor/bin/phpcs -q
+          --standard=tools/PHPCodeSniffer/Standard
+          --report=checkstyle | cs2pr
