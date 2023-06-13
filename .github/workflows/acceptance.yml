@@ -1,0 +1,29 @@
+---
+name: 'Test'
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  workflow_dispatch:
+
+jobs:
+  acceptance:
+    name: 'Acceptance'
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the Seravo Plugin repository
+      - name: Setup repository
+        uses: actions/checkout@v3
+
+      - uses: actions/checkout@v3
+        with:
+          repository: seravo/wordpress
+          path: wordpress
+
+      - run: ls -la "${{ GITHUB_WORKSPACE }}"
