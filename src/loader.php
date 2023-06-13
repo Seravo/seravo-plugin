@@ -52,7 +52,6 @@ class Loader {
     // If a real file path was given, send out MIME type and file size headers
     if ( \file_exists($file) ) {
       \header('Content-Type: ' . \mime_content_type($file));
-      // phpcs:ignore Security.BadFunctions.FilesystemFunctions.WarnFilesystem
       \header('Content-Length: ' . \filesize($file));
     }
 
@@ -84,7 +83,6 @@ class Loader {
     global $pagenow;
 
     // This check fires on every page load, so keep the scope small
-    // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
     if ( $pagenow === 'tools.php' && isset($_GET['x-accel-redirect']) ) {
 
       // This URL uses authentication, thus don't cache anything from it
@@ -98,10 +96,8 @@ class Loader {
       }
 
       // Filename must be of correct form, e.g. 2016-09.html or home.png
-      // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
       if ( isset($_GET['report']) && \preg_match('/^\d{4}-\d{2}\.html$/', $_GET['report'], $matches) === 1 ) {
         self::x_accel_redirect('/data/slog/html/goaccess-' . $matches[0]);
-        // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
       } elseif ( isset($_GET['screenshot']) && \preg_match('/^[a-z-.]+\.png$/', $_GET['screenshot'], $matches) === 1 ) {
         self::x_accel_redirect('/data/reports/tests/debug/' . $matches[0]);
       } else {

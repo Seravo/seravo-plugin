@@ -20,7 +20,6 @@ function seravo_respond_error_json( $reason = '' ) {
 
 function seravo_get_domains_table() {
   if ( Domains::$domains_table === null ) {
-    // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
     Domains::$domains_table = new Seravo_Domains_List_Table();
   }
 
@@ -31,7 +30,6 @@ function seravo_get_domains_table() {
 
 function seravo_get_forwards_table() {
   if ( Domains::$mails_table === null ) {
-    // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
     Domains::$mails_table = new Seravo_Mails_Forward_Table();
   }
 
