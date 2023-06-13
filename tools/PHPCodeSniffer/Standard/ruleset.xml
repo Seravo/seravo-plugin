@@ -6,35 +6,155 @@
     <file>../../../src/test.php</file>
 
     <!-- Specify the command line arguments. -->
+    <arg name="encoding" value="utf-8"/>
     <arg name="extensions" value="php"/>
-    <arg name="report" value="full,summary"/>
     <arg name="tab-width" value="2"/>
+    <arg name="report" value="full"/>
     <arg name="colors"/>
     <arg value="sp"/>
 
-    <!-- Increase process memory limit to 128MB. -->
+    <!-- Specify php.ini settings. -->
     <ini name="memory_limit" value="128M"/>
 
-    <!-- Minimum PHP version to check compatibility for. -->
+    <!-- Specify configuration options. -->
     <config name="testVersion" value="7.0-"/>
-
-    <!-- Specify paths for the external standards. -->
-    <config name="installed_paths" value="../../../vendor/phpcompatibility/php-compatibility/PHPCompatibility"/>
 
     <!-- Include PHPCompatibility coding standard. -->
     <rule ref="PHPCompatibility"/>
 
     <!-- Include PSR-12 coding standard. -->
     <rule ref="PSR12">
-        <!-- Allow opening brace on function declaration line. -->
+        <!-- Allow opening brace on the function declaration line. -->
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
+
+        <!-- Allow spaces after control structure opening brace. -->
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace"/>
+        <!-- Allow spaces before control structure closing brace. -->
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.SpaceBeforeCloseBrace"/>
+
+        <!-- Allow spaces before and after equals sign in declare statement. -->
+        <exclude name="PSR12.Files.DeclareStatement.SpaceFoundAfterDirective"/>
+        <exclude name="PSR12.Files.DeclareStatement.SpaceFoundBeforeDirectiveValue"/>
+
+        <!-- Allow empty line after class declaration. -->
+        <exclude name="PSR12.Classes.OpeningBraceSpace.Found"/>
+        <!-- Allow empty line before class closing brace. -->
+        <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody"/>
+        <!-- Allow opening brace to be on the class declaration line. -->
+        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine"/>
     </rule>
 
-    <!-- Opening brace should be on the same line as the function declaration. -->
+    <!-- Include Slevomat coding standard. -->
+    <rule ref="SlevomatCodingStandard">
+        <!-- Allow arbitrary spacing in comments. -->
+        <exclude name="SlevomatCodingStandard.Commenting.DocCommentSpacing"/>
+
+        <!-- Don't enforce rules requiring PHP 7.1 or newer. -->
+        <exclude name="SlevomatCodingStandard.Functions.RequireArrowFunction.RequiredArrowFunction"/>
+        <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint"/>
+
+        <!-- Don't require Yoda condition. -->
+        <exclude name="SlevomatCodingStandard.ControlStructures.RequireYodaComparison.RequiredYodaComparison"/>
+
+        <!-- Allow multiline comment with one line of content. -->
+        <exclude name="SlevomatCodingStandard.Commenting.RequireOneLineDocComment.MultiLineDocComment"/>
+        <exclude name="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment.MultiLinePropertyComment"/>
+
+        <!-- Allow useless annotations. -->
+        <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation"/>
+        <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.UselessAnnotation"/>
+    </rule>
+
+    <!-- Enforce CamelCaps for variables names. -->
+    <rule ref="Squiz.NamingConventions.ValidVariableName.NotCamelCaps"/>
+
+    <!-- Specify directories for namespaces. -->
+    <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
+        <properties>
+            <property name="rootNamespaces" type="array">
+                <element key="plugin/lib" value="SeravoPlugin"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Allow importing of specific namespaces only. -->
+    <rule ref="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces">
+        <properties>
+            <property name="allowUseFromRootNamespace" value="true"/>
+            <property name="namespacesRequiredToUse" type="array">
+                <element value="SeravoPlugin"/>
+                <element value="PSR"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Limit line length to 100 characters. -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="100"/>
+            <property name="absoluteLineLimit" value="100"/>
+        </properties>
+    </rule>
+
+    <!-- Enforce scope indentation with 2 spaces. -->
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="indent" value="2" />
+            <property name="exact" value="true" />
+        </properties>
+    </rule>
+
+    <!-- Enforce multiline array indentation with 2 spaces. -->
+    <rule ref="Generic.Arrays.ArrayIndent">
+        <properties>
+            <property name="tabIndent" value="false" />
+            <property name="indent" value="2" />
+        </properties>
+    </rule>
+
+    <!-- Enforce switch terminating case statement indentation with 2 spaces. -->
+    <rule ref="PSR2.ControlStructures.SwitchDeclaration">
+        <properties>
+            <property name="indent" value="2" />
+        </properties>
+    </rule>
+
+    <!-- Enforce opening brace on the function declaration line. -->
     <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie">
         <properties>
             <property name="checkFunctions" value="true" />
             <property name="checkClosures" value="true" />
+        </properties>
+    </rule>
+
+    <!-- Enforce spacing inside control structure brackets. -->
+    <rule ref="PSR2.ControlStructures.ControlStructureSpacing">
+        <properties>
+            <!-- Require 1 space after opening bracket. -->
+            <property name="requiredSpacesAfterOpen" value="1" />
+            <!-- Require 1 space before closing bracket. -->
+            <property name="requiredSpacesBeforeClose" value="1" />
+        </properties>
+    </rule>
+
+    <!-- Enforce spacing inside function declaration brackets. -->
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
+        <properties>
+            <property name="equalsSpacing" value="1" />
+            <property name="requiredSpacesAfterOpen" value="1" />
+            <property name="requiredSpacesBeforeClose" value="1" />
+        </properties>
+    </rule>
+
+    <!-- Exempt the plugin file from declaring strict_types. -->
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+        <exclude-pattern>seravo-plugin.php</exclude-pattern>
+    </rule>
+
+    <!-- Allow arbitrary number of spaces in comments. -->
+    <rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces">
+        <properties>
+            <property name="ignoreSpacesInComment" value="true"/>
         </properties>
     </rule>
 
