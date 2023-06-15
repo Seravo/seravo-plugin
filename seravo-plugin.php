@@ -18,9 +18,6 @@ if ( ! \defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-// Use debug mode only in development
-\define('SERAVO_PLUGIN_DEBUG', false);
-
 if ( \defined('SERAVO_PLUGIN_DEBUG') && SERAVO_PLUGIN_DEBUG ) {
   \nocache_headers();
 }

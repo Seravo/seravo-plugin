@@ -1,0 +1,8 @@
+parameters:
+  level: 9
+  paths:
+    - ../seravo-plugin.php
+  scanDirectories:
+    - ../src
+includes:
+  - ../vendor/szepeviktor/phpstan-wordpress/extension.neon

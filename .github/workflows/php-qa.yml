@@ -1,0 +1,44 @@
+---
+name: 'Quality Assurance'
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  workflow_dispatch:
+
+jobs:
+  phpstan:
+    name: 'PHPStan'
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Setup repository
+        uses: actions/checkout@v3
+
+      # Install PHP and tools necessary
+      - name: Setup PHP
+        uses: seravo/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: cs2pr, composer
+
+      # Install development dependencies
+      - name: Install development dependencies
+        run: composer install --no-interaction --no-progress
+
+      # Print PHP_CodeSniffer version
+      - run: vendor/bin/phpstan --version
+
+      # Lint PHP code style
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyze
+          --no-progress
+          -c tools/phpstan.neon
+          --error-format=checkstyle
+          --memory-limit=1G | cs2pr
