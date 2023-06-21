@@ -428,7 +428,8 @@ class Upkeep extends Toolpage {
     $options = [];
     foreach ( $version_info['PHP_SUPPORTED_VERSIONS'] as $version ) {
       $in_use = $current_version === $version;
-      $eol_time = $version_info['PHP_EOL'][$version];
+      $eol_offset = get_option('gmt_offset') * HOUR_IN_SECONDS;
+      $eol_time = $version_info['PHP_EOL'][$version] + $eol_offset;
 
       $options[$version] = array(
         'value' => $version,
@@ -438,7 +439,7 @@ class Upkeep extends Toolpage {
 
       // Show EOL time if EOL is in less than 12 months
       if ( $eol_time - $current_time < 12 * MONTH_IN_SECONDS ) {
-        $options[$version]['name'] .= ' (EOL ' . \wp_date('M j, Y', $eol_time) . ')';
+        $options[$version]['name'] .= ' (EOL ' . \date_i18n('M j, Y', $eol_time, false) . ')';
       }
     }
 
