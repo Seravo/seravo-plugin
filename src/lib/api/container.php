@@ -105,7 +105,9 @@ class Container {
 
     // Only accept HTTP status codes indicating success.
     if ( $status < 200 || $status >= 300 ) {
-      return self::error($method, $path, "HTTP status code $status");
+      // Include extra information from the API response
+      $detail = $response['detail'];
+      return self::error($method, $path, "HTTP status code $status", $detail);
     }
 
     // Free up the session resources.
@@ -114,9 +116,12 @@ class Container {
     return $response;
   }
 
-  private static function error($method, $path, $message) {
+  private static function error($method, $path, $message, $extra = '') {
     $code = "seravo-container-$method-error";
     $error = "Container API error on $method to '$path' failed: $message";
+    $timestamp = date("F j, Y, g:i a e O");
+    $logmsg = "$timestamp $code $error $extra\n";
+    error_log($logmsg);
     return new \WP_Error($code, $error);
   }
 
