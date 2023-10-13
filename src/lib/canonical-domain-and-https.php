@@ -14,7 +14,7 @@ if ( ! \defined('ABSPATH') ) {
   die('Access denied!');
 }
 
-if ( ! \class_exists('Canonical_Domain_And_Https') ) {
+if ( ! \class_exists('CanonicalDomainAndHttps') ) {
 
   class CanonicalDomainAndHttps {
 
