@@ -107,7 +107,6 @@
     <!-- Enforce multiline array indentation with 2 spaces. -->
     <rule ref="Generic.Arrays.ArrayIndent">
         <properties>
-            <property name="tabIndent" value="false" />
             <property name="indent" value="2" />
         </properties>
     </rule>
