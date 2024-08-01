@@ -767,6 +767,7 @@ class SiteStatus extends Toolpage {
 
     $plans = array(
       'demo'       => __('Demo', 'seravo'),
+      'dev'       => __('WP Dev', 'seravo'),
       'mini'       => __('WP Mini', 'seravo'),
       'start'      => __('WP Start', 'seravo'),
       'pro'        => __('WP Pro', 'seravo'),
