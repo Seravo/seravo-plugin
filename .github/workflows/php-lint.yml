@@ -26,7 +26,7 @@ jobs:
     steps:
       # Checkout the repository
       - name: Setup repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Install PHP and tools necessary
       - name: Setup PHP
@@ -64,7 +64,7 @@ jobs:
     steps:
       # Checkout the repository
       - name: Setup repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Install PHP and tools necessary
       - name: Setup PHP
