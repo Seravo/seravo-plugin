@@ -11,7 +11,7 @@ class Container {
   }
 
   public static function php_compatibility_check( $version = null ) {
-    $data = $version === null ? [] : ['php' => $version];
+    $data = $version === null ? null : ['php' => $version];
     return self::post('/wordpress/php-compatibility-check/', $data);
   }
 
