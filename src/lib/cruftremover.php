@@ -133,7 +133,10 @@ class CruftRemover {
       if ( '.' === $file || '..' === $file ) {
         continue; // Skip current and upper level directories
       }
-      if ( \is_dir("{$dir}/{$file}") ) {
+      if ( \is_link("{$dir}/{$file}") ) {
+        \unlink("{$dir}/{$file}"); // Remove link and prevent directory traversal
+      }
+      elseif ( \is_dir("{$dir}/{$file}") ) {
         self::rmdir_recursive("{$dir}/{$file}", 1);
       } else {
         \unlink("{$dir}/{$file}");
@@ -521,7 +524,13 @@ class CruftRemover {
 
     foreach ( $files as $file ) {
       if ( \in_array($file, $legit_cruft_files, true) ) {
-        $unlink_result = \is_dir($file) ? self::rmdir_recursive($file, 0) : \unlink($file);
+        // prevent directory traversal in case of links
+        if ( is_dir($file) && !is_link($file) ) {
+          $unlink_result = rmdir_recursive($file, 0);
+        }
+        else {
+          $unlink_result = unlink($file);
+        }
         if ( $unlink_result === false ) {
           $remove_failed[] = $file;
         }
