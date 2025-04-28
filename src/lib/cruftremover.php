@@ -526,7 +526,7 @@ class CruftRemover {
       if ( \in_array($file, $legit_cruft_files, true) ) {
         // prevent directory traversal in case of links
         if ( is_dir($file) && !is_link($file) ) {
-          $unlink_result = rmdir_recursive($file, 0);
+          $unlink_result = self::rmdir_recursive($file, 0);
         }
         else {
           $unlink_result = unlink($file);
