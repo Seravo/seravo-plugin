@@ -46,7 +46,9 @@ final class ThirdPartyFixes {
    * MainWP by default keep README.html
    */
   public static function mainwp_readme( $value, $option ) {
-    $value['readme'] = false;
+    if ( is_array($value) && in_array('readme', $value)) {
+      $value['readme'] = false;
+    }
     return $value;
   }
 
