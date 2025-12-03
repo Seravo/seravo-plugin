@@ -745,7 +745,6 @@ class SiteStatus extends Toolpage {
         isset($data['termination']) ? Template::paragraph($data['termination']) : null,
         isset($data['country']) ? Template::paragraph($data['country']) : null,
         isset($data['plan_type']) ? Template::paragraph($data['plan_type']) : null,
-        isset($data['account_manager']) ? Template::paragraph($data['account_manager']) : null,
         isset($data['contacts']) ? Template::paragraph($data['contacts']) : null,
       )
     );
@@ -790,12 +789,6 @@ class SiteStatus extends Toolpage {
       'plan_type' => __('Plan Type', 'seravo') . ': ' . $plans[$info['plan']['type']],
     );
 
-    // Check for account manger
-    if ( isset($info['account_manager']) ) {
-      $data['account_manager'] = __('Account Manager', 'seravo') . ': ' . $info['account_manager'];
-    } else {
-      $data['account_manager'] = __('No Account Manager found. Account Manager is only included in Seravo Enterprise plans.', 'seravo');
-    }
     // Check for termination date (hide 1970-01-01)
     if ( isset($info['termination']) && $info['termination'] !== '' && \date('Y-m-d', \strtotime($info['termination'])) !== '1970-01-01' ) {
       $data['termination'] = __('Plan Termination', 'seravo') . ': ' . \date('Y-m-d', \strtotime($info['termination']));
