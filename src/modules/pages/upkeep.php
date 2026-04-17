@@ -851,7 +851,7 @@ class Upkeep extends Toolpage {
         if ( $screenshot_name === false ) {
           continue;
         }
-        $diff_txt = \file_get_contents($screenshot_name . '.diff.txt');
+        $diff_txt = @\file_get_contents($screenshot_name . '.diff.txt');
         if ( $diff_txt !== false && \preg_match('/Total: ([0-9.]+)/', $diff_txt, $matches) === 1 ) {
           $diff = (float) $matches[1];
         }
