@@ -78,12 +78,8 @@ function seravo_admin_change_zone_file() {
     // Attach the editable records to the compulsory
     $zone = isset($_REQUEST['compulsory']) ? $_REQUEST['compulsory'] . "\n" . $_REQUEST['zonefile'] : $_REQUEST['zonefile'];
 
-    // Remove the escapes that are not needed.
-    // This makes \" into "
-    $data_str = \str_replace('\"', '"', $zone);
-    // This makes \\\\" into \"
-    $data_str = \str_replace('\\\\"', '\"', $data_str);
-    $data = \explode("\r\n", $data_str);
+    // WordPress adds slashes to the request input, so strip them before use
+    $data = \explode("\r\n", \wp_unslash($zone));
 
     $current_state = SWD::get_domain_zone($_REQUEST['domain']);
     if ( \is_wp_error($current_state) ) {
