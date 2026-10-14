@@ -1,0 +1,19 @@
+---
+name: "Nitpick git commits"
+
+on: [push]
+
+permissions:
+  contents: read
+
+jobs:
+  nitpick:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Execute git linting
+        uses: seravo/gitlint@v1
