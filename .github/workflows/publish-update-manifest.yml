@@ -1,0 +1,81 @@
+name: Publish update manifest to GitHub Pages
+
+# Fires when a GitHub Release is published (not on every push/tag), so the
+# manifest only ever points at something installable.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Avoid two releases racing to deploy Pages at once.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish-manifest:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Build update.json
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+          CHANGELOG: ${{ github.event.release.body }}
+        run: |
+          set -euo pipefail
+          mkdir -p public
+
+          if [ -z "$TAG" ]; then
+            echo "::error::Release event has no tag_name; cannot determine version." >&2
+            exit 1
+          fi
+
+          # Tags are prefixed "v" (e.g. v1.10.7); the manifest needs the
+          # bare version. ${TAG#v} only strips a *leading* "v", so a tag
+          # without the prefix would pass through unchanged rather than
+          # being mangled — but we still verify a version was actually
+          # produced below, so that case fails loudly instead of
+          # publishing "vSomethingWeird" as a version.
+          VERSION="${TAG#v}"
+          if [ -z "$VERSION" ] || ! [[ "$VERSION" =~ ^[0-9] ]]; then
+            echo "::error::Could not determine a version from tag '$TAG'." >&2
+            exit 1
+          fi
+
+          # NOTE: requires/tested/requires_php are hardcoded below. We might
+          # want to use static analysis later to define these.
+          jq -n \
+            --arg version "$VERSION" \
+            --arg tag "$TAG" \
+            --arg changelog "$CHANGELOG" \
+            --arg updated "$(date -u +%Y-%m-%d)" \
+            '{
+              id: "https://seravo.github.io/seravo-plugin/update.json",
+              slug: "seravo-plugin",
+              version: $version,
+              url: "https://github.com/Seravo/seravo-plugin",
+              package: ("https://github.com/Seravo/seravo-plugin/archive/refs/tags/" + $tag + ".zip"),
+              requires: "5.8",
+              tested: "6.7",
+              requires_php: "7.4",
+              last_updated: $updated,
+              sections: { changelog: $changelog }
+            }' > public/update.json
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

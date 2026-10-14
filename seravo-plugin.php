@@ -1,8 +1,9 @@
 <?php
 /**
  * Plugin Name: Seravo Plugin
- * Version: 1.10.8
+ * Version: 1.11.0
  * Plugin URI: https://github.com/Seravo/seravo-plugin
+ * Update URI: https://seravo.github.io/seravo-plugin/update.json
  * Description: Enhances WordPress with Seravo.com specific features and integrations.
  * Author: Seravo Oy
  * Author URI: https://seravo.com/
@@ -55,6 +56,12 @@ if ( ! \defined('WP_CLI') ) {
  * Load the Seravo Plugin loader.
  */
 require_once SERAVO_PLUGIN_SRC . 'loader.php';
+
+/*
+ * Load the self-hosted update checker, which reads release info published
+ * to GitHub Pages and feeds it into WordPress core's "Update URI" mechanism.
+ */
+require_once SERAVO_PLUGIN_SRC . 'updater.php';
 
 /*
  * Load Canonical Domain and HTTPS. Check first that WP CLI is not defined so the module will not
