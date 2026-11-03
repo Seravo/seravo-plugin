@@ -150,7 +150,7 @@ class Backups extends Toolpage {
     $polling = Ajax\AjaxHandler::check_polling();
 
     if ( $polling === true ) {
-      return self::get_task_output(base64_decode($_REQUEST['poller_id']));
+      return self::get_task_output(base64_decode($_GET['poller_id']));
     }
 
     if ( $polling !== false ) {
