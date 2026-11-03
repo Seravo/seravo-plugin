@@ -150,15 +150,7 @@ class Backups extends Toolpage {
     $polling = Ajax\AjaxHandler::check_polling();
 
     if ( $polling === true ) {
-      $task = Container::task_status(base64_decode($_REQUEST['poller_id']));
-
-      if ( \is_wp_error($task) || ! isset($task['msg']) ) {
-        error_log(print_r($task, true));
-        return AjaxResponse::api_error_response();
-      }
-
-      $output = '<pre>' . \implode("\n", $task['msg']) . '</pre>';
-      return AjaxResponse::response_with_output($output);
+      return self::get_task_output(base64_decode($_REQUEST['poller_id']));
     }
 
     if ( $polling !== false ) {
@@ -175,11 +167,37 @@ class Backups extends Toolpage {
       return Ajax\AjaxResponse::api_error_response();
     }
 
-    if ( ! isset($response['status']) || $response['status'] !== 'created' ) {
+    if ( ! isset($response['status']) ) {
+      return Ajax\AjaxResponse::api_error_response();
+    }
+
+    // Cache hits can return a completed task immediately
+    if ( $response['status'] === 'completed' ) {
+      return self::get_task_output($response['id']);
+    }
+
+    if ( ! in_array($response['status'], ['started', 'created', 'scheduled'], true) ) {
       return Ajax\AjaxResponse::api_error_response();
     }
 
     return Ajax\AjaxResponse::require_polling_response($response['id'], 'task');
+  }
+
+  /**
+   * Get the output of a finished backup task.
+   * @param string $id ID of the task.
+   * @return Ajax\AjaxResponse Response with the task output, or an error response.
+   */
+  private static function get_task_output( $id ) {
+    $task = Container::task_status($id);
+
+    if ( \is_wp_error($task) || ! isset($task['msg']) ) {
+      error_log(print_r($task, true));
+      return AjaxResponse::api_error_response();
+    }
+
+    $output = '<pre>' . \implode("\n", $task['msg']) . '</pre>';
+    return AjaxResponse::response_with_output($output);
   }
 
 }
