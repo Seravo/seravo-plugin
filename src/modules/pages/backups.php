@@ -10,7 +10,6 @@ use \Seravo\Postbox\Requirements;
 use \Seravo\Postbox\Component;
 use \Seravo\Postbox\Template;
 use \Seravo\Ajax;
-use \Seravo\Compatibility;
 
 /**
  * Class Backups
@@ -148,53 +147,39 @@ class Backups extends Toolpage {
       return Ajax\AjaxResponse::error_response(__('No backups data found under <code>/data/backups/</code>', 'seravo'));
     }
 
-    // Check whether to use exec or Container API
-    if ( Container::version() >= 3 ) {
-      // Use Container API
-      $polling = Ajax\AjaxHandler::check_polling();
+    $polling = Ajax\AjaxHandler::check_polling();
 
-      if ( $polling === true ) {
-        $task = Container::task_status(base64_decode($_REQUEST['poller_id']));
+    if ( $polling === true ) {
+      $task = Container::task_status(base64_decode($_REQUEST['poller_id']));
 
-        if ( \is_wp_error($task) || ! isset($task['msg']) ) {
-          error_log(print_r($task, true));
-          return AjaxResponse::api_error_response();
-        }
-
-        $output = '<pre>' . \implode("\n", $task['msg']) . '</pre>';
-        return AjaxResponse::response_with_output($output);
-      }
-
-      if ( $polling !== false ) {
-        return $polling;
-      }
-
-      $response = Container::backup_status();
-
-      if ( \is_wp_error($response) ) {
+      if ( \is_wp_error($task) || ! isset($task['msg']) ) {
+        error_log(print_r($task, true));
         return AjaxResponse::api_error_response();
       }
 
-      if ( ! isset($response['id']) ) {
-        return Ajax\AjaxResponse::api_error_response();
-      }
-
-      if ( ! isset($response['status']) || $response['status'] !== 'created' ) {
-        return Ajax\AjaxResponse::api_error_response();
-      }
-
-      return Ajax\AjaxResponse::require_polling_response($response['id'], 'task');
-    } else {
-      // Use exec
-      $fetch_backups_list = Compatibility::exec('wp-backup-status 2>&1', $output, $ret_val);
-
-      if ( $fetch_backups_list === false ) {
-        return Ajax\AjaxResponse::command_error_response('wp-backup-status', $ret_val);
-      }
-      $output = \implode("\n", $output);
-      $output = '<pre>' . $output . '</pre>';
-      return Ajax\AjaxResponse::response_with_output($output);
+      $output = '<pre>' . \implode("\n", $task['msg']) . '</pre>';
+      return AjaxResponse::response_with_output($output);
     }
+
+    if ( $polling !== false ) {
+      return $polling;
+    }
+
+    $response = Container::backup_status();
+
+    if ( \is_wp_error($response) ) {
+      return AjaxResponse::api_error_response();
+    }
+
+    if ( ! isset($response['id']) ) {
+      return Ajax\AjaxResponse::api_error_response();
+    }
+
+    if ( ! isset($response['status']) || $response['status'] !== 'created' ) {
+      return Ajax\AjaxResponse::api_error_response();
+    }
+
+    return Ajax\AjaxResponse::require_polling_response($response['id'], 'task');
   }
 
 }
