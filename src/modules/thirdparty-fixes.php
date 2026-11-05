@@ -2,6 +2,8 @@
 
 namespace Seravo\Module;
 
+use \Seravo\API\SWD;
+
 /**
  * Class ThirdPartyFixes
  *
@@ -180,16 +182,16 @@ final class ThirdPartyFixes {
   }
 
   /**
-   * Retrieve whitelisted IPs from our API.
+   * Retrieve whitelisted IPs from SWD API.
    *
-   * JSON contains just a list of IP addresses (both IPv4, IPv6),
+   * The monitoring IP addresses (both IPv4, IPv6) are found from
+   * the site config JSON,
    *     ['123.45.67.89', '2a00:....', ...]
    *
    * @return string[] List of Seravo monitoring IPs.
    */
   public static function retrieve_whitelist() {
-    $url = 'https://api.seravo.com/v0/infrastructure/monitoring-hosts.json';
-    $key = 'seravo_jetpack_whitelist_' . \md5($url);
+    $key = 'seravo_jetpack_whitelist_monitoring';
 
     // Try to fetch data from cache
     $data = \get_transient($key);
@@ -197,15 +199,15 @@ final class ThirdPartyFixes {
     // If cachet data wasn't found, fetch it (otherwise, just use cached data)
     if ( $data === false || ! \is_array($data) || \count($data) < 1 ) {
       // Retrieve data from API
-      $response = \wp_remote_get(\esc_url_raw($url));
+      $response = SWD::get_site_config();
       if ( \is_wp_error($response) ) {
         // Not much we can do but lets not cache this
         return array();
       }
 
-      $data = \json_decode(\wp_remote_retrieve_body($response));
-      if ( $data === null || ! \is_array($data) ) {
-        // JSON decode failed
+      $data = $response['zabbix']['ips'] ?? array();
+      if ( ! \is_array($data) ) {
+        // Unexpected JSON structure
         return array();
       }
 

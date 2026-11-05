@@ -10,6 +10,10 @@ class SWD {
     return self::get('/');
   }
 
+  public static function get_site_config() {
+    return self::get('/config/');
+  }
+
   public static function update_site_info( $updates, $contacts, $webhooks ) {
     $data = [
       'seravo_updates' => $updates,
